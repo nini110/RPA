@@ -79,26 +79,23 @@ export default {
     going() {
       //调用大数据工具请求
         this.fullscreenLoading = true
-		const headers = { uid: this.userid, code: this.code };
-		let data = {
+		fxcjtools({
 			username:this.username,
 			password:'123456',
 			trans_name:'lxd',
 			tool_type:'8'
-		}
-		data = this.qs.stringify(data);
-		fxcjtools(headers, data).then((res)=>{
+		}).then((res)=>{
 			console.log(res);
 			this.fullscreenLoading = false
-			if(res.code=="10000"){
+			if(res.data.code=="10000"){
 				this.$message.success("执行成功")
-			}else if(res.code=="10001"){
+			}else if(res.data.code=="10001"){
 				this.$message.warning("未上传cookie或tool type或trans_name")
-			}else if(res.code=="10003"){
+			}else if(res.data.code=="10003"){
 				this.$message.error("内部错误")
-			}else if(res.code=="10004"){
+			}else if(res.data.code=="10004"){
 				this.$message.warning("请求受限")
-			}else if(res.code=="10005"){
+			}else if(res.data.code=="10005"){
 				this.$message.warning("请检查用户密码是否正确")
 			}else{
 				this.$message.error("执行失败")

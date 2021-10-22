@@ -298,21 +298,14 @@
 				}
 				itemListid = itemListid.slice(0, itemListid.length - 1)
 				itemListname = itemListname.slice(0, itemListname.length - 1)
-				const headers = {
-					uid: this.userid,
-					code: this.code
-				};
-				let data = {
+
+				updateUser({
 					bidding_id: this.tablerow.bidding_id,
 					activity_id: this.tablerow.activity_id,
 					user_list: itemListid,
 					user_name_list: itemListname
-				}
-				console.log(data);
-				data = this.qs.stringify(data);
-
-				updateUser(headers, data).then((res) => {
-					if (res.code === 10000) {
+				}).then((res) => {
+					if (res.data.code === 10000) {
 						this.cSubcategoryNo = '';
 						this.restaurants = [];
 						this.centerDialogVisible = false;
@@ -327,17 +320,11 @@
 			},
 			//竞标监控列表修改
 			modification() {
-				const headers = {
-					uid: this.userid,
-					code: this.code
-				};
-				let params = {
-					bidding_id: this.tablerow.bidding_id,
-					activity_id: this.tablerow.activity_id
-				}
-				personnelDetails(headers, params).then((res) => {
+				personnelDetails({
+					bidding_id: this.tablerow.bidding_id
+				}).then((res) => {
 					console.log(res)
-					this.personnelList = res.data;
+					this.personnelList = res.data.data;
 				}).catch((err) => {
 					console.log(err)
 				})
@@ -351,18 +338,12 @@
 					type: 'warning'
 				}).then(() => {
 					console.log(this.tablerow)
-					const headers = {
-						uid: this.userid,
-						code: this.code
-					};
-					let data = {
+					biddingDelete({
 						bidding_id: this.tablerow.bidding_id,
 						activity_id: this.tablerow.activity_id
-					}
-					data = this.qs.stringify(data);
-					biddingDelete(headers, data).then((res) => {
+					}).then((res) => {
 						console.log(res)
-						if (res.code === 10000) {
+						if (res.data.code === 10000) {
 							this.$message({
 								type: 'success',
 								message: '删除成功!'
@@ -396,21 +377,16 @@
 					this.openkey = false
 				} else {
 					this.openkey = true
-					const headers = {
-						uid: this.userid,
-						code: this.code
-					};
-					const params = {
+					BiddingSearch({
 						search: this.content
-					}
-					BiddingSearch(headers, params).then((res) => {
-						this.options = res.data
-						if (res.code == '10000' && res.data.length == 0) {
+					}).then((res) => {
+						this.options = res.data.data
+						if (res.data.code == '10000' && res.data.data.length == 0) {
 							this.$message.closeAll();
 							this.$message.warning("您输入的关键词暂无数据,请重新输入!");
-						} else if (res.code == '10000' && res.data.length) {
-							this.options = res.data
-						} else if (res.code == '10001') {
+						} else if (res.data.code == '10000' && res.data.length) {
+							this.options = res.data.data
+						} else if (res.data.code == '10001') {
 							this.$message.error("db error")
 						} else {
 							console.log("其他错误")
@@ -440,16 +416,11 @@
 				this.content = i.pro_name
 				this.jbid = i.pro_num
 				this.options = []
-				const headers = {
-					uid: this.userid,
-					code: this.code
-				};
-				const params = {
+				BidIdQueryActivity({
 					bidding_id: this.jbid
-				};
-				BidIdQueryActivity(headers, params).then((res) => {
-					cityOptions = res.data;
-					this.cities = res.data;
+				}).then((res) => {
+					cityOptions = res.data.data;
+					this.cities = res.data.data;
 				}).catch((err) => {
 					console.log(err);
 				})
@@ -514,59 +485,100 @@
 				} else if (this.fileList.length === 0) {
 					this.$message.warning("请选择要上传的excel文件");
 				} else {
-					for (let i = 0; i < this.fileList.length; i++) {
-						let data = new FormData();
-						let arrAll = [];
-						let arrName = '';
-						let arrId = '';
-						data.append("file", this.fileList[i]);
-						data.append("user_list", this.itemid);
-						data.append("user_name_list", this.itemname)
-						data.append("trans_name", this.username)
-						console.log(this.peoplelist)
-						data.append("bidding_id", this.jbid);
-						data.append("bidding_name", this.content);
-						console.log(this.checkedCities)
-						if (this.checkAll === true) {
-							this.checkedCities = [];
-						}
-						if (this.checkedCities.length === 0) {
-							console.log("123")
-							data.append("activity_name", '')
-							data.append("activity_id", '')
-						} else {
-							for (let k = 0; k < this.checkedCities.length; k++) {
-								arrName += this.checkedCities[k].activityName+',';
-								arrId += this.checkedCities[k].id+',';
-							}
-							arrName = arrName.slice(0, arrName.length - 1)
-							arrId = arrId.slice(0, arrId.length - 1)
-							data.append("activity_name", arrName)
-							data.append("activity_id", arrId)
-						}
-
-						const headers = {
-							uid: this.userid,
-							code: this.code
-						};
-						immediatelyUpload(
-							headers,
-							data
-						).then((res) => {
-							console.log(res);
-							if (res.code == 10000) {
-								this.progressPercent = 100;
-								this.handleSuccess();
-								this.getlist()
-								this.msg = res.data.msg;
-							} else {
-								// this.handleError();
-								this.$message.warning(res.data)
-							}
-						}).catch((err) => {
-							console.log(err);
-						})
+					let data = {
+						file: this.fileList,
+						user_list: this.itemid,
+						user_name_list: this.itemname,
+						trans_name: this.username,
+						bidding_id: this.jbid,
+						bidding_name: this.content
 					}
+					if (this.checkAll === true) {
+						this.checkedCities = [];
+					}
+					if (this.checkedCities.length === 0) {
+						this.$set(data, 'activity_name', '')
+						this.$set(data, 'activity_id', '')
+					} else {
+						for (let k = 0; k < this.checkedCities.length; k++) {
+							arrName += this.checkedCities[k].activityName+',';
+							arrId += this.checkedCities[k].id+',';
+						}
+						arrName = arrName.slice(0, arrName.length - 1)
+						arrId = arrId.slice(0, arrId.length - 1)
+						this.$set(data, 'activity_name', arrName)
+						this.$set(data, 'activity_id', arrId)
+					}
+					immediatelyUpload(
+						data
+					).then((res) => {
+						console.log(res);
+						if (res.data.code == 10000) {
+							this.progressPercent = 100;
+							this.handleSuccess();
+							this.getlist()
+							this.msg = res.data.data.msg;
+						} else {
+							// this.handleError();
+							this.$message.warning(res.data)
+						}
+					}).catch((err) => {
+						console.log(err);
+					})
+
+					// for (let i = 0; i < this.fileList.length; i++) {
+					// 	let data = new FormData();
+					// 	let arrAll = [];
+					// 	let arrName = '';
+					// 	let arrId = '';
+					// 	data.append("file", this.fileList[i]);
+					// 	data.append("user_list", this.itemid);
+					// 	data.append("user_name_list", this.itemname)
+					// 	data.append("trans_name", this.username)
+					// 	console.log(this.peoplelist)
+					// 	data.append("bidding_id", this.jbid);
+					// 	data.append("bidding_name", this.content);
+					// 	console.log(this.checkedCities)
+					// 	if (this.checkAll === true) {
+					// 		this.checkedCities = [];
+					// 	}
+					// 	if (this.checkedCities.length === 0) {
+					// 		console.log("123")
+					// 		data.append("activity_name", '')
+					// 		data.append("activity_id", '')
+					// 	} else {
+					// 		for (let k = 0; k < this.checkedCities.length; k++) {
+					// 			arrName += this.checkedCities[k].activityName+',';
+					// 			arrId += this.checkedCities[k].id+',';
+					// 		}
+					// 		arrName = arrName.slice(0, arrName.length - 1)
+					// 		arrId = arrId.slice(0, arrId.length - 1)
+					// 		data.append("activity_name", arrName)
+					// 		data.append("activity_id", arrId)
+					// 	}
+
+					// 	const headers = {
+					// 		uid: this.userid,
+					// 		code: this.code
+					// 	};
+					// 	immediatelyUpload(
+					// 		headers,
+					// 		data
+					// 	).then((res) => {
+					// 		console.log(res);
+					// 		if (res.code == 10000) {
+					// 			this.progressPercent = 100;
+					// 			this.handleSuccess();
+					// 			this.getlist()
+					// 			this.msg = res.data.msg;
+					// 		} else {
+					// 			// this.handleError();
+					// 			this.$message.warning(res.data)
+					// 		}
+					// 	}).catch((err) => {
+					// 		console.log(err);
+					// 	})
+					// }
 				}
 			},
 
@@ -585,16 +597,11 @@
 				if (this.cSubcategoryNo == '') {
 					this.restaurants = []
 				} else {
-					const headers = {
-						uid: this.userid,
-						code: this.code
-					};
-					const params = {
+					getName({
 						search: this.cSubcategoryNo
-					}
-					getName(headers, params).then((res) => {
+					}).then((res) => {
 						console.log(res);
-						this.restaurants = res.data;
+						this.restaurants = res.data.data;
 					}).catch((err) => {
 						console.log(err);
 					})
@@ -611,23 +618,17 @@
 			},
 			// 查看列表
 			getlist() {
-				const headers = {
-					uid: this.userid,
-					code: this.code
-				};
-				const params = {
+				BidList({
 					trans_name: this.username,
 					limit:this.pagesize,
 					page:this.currpage
-				};
-				BidList(headers, params).then((res) => {
-					console.log(res);
-					if (res.code == 10000) {
-						this.tableData = res.data;
-						this.total = res.count;
-					} else if (res.code == 10001) {
+				}).then((res) => {
+					if (res.data.code == 10000) {
+						this.tableData = res.data.data;
+						this.total = res.data.count;
+					} else if (res.data.code == 10001) {
 						this.$message.warning('参数丢失')
-					} else if (res.code == 10002) {
+					} else if (res.data.code == 10002) {
 						console.log('db error')
 					} else {
 						console.log('未知情况')
@@ -640,20 +641,15 @@
 			celltable(row) {
 				this.tablerow = row
 				console.log(row);
-				const headers = {
-					uid: this.userid,
-					code: this.code
-				};
-				const params = {
+				viewDetails({
 					bidding_id: this.tablerow.bidding_id,
 					activity_id:this.tablerow.activity_id
-				};
-				viewDetails(headers, params).then((res) => {
-					if (res.code == 10000) {
-						this.xqlist = res.data
-					} else if (res.code == 10000) {
+				}).then((res) => {
+					if (res.data.code == 10000) {
+						this.xqlist = res.data.data
+					} else if (res.data.code == 10000) {
 						console.log('参数丢失')
-					} else if (res.code == 10002) {
+					} else if (res.data.code == 10002) {
 						console.log('db erroe')
 					} else {
 						console.log('未知情况')
@@ -680,22 +676,16 @@
 			},
 			//上传修改后的预算数据
 			sendlist() {
-				let data = {
-					id_thresholds: JSON.stringify(this.changelist)
-				}
-				data = this.qs.stringify(data);
-				const headers = {
-					uid: this.userid,
-					code: this.code
-				};
-				detailsToModify(headers, data).then((res) => {
+				detailsToModify({
+					id_thresholds: this.changelist
+				}).then((res) => {
 					console.log(res);
-					if (res.code == 10000) {
+					if (res.data.code == 10000) {
 						this.$message.success('更新成功')
 						this.lookxq = false
 						this.changelist = []
 						this.getlist()
-					} else if (res.code == 10001) {
+					} else if (res.data.code == 10001) {
 						this.$message.warning('参数丢失')
 					} else {
 						console.log('未知错误')

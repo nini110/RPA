@@ -222,12 +222,10 @@ export default {
 		},
 		//获取报表数据状态
 		ReportStatus(ID){
-			const headers = { uid: this.userid, code: this.code };
-			let params = {
+			ReportStatus({
 				id:ID.id
-			}
-			ReportStatus(headers, params).then((res)=>{
-				if(res.data.status !== 0){
+			}).then((res)=>{
+				if(res.data.data.status !== 0){
 					clearInterval(this.timer);
 					this.getObjectList();
 				}
@@ -255,12 +253,9 @@ export default {
 			this.deleteReportApi();
 		},
 		deleteReportApi(){
-			const headers = { uid: this.userid, code: this.code };
-			let data = {
+			DeleteReport({
 				id:this.multipleSelection
-			}
-			data = this.qs.stringify(data);
-			DeleteReport(headers, data).then((res)=>{
+			}).then((res)=>{
 				this.$message.success('删除成功！');
 				this.getObjectList();
 			}).catch((err)=>{
@@ -274,15 +269,13 @@ export default {
 		},
 		// 获取表格项目列表信息
 		getObjectList(){
-			const headers = { uid: this.userid, code: this.code };
-			let params = {
+			ObjectList({
 				project_name:this.SelectItemData[0],
 				page:this.currpage,
 				per_page:10
-			};
-			ObjectList(headers, params).then((res)=>{
-				this.itemList = res.data.data
-				this.total = res.data.total_count
+			}).then((res)=>{
+				this.itemList = res.data.data.data
+				this.total = res.data.data.total_count
 			}).catch((err)=>{
 				console.log(err);
 			})
@@ -303,15 +296,13 @@ export default {
 		},
 		// 下载报表
 		getReport(){
-			const headers = { uid: this.userid, code: this.code };
-			let params = {
+			DownloadReport({
 				id:this.multipleSelection
-			}
-			DownloadReport(headers, params).then((res)=>{
-				if(res.code){
+			}).then((res)=>{
+				if(res.data.code){
 					alert("错误");
 				} else{
-					let data = res
+					let data = res.data
 					let url = window.URL.createObjectURL(new Blob([data]))
 					let link = document.createElement('a')
 					link.style.display = 'none'
@@ -327,24 +318,23 @@ export default {
 		// 生成报表
 		generate(){
 			this.loading = true;
-			const headers = { uid: this.userid, code: this.code };
-			let data = new FormData();
-			data.append("project_name", this.SelectItemData[0]);
-			data.append("date", this.timeData);
-			data.append("file", this.fileList[0]);
-			data.append("username", localStorage.getItem('user_name'))
-			makeAReport(headers, data).then((res)=>{
+			makeAReport({
+				project_name: this.SelectItemData[0],
+				date: this.timeData,
+				file: this.fileList[0],
+				username: localStorage.getItem('user_name')
+			}).then((res)=>{
 				this.progressPercent = 100;
 				this.timer = window.setInterval(()=>{
-					this.ReportStatus(res.data.data)
+					this.ReportStatus(res.data.data.data)
 				}, 5000);
-				if(res.msg === 'success') {
+				if(res.data.msg === 'success') {
 					this.$message.warning('生成中');
 				} else {
 					this.$message.success(res.msg);
 				}
 				this.loading = false;
-				if(res.msg !== '该报表已生成,请前去下载'){
+				if(res.data.msg !== '该报表已生成,请前去下载'){
 					this.itemList.unshift(res.data.data);
 				}
 			}).catch((err)=>{
@@ -353,15 +343,14 @@ export default {
 		},
 		dateBlur(){
 			if(this.SelectItemData !== '' && this.selectValue !== '' && this.timeData !== ''){
-				const headers = { uid: this.userid, code: this.code };
-				let params = {
+				// 数据状态
+				dataState({
 					project_name:this.SelectItemData[0],
 					date:this.timeData
-				}
-				// 数据状态
-				dataState(headers, params).then((res)=>{
-					this.dataState = res.data.status;
-					if(res.mag === 1){
+				}).then((res)=>{
+					debugger
+					this.dataState = res.data.data.status;
+					if(res.data.mag === 1){
 						this.generate();
 					}
 				}).catch((err)=>{
@@ -371,10 +360,9 @@ export default {
 		},
 		// 获取项目
 		getSelectItem(){
-			const headers = { uid: this.userid, code: this.code };
-			let params = {};
-			selectItem(headers, params).then((res)=>{
-				this.SelectItem = res.data.data;
+			const vm = this
+			selectItem().then((res)=>{
+				vm.SelectItem = res.data.data.data;
 			}).catch((err)=>{
 				console.log(err);
 			})

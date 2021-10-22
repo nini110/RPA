@@ -227,17 +227,17 @@
 			},
 			// 获取计划详情
 			detailPlanStrategy(id){
-				let params = {
+				detailPlanStrategy({
 					strategy_id : id
-				}
-				detailPlanStrategy(params).then(res=>{
+				}).then(res=>{
+					let result = res.data.data
 					this.form = {
-						name: res.data.name,
+						name: result.name,
 						username: localStorage.getItem('user_name'),
-						judgeNum: res.data.proportion*100,
-						judge: res.data.condition,
-						triesLimit:res.data.count,
-						plan:res.data.plan_operate
+						judgeNum: result.proportion*100,
+						judge: result.condition,
+						triesLimit:result.count,
+						plan:result.plan_operate
 					}
 				}).catch(err=>{
 					console.log(err);
@@ -268,9 +268,8 @@
 								proportion:this.form.judgeNum/100,
 								plan_operate:this.form.plan
 							}
-							data = this.qs.stringify(data);
 							addPlanStrategy(data).then(res=>{
-								if(res.code === 200){
+								if(res.data.code === 200){
 									this.dialogVisible = false;
 									this.$message({
 									  message: '计划策略创建成功！',
@@ -278,8 +277,8 @@
 									});
 									this.dialogVisible = false;
 									this.planStrategyList();
-								} else if(res.code === 1) {
-									this.$message.error(res.msg);
+								} else if(res.data.code === 1) {
+									this.$message.error(res.data.msg);
 								}
 							}).catch(err=>{
 								console.log(err)
@@ -294,9 +293,9 @@
 								plan_operate:this.form.plan,
 								strategy_id:this.editId
 							}
-							data = this.qs.stringify(data);
+							// data = this.qs.stringify(data);
 							updatePlanStrategy(data).then(res=>{
-								if(res.code === 200){
+								if(res.data.code === 200){
 									this.dialogVisible = false;
 									this.$message({
 									  message: '计划策略更新成功！',
@@ -304,8 +303,8 @@
 									});
 									this.planStrategyList();
 									this.dialogVisible = false;
-								} else if(res.code === 1) {
-									this.$message.error(res.msg);
+								} else if(res.data.code === 1) {
+									this.$message.error(res.data.msg);
 								}
 							}).catch(err=>{
 								console.log(err);
@@ -316,13 +315,12 @@
 			},
 			// 获取计划列表
 			planStrategyList(){
-				let params = {
+				planStrategyList({
 					page: this.currentPage,
 					per_page: this.pagesize
-				}
-				planStrategyList(params).then(res=>{
-					this.tableData = res.data.data;
-					this.total = res.data.total_count;
+				}).then(res=>{
+					this.tableData = res.data.data.data;
+					this.total = res.data.data.total_count;
 				}).catch(err=>{
 					console.log(err)
 				})

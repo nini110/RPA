@@ -196,9 +196,8 @@
 								budget_operate:this.form.budget,
 								budget_money:this.form.budgetNum
 							}
-							data = this.qs.stringify(data);
 							addBudgetStrategy(data).then(res=>{
-								if(res.code === 200){
+								if(res.data.code === 200){
 									this.dialogVisible = false;
 									this.$message({
 									  message: '预算策略创建成功！',
@@ -206,8 +205,8 @@
 									});
 									this.budgetStrategyList();
 									this.dialogVisible = false;
-								} else if(res.code === 1) {
-									this.$message.error(res.msg);
+								} else if(res.data.code === 1) {
+									this.$message.error(res.data.msg);
 								}
 							}).catch(err=>{
 								console.log(err)
@@ -222,9 +221,8 @@
 								budget_money:this.form.budgetNum,
 								strategy_id:this.editId
 							}
-							data = this.qs.stringify(data);
 							updateBudgetStrategy(data).then(res=>{
-								if(res.code === 200){
+								if(res.data.code === 200){
 									this.dialogVisible = false;
 									this.$message({
 									  message: '预算策略更新成功！',
@@ -232,8 +230,8 @@
 									});
 									this.budgetStrategyList();
 									this.dialogVisible = false;
-								} else if(res.code === 1) {
-									this.$message.error(res.msg);
+								} else if(res.data.code === 1) {
+									this.$message.error(res.data.msg);
 								}
 							}).catch(err=>{
 								console.log(err);
@@ -255,16 +253,15 @@
 			
 			// 获取预算详情
 			detailBudgetStrategy(id){
-				let params = {
+				detailBudgetStrategy({
 					strategy_id : id
-				}
-				detailBudgetStrategy(params).then(res=>{
+				}).then(res=>{
 					this.form = {
-						name: res.data.name,
+						name: res.data.data.name,
 						username:localStorage.getItem('user_name'),
-						consumeNum: res.data.proportion*100,
-						budget: res.data.budget_operate,
-						budgetNum: res.data.budget_money
+						consumeNum: res.data.data.proportion*100,
+						budget: res.data.data.budget_operate,
+						budgetNum: res.data.data.budget_money
 					}
 				}).catch(err=>{
 					console.log(err);
@@ -283,13 +280,12 @@
 			},
 			// 获取预算列表数据
 			budgetStrategyList() {
-				let params = {
+				budgetStrategyList({
 					page: this.currentPage,
 					per_page: this.pagesize
-				}
-				budgetStrategyList(params).then(res => {
-					this.tableData = res.data.data;
-					this.total = res.data.total_count;
+				}).then(res => {
+					this.tableData = res.data.data.data;
+					this.total = res.data.data.total_count;
 				}).catch(err => {
 					console.log(err)
 				})

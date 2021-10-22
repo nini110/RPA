@@ -182,7 +182,7 @@ const routes = [
 	redirect:'/thirdPartyTools/item',
 	children:[
 		{
-			path:'homeitem',
+			path:'homeitem',  // 巨量千川--策略
 			name: Homeitem,
 			component: Homeitem
 		},
@@ -197,12 +197,12 @@ const routes = [
 			  component: RealTime
 		},
 		{
-			  path: 'formBoard',
+			  path: 'formBoard',  // 巨量千川--模板
 			  name: 'FormBoard',
 			  component: FormBoard
 		},
 		{
-			  path: 'item',
+			  path: 'item',  // 巨量千川--项目
 			  name: 'Items',
 			  component: Items
 		}

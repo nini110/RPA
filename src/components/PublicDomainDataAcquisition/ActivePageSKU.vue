@@ -82,25 +82,20 @@ export default {
 	  },
     //查看
     getuserlist() {
-		let headers = { uid: this.userid, code: this.code };
-		let params = { trans_name:this.username };
-		hdskuLookData(headers, params).then((res)=>{
-			console.log(res);
-			    this.tableData = res.data
+		hdskuLookData({
+			trans_name:this.username
+		}).then((res)=>{
+			this.tableData = res.data.data
 		}).catch((err)=>{
 			console.log(err);
 		})
     },
     //执行
     going(){
-		let headers = { uid: this.userid, code: this.code };
-		let data = {
+		performSku({
 			trans_name: this.username,
 			url: this.input
-		}
-		data = this.qs.stringify(data);
-		
-		performSku(headers, data).then((res) => {
+		}).then((res) => {
 			
 		}).catch((err) => {
 			console.log(err);

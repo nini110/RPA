@@ -264,17 +264,16 @@
 								bid_operate: this.form.bid,
 								bid_proportion: this.form.bidNum / 100
 							}
-							data = this.qs.stringify(data);
 							addBidStrategy(data).then(res => {
-								if(res.code === 200){
+								if(res.data.code === 200){
 									this.dialogVisible = false;
 									this.$message({
 									  message: '出价策略创建成功！',
 									  type: 'success'
 									});
 									this.strategyList();
-								} else if(res.code === 1) {
-									this.$message.error(res.msg);
+								} else if(res.data.code === 1) {
+									this.$message.error(res.data.msg);
 								}
 							}).catch(err => {
 								console.log(err)
@@ -291,17 +290,16 @@
 								bid_proportion: this.form.bidNum / 100,
 								strategy_id: this.editId
 							}
-							data = this.qs.stringify(data);
 							updataBidStrategy(data).then(res => {
-								if(res.code === 200){
+								if(res.data.code === 200){
 									this.dialogVisible = false;
 									this.$message({
 									  message: '出价策略更新成功！',
 									  type: 'success'
 									});
 									this.strategyList();
-								} else if(res.code === 1) {
-									this.$message.error(res.msg);
+								} else if(res.data.code === 1) {
+									this.$message.error(res.data.msg);
 								}
 							}).catch(err => {
 								console.log(err)
@@ -341,19 +339,19 @@
 			},
 			// 获取出价策略详情
 			compile(id) {
-				let params = {
+				compile({
 					strategy_id: id,
-				}
-				compile(params).then(res => {
+				}).then(res => {
+					let result = res.data.data
 					this.form = {
-						name: res.data.name,
+						name: result.name,
 						username: localStorage.getItem('user_name'),
-						data: res.data.data,
-						num: res.data.count,
-						condition: res.data.condition,
-						conditionNum: res.data.proportion * 100,
-						bid: res.data.bid_operate,
-						bidNum: res.data.bid_proportion * 100,
+						data: result.data,
+						num: result.count,
+						condition: result.condition,
+						conditionNum: result.proportion * 100,
+						bid: result.bid_operate,
+						bidNum: result.bid_proportion * 100,
 					}
 				}).catch(err => {
 					console.log(err);
@@ -366,8 +364,8 @@
 					per_page: this.pagesize
 				}
 				strategyList(params).then(res => {
-					this.tableData = res.data.data;
-					this.total = res.data.total_count;
+					this.tableData = res.data.data.data;
+					this.total = res.data.data.total_count;
 				}).catch(err => {
 					console.log(err);
 				})

@@ -159,16 +159,14 @@ export default {
     //点击选中的用户 查看详情
 	celltable(row) {
 		this.tablerow = row;
-		const headers = { uid: this.userid, code: this.code };
-		let params = { id: this.tablerow.id }
-		fxcjviewDetails(headers,params).then((res)=>{
-			if (res.code == 10000) {
-				this.idT = res.data.id;
-				this.title = res.data.title;
-				this.log = res.data.log;
-			} else if (res.code == 10001) {
+		fxcjviewDetails({ id: this.tablerow.id }).then((res)=>{
+			if (res.data.code == 10000) {
+				this.idT = res.data.data.id;
+				this.title = res.data.data.title;
+				this.log = res.data.data.log;
+			} else if (res.data.code == 10001) {
 				this.$message.warning("是否忘记传参");
-			} else if (res.code == 10002) {
+			} else if (res.data.code == 10002) {
 				this.$message.warning("您传入的id有误");
 			} else {
 				this.$message.error("查看失败");
@@ -217,34 +215,30 @@ export default {
     },
     //立即上传 并判断上传文件是否为空if () {
 	uploadFile(data) {
-		for(let i=0;i<this.fileList.length;i++){
-			let form = new FormData();
-			form.append("trans_name", this.username);
-			form.append("file",this.fileList[i]);
-			const headers = { uid: this.userid, code: this.code }
-			fxcjupload(headers, form).then((res)=>{
-				if(res.code==10000){
-					this.form.progressPercent = 100;
-					this.msg = res.code
-					this.fileList=[]
-					this.$message.success('上传成功')
-				}
-			}).catch((err)=>{
-				console.log(err);
-			})
-		}
+		fxcjupload({
+			trans_name: this.username,
+			file: this.fileList
+		}).then((res)=>{
+			if(res.data.code==10000){
+				this.form.progressPercent = 100;
+				this.msg = res.data.code
+				this.fileList=[]
+				this.$message.success('上传成功')
+			}
+		}).catch((err)=>{
+			console.log(err);
+		})
 	},
     //查看
     getuserlist() {
-		const headers = { uid: this.userid, code: this.code }
-		let params = {
+		fxcjExamine({
 			tool_type:'2',
 			limit:this.pagesize,
 			page: this.currpage
-		}
-		fxcjExamine(headers, params).then((res)=>{
-			this.tableData = res.data;
-			this.total = res.count;
+		}).then((res)=>{
+			let result = res.data
+			this.tableData = result.data;
+			this.total = result.count;
 		}).catch((err)=>{
 			console.log(err)
 		})
@@ -259,38 +253,35 @@ export default {
       } else {
         this.loadingbut = true;
         this.loadingbuttext = "审核中...";
-		const headers = { uid: this.userid, code: this.code }
-		let data = {
+		fxcjtools({
 			username:this.form.input,
 			password:this.form.pass,
 			trans_name:this.username,
 			tool_type:'2',
 			choose:'3'
-		}
-		data = this.qs.stringify(data);
-		fxcjtools(headers, data).then((res)=>{
-			if (res.code == "10000") {
+		}).then((res)=>{
+			if (res.data.code == "10000") {
 				this.getuserlist();
 				this.$message.success("执行成功");
 				this.loadingbuttext = "执行";
 				this.loadingbut = false;
-			} else if (res.code == "10001") {
+			} else if (res.data.code == "10001") {
 				this.$message.warning("未上传cookie或tool type或trans_name");
 				this.loadingbuttext = "执行";
 				this.loadingbut = false;
-			} else if (res.code == "10003") {
+			} else if (res.data.code == "10003") {
 				this.$message.error("内部错误");
 				this.loadingbuttext = "执行";
 				this.loadingbut = false;
-			} else if (res.code == "10004") {
+			} else if (res.data.code == "10004") {
 				this.$message.warning("请求受限");
 				this.loadingbuttext = "执行";
 				this.loadingbut = false;
-			} else if (res.code == "10005") {
+			} else if (res.data.code == "10005") {
 				if(res.msg === '账号或密码错误'){
 					this.$message.warning("请检查用户密码是否正确");
 				} else {
-					this.pageJumps = res.msg.substring(14);
+					this.pageJumps = res.data.msg.substring(14);
 					this.verification = true;
 				}
 				this.loadingbuttext = "执行";

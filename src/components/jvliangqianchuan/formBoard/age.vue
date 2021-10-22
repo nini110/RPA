@@ -162,16 +162,15 @@
 					age:age,
 					template_id:this.editId
 				}
-				data = this.qs.stringify(data);
 				ageTemplateUpdata(data).then(res=>{
-					if(res.code === 200){
+					if(res.data.code === 200){
 						this.dialogVisible = false;
 						this.$message({
 						  message: '年龄模板更新成功！',
 						  type: 'success'
 						});
 						this.ageTemplateList();
-					} else if(res.code === 1) {
+					} else if(res.data.code === 1) {
 						this.$message.error(res.msg);
 					}
 				}).catch(err =>{
@@ -191,17 +190,16 @@
 			},
 			// 获取年龄模板详情
 			ageTemplateDetail(id){
-				let params = {
+				ageTemplateDetail({
 					template_id : id
-				}
-				ageTemplateDetail(params).then(res=>{
-					let str = res.data.age;
+				}).then(res=>{
+					let str = res.data.data.age;
 					let arr = [];
 					str = (str.split(','))
 					for(let i = 0; i < str.length; i ++){
 						arr.push(parseInt(str[i]));
 					}
-					this.form.name = res.data.name;
+					this.form.name = res.data.data.name;
 					this.form.age = arr;
 				}).catch(err=>{
 					console.log(err)
@@ -216,13 +214,12 @@
 			},
 			// 获取模板列表
 			ageTemplateList(){
-				let params = {
+				ageTemplateList({
 					page: this.currentPage,
 					per_page: this.pagesize
-				}
-				ageTemplateList(params).then(res=>{
-					this.tableData = res.data.data;
-					this.total = res.data.total_count;
+				}).then(res=>{
+					this.tableData = res.data.data.data;
+					this.total = res.data.data.total_count;
 				}).catch(err=>{
 					console.log(err)
 				})
@@ -251,17 +248,17 @@
 					username:this.form.username,
 					age:age
 				}
-				data = this.qs.stringify(data);
+				// data = this.qs.stringify(data);
 				ageTemplateAdd(data).then(res=>{
-					if(res.code === 200){
+					if(res.data.code === 200){
 						this.dialogVisible = false;
 						this.$message({
 						  message: '年龄模板创建成功！',
 						  type: 'success'
 						});
 						this.ageTemplateList();
-					} else if(res.code === 1) {
-						this.$message.error(res.msg);
+					} else if(res.data.code === 1) {
+						this.$message.error(res.data.msg);
 					}
 				}).catch(err=>{
 					console.log(err)

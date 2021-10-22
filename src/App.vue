@@ -49,12 +49,12 @@
 		},
 		created() {
 		// 线上发布时created中所有都注释
-			// this.$route.query.wx_code = 'HbFoh1Kv9Cd_xtm_tEYA0_O7XTb4kfGsA0c7rYNDK5c';
-			// this.$route.query.wx_userid = '21185';
-			// this.$route.query.user_name = '李世杰';
-			// localStorage.setItem('wx_code',this.$route.query.wx_code)
-			// localStorage.setItem('wx_userid',this.$route.query.wx_userid)
-			// localStorage.setItem('user_name',this.$route.query.user_name)
+			this.$route.query.wx_code = 'lOhccsJ5DA6oT5yMygjXF_VKOacHqtoJo2Ij6xzwekw';
+			this.$route.query.wx_userid = '1020108';
+			this.$route.query.user_name = '方涛';
+			localStorage.setItem('wx_code',this.$route.query.wx_code)
+			localStorage.setItem('wx_userid',this.$route.query.wx_userid)
+			localStorage.setItem('user_name',this.$route.query.user_name)
 		},
 		methods:{
 			close() {
