@@ -1,8 +1,8 @@
 import axios from 'axios';
 import Qs from 'qs'
-const baseURL = 'http://114.67.229.243:8001';
+// const baseURL = 'http://114.67.229.243:8001';
 export const service = axios.create({
-    baseURL,
+    // baseURL,
     timeout: 150000
 })
 const headers = {

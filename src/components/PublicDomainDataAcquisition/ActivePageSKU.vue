@@ -96,7 +96,7 @@ export default {
 			trans_name: this.username,
 			url: this.input
 		}).then((res) => {
-			
+
 		}).catch((err) => {
 			console.log(err);
 		})

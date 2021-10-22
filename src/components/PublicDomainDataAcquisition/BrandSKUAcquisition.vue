@@ -85,6 +85,7 @@ export default {
 			trans_name:'lxd',
 			tool_type:'8'
 		}).then((res)=>{
+			debugger
 			console.log(res);
 			this.fullscreenLoading = false
 			if(res.data.code=="10000"){
