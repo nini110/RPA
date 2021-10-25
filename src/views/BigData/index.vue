@@ -1,13 +1,11 @@
 <template>
 	<!-- 大数据工具 -->
 	<div class="BigData">
-		<navModule></navModule>
 		<router-view/>
 	</div>
 </template>
 
 <script>
-	import navModule from './nav/nav.vue'
 export default {
   name: 'BigData',
   data() {
@@ -35,9 +33,6 @@ export default {
 		  }
 	  ]
     };
-  },
-  components:{
-	navModule
   },
   methods:{
 	

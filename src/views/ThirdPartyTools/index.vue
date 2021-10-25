@@ -1,13 +1,11 @@
 <template>
 	<!-- 第三方工具 -->
 	<div class="ThirdPartyTools">
-		<navModule></navModule>
 		<router-view/>
 	</div>
 </template>
 
 <script>
-import navModule from './nav/nav.vue'
 export default {
   name: 'ThirdPartyTools',
   data(){
@@ -20,9 +18,6 @@ export default {
 		]
 	}  
   },
-  components: {
-	navModule
-  }
 }
 </script>
 

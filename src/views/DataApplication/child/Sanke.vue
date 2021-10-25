@@ -1,7 +1,6 @@
 <template>
 	<!-- 竞标监控 -->
 	<div class="sankey">
-		<div style="width: 100%; height: 80px;"></div>
 		<div class="content">
 			<div class="sankeyList">
 				<div class="nav">
@@ -21,7 +20,7 @@
 												<div class="contentLift">
 													<div style="width: 100%; height: 20px;"></div>
 													<div class="diamond">
-														<img src="../../assets/images/钻石.png" alt="">
+														<img src="../../../assets/images/钻石.png" alt="">
 													</div>
 													<div class="characters">建议优化利益点</div>
 												</div>
@@ -37,7 +36,7 @@
 												<div class="contentLift">
 													<div style="width: 100%; height: 20px;"></div>
 													<div class="diamond">
-														<img src="../../assets/images/钻石.png" alt="">
+														<img src="../../../assets/images/钻石.png" alt="">
 													</div>
 													<div class="characters">建议优化计划</div>
 												</div>
@@ -53,7 +52,7 @@
 												<div class="contentLift">
 													<div style="width: 100%; height: 20px;"></div>
 													<div class="diamond">
-														<img src="../../assets/images/钻石.png" alt="">
+														<img src="../../../assets/images/钻石.png" alt="">
 													</div>
 													<div class="characters">备受欢迎单品SKU</div>
 												</div>
@@ -224,7 +223,7 @@
 					width: 100%;
 					height: 500px;
 					margin: 0 auto;
-					background: url(../../assets/images/数智投网页-a.jpg);
+					background: url(../../../assets/images/数智投网页-a.jpg);
 			
 					background-size: 100% auto;
 					.item {
@@ -292,15 +291,15 @@
 									box-shadow: 1px 5px 5px #888888;
 			
 									.icon1 {
-										background: url(../../assets/images/data.png);
+										background: url(../../../assets/images/data.png);
 									}
 			
 									.icon2 {
-										background: url(../../assets/images/capacity.png);
+										background: url(../../../assets/images/capacity.png);
 									}
 			
 									.icon3 {
-										background: url(../../assets/images/data2.png);
+										background: url(../../../assets/images/data2.png);
 									}
 			
 									.icons {

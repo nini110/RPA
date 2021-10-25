@@ -129,7 +129,7 @@
 		addPlanStrategy,
 		detailPlanStrategy,
 		updatePlanStrategy
-	} from '../../../api/api.js'
+	} from '@/api/api.js'
 	export default {
 		data() {
 			return {

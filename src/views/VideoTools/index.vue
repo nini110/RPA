@@ -1,13 +1,11 @@
 <template>
 	<!-- 视频工具 -->
 	<div class="VideoTools">
-		<navModule></navModule>
 		<router-view/>
 	</div>
 </template>
 
 <script>
-	import navModule from './nav/nav.vue'
 export default {
   name: 'VideoTools',
   data() {
@@ -27,9 +25,6 @@ export default {
 		  }
 	  ]
     };
-  },
-  components:{
-	navModule  
   },
   methods:{
 	

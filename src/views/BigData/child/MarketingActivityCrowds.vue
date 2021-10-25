@@ -1,6 +1,6 @@
 <template>
-	<div class="DMP">
-		<div style="width: 100%; height: 80px;"></div>
+	<!-- 营销活动人群 -->
+	<div class="marketingActivityCrowds">
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
@@ -10,11 +10,8 @@
 					<el-form-item label="输入密码:">
 						<el-input v-model="form.pass" size="mini" class="w320" placeholder="请输入密码"></el-input>
 					</el-form-item>
-					<el-form-item label="备注内容:">
-						<el-input v-model="form.pin" size="mini" class="w320" placeholder="请输入备注内容"></el-input>
-					</el-form-item>
 					<el-form-item>
-						<a href="http://tool.afocus.com.cn/file_download/DMP自动化人群包.xlsx" download="DMP自动化人群包.xlsx"><div class="btnSize">下载模板</div></a>
+						<a href="http://tool.afocus.com.cn/file_download/营销活动.xlsx" download="营销活动.xlsx" style="margin-right: 50px;"><div class="btnSize">下载模板</div></a>
 					</el-form-item>
 					<el-form-item label="">
 						<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 360px; margin-top: 10px">
@@ -38,8 +35,8 @@
 					</el-form-item>
 					<el-form-item>
 						<div style="display: flex;">
-							<div size="small" class="btnSize" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</div>
-							<div size="small" class="btnSizeSmall marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</div>
+							<div class="btnSize" type="primary" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</div>
+							<div class="btnSizeSmall marginL" type="primary" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</div>
 						</div>
 					</el-form-item>
 				</el-form>
@@ -55,12 +52,12 @@
 							<div class="tips">该账号需要进行手机验证</div>
 							<div class="tipsItem">*验证完成后请重新操作*</div>
 							<div class="button">
-							<el-button @click="verificationFun">立即验证</el-button>
+							<div class="btnSize" @click="verificationFun">立即验证</div>
 							</div>
 						</el-dialog>
 					</div>
 					<div class="tableTab" v-if="tableData">
-					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" @cell-click="celltable"  max-height="540" :highlight-current-row="true" :cell-style="timeStyle">
+					  <el-table ref="singleTable" class="tableBox" :data="tableData" min-height="540" size="small" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
 					    <!-- 表格序号 -->
 					    <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
 					
@@ -112,9 +109,9 @@
 </template>
 
 <script>
-	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '../../api/api.js'
+	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '@/api/api.js'
 export default {
-	name:'DMP',
+	name:'MarketingActivityCrowds',
 	data() {
 		return {
 			form: {
@@ -152,9 +149,9 @@ export default {
 		}
 	},
 	methods: {
-		timeStyle(){
-			return "height:50px;padding:0;"
-		},
+	timeStyle(){
+		return "height:50px;padding:0;"
+	},
 	verificationFun(){
 		var tempwindow = window.open('_blank');
 		tempwindow.location=this.pageJumps;
@@ -236,7 +233,7 @@ export default {
     //查看
     getuserlist() {
 		fxcjExamine({
-			tool_type:'0',
+			tool_type:'6',
 			limit:this.pagesize,
 			page: this.currpage
 		}).then((res)=>{
@@ -245,7 +242,7 @@ export default {
 			this.total = result.count;
 		}).catch((err)=>{
 			console.log(err)
-		})
+		})		
     },
     //执行
     going() {
@@ -257,18 +254,12 @@ export default {
       } else {
         this.loadingbut = true;
         this.loadingbuttext = "审核中...";
-		if(this.form.pin==''){
-			this.choose=2
-		}else{
-			this.choose=1
-		}
 		fxcjtools({
 			username:this.form.input,
 			password:this.form.pass,
 			trans_name:this.username,
-			tool_type: '0',
-			choose:this.choose,
-			pin:this.form.pin
+			tool_type:'6',
+			choose:'3'
 		}).then((res)=>{
 			if (res.data.code == "10000") {
 				this.getuserlist();
@@ -318,6 +309,8 @@ export default {
     },
   },
   mounted() {
+    this.userid = localStorage.getItem("wx_userid");
+    this.code = localStorage.getItem("wx_code");
     this.username = localStorage.getItem("user_name");
     this.people = localStorage.getItem("user_name");
     this.getuserlist(1);
@@ -357,9 +350,8 @@ export default {
 	.marginL{
 		margin-left: 10px;
 	}
-	.DMP{
+	.marketingActivityCrowds{
 		width: 1200px;
-		// height: 1400px;
 		margin: 0 auto;
 		.content{
 			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);

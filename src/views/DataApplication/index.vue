@@ -1,13 +1,11 @@
 <template>
 	<!-- 数据应用 -->
 	<div class="DataApplication">
-		<navModule></navModule>
 		<router-view/>
 	</div>
 </template>
 
 <script>
-	import navModule from './nav/nav.vue'
 export default {
   name: 'DataApplication',
   data() {
@@ -27,9 +25,6 @@ export default {
 		  }
 	  ]
     };
-  },
-  components:{
-	navModule
   },
   methods:{
 	

@@ -54,7 +54,7 @@
 </template>
 
 <script>
-	import { hdskuLookData, performSku } from '../../api/api.js'
+	import { hdskuLookData, performSku } from '@/api/api.js'
 export default {
   data() {
     return {

@@ -1,7 +1,6 @@
 <template>
-	<!-- 营销活动人群 -->
-	<div class="marketingActivityCrowds">
-		<div style="width: 100%; height: 80px;"></div>
+	<!-- 营销人群追踪 -->
+	<div class="customAnalysisCreation">
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
@@ -12,7 +11,7 @@
 						<el-input v-model="form.pass" size="mini" class="w320" placeholder="请输入密码"></el-input>
 					</el-form-item>
 					<el-form-item>
-						<a href="http://tool.afocus.com.cn/file_download/营销活动.xlsx" download="营销活动.xlsx" style="margin-right: 50px;"><div class="btnSize">下载模板</div></a>
+						<a href="http://tool.afocus.com.cn/file_download/数坊自动化报告.xlsx" download="数坊自动化报告.xlsx" style="margin-right: 50px;"><div class="btnSize">下载模板</div></a>
 					</el-form-item>
 					<el-form-item label="">
 						<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 360px; margin-top: 10px">
@@ -36,8 +35,8 @@
 					</el-form-item>
 					<el-form-item>
 						<div style="display: flex;">
-							<div class="btnSize" type="primary" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</div>
-							<div class="btnSizeSmall marginL" type="primary" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</div>
+							<div class="btnSize" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</div>
+							<div class="btnSizeSmall marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</div>
 						</div>
 					</el-form-item>
 				</el-form>
@@ -58,7 +57,7 @@
 						</el-dialog>
 					</div>
 					<div class="tableTab" v-if="tableData">
-					  <el-table ref="singleTable" class="tableBox" :data="tableData" min-height="540" size="small" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
+					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" min-height="540" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
 					    <!-- 表格序号 -->
 					    <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
 					
@@ -110,9 +109,9 @@
 </template>
 
 <script>
-	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '../../api/api.js'
+	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '@/api/api.js'
 export default {
-	name:'MarketingActivityCrowds',
+	name:'CustomAnalysisCreation',
 	data() {
 		return {
 			form: {
@@ -229,12 +228,12 @@ export default {
 			}
 		}).catch((err)=>{
 			console.log(err);
-		})
+		})		
 	},
     //查看
     getuserlist() {
 		fxcjExamine({
-			tool_type:'6',
+			tool_type:'10',
 			limit:this.pagesize,
 			page: this.currpage
 		}).then((res)=>{
@@ -243,7 +242,7 @@ export default {
 			this.total = result.count;
 		}).catch((err)=>{
 			console.log(err)
-		})		
+		})
     },
     //执行
     going() {
@@ -259,7 +258,7 @@ export default {
 			username:this.form.input,
 			password:this.form.pass,
 			trans_name:this.username,
-			tool_type:'6',
+			tool_type:'10',
 			choose:'3'
 		}).then((res)=>{
 			if (res.data.code == "10000") {
@@ -280,7 +279,7 @@ export default {
 				this.loadingbuttext = "执行";
 				this.loadingbut = false;
 			} else if (res.data.code == "10005") {
-				if(res.data.msg === '账号或密码错误'){
+				if(res.msg === '账号或密码错误'){
 					this.$message.warning("请检查用户密码是否正确");
 				} else {
 					this.pageJumps = res.data.msg.substring(14);
@@ -351,7 +350,7 @@ export default {
 	.marginL{
 		margin-left: 10px;
 	}
-	.marketingActivityCrowds{
+	.customAnalysisCreation{
 		width: 1200px;
 		margin: 0 auto;
 		.content{

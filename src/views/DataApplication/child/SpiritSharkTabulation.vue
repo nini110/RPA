@@ -1,7 +1,6 @@
 <template>
 	<!-- 灵鲨制表 -->
 	<div class="spiritSharkTabulation">
-		<div style="width: 100%; height: 80px;"></div>
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
@@ -182,7 +181,7 @@
 </template>
 
 <script>
-import { selectItem, dataState, makeAReport, DownloadReport, ObjectList, DeleteReport, ReportStatus } from '../../api/api.js'
+import { selectItem, dataState, makeAReport, DownloadReport, ObjectList, DeleteReport, ReportStatus } from '@/api/api.js'
 export default {
 	name:'SpiritSharkTabulation',
     data() {

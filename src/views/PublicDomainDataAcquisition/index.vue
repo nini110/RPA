@@ -1,13 +1,11 @@
 <template>
 	<!-- 公共数据获取 -->
 	<div class="PublicDomainDataAcquisition">
-		<navModule></navModule>
 		<router-view/>
 	</div>
 </template>
 
 <script>
-	import navModule from './nav/nav.vue'
 export default {
   name: 'PublicDomainDataAcquisition',
   data() {
@@ -31,9 +29,6 @@ export default {
 		  }
 	  ]
     };
-  },
-  components:{
-	navModule
   },
   methods:{
 	

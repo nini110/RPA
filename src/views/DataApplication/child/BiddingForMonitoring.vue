@@ -1,7 +1,6 @@
 <template>
 	<!-- 竞标监控 -->
 	<div class="biddingForMonitoring">
-		<div style="width: 100%; height: 80px;"></div>
 		<div class="content">
 			<div class="form">
 				<div style="width: 126px; margin: 0 auto;">
@@ -211,7 +210,7 @@
 		biddingDelete,
 		personnelDetails,
 		updateUser
-	} from '../../api/api.js'
+	} from '@/api/api.js'
 	export default {
 		name: 'BiddingForMonitoring',
 		data() {

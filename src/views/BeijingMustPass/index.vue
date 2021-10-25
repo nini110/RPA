@@ -1,13 +1,11 @@
 <template>
 	<!-- 京准通工具 -->
 	<div class="BeijingMustPass">
-		<navModule></navModule>
 		<router-view/>
 	</div>
 </template>
 
 <script>
-	import navModule from './nav/nav.vue'
 export default {
   name: 'BeijingMustPass',
   data() {
@@ -39,9 +37,6 @@ export default {
 		  }
 	  ]
     };
-  },
-  components:{
-	navModule
   },
   methods:{
 	

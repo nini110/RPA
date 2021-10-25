@@ -111,7 +111,7 @@
 <script>
 	import {
 		readTimeData
-	} from '../../../api/api.js'
+	} from '@/api/api.js'
 	export default {
 		name: 'RealTime',
 		data() {

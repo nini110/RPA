@@ -1,9 +1,6 @@
 <template>
-	<!-- 数坊人群圈选 -->
-	<div class="numberOfLaneCrowd">
-		<div style="width: 100%; height: 80px;"></div>
+	<div class="DMP">
 		<div class="content">
-			<!-- <div style="width: 225px;"></div> -->
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
 					<el-form-item label="选择账号:">
@@ -12,8 +9,11 @@
 					<el-form-item label="输入密码:">
 						<el-input v-model="form.pass" size="mini" class="w320" placeholder="请输入密码"></el-input>
 					</el-form-item>
+					<el-form-item label="备注内容:">
+						<el-input v-model="form.pin" size="mini" class="w320" placeholder="请输入备注内容"></el-input>
+					</el-form-item>
 					<el-form-item>
-						<a href="http://tool.afocus.com.cn/file_download/数坊人群圈选.xlsx" download="数坊人群圈选.xlsx"><div class="btnSize">下载模板</div></a>
+						<a href="http://tool.afocus.com.cn/file_download/DMP自动化人群包.xlsx" download="DMP自动化人群包.xlsx"><div class="btnSize">下载模板</div></a>
 					</el-form-item>
 					<el-form-item label="">
 						<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 360px; margin-top: 10px">
@@ -37,8 +37,8 @@
 					</el-form-item>
 					<el-form-item>
 						<div style="display: flex;">
-							<div class="btnSize" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</div>
-							<div class="btnSizeSmall marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</div>
+							<div size="small" class="btnSize" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</div>
+							<div size="small" class="btnSizeSmall marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</div>
 						</div>
 					</el-form-item>
 				</el-form>
@@ -54,12 +54,12 @@
 							<div class="tips">该账号需要进行手机验证</div>
 							<div class="tipsItem">*验证完成后请重新操作*</div>
 							<div class="button">
-							<div class="btnSize" @click="verificationFun">立即验证</div>
+							<el-button @click="verificationFun">立即验证</el-button>
 							</div>
 						</el-dialog>
 					</div>
 					<div class="tableTab" v-if="tableData">
-					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small"  max-height="540" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
+					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" @cell-click="celltable"  max-height="540" :highlight-current-row="true" :cell-style="timeStyle">
 					    <!-- 表格序号 -->
 					    <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
 					
@@ -89,11 +89,14 @@
 					</div>
 					<!-- 分页器 -->
 					<div class="block" v-if="total">
-						<el-pagination @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currpage" :page-sizes="[10, 20, 30, 40]" :page-size="pagesize" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
-					</div>
-					<div class="block" v-if="total">
-					  <!-- <span class="demonstration">完整功能</span> -->
-					  
+						<el-pagination
+						      @size-change="handleSizeChange"
+						      @current-change="handleCurrentChange"
+						      :current-page.sync="currpage"
+						      :page-size="pagesize"
+						      layout="total, prev, pager, next, jumper"
+						      :total="total">
+						</el-pagination>
 					</div>
 					<!-- 查看详情弹出框 -->
 					<div class="dialog">
@@ -108,9 +111,9 @@
 </template>
 
 <script>
-	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '../../api/api.js'
+	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '@/api/api.js'
 export default {
-	name:'NumberOfLaneCrowd',
+	name:'DMP',
 	data() {
 		return {
 			form: {
@@ -232,7 +235,7 @@ export default {
     //查看
     getuserlist() {
 		fxcjExamine({
-			tool_type:'2',
+			tool_type:'0',
 			limit:this.pagesize,
 			page: this.currpage
 		}).then((res)=>{
@@ -253,12 +256,18 @@ export default {
       } else {
         this.loadingbut = true;
         this.loadingbuttext = "审核中...";
+		if(this.form.pin==''){
+			this.choose=2
+		}else{
+			this.choose=1
+		}
 		fxcjtools({
 			username:this.form.input,
 			password:this.form.pass,
 			trans_name:this.username,
-			tool_type:'2',
-			choose:'3'
+			tool_type: '0',
+			choose:this.choose,
+			pin:this.form.pin
 		}).then((res)=>{
 			if (res.data.code == "10000") {
 				this.getuserlist();
@@ -278,7 +287,7 @@ export default {
 				this.loadingbuttext = "执行";
 				this.loadingbut = false;
 			} else if (res.data.code == "10005") {
-				if(res.msg === '账号或密码错误'){
+				if(res.data.msg === '账号或密码错误'){
 					this.$message.warning("请检查用户密码是否正确");
 				} else {
 					this.pageJumps = res.data.msg.substring(14);
@@ -308,8 +317,6 @@ export default {
     },
   },
   mounted() {
-    this.userid = localStorage.getItem("wx_userid");
-    this.code = localStorage.getItem("wx_code");
     this.username = localStorage.getItem("user_name");
     this.people = localStorage.getItem("user_name");
     this.getuserlist(1);
@@ -349,8 +356,9 @@ export default {
 	.marginL{
 		margin-left: 10px;
 	}
-	.numberOfLaneCrowd{
+	.DMP{
 		width: 1200px;
+		// height: 1400px;
 		margin: 0 auto;
 		.content{
 			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);

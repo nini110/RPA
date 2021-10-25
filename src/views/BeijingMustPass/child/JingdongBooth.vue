@@ -1,9 +1,6 @@
 <template>
-	<div class="directMail">
-		<div style="width: 100%; height: 80px;"></div>
+	<div class="jingdongBooth">
 		<div class="content">
-			<div style="width: 200px; height: 50px; margin: 0 auto;">
-			</div>
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
 					<el-form-item label="选择账号:">
@@ -14,6 +11,9 @@
 					</el-form-item>
 					<el-form-item label="备注内容:">
 						<el-input v-model="form.pin" size="mini" class="w320" placeholder="请输入备注内容"></el-input>
+					</el-form-item>
+					<el-form-item>
+						<a href="http://tool.afocus.com.cn/file_download/京东展位.xlsx" download="京东展位.xlsx"><div class="btnSize">下载模板</div></a>
 					</el-form-item>
 					<el-form-item label="">
 						<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 360px; margin-top: 10px">
@@ -36,8 +36,10 @@
 						</div>
 					</el-form-item>
 					<el-form-item>
-						<el-button size="small" type="primary" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</el-button>
-						<el-button size="small" type="primary" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</el-button>
+						<div style="display: flex;">
+							<div size="small" class="btnSize" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</div>
+							<div size="small" class="btnSizeSmall marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</div>
+						</div>
 					</el-form-item>
 				</el-form>
 				<el-divider></el-divider>
@@ -52,12 +54,12 @@
 							<div class="tips">该账号需要进行手机验证</div>
 							<div class="tipsItem">*验证完成后请重新操作*</div>
 							<div class="button">
-							<el-button @click="verificationFun">立即验证</el-button>
+							<div class="btnSize" @click="verificationFun">立即验证</div>
 							</div>
 						</el-dialog>
 					</div>
 					<div class="tableTab" v-if="tableData">
-					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" height="500" max-height="440px" style="width: 620px;" @cell-click="celltable" :highlight-current-row="true">
+					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" max-height="540" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
 					    <!-- 表格序号 -->
 					    <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
 					
@@ -109,9 +111,9 @@
 </template>
 
 <script>
-	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '../../api/api.js'
+	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '@/api/api.js'
 export default {
-	name:'DirectMail',
+	name:'JingdongBooth',
 	data() {
 		return {
 			form: {
@@ -149,9 +151,9 @@ export default {
 		}
 	},
 	methods: {
-	switchFN(){
-		
-	},
+		timeStyle(){
+			return "height:50px;padding:0;"
+		},
 	verificationFun(){
 		var tempwindow = window.open('_blank');
 		tempwindow.location=this.pageJumps;
@@ -233,7 +235,7 @@ export default {
     //查看
     getuserlist() {
 		fxcjExamine({
-			tool_type:'4',
+			tool_type:'9',
 			limit:this.pagesize,
 			page: this.currpage
 		}).then((res)=>{
@@ -263,7 +265,7 @@ export default {
 			username:this.form.input,
 			password:this.form.pass,
 			trans_name:this.username,
-			tool_type: '4',
+			tool_type: '9',
 			choose:this.choose,
 			pin:this.form.pin
 		}).then((res)=>{
@@ -335,28 +337,64 @@ export default {
 	.w320{
 		width: 320px;
 	}
-	.directMail{
-		// width: 100%;
-		height: 1400px;
-		margin-left: 250px;
+	.btnSize{
+		width: 98px;
+		height: 38px;
+		border: 1px solid #0051B3;
+		text-align:  center;
+		color: #2066BD;
+		cursor: pointer;
+		line-height: 38px;
+	}
+	.btnSizeSmall{
+		width: 68px;
+		height: 38px;
+		border: 1px solid #0051B3;
+		color: #2066BD;
+		text-align:  center;
+		cursor: pointer;
+		line-height: 38px;
+	}
+	.marginL{
+		margin-left: 10px;
+	}
+	.jingdongBooth{
+		width: 1200px;
+		margin: 0 auto;
 		.content{
-			width: 1560px;
-			height: 1200px;
-			margin-top: 20px;
-			background-color: #fff;
 			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-			padding: 20px 20px 30px 20px;
+			display: flex;
+			flex-direction: row-reverse;
 			.form{
-				// display: flex;
-				// justify-content: space-evenly;
-				// justify-content:center; 
+				min-height: 1250px;
+				padding-top: 50px;
+				width: 975px;
+				background-color: #fff;
 				.formObj{
 					width:500px;
 					margin: 0 auto;
 				}
 				.tables{
-					width: 620px;
+					width: 88%;
 					margin: 0 auto;
+					.tableTab{
+						.tableBox{
+							width: 100%;
+						}
+					}
+					.block{
+						display: flex;
+						// text-align: center;
+						height: 80px;
+						line-height: 80px;
+						justify-content: center;
+						margin-top: 20px;
+					}
+					.tableTab{
+						.tableBox{
+							width: 100%;
+						}
+					}
 					.dialog{
 						.tips{
 							width: 80%;

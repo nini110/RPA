@@ -132,7 +132,7 @@
 		compile,
 		addBidStrategy,
 		updataBidStrategy
-	} from '../../../api/api.js'
+	} from '@/api/api.js'
 	export default {
 		data() {
 			return {

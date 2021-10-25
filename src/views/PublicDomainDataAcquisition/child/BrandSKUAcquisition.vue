@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { fxcjtools } from '../../api/api.js'
+import { fxcjtools } from '@/api/api.js'
 export default {
   data() {
     return {

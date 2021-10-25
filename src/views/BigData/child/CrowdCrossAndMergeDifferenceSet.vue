@@ -1,6 +1,6 @@
 <template>
-	<div class="RubiksCube">
-		<div style="width: 100%; height: 80px;"></div>
+	<!-- 数坊人群交并差集 -->
+	<div class="crowdCrossAndMergeDifferenceSet">
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
@@ -10,11 +10,8 @@
 					<el-form-item label="输入密码:">
 						<el-input v-model="form.pass" size="mini" class="w320" placeholder="请输入密码"></el-input>
 					</el-form-item>
-					<el-form-item label="备注内容:">
-						<el-input v-model="form.pin" size="mini" class="w320" placeholder="请输入备注内容"></el-input>
-					</el-form-item>
 					<el-form-item>
-						<a href="http://tool.afocus.com.cn/file_download/京腾魔方人群.xlsx" download="京腾魔方人群.xlsx"><div class="btnSize">下载模板</div></a>
+						<a href="http://tool.afocus.com.cn/file_download/数坊已有人群集合.xlsx" download="数坊已有人群集合.xlsx" style="margin-right: 50px;"><div class="btnSize">下载模板</div></a>
 					</el-form-item>
 					<el-form-item label="">
 						<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 360px; margin-top: 10px">
@@ -55,12 +52,12 @@
 							<div class="tips">该账号需要进行手机验证</div>
 							<div class="tipsItem">*验证完成后请重新操作*</div>
 							<div class="button">
-							<el-button @click="verificationFun">立即验证</el-button>
+							<div class="btnSize" @click="verificationFun">立即验证</div>
 							</div>
 						</el-dialog>
 					</div>
 					<div class="tableTab" v-if="tableData">
-					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" max-height="540" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
+					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" min-height="" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
 					    <!-- 表格序号 -->
 					    <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
 					
@@ -83,7 +80,7 @@
 					    </el-table-column>
 					
 					    <!-- 查看详情 -->
-					    <el-table-column property="cheack" label="操作" align="center" width="120">
+					    <el-table-column property="cheack" label="操作" width="120" align="center">
 					      <el-button type="text" @click="dialogVisible = true">查看详情</el-button>
 					    </el-table-column>
 					  </el-table>
@@ -112,9 +109,9 @@
 </template>
 
 <script>
-	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '../../api/api.js'
+	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '@/api/api.js'
 export default {
-	name:'RubiksCube',
+	name:'CrowdCrossAndMergeDifferenceSet',
 	data() {
 		return {
 			form: {
@@ -152,9 +149,9 @@ export default {
 		}
 	},
 	methods: {
-	timeStyle(){
-		return "height:50px;padding:0;"
-	},
+		timeStyle(){
+			return "height:50px;padding:0;"
+		},
 	verificationFun(){
 		var tempwindow = window.open('_blank');
 		tempwindow.location=this.pageJumps;
@@ -236,7 +233,7 @@ export default {
     //查看
     getuserlist() {
 		fxcjExamine({
-			tool_type:'1',
+			tool_type:'3',
 			limit:this.pagesize,
 			page: this.currpage
 		}).then((res)=>{
@@ -257,18 +254,12 @@ export default {
       } else {
         this.loadingbut = true;
         this.loadingbuttext = "审核中...";
-		if(this.form.pin==''){
-			this.choose=2
-		}else{
-			this.choose=1
-		}
 		fxcjtools({
 			username:this.form.input,
 			password:this.form.pass,
 			trans_name:this.username,
-			tool_type: '1',
-			choose:this.choose,
-			pin:this.form.pin
+			tool_type:'3',
+			choose:'3'
 		}).then((res)=>{
 			if (res.data.code == "10000") {
 				this.getuserlist();
@@ -359,7 +350,7 @@ export default {
 	.marginL{
 		margin-left: 10px;
 	}
-	.RubiksCube{
+	.crowdCrossAndMergeDifferenceSet{
 		width: 1200px;
 		margin: 0 auto;
 		.content{

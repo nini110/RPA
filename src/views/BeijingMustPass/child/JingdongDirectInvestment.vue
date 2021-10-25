@@ -1,7 +1,5 @@
 <template>
-	<!-- 自定义分析创建 -->
-	<div class="marketingPopulationTracking">
-		<div style="width: 100%; height: 80px;"></div>
+	<div class="JingdongDirectInvestment">
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
@@ -11,12 +9,16 @@
 					<el-form-item label="输入密码:">
 						<el-input v-model="form.pass" size="mini" class="w320" placeholder="请输入密码"></el-input>
 					</el-form-item>
-					
-					<el-form-item>
+					<el-form-item label="备注内容:">
+						<el-input v-model="form.pin" size="mini" class="w320" placeholder="请输入备注内容"></el-input>
+					</el-form-item>
+					<el-form-item style="width: 600px;">
+						<!-- 下载模板 -->
 						<div style="display: flex;">
-							<a href="http://tool.afocus.com.cn/file_download/数坊自定义分析-分析配置项.xlsx" download="数坊自定义分析-分析配置项.xlsx"><div class="btnSizeBig">分析配置项下载</div></a>
-							<a href="http://tool.afocus.com.cn/file_download/数坊自定义分析-新建分析.xlsx" download="数坊自定义分析-新建分析.xlsx"><div class="btnSizeBig">新建分析项下载</div></a>
+							<a href="http://tool.afocus.com.cn/file_download/新版直投-单元创建工具配置.xlsx" download="新版直投-单元创建工具配置.xlsx"><div class="btnSizeBig">单元创建工具配置下载</div></a>
+							<a href="http://tool.afocus.com.cn/file_download/新版直投-计划创建工具配置.xlsx" download="新版直投-计划创建工具配置.xlsx"><div class="btnSizeBig">计划创建工具配置下载</div></a>
 						</div>
+						
 					</el-form-item>
 					<el-form-item label="">
 						<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 360px; margin-top: 10px">
@@ -40,8 +42,8 @@
 					</el-form-item>
 					<el-form-item>
 						<div style="display: flex;">
-							<div class="btnSize" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</div>
-							<div class="btnSizeSmall marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</div>
+							<div size="small" class="btnSize" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</div>
+							<div size="small" class="btnSizeSmall marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</div>
 						</div>
 					</el-form-item>
 				</el-form>
@@ -62,7 +64,7 @@
 						</el-dialog>
 					</div>
 					<div class="tableTab" v-if="tableData">
-					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" min-height="540" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
+					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" max-height="540" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
 					    <!-- 表格序号 -->
 					    <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
 					
@@ -85,7 +87,7 @@
 					    </el-table-column>
 					
 					    <!-- 查看详情 -->
-					    <el-table-column property="cheack" width="120" label="操作" align="center">
+					    <el-table-column property="cheack" label="操作" width="120" align="center">
 					      <el-button type="text" @click="dialogVisible = true">查看详情</el-button>
 					    </el-table-column>
 					  </el-table>
@@ -114,9 +116,9 @@
 </template>
 
 <script>
-	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '../../api/api.js'
+	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '@/api/api.js'
 export default {
-	name:'MarketingPopulationTracking',
+	name:'JingdongDirectInvestment',
 	data() {
 		return {
 			form: {
@@ -154,9 +156,9 @@ export default {
 		}
 	},
 	methods: {
-	timeStyle(){
-		return "height:50px;padding:0;"
-	},
+		timeStyle(){
+			return "height:50px;padding:0;"
+		},
 	verificationFun(){
 		var tempwindow = window.open('_blank');
 		tempwindow.location=this.pageJumps;
@@ -233,12 +235,12 @@ export default {
 			}
 		}).catch((err)=>{
 			console.log(err);
-		})
+		})		
 	},
     //查看
     getuserlist() {
 		fxcjExamine({
-			tool_type:'7',
+			tool_type:'5',
 			limit:this.pagesize,
 			page: this.currpage
 		}).then((res)=>{
@@ -259,12 +261,18 @@ export default {
       } else {
         this.loadingbut = true;
         this.loadingbuttext = "审核中...";
+		if(this.form.pin==''){
+			this.choose=2
+		}else{
+			this.choose=1
+		}
 		fxcjtools({
 			username:this.form.input,
 			password:this.form.pass,
 			trans_name:this.username,
-			tool_type: '7',
-			choose:'3'
+			tool_type: '5',
+			choose:this.choose,
+			pin:this.form.pin
 		}).then((res)=>{
 			if (res.data.code == "10000") {
 				this.getuserlist();
@@ -365,7 +373,7 @@ export default {
 	.marginL{
 		margin-left: 10px;
 	}
-	.marketingPopulationTracking{
+	.JingdongDirectInvestment{
 		width: 1200px;
 		margin: 0 auto;
 		.content{

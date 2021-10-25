@@ -315,7 +315,7 @@ import {
   projectEdit,
   Strategies,
   StrategiesUpdate,
-} from "../../../api/api.js";
+} from "@/api/api.js";
 export default {
   name: "itemsComp",
   data() {

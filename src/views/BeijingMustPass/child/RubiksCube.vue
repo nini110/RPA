@@ -1,6 +1,5 @@
 <template>
-	<div class="PeopleOriented">
-		<div style="width: 100%; height: 80px;"></div>
+	<div class="RubiksCube">
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
@@ -13,9 +12,9 @@
 					<el-form-item label="备注内容:">
 						<el-input v-model="form.pin" size="mini" class="w320" placeholder="请输入备注内容"></el-input>
 					</el-form-item>
-					<!-- <el-form-item>
-						<a href="http://tool.afocus.com.cn/file_download/京腾魔方人群.xlsx" download="京腾魔方人群.xlsx" style="margin-right: 50px;"><el-button type="primary">下载模板</el-button></a>
-					</el-form-item> -->
+					<el-form-item>
+						<a href="http://tool.afocus.com.cn/file_download/京腾魔方人群.xlsx" download="京腾魔方人群.xlsx"><div class="btnSize">下载模板</div></a>
+					</el-form-item>
 					<el-form-item label="">
 						<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 360px; margin-top: 10px">
 							<i class="el-icon-upload"></i>
@@ -83,7 +82,7 @@
 					    </el-table-column>
 					
 					    <!-- 查看详情 -->
-					    <el-table-column property="cheack" label="操作" align="center">
+					    <el-table-column property="cheack" label="操作" align="center" width="120">
 					      <el-button type="text" @click="dialogVisible = true">查看详情</el-button>
 					    </el-table-column>
 					  </el-table>
@@ -112,9 +111,9 @@
 </template>
 
 <script>
-	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '../../api/api.js'
+	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '@/api/api.js'
 export default {
-	name:'PeopleOriented',
+	name:'RubiksCube',
 	data() {
 		return {
 			form: {
@@ -236,7 +235,7 @@ export default {
     //查看
     getuserlist() {
 		fxcjExamine({
-			tool_type:'13',
+			tool_type:'1',
 			limit:this.pagesize,
 			page: this.currpage
 		}).then((res)=>{
@@ -266,7 +265,7 @@ export default {
 			username:this.form.input,
 			password:this.form.pass,
 			trans_name:this.username,
-			tool_type: '13',
+			tool_type: '1',
 			choose:this.choose,
 			pin:this.form.pin
 		}).then((res)=>{
@@ -359,7 +358,7 @@ export default {
 	.marginL{
 		margin-left: 10px;
 	}
-	.PeopleOriented{
+	.RubiksCube{
 		width: 1200px;
 		margin: 0 auto;
 		.content{
