@@ -15,7 +15,7 @@
 						<el-input v-model="form.pin" size="mini" class="w320" placeholder="请输入备注内容"></el-input>
 					</el-form-item>
 					<el-form-item label="">
-						<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 360px; margin-top: 10px">
+						<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 320px">
 							<i class="el-icon-upload"></i>
 							<div class="el-upload__text">
 								将文件拖到此处，或<em>点击上传</em>

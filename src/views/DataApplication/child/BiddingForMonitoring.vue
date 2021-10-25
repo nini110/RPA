@@ -46,7 +46,7 @@
 						    </ul>
 						  </div>
 						  <div class="上传" style="flex:1">
-						    <el-upload drag :on-remove="remfile" :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 360px; margin-top: 10px">
+						    <el-upload drag :on-remove="remfile" :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 320px">
 						    <i class="el-icon-upload"></i>
 						    <div class="el-upload__text">
 						      将文件拖到此处，或<em>点击上传</em>

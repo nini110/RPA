@@ -4,24 +4,26 @@
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
-					<el-form-item label="选择平台:">
-						<el-select v-model="value" placeholder="请选择" size="mini" class="w320">
-						    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="关键词:">
-						<el-input placeholder="请输入关键词或店铺名称" v-model="keyword" size="mini" class="w320"></el-input>
-					</el-form-item>
-					<el-form-item label="选择页码:">
-						第&ensp;<el-input-number v-model="num"  :min="1" size="mini" :controls="false" label="描述文字" style="width: 50px;"></el-input-number>&emsp;页&emsp;—————&emsp;第&emsp;<el-input-number v-model="num"  :min="1" size="mini" :controls="false" label="描述文字" style="width: 50px;"></el-input-number>&emsp;页
-					</el-form-item>
-					<el-form-item label="接收邮箱">
-						<el-input placeholder="请输入邮箱地址" v-model="mail" size="mini" class="w320"></el-input>
-					</el-form-item>
-					<el-form-item>
-						<div @click="going" class="btnSizeSmall" v-loading.fullscreen.lock="fullscreenLoading">执行</div>
-						<p style="color: red; font-size: 12px;">*如果半小时未收到邮件请联系产品部*</p>
-					</el-form-item>
+					<div class="formObj_ipt">
+						<el-form-item label="选择平台:">
+							<el-select v-model="value" placeholder="请选择" size="medium" class="w320">
+							    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value"></el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="关键词:">
+							<el-input placeholder="请输入关键词或店铺名称" v-model="keyword" size="medium" class="w320"></el-input>
+						</el-form-item>
+						<el-form-item label="选择页码:">
+							第&ensp;<el-input-number v-model="num"  :min="1" size="medium" :controls="false" label="描述文字" style="width: 50px;"></el-input-number>&emsp;页&emsp;—————&emsp;第&emsp;<el-input-number v-model="num"  :min="1" size="medium" :controls="false" label="描述文字" style="width: 50px;"></el-input-number>&emsp;页
+						</el-form-item>
+						<el-form-item label="接收邮箱">
+							<el-input placeholder="请输入邮箱地址" v-model="mail" size="medium" class="w320"></el-input>
+						</el-form-item>
+						<el-form-item>
+							<el-button type="primary" class="btnnormal " @click="going" v-loading.fullscreen.lock="fullscreenLoading">执行</el-button>
+							<p style="color: red; font-size: 12px;">*如果半小时未收到邮件请联系产品部*</p>
+						</el-form-item>
+					</div>
 				</el-form>
 				<el-divider></el-divider>
 			</div>

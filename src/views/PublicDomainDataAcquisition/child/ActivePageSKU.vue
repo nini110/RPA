@@ -5,7 +5,7 @@
 			<div class="form">
 				<div class="formObj">
 					<div class="topContent">
-						<el-input size="mini" v-model="input" placeholder="请输入活动页面URL" style="margin-right: 10px; width: 80%;"></el-input>
+						<el-input size="medium" v-model="input" placeholder="请输入活动页面URL" style="margin-right: 10px; width: 80%;"></el-input>
 						<el-button style="border-color: #0051B3; border-radius: 0; color: #2066BD; background-color: #fff;" size="mini" type="primary" :disabled="this.input==''?true:false" @click="going">执行</el-button>
 					</div>
 					<div class="tableTab" style="width:100%;margin-top:20px" v-if="tableData">

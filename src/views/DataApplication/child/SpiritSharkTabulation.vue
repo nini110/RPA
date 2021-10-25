@@ -4,83 +4,86 @@
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
-					<el-form-item label="选择项目:">
-						<el-select v-model="SelectItemData" placeholder="请选择项目" class="w320" size="mini"  @change="selectChang">
-							<el-option
-							v-for="(item,index) in SelectItem"
-							:key="index"
-							:label="item.project_name"
-							:value="[item.project_name, item.file]">
-							</el-option>
-						</el-select>
-					</el-form-item>
-					<el-form-item label="数据日期:">
-						<el-select v-model="selectValue" placeholder="请选择日期" style="width: 130px;" size="mini" @change="selectChangT">
-							<el-option
-							lable="日报"
-							value="日报"
-							></el-option>
-						</el-select>
-						<el-date-picker
-							v-model="timeData"
-							type="date"
-							style="width: 170px; margin-left: 20px;"
-							size="mini"
-							@blur="dateBlur"
-							format="yyyy 年 MM 月 dd 日"
-							value-format="yyyy-MM-dd"
-							placeholder="选择日期">
-						</el-date-picker>
-					</el-form-item>
-					<el-form-item label="数据状态:">
-						<div class="state">
-							<div class="stateItem" v-show="dataState === '' || dataState === '参数错误'">
-								<el-button size="mini" type="info" icon="el-icon-minus" circle></el-button><div>请先选择项目和日期</div>
+					<div class="formObj_ipt">
+						<el-form-item label="选择项目:">
+							<el-select v-model="SelectItemData" placeholder="请选择项目" class="w320" size="mini"  @change="selectChang">
+								<el-option
+								v-for="(item,index) in SelectItem"
+								:key="index"
+								:label="item.project_name"
+								:value="[item.project_name, item.file]">
+								</el-option>
+							</el-select>
+						</el-form-item>
+						<el-form-item label="数据日期:">
+							<el-select v-model="selectValue" placeholder="请选择日期" style="width: 130px;" size="mini" @change="selectChangT">
+								<el-option
+								lable="日报"
+								value="日报"
+								></el-option>
+							</el-select>
+							<el-date-picker
+								v-model="timeData"
+								type="date"
+								style="width: 170px; margin-left: 20px;"
+								size="mini"
+								@blur="dateBlur"
+								format="yyyy 年 MM 月 dd 日"
+								value-format="yyyy-MM-dd"
+								placeholder="选择日期">
+							</el-date-picker>
+						</el-form-item>
+						<el-form-item label="数据状态:">
+							<div class="state">
+								<div class="stateItem" v-show="dataState === '' || dataState === '参数错误'">
+									<el-button size="mini" type="info" icon="el-icon-minus" circle></el-button><div>请先选择项目和日期</div>
+								</div>
+								<div class="stateItem" v-show="dataState === 1">
+									<el-button size="mini" type="success" icon="el-icon-check" circle></el-button><div>数据已准备</div>
+								</div>
+								<div class="stateItem" v-show="dataState === 0">
+									<el-button size="mini" type="warning" icon="el-icon-loading" circle></el-button><div>数据准备中</div>
+								</div>
+								<div class="stateItem" v-show="dataState === 2">
+									<el-button size="mini" type="danger" icon="el-icon-close" circle></el-button><div>数据未准备</div>
+								</div>
 							</div>
-							<div class="stateItem" v-show="dataState === 1">
-								<el-button size="mini" type="success" icon="el-icon-check" circle></el-button><div>数据已准备</div>
+						</el-form-item>
+						<el-form-item label="日报模板:" v-show="SelectItemData[1]">
+							<el-upload drag :on-remove="remfile" :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" :limit="1" style="width: 320px">
+							<i class="el-icon-upload"></i>
+							<div class="el-upload__text">
+							  将文件拖到此处，或<em>点击上传</em>
 							</div>
-							<div class="stateItem" v-show="dataState === 0">
-								<el-button size="mini" type="warning" icon="el-icon-loading" circle></el-button><div>数据准备中</div>
+							<div class="el-upload__tip" slot="tip" style="color:red">
+							  请上传一个后缀为.xlsx的文件
 							</div>
-							<div class="stateItem" v-show="dataState === 2">
-								<el-button size="mini" type="danger" icon="el-icon-close" circle></el-button><div>数据未准备</div>
+							</el-upload>
+							<div style="width:385px">
+								<el-progress
+								v-if="!progressPercent"
+								:stroke-width="5"
+								:percentage="progressPercent"
+								></el-progress>
+								<el-progress v-if="progressPercent" :percentage="progressPercent" status="success"></el-progress>
 							</div>
-						</div>
-					</el-form-item>
-					<el-form-item label="日报模板:" v-show="SelectItemData[1]">
-						<el-upload drag :on-remove="remfile" :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" :limit="1" style="width: 360px; margin-top: 10px">
-						<i class="el-icon-upload"></i>
-						<div class="el-upload__text">
-						  将文件拖到此处，或<em>点击上传</em>
-						</div>
-						<div class="el-upload__tip" slot="tip" style="color:red">
-						  请上传一个后缀为.xlsx的文件
-						</div>
-						</el-upload>
-						<div style="width:385px">
-							<el-progress
-							v-if="!progressPercent"
-							:stroke-width="5"
-							:percentage="progressPercent"
-							></el-progress>
-							<el-progress v-if="progressPercent" :percentage="progressPercent" status="success"></el-progress>
-						</div>
-					</el-form-item>
-					<el-form-item>
-						<div v-if="SelectItemData[1] === true">
-							<el-button style="color:#2066BD; border: 1px solid #0051B3; border-radius:0"  @click="generate()" v-if="dataState === 1 && fileList.length !== 0">生成</el-button>
-							
-							<el-button style="color:#2066BD; border: 1px solid #0051B3; border-radius:0"  @click="generate()" disabled v-else>生成</el-button>
-							<el-button style="color:#2066BD; border: 1px solid #0051B3; border-radius:0" @click="reset()">重置</el-button>
-						</div>
-						<div v-else>
-							<el-button style="color:#2066BD; border: 1px solid #0051B3; border-radius:0"  @click="generate()" v-if="dataState === 1">生成</el-button>
-							<el-button style="color:#2066BD; border: 1px solid #0051B3; border-radius:0"  @click="generate()" disabled v-else>生成</el-button>
-							<el-button style="color:#2066BD; border: 1px solid #0051B3; border-radius:0" @click="reset()">重置</el-button>
-						</div>
-						
-					</el-form-item>
+						</el-form-item>
+					</div>
+					<div class="formObj_button">
+						<el-form-item>
+							<div v-if="SelectItemData[1] === true">
+								<el-button type="primary" class="btnnormal  marginL"  @click="generate()" v-if="dataState === 1 && fileList.length !== 0">生成</el-button>
+
+								<el-button type="primary" class="btnnormal  marginL"  @click="generate()" disabled v-else>生成</el-button>
+								<el-button type="primary" class="btnnormal  marginL" @click="reset()">重置</el-button>
+							</div>
+							<div v-else>
+								<el-button type="primary" class="btnnormal  marginL"  @click="generate()" v-if="dataState === 1">生成</el-button>
+								<el-button type="primary" class="btnnormal  marginL"  @click="generate()" disabled v-else>生成</el-button>
+								<el-button type="primary" class="btnnormal  marginL" @click="reset()">重置</el-button>
+							</div>
+						</el-form-item>
+					</div>
 				</el-form>
 				<el-divider>列表</el-divider>
 				<div class="tableTab">

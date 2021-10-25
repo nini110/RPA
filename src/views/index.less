@@ -4,23 +4,25 @@
 	.w320{
 		width: 320px;
 	}
-	.btnSize{
-		width: 98px;
-		height: 38px;
+	/deep/.btnnormal {
+		background-color: #2066BD;
 		border: 1px solid #0051B3;
 		text-align:  center;
-		color: #2066BD;
 		cursor: pointer;
-		line-height: 38px;
-	}
-	.btnSizeSmall{
-		width: 68px;
-		height: 38px;
-		border: 1px solid #0051B3;
-		color: #2066BD;
-		text-align:  center;
-		cursor: pointer;
-		line-height: 38px;
+		padding: 6px 20px;
+		min-width: 120px;
+		font-size: 14px;
+		line-height: 26px;
+		&_down {
+			display: inline-block;
+			border-radius: 4px;
+			background-color: #fff;
+			color: #2066BD;
+			&:hover {
+				background-color: #2066BD;
+				color: #fff;
+			}
+		}
 	}
 	.marginL{
 		margin-left: 10px;
@@ -39,8 +41,41 @@
 				width: 975px;
 				background-color: #fff;
 				.formObj{
-					width:500px;
+					// width:500px;
+					width: 100%;
 					margin: 0 auto;
+					&_ipt {
+						.el-form-item {
+							box-sizing: border-box;
+							width: 50%;
+							display: inline-block;
+							padding: 0 20px;
+						}
+					}
+					&_upload {
+						/deep/.el {
+							&-form-item {
+								&__content {
+									margin-left: 98px!important;
+								}
+							}
+							&-upload-dragger {
+								width: 322px;
+							}
+						}
+					}
+					&_button {
+						display: flex;
+						flex-direction: row;
+						padding-left: 98px;
+						/deep/.el {
+							&-form-item {
+								&__content {
+									margin-left: 0!important;
+								}
+							}
+						}
+					}
 				}
 				.tables{
 					width: 88%;
