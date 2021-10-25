@@ -1,6 +1,6 @@
 <template>
 	<!-- 灵鲨制表 -->
-	<div class="spiritSharkTabulation">
+	<div class="spiritSharkTabulation outerDiv">
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
@@ -430,48 +430,11 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	/deep/input{
-		border-radius: 0 !important;
-	}
-	.w320{
-		width: 320px;
-	}
-	.btnSize{
-		width: 98px;
-		height: 38px;
-		border: 1px solid #0051B3;
-		text-align:  center;
-		color: #2066BD;
-		cursor: pointer;
-		line-height: 38px;
-	}
-	.btnSizeSmall{
-		width: 68px;
-		height: 38px;
-		border: 1px solid #0051B3;
-		color: #2066BD;
-		text-align:  center;
-		cursor: pointer;
-		line-height: 38px;
-	}
-	.marginL{
-		margin-left: 10px;
-	}
+	@import '../../index';
 	.spiritSharkTabulation{
-		width: 1200px;
-		margin: 0 auto;
 		.content{
-			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-			display: flex;
-			flex-direction: row-reverse;
 			.form{
-				min-height: 1250px;
-				padding-top: 50px;
-				width: 975px;
-				background-color: #fff;
 				.formObj{
-					width:500px;
-					margin: 0 auto;
 					.state{
 						.stateItem{
 							width: 200px;
@@ -493,14 +456,6 @@ export default {
 				.tableTab{
 					width: 88%;
 					margin: 0 auto;
-				}
-				.block{
-					display: flex;
-					// text-align: center;
-					height: 80px;
-					line-height: 80px;
-					justify-content: center;
-					margin-top: 20px;
 				}
 			}
 		}

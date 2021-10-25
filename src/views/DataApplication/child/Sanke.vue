@@ -1,6 +1,6 @@
 <template>
 	<!-- 竞标监控 -->
-	<div class="sankey">
+	<div class="sankey outerDiv">
 		<div class="content">
 			<div class="sankeyList">
 				<div class="nav">

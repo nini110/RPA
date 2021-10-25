@@ -3,13 +3,28 @@
     margin: 0 auto;
     position: relative;
     display: flex;
-    justify-content: center;
-    padding-top: 80px;
+    justify-content: flex-end;
+    // padding-top: 80px;
     &_menu {
         position: absolute;
         left: 0;
         top: 80px;
-        height: 100%;
+        height: calc(100% - 80px);
         width: 200px;
+    }
+    /deep/.el {
+
+        &-submenu {
+            &__title {
+                font-weight: bold;
+    
+            }
+        }
+        &-menu--inline{
+            box-sizing: border-box;
+            padding-left: 30px;
+            overflow: hidden;
+        }
+
     }
 }

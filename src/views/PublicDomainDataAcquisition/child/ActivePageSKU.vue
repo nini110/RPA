@@ -1,6 +1,6 @@
 <template>
 	<!-- 活动页面SKU -->
-	<div class="activePageSKU">
+	<div class="activePageSKU outerDiv">
 		<div class="content">
 			<div class="form">
 				<div class="formObj">
@@ -151,46 +151,10 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	/deep/input{
-		border-radius: 0 !important;
-	}
-	.w320{
-		width: 320px;
-	}
-	.btnSize{
-		width: 98px;
-		height: 38px;
-		border: 1px solid #0051B3;
-		text-align:  center;
-		color: #2066BD;
-		cursor: pointer;
-		line-height: 38px;
-	}
-	.btnSizeSmall{
-		width: 68px;
-		height: 38px;
-		border: 1px solid #0051B3;
-		color: #2066BD;
-		text-align:  center;
-		cursor: pointer;
-		line-height: 38px;
-	}
-	.marginL{
-		margin-left: 10px;
-	}
+	@import '../../index';
 	.activePageSKU{
-		width: 1200px;
-		margin: 0 auto;
 		.content{
-			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-			display: flex;
-			flex-direction: row-reverse;
-			padding-top: 90px;
 			.form{
-				min-height: 1250px;
-				padding-top: 50px;
-				width: 975px;
-				background-color: #fff;
 				.formObj{
 					width:900px;
 					margin: 0 auto;

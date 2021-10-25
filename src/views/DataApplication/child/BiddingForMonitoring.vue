@@ -1,6 +1,6 @@
 <template>
 	<!-- 竞标监控 -->
-	<div class="biddingForMonitoring">
+	<div class="biddingForMonitoring outerDiv">
 		<div class="content">
 			<div class="form">
 				<div style="width: 126px; margin: 0 auto;">
@@ -724,22 +724,7 @@
 </script>
 
 <style lang="less" scoped>
-	/deep/input {
-		border-radius: 0 !important;
-	}
-
-	.w320 {
-		width: 320px;
-	}
-	.btnSize{
-		width: 98px;
-		height: 38px;
-		border: 1px solid #0051B3;
-		text-align:  center;
-		color: #2066BD;
-		cursor: pointer;
-		line-height: 38px;
-	}
+	@import '../../index';
 	.btnSizeBig{
 		padding: 5px 5px;
 		height: 38px;
@@ -749,30 +734,9 @@
 		cursor: pointer;
 		line-height: 38px;
 	}
-	.btnSizeSmall{
-		width: 68px;
-		height: 38px;
-		border: 1px solid #0051B3;
-		color: #2066BD;
-		text-align:  center;
-		cursor: pointer;
-		line-height: 38px;
-	}
-	.marginL{
-		margin-left: 10px;
-	}
 	.biddingForMonitoring {
-		width: 1200px;
-		margin: 0 auto;
 		.content {
-			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-			display: flex;
-			flex-direction: row-reverse;
 			.form {
-				min-height: 1250px;
-				padding-top: 50px;
-				width: 975px;
-				background-color: #fff;
 				.fuzzyQuery{
 				  position: relative;
 				  ul::-webkit-scrollbar{
@@ -799,49 +763,6 @@
 					
 				  }
 				}	
-				.tables {
-					width: 88%;
-					margin: 0 auto;
-					.tableTab{
-						.tableBox{
-							width: 100%;
-						}
-					}
-					.block{
-						display: flex;
-						// text-align: center;
-						height: 80px;
-						line-height: 80px;
-						justify-content: center;
-						margin-top: 20px;
-					}
-					.dialog {
-						.tips {
-							width: 80%;
-							height: 50px;
-							margin: 0 auto;
-							text-align: center;
-							font-size: 18px;
-							line-height: 50px;
-						}
-
-						.tipsItem {
-							width: 80%;
-							height: 50px;
-							margin: 0 auto;
-							text-align: center;
-							font-size: 12px;
-							color: red;
-							line-height: 50px;
-						}
-
-						.button {
-							width: 100px;
-							height: 40px;
-							margin: 0 auto;
-						}
-					}
-				}
 			}
 		}
 	}

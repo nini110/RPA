@@ -1,6 +1,6 @@
 <template>
 	<!-- 京东市场监控 -->
-	<div class="howToMonitor">
+	<div class="howToMonitor outerDiv">
 		<div class="content">
 			<div class="form">
 				<div class="txt">开发中。。。</div>
@@ -18,7 +18,7 @@
 		margin: 0 auto;
 		.content{
 			min-height: 1250px;
-			padding-top: 90px;
+			// padding-top: 90px;
 			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 			display: flex;
 			flex-direction: row-reverse;

@@ -10,12 +10,7 @@ export default {
   name: 'ThirdPartyTools',
   data(){
 	return{
-		itemRoutePath:[
-				  {
-					  path:'/thirdPartyTools/thousandsOfSichuan',
-					  name:'巨量千川'
-				  }
-		]
+
 	}  
   },
 }
