@@ -13,11 +13,13 @@
 </script>
 
 <style lang="less">
+	@import '../../index';
+
 	.howToMonitor{
 		width: 1200px;
 		margin: 0 auto;
 		.content{
-			min-height: 1250px;
+			// min-height: 1250px;
 			// padding-top: 90px;
 			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 			display: flex;

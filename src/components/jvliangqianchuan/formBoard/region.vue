@@ -1,44 +1,50 @@
 <template>
-	<div class="region">
+	<div class="region strategyNormal">
 		<div class="centers">
 			<div class="tabTops">
 				<div>
-					<el-button type="primary" @click="dialogVisible = true" size="medium">新建模板</el-button>
+					<el-button type="primary" class="btnnormal" @click="dialogVisible = true" size="medium">新建模板</el-button>
 				</div>
 				<div class="searchs">
-					<div>模板名称：</div>
+					<div style="color: #666">模板名称：</div>
 					<div>
-						<el-input v-model="input" placeholder="请输入内容" size="mini" class="w240"></el-input>
+						<el-input v-model="input" placeholder="请输入内容" size="medium" class="w240"></el-input>
 					</div>
 					<div>
-						<el-button type="primary" style="margin: 0 10px;" size="medium">查询</el-button>
+						<el-button type="primary" class="btnnormal" size="medium" style="margin-left: 10px">查询</el-button>
 					</div>
 				</div>
 			</div>
 			<div class="tabbles">
-				<el-table :data="tableData" style="width: 100%">
-					<el-table-column align="center" type="index" label="序号" width="180">
+				<el-table :data="tableData" height="700px" style="width: 100%">
+					<el-table-column align="center" type="index" label="序号" width="60">
 					</el-table-column>
-					<el-table-column align="center" prop="name" label="模板名称" width="180">
+					<el-table-column  prop="name" label="模板名称" min-width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="address1" label="累计执行次数">
+					<el-table-column  prop="address1" label="累计执行次数" min-width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="address2" label="累计项目数">
+					<el-table-column  prop="address2" label="累计项目数" min-width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="address3" label="累计计划数">
+					<el-table-column  prop="address3" label="累计计划数" min-width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="username" label="创建人">
+					<el-table-column  prop="username" label="创建人" min-width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="address" label="操作">
+					<el-table-column  prop="address" label="操作" min-width="120">
 						<el-button type="text">编辑</el-button>
 						<el-button type="text" @click="deleteFn()">删除</el-button>
 					</el-table-column>
 				</el-table>
 			</div>
-			<div class="Fpage">
-				<el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-					:current-page="currentPage4" :page-sizes="[10, 20, 30, 40, 50]" :page-size="100"
-					layout="total, sizes, prev, pager, next, jumper" :total="3">
+			<div class="Fpage block">
+				<el-pagination 
+				background 
+				@size-change="handleSizeChange" 
+				@current-change="handleCurrentChange"
+					:current-page="currentPage4" 
+					:page-sizes="[10, 20, 50, 100]" 
+					:page-size="100"
+					layout="total, sizes, prev, pager, next, jumper"  
+					:total="3">
 				</el-pagination>
 			</div>
 			<div class="dialog">
@@ -205,36 +211,6 @@
 </script>
 
 <style lang="less" scoped>
-	.w240 {
-		width: 240px;
-		height: 34px;
-	}
-
-	.region {
-		.centers {
-			width: 935px;
-			background-color: #fff;
-			height: 1300px;
-
-			.tabTops {
-				display: flex;
-				position: relative;
-				padding-bottom: 10px;
-
-				.searchs {
-					position: absolute;
-					right: 0;
-					height: 40px;
-					line-height: 40px;
-					display: flex;
-				}
-
-				.dialog {}
-			}
-			.Fpage{
-				display: flex;
-				justify-content: center;
-			}
-		}
-	}
+	@import '@/views/index.less';
+	@import './index.less';
 </style>

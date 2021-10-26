@@ -1,7 +1,7 @@
 <template>
 	<div class="formBoard">
 		<div class="tabs">
-			<el-tabs v-model="activeName" @tab-click="handleClick">
+			<el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
 				<el-tab-pane label="地域模板" name="first">
 					<region></region>
 				</el-tab-pane>
@@ -35,14 +35,7 @@
 </script>
 
 <style lang="less" scoped>
- .formBoard{
-	 display: flex;
-	 flex-direction: row-reverse;
-	 .tabs{
-		 width: 935px;
-		 padding: 20px;
-		 padding-top: 100px;
-		 background-color: #fff;
-	 }
- }
+	@import '@/views/index.less';
+	@import './index';
+
 </style>

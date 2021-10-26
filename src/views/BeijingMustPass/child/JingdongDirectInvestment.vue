@@ -5,13 +5,13 @@
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
 					<div class="formObj_ipt">
 						<el-form-item label="选择账号:">
-							<el-input v-model="form.input" size="medium" class="w320" placeholder="请输入账号"></el-input>
+							<el-input v-model="form.input" size="medium" class="w320" placeholder="请输入账号" clearable></el-input>
 						</el-form-item>
 						<el-form-item label="输入密码:">
-							<el-input v-model="form.pass" size="medium" class="w320" placeholder="请输入密码"></el-input>
+							<el-input v-model="form.pass" size="medium" class="w320" placeholder="请输入密码" clearable></el-input>
 						</el-form-item>
 						<el-form-item label="备注内容:">
-							<el-input v-model="form.pin" size="medium" class="w320" placeholder="请输入备注内容"></el-input>
+							<el-input v-model="form.pin" size="medium" class="w320" placeholder="请输入备注内容" clearable></el-input>
 						</el-form-item>
 					</div>
 					<div class="formObj_upload">
@@ -37,14 +37,14 @@
 						</el-form-item>
 					</div>
 					<div class="formObj_button">
-						<el-form-item>
-							<a  class="btnnormal btnnormal_down" href="http://tool.afocus.com.cn/file_download/新版直投-单元创建工具配置.xlsx" download="新版直投-单元创建工具配置.xlsx"><div class="btnSizeBig">单元创建工具配置下载</div></a>
-							<a  class="btnnormal btnnormal_down marginL" href="http://tool.afocus.com.cn/file_download/新版直投-计划创建工具配置.xlsx" download="新版直投-计划创建工具配置.xlsx"><div class="btnSizeBig">计划创建工具配置下载</div></a>
-							<el-button type="primary" class="btnnormal  marginL" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</el-button>
-							<el-button type="primary" class="btnnormal  marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</el-button>
-						</el-form-item>
+						<a  class="btnnormal btnnormal_down" href="http://tool.afocus.com.cn/file_download/新版直投-单元创建工具配置.xlsx" download="新版直投-单元创建工具配置.xlsx"><div class="btnSizeBig">单元创建工具配置下载</div></a>
+						<a  class="btnnormal btnnormal_down marginL" href="http://tool.afocus.com.cn/file_download/新版直投-计划创建工具配置.xlsx" download="新版直投-计划创建工具配置.xlsx"><div class="btnSizeBig">计划创建工具配置下载</div></a>
+						<el-button type="primary" class="btnnormal  marginL" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</el-button>
+						<el-button type="primary" class="btnnormal  marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</el-button>
 					</div>										
 				</el-form>
+			</div>
+			<div class="tableBox">
 				<el-divider></el-divider>
 				<div class="tables">
 					<div class="dialog">
@@ -62,12 +62,12 @@
 						</el-dialog>
 					</div>
 					<div class="tableTab" v-if="tableData">
-					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" max-height="540" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
+					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" height="540px" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
 					    <!-- 表格序号 -->
 					    <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
 					
 					    <!-- 表格日期 -->
-					    <el-table-column property="create_time" label="日期" width="430" align="center">
+					    <el-table-column property="create_time" label="日期" min-width="200">
 					      <template slot-scope="scope">
 					        <div>
 					          {{ scope.row.create_time }}
@@ -76,7 +76,7 @@
 					    </el-table-column>
 					
 					    <!-- 基本信息 -->
-					    <el-table-column property="title" label="基本信息" width="230" align="center">
+					    <el-table-column property="title" label="基本信息" min-width="200">
 					      <template slot-scope="scope">
 					        <div>
 					          {{ scope.row.title }}
@@ -85,7 +85,7 @@
 					    </el-table-column>
 					
 					    <!-- 查看详情 -->
-					    <el-table-column property="cheack" label="操作" width="120" align="center">
+					    <el-table-column property="cheack" label="操作" width="120">
 					      <el-button type="text" @click="dialogVisible = true">查看详情</el-button>
 					    </el-table-column>
 					  </el-table>
@@ -93,12 +93,14 @@
 					<!-- 分页器 -->
 					<div class="block" v-if="total">
 						<el-pagination
-						      @size-change="handleSizeChange"
-						      @current-change="handleCurrentChange"
-						      :current-page.sync="currpage"
-						      :page-size="pagesize"
-						      layout="total, prev, pager, next, jumper"
-						      :total="total">
+							background
+						    @size-change="handleSizeChange"
+						    @current-change="handleCurrentChange"
+						    :current-page.sync="currpage"
+						    :page-size="pagesize"
+							:page-sizes="[10, 20, 50, 100]" 
+						    layout="total, sizes, prev, pager, next, jumper" 
+						    :total="total">
 						</el-pagination>
 					</div>
 					<!-- 查看详情弹出框 -->
@@ -107,7 +109,7 @@
 					    <div>详情信息：{{ log }}</div>
 					  </el-dialog>
 					</div>
-				</div>
+				</div>				
 			</div>
 		</div>
 	</div>

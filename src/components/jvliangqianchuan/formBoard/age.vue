@@ -1,41 +1,41 @@
 <template>
-	<div class="age">
+	<div class="age strategyNormal">
 		<div class="centers">
 			<div class="tabTops">
 				<div>
-					<el-button type="primary" @click="dialogVisible = true" size="medium">新建模板</el-button>
+					<el-button type="primary"  class="btnnormal" @click="dialogVisible = true" >新建模板</el-button>
 				</div>
 				<div class="searchs">
-					<div>模板名称：</div>
+					<div style="color: #666">模板名称：</div>
 					<div>
-						<el-input v-model="input" placeholder="请输入内容" size="mini" class="w240"></el-input>
+						<el-input v-model="input" placeholder="请输入内容" size="medium" class="w240"></el-input>
 					</div>
 					<div>
-						<el-button type="primary" style="margin: 0 10px;" size="medium">查询</el-button>
+						<el-button type="primary" class="btnnormal" style="margin-left: 10px">查询</el-button>
 					</div>
 				</div>
 			</div>
 			<div class="tabbles">
-				<el-table :data="tableData" style="width: 100%" @cell-click="cellClick">
-					<el-table-column align="center" label="序号" width="120" type="index">
+				<el-table :data="tableData" height="700px" style="width: 100%" @cell-click="cellClick">
+					<el-table-column align="center" label="序号" width="60" type="index">
 					</el-table-column>
-					<el-table-column align="center" prop="name" label="模板名称" width="180">
+					<el-table-column prop="name" label="模板名称" min-width="120">
 					</el-table-column>
-				<!-- 	<el-table-column align="center" prop="count" label="状态" width="100">
+				<!-- 	<el-table-column prop="count" label="状态" width="100">
 						<template slot-scope="scope">
 							<div v-if="scope.row.status">使用中</div>
 							<div v-else>未使用</div>
 						</template>
 					</el-table-column> -->
-					<el-table-column align="center" prop="total_satisfy_count" label="执行次数">
+					<el-table-column prop="total_satisfy_count" label="执行次数" min-width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="total_project_count" label="累计项目数">
+					<el-table-column prop="total_project_count" label="累计项目数" min-width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="total_plan_count" label="累计计划数">
+					<el-table-column prop="total_plan_count" label="累计计划数" min-width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="username" label="创建人">
+					<el-table-column prop="username" label="创建人" min-width="120">
 					</el-table-column>
-					<el-table-column align="center"  label="操作">
+					<el-table-column  label="操作" min-width="120">
 						<template slot-scope="scope">
 							<el-button type="text" @click="editFn(scope.row.id)">编辑</el-button>
 							<el-button type="text" @click="deleteFn()">删除</el-button>
@@ -43,15 +43,15 @@
 					</el-table-column>
 				</el-table>
 			</div>
-			<div class="Fpage">
+			<div class="block">
 				<el-pagination
 					 background
 				     @size-change="handleSizeChange"
 				     @current-change="handleCurrentChange"
 				     :current-page="currentPage"
-				     :page-sizes="[10, 20, 30, 40, 50]"
+				     :page-sizes="[10, 20, 50, 100]" 
 				     :page-size="pagesize"
-				     layout="total, sizes, prev, pager, next, jumper"
+				     layout="total, sizes, prev, pager, next, jumper" 
 				     :total="total">
 				   </el-pagination>
 			</div>
@@ -324,42 +324,9 @@
 </script>
 
 <style lang="less" scoped>
-	.w240{
-		width: 240px;
-		height: 34px;
-	}
-	// /deep/
-	/deep/.el-checkbox-group{
-		.is-checked{
-			background-color: #fff!important;
-			border: 1px solid #409EFF;
-			.is-checked{
-				border: none;
-			}
-		}
-	}
-	.age {
-		.centers {
-			width: 935px;
-			background-color: #fff;
-			height: 1300px;
-			.tabTops {
-				display: flex;
-				position: relative;
-				padding-bottom: 10px;
+	@import '@/views/index.less';
+	@import './index.less';
 
-				.searchs {
-					position: absolute;
-					right: 0;
-					height: 40px;
-					line-height: 40px;
-					display: flex;
-				}
-			}
-			.Fpage{
-				display: flex;
-				justify-content: center;
-			}
-		}
-	}
+
+
 </style>

@@ -23,5 +23,7 @@ export default {
 <style lang="less">
   .PublicDomainDataAcquisition {
     padding-top: 80px;
+    height: 100%;
+    box-sizing: border-box;
   }
 </style>

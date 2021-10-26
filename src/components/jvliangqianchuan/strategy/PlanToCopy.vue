@@ -1,52 +1,52 @@
 <template>
 	<!-- 计划 -->
-	<div class="PlanToCopy">
+	<div class="PlanToCopy strategyNormal">
 		<div class="centers">
 			<div class="PriceTops">
 				<div class="btn">
-					<el-button type="primary" @click="newStrategyFn()" size="mini">新建策略</el-button>
+					<el-button type="primary" class="btnnormal" @click="newStrategyFn()" size="medium">新建策略</el-button>
 				</div>
 				<div class="search">
-					<div style="width: 50px;">状态：</div>
+					<div style="width: 50px; color: #666">状态：</div>
 					<div class="selects">
-						<el-select v-model="value" placeholder="请选择" size="mini">
+						<el-select v-model="value" placeholder="请选择" size="medium">
 							<el-option v-for="item in options" :key="item.value" :label="item.label"
 								:value="item.value">
 							</el-option>
 						</el-select>
 					</div>
-					<div style="width: 80px;">策略名称：</div>
-					<el-input v-model="input" placeholder="请输入策略名称" size="mini" class="inp"></el-input>
+					<div style="width: 80px; color: #666">策略名称：</div>
+					<el-input v-model="input" placeholder="请输入策略名称" size="medium" class="inp"></el-input>
 					
 					<div>
-						<el-button style="margin: 0 5px;" type="primary" size="mini">查询</el-button>
+						<el-button  style="margin-left: 10px" type="primary" class="btnnormal" size="medium">查询</el-button>
 					</div>
 				</div>
 			</div>
 			<div class="tabbles">
-				<el-table ref="multipleTable" :data="tableData" tooltip-effect="dark" style="width: 100%" @cell-click="cellClick"
+				<el-table ref="multipleTable" height="700px" :data="tableData" tooltip-effect="dark" style="width: 100%" @cell-click="cellClick"
 					@selection-change="handleSelectionChange">
 					<el-table-column align="center" type="selection" width="55">
 					</el-table-column>
-					<el-table-column align="center" label="序号" width="120" type="index">
+					<el-table-column align="center" label="序号" width="60" type="index">
 					</el-table-column>
-					<el-table-column align="center" prop="count" label="状态" width="100">
+					<el-table-column prop="count" label="状态" min-width="100">
 						<template slot-scope="scope">
 							<div v-if="scope.row.status">使用中</div>
 							<div v-else>未使用</div>
 						</template>
 					</el-table-column>
-					<el-table-column align="center" prop="name" label="策略名称" width="120">
+					<el-table-column prop="name" label="策略名称" min-width="120">
 					</el-table-column>
-					<el-table-column align="center" prop="total_satisfy_count" width="100" label="累计撞线数">
+					<el-table-column prop="total_satisfy_count" min-width="100" label="累计撞线数">
 					</el-table-column>
-					<el-table-column align="center" prop="total_project_count" width="100" label="累计项目数">
+					<el-table-column prop="total_project_count" min-width="100" label="累计项目数">
 					</el-table-column>
-					<el-table-column align="center" prop="total_plan_count" width="100" label="累计计划数">
+					<el-table-column prop="total_plan_count" min-width="100" label="累计计划数">
 					</el-table-column>
-					<el-table-column align="center" prop="username" width="100" label="创建人">
+					<el-table-column prop="username" min-width="100" label="创建人">
 					</el-table-column>
-					<el-table-column align="center" prop="address" width="100" label="操作">
+					<el-table-column prop="address" min-width="100" label="操作">
 						<template slot="header">
 							操作
 							<el-tooltip class="item" effect="dark" content="当状态为使用中时,不可编辑和删除" placement="top">
@@ -62,13 +62,13 @@
 					</el-table-column>
 				</el-table>
 			</div>
-			<div class="Fpage">
+			<div class="block">
 				<el-pagination
 					 background
 				     @size-change="handleSizeChange"
 				     @current-change="handleCurrentChange"
 				     :current-page="currentPage"
-				     :page-sizes="[10, 20, 30, 40, 50]"
+				     :page-sizes="[10, 20, 50, 100]" 
 				     :page-size="pagesize"
 				     layout="total, sizes, prev, pager, next, jumper"
 				     :total="total">
@@ -364,54 +364,6 @@
 </script>
 
 <style lang="less" scoped>
-	.precedence{
-		width: 100%;
-		height: 30px;
-		line-height: 30px;
-		color: #000000;
-		font-size: 16px;
-		font-weight: 600;
-	}
-	.PlanToCopy {
-		.centers {
-			width: 975px;
-			background-color: #fff;
-			height: 1300px;
-			.PriceTops {
-				position: relative;
-
-				.btn {
-					margin: 0 10px;
-				}
-
-				.search {
-					position: absolute;
-					right: 0;
-					top: 0;
-					width: 550px;
-					height: 40px;
-					line-height: 40px;
-					display: flex;
-
-					.selects {
-						width: 120px;
-						left: 120px;
-						top: 0;
-					}
-
-					.inp {
-						width: 200px;
-					}
-				}
-			}
-
-			.tabbles {
-				padding: 20px 0;
-			}
-			.Fpage{
-				display: flex;
-				justify-content: center;
-			}
-		}
-	}
+	@import '@/views/index.less';
+	@import './index.less';
 </style>

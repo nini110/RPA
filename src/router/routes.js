@@ -3,7 +3,7 @@ import login from '../login.vue'
 import layout from '@/views/layout'
 
 // 巨量千川
-import Homeitem from '../views/jvliang/Homeitem.vue'
+// import Homeitem from '@/views/ThirdPartyTools/child/Homeitem.vue'
 
 
 const routes = [
@@ -16,6 +16,7 @@ const routes = [
   	{
   	  path: '/',
   	  name: 'Home',
+	  component: Home,
   	},
 	{
 		path: '/layout',
@@ -75,10 +76,9 @@ const routes = [
 		  ]
 		},
 		{
-			path: '/bigData',
+			path: 'bigData',
 			name: 'BigData',
 			component: () => import("../views/BigData"),
-			redirect:'/bigData/numberOfLaneCrowd',
 			children:[
 				{
 					path:'numberOfLaneCrowd',
@@ -124,10 +124,9 @@ const routes = [
 		},
 		// 数据应用  
 		{
-			path: '/dataApplication',
+			path: 'dataApplication',
 			name: 'DataApplication',
 			component: () => import("../views/DataApplication"),
-			redirect:'/dataApplication/spiritSharkTabulation',
 			children:[
 				{
 					path:'spiritSharkTabulation',
@@ -157,10 +156,9 @@ const routes = [
 		},
 		//视频工具  
 		{
-			path: '/videoTools',
+			path: 'videoTools',
 			name: 'VideoTools',
 			component: () => import("../views/VideoTools"),
-			redirect:'/videoTools/pictureProcessing',
 			children:[
 				{
 					path:'pictureProcessing',
@@ -190,10 +188,9 @@ const routes = [
 		},
 		  // 巨量千川
 		  {
-			path: '/thirdPartyTools',
+			path: 'thirdPartyTools',
 			name: 'ThirdPartyTools',
 			component: () => import("../views/ThirdPartyTools"),
-			redirect:'/thirdPartyTools/item',
 			children:[
 				{
 					path: 'item',
@@ -201,16 +198,15 @@ const routes = [
 					meta: {
 						title: '项目'
 					},
-					component: () => import("../views/jvliang/Items.vue"),
+					component: () => import("@/views/ThirdPartyTools/child/Items.vue"),
 				  },
 				{
 					path:'homeitem', 
-					name: Homeitem,
+					name: 'Homeitem',
 					meta: {
 						title: '策略'
 					},
-					component: () => import("../views/jvliang/Homeitem.vue"),
-
+					component: () => import("@/views/ThirdPartyTools/child/Homeitem.vue")
 				},
 				{
 					path: 'formBoard',
@@ -218,7 +214,7 @@ const routes = [
 					meta: {
 						title: '模板'
 					},
-					component: () => import("../views/jvliang/FormBoard.vue"),
+					component: () => import("@/views/ThirdPartyTools/child/FormBoard.vue"),
 				  },
 				{
 					path:'plan',
@@ -226,7 +222,7 @@ const routes = [
 					meta: {
 						title: 'plan'
 					},
-					component: () => import("../views/jvliang/Plan.vue"),
+					component: () => import("@/views/ThirdPartyTools/child/Plan.vue"),
 
 				},
 				{
@@ -235,16 +231,15 @@ const routes = [
 					meta: {
 						title: 'RealTime'
 					},
-					component: () => import("../views/jvliang/RealTime.vue"),
+					component: () => import("@/views/ThirdPartyTools/child/RealTime.vue"),
 				}
 			]
 		  },
 		  // 公共数据获取
 		  {
-			path: '/publicDomainDataAcquisition',
+			path: 'publicDomainDataAcquisition',
 			name: 'PublicDomainDataAcquisition',
 			component: () => import("../views/PublicDomainDataAcquisition"),
-			redirect:'/publicDomainDataAcquisition/jingdongBidding',
 			children:[
 				{
 					path:'jingdongBidding',

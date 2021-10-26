@@ -1,11 +1,11 @@
 <template>
-	<div class="items">
+	<div class="items" style="height: 100%">
 		<itemsComp></itemsComp>
 	</div>
 </template>
 
 <script>
-	import itemsComp from '../../components/jvliangqianchuan/items/itemsComp.vue'
+	import itemsComp from '@/components/jvliangqianchuan/items/itemsComp.vue'
 	export default {
 		name:'Items',
 		data(){

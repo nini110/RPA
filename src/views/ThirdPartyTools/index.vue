@@ -19,6 +19,7 @@ export default {
 <style lang="less">
 	.ThirdPartyTools{
 		width: 1200px;
+		height: 100%;
 		margin: 0 auto;
 		.content{
 			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);

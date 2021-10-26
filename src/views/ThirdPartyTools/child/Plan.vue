@@ -1,11 +1,11 @@
 <template>
-	<div class="realTime">
-		<realTime></realTime>
+	<div class="plan">
+		<plan></plan>
 	</div>
 </template>
 
 <script>
-	import realTime from '../../components/jvliangqianchuan/realTime/realTime.vue'
+	import plan from '@/components/jvliangqianchuan/plan/plan.vue'
 	export default{
 		name: 'RealTime',
 		data(){
@@ -14,7 +14,7 @@
 			}
 		},
 		components:{
-			realTime
+			plan
 		}
 	}
 </script>

@@ -5,40 +5,46 @@
 			</div>
 			<div class="form">
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
-					<el-form-item label="选择账号:">
-						<el-input v-model="form.input" size="mini" class="w320" placeholder="请输入账号"></el-input>
-					</el-form-item>
-					<el-form-item label="输入密码:">
-						<el-input v-model="form.pass" size="mini" class="w320" placeholder="请输入密码"></el-input>
-					</el-form-item>
-					<el-form-item label="备注内容:">
-						<el-input v-model="form.pin" size="mini" class="w320" placeholder="请输入备注内容"></el-input>
-					</el-form-item>
-					<el-form-item label="">
-						<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 320px">
-							<i class="el-icon-upload"></i>
-							<div class="el-upload__text">
-								将文件拖到此处，或<em>点击上传</em>
+					<div class="formObj_ipt">
+						<el-form-item label="选择账号:">
+							<el-input v-model="form.input" size="mini" class="w320" placeholder="请输入账号"></el-input>
+						</el-form-item>
+						<el-form-item label="输入密码:">
+							<el-input v-model="form.pass" size="mini" class="w320" placeholder="请输入密码"></el-input>
+						</el-form-item>
+						<el-form-item label="备注内容:">
+							<el-input v-model="form.pin" size="mini" class="w320" placeholder="请输入备注内容"></el-input>
+						</el-form-item>
+					</div>
+					<div class="formObj_upload">
+						<el-form-item label="">
+							<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 320px">
+								<i class="el-icon-upload"></i>
+								<div class="el-upload__text">
+									将文件拖到此处，或<em>点击上传</em>
+								</div>
+								<div class="el-upload__tip" slot="tip">
+									请先上传xlsx文件后，再进行执行操作
+								</div>
+							</el-upload>
+						</el-form-item>
+						<el-form-item>
+							<div style="width: 400px">
+							  <el-progress
+								v-if="!form.progressPercent"
+							    :percentage="form.progressPercent"
+							  ></el-progress>
+								<el-progress v-if="form.progressPercent" :percentage="form.progressPercent" status="success"></el-progress>
 							</div>
-							<div class="el-upload__tip" slot="tip">
-								请先上传xlsx文件后，再进行执行操作
-							</div>
-						</el-upload>
-					</el-form-item>
-					<el-form-item>
-						<div style="width: 400px">
-						  <el-progress
-							v-if="!form.progressPercent"
-						    :percentage="form.progressPercent"
-						  ></el-progress>
-							<el-progress v-if="form.progressPercent" :percentage="form.progressPercent" status="success"></el-progress>
-						</div>
-					</el-form-item>
-					<el-form-item>
-						<el-button size="small" type="primary" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</el-button>
-						<el-button size="small" type="primary" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</el-button>
-					</el-form-item>
+						</el-form-item>						
+					</div>
+					<div class="formObj_button">
+						<el-button size="small" type="primary" class="btnnormal" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</el-button>
+						<el-button size="small" type="primary" class="btnnormal marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</el-button>						
+					</div>
 				</el-form>
+			</div>
+			<div class="tableBox">
 				<el-divider></el-divider>
 				<div class="tables">
 					<div class="dialog">

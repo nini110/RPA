@@ -6,6 +6,8 @@ import axios from 'axios'
 import qs from 'qs'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
+import './styles/index.less'
+import './assets/fonts/iconfont.css';
 
 // import less from 'less'
 import router from './router'

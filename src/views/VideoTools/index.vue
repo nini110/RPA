@@ -21,5 +21,9 @@ export default {
 </script>
 
 <style lang="less">
-
+  .VideoTools {
+    padding-top: 80px;
+    height: 100%;
+    box-sizing: border-box;
+  }
 </style>

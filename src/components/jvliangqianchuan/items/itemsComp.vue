@@ -1,109 +1,55 @@
 <template>
   <div class="itemsComp">
     <div class="centers">
-      <el-button type="primary" @click="newStrategyFn()" size="medium"
+      <el-button
+        type="primary"
+        class="btnnormal"
+        @click="newStrategyFn()"
+        size="medium"
         >新建项目</el-button
       >
       <div class="tables">
         <el-table
           :data="tableDataList"
           style="width: 100%"
+          height="800px"
+           tooltip-effect="dark"
           @cell-click="cellClick"
         >
           <el-table-column align="center" label="序号" width="120" type="index">
           </el-table-column>
-          <el-table-column
-            prop="project_name"
-            label="项目名称"
-            width="180"
-            align="center"
-            header-align="center"
-          >
+          <el-table-column prop="project_name" label="项目名称" width="180">
           </el-table-column>
-          <el-table-column
-            prop="shop_name"
-            label="抖店/代理商"
-            width="180"
-            align="center"
-            header-align="center"
-          >
+          <el-table-column prop="shop_name" label="抖店/代理商" width="180">
           </el-table-column>
-          <el-table-column
-            prop="quanchuan_name"
-            label="千川账号"
-            width="180"
-            align="center"
-            header-align="center"
-          >
+          <el-table-column prop="quanchuan_name" label="千川账号" width="180">
           </el-table-column>
-          <el-table-column
-            prop="douyin_name"
-            label="抖音账号"
-            width="180"
-            align="center"
-            header-align="center"
-          >
+          <el-table-column prop="douyin_name" label="抖音账号" width="180">
           </el-table-column>
-          <el-table-column
-            prop="address3"
-            label="投放时间"
-            width="180"
-            align="center"
-            header-align="center"
-          >
+          <el-table-column prop="address3" label="投放时间" width="180">
             <template slot-scope="scope">
               <div>{{ scope.row.cast_start_time }}</div>
               <div>{{ scope.row.cast_end_time }}</div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="interval"
-            label="数据获取间隔"
-            width="120"
-            align="center"
-            header-align="center"
-          >
+          <el-table-column prop="interval" label="数据获取间隔" width="120">
             <template slot-scope="scope">
               <div>{{ scope.row.interval / 60 }}分钟</div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="address6"
-            label="绑定策略数"
-            width="100"
-            align="center"
-            header-align="center"
-          >
+          <el-table-column prop="address6" label="绑定策略数" width="100">
             <template slot-scope="scope">
               <div>1</div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="address7"
-            label="创建时间"
-            width="120"
-            align="center"
-            header-align="center"
-          >
+          <el-table-column prop="address7" label="创建时间" width="120">
             <template slot-scope="scope">
               <div>2021-08-27</div>
             </template>
           </el-table-column>
-          <el-table-column
-            prop="founder"
-            label="创建者"
-            width="80"
-            align="center"
-            header-align="center"
-          >
+          <el-table-column prop="founder" label="创建者" width="80">
           </el-table-column>
-          <el-table-column
-            label="操作"
-            width="180"
-            align="center"
-            header-align="center"
-            fixed="right"
-          >
+          <el-table-column label="操作" width="180" fixed="right">
             <template slot="header">
               操作
               <el-tooltip effect="dark" content="" placement="top">
@@ -127,13 +73,13 @@
           </el-table-column>
         </el-table>
       </div>
-      <div class="Fpage">
+      <div class="block">
         <el-pagination
           background
           @size-change="handleSizeChange"
           @current-change="handleCurrentChange"
           :current-page="currentPage"
-          :page-sizes="[10, 20, 30, 40, 50]"
+          :page-sizes="[10, 20, 50, 100]"
           :page-size="pagesize"
           layout="total, sizes, prev, pager, next, jumper"
           :total="total"
@@ -144,16 +90,16 @@
         <el-dialog
           title="新建/编辑"
           :visible.sync="dialogVisible"
-          width="800px"
-          :before-close="handleClose"
+          width="600px"
+          custom-class="dialogEdit"
         >
-          <el-form ref="form" :model="form" label-width="120px">
+          <el-form ref="form" :model="form" label-width="140px">
             <el-form-item label="项目名称:" prop="name">
               <el-input
                 v-model="form.name"
                 placeholder="请输入项目名称"
-                size="mini"
-                class="w240"
+                size="medium"
+                clearable
               ></el-input>
             </el-form-item>
             <el-form-item label="账号类型:" prop="radio">
@@ -166,14 +112,14 @@
               <el-select
                 v-model="form.authorization"
                 placeholder="请选择授权账号"
-                size="mini"
-                class="w240"
+                size="medium"
+                clearable
                 @change="handleAuthorization"
               >
                 <el-option
                   v-show="form.radio === '1'"
                   v-for="(item, index) in authorizationOption"
-				  :key="index"
+                  :key="index"
                   :label="item.advertiser_name"
                   :value="[item.advertiser_id, item.advertiser_name]"
                 ></el-option>
@@ -183,13 +129,13 @@
               <el-select
                 v-model="form.ThousandsOfSichuan"
                 placeholder="请选择千川账号"
-                size="mini"
-                class="w240"
+                size="medium"
+                clearable
                 @change="handleThousandsOfSichuan"
               >
                 <el-option
                   v-for="(item, index) in ThousandsOfSichuanOptions"
-				  :key="index"
+                  :key="index"
                   :label="item.name"
                   :value="[item.id, item.name]"
                 ></el-option>
@@ -199,100 +145,91 @@
               <el-select
                 v-model="form.trill"
                 placeholder="请选择抖音账号"
-                size="mini"
-                class="w240"
+                size="medium"
+                clearable
                 @change="handleTrill"
               >
                 <el-option
                   v-for="(item, index) in trillOptions.aweme_id_list"
-				  :key="index"
+                  :key="index"
                   :label="item.aweme_name"
                   :value="[item.aweme_id, item.aweme_name]"
                 ></el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="投放时间:" size="mini">
-              <div class="block">
-                <el-date-picker
-                  v-model="form.timeData"
-                  type="datetimerange"
-                  range-separator="---"
-                  @change="times"
-                  value-format="yyyy-MM-dd HH:mm:ss"
-                  format="yyyy-MM-dd HH:mm:ss"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                >
-                </el-date-picker>
-              </div>
+            <el-form-item label="投放时间:" size="medium">
+              <el-date-picker
+                v-model="form.timeData"
+                type="datetimerange"
+                range-separator="---"
+                @change="times"
+                value-format="yyyy-MM-dd HH:mm:ss"
+                format="yyyy-MM-dd HH:mm:ss"
+                start-placeholder="开始日期"
+                end-placeholder="结束日期"
+                clearable
+              >
+              </el-date-picker>
             </el-form-item>
-            <el-form-item label="数据获取间隔:">
-              <!-- <el-select v-model="form.interval" placeholder="请选择活动区域" size="mini" class="w240">
-								<el-option label="区域一" value="shanghai"></el-option>
-								<el-option label="区域二" value="beijing"></el-option>
-							</el-select> -->
-              5分钟
+            <el-form-item label="数据获取间隔:">5分钟</el-form-item>
+            <el-form-item label="绑定策略:">
+              <el-tabs type="border-card">
+                <el-tab-pane label="出价调整">
+                  <div class="cjtabbles">
+                    <el-select
+                      v-model="form.cjstrategy"
+                      placeholder="请选择千川账号"
+                      size="medium"
+                    >
+                      <el-option
+                        v-for="(item, index) in cjtableData"
+                        :key="index"
+                        :label="item.name"
+                        :value="item.id"
+                      ></el-option>
+                    </el-select>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="预算调整">
+                  <div class="ystabbles">
+                    <el-select
+                      v-model="form.ysstrategy"
+                      placeholder="请选择千川账号"
+                      size="medium"
+                    >
+                      <el-option
+                        v-for="(item, index) in ystableData"
+                        :key="index"
+                        :label="item.name"
+                        :value="item.id"
+                      ></el-option>
+                    </el-select>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane label="计划复制">
+                  <div class="jhtabbles">
+                    <el-select
+                      v-model="form.jhstrategy"
+                      placeholder="请选择千川账号"
+                      size="medium"
+                    >
+                      <el-option
+                        v-for="(item, index) in jhtableData"
+                        :key="index"
+                        :label="item.name"
+                        :value="item.id"
+                      ></el-option>
+                    </el-select>
+                  </div>
+                </el-tab-pane>
+              </el-tabs>
             </el-form-item>
-            <el-form-item label="绑定策略:"> </el-form-item>
-            <el-tabs type="border-card">
-              <el-tab-pane label="出价调整">
-                <div class="cjtabbles">
-                  <el-select
-                    v-model="form.cjstrategy"
-                    placeholder="请选择千川账号"
-                    size="mini"
-                    class="w240"
-                  >
-                    <el-option
-                      v-for="(item, index) in cjtableData"
-					  :key="index"
-                      :label="item.name"
-                      :value="item.id"
-                    ></el-option>
-                  </el-select>
-                </div>
-              </el-tab-pane>
-              <el-tab-pane label="预算调整">
-                <div class="ystabbles">
-                  <el-select
-                    v-model="form.ysstrategy"
-                    placeholder="请选择千川账号"
-                    size="mini"
-                    class="w240"
-                  >
-                    <el-option
-                      v-for="(item, index) in ystableData"
-					  :key="index"
-                      :label="item.name"
-                      :value="item.id"
-                    ></el-option>
-                  </el-select>
-                </div>
-              </el-tab-pane>
-              <el-tab-pane label="计划复制">
-                <div class="jhtabbles">
-                  <el-select
-                    v-model="form.jhstrategy"
-                    placeholder="请选择千川账号"
-                    size="mini"
-                    class="w240"
-                  >
-                    <el-option
-                      v-for="(item, index) in jhtableData"
-					  :key="index"
-                      :label="item.name"
-                      :value="item.id"
-                    ></el-option>
-                  </el-select>
-                </div>
-              </el-tab-pane>
-            </el-tabs>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button @click="dialogVisible = false" size="mini"
+            <el-button class="btnnormal btnnormal_down" @click="dialogVisible = false" size="medium"
               >取 消</el-button
             >
-            <el-button type="primary" @click="isOk()" size="mini"
+            <el-button class="btnnormal" type="primary" @click="isOk()" size="medium"
               >确 定</el-button
             >
           </span>
@@ -561,7 +498,8 @@ export default {
     strategyList() {
       strategyList({
         page: 0,
-      }).then((res) => {
+      })
+        .then((res) => {
           this.cjtableData = res.data.data.data;
         })
         .catch((err) => {
@@ -761,8 +699,14 @@ export default {
           });
         });
     },
-    handleSizeChange() {},
-    handleCurrentChange() {},
+    handleSizeChange(val) {
+      this.pagesize = val;
+      this.projectList();
+    },
+    handleCurrentChange(val) {
+      this.pagesize = val;
+      this.projectList();
+    },
     routerLink(ids, names) {
       const { href } = this.$router.resolve({
         name: "RealTime",
@@ -773,13 +717,6 @@ export default {
       });
       window.open(href, "_blank");
     },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then((_) => {
-          done();
-        })
-        .catch((_) => {});
-    },
   },
   created() {
     this.form.username = localStorage.getItem("user_name");
@@ -789,36 +726,9 @@ export default {
 };
 </script>
 
-<style lang="less">
-.w240 {
-  width: 240px;
-  height: 34px;
-}
+<style lang="less" scoped>
+@import "@/views/index.less";
+@import "./index";
+@import "../items/index.less";
 
-.itemsComp {
-  display: flex;
-  flex-direction: row-reverse;
-
-  .centers {
-    width: 935px;
-    padding: 20px;
-    padding-top: 100px;
-    background-color: #fff;
-    height: 1300px;
-
-    .tables {
-      width: 100%;
-      margin: 0 auto;
-      overflow: hidden;
-    }
-    .dialog {
-      .cjtabbles {
-      }
-    }
-    .Fpage {
-      display: flex;
-      justify-content: center;
-    }
-  }
-}
 </style>

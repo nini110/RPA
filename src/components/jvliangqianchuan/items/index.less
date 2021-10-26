@@ -1,0 +1,98 @@
+.w240 {
+    width: 240px;
+    height: 34px;
+}
+
+.itemsComp {
+    display: flex;
+    flex-direction: row-reverse;
+    height: 100%;
+
+    .centers {
+        width: 935px;
+        padding: 20px;
+        padding-top: 130px;
+        background-color: #fff;
+
+        .tables {
+            width: 100%;
+            margin: 0 auto;
+            overflow: hidden;
+            padding-top: 20px;
+        }
+
+        .dialog {
+            .cjtabbles {}
+        }
+
+        .Fpage {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+/deep/.dialogEdit {
+    .el {
+        &-form {
+            &-item {
+                &.twoIpt {
+                    .el-select {
+                        display: inline-block;
+                        width: 30%;
+                        margin-right: 2%;
+                        .el-input {
+                            width: auto;
+                        }
+                    }
+
+                    .el-input-number--medium {
+                        display: inline-block;
+
+                        width: 58.5% !important; 
+                        .el-input--medium {
+                            width: auto;
+                        }
+                    }
+                }
+            }
+        }
+
+        &-tabs {
+            width: 90%;
+
+            .cjtabbles {
+                .el {
+
+                    &-input,
+                    &-select,
+                    &-date-editor {
+                        width: 100%;
+                    }
+                }
+            }
+        }
+
+        &-input,
+        &-select,
+        &-date-editor {
+            width: 380px;
+        }
+
+        &-dialog {
+            &__body {
+                padding-bottom: 0;
+            }
+
+            &__footer {
+                padding: 0 60px 40px 0;
+            }
+        }
+
+        &-input {
+            &-number--medium {
+                width: 380px;
+            }
+        }
+    }
+}

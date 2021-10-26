@@ -4,7 +4,7 @@
 			<div class="box">
 				<div class="chunk">
 					<div class="chunkTitle">京准通工具</div>
-					<div class="chunkItem" @click="routerLink('/beijingMustPass/DMP')">
+					<div class="chunkItem" @click="routerLink('/layout/beijingMustPass/DMP')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img1"></div>
@@ -18,7 +18,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/beijingMustPass/jingdongBooth')">
+					<div class="chunkItem" @click="routerLink('/layout/beijingMustPass/jingdongBooth')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img2"></div>
@@ -32,7 +32,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/beijingMustPass/jingdongDirectInvestment')">
+					<div class="chunkItem" @click="routerLink('/layout/beijingMustPass/jingdongDirectInvestment')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img3"></div>
@@ -46,7 +46,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/beijingMustPass/peopleOriented')">
+					<div class="chunkItem" @click="routerLink('/layout/beijingMustPass/peopleOriented')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img4"></div>
@@ -57,7 +57,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/beijingMustPass/rubiksCube')">
+					<div class="chunkItem" @click="routerLink('/layout/beijingMustPass/rubiksCube')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img5"></div>
@@ -74,7 +74,7 @@
 				</div>
 				<div class="chunk">
 					<div class="chunkTitle">大数据工具</div>
-					<div class="chunkItem" @click="routerLink('/bigData/numberOfLaneCrowd')">
+					<div class="chunkItem" @click="routerLink('/layout/bigData/numberOfLaneCrowd')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img6"></div>
@@ -88,7 +88,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/bigData/marketingActivityCrowds')">
+					<div class="chunkItem" @click="routerLink('/layout/bigData/marketingActivityCrowds')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img7"></div>
@@ -102,7 +102,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/bigData/customAnalysisCreation')">
+					<div class="chunkItem" @click="routerLink('/layout/bigData/customAnalysisCreation')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img8"></div>
@@ -116,7 +116,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/bigData/crowdCrossAndMergeDifferenceSet')">
+					<div class="chunkItem" @click="routerLink('/layout/bigData/crowdCrossAndMergeDifferenceSet')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img9"></div>
@@ -130,7 +130,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/bigData/marketingPopulationTracking')">
+					<div class="chunkItem" @click="routerLink('/layout/bigData/marketingPopulationTracking')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img10"></div>
@@ -147,7 +147,7 @@
 				</div>
 				<div class="chunk">
 					<div class="chunkTitle">数据应用</div>
-					<div class="chunkItem" @click="routerLink('/dataApplication/spiritSharkTabulation')">
+					<div class="chunkItem" @click="routerLink('/layout/dataApplication/spiritSharkTabulation')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img11"></div>
@@ -158,7 +158,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/dataApplication/biddingForMonitoring')">
+					<div class="chunkItem" @click="routerLink('/layout/dataApplication/biddingForMonitoring')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img12"></div>
@@ -172,7 +172,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/dataApplication/sankey')">
+					<div class="chunkItem" @click="routerLink('/layout/dataApplication/sankey')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img13"></div>
@@ -188,7 +188,7 @@
 				</div>
 				<div class="chunk">
 					<div class="chunkTitle">图片视频工具</div>
-					<div class="chunkItem" @click="routerLink('/ideoTools/pictureProcessing')">
+					<div class="chunkItem" @click="routerLink('/layout/ideoTools/pictureProcessing')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img14"></div>
@@ -202,7 +202,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/videoTools/cutOut')">
+					<div class="chunkItem" @click="routerLink('/layout/videoTools/cutOut')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img15"></div>
@@ -216,7 +216,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/videoTools/piece')">
+					<div class="chunkItem" @click="routerLink('/layout/videoTools/piece')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img16"></div>
@@ -235,7 +235,7 @@
 				</div>
 				<div class="chunk">
 					<div class="chunkTitle">巨量千川</div>
-					<div class="chunkItem" @click="routerLink('/thirdPartyTools')">
+					<div class="chunkItem" @click="routerLink('/layout/thirdPartyTools')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img17"></div>
@@ -256,7 +256,7 @@
 				</div>
 				<div class="chunk">
 					<div class="chunkTitle">公域数据获取</div>
-					<div class="chunkItem" @click="routerLink('/publicDomainDataAcquisition/jingdongBidding')">
+					<div class="chunkItem" @click="routerLink('/layout/publicDomainDataAcquisition/jingdongBidding')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img18"></div>
@@ -270,7 +270,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/publicDomainDataAcquisition/activePageSKU')">
+					<div class="chunkItem" @click="routerLink('/layout/publicDomainDataAcquisition/activePageSKU')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img19"></div>
@@ -284,7 +284,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/publicDomainDataAcquisition/howToMonitor')">
+					<div class="chunkItem" @click="routerLink('/layout/publicDomainDataAcquisition/howToMonitor')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img20"></div>
@@ -298,7 +298,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="chunkItem" @click="routerLink('/publicDomainDataAcquisition/brandSKUAcquisition')">
+					<div class="chunkItem" @click="routerLink('/layout/publicDomainDataAcquisition/brandSKUAcquisition')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img21"></div>

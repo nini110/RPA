@@ -1,6 +1,4 @@
-	/deep/input{
-		border-radius: 0 !important;
-	}
+
 	.w320{
 		width: 320px;
 	}
@@ -9,10 +7,14 @@
 		border: 1px solid #0051B3;
 		text-align:  center;
 		cursor: pointer;
-		padding: 6px 20px;
+		padding: 4px 20px;
 		min-width: 120px;
 		font-size: 14px;
 		line-height: 26px;
+		vertical-align: 2px;
+		&:hover {
+			background-color: #5083c0;
+		}
 		&_down {
 			display: inline-block;
 			border-radius: 4px;
@@ -29,14 +31,30 @@
 	}
 	.outerDiv{
 		width: 1200px;
-		// height: 1400px;
+		height: 100%;
 		margin: 0 auto;
+		.centerTop {
+			padding-top: 20px;
+			background-color: #fff;
+			width: 975px;
+			display: flex;
+			flex-wrap: nowrap;
+			align-items: center;
+			justify-content: center;
+			.item {
+				text-align: center;
+				flex-grow: 1;
+			}
+		}
 		.content{
 			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-			display: flex;
-			flex-direction: row-reverse;
+			// display: flex;
+			float: right;
+			background-color: #fff;
+			// flex-direction: row-reverse;
+			// flex-wrap: wrap;
+			height: 100%;
 			.form{
-				min-height: 1250px;
 				padding-top: 50px;
 				width: 975px;
 				background-color: #fff;
@@ -77,6 +95,10 @@
 						}
 					}
 				}
+			}
+			.tableBox {
+				width: 975px;
+				background-color: #fff;
 				.tables{
 					width: 88%;
 					margin: 0 auto;
@@ -84,14 +106,6 @@
 						.tableBox{
 							width: 100%;
 						}
-					}
-					.block{
-						display: flex;
-						// text-align: center;
-						height: 80px;
-						line-height: 80px;
-						justify-content: center;
-						margin-top: 20px;
 					}
 					.dialog{
 						.tips{
@@ -120,4 +134,21 @@
 				}
 			}
 		}
+	}
+	/deep/.el {
+		&-upload{
+			&-dragger:hover {
+				border-color: #2066BD;
+			}
+			&__text {
+				em {
+					color: #2066BD;
+				}
+			}
+		}
+	}
+	.block {
+		display: flex;
+		flex-direction: row-reverse;
+		margin: 20px 0 80px 0;
 	}

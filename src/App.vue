@@ -15,23 +15,20 @@
 			   	    title=""
 			   	    width="200"
 			   	    trigger="hover"
-			   		class="notice"
+			   		popper-class="poperNotice"
 			   	    content="">
 			   	    <el-button slot="reference" size="mini" style="margin-right: 10px; height: 25px; border-radius: 0; background-color: #000000; color: #004FB1; border-color: #004FB1;letter-spacing:2px">公告</el-button>
-			   		<div>小工具下载地址</div>
-			   		<a href="http://tool.afocus.com.cn/tool_download/" target="_blank">点击下载</a>
-			   		<div>小工具驱动下载地址 </div>
-			   		<a href="https://npm.taobao.org/mirrors/chromedriver/" target="_blank">点击下载</a>
-			   		<div>  自有客户通用日报模板 </div>
-			   		<a href="http://tool.afocus.com.cn/file_download/自有客户通用日报模板.xlsx" download="自有客户通用日报模板.xlsx">点击下载</a>
+			   		<div class="down">小工具下载地址<a href="http://tool.afocus.com.cn/tool_download/" target="_blank">点击下载</a></div>
+			   		<div class="down">小工具驱动下载地址 <a href="https://npm.taobao.org/mirrors/chromedriver/" target="_blank">点击下载</a></div>
+			   		<div class="down">自有客户通用日报模板 <a href="http://tool.afocus.com.cn/file_download/自有客户通用日报模板.xlsx" download="自有客户通用日报模板.xlsx">点击下载</a></div>
 			   	  </el-popover>
 			   </el-badge>
 				<div class="user">
-					当前用户: {{yh}} <span @click="close">退出</span>
+					当前用户: {{yh}} <span class="logout" @click="close">退出</span>
 				</div>
 				<div class="phone">
 					<div class="phoneIcon"></div>
-					<div class="text" style="color: #505050;">移动版</div>
+					<div class="text" style="color: #9e9898;">移动版</div>
 				</div>
 		   </div>
 	   </div>
@@ -49,7 +46,7 @@
 		},
 		created() {
 		// 线上发布时created中所有都注释
-			this.$route.query.wx_code = "BggStzTsBWQCj5wMPP77dmRHTissm_Ei6P8sCveNJxM";
+			this.$route.query.wx_code = "IpxLWOEm5iaFvNuaOIqTN4FoI2I7rWjbXqMca4cUVTg";
 			this.$route.query.wx_userid = "1020108";
 			this.$route.query.user_name = '方涛';
 			localStorage.setItem('wx_code',this.$route.query.wx_code)
@@ -124,7 +121,7 @@
 		},
 	}
 </script>
-<style>
+<style lang="less">
 	*{
 		margin: 0;
 		padding: 0;
@@ -136,6 +133,7 @@
 	}
 	#app{
 		width: 100%;
+		height: 100%;
 		background-color: #F4F4F4;
 		position: relative;
 	}
@@ -167,6 +165,8 @@
 		align-items: center;
 	}
 	.login .img{
+		display: inline-block;
+		vertical-align: bottom;
 		width: 120px;
 		height: 25px;
 		border-right: 3px solid #515151;
@@ -180,8 +180,10 @@
 	}
 	.login .user{
 		width: 220px;
-		height: 30px;
-		line-height: 30px;
+		font-size: 16px;
+		span {
+			padding-left: 30px;
+		}
 		/* margin-top: 25px; */
 	}
 	.login .phone{

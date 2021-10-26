@@ -6,7 +6,7 @@
 				<el-form ref="form" :model="form" label-width="80px" class="formObj">
 					<div class="formObj_ipt">
 						<el-form-item label="选择项目:">
-							<el-select v-model="SelectItemData" placeholder="请选择项目" class="w320" size="mini"  @change="selectChang">
+							<el-select v-model="SelectItemData" placeholder="请选择项目" class="w320" size="medium" clearable @change="selectChang">
 								<el-option
 								v-for="(item,index) in SelectItem"
 								:key="index"
@@ -16,7 +16,7 @@
 							</el-select>
 						</el-form-item>
 						<el-form-item label="数据日期:">
-							<el-select v-model="selectValue" placeholder="请选择日期" style="width: 130px;" size="mini" @change="selectChangT">
+							<el-select v-model="selectValue" placeholder="请选择类型" style="width: 130px;" size="medium" clearable @change="selectChangT">
 								<el-option
 								lable="日报"
 								value="日报"
@@ -26,7 +26,7 @@
 								v-model="timeData"
 								type="date"
 								style="width: 170px; margin-left: 20px;"
-								size="mini"
+								size="medium"
 								@blur="dateBlur"
 								format="yyyy 年 MM 月 dd 日"
 								value-format="yyyy-MM-dd"
@@ -49,7 +49,9 @@
 								</div>
 							</div>
 						</el-form-item>
-						<el-form-item label="日报模板:" v-show="SelectItemData[1]">
+					</div>
+					<div class="formObj_upload">
+						<el-form-item label="" v-show="SelectItemData[1]">
 							<el-upload drag :on-remove="remfile" :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" :limit="1" style="width: 320px">
 							<i class="el-icon-upload"></i>
 							<div class="el-upload__text">
@@ -73,7 +75,6 @@
 						<el-form-item>
 							<div v-if="SelectItemData[1] === true">
 								<el-button type="primary" class="btnnormal  marginL"  @click="generate()" v-if="dataState === 1 && fileList.length !== 0">生成</el-button>
-
 								<el-button type="primary" class="btnnormal  marginL"  @click="generate()" disabled v-else>生成</el-button>
 								<el-button type="primary" class="btnnormal  marginL" @click="reset()">重置</el-button>
 							</div>
@@ -85,6 +86,9 @@
 						</el-form-item>
 					</div>
 				</el-form>
+			</div>
+			<div class="tableBox">
+				<div class="tables">
 				<el-divider>列表</el-divider>
 				<div class="tableTab">
 					<el-button type="text" size="mini" @click="DeleteReportAll">批量删除</el-button>
@@ -102,8 +106,7 @@
 					    <el-table-column
 					      prop="report_name"
 					      label="报表名称"
-						  align="center"
-						  width="200"
+						  min-width="210"
 					      >
 						  <template slot-scope="scope">
 						    <div>
@@ -114,7 +117,7 @@
 					    <el-table-column
 					      prop="status"
 					      label="状态"
-						  align="center"
+						  min-width="80"
 					      >
 						  <template slot-scope="scope">
 						    <div v-if="scope.row.status === 0" style="color: orange;">
@@ -131,8 +134,7 @@
 						<el-table-column
 						  prop="data_date"
 						  label="数据日期"
-						  align="center"
-						  width="150"
+						  min-width="100"
 						  >
 						  <template slot-scope="scope">
 						    <div>
@@ -143,8 +145,7 @@
 						<el-table-column
 						  prop="create_time"
 						  label="创建时间"
-						  align="center"
-						  width="200"
+						  min-width="140"
 						  >
 						  <template slot-scope="scope">
 						    <div>
@@ -155,7 +156,7 @@
 						<el-table-column
 							prop="id"
 							label="操作"
-							align="center"
+						    width="100"
 						  >
 						  <template slot-scope="scope">
 							  <div>
@@ -171,13 +172,17 @@
 				<!-- 分页器 -->
 				<div class="block" v-if="total">
 				  <el-pagination
-				    @current-change="handleCurrentChange"
-					:current-page.sync="currpage"
-					:page-size="pagesize"
-					layout="total, prev, pager, next, jumper"
-					:total="total">
+				    	@current-change="handleCurrentChange"
+						:current-page.sync="currpage"
+						:page-size="pagesize"
+						background
+					 	:page-sizes="[10, 20, 50, 100]" 
+					 	layout="total, sizes, prev, pager, next, jumper" 
+						:total="total">
 				  </el-pagination>
+				</div>						
 				</div>
+			
 			</div>
 		</div>
 	</div>
@@ -350,7 +355,6 @@ export default {
 					project_name:this.SelectItemData[0],
 					date:this.timeData
 				}).then((res)=>{
-					debugger
 					this.dataState = res.data.data.status;
 					if(res.data.mag === 1){
 						this.generate();
@@ -434,33 +438,4 @@ export default {
 
 <style lang="less" scoped>
 	@import '../../index';
-	.spiritSharkTabulation{
-		.content{
-			.form{
-				.formObj{
-					.state{
-						.stateItem{
-							width: 200px;
-							// height: 40px;
-							display: flex;
-							position: relative;
-							top: 7px;
-							el-bottom{
-								position: absolute;
-							}
-							div{
-								position: absolute;
-								top: -5px;
-								left: 50px;
-							}
-						}
-					}
-				}
-				.tableTab{
-					width: 88%;
-					margin: 0 auto;
-				}
-			}
-		}
-	}
 </style>

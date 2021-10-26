@@ -1,17 +1,17 @@
 <template>
     <div class="layout">
         <el-menu
-          default-active="2"
+          :default-active="currentMenu"
           class="el-menu-vertical-demo layout_menu"
           unique-opened
-          active-text-color="#276ce6"
+          active-text-color="#2066BD"
           >
           <div v-for="(item, idx) in menuList" :key="idx">
             <el-submenu
              v-if="item.children" 
              :index="item.index" >
               <template slot="title">
-                <i class="el-icon-location"></i>
+                <i :class="item.icon"></i>
                 <span>{{item.label}}</span>
               </template>
               <el-menu-item-group>
@@ -41,9 +41,11 @@ export default {
     },
     data() {
         return {
+            currentMenu: '1-1',
             menuList: [
                 {
                     label: '京准通工具',
+                    icon: 'iconfont icon-shouzhi',
                     value: '',
                     index: '1',
                     children: [
@@ -76,130 +78,146 @@ export default {
                 },
                 {
                     label: '大数据工具',
+                    icon: 'iconfont icon-gongju',
                     value: '',
                     index: '2',
                     children: [
                         {
                             label: '数坊人群圈选',
-                            value: '/bigData/numberOfLaneCrowd',
+                            value: '/layout/bigData/numberOfLaneCrowd',
                             index: '2-1'
                         },
                         {
                             label: '营销活动人群',
-                            value: '/bigData/MarketingActivityCrowds',
+                            value: '/layout/bigData/MarketingActivityCrowds',
                             index: '2-2'
                         },
                         {
                             label: '自定义分析创建',
-                            value: '/bigData/CustomAnalysisCreation',
+                            value: '/layout/bigData/CustomAnalysisCreation',
                             index: '2-3'
                         },
                         {
                             label: '数坊人群交并差集',
-                            value: '/bigData/CrowdCrossAndMergeDifferenceSet',
+                            value: '/layout/bigData/CrowdCrossAndMergeDifferenceSet',
                             index: '2-4'
                         },
                         {
                             label: '营销人群追踪',
-                            value: '/bigData/MarketingPopulationTracking',
+                            value: '/layout/bigData/MarketingPopulationTracking',
                             index: '2-5'
                         }                                                                                             
                     ]
                 },
                 {
                   label: '数据应用',
+                  icon: 'iconfont icon-shujutongji',
                   value: '',
                   index: '3',
                   children: [
                       {
                           label: '灵鲨制表',
-                          value: '/dataApplication/spiritSharkTabulation',
+                          value: '/layout/dataApplication/spiritSharkTabulation',
                           index: '3-1'
                       },
                       {
                           label: '竞标监控',
-                          value: '/dataApplication/biddingForMonitoring',
+                          value: '/layout/dataApplication/biddingForMonitoring',
                           index: '3-2'
                       },
                       {
                           label: '桑吉图数据',
-                          value: '/dataApplication/sankey',
+                          value: '/layout/dataApplication/sankey',
                           index: '3-3'
                       }                                                                                         
                   ]
                 },
                 {
                     label: '视频工具',
+                    icon: 'iconfont icon-charutupian',
                     value: '',
                     index: '4',
                     children: [
                         {
                             label: '图片处理',
-                            value: '/videoTools/pictureProcessing',
+                            value: '/layout/videoTools/pictureProcessing',
                             index: '4-1'
                         },
                         {
                             label: '截取',
-                            value: '/videoTools/cutOut',
+                            value: '/layout/videoTools/cutOut',
                             index: '4-2'
                         },
                         {
                             label: '拼合',
-                            value: '/videoTools/piece',
+                            value: '/layout/videoTools/piece',
                             index: '4-3'
                         }                                                                                         
                     ]
                 },
                 {
                     label: '巨量千川',
+                    icon: 'iconfont icon-xiangmu',
                     value: '',
                     index: '5',
                     children: [
                         {
                             label: '项目',
-                            value: '/thirdPartyTools/item',
+                            value: '/layout/thirdPartyTools/item',
                             index: '5-1'
                         },
                         {
                             label: '策略',
-                            value: '/thirdPartyTools/homeitem',
+                            value: '/layout/thirdPartyTools/homeitem',
                             index: '5-2'
                         },
                         {
                             label: '模板',
-                            value: '/thirdPartyTools/formBoard',
+                            value: '/layout/thirdPartyTools/formBoard',
                             index: '5-3'
                         }                                                                                          
                     ]
                 },
                 {
                     label: '公共数据获取',
+                    icon: 'iconfont icon-gonggongziliao',
                     value: '',
                     index: '6',
                     children: [
                         {
                             label: '京东招标',
-                            value: '/publicDomainDataAcquisition/jingdongBidding',
+                            value: '/layout/publicDomainDataAcquisition/jingdongBidding',
                             index: '6-1'
                         },
                         {
                             label: '活动页面SKU',
-                            value: '/publicDomainDataAcquisition/activePageSKU',
+                            value: '/layout/publicDomainDataAcquisition/activePageSKU',
                             index: '6-2'
                         },
                         {
                             label: '京东市场监控',
-                            value: '/publicDomainDataAcquisition/howToMonitor',
+                            value: '/layout/publicDomainDataAcquisition/howToMonitor',
                             index: '6-3'
                         },
                         {
                             label: '品牌SKU获取',
-                            value: '/publicDomainDataAcquisition/brandSKUAcquisition',
+                            value: '/layout/publicDomainDataAcquisition/brandSKUAcquisition',
                             index: '6-4'
                         }                                                                                                               
                     ]
                 }                                                                  
             ]
+        }
+    },
+    mounted() {
+        const vm = this;
+        for(let i of vm.menuList) {
+            for(let j of i.children) {
+                if(vm.$route.fullPath === j.value) {
+                    vm.currentMenu = j.index;
+                    break
+                }
+            }
         }
     },
     methods: {
@@ -212,4 +230,7 @@ export default {
 </script>
 <style lang="less" scoped>
   @import 'index';
+  .app-main {
+      height: 100%;
+  }
 </style>
