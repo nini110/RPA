@@ -1,318 +1,368 @@
 <template>
-	<div class="RubiksCube outerDiv">
-		<div class="content">
-			<div class="form">
-				<el-form ref="form" :model="form" label-width="80px" class="formObj">
-					<div class="formObj_ipt">
-						<el-form-item label="选择账号:">
-							<el-input v-model="form.input" size="medium" class="w320" placeholder="请输入账号" clearable></el-input>
-						</el-form-item>
-						<el-form-item label="输入密码:">
-							<el-input v-model="form.pass" size="medium" class="w320" placeholder="请输入密码" clearable></el-input>
-						</el-form-item>
-						<el-form-item label="备注内容:">
-							<el-input v-model="form.pin" size="medium" class="w320" placeholder="请输入备注内容" clearable></el-input>
-						</el-form-item>
-					</div>
-					<div class="formObj_upload">
-						<el-form-item label="">
-							<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 320px">
-								<i class="el-icon-upload"></i>
-								<div class="el-upload__text">
-									将文件拖到此处，或<em>点击上传</em>
-								</div>
-								<div class="el-upload__tip" slot="tip">
-									请先上传xlsx文件后，再进行执行操作
-								</div>
-							</el-upload>
-						</el-form-item>
-						<el-form-item>
-							<div style="width: 400px">
-							  <el-progress
-								v-if="!form.progressPercent"
-							    :percentage="form.progressPercent"
-							  ></el-progress>
-								<el-progress v-if="form.progressPercent" :percentage="form.progressPercent" status="success"></el-progress>
-							</div>
-						</el-form-item>
-					</div>
-					<div class="formObj_button">
-						<a class="btnnormal btnnormal_down" href="http://tool.afocus.com.cn/file_download/京腾魔方人群.xlsx" download="京腾魔方人群.xlsx"><div class="btnSize">下载模板</div></a>
-						<el-button type="primary" class="btnnormal  marginL" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</el-button>
-						<el-button type="primary" class="btnnormal  marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</el-button>
-					</div>										
-				</el-form>
-			</div>
-			<div class="tableBox">
-				<el-divider></el-divider>
-				<div class="tables">
-					<div class="dialog">
-						<el-dialog
-						title="账号验证"
-						:visible.sync="verification"
-						width="500px"
-						max-height="600px"
-						>
-							<div class="tips">该账号需要进行手机验证</div>
-							<div class="tipsItem">*验证完成后请重新操作*</div>
-							<div class="button">
-							<el-button @click="verificationFun">立即验证</el-button>
-							</div>
-						</el-dialog>
-					</div>
-					<div class="tableTab" v-if="tableData">
-					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" height="540px" @cell-click="celltable" :highlight-current-row="true" :cell-style="timeStyle">
-					    <!-- 表格序号 -->
-					    <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
-					
-					    <!-- 表格日期 -->
-					    <el-table-column property="create_time" label="日期" min-width="200">
-					      <template slot-scope="scope">
-					        <div>
-					          {{ scope.row.create_time }}
-					        </div>
-					      </template>
-					    </el-table-column>
-					
-					    <!-- 基本信息 -->
-					    <el-table-column property="title" label="基本信息" min-width="200">
-					      <template slot-scope="scope">
-					        <div>
-					          {{ scope.row.title }}
-					        </div>
-					      </template>
-					    </el-table-column>
-					
-					    <!-- 查看详情 -->
-					    <el-table-column property="cheack" label="操作" width="120">
-					      <el-button type="text" @click="dialogVisible = true">查看详情</el-button>
-					    </el-table-column>
-					  </el-table>
-					</div>
-					<!-- 分页器 -->
-					<div class="block" v-if="total">
-						<el-pagination
-							background
-						    @size-change="handleSizeChange"
-						    @current-change="handleCurrentChange"
-						    :current-page.sync="currpage"
-						    :page-size="pagesize"
-							:page-sizes="[10, 20, 50, 100]" 
-						    layout="total, sizes, prev, pager, next, jumper" 
-						    :total="total">
-						</el-pagination>
-					</div>
-					<!-- 查看详情弹出框 -->
-					<div class="dialog">
-					  <el-dialog title="查看详情" :visible.sync="dialogVisible" width="500px" max-height="600px">
-					    <div>详情信息：{{ log }}</div>
-					  </el-dialog>
-					</div>
-				</div>				
-			</div>
-		</div>
-	</div>
+  <div class="RubiksCube outerDiv">
+    <div class="content">
+      <div class="form">
+        <el-form
+          ref="form"
+          :model="form"
+          label-width="100px"
+          class="formObj"
+          :rules="rules"
+        >
+          <div class="formObj_ipt">
+            <el-form-item label="账号:" prop="input">
+              <el-input
+                v-model="form.input"
+                size="medium"
+                class="w320"
+                placeholder="请输入账号"
+                clearable
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="密码:" prop="pass">
+              <el-input
+                v-model="form.pass"
+                size="medium"
+                class="w320"
+                placeholder="请输入密码"
+                clearable
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="类型:" prop="choose">
+              <el-select
+                v-model="form.choose"
+                placeholder="请选择类型"
+                class="w320"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="备注内容:">
+              <el-input
+                v-model="form.pin"
+                size="medium"
+                class="w320"
+                placeholder="请输入备注内容"
+                clearable
+              ></el-input>
+            </el-form-item>
+          </div>
+          <div class="formObj_upload">
+            <el-form-item label="">
+              <Upload
+                :progressPercent="form.progressPercent"
+                @getFile="getFileEvent"
+              ></Upload>
+            </el-form-item>
+          </div>
+          <div class="formObj_button">
+            <a
+              class="btnnormal btnnormal_down"
+              href="http://tool.afocus.com.cn/file_download/京腾魔方人群.xlsx"
+              download="京腾魔方人群.xlsx"
+              ><div class="btnSize">下载模板</div></a
+            >
+            <el-button
+              type="primary"
+              class="btnnormal marginL"
+              :disabled="this.fileList == '' ? true : false"
+              @click="uploadFile"
+              >立即上传</el-button
+            >
+            <el-button
+              type="primary"
+              class="btnnormal marginL"
+              :disabled="this.msg == '' ? true : false"
+              @click="going"
+              :loading="loadingbut"
+              >{{ loadingbuttext }}</el-button
+            >
+          </div>
+        </el-form>
+      </div>
+      <div class="tableBox">
+        <el-divider></el-divider>
+        <div class="tables">
+          <div v-if="showVarDia" class="dialog">
+            <VarifyDialog
+              :pageJumps="pageJumps"
+              @close="closeDialog"
+            ></VarifyDialog>
+          </div>
+          <div class="tableTab" v-if="tableData">
+            <el-table
+              ref="singleTable"
+              class="tableBox"
+              :data="tableData"
+              size="small"
+              height="540px"
+              @cell-click="celltable"
+              :highlight-current-row="true"
+              :cell-style="timeStyle"
+            >
+              <el-table-column
+                type="index"
+                width="50"
+                label="序号"
+                align="center"
+              ></el-table-column>
+              <el-table-column
+                property="create_time"
+                label="日期"
+                min-width="200"
+              >
+              </el-table-column>
+              <el-table-column
+                property="title"
+                label="基本信息"
+                min-width="200"
+              >
+              </el-table-column>
+              <el-table-column property="cheack" label="操作" width="120">
+                <el-button type="text" @click="dialogVisible = true"
+                  >查看详情</el-button
+                >
+              </el-table-column>
+            </el-table>
+          </div>
+          <!-- 分页器 -->
+          <div class="block" v-if="total">
+            <el-pagination
+              background
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="currpage"
+              :page-size="pagesize"
+              :page-sizes="[10, 20, 50, 100]"
+              layout="total, sizes, prev, pager, next, jumper"
+              :total="total"
+            >
+            </el-pagination>
+          </div>
+          <!-- 查看详情弹出框 -->
+          <div class="dialog">
+            <el-dialog
+              title="查看详情"
+              :visible.sync="dialogVisible"
+              width="500px"
+              max-height="600px"
+            >
+              <div>详情信息：{{ log }}</div>
+            </el-dialog>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '@/api/api.js'
+import {
+  fxcjviewDetails,
+  fxcjupload,
+  fxcjtools,
+  fxcjExamine,
+} from "@/api/api.js";
+import VarifyDialog from "@/components/varifyDialog";
+import Upload from "@/components/upload"
+
 export default {
-	name:'RubiksCube',
-	data() {
-		return {
-			form: {
-				input: '',
-				pass:'',
-				pin:'',
-				progressPercent:0,
-			},
-			switchText:'',
-			fileList: [], // excel文件列表
-			activeName: "first",
-			loadingbut:false,
-			loadingbuttext:'执行',
-			tableData: [],
-			total: "",  
-			exc: "",
-			userid: "",
-			code: "",
-			username: "", //用户名
-			rizhi: "", //日志内容
-			msg: "", //根据上传判断执行条件
-			dialogVisible: false,
-			verification:false,
-			//分页器状态
-			currentPage: 1,
-			pagesize: 10, //每页的数据条数
-			currpage: 1, //默认开始页面
-			tablerow: "", //当前选中用户
-			id: [], //查看日志的id
-			idT: "", //查看详情渲染的idT
-			title: "", //查看详情渲染的title
-			log: "", //查看详情渲染的log
-			choose:''//传值为1或2
-			
-		}
-	},
-	methods: {
-	timeStyle(){
-		return "height:50px;padding:0;"
-	},
-	verificationFun(){
-		var tempwindow = window.open('_blank');
-		tempwindow.location=this.pageJumps;
-		this.verification = false;
-	},
+  name: "RubiksCube",
+  components: {
+    VarifyDialog,
+    Upload
+  },
+  data() {
+    return {
+      rules: {
+        input: [{ required: true, message: "请输入账号", trigger: "blur" }],
+        pass: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        choose: [{ required: true, message: "请选择类型", trigger: "blur" }],
+      },
+      showVarDia: false,
+      options: [
+        {
+          label: "京牌代理",
+          value: 1,
+        },
+        {
+          label: "京准通",
+          value: 2,
+        },
+      ],
+      form: {
+        input: "",
+        pass: "",
+        pin: "",
+        choose: 1,
+        progressPercent: 0,
+      },
+      switchText: "",
+      fileList: [], // excel文件列表
+      activeName: "first",
+      loadingbut: false,
+      loadingbuttext: "执行",
+      tableData: [],
+      total: "",
+      exc: "",
+      userid: "",
+      code: "",
+      username: "", //用户名
+      rizhi: "", //日志内容
+      msg: "", //根据上传判断执行条件
+      dialogVisible: false,
+      //分页器状态
+      currentPage: 1,
+      pagesize: 10, //每页的数据条数
+      currpage: 1, //默认开始页面
+      tablerow: "", //当前选中用户
+      id: [], //查看日志的id
+      idT: "", //查看详情渲染的idT
+      title: "", //查看详情渲染的title
+      log: "", //查看详情渲染的log
+      choose: "", //传值为1或2
+    };
+  },
+  created() {
+    // check方法调用接口,判断用户是否登录!
+    this.check();
+  },
+  mounted() {
+    this.username = localStorage.getItem("user_name");
+    this.people = localStorage.getItem("user_name");
+    this.getuserlist(1);
+  },
+  methods: {
+    timeStyle() {
+      return "height:50px;padding:0;";
+    },
+    closeDialog(val) {
+      this.showVarDia = false;
+    },
+    getFileEvent(val) {
+      this.fileList = val;
+    },    
     //点击选中的用户 查看详情
-	celltable(row) {
-		this.tablerow = row;
-		fxcjviewDetails({ id: this.tablerow.id }).then((res)=>{
-			if (res.data.code == 10000) {
-				this.idT = res.data.data.id;
-				this.title = res.data.data.title;
-				this.log = res.data.data.log;
-			} else if (res.data.code == 10001) {
-				this.$message.warning("是否忘记传参");
-			} else if (res.data.code == 10002) {
-				this.$message.warning("您传入的id有误");
-			} else {
-				this.$message.error("查看失败");
-			}
-		}).catch((err)=>{
-			console.log(err);
-		})
-	},
-    //页码发生改变时触发
-    pagetype(page) {
-      this.page = page;
-      this.getuserlist(page);
-    },
-    // 文件状态改变时的钩子
-    fileChange(file, fileList) {
-      this.fileList.push(file.raw);
-      this.form.progressPercent = 0
-    },
-    // 上传文件之前的钩子, 参数为上传的文件,若返回 false 或者返回 Promise 且被 reject，则停止上传
-    beforeUploadFile(file) {
-      let extension = file.name.substring(file.name.lastIndexOf(".") + 1);
-      let size = file.size / 1024 / 1024;
-      if (extension !== "xlsx") {
-        this.$message.warning("只能上传后缀是.xlsx的文件");
-      }
-      if (size > 50) {
-        this.$message.warning("文件大小不得超过50M");
-      }
-    },
-    //文件列表移除时的钩子
-    remfile(file, fileList){
-      this.fileList.pop('file')
-    },
-    // 文件上传成功时的钩子
-    handleSuccess(res, file, fileList) {
-      this.$message.success("文件上传成功");
-      this.fileList = []
-    },
-    // 文件上传失败时的钩子
-    handleError(err, file, fileList) {
-      this.$message.error("文件上传失败");
-    },
-    UploadUrl: function () {
-      // 因为action参数是必填项，我们使用二次确认进行文件上传时，直接填上传文件的url会因为没有参数导致api报404，所以这里将action设置为一个返回为空的方法就行，避免抛错
-      return "";
+    celltable(row) {
+      this.tablerow = row;
+      fxcjviewDetails({ id: this.tablerow.id })
+        .then((res) => {
+          if (res.data.code == 10000) {
+            this.idT = res.data.data.id;
+            this.title = res.data.data.title;
+            this.log = res.data.data.log;
+          } else if (res.data.code == 10001) {
+            this.$message.warning("是否忘记传参");
+          } else if (res.data.code == 10002) {
+            this.$message.warning("您传入的id有误");
+          } else {
+            this.$message.error("查看失败");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     //立即上传 并判断上传文件是否为空if () {
-	uploadFile(data) {
-		fxcjupload({
-			trans_name: this.username,
-			file: this.fileList
-		}).then((res)=>{
-			if(res.data.code==10000){
-				this.form.progressPercent = 100;
-				this.msg = res.data.code
-				this.fileList=[]
-				this.$message.success('上传成功')
-			}
-		}).catch((err)=>{
-			console.log(err);
-		})
-	},
+    uploadFile(data) {
+      fxcjupload({
+        trans_name: this.username,
+        file: this.fileList,
+      })
+        .then((res) => {
+          if (res.data.code == 10000) {
+            this.form.progressPercent = 100;
+            this.msg = res.data.code;
+            this.fileList = [];
+            this.$message.success("上传成功");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     //查看
     getuserlist() {
-		fxcjExamine({
-			tool_type:'1',
-			limit:this.pagesize,
-			page: this.currpage
-		}).then((res)=>{
-			let result = res.data
-			this.tableData = result.data;
-			this.total = result.count;
-		}).catch((err)=>{
-			console.log(err)
-		})
+      fxcjExamine({
+        tool_type: "1",
+        limit: this.pagesize,
+        page: this.currpage,
+      })
+        .then((res) => {
+          let result = res.data;
+          this.tableData = result.data;
+          this.total = result.count;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     //执行
     going() {
       //调用大数据工具请求
-      if (this.form.input == "") {
-        this.$message.warning("请输入账号!");
-      } else if (this.form.pass == "") {
-        this.$message.warning("请输入密码!");
-      } else {
-        this.loadingbut = true;
-        this.loadingbuttext = "审核中...";
-		if(this.form.pin==''){
-			this.choose=2
-		}else{
-			this.choose=1
-		}
-		fxcjtools({
-			username:this.form.input,
-			password:this.form.pass,
-			trans_name:this.username,
-			tool_type: '1',
-			choose:this.choose,
-			pin:this.form.pin
-		}).then((res)=>{
-			if (res.data.code == "10000") {
-				this.getuserlist();
-				this.$message.success("执行成功");
-				this.loadingbuttext = "执行";
-				this.loadingbut = false;
-			} else if (res.data.code == "10001") {
-				this.$message.warning("未上传cookie或tool type或trans_name");
-				this.loadingbuttext = "执行";
-				this.loadingbut = false;
-			} else if (res.data.code == "10003") {
-				this.$message.error("内部错误");
-				this.loadingbuttext = "执行";
-				this.loadingbut = false;
-			} else if (res.data.code == "10004") {
-				this.$message.warning("请求受限");
-				this.loadingbuttext = "执行";
-				this.loadingbut = false;
-			} else if (res.data.code == "10005") {
-				if(res.data.msg === '账号或密码错误'){
-					this.$message.warning("请检查用户密码是否正确");
-				} else {
-					this.pageJumps = res.data.msg.substring(14);
-					this.verification = true;
-				}
-				this.loadingbuttext = "执行";
-				this.loadingbut = false;
-			} else {
-				this.$message.error("执行失败");
-			}
-		}).catch((err)=>{
-			console.log(err)
-		})
-        this.msg = "";
-        this.fileList = [];
-        this.form.progressPercent = 0;
-      }
+      const vm = this;
+      vm.$refs.form.validate((valid) => {
+        if (valid) {
+          this.loadingbut = true;
+          this.loadingbuttext = "审核中...";
+          fxcjtools({
+            username: this.form.input,
+            password: this.form.pass,
+            trans_name: this.username,
+            tool_type: "1",
+            choose: this.form.choose,
+            pin: this.form.pin,
+          })
+            .then((res) => {
+              if (res.data.code == "10000") {
+                this.getuserlist();
+                this.$message.success("执行成功");
+                this.loadingbuttext = "执行";
+                this.loadingbut = false;
+              } else if (res.data.code == "10001") {
+                this.$message.warning("未上传cookie或tool type或trans_name");
+                this.loadingbuttext = "执行";
+                this.loadingbut = false;
+              } else if (res.data.code == "10003") {
+                this.$message.error("内部错误");
+                this.loadingbuttext = "执行";
+                this.loadingbut = false;
+              } else if (res.data.code == "10004") {
+                this.$message.warning("请求受限");
+                this.loadingbuttext = "执行";
+                this.loadingbut = false;
+              } else if (res.data.code == "10005") {
+                if (res.data.msg === "账号或密码错误") {
+                  this.$message.warning("请检查用户密码是否正确");
+                } else {
+                  this.pageJumps = res.data.msg.substring(14);
+                  this.showVarDia = true;
+                }
+                this.loadingbuttext = "执行";
+                this.loadingbut = false;
+              } else {
+                this.$message.error("执行失败");
+              }
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+          this.msg = "";
+          this.fileList = [];
+          this.form.progressPercent = 0;
+        }
+      });
     },
     //分页器功能
     handleSizeChange(val) {
       this.pagesize = val;
+      this.getuserlist(this.pagesize);
     },
     //有接口请求 每点击一页进行一次数据请求 参数页码为动态值：
     handleCurrentChange(page) {
@@ -320,20 +370,9 @@ export default {
       this.getuserlist(this.currpage);
     },
   },
-  mounted() {
-    this.userid = localStorage.getItem("wx_userid");
-    this.code = localStorage.getItem("wx_code");
-    this.username = localStorage.getItem("user_name");
-    this.people = localStorage.getItem("user_name");
-    this.getuserlist(1);
-  },
-  created() {
-  	// check方法调用接口,判断用户是否登录!
-  	this.check();
-  }
-}
+};
 </script>
 
 <style lang="less" scoped>
-	@import '../../index';
+@import "../../index";
 </style>

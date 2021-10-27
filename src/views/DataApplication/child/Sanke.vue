@@ -8,52 +8,57 @@
         </div>
         <div class="sankeyList_box_content">
           <div class="sankeyList_box_tops">图表详情</div>
-          <div v-show="showDetail" class="sankeyList_box_middle">
-            <div class="contentBox">
-              <div class="contentBox_left">
-                <img src="../../../assets/images/钻石.png" alt="" />
-                <div class="contentBox_tips">建议优化<br />利益点</div>
+          <el-collapse-transition>
+            <div v-show="showDetail" class="sankeyList_box_middle">
+              <div class="contentBox">
+                <div class="contentBox_left">
+                  <img src="../../../assets/images/钻石.png" alt="" />
+                  <div class="contentBox_tips">建议优化<br />利益点</div>
+                </div>
+                <div class="contentBox_right">
+                  <div>小米10Pro计划</div>
+                  <div>小米11青春计划</div>
+                  <div>小米11至尊计划</div>
+                </div>
               </div>
-              <div class="contentBox_right">
-                <div>小米10Pro计划</div>
-                <div>小米11青春计划</div>
-                <div>小米11至尊计划</div>
+              <div class="contentBox">
+                <div class="contentBox_left">
+                  <img src="../../../assets/images/钻石.png" alt="" />
+                  <div class="contentBox_tips">建议优化<br />计划</div>
+                </div>
+                <div class="contentBox_right">
+                  <div>K40-计划</div>
+                  <div>米10s计划</div>
+                  <div>Note9-Pro计划</div>
+                </div>
+              </div>
+              <div class="contentBox teshu">
+                <div class="contentBox_left teshu">
+                  <img src="../../../assets/images/钻石.png" alt="" />
+                  <div class="contentBox_tips">备受欢迎单品SKU</div>
+                </div>
+                <div class="contentBox_right teshu">
+                  <div>100009958327(小米11 5G)</div>
+                  <div>100019791894(小米11Pro)</div>
+                  <div>100019791982(小米11 Ultra)</div>
+                  <div>100018640834(K40)</div>
+                  <div>100021211862(K40游戏)</div>
+                  <div>100018642492(K40 Pro+)</div>
+                  <div>100016799390(Note9 Pro 5G)</div>
+                  <div>100016773624(Note9 5G)</div>
+                  <div>100016784108(Note9 4G)</div>
+                  <div>100011650799(Note10 5G)</div>
+                  <div>100022298852(Note10 Pro 5G)</div>
+                  <div>100019044460(小米10S)</div>
+                  <div>100019888160(小米11 青春)</div>
+                </div>
               </div>
             </div>
-            <div class="contentBox">
-              <div class="contentBox_left">
-                <img src="../../../assets/images/钻石.png" alt="" />
-                <div class="contentBox_tips">建议优化<br />计划</div>
-              </div>
-              <div class="contentBox_right">
-                <div>K40-计划</div>
-                <div>米10s计划</div>
-                <div>Note9-Pro计划</div>
-              </div>
-            </div>
-            <div class="contentBox teshu">
-              <div class="contentBox_left teshu">
-                <img src="../../../assets/images/钻石.png" alt="" />
-                <div class="contentBox_tips">备受欢迎单品SKU</div>
-              </div>
-              <div class="contentBox_right teshu">
-                <div>100009958327(小米11 5G)</div>
-                <div>100019791894(小米11Pro)</div>
-                <div>100019791982(小米11 Ultra)</div>
-                <div>100018640834(K40)</div>
-                <div>100021211862(K40游戏)</div>
-                <div>100018642492(K40 Pro+)</div>
-                <div>100016799390(Note9 Pro 5G)</div>
-                <div>100016773624(Note9 5G)</div>
-                <div>100016784108(Note9 4G)</div>
-                <div>100011650799(Note10 5G)</div>
-                <div>100022298852(Note10 Pro 5G)</div>
-                <div>100019044460(小米10S)</div>
-                <div>100019888160(小米11 青春)</div>
-              </div>
-            </div>
+          </el-collapse-transition>
+
+          <div :class="icon" class="sankeyList_box_bottom" @click="tabEvent">
+            {{ text }}
           </div>
-          <div :class="icon" class="sankeyList_box_bottom" @click="tabEvent">{{ text }}</div>
         </div>
         <div class="echartsBox">
           <div id="main3"></div>
@@ -69,7 +74,7 @@ export default {
   data() {
     return {
       showDetail: false,
-      icon: 'el-icon-arrow-down',
+      icon: "el-icon-arrow-down",
       text: "展开",
       option3: {
         title: {
@@ -143,9 +148,9 @@ export default {
   methods: {
     tabEvent() {
       const vm = this;
-      vm.showDetail = !vm.showDetail
-      vm.text = vm.showDetail ? '收起' : '展开';
-      vm.icon = vm.showDetail ? 'el-icon-arrow-up' : 'el-icon-arrow-down';
+      vm.showDetail = !vm.showDetail;
+      vm.text = vm.showDetail ? "收起" : "展开";
+      vm.icon = vm.showDetail ? "el-icon-arrow-up" : "el-icon-arrow-down";
     },
     selectClick() {
       this.flag2 = !this.flag2;

@@ -1,186 +1,294 @@
 <template>
-	<div class="directMail">
-		<div class="content">
-			<div style="width: 200px; height: 50px; margin: 0 auto;">
-			</div>
-			<div class="form">
-				<el-form ref="form" :model="form" label-width="80px" class="formObj">
-					<div class="formObj_ipt">
-						<el-form-item label="选择账号:">
-							<el-input v-model="form.input" size="mini" class="w320" placeholder="请输入账号"></el-input>
-						</el-form-item>
-						<el-form-item label="输入密码:">
-							<el-input v-model="form.pass" size="mini" class="w320" placeholder="请输入密码"></el-input>
-						</el-form-item>
-						<el-form-item label="备注内容:">
-							<el-input v-model="form.pin" size="mini" class="w320" placeholder="请输入备注内容"></el-input>
-						</el-form-item>
-					</div>
-					<div class="formObj_upload">
-						<el-form-item label="">
-							<el-upload drag :auto-upload="false" accept=".xlsx" :action="UploadUrl()" :on-remove="remfile" :before-upload="beforeUploadFile" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" style="width: 320px">
-								<i class="el-icon-upload"></i>
-								<div class="el-upload__text">
-									将文件拖到此处，或<em>点击上传</em>
-								</div>
-								<div class="el-upload__tip" slot="tip">
-									请先上传xlsx文件后，再进行执行操作
-								</div>
-							</el-upload>
-						</el-form-item>
-						<el-form-item>
-							<div style="width: 400px">
-							  <el-progress
-								v-if="!form.progressPercent"
-							    :percentage="form.progressPercent"
-							  ></el-progress>
-								<el-progress v-if="form.progressPercent" :percentage="form.progressPercent" status="success"></el-progress>
-							</div>
-						</el-form-item>						
-					</div>
-					<div class="formObj_button">
-						<el-button size="small" type="primary" class="btnnormal" :disabled="this.fileList==''?true:false"  @click="uploadFile">立即上传</el-button>
-						<el-button size="small" type="primary" class="btnnormal marginL" :disabled="this.msg==''?true:false" @click="going" :loading="loadingbut">{{loadingbuttext}}</el-button>						
-					</div>
-				</el-form>
-			</div>
-			<div class="tableBox">
-				<el-divider></el-divider>
-				<div class="tables">
-					<div class="dialog">
-						<el-dialog
-						title="账号验证"
-						:visible.sync="verification"
-						width="500px"
-						max-height="600px"
-						>
-							<div class="tips">该账号需要进行手机验证</div>
-							<div class="tipsItem">*验证完成后请重新操作*</div>
-							<div class="button">
-							<el-button @click="verificationFun">立即验证</el-button>
-							</div>
-						</el-dialog>
-					</div>
-					<div class="tableTab" v-if="tableData">
-					  <el-table ref="singleTable" class="tableBox" :data="tableData" size="small" height="500" max-height="440px" style="width: 620px;" @cell-click="celltable" :highlight-current-row="true">
-					    <!-- 表格序号 -->
-					    <el-table-column type="index" width="50" label="序号" align="center"></el-table-column>
-					
-					    <!-- 表格日期 -->
-					    <el-table-column property="create_time" label="日期" width="230" align="center">
-					      <template slot-scope="scope">
-					        <div>
-					          {{ scope.row.create_time }}
-					        </div>
-					      </template>
-					    </el-table-column>
-					
-					    <!-- 基本信息 -->
-					    <el-table-column property="title" label="基本信息" width="230" align="center">
-					      <template slot-scope="scope">
-					        <div>
-					          {{ scope.row.title }}
-					        </div>
-					      </template>
-					    </el-table-column>
-					
-					    <!-- 查看详情 -->
-					    <el-table-column property="cheack" label="操作" align="center">
-					      <el-button type="text" @click="dialogVisible = true">查看详情</el-button>
-					    </el-table-column>
-					  </el-table>
-					</div>
-					<!-- 分页器 -->
-					<div class="block" v-if="total">
-						<el-pagination
-						      @size-change="handleSizeChange"
-						      @current-change="handleCurrentChange"
-						      :current-page.sync="currpage"
-						      :page-size="pagesize"
-						      layout="total, prev, pager, next, jumper"
-						      :total="total">
-						</el-pagination>
-					</div>
-					<!-- 查看详情弹出框 -->
-					<div class="dialog">
-					  <el-dialog title="查看详情" :visible.sync="dialogVisible" width="500px" max-height="600px">
-					    <div>详情信息：{{ log }}</div>
-					  </el-dialog>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+  <div class="directMail">
+    <div class="content">
+      <div style="width: 200px; height: 50px; margin: 0 auto"></div>
+      <div class="form">
+        <el-form ref="form" :model="form" label-width="80px" class="formObj">
+          <div class="formObj_ipt">
+            <el-form-item label="选择账号:">
+              <el-input
+                v-model="form.input"
+                size="mini"
+                class="w320"
+                placeholder="请输入账号"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="输入密码:">
+              <el-input
+                v-model="form.pass"
+                size="mini"
+                class="w320"
+                placeholder="请输入密码"
+              ></el-input>
+            </el-form-item>
+            <el-form-item label="选择类型:">
+              <el-select
+                v-model="form.choose"
+                placeholder="请选择类型"
+                class="w320"
+              >
+                <el-option
+                  v-for="item in options"
+                  :key="item.value"
+                  :label="item.label"
+                  :value="item.value"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+            <el-form-item label="备注内容:">
+              <el-input
+                v-model="form.pin"
+                size="mini"
+                class="w320"
+                placeholder="请输入备注内容"
+              ></el-input>
+            </el-form-item>
+          </div>
+          <div class="formObj_upload">
+            <el-form-item label="">
+              <el-upload
+                drag
+                :auto-upload="false"
+                accept=".xlsx"
+                :action="UploadUrl()"
+                :on-remove="remfile"
+                :before-upload="beforeUploadFile"
+                :on-change="fileChange"
+                :on-success="handleSuccess"
+                :on-error="handleError"
+                :file-list="fileList"
+                style="width: 320px"
+              >
+                <i class="el-icon-upload"></i>
+                <div class="el-upload__text">
+                  将文件拖到此处，或<em>点击上传</em>
+                </div>
+                <div class="el-upload__tip" slot="tip">
+                  请先上传xlsx文件后，再进行执行操作
+                </div>
+              </el-upload>
+            </el-form-item>
+            <el-form-item>
+              <div style="width: 400px">
+                <el-progress
+                  v-if="!form.progressPercent"
+                  :percentage="form.progressPercent"
+                ></el-progress>
+                <el-progress
+                  v-if="form.progressPercent"
+                  :percentage="form.progressPercent"
+                  status="success"
+                ></el-progress>
+              </div>
+            </el-form-item>
+          </div>
+          <div class="formObj_button">
+            <el-button
+              size="small"
+              type="primary"
+              class="btnnormal"
+              :disabled="this.fileList == '' ? true : false"
+              @click="uploadFile"
+              >立即上传</el-button
+            >
+            <el-button
+              size="small"
+              type="primary"
+              class="btnnormal marginL"
+              :disabled="this.msg == '' ? true : false"
+              @click="going"
+              :loading="loadingbut"
+              >{{ loadingbuttext }}</el-button
+            >
+          </div>
+        </el-form>
+      </div>
+      <div class="tableBox">
+        <el-divider></el-divider>
+        <div class="tables">
+          <div class="dialog">
+            <el-dialog
+              title="账号验证"
+              :visible.sync="verification"
+              width="500px"
+              max-height="600px"
+            >
+              <div class="tips">该账号需要进行手机验证</div>
+              <div class="tipsItem">*验证完成后请重新操作*</div>
+              <div class="button">
+                <el-button @click="verificationFun">立即验证</el-button>
+              </div>
+            </el-dialog>
+          </div>
+          <div class="tableTab" v-if="tableData">
+            <el-table
+              ref="singleTable"
+              class="tableBox"
+              :data="tableData"
+              size="small"
+              height="500"
+              max-height="440px"
+              style="width: 620px"
+              @cell-click="celltable"
+              :highlight-current-row="true"
+            >
+              <!-- 表格序号 -->
+              <el-table-column
+                type="index"
+                width="50"
+                label="序号"
+                align="center"
+              ></el-table-column>
+
+              <!-- 表格日期 -->
+              <el-table-column
+                property="create_time"
+                label="日期"
+                width="230"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <div>
+                    {{ scope.row.create_time }}
+                  </div>
+                </template>
+              </el-table-column>
+
+              <!-- 基本信息 -->
+              <el-table-column
+                property="title"
+                label="基本信息"
+                width="230"
+                align="center"
+              >
+                <template slot-scope="scope">
+                  <div>
+                    {{ scope.row.title }}
+                  </div>
+                </template>
+              </el-table-column>
+
+              <!-- 查看详情 -->
+              <el-table-column property="cheack" label="操作" align="center">
+                <el-button type="text" @click="dialogVisible = true"
+                  >查看详情</el-button
+                >
+              </el-table-column>
+            </el-table>
+          </div>
+          <!-- 分页器 -->
+          <div class="block" v-if="total">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="currpage"
+              :page-size="pagesize"
+              layout="total, prev, pager, next, jumper"
+              :total="total"
+            >
+            </el-pagination>
+          </div>
+          <!-- 查看详情弹出框 -->
+          <div class="dialog">
+            <el-dialog
+              title="查看详情"
+              :visible.sync="dialogVisible"
+              width="500px"
+              max-height="600px"
+            >
+              <div>详情信息：{{ log }}</div>
+            </el-dialog>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-	import { fxcjviewDetails, fxcjupload, fxcjtools, fxcjExamine } from '@/api/api.js'
+import {
+  fxcjviewDetails,
+  fxcjupload,
+  fxcjtools,
+  fxcjExamine,
+} from "@/api/api.js";
 export default {
-	name:'DirectMail',
-	data() {
-		return {
-			form: {
-				input: '',
-				pass:'',
-				pin:'',
-				progressPercent:0,
-			},
-			switchText:'',
-			fileList: [], // excel文件列表
-			activeName: "first",
-			loadingbut:false,
-			loadingbuttext:'执行',
-			tableData: [],
-			total: "",  
-			exc: "",
-			userid: "",
-			code: "",
-			username: "", //用户名
-			rizhi: "", //日志内容
-			msg: "", //根据上传判断执行条件
-			dialogVisible: false,
-			verification:false,
-			//分页器状态
-			currentPage: 1,
-			pagesize: 10, //每页的数据条数
-			currpage: 1, //默认开始页面
-			tablerow: "", //当前选中用户
-			id: [], //查看日志的id
-			idT: "", //查看详情渲染的idT
-			title: "", //查看详情渲染的title
-			log: "", //查看详情渲染的log
-			choose:''//传值为1或2
-			
-		}
-	},
-	methods: {
-	switchFN(){
-		
-	},
-	verificationFun(){
-		var tempwindow = window.open('_blank');
-		tempwindow.location=this.pageJumps;
-		this.verification = false;
-	},
+  name: "DirectMail",
+  data() {
+    return {
+      options: [
+        {
+          label: "京牌代理",
+          value: 1,
+        },
+        {
+          label: "京准通",
+          value: 2,
+        },
+      ],
+      form: {
+        input: "",
+        pass: "",
+        pin: "",
+        choose: 1,
+        progressPercent: 0,
+      },
+      switchText: "",
+      fileList: [], // excel文件列表
+      activeName: "first",
+      loadingbut: false,
+      loadingbuttext: "执行",
+      tableData: [],
+      total: "",
+      exc: "",
+      userid: "",
+      code: "",
+      username: "", //用户名
+      rizhi: "", //日志内容
+      msg: "", //根据上传判断执行条件
+      dialogVisible: false,
+      verification: false,
+      //分页器状态
+      currentPage: 1,
+      pagesize: 10, //每页的数据条数
+      currpage: 1, //默认开始页面
+      tablerow: "", //当前选中用户
+      id: [], //查看日志的id
+      idT: "", //查看详情渲染的idT
+      title: "", //查看详情渲染的title
+      log: "", //查看详情渲染的log
+      choose: "", //传值为1或2
+    };
+  },
+  methods: {
+    switchFN() {},
+    verificationFun() {
+      var tempwindow = window.open("_blank");
+      tempwindow.location = this.pageJumps;
+      this.verification = false;
+    },
     //点击选中的用户 查看详情
-	celltable(row) {
-		this.tablerow = row;
-		fxcjviewDetails({ id: this.tablerow.id }).then((res)=>{
-			if (res.data.code == 10000) {
-				this.idT = res.data.data.id;
-				this.title = res.data.data.title;
-				this.log = res.data.data.log;
-			} else if (res.data.code == 10001) {
-				this.$message.warning("是否忘记传参");
-			} else if (res.data.code == 10002) {
-				this.$message.warning("您传入的id有误");
-			} else {
-				this.$message.error("查看失败");
-			}
-		}).catch((err)=>{
-			console.log(err);
-		})
-	},
+    celltable(row) {
+      this.tablerow = row;
+      fxcjviewDetails({ id: this.tablerow.id })
+        .then((res) => {
+          if (res.data.code == 10000) {
+            this.idT = res.data.data.id;
+            this.title = res.data.data.title;
+            this.log = res.data.data.log;
+          } else if (res.data.code == 10001) {
+            this.$message.warning("是否忘记传参");
+          } else if (res.data.code == 10002) {
+            this.$message.warning("您传入的id有误");
+          } else {
+            this.$message.error("查看失败");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     //页码发生改变时触发
     pagetype(page) {
       this.page = page;
@@ -189,7 +297,7 @@ export default {
     // 文件状态改变时的钩子
     fileChange(file, fileList) {
       this.fileList.push(file.raw);
-      this.form.progressPercent = 0
+      this.form.progressPercent = 0;
     },
     // 上传文件之前的钩子, 参数为上传的文件,若返回 false 或者返回 Promise 且被 reject，则停止上传
     beforeUploadFile(file) {
@@ -203,13 +311,13 @@ export default {
       }
     },
     //文件列表移除时的钩子
-    remfile(file, fileList){
-      this.fileList.pop('file')
+    remfile(file, fileList) {
+      this.fileList.pop("file");
     },
     // 文件上传成功时的钩子
     handleSuccess(res, file, fileList) {
       this.$message.success("文件上传成功");
-      this.fileList = []
+      this.fileList = [];
     },
     // 文件上传失败时的钩子
     handleError(err, file, fileList) {
@@ -220,34 +328,38 @@ export default {
       return "";
     },
     //立即上传 并判断上传文件是否为空if () {
-	uploadFile(data) {
-		fxcjupload({
-			trans_name: this.username,
-			file: this.fileList
-		}).then((res)=>{
-			if(res.data.code==10000){
-				this.form.progressPercent = 100;
-				this.msg = res.data.code
-				this.fileList=[]
-				this.$message.success('上传成功')
-			}
-		}).catch((err)=>{
-			console.log(err);
-		})
-	},
+    uploadFile(data) {
+      fxcjupload({
+        trans_name: this.username,
+        file: this.fileList,
+      })
+        .then((res) => {
+          if (res.data.code == 10000) {
+            this.form.progressPercent = 100;
+            this.msg = res.data.code;
+            this.fileList = [];
+            this.$message.success("上传成功");
+          }
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    },
     //查看
     getuserlist() {
-		fxcjExamine({
-			tool_type:'4',
-			limit:this.pagesize,
-			page: this.currpage
-		}).then((res)=>{
-			let result = res.data
-			this.tableData = result.data;
-			this.total = result.count;
-		}).catch((err)=>{
-			console.log(err)
-		})
+      fxcjExamine({
+        tool_type: "4",
+        limit: this.pagesize,
+        page: this.currpage,
+      })
+        .then((res) => {
+          let result = res.data;
+          this.tableData = result.data;
+          this.total = result.count;
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
     //执行
     going() {
@@ -259,51 +371,48 @@ export default {
       } else {
         this.loadingbut = true;
         this.loadingbuttext = "审核中...";
-		if(this.form.pin==''){
-			this.choose=2
-		}else{
-			this.choose=1
-		}
-		fxcjtools({
-			username:this.form.input,
-			password:this.form.pass,
-			trans_name:this.username,
-			tool_type: '4',
-			choose:this.choose,
-			pin:this.form.pin
-		}).then((res)=>{
-			if (res.data.code == "10000") {
-				this.getuserlist();
-				this.$message.success("执行成功");
-				this.loadingbuttext = "执行";
-				this.loadingbut = false;
-			} else if (res.data.code == "10001") {
-				this.$message.warning("未上传cookie或tool type或trans_name");
-				this.loadingbuttext = "执行";
-				this.loadingbut = false;
-			} else if (res.data.code == "10003") {
-				this.$message.error("内部错误");
-				this.loadingbuttext = "执行";
-				this.loadingbut = false;
-			} else if (res.data.code == "10004") {
-				this.$message.warning("请求受限");
-				this.loadingbuttext = "执行";
-				this.loadingbut = false;
-			} else if (res.data.code == "10005") {
-				if(res.data.msg === '账号或密码错误'){
-					this.$message.warning("请检查用户密码是否正确");
-				} else {
-					this.pageJumps = res.data.msg.substring(14);
-					this.verification = true;
-				}
-				this.loadingbuttext = "执行";
-				this.loadingbut = false;
-			} else {
-				this.$message.error("执行失败");
-			}
-		}).catch((err)=>{
-			console.log(err)
-		})
+        fxcjtools({
+          username: this.form.input,
+          password: this.form.pass,
+          trans_name: this.username,
+          tool_type: "4",
+          choose: this.form.choose,
+          pin: this.form.pin,
+        })
+          .then((res) => {
+            if (res.data.code == "10000") {
+              this.getuserlist();
+              this.$message.success("执行成功");
+              this.loadingbuttext = "执行";
+              this.loadingbut = false;
+            } else if (res.data.code == "10001") {
+              this.$message.warning("未上传cookie或tool type或trans_name");
+              this.loadingbuttext = "执行";
+              this.loadingbut = false;
+            } else if (res.data.code == "10003") {
+              this.$message.error("内部错误");
+              this.loadingbuttext = "执行";
+              this.loadingbut = false;
+            } else if (res.data.code == "10004") {
+              this.$message.warning("请求受限");
+              this.loadingbuttext = "执行";
+              this.loadingbut = false;
+            } else if (res.data.code == "10005") {
+              if (res.data.msg === "账号或密码错误") {
+                this.$message.warning("请检查用户密码是否正确");
+              } else {
+                this.pageJumps = res.data.msg.substring(14);
+                this.verification = true;
+              }
+              this.loadingbuttext = "执行";
+              this.loadingbut = false;
+            } else {
+              this.$message.error("执行失败");
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
         this.msg = "";
         this.fileList = [];
         this.form.progressPercent = 0;
@@ -327,67 +436,67 @@ export default {
     this.getuserlist(1);
   },
   created() {
-  	// check方法调用接口,判断用户是否登录!
-  	this.check();
-  }
-}
+    // check方法调用接口,判断用户是否登录!
+    this.check();
+  },
+};
 </script>
 
 <style lang="less" scoped>
-	/deep/input{
-		border-radius: 0 !important;
-	}
-	.w320{
-		width: 320px;
-	}
-	.directMail{
-		// width: 100%;
-		height: 1400px;
-		margin-left: 250px;
-		.content{
-			width: 1560px;
-			height: 1200px;
-			margin-top: 20px;
-			background-color: #fff;
-			box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
-			padding: 20px 20px 30px 20px;
-			.form{
-				// display: flex;
-				// justify-content: space-evenly;
-				// justify-content:center; 
-				.formObj{
-					width:500px;
-					margin: 0 auto;
-				}
-				.tables{
-					width: 620px;
-					margin: 0 auto;
-					.dialog{
-						.tips{
-							width: 80%;
-							height: 50px;
-							margin: 0 auto;
-							text-align: center;
-							font-size: 18px;
-							line-height: 50px;
-						}
-						.tipsItem{
-							width: 80%;
-							height: 50px;
-							margin: 0 auto;
-							text-align: center;
-							font-size: 12px;
-							color: red;
-							line-height: 50px;
-						}
-						.button{
-							width: 100px;
-							height: 40px;
-							margin: 0 auto;
-						}
-					}
-				}
-			}
-		}
-	}
+/deep/input {
+  border-radius: 0 !important;
+}
+.w320 {
+  width: 320px;
+}
+.directMail {
+  // width: 100%;
+  height: 1400px;
+  margin-left: 250px;
+  .content {
+    width: 1560px;
+    height: 1200px;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+    padding: 20px 20px 30px 20px;
+    .form {
+      // display: flex;
+      // justify-content: space-evenly;
+      // justify-content:center;
+      .formObj {
+        width: 500px;
+        margin: 0 auto;
+      }
+      .tables {
+        width: 620px;
+        margin: 0 auto;
+        .dialog {
+          .tips {
+            width: 80%;
+            height: 50px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 18px;
+            line-height: 50px;
+          }
+          .tipsItem {
+            width: 80%;
+            height: 50px;
+            margin: 0 auto;
+            text-align: center;
+            font-size: 12px;
+            color: red;
+            line-height: 50px;
+          }
+          .button {
+            width: 100px;
+            height: 40px;
+            margin: 0 auto;
+          }
+        }
+      }
+    }
+  }
+}
 </style>
