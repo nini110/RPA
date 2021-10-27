@@ -1,0 +1,125 @@
+.contentBox {
+    display: flex;
+    padding: 20px;
+    &.teshu {
+        display: inline-block;
+        width: 100%;
+        box-sizing: border-box;
+        .contentBox_left {
+            border-radius: 10px 10px 0 0;
+
+        }
+        .contentBox_right {
+            border-radius: 0 0 10px 10px ;
+        }
+    }
+
+    &_left {
+        width: 80px;
+        padding: 10px 20px;
+        text-align: center;
+        background-color: rgba(243, 243, 243, 0.952);
+        box-shadow: 5px 5px 12px #cccbcb;
+        border-radius: 10px 0 0 10px;
+        img {
+            width: 40px;
+            object-fit: cover;
+        }
+        &.teshu {
+            width: 100%;
+            box-sizing: border-box;
+        }
+    }
+    &_tips {
+        font-size: 16px;
+        color: #666;
+    }
+    &_right {
+        border-radius: 0 10px 10px 0;
+        background-color: rgba(155, 155, 155, 0.7);
+        flex-grow: 1;
+        text-align: center;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 20px 0;
+        line-height: 25px;
+        font-size: 14px;
+        color: #666;
+        div {
+            width: 100%;
+            flex-grow: 1;
+            color: #fff;
+        }
+        &.teshu {
+            width: 100%;
+            box-sizing: border-box;
+            text-align: center;
+            line-height: 25px;
+            font-size: 14px;
+            color: #666;
+        }
+    }
+}
+.sankeyList {
+    width: 975px;
+    position: relative;
+    background: url(../../../assets/images/数智投网页-a.jpg);
+    height: 100%;
+    &_title {
+        line-height: 100px;
+        color: #fff;
+        font-size: 40px;
+        margin: 0 auto;
+        text-align: center;
+        border-radius: 10px 10px 0 0;
+        background-color: #2066BD;
+    }
+    &_box {
+        &_content {
+            position: absolute;
+            top: 120px;
+            left: 0;
+            width: 400px;
+            z-index: 999;
+        }
+        &_tops,
+        &_bottom {
+
+            font-size: 18px;
+            line-height: 40px;
+            color: #fff;
+            text-align: center;
+        }
+        &_middle {
+            background-color: rgba(209, 218, 223, .9);
+            transition: all 1s linear;
+        }
+        &_tops {
+            background-color: #2066BD;
+            border-radius: 0 10px 0 0;
+        }
+        &_bottom {
+            width: 100%;
+            background-color: #c0c5c9;
+            border-radius: 0 0 10px 0;
+            cursor: pointer;
+            font-size: 14px;
+            &:before {
+                padding-right: 10px;
+            }
+            &:hover {
+                color: #2066BD;
+            }
+        }
+    }
+}
+ #main3 {
+     height: 2000px;
+ }
+ .echartsBox {
+    width: 975px;
+    height: 1000px;
+    margin-top: 60px;
+    overflow-y: scroll;
+    background-color: #fff;
+ }
