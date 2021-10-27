@@ -182,35 +182,20 @@
             :highlight-current-row="true"
             :cell-style="timeStyle"
           >
-            <!-- 表格序号 -->
             <el-table-column
               type="index"
               width="50"
               label="序号"
               align="center"
             >
-              <!-- <template slot-scope="scope">
-						  <div>
-						    {{ scope.row.xh }}
-						  </div>
-						</template> -->
             </el-table-column>
-
-            <!-- 竞标名称 -->
             <el-table-column
               property="bidding_name"
               label="竞标名称"
               width="250"
               align="center"
             >
-              <template slot-scope="scope">
-                <div>
-                  {{ scope.row.bidding_name }}
-                </div>
-              </template>
             </el-table-column>
-
-            <!-- 活动名称 -->
             <el-table-column
               property="bidding_num"
               label="活动名称"
@@ -231,28 +216,14 @@
               width="150"
               align="center"
             >
-              <template slot-scope="scope">
-                <div>
-                  {{ scope.row.budget }}
-                </div>
-              </template>
             </el-table-column>
-
-            <!-- 上传人 -->
             <el-table-column
               property="trans_name"
               label="上传人"
               width="80"
               align="center"
             >
-              <template slot-scope="scope">
-                <div>
-                  {{ scope.row.trans_name }}
-                </div>
-              </template>
             </el-table-column>
-
-            <!-- 分期预算 -->
             <el-table-column property="cheack" label="操作" align="center">
               <el-button type="text" @click="lookxq = true">查看详情</el-button>
               <el-button type="text" @click="centerDialogVisible = true"
@@ -747,60 +718,6 @@ export default {
           .catch((err) => {
             console.log(err);
           });
-
-        // for (let i = 0; i < this.fileList.length; i++) {
-        // 	let data = new FormData();
-        // 	let arrAll = [];
-        // 	let arrName = '';
-        // 	let arrId = '';
-        // 	data.append("file", this.fileList[i]);
-        // 	data.append("user_list", this.itemid);
-        // 	data.append("user_name_list", this.itemname)
-        // 	data.append("trans_name", this.username)
-        // 	console.log(this.peoplelist)
-        // 	data.append("bidding_id", this.jbid);
-        // 	data.append("bidding_name", this.content);
-        // 	console.log(this.checkedCities)
-        // 	if (this.checkAll === true) {
-        // 		this.checkedCities = [];
-        // 	}
-        // 	if (this.checkedCities.length === 0) {
-        // 		console.log("123")
-        // 		data.append("activity_name", '')
-        // 		data.append("activity_id", '')
-        // 	} else {
-        // 		for (let k = 0; k < this.checkedCities.length; k++) {
-        // 			arrName += this.checkedCities[k].activityName+',';
-        // 			arrId += this.checkedCities[k].id+',';
-        // 		}
-        // 		arrName = arrName.slice(0, arrName.length - 1)
-        // 		arrId = arrId.slice(0, arrId.length - 1)
-        // 		data.append("activity_name", arrName)
-        // 		data.append("activity_id", arrId)
-        // 	}
-
-        // 	const headers = {
-        // 		uid: this.userid,
-        // 		code: this.code
-        // 	};
-        // 	immediatelyUpload(
-        // 		headers,
-        // 		data
-        // 	).then((res) => {
-        // 		console.log(res);
-        // 		if (res.code == 10000) {
-        // 			this.progressPercent = 100;
-        // 			this.handleSuccess();
-        // 			this.getlist()
-        // 			this.msg = res.data.msg;
-        // 		} else {
-        // 			// this.handleError();
-        // 			this.$message.warning(res.data)
-        // 		}
-        // 	}).catch((err) => {
-        // 		console.log(err);
-        // 	})
-        // }
       }
     },
 

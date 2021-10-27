@@ -152,3 +152,35 @@
 		flex-direction: row-reverse;
 		margin: 20px 0 80px 0;
 	}
+	.stateItem {
+		i {
+			color: #666;
+			&:before {
+				display: inline-block;
+				width: 20px;
+				height: 20px;
+				vertical-align: middle;
+				text-align: center;
+				line-height: 20px;
+				border-radius: 50%;
+				background-color: #ccc;
+				color: #fff;
+				margin-right: 12px;
+			}
+			&.suc {
+				&:before {
+					background-color: #67c23a;
+				}
+			}
+			&.warn {
+				&:before {
+					background-color: #e6a23c;
+				}
+			}
+			&.dang {
+				&:before {
+					background-color: #f56c6c;
+				}
+			}
+		}
+	}

@@ -9,7 +9,7 @@
 			   <div class="img">
 				   <!-- <img src="./assets/490a6bbbefa2a0250c52817f01cfd52.png" alt=""> -->
 			   </div>
-			   <el-badge class="item notice">
+			   <!-- <el-badge class="item notice"> -->
 			   	<el-popover
 			   	    placement="bottom-start"
 			   	    title=""
@@ -22,9 +22,9 @@
 			   		<div class="down">小工具驱动下载地址 <a href="https://npm.taobao.org/mirrors/chromedriver/" target="_blank">点击下载</a></div>
 			   		<div class="down">自有客户通用日报模板 <a href="http://tool.afocus.com.cn/file_download/自有客户通用日报模板.xlsx" download="自有客户通用日报模板.xlsx">点击下载</a></div>
 			   	  </el-popover>
-			   </el-badge>
+			   <!-- </el-badge> -->
 				<div class="user">
-					当前用户: {{yh}} <span class="logout" @click="close">退出</span>
+					用户: {{yh}} <span class="logout" @click="close">退出</span>
 				</div>
 				<div class="phone">
 					<div class="phoneIcon"></div>
@@ -166,7 +166,7 @@
 	}
 	.login .img{
 		display: inline-block;
-		vertical-align: bottom;
+		vertical-align: middle;
 		width: 120px;
 		height: 25px;
 		border-right: 3px solid #515151;
@@ -181,6 +181,7 @@
 	.login .user{
 		width: 220px;
 		font-size: 16px;
+		text-align: center;
 		span {
 			padding-left: 30px;
 		}
