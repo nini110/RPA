@@ -78,16 +78,36 @@
         }
     }
 }
+.el-dialog__body {
+    padding: 30px;
+}
+.el-checkbox__input.is-checked+.el-checkbox__label {
+    color: #2066BD;
+}
+.el-cascader-node.in-active-path, .el-cascader-node.is-active, .el-cascader-node.is-selectable.in-checked-path {
+    color: #2066BD;
+}
 // .el-scrollbar__wrap { overflow: scroll; width: 104%; height: 108%; } 
-.el-scrollbar__wrap { overflow-y:scroll;overflow-x: hidden;} 
+// .el-scrollbar__wrap { overflow-x: hidden;} 
 .el-scrollbar__bar.is-horizontal {
     display: none;
 }
+    /**滚动条的宽度*/
+    ::-webkit-scrollbar {
+        width: 5px;/*竖向*/
+        height: 5px;/*横向*/
+    }
+ 
+    /*滚动条的滑块*/
+    ::-webkit-scrollbar-thumb {
+        background-color: #409EFF;
+        border-radius: 3px;
+    }
 
-.el-select-dropdown.el-popper {
-    width: 29%;
-    padding: 10px 0;
-}
+// .el-select-dropdown.el-popper {
+//     width: 29%;
+//     padding: 10px 0;
+// }
 .tagBox {
     .el-form-item {
         &__content {
