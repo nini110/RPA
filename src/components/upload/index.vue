@@ -11,15 +11,14 @@
       :on-success="handleSuccess"
       :on-error="handleError"
       :file-list="fileList"
-      style="width: 320px"
     >
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
       <div class="el-upload__tip" slot="tip">
-        请先上传xlsx文件后，再进行执行操作
+        {{ txt }}
       </div>
     </el-upload>
-    <div style="width: 346px">
+    <div style="width: 360px">
       <el-progress
         v-if="!progressPercent"
         :percentage="progressPercent"
@@ -39,6 +38,10 @@ export default {
     progressPercent: {
       default: 0,
       type: Number,
+    },
+    txt: {
+      default: '请先上传xlsx文件后，再进行执行操作',
+      type: String,
     },
   },
   data() {

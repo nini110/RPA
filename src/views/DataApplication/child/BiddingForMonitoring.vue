@@ -6,178 +6,14 @@
         <div style="width: 126px; margin: 0 auto">
           <div class="btnSizeBig" @click="upList()">上传竞标按钮</div>
         </div>
-        <el-dialog
-          title="上传竞标"
-          :visible.sync="dialogVisible"
-          @close="clearlist"
-          width="600px"
-          max-height="600px"
-          custom-class="dialogEdit"
-        >
-          <el-form ref="form" :model="form" label-width="140px" class="formObj">
-            <el-form-item label="选择竞标:">
-              <el-input
-                placeholder="请输入标名或者项目编号并按回车进行搜索"
-                v-model="content"
-                style="width: 485px; text-indent: 5px"
-                @input="search"
-                size="medium"
-              ></el-input>
-              <div class="fuzzyQuery">
-                <ul v-if="openkey">
-                  <li
-                    id="item"
-                    v-for="(i, index) in options"
-                    :key="index"
-                    @click="setitem(i, i.pro_num)"
-                  >
-                    <span style="color: red">标名:</span>{{ i.pro_name }}
-                    <span style="color: red">编号:</span>{{ i.pro_num }}
-                  </li>
-                </ul>
-              </div>
-            </el-form-item>
-            <el-form-item label="选择活动:">
-              <el-button type="text" @click="flag = true"
-                >点击选择活动列表</el-button
-              >
-              <div v-show="flag" class="showBox">
-                <div class="showBoxItem">
-                  <el-checkbox
-                    :indeterminate="isIndeterminate"
-                    v-model="checkAll"
-                    @change="handleCheckAllChange"
-                    >全选</el-checkbox
-                  >
-                  <div style="margin: 15px 0"></div>
-                  <div style="height: 180px; overflow: auto">
-                    <el-checkbox-group
-                      v-model="checkedCities"
-                      @change="handleCheckedCitiesChange"
-                    >
-                      <el-checkbox
-                        v-for="city in cities"
-                        :label="city"
-                        :key="city.id"
-                        >{{ city.activityName }}</el-checkbox
-                      >
-                    </el-checkbox-group>
-                  </div>
-                </div>
-                <div class="confirm">
-                  <el-button
-                    size="medium"
-                    @click="flag = false"
-                    style="
-                      color: #2066bd;
-                      border: 1px solid #0051b3;
-                      border-radius: 0;
-                    "
-                    >确定</el-button
-                  >
-                </div>
-              </div>
-            </el-form-item>
-            <el-form-item label="添加人员:">
-              <el-input
-                class="inline-input"
-                v-model="cSubcategoryNo"
-                placeholder="请输入上传人员姓名或关键字后再进行添加"
-                @input="chaz"
-                style="width: 485px"
-                size="medium"
-              ></el-input>
-            </el-form-item>
-            <el-tag
-              v-for="tag in restaurants"
-              :disable-transitions="false"
-              :key="tag.userid"
-              type=""
-              style="margin-left: 8px; margin-bottom: 5px"
-              @close="handleClose(tag)"
-              @click="tianjia(tag)"
-              >{{ tag.name }}</el-tag
-            >
-            <el-divider></el-divider>
-            <div class="send" style="display: flex; margin-bottom: 20px">
-              <div class="namelist">
-                <ul style="padding: 0 10px; list-style: none">
-                  <li
-                    v-for="(i, index) in peoplelist"
-                    :key="index"
-                    :index="index"
-                    style="margin-bottom: 5px"
-                    @dblclick="deleteitem(index)"
-                  >
-                    <el-tag>{{ i.name }}</el-tag>
-                  </li>
-                </ul>
-              </div>
-              <div class="上传" style="flex: 1">
-                <el-upload
-                  drag
-                  :on-remove="remfile"
-                  :auto-upload="false"
-                  accept=".xlsx"
-                  :action="UploadUrl()"
-                  :before-upload="beforeUploadFile"
-                  :on-change="fileChange"
-                  :on-success="handleSuccess"
-                  :on-error="handleError"
-                  :file-list="fileList"
-                  
-                >
-                  <i class="el-icon-upload"></i>
-                  <div class="el-upload__text">
-                    将文件拖到此处，或<em>点击上传</em>
-                  </div>
-                  <div class="el-upload__tip" slot="tip" style="color: red">
-                    请上传xlsx文件，通过搜索添加上传人员，双击上传人员可删除
-                  </div>
-                </el-upload>
-                <div style="width: 385px">
-                  <el-progress
-                    v-if="!progressPercent"
-                    :stroke-width="5"
-                    :percentage="progressPercent"
-                  ></el-progress>
-                  <el-progress
-                    v-if="progressPercent"
-                    :percentage="progressPercent"
-                    status="success"
-                  ></el-progress>
-                </div>
-              </div>
-            </div>
-          </el-form>
-          <span slot="footer" class="dialog-footer">
-              <a
-                class="btnnormal btnnormal_down"
-                href="http://tool.afocus.com.cn/file_download/预算监控模板.xlsx"
-                download="预算监控模板.xlsx"
-                ><div class="btnSize">下载模板</div></a
-              >
-              <el-button
-                class="btnnormal marginL"
-                type="primary"
-                :disabled="
-                  this.fileList.length == 0 ||
-                  this.content == '' ||
-                  this.peoplelist.length == 0
-                    ? true
-                    : false
-                "
-                @click="uploadFile"
-                >立即上传</el-button
-              >
-          </span>
-        </el-dialog>
+      </div>
+      <div class="tableBox">
         <el-divider>列表</el-divider>
         <div class="tables" v-if="tableData">
           <el-table
             ref="singleTable"
             :data="tableData"
-            min-height="800"
+            height="900"
             @cell-click="celltable"
             :highlight-current-row="true"
             :cell-style="timeStyle"
@@ -193,38 +29,24 @@
               property="bidding_name"
               label="竞标名称"
               width="250"
-              align="center"
             >
             </el-table-column>
             <el-table-column
-              property="bidding_num"
+              property="activity_name"
               label="活动名称"
               width="150"
-              align="center"
             >
-              <template slot-scope="scope">
-                <div>
-                  {{ scope.row.activity_name }}
-                </div>
-              </template>
             </el-table-column>
-
-            <!-- 总预算 -->
-            <el-table-column
-              property="budget"
-              label="总预算"
-              width="150"
-              align="center"
-            >
+            <el-table-column property="budget" label="总预算" width="150">
+            </el-table-column>
+            <el-table-column property="trans_name" label="上传人" width="150">
             </el-table-column>
             <el-table-column
-              property="trans_name"
-              label="上传人"
-              width="80"
-              align="center"
+              property="cheack"
+              label="操作"
+              fixed="right"
+              width="180"
             >
-            </el-table-column>
-            <el-table-column property="cheack" label="操作" align="center">
               <el-button type="text" @click="lookxq = true">查看详情</el-button>
               <el-button type="text" @click="centerDialogVisible = true"
                 >修改</el-button
@@ -232,154 +54,290 @@
               <el-button type="text" @click="biddingDelete()">删除</el-button>
             </el-table-column>
           </el-table>
-
-          <!-- 分页器 -->
           <div class="block" v-if="total">
-            <!-- <span class="demonstration">完整功能</span> -->
             <el-pagination
+              background
               @size-change="handleSizeChange"
               @current-change="handleCurrentChange"
               :current-page="currpage"
-              :page-sizes="[10, 20, 30, 40]"
               :page-size="pagesize"
+              :page-sizes="[10, 20, 50, 100]"
               layout="total, sizes, prev, pager, next, jumper"
               :total="total"
             ></el-pagination>
           </div>
         </div>
-
-        <el-dialog
-          title="查看详情"
-          :visible.sync="lookxq"
-          width="750px"
-          max-height="600px"
-          @close="clear"
-          custom-class="dialogEdit"
-        >
-          <el-table
-            ref="singleTable"
-            :data="xqlist"
-            min-height="540"
-            :highlight-current-row="true"
-            :cell-style="timeStyle"
+      </div>
+    </div>
+    <!-- 上传竞标 -->
+    <el-dialog
+      title="上传竞标"
+      :visible.sync="dialogVisible"
+      @close="clearlist"
+      width="600px"
+      max-height="600px"
+      custom-class="dialogJb"
+      :close-on-click-modal="false"
+    >
+      <el-form ref="form" :model="form" label-width="90px" class="formObj">
+        <el-form-item label="选择竞标:">
+          <el-select
+            v-model="content"
+            filterable
+            remote
+            reserve-keyword
+            placeholder="请输入标名或者项目编号"
+            :remote-method="search"
+            :loading="loading"
+            :popper-append-to-body="false"
+            clearable
+            @change="jbChangeEvent"
           >
-            <!-- 表格序号 -->
-            <el-table-column
-              type="index"
-              width="100"
-              size="small"
-              label="序号"
-              align="center"
-            ></el-table-column>
-
-            <!-- 当前预算 -->
-            <el-table-column
-              property="bidding_id"
-              label="当日预算"
-              align="center"
+            <el-option
+              v-for="item in options"
+              :key="item.value"
+              :label="`编号:${item.pro_num}——标名：${item.pro_name}`"
+              :value="item.pro_num"
             >
-              <template slot-scope="scope">
-                <div class="input-box">
-                  <el-input
-                    style="text-align: center"
-                    size="small"
-                    @input="changethreshold(scope.row)"
-                    v-model="scope.row.threshold"
-                  ></el-input>
-                </div>
-              </template>
-            </el-table-column>
-
-            <!-- 日期 -->
-            <el-table-column
-              property="bidding_id"
-              size="small"
-              label="日期"
-              align="center"
-            >
-              <template slot-scope="scope">
-                <div>
-                  {{ scope.row.bidding_date }}
-                </div>
-              </template>
-            </el-table-column>
-          </el-table>
-          <el-button
-            style="width: 80px; height: 40px"
-            size="small"
-            type="primary"
-            :disabled="this.changelist == '' ? true : false"
-            @click="sendlist"
-            >确定修改</el-button
-          >
-          <el-button
-            style="width: 60px; height: 40px"
-            @click="guanbi"
-            size="small"
-            type="danger"
-            >取消</el-button
-          >
-        </el-dialog>
-
-        <el-dialog
-          title="修改人员"
-          :visible.sync="centerDialogVisible"
-          width="30%"
-          center
-          custom-class="dialogEdit"
-        >
-          <div>
-            <div class="sendpeople" style="margin: 5px 0">
-              添加人员：<el-input
-                class="inline-input"
-                v-model="cSubcategoryNo"
-                placeholder="请输入上传人员姓名或关键字后再进行添加"
-                @input="chaz"
-                style="text-indent: 5px"
-              ></el-input>
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="选择活动:">
+          <el-collapse-transition>
+            <div v-if="cities && cities.length > 0">
+              <el-checkbox
+                :indeterminate="isIndeterminate"
+                v-model="checkAll"
+                @change="handleCheckAllChange"
+                >全选</el-checkbox
+              >
+              <el-checkbox-group
+                v-model="checkedCities"
+                @change="handleCheckedCitiesChange"
+              >
+                <el-checkbox
+                  v-for="city in cities"
+                  :label="city"
+                  :key="city.id"
+                  >{{ city.activityName }}</el-checkbox
+                >
+              </el-checkbox-group>
             </div>
-            <div class="xian">
+            <div v-else>暂无活动内容</div>
+          </el-collapse-transition>
+        </el-form-item>
+        <el-form-item label="添加人员:">
+          <el-input
+            class="inline-input"
+            v-model="cSubcategoryNo"
+            placeholder="请输入上传人员姓名或关键字"
+            @input="chaz"
+            size="medium"
+            clearable
+          ></el-input>
+        </el-form-item>
+        <el-collapse-transition>
+          <el-form-item v-if="restaurants.length > 0" label="" class="tagBox">
+            <el-scrollbar style="height: 100%">
               <el-tag
                 v-for="tag in restaurants"
                 :disable-transitions="false"
                 :key="tag.userid"
                 type=""
-                closable
-                @close="NameListhandleClose(tag)"
-                @click="Nametianjia(tag)"
-                style="margin-left: 10px; margin-top: 5px"
+                style="margin-left: 8px; margin-bottom: 5px"
+                @close="handleClose(tag)"
+                @click="tianjia(tag)"
+                >{{ tag.name }}</el-tag
               >
-                {{ tag.name }}
-              </el-tag>
-            </div>
-            <div>人员列表：</div>
-            <div class="namelist" style="width: 100%; margin-right: 15px">
-              <div style="padding: 10px 0; display: flex; width: 100%">
-                <div
-                  v-for="(i, index) in personnelList"
+            </el-scrollbar>
+          </el-form-item>
+        </el-collapse-transition>
+        <el-divider></el-divider>
+        <div class="send" style="display: flex; margin-bottom: 20px">
+          <div class="namelist">
+            <el-scrollbar style="height: 100%">
+              <ul style="list-style: none">
+                <li
+                  v-for="(i, index) in peoplelist"
                   :key="index"
                   :index="index"
-                  @dblclick="NameListdeleteitem(index)"
+                  style="margin-bottom: 5px"
+                  @dblclick="deleteitem(index)"
                 >
-                  <el-tag v-if="i.user_name" style="margin-left: 10px">{{
-                    i.user_name
-                  }}</el-tag
-                  ><el-tag v-if="i.name" style="margin-left: 10px">{{
-                    i.name
-                  }}</el-tag>
-                </div>
-              </div>
-            </div>
+                  <el-tag>{{ i.name }}</el-tag>
+                </li>
+              </ul>
+            </el-scrollbar>
           </div>
-          <span slot="footer" class="dialog-footer">
-            <el-button @click="centerDialogVisible = false">取 消</el-button>
-            <el-button type="primary" @click="isModification()"
-              >确 定</el-button
-            >
-          </span>
-        </el-dialog>
+          <div class="上传" style="flex: 1">
+            <Upload
+              class="tes"
+              txt="请上传xlsx文件，通过搜索添加上传人员，双击上传人员可删除"
+              :progressPercent="form.progressPercent"
+              @getFile="getFileEvent"
+            ></Upload>
+          </div>
+        </div>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <a
+          class="btnnormal btnnormal_down"
+          href="http://tool.afocus.com.cn/file_download/预算监控模板.xlsx"
+          download="预算监控模板.xlsx"
+          ><div class="btnSize">下载模板</div></a
+        >
+        <el-button
+          class="btnnormal marginL"
+          type="primary"
+          :disabled="
+            this.fileList.length == 0 ||
+            this.content == '' ||
+            this.peoplelist.length == 0
+              ? true
+              : false
+          "
+          @click="uploadFile"
+          >立即上传</el-button
+        >
+      </span>
+    </el-dialog>
+    <!-- 查看详情 -->
+    <el-dialog
+      title="查看详情"
+      :visible.sync="lookxq"
+      width="750px"
+      max-height="600px"
+      @close="clear"
+      custom-class="dialogEdit"
+    >
+      <el-table
+        class="detail_body"
+        ref="singleTable"
+        :data="xqlist"
+        height="540"
+        :highlight-current-row="true"
+        :cell-style="timeStyle"
+      >
+        <el-table-column
+          type="index"
+          width="100"
+          size="small"
+          label="序号"
+          align="center"
+        ></el-table-column>
+        <el-table-column property="bidding_id" label="当日预算" align="center">
+          <template slot-scope="scope">
+            <div class="input-box">
+              <el-input
+                style="text-align: center"
+                size="small"
+                @input="changethreshold(scope.row)"
+                v-model="scope.row.threshold"
+              ></el-input>
+            </div>
+          </template>
+        </el-table-column>
+        <el-table-column
+          property="bidding_date"
+          size="small"
+          label="日期"
+          align="center"
+        >
+        </el-table-column>
+      </el-table>
+      <div class="detail_btn">
+        <el-button
+          size="small"
+          type="primary"
+          class="btnnormal marginL"
+          :disabled="this.changelist == '' ? true : false"
+          @click="sendlist"
+          >确定修改</el-button
+        >
+        <el-button
+          class="btnnormal btnnormal_down"
+          @click="guanbi"
+          size="small"
+          type="danger"
+          >取消</el-button
+        >
       </div>
-    </div>
+    </el-dialog>
+    <!-- 修改人员 -->
+    <el-dialog
+      title="修改人员"
+      :visible.sync="centerDialogVisible"
+      width="30%"
+      center
+      custom-class="dialogJb editDia"
+      :close-on-click-modal="false"
+    >
+      <el-form class="formObj" label-width="80px">
+        <div class="formObj_ipt">
+          <el-form-item label="添加人员:" prop="input">
+            <el-input
+              class="inline-input"
+              v-model="cSubcategoryNo"
+              placeholder="请输入上传人员姓名或关键字"
+              @input="chaz"
+              clearable
+            ></el-input>
+          </el-form-item>
+          <el-collapse-transition>
+            <el-form-item v-if="restaurants.length > 0" label="" class="tagBox">
+              <el-scrollbar style="height: 100%">
+                <el-tag
+                  v-for="tag in restaurants"
+                  :key="tag.userid"
+                  type=""
+                  @close="NameListhandleClose(tag)"
+                  @click="Nametianjia(tag)"
+                  style="margin-left: 10px; margin-top: 5px"
+                >
+                  {{ tag.name }}
+                </el-tag>
+              </el-scrollbar>
+            </el-form-item>
+          </el-collapse-transition>
+          <div>
+            <el-form-item label="人员列表:" prop="input">
+              <div class="namelist">
+                <el-scrollbar style="height: 100%">
+                  <ul style="list-style: none">
+                    <li
+                      v-for="(i, index) in personnelList"
+                      :key="index"
+                      :index="index"
+                      @dblclick="NameListdeleteitem(index)"
+                    >
+                      <el-tag v-if="i.user_name" style="margin-left: 10px">{{
+                        i.user_name
+                      }}</el-tag
+                      ><el-tag v-if="i.name" style="margin-left: 10px">{{
+                        i.name
+                      }}</el-tag>
+                    </li>
+                  </ul>
+                </el-scrollbar>
+              </div>
+            </el-form-item>
+          </div>
+        </div>
+      </el-form>
+      <span slot="footer" class="dialog-footer">
+        <el-button
+          class="btnnormal marginL"
+          type="primary"
+          @click="isModification()"
+          >确 定</el-button
+        >
+        <el-button
+          class="btnnormal btnnormal_down"
+          @click="centerDialogVisible = false"
+          >取 消</el-button
+        >
+      </span>
+    </el-dialog>
   </div>
 </template>
 <script>
@@ -396,10 +354,16 @@ import {
   personnelDetails,
   updateUser,
 } from "@/api/api.js";
+import Upload from "@/components/upload";
+
 export default {
   name: "BiddingForMonitoring",
+  components: {
+    Upload,
+  },
   data() {
     return {
+      loading: false,
       form: {},
       personnelList: [],
       centerDialogVisible: false,
@@ -438,6 +402,7 @@ export default {
       currpage: 1,
       // 竞标id
       jbid: "",
+      jbname: "",
       //每页的数据条数
       pagesize: 10,
       //下拉框
@@ -459,12 +424,33 @@ export default {
       changelist: [], //修改过后的列表
     };
   },
+  created() {
+    // check方法调用接口,判断用户是否登录!
+    this.check();
+  },
+  mounted() {
+    //设置请求头
+    this.userid = localStorage.getItem("wx_userid");
+    this.code = localStorage.getItem("wx_code");
+    this.username = localStorage.getItem("user_name");
+    this.peoplelist = [
+      {
+        name: this.username,
+        userid: this.userid,
+      },
+    ];
+    //调用查看列表
+    this.getlist();
+  },
   methods: {
     timeStyle() {
       return "height:50px;padding:0;";
     },
     upList() {
       this.dialogVisible = true;
+    },
+    getFileEvent(val) {
+      this.fileList = val;
     },
     isModification() {
       let itemListid = "";
@@ -561,30 +547,42 @@ export default {
       this.isIndeterminate =
         checkedCount > 0 && checkedCount < this.cities.length;
     },
+    // 查询竞标
     search(val) {
-      if (this.content == "") {
-        this.openkey = false;
+      const vm = this;
+      vm.loading = true;
+      BiddingSearch({
+        search: val,
+      }).then((res) => {
+        vm.loading = false;
+        if (res.data.code == "10000" && res.data.data.length) {
+          vm.options = res.data.data;
+        } else {
+          vm.options = [];
+        }
+      });
+      // }
+    },
+
+    // 选中竞标查询活动
+    jbChangeEvent(val) {
+      const vm = this;
+      for (let item of vm.options) {
+        if (item.pro_num === val) {
+          vm.jbname = item.pro_name;
+          break;
+        }
+      }
+      if (val) {
+        BidIdQueryActivity({
+          bidding_id: val,
+        }).then((res) => {
+          cityOptions = res.data.data;
+          vm.cities = res.data.data;
+        });
       } else {
-        this.openkey = true;
-        BiddingSearch({
-          search: this.content,
-        })
-          .then((res) => {
-            this.options = res.data.data;
-            if (res.data.code == "10000" && res.data.data.length == 0) {
-              this.$message.closeAll();
-              this.$message.warning("您输入的关键词暂无数据,请重新输入!");
-            } else if (res.data.code == "10000" && res.data.length) {
-              this.options = res.data.data;
-            } else if (res.data.code == "10001") {
-              this.$message.error("db error");
-            } else {
-              console.log("其他错误");
-            }
-          })
-          .catch((err) => {
-            console.log(err);
-          });
+        vm.options = [];
+        vm.cities = [];
       }
     },
     //分页器功能
@@ -596,28 +594,6 @@ export default {
       this.currpage = page;
       this.getlist();
     },
-
-    //文件列表移除时的钩子
-    remfile(file, fileList) {
-      this.fileList.pop("file");
-    },
-    //li点击赋值的时候 并收回弹框
-    setitem(i, Inum) {
-      this.openkey = false;
-      this.content = i.pro_name;
-      this.jbid = i.pro_num;
-      this.options = [];
-      BidIdQueryActivity({
-        bidding_id: this.jbid,
-      })
-        .then((res) => {
-          cityOptions = res.data.data;
-          this.cities = res.data.data;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
     tianjia(tag) {
       this.peoplelist.push(tag);
       this.itemid.push(tag.id);
@@ -628,23 +604,6 @@ export default {
       this.personnelList.push(tag);
       this.NameListhandleClose(tag);
     },
-    // 文件状态改变时的钩子
-    fileChange(file, fileList) {
-      this.fileList.push(file.raw);
-      this.progressPercent = 0;
-    },
-    // 上传文件之前的钩子, 参数为上传的文件,若返回 false 或者返回 Promise 且被 reject，则停止上传
-    beforeUploadFile(file) {
-      let extension = file.name.substring(file.name.lastIndexOf(".") + 1);
-      let size = file.size / 1024 / 1024 < 50;
-      if (extension !== "xlsx") {
-        this.$message.warning("只能上传后缀是.xlsx的文件");
-      }
-      if (!size) {
-        this.$message.warning("文件大小不得超过50M");
-        return size;
-      }
-    },
 
     // 文件上传成功时的钩子
     handleSuccess(res, file, fileList) {
@@ -654,16 +613,10 @@ export default {
       this.itemid = [];
       this.dialogVisible = false;
     },
-    // 文件上传失败时的钩子
-    handleError(err, file, fileList) {
-      this.$message.error("文件上传失败");
-    },
-    UploadUrl: function () {
-      // 因为action参数是必填项，使用二次确认进行文件上传时，直接填上传文件的url会因为没有参数导致api报404，所以这里将action设置为一个返回为空的方法就行，避免抛错
-      return "";
-    },
     //立即上传
     uploadFile(data) {
+      let arrName = "";
+      let arrId = "";
       //上传时需要的人员id
       this.itemid = "";
       this.itemname = "";
@@ -678,13 +631,14 @@ export default {
       } else if (this.fileList.length === 0) {
         this.$message.warning("请选择要上传的excel文件");
       } else {
+        console.log(this.content);
         let data = {
           file: this.fileList,
           user_list: this.itemid,
           user_name_list: this.itemname,
           trans_name: this.username,
-          bidding_id: this.jbid,
-          bidding_name: this.content,
+          bidding_id: this.content,
+          bidding_name: this.jbname,
         };
         if (this.checkAll === true) {
           this.checkedCities = [];
@@ -753,7 +707,6 @@ export default {
     },
     NameListdeleteitem(index) {
       this.personnelList.splice(index, 1);
-      console.log(this.personnelList);
     },
     // 查看列表
     getlist() {
@@ -849,72 +802,10 @@ export default {
       this.isIndeterminate = false;
     },
   },
-  created() {
-    // check方法调用接口,判断用户是否登录!
-    this.check();
-  },
-  mounted() {
-    //设置请求头
-    this.userid = localStorage.getItem("wx_userid");
-    this.code = localStorage.getItem("wx_code");
-    this.username = localStorage.getItem("user_name");
-    this.peoplelist = [
-      {
-        name: this.username,
-        userid: this.userid,
-      },
-    ];
-    //调用查看列表
-    this.getlist();
-  },
 };
 </script>
 
 <style lang="less" scoped>
 @import "../../index";
-.btnSizeBig {
-  padding: 5px 5px;
-  height: 38px;
-  border: 1px solid #0051b3;
-  color: #2066bd;
-  text-align: center;
-  cursor: pointer;
-  line-height: 38px;
-}
-.namelist {
-  width: 140px;
-  text-align: right;
-  .el-tag {
-    color: #2066BD;
-  }
-}
-/deep/.dialogEdit {
-  .el {
-    &-input,
-    &-select,
-    &-date-editor,
-    &-upload {
-      width: 380px !important;
-    }
-    &-upload-dragger {
-      width: 100%;
-    }
-
-    &-dialog {
-      &__body {
-        padding-bottom: 0;
-      }
-
-      &__footer {
-        padding: 0 60px 40px 0;
-      }
-    }
-
-    &-input {
-      &-number--medium {
-        width: 380px;
-      }
-    }
-  }
-}
+@import "./bidding.less";
 </style>

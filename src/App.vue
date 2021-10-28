@@ -46,9 +46,9 @@
 		},
 		created() {
 		// 线上发布时created中所有都注释
-			this.$route.query.wx_code = "gEVpTvAdZpk5HX0mY6Nx3FxuZI6XzNXbzcQtk3r6ctQ";
-			this.$route.query.wx_userid = "1020108";
-			this.$route.query.user_name = '方涛';
+			this.$route.query.wx_code = "x5bSoZv_PFJGUxnwn8yd_sxm58kr3ZJeUOIsH1su6AY";
+			this.$route.query.wx_userid = "19261";
+			this.$route.query.user_name = '韩昊喆';
 			localStorage.setItem('wx_code',this.$route.query.wx_code)
 			localStorage.setItem('wx_userid',this.$route.query.wx_userid)
 			localStorage.setItem('user_name',this.$route.query.user_name)
@@ -206,5 +206,8 @@
 		font-size: 12px;
 		line-height: 20px;
 		margin: 0 5px;
+	}
+	.logout {
+		cursor: pointer;
 	}
 </style>

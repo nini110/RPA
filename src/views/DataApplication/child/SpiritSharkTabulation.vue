@@ -141,11 +141,17 @@
               :data="itemList"
               tooltip-effect="dark"
               style="width: 100%"
-              min-height="540"
+              height="550"
               @selection-change="handleSelectionChange"
               :cell-style="timeStyle"
             >
-              <el-table-column type="selection" width="80"> </el-table-column>
+              <el-table-column type="selection" width="50"> </el-table-column>
+                            <el-table-column
+                type="index"
+                width="50"
+                label="序号"
+                align="center"
+              ></el-table-column>
               <el-table-column
                 prop="report_name"
                 label="报表名称"
@@ -213,6 +219,7 @@
           <div class="block" v-if="total">
             <el-pagination
               @current-change="handleCurrentChange"
+              @size-change="handleSizeChange"
               :current-page.sync="currpage"
               :page-size="pagesize"
               background
@@ -347,12 +354,16 @@ export default {
       this.currpage = page;
       this.getObjectList();
     },
+    handleSizeChange(val) {
+      this.pagesize = val;
+      this.getObjectList();
+    },
     // 获取表格项目列表信息
     getObjectList() {
       ObjectList({
         project_name: this.SelectItemData[0],
         page: this.currpage,
-        per_page: 10,
+        per_page: this.pagesize,
       })
         .then((res) => {
           this.itemList = res.data.data.data;
