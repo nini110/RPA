@@ -8,10 +8,10 @@
         size="medium"
         >新建项目</el-button
       >
-      <div class="tables">
+      <div  class="tabbles" ref="tabbles" style="height:calc(100% - 100px)">
         <el-table
           :data="tableDataList"
-          height="900"
+          :height="tableHeight"
           tooltip-effect="dark"
           @cell-click="cellClick"
         >
@@ -302,7 +302,12 @@ export default {
       thousandsOfSichuanFlag: true,
       trillFlag: true,
       submitData: [],
+       tableHeight: 0,
     };
+  },
+  mounted() {
+    this.tableHeight = window.getComputedStyle(this.$refs.tabbles).height
+
   },
   methods: {
     cellClick(row) {

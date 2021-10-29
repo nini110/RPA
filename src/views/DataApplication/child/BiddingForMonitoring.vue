@@ -7,13 +7,14 @@
           <div class="btnSizeBig" @click="upList()">上传竞标按钮</div>
         </div>
       </div>
-      <div class="tableBox">
+      <div ref="tableBox" class="tableBox jiankong" style="height:calc(100% - 180px)">
         <el-divider>列表</el-divider>
         <div class="tables" v-if="tableData">
           <el-table
             ref="singleTable"
+            class="tableBox"
             :data="tableData"
-            height="900"
+            :height="tableHeight"
             @cell-click="celltable"
             :highlight-current-row="true"
             :cell-style="timeStyle"
@@ -423,6 +424,7 @@ export default {
       log: "", //详情内容
       xqlist: [], //查看详情列表
       changelist: [], //修改过后的列表
+      tableHeight: 0,
     };
   },
   created() {
@@ -430,6 +432,8 @@ export default {
     this.check();
   },
   mounted() {
+    this.tableHeight = window.getComputedStyle(this.$refs.tableBox).height
+
     //设置请求头
     this.userid = localStorage.getItem("wx_userid");
     this.code = localStorage.getItem("wx_code");

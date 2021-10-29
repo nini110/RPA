@@ -30,11 +30,10 @@
           </div>
         </div>
       </div>
-      <div class="tabbles">
+      <div class="tabbles" ref="tabbles" style="height:calc(100% - 100px)">
         <el-table
           :data="tableData"
-          height="700px"
-          style="width: 100%"
+          :height="tableHeight"
           @cell-click="cellClick"
         >
           <el-table-column align="center" label="序号" width="60" type="index">
@@ -123,18 +122,19 @@
           </el-form>
           <span slot="footer" class="dialog-footer">
             <el-button
+              class="btnnormal "
+              type="primary"
+              @click="isOk()"
+              size="medium"
+              >确 定</el-button
+            >            
+            <el-button
               class="btnnormal btnnormal_down"
               @click="dialogVisible = false"
               size="medium"
               >取 消</el-button
             >
-            <el-button
-              class="btnnormal marginL"
-              type="primary"
-              @click="isOk()"
-              size="medium"
-              >确 定</el-button
-            >
+
           </span>
         </el-dialog>
       </div>
@@ -218,8 +218,13 @@ export default {
         },
       ],
       editId: 0,
+      tableHeight: 0
+
     };
   },
+      mounted() {
+    this.tableHeight = window.getComputedStyle(this.$refs.tabbles).height
+  },  
   methods: {
     // 取消表单验证
     formValidate() {
@@ -409,4 +414,5 @@ export default {
 @import "@/views/index.less";
 @import "./index.less";
 @import "../items/index.less";
+@import "../strategy/index.less";
 </style>

@@ -40,14 +40,25 @@
 </script>
 
 <style lang="less">
+
  .strategy{
 	 display: flex;
 	 flex-direction: row-reverse;
 	 .tabs{
 		 width: 935px;
+		 height: calc( 100% - 150px);
 		 padding: 20px;
 		 padding-top: 130px;
 		 background-color: #fff;
+		 .el-tabs {
+			 height: 100%;
+			 &__content {
+		 		height: calc( 100% - 80px);
+				 .el-tab-pane {
+					 height: 100%;
+				 }
+			 }
+		 }
 	 }
  }
 </style>

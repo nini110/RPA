@@ -49,13 +49,12 @@
           </div>
         </div>
       </div>
-      <div class="tabbles">
+      <div class="tabbles" ref="tabbles" style="height:calc(100% - 100px)">
         <el-table
           ref="multipleTable"
           :data="tableData"
           tooltip-effect="dark"
-          style="width: 100%"
-          height="700px"
+          :height="tableHeight"
           @cell-click="cellClick"
           @selection-change="handleSelectionChange"
         >
@@ -379,7 +378,11 @@ export default {
       btnvalue: false,
       input: "",
       editId: 0,
+      tableHeight: 0
     };
+  },
+    mounted() {
+    this.tableHeight = window.getComputedStyle(this.$refs.tabbles).height
   },
   methods: {
     // 删除按钮

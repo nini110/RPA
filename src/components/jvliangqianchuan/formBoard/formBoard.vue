@@ -34,8 +34,28 @@
 	}
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 	@import '@/views/index.less';
 	@import './index';
-
+ .formBoard{
+	 display: flex;
+	 flex-direction: row-reverse;
+	 height: 100%;
+	 .tabs{
+		 width: 935px;
+		 height: calc( 100% - 150px);
+		 padding: 20px;
+		 padding-top: 130px;
+		 background-color: #fff;
+		 .el-tabs {
+			 height: 100%;
+			 &__content {
+		 		height: calc( 100% - 80px)!important;
+				 .el-tab-pane {
+					 height: 100%;
+				 }
+			 }
+		 }
+	 }
+ }
 </style>

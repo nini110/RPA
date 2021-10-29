@@ -63,7 +63,7 @@
           </div>
         </el-form>
       </div>
-      <div class="tableBox">
+      <div ref="tableBox" class="tableBox" style="height:calc(100% - 460px)">
         <el-divider></el-divider>
         <div class="tables">
           <div v-if="showVarDia" class="dialog">
@@ -78,7 +78,7 @@
               class="tableBox"
               :data="tableData"
               size="small"
-              height="580"
+              :height="tableHeight"
               @cell-click="celltable"
               :highlight-current-row="true"
               :cell-style="timeStyle"
@@ -194,6 +194,7 @@ export default {
       title: "", //查看详情渲染的title
       log: "", //查看详情渲染的log
       choose: "", //传值为1或2
+      tableHeight: 0,
     };
   },
   created() {
@@ -204,6 +205,7 @@ export default {
     this.username = localStorage.getItem("user_name");
     this.people = localStorage.getItem("user_name");
     this.getuserlist(1);
+    this.tableHeight = window.getComputedStyle(this.$refs.tableBox).height
   },
   methods: {
     timeStyle() {

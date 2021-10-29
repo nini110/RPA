@@ -129,24 +129,28 @@
           </div>
         </el-form>
       </div>
-      <div class="tableBox">
+      <div
+        ref="tableBox"
+        class="tableBox teshu"
+        style="height: calc(100% - 280px)"
+      >
+        <el-divider>列表</el-divider>
         <div class="tables">
-          <el-divider>列表</el-divider>
           <div class="tableTab">
             <el-button type="text" size="mini" @click="DeleteReportAll"
               >批量删除</el-button
             >
             <el-table
+              class="tableBox"
               ref="multipleTable"
               :data="itemList"
               tooltip-effect="dark"
-              style="width: 100%"
-              height="720"
+              :height="tableHeight"
               @selection-change="handleSelectionChange"
               :cell-style="timeStyle"
             >
               <el-table-column type="selection" width="50"> </el-table-column>
-                            <el-table-column
+              <el-table-column
                 type="index"
                 width="50"
                 label="序号"
@@ -277,12 +281,16 @@ export default {
       fileList: [], // excel文件列表
       itemList: [], //表格项目列表信息
       multipleSelection: "",
+      tableHeight: 0,
     };
   },
   created() {
     // check方法调用接口,判断用户是否登录!
     this.check();
     this.getSelectItem();
+  },
+  mounted() {
+    this.tableHeight = window.getComputedStyle(this.$refs.tableBox).height;
   },
   methods: {
     timeStyle() {
@@ -420,6 +428,7 @@ export default {
         username: localStorage.getItem("user_name"),
       })
         .then((res) => {
+          this.getObjectList();
           this.progressPercent = 100;
           this.timer = window.setInterval(() => {
             this.ReportStatus(res.data.data.data);

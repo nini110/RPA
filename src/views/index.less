@@ -101,10 +101,13 @@
 				background-color: #fff;
 				.tables{
 					width: 88%;
+					height: calc(100% - 110px);
 					margin: 0 auto;
 					.tableTab{
+						height: 100%;
 						.tableBox{
 							width: 100%;
+							height: 100%!important;
 						}
 					}
 					.dialog{
@@ -130,6 +133,23 @@
 							height: 40px;
 							margin: 0 auto;
 						}
+					}
+				}
+				&.teshu {
+					.tableTab{
+						.tableBox{
+							width: 100%;
+							height: calc(100% - 50px)!important;
+						}
+					}
+				}
+				&.jiankong {
+					.tables {
+					height: calc(100% - 50px);
+					.tableBox {
+						height: 100%!important;
+					}
+
 					}
 				}
 			}

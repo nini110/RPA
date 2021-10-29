@@ -68,7 +68,8 @@
     &_title {
         line-height: 100px;
         color: #fff;
-        font-size: 40px;
+        font-size: 30px;
+        letter-spacing: 3px;
         margin: 0 auto;
         text-align: center;
         border-radius: 10px 10px 0 0;
@@ -119,7 +120,32 @@
  .echartsBox {
     width: 975px;
     height: 1000px;
-    margin-top: 60px;
+    // margin-top: 60px;
     overflow-y: scroll;
     background-color: #fff;
+ }
+
+.snakeTable {
+    /deep/.el {
+         &-table {
+            &__header-wrapper {
+                display: none!important;
+            }
+            &__expanded-cell {
+                .el-form-item {
+                    width: 32%;
+                    padding: 0 10px;
+                    border-radius: 4px;
+                    display: inline-flex;
+                    justify-content: flex-start;
+                    background-color: #e4e9ec;
+                    color: #666;
+                    margin-bottom: 10px;
+                    flex-wrap: wrap;
+                    text-align: center;
+                }
+            }
+         }
+     }
+
  }

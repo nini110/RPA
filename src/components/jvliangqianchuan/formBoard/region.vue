@@ -32,8 +32,8 @@
           </div>
         </div>
       </div>
-      <div class="tabbles">
-        <el-table :data="tableData" height="700px" style="width: 100%">
+      <div class="tabbles" ref="tabbles" style="height:calc(100% - 100px)">
+        <el-table :data="tableData" :height="tableHeight">
           <el-table-column align="center" type="index" label="序号" width="60">
           </el-table-column>
           <el-table-column prop="name" label="模板名称" min-width="120">
@@ -46,7 +46,12 @@
           </el-table-column>
           <el-table-column prop="username" label="创建人" min-width="120">
           </el-table-column>
-          <el-table-column prop="address" label="操作" width="120" fixed="right">
+          <el-table-column
+            prop="address"
+            label="操作"
+            width="120"
+            fixed="right"
+          >
             <el-button type="text">编辑</el-button>
             <el-button type="text" @click="deleteFn()">删除</el-button>
           </el-table-column>
@@ -70,7 +75,7 @@
           title="地域模板"
           :visible.sync="dialogVisible"
           width="500px"
-      	  :close-on-click-modal="false"
+          :close-on-click-modal="false"
           custom-class="dialogEdit dialogStrategy"
         >
           <el-form ref="form" :model="form" label-width="100px">
@@ -176,14 +181,17 @@
           <span slot="footer" class="dialog-footer">
             <el-button
               type="primary"
-			  class="btnnormal marginL"
+              class="btnnormal marginL"
               @click="dialogVisible = false"
               size="medium"
               >确 定</el-button
             >
-            <el-button class="btnnormal btnnormal_down" @click="dialogVisible = false" size="medium"
+            <el-button
+              class="btnnormal btnnormal_down"
+              @click="dialogVisible = false"
+              size="medium"
               >取 消</el-button
-            >			
+            >
           </span>
         </el-dialog>
       </div>
@@ -238,8 +246,13 @@ export default {
       optionsCity: [], //地理划分
       optionsDevelop: [], //发展划分
       optionsCounty: [],
+      tableHeight: 0
+
     };
   },
+    mounted() {
+    this.tableHeight = window.getComputedStyle(this.$refs.tabbles).height
+  },  
   methods: {
     // 删除按钮
     deleteFn() {
@@ -279,4 +292,6 @@ export default {
 @import "@/views/index.less";
 @import "./index.less";
 @import "../items/index.less";
+@import "../strategy/index.less";
+
 </style>
