@@ -91,7 +91,13 @@
         </el-pagination>
       </div>
       <div class="dialog ageDialog">
-        <el-dialog title="年龄模板" :visible.sync="dialogVisible" width="600px">
+        <el-dialog
+          title="年龄模板"
+          :visible.sync="dialogVisible"
+          width="500px"
+          custom-class="dialogEdit dialogStrategy"
+          :close-on-click-modal="false"
+        >
           <el-form ref="form" :model="form" label-width="100px" :rules="rules">
             <el-form-item label="模板名称:" prop="name">
               <el-input
@@ -117,17 +123,17 @@
           </el-form>
           <span slot="footer" class="dialog-footer">
             <el-button
+              class="btnnormal btnnormal_down"
+              @click="dialogVisible = false"
+              size="medium"
+              >取 消</el-button
+            >
+            <el-button
               class="btnnormal marginL"
               type="primary"
               @click="isOk()"
               size="medium"
               >确 定</el-button
-            >
-            <el-button
-              class="btnnormal btnnormal_down"
-              @click="dialogVisible = false"
-              size="medium"
-              >取 消</el-button
             >
           </span>
         </el-dialog>
@@ -402,4 +408,5 @@ export default {
 <style lang="less" scoped>
 @import "@/views/index.less";
 @import "./index.less";
+@import "../items/index.less";
 </style>

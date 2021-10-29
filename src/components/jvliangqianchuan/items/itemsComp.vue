@@ -11,43 +11,46 @@
       <div class="tables">
         <el-table
           :data="tableDataList"
-          style="width: 100%"
-          height="800px"
-           tooltip-effect="dark"
+          height="900"
+          tooltip-effect="dark"
           @cell-click="cellClick"
         >
           <el-table-column align="center" label="序号" width="120" type="index">
           </el-table-column>
-          <el-table-column prop="project_name" label="项目名称" width="180">
+          <el-table-column prop="project_name" label="项目名称" min-width="180">
           </el-table-column>
-          <el-table-column prop="shop_name" label="抖店/代理商" width="180">
+          <el-table-column prop="shop_name" label="抖店/代理商" min-width="180">
           </el-table-column>
-          <el-table-column prop="quanchuan_name" label="千川账号" width="180">
+          <el-table-column
+            prop="quanchuan_name"
+            label="千川账号"
+            min-width="180"
+          >
           </el-table-column>
-          <el-table-column prop="douyin_name" label="抖音账号" width="180">
+          <el-table-column prop="douyin_name" label="抖音账号" min-width="180">
           </el-table-column>
-          <el-table-column prop="address3" label="投放时间" width="180">
+          <el-table-column prop="address3" label="投放时间" min-width="180">
             <template slot-scope="scope">
               <div>{{ scope.row.cast_start_time }}</div>
               <div>{{ scope.row.cast_end_time }}</div>
             </template>
           </el-table-column>
-          <el-table-column prop="interval" label="数据获取间隔" width="120">
+          <el-table-column prop="interval" label="数据获取间隔" min-width="120">
             <template slot-scope="scope">
               <div>{{ scope.row.interval / 60 }}分钟</div>
             </template>
           </el-table-column>
-          <el-table-column prop="address6" label="绑定策略数" width="100">
+          <el-table-column prop="address6" label="绑定策略数" min-width="100">
             <template slot-scope="scope">
               <div>1</div>
             </template>
           </el-table-column>
-          <el-table-column prop="address7" label="创建时间" width="120">
+          <el-table-column prop="address7" label="创建时间" min-width="120">
             <template slot-scope="scope">
               <div>2021-08-27</div>
             </template>
           </el-table-column>
-          <el-table-column prop="founder" label="创建者" width="80">
+          <el-table-column prop="founder" label="创建者" min-width="80">
           </el-table-column>
           <el-table-column label="操作" width="180" fixed="right">
             <template slot="header">
@@ -91,9 +94,10 @@
           title="新建/编辑"
           :visible.sync="dialogVisible"
           width="600px"
-          custom-class="dialogEdit"
+          custom-class="dialogEdit dialogStrategy"
+          :close-on-click-modal="false"
         >
-          <el-form ref="form" :model="form" label-width="140px">
+          <el-form ref="form" :model="form" label-width="100px">
             <el-form-item label="项目名称:" prop="name">
               <el-input
                 v-model="form.name"
@@ -226,10 +230,17 @@
             </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button class="btnnormal btnnormal_down" @click="dialogVisible = false" size="medium"
+            <el-button
+              class="btnnormal btnnormal_down"
+              @click="dialogVisible = false"
+              size="medium"
               >取 消</el-button
             >
-            <el-button class="btnnormal" type="primary" @click="isOk()" size="medium"
+            <el-button
+              class="btnnormal"
+              type="primary"
+              @click="isOk()"
+              size="medium"
               >确 定</el-button
             >
           </span>
@@ -359,17 +370,17 @@ export default {
     // 获取项目详情
     projectEdit(ids) {
       let id = ids;
-      projectEdit(id)
+      projectEdit({}, id)
         .then((res) => {
-          this.submitData = res;
-          this.form.name = res.project_name;
-          this.form.radio = res.num;
-          this.form.authorization = res.shop_name;
-          this.form.ThousandsOfSichuan = res.quanchuan_name;
-          this.form.trill = res.douyin_name;
-          this.form.timeData[0] = res.cast_start_time;
-          this.form.timeData[1] = res.cast_end_time;
-          this.form.strategy_id = res.strategy_id;
+          this.submitData = res.data;
+          this.form.name = res.data.project_name;
+          this.form.radio = res.data.num;
+          this.form.authorization = res.data.shop_name;
+          this.form.ThousandsOfSichuan = res.data.quanchuan_name;
+          this.form.trill = res.data.douyin_name;
+          this.form.timeData[0] = res.data.cast_start_time;
+          this.form.timeData[1] = res.data.cast_end_time;
+          this.form.strategy_id = res.data.strategy_id;
           function group(ss, step) {
             var r = [];
             function doGroup(s) {
@@ -381,8 +392,8 @@ export default {
             doGroup(ss);
             return r;
           }
-          let start1 = res.cast_start_time;
-          let end1 = res.cast_end_time;
+          let start1 = res.data.cast_start_time;
+          let end1 = res.data.cast_end_time;
           start1 = start1.split("-");
           let start2 = start1[2].split(":");
           let start3 =
@@ -415,13 +426,13 @@ export default {
           ];
           // timeData: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
           console.log(this.form.timeData);
-          this.Strategies(res.id);
+          this.Strategies(res.data.id);
           let params1 = {
-            shop_id: res.shop_id,
-            num: this.form.radio,
+            shop_id: res.data.shop_id,
+            num: this.data.form.radio,
           };
           let params2 = {
-            advertiser_id: res.quanchuan_id,
+            advertiser_id: res.data.quanchuan_id,
             num: this.form.radio,
           };
           this.getSQselect();
@@ -472,6 +483,7 @@ export default {
     },
     // 编辑按钮
     editFn(id) {
+      
       this.flag = false;
       this.dialogVisible = true;
       this.editId = id;
@@ -482,11 +494,13 @@ export default {
     },
     // 获取项目列表
     projectList() {
+      
       projectList({
         page: this.currentPage,
         page_size: this.pagesize,
       })
         .then((res) => {
+          
           this.tableDataList = res.data.results;
           this.total = res.data.count;
         })
@@ -496,10 +510,12 @@ export default {
     },
     // 出价策略列表
     strategyList() {
+      
       strategyList({
         page: 0,
       })
         .then((res) => {
+          
           this.cjtableData = res.data.data.data;
         })
         .catch((err) => {
@@ -508,11 +524,13 @@ export default {
     },
     // 预算策略列表
     budgetStrategyList() {
+      
       let params = {
         page: 0,
       };
       budgetStrategyList(params)
         .then((res) => {
+          
           this.ystableData = res.data.data.data;
         })
         .catch((err) => {
@@ -521,11 +539,13 @@ export default {
     },
     // 计划策略列表
     planStrategyList() {
+      
       let params = {
         page: 0,
       };
       planStrategyList(params)
         .then((res) => {
+          
           this.jhtableData = res.data.data.data;
         })
         .catch((err) => {
@@ -730,5 +750,4 @@ export default {
 @import "@/views/index.less";
 @import "./index";
 @import "../items/index.less";
-
 </style>

@@ -12,6 +12,9 @@ const headers = {
 }
 service.interceptors.request.use(config => {
     if (config.method === 'get') {
+        config.headers = {
+            'content-type': headers['form']
+        },
         config.params = {
             ...config.data
         }
@@ -62,17 +65,17 @@ service.interceptors.response.use(response => {
 }), error => {
     return err
 }
-async function axiosHttp(body, config) {
+async function axiosHttp(body, parData, config) {
     let { url, method, responseType } = config;
     return await service({
-        url,
+        url: parData? url+parData+'/' : url,
         method,
         responseType,
         data: responseType === 'form-data' ? body : {...JSON.parse(JSON.stringify(body))}
     })
 }
-export default function request(config) {
-    return (body={}) => {
-        return axiosHttp(body, config)
+export default function request(config, parData) {
+    return (body={}, parData='') => {
+        return axiosHttp(body, parData, config)
     }
 }

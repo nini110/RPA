@@ -141,7 +141,7 @@
               :data="itemList"
               tooltip-effect="dark"
               style="width: 100%"
-              height="550"
+              height="720"
               @selection-change="handleSelectionChange"
               :cell-style="timeStyle"
             >
@@ -427,7 +427,7 @@ export default {
           if (res.data.msg === "success") {
             this.$message.warning("生成中");
           } else {
-            this.$message.success(res.msg);
+            this.$message.success(res.data.msg);
           }
           this.loading = false;
           if (res.data.msg !== "该报表已生成,请前去下载") {

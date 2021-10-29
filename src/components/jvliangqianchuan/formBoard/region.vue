@@ -69,10 +69,11 @@
         <el-dialog
           title="地域模板"
           :visible.sync="dialogVisible"
-          width="600px"
+          width="500px"
       	  :close-on-click-modal="false"
+          custom-class="dialogEdit dialogStrategy"
         >
-          <el-form ref="form" :model="form" label-width="120px">
+          <el-form ref="form" :model="form" label-width="100px">
             <el-form-item label="模板名称:">
               <el-input
                 v-model="form.name"
@@ -277,4 +278,5 @@ export default {
 <style lang="less" scoped>
 @import "@/views/index.less";
 @import "./index.less";
+@import "../items/index.less";
 </style>

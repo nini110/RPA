@@ -152,6 +152,7 @@
               :visible.sync="dialogVisible"
               width="500px"
               max-height="600px"
+              :close-on-click-modal="false"
             >
               <div>详情信息：{{ log }}</div>
             </el-dialog>

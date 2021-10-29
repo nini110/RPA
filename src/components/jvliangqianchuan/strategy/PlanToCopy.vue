@@ -58,10 +58,10 @@
           </el-table-column>
           <el-table-column align="center" label="序号" width="60" type="index">
           </el-table-column>
-          <el-table-column prop="count" label="状态" min-width="100">
+          <el-table-column prop="count" label="状态" width="120" align="center">
             <template slot-scope="scope">
-              <div v-if="scope.row.status">使用中</div>
-              <div v-else>未使用</div>
+              <div v-if="scope.row.status" class="yes">使用中</div>
+              <div v-else class="no">未使用</div>
             </template>
           </el-table-column>
           <el-table-column prop="name" label="策略名称" min-width="120">
@@ -131,38 +131,38 @@
         <el-dialog
           title="复制计划策略"
           :visible.sync="dialogVisible"
-          width="600px"
-		  custom-class="dialogEdit"
+          width="500px"
+          custom-class="dialogEdit dialogStrategy"
           :close-on-click-modal="false"
         >
-          <el-form ref="form" :model="form" label-width="140px" :rules="rules">
+          <el-form ref="form" :model="form" label-width="100px" :rules="rules">
             <el-form-item label="策略名称:" prop="name">
               <el-input
                 v-model="form.name"
                 size="medium"
                 placeholder="请输入策略名称"
-				clearable
+                clearable
               ></el-input>
             </el-form-item>
             <el-divider content-position="left">条件</el-divider>
-            <el-form-item label="取数次数:" prop="triesLimit">
-                <el-input-number
-                  v-model="form.triesLimit"
-                  @change="handleChange"
-                  :min="1"
-                  :max="50"
-                  size="medium"
-                  label="描述文字"
-				  clearable
-                ></el-input-number
-                >次
+            <el-form-item label="取数次数:" prop="triesLimit" class="oneIpt">
+              <el-input-number
+                v-model="form.triesLimit"
+                @change="handleChange"
+                :min="1"
+                :max="50"
+                size="medium"
+                label="描述文字"
+                clearable
+              ></el-input-number
+              >次
             </el-form-item>
             <el-form-item label="判断依据:" prop="judge" class="twoIpt">
               <el-select
                 v-model="form.judge"
                 placeholder="请选择"
                 size="medium"
-				clearable
+                clearable
               >
                 <el-option
                   v-for="item in judgeOptions"
@@ -184,23 +184,21 @@
               >%
             </el-form-item>
             <el-divider content-position="left">操作</el-divider>
-            <el-form-item label="计划:">
-              复制
-            </el-form-item>
+            <el-form-item label="计划:"> 复制 </el-form-item>
           </el-form>
           <span slot="footer" class="dialog-footer">
-            <el-button
-              class="btnnormal"
-              type="primary"
-              @click="isOk()"
-              size="medium"
-              >确 定</el-button
-            >
             <el-button
               class="btnnormal btnnormal_down"
               @click="dialogVisible = false"
               size="medium"
               >取 消</el-button
+            >
+            <el-button
+              class="btnnormal marginLl"
+              type="primary"
+              @click="isOk()"
+              size="medium"
+              >确 定</el-button
             >
           </span>
         </el-dialog>

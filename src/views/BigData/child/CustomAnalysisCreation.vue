@@ -84,7 +84,7 @@
               class="tableBox"
               :data="tableData"
               size="small"
-              height="540"
+              height="580"
               @cell-click="celltable"
               :highlight-current-row="true"
               :cell-style="timeStyle"
@@ -135,6 +135,7 @@
               :visible.sync="dialogVisible"
               width="500px"
               max-height="600px"
+              :close-on-click-modal="false"
             >
               <div>详情信息：{{ log }}</div>
             </el-dialog>

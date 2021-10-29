@@ -1,5 +1,5 @@
 <template>
-	<div class="realTime">
+	<div class="realTime" style="height: 100%">
 		<realTime></realTime>
 	</div>
 </template>

@@ -5,13 +5,15 @@ let BASEPATH2 = '';
 let BASEPATH3 = '';
 
 if (process.env.NODE_ENV === 'production') {
+    BASEPATH = 'http://114.67.229.243:8001'
+    BASEPATH2 = 'http://tool.afocus.com.cn'
+    BASEPATH3 = 'http://114.67.229.243:8002'
     // 生产环境
 } else {
     // 开发环境
     BASEPATH = 'http://114.67.229.243:8001'
     BASEPATH2 = 'http://tool.afocus.com.cn'
     BASEPATH3 = 'http://114.67.229.243:8002'
-    // BASEPATH3 = 'http://192.168.90.29:8000'
 }
 // 数据应用--竞标监控--竞标搜索  ok
 export const BiddingSearch = request({
@@ -253,17 +255,10 @@ export const projectList = request({
     method:'get',
 })
 // // 获取项目详情
-// export const projectEdit = request({
-//     url:`${BASEPATH3}/index/project/"+id+"/`,
-//     method:'get'
-// })
-// 获取项目详情
-export function projectEdit(id){
-	return request({
-		url:`${BASEPATH3}/index/project/"+${id}+"/`,
-		method:'get'
-	})
-}
+export const projectEdit = request({
+    url:`${BASEPATH3}/index/project/`,
+    method:'get'
+})
 // 获取项目中的策略详情  待测
 export const Strategies = request({
     url:`${BASEPATH3}/index/project/update`,

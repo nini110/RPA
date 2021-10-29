@@ -209,6 +209,7 @@
       max-height="600px"
       @close="clear"
       custom-class="dialogEdit"
+      :close-on-click-modal="false"
     >
       <el-table
         class="detail_body"

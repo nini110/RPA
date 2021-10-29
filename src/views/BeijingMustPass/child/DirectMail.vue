@@ -113,6 +113,7 @@
               :visible.sync="verification"
               width="500px"
               max-height="600px"
+              :close-on-click-modal="false"
             >
               <div class="tips">该账号需要进行手机验证</div>
               <div class="tipsItem">*验证完成后请重新操作*</div>
@@ -196,6 +197,7 @@
               :visible.sync="dialogVisible"
               width="500px"
               max-height="600px"
+              :close-on-click-modal="false"
             >
               <div>详情信息：{{ log }}</div>
             </el-dialog>

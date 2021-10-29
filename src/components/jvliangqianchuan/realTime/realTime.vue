@@ -9,23 +9,14 @@
         </div>
       </div>
       <div class="form">
-        <el-form ref="form" :model="form" label-width="80px" class="formObj">
+        <el-form ref="form" :model="form" label-width="100px" class="formObj">
           <div class="formObj_ipt">
             <el-form-item label="策略名称:">
               <el-input
                 v-model="input"
                 size="medium"
-				class="w320"
+                class="w320"
                 placeholder="请输入策略名称"
-                clearable
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="计划名称:">
-              <el-input
-                v-model="input"
-                size="medium"
-				class="w320"
-                placeholder="请输入计划名称"
                 clearable
               ></el-input>
             </el-form-item>
@@ -34,7 +25,7 @@
                 v-model="value"
                 placeholder="请选择"
                 size="medium"
-				class="w320"
+                class="w320"
                 clearable
               >
                 <el-option
@@ -46,13 +37,22 @@
                 </el-option>
               </el-select>
             </el-form-item>
+
+            <el-form-item label="计划名称:">
+              <el-input
+                v-model="input"
+                size="medium"
+                class="w320"
+                placeholder="请输入计划名称"
+                clearable
+              ></el-input>
+            </el-form-item>
           </div>
           <div class="formObj_button">
             <el-button
               type="primary"
-              class="btnnormal marginL"
+              class="btnnormal"
               size="small"
-              style="margin-left: 10px"
               >查询</el-button
             >
           </div>
@@ -66,7 +66,7 @@
               title="更换模板"
               :visible.sync="dialogVisible"
               width="30%"
-              :before-close="handleClose"
+              :close-on-click-modal="false"
             >
               <el-form ref="form" :model="form" label-width="120px">
                 <el-form-item label="计划名称:">
@@ -116,8 +116,8 @@
           <div class="tableTab">
             <el-table
               :data="tableData"
-              style="width: 100%"
               :cell-style="timeStyle"
+              height="540px"
             >
               <el-table-column
                 type="index"
@@ -328,13 +328,6 @@ export default {
       });
       window.open(href, "_blank");
     },
-    handleClose(done) {
-      this.$confirm("确认关闭？")
-        .then((_) => {
-          done();
-        })
-        .catch((_) => {});
-    },
   },
   created() {
     this.readTimeData();
@@ -347,8 +340,8 @@ export default {
 @import "@/views/index";
 
 .w320 {
-    width: 320px;
-    height: 34px;
+  width: 320px;
+  height: 34px;
 }
 // .realTime {
 //   display: flex;

@@ -36,6 +36,15 @@
     .el {
         &-form {
             &-item {
+                &.oneIpt {
+                    .el-input-number--medium {
+                        display: inline-block;
+                        width: 95% !important; 
+                        .el-input--medium {
+                            width: auto;
+                        }
+                    }
+                }
                 &.twoIpt {
                     .el-select {
                         display: inline-block;
@@ -45,10 +54,8 @@
                             width: auto;
                         }
                     }
-
                     .el-input-number--medium {
                         display: inline-block;
-
                         width: 63% !important; 
                         .el-input--medium {
                             width: auto;
@@ -59,7 +66,7 @@
         }
 
         &-tabs {
-            width: 90%;
+            // width: 90%;
 
             .cjtabbles {
                 .el {
@@ -76,7 +83,8 @@
         &-input,
         &-select,
         &-date-editor {
-            width: 380px;
+            // width: 380px;
+            width: 100%;
         }
 
         &-dialog {
@@ -91,7 +99,14 @@
 
         &-input {
             &-number--medium {
-                width: 380px;
+                width: 100%
+            }
+        }
+    }
+    &.dialogStrategy {
+        .el {
+            &-dialog__footer {
+                padding-right: 30px!important;
             }
         }
     }

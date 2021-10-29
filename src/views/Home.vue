@@ -188,7 +188,7 @@
 				</div>
 				<div class="chunk">
 					<div class="chunkTitle">图片视频工具</div>
-					<div class="chunkItem" @click="routerLink('/layout/ideoTools/pictureProcessing')">
+					<div class="chunkItem" @click="routerLink('/layout/videoTools/pictureProcessing')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img14"></div>
@@ -235,7 +235,7 @@
 				</div>
 				<div class="chunk">
 					<div class="chunkTitle">巨量千川</div>
-					<div class="chunkItem" @click="routerLink('/layout/thirdPartyTools')">
+					<div class="chunkItem" @click="routerLink('/layout/thirdPartyTools/item')">
 						<div class="item">
 							<div class="itemLitile">
 								<div class="img img17"></div>
@@ -373,6 +373,7 @@
 						color: #818182!important;
 					}
 					.chunkItem, .noback {
+						transition: all .6s linear;
 						width: 230px;
 						height: 130px;
 						opacity: 0.8;
@@ -498,10 +499,14 @@
 						}
 					}
 					.chunkItem:hover{
+						transform: scale(1.1);
+						background-color: #fff;
+						cursor: pointer;
 						border-radius: 0px;
-						background: #1a1a1a;
-						box-shadow: inset 34px 34px 41px #0a0a0a,
-						            inset -34px -34px 41px #2a2a2a;
+						z-index: 10;
+						// background: #1a1a1a;
+						// box-shadow: inset 34px 34px 41px #0a0a0a,
+						//             inset -34px -34px 41px #2a2a2a;
 						.item{
 							.itemLitile{
 								.title{
@@ -511,6 +516,7 @@
 									display: block;
 									color: #2b64ff;
 									font-size: 12px;
+									line-height: 22px;
 								}
 								.img1{
 									background: url(../assets/images/zh_01.png);
