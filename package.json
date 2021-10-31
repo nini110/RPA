@@ -1,5 +1,5 @@
 {
-  "name": "vuecli",
+  "name": "灵鲨RPA平台—灵狐科技",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -7,12 +7,15 @@
     "build": "vue-cli-service build"
   },
   "dependencies": {
+    "animejs": "^3.2.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "echarts": "^5.1.2",
     "element-ui": "^2.15.5",
     "less": "^4.1.1",
     "less-loader": "^6.0.0",
+    "lodash": "^4.17.21",
+    "lodash.debounce": "^4.0.8",
     "nprogress": "^0.2.0",
     "vue": "^2.6.11",
     "vue-router": "^3.2.0"
