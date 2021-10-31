@@ -132,7 +132,7 @@
       <div
         ref="tableBox"
         class="tableBox teshu"
-        style="height: calc(100% - 280px)"
+        :style="outerTableHeight"
       >
         <el-divider>列表</el-divider>
         <div class="tables">
@@ -282,7 +282,22 @@ export default {
       itemList: [], //表格项目列表信息
       multipleSelection: "",
       tableHeight: 0,
+      outerTableHeight: 0
     };
+  },
+  watch: {
+    SelectItemData: {
+      handler(newval, oldval) {
+        const vm = this;
+        if (newval[1]) {
+          vm.outerTableHeight = 'height: calc(100% - 540px)'
+        } else {
+          vm.outerTableHeight = 'height: calc(100% - 280px)'
+        }
+      },
+      deep: true,
+      immediate: true
+    }
   },
   created() {
     // check方法调用接口,判断用户是否登录!

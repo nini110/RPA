@@ -58,7 +58,7 @@
           </div>
         </el-form>
       </div>
-      <div class="tableBox">
+      <div ref="tableBox" class="tableBox" style="height:calc(100% - 310px)">
         <el-divider></el-divider>
         <div class="tables">
           <div class="dialog">
@@ -115,9 +115,10 @@
           </div>
           <div class="tableTab">
             <el-table
+              class="tableBox"
               :data="tableData"
               :cell-style="timeStyle"
-              height="540px"
+              :height="tableHeight"
             >
               <el-table-column
                 type="index"
@@ -277,7 +278,11 @@ export default {
       },
       input: "",
       tableData: [],
+      tableHeight: 0,
     };
+  },
+  mounted() {
+    this.tableHeight = window.getComputedStyle(this.$refs.tableBox).height
   },
   methods: {
     timeStyle() {
@@ -338,31 +343,10 @@ export default {
 
 <style lang="less" scoped>
 @import "@/views/index";
-
+@import "../items/index.less";
 .w320 {
   width: 320px;
   height: 34px;
 }
-// .realTime {
-//   display: flex;
-//   flex-direction: row-reverse;
 
-//   .centers {
-//     width: 935px;
-//     padding: 20px;
-//     padding-top: 100px;
-//     background-color: #fff;
-//     height: 1300px;
-
-//     .centerTop {
-//       display: flex;
-// 		width: 100%;
-//       div {
-//         height: 50px;
-//         line-height: 50px;
-//         margin: 0 50px;
-//       }
-//     }
-//   }
-// }
 </style>
