@@ -11,7 +11,7 @@
           >
         </div>
         <div class="searchs">
-          <div style="color: #666">模板名称：</div>
+          <div class="searchs_label">模板名称：</div>
           <div>
             <el-input
               v-model="input"
@@ -93,17 +93,16 @@
         <el-dialog
           title="年龄模板"
           :visible.sync="dialogVisible"
-          width="500px"
           custom-class="dialogEdit dialogStrategy"
           :close-on-click-modal="false"
         >
-          <el-form ref="form" :model="form" label-width="100px" :rules="rules">
+          <el-form ref="form" :model="form" :rules="rules">
             <el-form-item label="模板名称:" prop="name">
               <el-input
                 v-model="form.name"
                 placeholder="请输入模板名称"
                 size="medium"
-                class="w240"
+                clearable
               ></el-input>
             </el-form-item>
             <el-form-item label="年龄:" prop="name">

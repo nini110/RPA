@@ -13,7 +13,7 @@
           >
         </div>
         <div class="search">
-          <div style="width: 50px; color: #666">状态：</div>
+          <div class="search_label">状态：</div>
           <div class="selects">
             <el-select
               v-model="value"
@@ -30,7 +30,7 @@
               </el-option>
             </el-select>
           </div>
-          <div style="width: 80px; color: #666">策略名称：</div>
+          <div class="search_label">策略名称：</div>
           <el-input
             v-model="input"
             placeholder="请输入策略名称"

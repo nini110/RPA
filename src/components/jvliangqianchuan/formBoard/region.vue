@@ -12,7 +12,7 @@
           >
         </div>
         <div class="searchs">
-          <div style="color: #666">模板名称：</div>
+          <div class="searchs_label">模板名称：</div>
           <div>
             <el-input
               v-model="input"
@@ -74,17 +74,16 @@
         <el-dialog
           title="地域模板"
           :visible.sync="dialogVisible"
-          width="500px"
           :close-on-click-modal="false"
           custom-class="dialogEdit dialogStrategy"
         >
-          <el-form ref="form" :model="form" label-width="100px">
+          <el-form ref="form" :model="form">
             <el-form-item label="模板名称:">
               <el-input
                 v-model="form.name"
                 placeholder="请输入模板名称"
                 size="medium"
-                class="w240"
+                clearable
               ></el-input>
             </el-form-item>
             <el-tabs type="border-card" class="tabsbox">
