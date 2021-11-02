@@ -3,12 +3,7 @@
   <div class="spiritSharkTabulation outerDiv">
     <div class="content">
       <div class="form">
-        <el-form
-          ref="form"
-          :model="form"
-          class="formObj"
-          :rules="rules"
-        >
+        <el-form ref="form" :model="form" class="formObj" :rules="rules">
           <div class="formObj_ipt">
             <el-form-item label="项目:" prop="SelectItemData">
               <el-select
@@ -127,11 +122,7 @@
           </div>
         </el-form>
       </div>
-      <div
-        ref="tableBox"
-        class="tableBox teshu"
-        :class="outerTableHeight"
-      >
+      <div ref="tableBox" class="tableBox teshu" :class="outerTableHeight">
         <el-divider>列表</el-divider>
         <div class="tables">
           <div class="tableTab">
@@ -280,7 +271,7 @@ export default {
       itemList: [], //表格项目列表信息
       multipleSelection: "",
       tableHeight: 0,
-      outerTableHeight: 'cls2'
+      outerTableHeight: "cls2",
     };
   },
   watch: {
@@ -288,14 +279,14 @@ export default {
       handler(newval, oldval) {
         const vm = this;
         if (newval[1]) {
-          vm.outerTableHeight = 'cls1';
+          vm.outerTableHeight = "cls1";
         } else {
-          vm.outerTableHeight = 'cls2'; 
+          vm.outerTableHeight = "cls2";
         }
       },
       deep: true,
-      immediate: true
-    }
+      immediate: true,
+    },
   },
   created() {
     // check方法调用接口,判断用户是否登录!
@@ -342,7 +333,13 @@ export default {
     // 批量删除
     DeleteReportAll() {
       if (this.multipleSelection) {
-        this.deleteReportApi();
+        this.$confirm("确定删除所选中的报表？", "删除提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        }).then(() => {
+          this.deleteReportApi();
+        });
       } else {
         this.$message.warning("没有可删除的项目！");
       }
@@ -355,8 +352,14 @@ export default {
     },
     // 删除
     deleteReport(ID) {
-      this.multipleSelection = ID;
-      this.deleteReportApi();
+      this.$confirm("确定删除该报表？", "删除提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
+      }).then(() => {
+        this.multipleSelection = ID;
+        this.deleteReportApi();
+      });
     },
     deleteReportApi() {
       DeleteReport({

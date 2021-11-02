@@ -46,7 +46,7 @@
               property="cheack"
               label="操作"
               fixed="right"
-              width="180"
+              width="210"
             >
               <el-button type="text" @click="lookxq = true">查看详情</el-button>
               <el-button type="text" @click="centerDialogVisible = true"
@@ -75,7 +75,6 @@
       title="上传竞标"
       :visible.sync="dialogVisible"
       @close="clearlist"
-      width="50%"
       max-height="600px"
       custom-class="dialogJb"
       :close-on-click-modal="false"
@@ -205,10 +204,9 @@
     <el-dialog
       title="查看详情"
       :visible.sync="lookxq"
-      width="750px"
       max-height="600px"
       @close="clear"
-      custom-class="dialogEdit"
+      custom-class="dialogEdit dialogJb"
       :close-on-click-modal="false"
     >
       <el-table
@@ -268,7 +266,6 @@
     <el-dialog
       title="修改人员"
       :visible.sync="centerDialogVisible"
-      center
       custom-class="dialogJb editDia"
       :close-on-click-modal="false"
     >

@@ -13,7 +13,7 @@
           >
         </div>
         <div class="search">
-          <div class="search_abel">状态：</div>
+          <div class="search_label">状态：</div>
           <div class="selects">
             <el-select
               v-model="value"
