@@ -10,18 +10,53 @@
     .el-dialog__body {
         padding: 30px;
         .el-form-item {
+            &__label {
+                width: 120px!important;
+                display: inline-block;
+                vertical-align: middle;
+            }
             &__content {
+                width: calc(100% - 120px)!important;
+                display: inline-block;
+                vertical-align: middle;                
                 .el-select,
                 .el-input {
                     width: 100%;
                 }
             }
+            &.tagBox {
+                padding-left: 120px;
+                .el-form-item__content {
+                    width: 100%!important;
+                }
+                .el-tag {
+                    width: 80px;
+                }
+            }
+        }
+    }
+}
+.send {
+    display: flex;
+    overflow: hidden;
+}
+.upobtn {
+    text-align: center;
+    span {
+        padding: 10px 30px;
+        cursor: pointer;
+        border: 1px solid #2066BD;
+        border-radius: 4px;
+        margin-bottom: 20px;
+        color: #2066BD;
+        &:hover {
+            background-color: #2067bd11;
         }
     }
 }
 .namelist {
-    width: 90px;
-    height: 180px;
+    width: 120px;
+    height: 240px;
     text-align: right;
     .el-tag {
       color: #2066bd;

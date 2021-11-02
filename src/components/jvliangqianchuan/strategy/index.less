@@ -8,11 +8,13 @@
 }
 
 .strategyNormal {
+    width: 100%;
     height: 100%;
     .centers {
+        width: 100%;
         height: 100%;
         background-color: #fff;
-
+        box-sizing: border-box;
         .PriceTops {
             position: relative;
 
@@ -40,6 +42,9 @@
         .tabbles {
             padding-top: 20px;
             height: 100%;
+            &.pricetable {
+                height: calc(100% - 100px);
+            }
 
             .el-table {
                 height: 100% !important;

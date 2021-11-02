@@ -243,13 +243,17 @@ export default {
       this.$router.push(val);
     },
     // 鼠标滑入事件
-    overevent(idx) {
-        this.enterEvent(idx)
-    },
-    enterEvent: 
+    // overevent(idx) {
+    //     this.enterEvent(idx)
+    // },
+    // enterEvent: 
+    //     debounce(function(idx) {
+    //         this.hoverFlag = idx;
+    //     }, 100),
+    overevent: 
         debounce(function(idx) {
             this.hoverFlag = idx;
-        }, 200),
+        }, 100),
 
   },
 };

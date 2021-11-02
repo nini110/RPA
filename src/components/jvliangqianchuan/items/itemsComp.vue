@@ -8,14 +8,14 @@
         size="medium"
         >新建项目</el-button
       >
-      <div  class="tabbles" ref="tabbles" style="height:calc(100% - 100px)">
+      <div  class="tabbles itemtable" ref="tabbles">
         <el-table
           :data="tableDataList"
           :height="tableHeight"
           tooltip-effect="dark"
           @cell-click="cellClick"
         >
-          <el-table-column align="center" label="序号" width="120" type="index">
+          <el-table-column align="center" label="序号" width="100" type="index">
           </el-table-column>
           <el-table-column prop="project_name" label="项目名称" min-width="180">
           </el-table-column>
@@ -52,7 +52,7 @@
           </el-table-column>
           <el-table-column prop="founder" label="创建者" min-width="80">
           </el-table-column>
-          <el-table-column label="操作" width="180" fixed="right">
+          <el-table-column label="操作" width="250" fixed="right">
             <template slot="header">
               操作
               <el-tooltip effect="dark" content="" placement="top">

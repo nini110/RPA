@@ -1,5 +1,5 @@
 .layout {
-    width: 1200px;
+    width: 100%;
     height: 100%;
     margin: 0 auto;
     position: relative;
@@ -13,21 +13,69 @@
         padding-top: 50px;
         height: calc(100% - 130px);
         width: 200px;
+        background-color: #31394d;
+        position: relative;
+        &:before {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50px;
+            background: url('../../assets/images/meunHead.png') no-repeat 0 0;
+            background-size: 100%;
+        }
+        &_right {
+            width: calc(100% - 200px);
+        }
+        &_box {
+            background-color: #2b303d;
+        }
     }
     /deep/.el {
+        &-menu {
+            &-item {
+                color: #aebfdd;
+                background-color: #2b303d;
+                padding: 0 55px!important;
+                &:focus {
+                    background-color: rgba(255, 255, 255, 0.103)!important;                    
+                }
+                &.is-active {
+                    color: #f85646!important;  
+                    background-color: rgba(255, 255, 255, 0.103)!important;                    
+                }
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.103)!important;                    
+                }     
+                &-group {
+                    background-color: #30354183;;
+                    &__title {
+                        padding: 0;
+                    }   
+                }        
+            }
+        }
         &-submenu {
             &__title {
                 font-weight: bold;
+                padding-left: 0!important;
+                padding: 0 30px!important;
+                color: #aebfdd;
                 .iconfont {
                     margin-right: 10px;
+                }
+                &:hover {
+                    color: #f85646;
+                    background-color: rgba(255, 255, 255, 0.103);
                 }
     
             }
         }
         &-menu--inline{
             box-sizing: border-box;
-            // padding-left: 30px;
             overflow: hidden;
+            background-color: #31394d;
+
         }
 
     }

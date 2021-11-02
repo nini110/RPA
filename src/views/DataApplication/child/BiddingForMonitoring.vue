@@ -3,11 +3,11 @@
   <div class="biddingForMonitoring outerDiv">
     <div class="content">
       <div class="form">
-        <div style="width: 126px; margin: 0 auto">
-          <div class="btnSizeBig" @click="upList()">上传竞标按钮</div>
+        <div class="upobtn" @click="upList()">
+          <span>上传竞标按钮</span>  
         </div>
       </div>
-      <div ref="tableBox" class="tableBox jiankong" style="height:calc(100% - 180px)">
+      <div ref="tableBox" class="tableBox jiankong">
         <el-divider>列表</el-divider>
         <div class="tables" v-if="tableData">
           <el-table
@@ -21,7 +21,7 @@
           >
             <el-table-column
               type="index"
-              width="50"
+              width="100"
               label="序号"
               align="center"
             >
@@ -29,13 +29,13 @@
             <el-table-column
               property="bidding_name"
               label="竞标名称"
-              width="250"
+              min-width="250"
             >
             </el-table-column>
             <el-table-column
               property="activity_name"
               label="活动名称"
-              width="150"
+              min-width="250"
             >
             </el-table-column>
             <el-table-column property="budget" label="总预算" width="150">
@@ -75,12 +75,12 @@
       title="上传竞标"
       :visible.sync="dialogVisible"
       @close="clearlist"
-      width="600px"
+      width="50%"
       max-height="600px"
       custom-class="dialogJb"
       :close-on-click-modal="false"
     >
-      <el-form ref="form" :model="form" label-width="90px" class="formObj">
+      <el-form ref="form" :model="form" class="formObj">
         <el-form-item label="选择竞标:">
           <el-select
             v-model="content"
@@ -145,7 +145,6 @@
                 :disable-transitions="false"
                 :key="tag.userid"
                 type=""
-                style="margin-left: 8px; margin-bottom: 5px"
                 @close="handleClose(tag)"
                 @click="tianjia(tag)"
                 >{{ tag.name }}</el-tag
@@ -154,7 +153,7 @@
           </el-form-item>
         </el-collapse-transition>
         <el-divider></el-divider>
-        <div class="send" style="display: flex; margin-bottom: 20px">
+        <div class="send">
           <div class="namelist">
             <el-scrollbar style="height: 100%">
               <ul style="list-style: none">
@@ -274,7 +273,7 @@
       custom-class="dialogJb editDia"
       :close-on-click-modal="false"
     >
-      <el-form class="formObj" label-width="80px">
+      <el-form class="formObj">
         <div class="formObj_ipt">
           <el-form-item label="添加人员:" prop="input">
             <el-input
@@ -671,7 +670,7 @@ export default {
               this.msg = res.data.data.msg;
             } else {
               // this.handleError();
-              this.$message.warning(res.data);
+              this.$message.warning(res.data.data);
             }
           })
           .catch((err) => {
@@ -799,12 +798,15 @@ export default {
     },
     //清空搜索词
     clearlist() {
+      this.options = []
+      this.cities = [];
+      this.cSubcategoryNo = ''
       this.content = "";
-      this.cSubcategoryNo = "";
       this.restaurants = [];
       this.progressPercent = 0;
-      this.cities = [];
       this.isIndeterminate = false;
+      this.checkedCities = [];
+      this.fileList = []
     },
   },
 };

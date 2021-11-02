@@ -32,11 +32,11 @@
           </div>
         </div>
       </div>
-      <div class="tabbles" ref="tabbles" style="height:calc(100% - 100px)">
+      <div class="tabbles pricetable" ref="tabbles">
         <el-table :data="tableData" :height="tableHeight">
-          <el-table-column align="center" type="index" label="序号" width="60">
+          <el-table-column align="center" type="index" label="序号" width="100">
           </el-table-column>
-          <el-table-column prop="name" label="模板名称" min-width="120">
+          <el-table-column prop="name" label="模板名称" min-width="200">
           </el-table-column>
           <el-table-column prop="address1" label="累计执行次数" min-width="120">
           </el-table-column>
@@ -49,7 +49,7 @@
           <el-table-column
             prop="address"
             label="操作"
-            width="120"
+            width="150"
             fixed="right"
           >
             <el-button type="text">编辑</el-button>

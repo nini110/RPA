@@ -9,7 +9,6 @@
               <el-input
                 v-model="form.input"
                 size="mini"
-                class="w320"
                 placeholder="请输入账号"
               ></el-input>
             </el-form-item>
@@ -17,7 +16,6 @@
               <el-input
                 v-model="form.pass"
                 size="mini"
-                class="w320"
                 placeholder="请输入密码"
               ></el-input>
             </el-form-item>
@@ -25,7 +23,6 @@
               <el-select
                 v-model="form.choose"
                 placeholder="请选择类型"
-                class="w320"
               >
                 <el-option
                   v-for="item in options"
@@ -40,7 +37,6 @@
               <el-input
                 v-model="form.pin"
                 size="mini"
-                class="w320"
                 placeholder="请输入备注内容"
               ></el-input>
             </el-form-item>

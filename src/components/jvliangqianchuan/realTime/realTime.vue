@@ -15,7 +15,6 @@
               <el-input
                 v-model="input"
                 size="medium"
-                class="w320"
                 placeholder="请输入策略名称"
                 clearable
               ></el-input>
@@ -25,7 +24,6 @@
                 v-model="value"
                 placeholder="请选择"
                 size="medium"
-                class="w320"
                 clearable
               >
                 <el-option
@@ -42,7 +40,6 @@
               <el-input
                 v-model="input"
                 size="medium"
-                class="w320"
                 placeholder="请输入计划名称"
                 clearable
               ></el-input>

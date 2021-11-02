@@ -6,7 +6,7 @@
           unique-opened
           active-text-color="#2066BD"
           >
-          <div v-for="(item, idx) in menuList" :key="idx">
+          <div v-for="(item, idx) in menuList" :key="idx" class="layout_menu_box">
             <el-submenu
              v-if="item.children" 
              :index="item.index" >
@@ -26,7 +26,7 @@
             </el-menu-item>
           </div>
         </el-menu>
-        <div>
+        <div class="layout_menu_right">
           <div class="app-main" id="appMain">
             <router-view class="app-router-view" />
           </div>

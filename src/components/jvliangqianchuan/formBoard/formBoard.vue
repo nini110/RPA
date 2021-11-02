@@ -41,12 +41,14 @@
 	 display: flex;
 	 flex-direction: row-reverse;
 	 height: 100%;
+	 width: 100%;
 	 .tabs{
-		 width: 935px;
-		 height: calc( 100% - 150px);
+		 width: 100%;
+		 height: 100%;
 		 padding: 20px;
 		 padding-top: 130px;
 		 background-color: #fff;
+		 box-sizing: border-box;
 		 .el-tabs {
 			 height: 100%;
 			 &__content {

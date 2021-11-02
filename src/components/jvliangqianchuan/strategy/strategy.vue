@@ -43,10 +43,12 @@
 
  .strategy{
 	 display: flex;
+	 width: 100%;
 	 flex-direction: row-reverse;
 	 .tabs{
-		 width: 935px;
-		 height: calc( 100% - 150px);
+		 width: 100%;
+		 height: 100%;
+		 box-sizing: border-box;
 		 padding: 20px;
 		 padding-top: 130px;
 		 background-color: #fff;

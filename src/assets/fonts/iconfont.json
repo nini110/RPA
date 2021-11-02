@@ -6,6 +6,27 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1010",
+      "name": "扬声器",
+      "font_class": "yangshengqi",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "5027",
+      "name": "手机",
+      "font_class": "shouji",
+      "unicode": "e601",
+      "unicode_decimal": 58881
+    },
+    {
+      "icon_id": "14698919",
+      "name": "退出登录",
+      "font_class": "tcdl",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
       "icon_id": "2851",
       "name": "数据统计",
       "font_class": "shujutongji",

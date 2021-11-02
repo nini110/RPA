@@ -16,7 +16,7 @@ export default {
 
 <style lang="less">
 .ThirdPartyTools {
-  width: 1200px;
+  width: 100%;
   height: 100%;
   margin: 0 auto;
   .content {

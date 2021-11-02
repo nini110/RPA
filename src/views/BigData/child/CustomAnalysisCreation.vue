@@ -6,7 +6,6 @@
         <el-form
           ref="form"
           :model="form"
-          label-width="100px"
           class="formObj"
           :rules="rules"
         >
@@ -15,7 +14,6 @@
               <el-input
                 v-model="form.input"
                 size="medium"
-                class="w320"
                 placeholder="请输入账号"
                 clearable
               ></el-input>
@@ -24,7 +22,6 @@
               <el-input
                 v-model="form.pass"
                 size="medium"
-                class="w320"
                 placeholder="请输入密码"
                 clearable
               ></el-input>
@@ -69,7 +66,7 @@
           </div>
         </el-form>
       </div>
-      <div ref="tableBox" class="tableBox" style="height:calc(100% - 460px)">
+      <div ref="tableBox" class="tableBox hasUp2">
         <el-divider></el-divider>
         <div class="tables">
           <div v-if="showVarDia" class="dialog">
@@ -91,7 +88,7 @@
             >
               <el-table-column
                 type="index"
-                width="50"
+                width="100"
                 label="序号"
                 align="center"
               ></el-table-column>
@@ -107,7 +104,7 @@
                 min-width="200"
               >
               </el-table-column>
-              <el-table-column property="cheack" width="120" label="操作">
+              <el-table-column property="cheack" width="150" label="操作">
                 <el-button type="text" @click="dialogVisible = true"
                   >查看详情</el-button
                 >

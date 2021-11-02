@@ -49,7 +49,7 @@
           </div>
         </div>
       </div>
-      <div class="tabbles" ref="tabbles" style="height:calc(100% - 100px)">
+      <div class="tabbles pricetable" ref="tabbles">
         <el-table
           ref="multipleTable"
           :height="tableHeight"
@@ -58,9 +58,9 @@
           @cell-click="cellClick"
           @selection-change="handleSelectionChange"
         >
-          <el-table-column align="center" type="selection" width="55">
+          <el-table-column align="center" type="selection" width="80">
           </el-table-column>
-          <el-table-column align="center" label="序号" width="60" type="index">
+          <el-table-column align="center" label="序号" width="100" type="index">
           </el-table-column>
           <el-table-column prop="count" label="状态" width="120" align="center">
             <template slot-scope="scope">
@@ -68,7 +68,7 @@
               <div v-else class="no">未使用</div>
             </template>
           </el-table-column>
-          <el-table-column prop="name" label="策略名称" min-width="120">
+          <el-table-column prop="name" label="策略名称" min-width="200">
           </el-table-column>
           <el-table-column
             prop="total_satisfy_count"
@@ -90,7 +90,7 @@
           </el-table-column>
           <el-table-column prop="username" min-width="100" label="创建人">
           </el-table-column>
-          <el-table-column prop="address" width="100" label="操作" fixed="right">
+          <el-table-column prop="address" width="150" label="操作" fixed="right">
             <template slot="header">
               操作
               <el-tooltip

@@ -30,15 +30,15 @@
           </div>
         </div>
       </div>
-      <div class="tabbles" ref="tabbles" style="height:calc(100% - 100px)">
+      <div class="tabbles pricetable" ref="tabbles">
         <el-table
           :data="tableData"
           :height="tableHeight"
           @cell-click="cellClick"
         >
-          <el-table-column align="center" label="序号" width="60" type="index">
+          <el-table-column align="center" label="序号" width="100" type="index">
           </el-table-column>
-          <el-table-column prop="name" label="模板名称" min-width="120">
+          <el-table-column prop="name" label="模板名称" min-width="200">
           </el-table-column>
           <!-- 	<el-table-column prop="count" label="状态" width="100">
 						<template slot-scope="scope">
@@ -66,7 +66,7 @@
           </el-table-column>
           <el-table-column prop="username" label="创建人" min-width="120">
           </el-table-column>
-          <el-table-column label="操作" min-width="120">
+          <el-table-column label="操作" width="150" fixed="right">
             <template slot-scope="scope">
               <el-button type="text" @click="editFn(scope.row.id)"
                 >编辑</el-button

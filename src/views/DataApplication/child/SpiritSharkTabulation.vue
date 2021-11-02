@@ -6,7 +6,6 @@
         <el-form
           ref="form"
           :model="form"
-          label-width="100px"
           class="formObj"
           :rules="rules"
         >
@@ -15,7 +14,6 @@
               <el-select
                 v-model="SelectItemData"
                 placeholder="请选择项目"
-                class="w320"
                 size="medium"
                 clearable
                 @change="selectChang"
@@ -29,7 +27,7 @@
                 </el-option>
               </el-select>
             </el-form-item>
-            <el-form-item label="数据日期:" prop="timeData">
+            <el-form-item class="hasdate" label="数据日期:" prop="timeData">
               <el-select
                 v-model="selectValue"
                 placeholder="请选择类型"
@@ -132,7 +130,7 @@
       <div
         ref="tableBox"
         class="tableBox teshu"
-        :style="outerTableHeight"
+        :class="outerTableHeight"
       >
         <el-divider>列表</el-divider>
         <div class="tables">
@@ -149,20 +147,20 @@
               @selection-change="handleSelectionChange"
               :cell-style="timeStyle"
             >
-              <el-table-column type="selection" width="50"> </el-table-column>
+              <el-table-column type="selection" width="80"> </el-table-column>
               <el-table-column
                 type="index"
-                width="50"
+                width="100"
                 label="序号"
                 align="center"
               ></el-table-column>
               <el-table-column
                 prop="report_name"
                 label="报表名称"
-                min-width="210"
+                min-width="150"
               >
               </el-table-column>
-              <el-table-column prop="status" label="状态" min-width="80">
+              <el-table-column prop="status" label="状态" width="120">
                 <template slot-scope="scope">
                   <div v-if="scope.row.status === 0" style="color: orange">
                     生成中
@@ -187,7 +185,7 @@
                 min-width="140"
               >
               </el-table-column>
-              <el-table-column prop="id" label="操作" width="100">
+              <el-table-column prop="id" label="操作" width="200" fixed="right">
                 <template slot-scope="scope">
                   <div>
                     <el-button
@@ -282,7 +280,7 @@ export default {
       itemList: [], //表格项目列表信息
       multipleSelection: "",
       tableHeight: 0,
-      outerTableHeight: 0
+      outerTableHeight: 'cls2'
     };
   },
   watch: {
@@ -290,9 +288,9 @@ export default {
       handler(newval, oldval) {
         const vm = this;
         if (newval[1]) {
-          vm.outerTableHeight = 'height: calc(100% - 540px)'
+          vm.outerTableHeight = 'cls1';
         } else {
-          vm.outerTableHeight = 'height: calc(100% - 280px)'
+          vm.outerTableHeight = 'cls2'; 
         }
       },
       deep: true,
