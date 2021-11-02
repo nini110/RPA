@@ -8,11 +8,10 @@
       <div class="topTtle_login">
         <div class="topTtle_login_tip">
           <!-- <img class="img" src="./assets/logo2Blue.png" alt=""> -->
-          <img class="img" src="./assets/logo2.png" alt="">
+          <img class="img" src="./assets/logo2.png" alt="" />
           <el-popover
             placement="bottom-start"
             title=""
-            width="200"
             trigger="hover"
             popper-class="poperNotice"
             content=""
@@ -20,7 +19,7 @@
             <el-button
               slot="reference"
               size="mini"
-			  class="poperBtn iconfont icon-yangshengqi"
+              class="poperBtn iconfont icon-yangshengqi"
               >公告</el-button
             >
             <div class="down">
@@ -51,7 +50,8 @@
 
         <div class="topTtle_login_user">
           <div class="el-icon-user-solid user">
-            {{ yh }} <span class="logout iconfont icon-tcdl" @click="close"></span>
+            {{ yh }}
+            <span class="logout iconfont icon-tcdl" @click="close"></span>
           </div>
           <div class="phone iconfont icon-shouji">移动版</div>
         </div>
@@ -184,54 +184,53 @@ a {
     text-align: center;
     align-items: center;
     justify-content: center;
-  	background-color: #000;
-	  cursor: pointer;
+    background-color: #000;
+    cursor: pointer;
     img {
-		height: 30px;
-		object-fit: cover;
+      height: 30px;
+      object-fit: cover;
     }
   }
   &_login {
-	width: calc(100% - 200px);
+    width: calc(100% - 200px);
     display: flex;
     flex-direction: row-reverse;
-	position: relative;
-	// background-color: #fff;
+    position: relative;
+    // background-color: #fff;
     &_tip {
-		position: absolute;
-		left: 113px;
-		top: 50%;
-		transform: translate(-50%, -50%);
-		display: flex;
-		flex-wrap: nowrap;
-		align-items: center;
-		&:before {
-			content: '';
-			width: 1px;
-			height: 20px;
-			background-color: #666;
-			margin-right: 25px;
-		}
-		.img {
-			height: 22px;
-			object-fit: cover;
-			margin-right: 20px;
-		}
-		.poperBtn {
-			border: none;
-			// border-color: #2066bd;
-			background-color: transparent;
-			outline: 0;
-			color: #666;
-			&:hover {
-				color: #2066bd;
-				background-color: transparent;
-			}
-			&:before {
-				padding-right: 10px;
-			}
-
-		}
+      position: absolute;
+      left: 113px;
+      top: 50%;
+      transform: translate(-50%, -50%);
+      display: flex;
+      flex-wrap: nowrap;
+      align-items: center;
+      &:before {
+        content: "";
+        width: 1px;
+        height: 20px;
+        background-color: #666;
+        margin-right: 25px;
+      }
+      .img {
+        height: 22px;
+        object-fit: cover;
+        margin-right: 20px;
+      }
+      .poperBtn {
+        border: none;
+        // border-color: #2066bd;
+        background-color: transparent;
+        outline: 0;
+        color: #666;
+        &:hover {
+          color: #2066bd;
+          background-color: transparent;
+        }
+        &:before {
+          padding-right: 10px;
+        }
+      }
     }
     &_user {
       color: #fff;
@@ -239,19 +238,19 @@ a {
       display: flex;
       align-items: center;
       flex-wrap: nowrap;
-	  padding-right: 50px;
+      padding-right: 50px;
 
       .user {
         flex-grow: 1;
         width: 220px;
-		text-align: center;
+        text-align: center;
       }
       .logout {
         padding-left: 20px;
-  		cursor: pointer;
+        cursor: pointer;
       }
       .phone {
-		white-space: nowrap;
+        white-space: nowrap;
         color: #999;
         padding: 5px 20px;
         background-color: #303030;

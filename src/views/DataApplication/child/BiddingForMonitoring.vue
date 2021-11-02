@@ -268,7 +268,6 @@
     <el-dialog
       title="修改人员"
       :visible.sync="centerDialogVisible"
-      width="30%"
       center
       custom-class="dialogJb editDia"
       :close-on-click-modal="false"

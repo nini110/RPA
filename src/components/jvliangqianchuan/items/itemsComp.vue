@@ -93,11 +93,10 @@
         <el-dialog
           title="新建/编辑"
           :visible.sync="dialogVisible"
-          width="600px"
-          custom-class="dialogEdit dialogStrategy"
+          custom-class="dialogEdit dialogStrategy dialogItem"
           :close-on-click-modal="false"
         >
-          <el-form ref="form" :model="form" label-width="100px">
+          <el-form ref="form" :model="form">
             <el-form-item label="项目名称:" prop="name">
               <el-input
                 v-model="form.name"

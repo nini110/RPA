@@ -9,7 +9,7 @@
         </div>
       </div>
       <div class="form">
-        <el-form ref="form" :model="form" label-width="100px" class="formObj">
+        <el-form ref="form" :model="form" class="formObj">
           <div class="formObj_ipt">
             <el-form-item label="策略名称:">
               <el-input
@@ -55,7 +55,7 @@
           </div>
         </el-form>
       </div>
-      <div ref="tableBox" class="tableBox" style="height:calc(100% - 310px)">
+      <div ref="tableBox" class="tableBox">
         <el-divider></el-divider>
         <div class="tables">
           <div class="dialog">
@@ -120,7 +120,7 @@
               <el-table-column
                 type="index"
                 label="序号"
-                width="50"
+                width="100"
                 align="center"
                 header-align="center"
               >
@@ -344,6 +344,9 @@ export default {
 .w320 {
   width: 320px;
   height: 34px;
+}
+.tableBox {
+height: calc(100% - 295px);
 }
 
 </style>

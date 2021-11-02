@@ -135,11 +135,10 @@
         <el-dialog
           title="出价调整策略"
           :visible.sync="dialogVisible"
-          width="500px"
           custom-class="dialogEdit dialogStrategy"
           :close-on-click-modal="false"
         >
-          <el-form ref="form" :model="form" label-width="100px" :rules="rules">
+          <el-form ref="form" :model="form" :rules="rules">
             <el-form-item label="策略名称:" prop="name">
               <el-input
                 v-model="form.name"
