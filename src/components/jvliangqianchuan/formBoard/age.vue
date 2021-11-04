@@ -68,10 +68,10 @@
           </el-table-column>
           <el-table-column label="操作" width="150" fixed="right">
             <template slot-scope="scope">
-              <el-button type="text" @click="editFn(scope.row.id)"
+              <el-button class="el-icon-edit" type="text" @click="editFn(scope.row.id)"
                 >编辑</el-button
               >
-              <el-button type="text" @click="deleteFn()">删除</el-button>
+              <el-button class="el-icon-delete" type="text" @click="deleteFn()">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

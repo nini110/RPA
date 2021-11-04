@@ -30,7 +30,6 @@
               :data="tableData"
               height="540"
               :highlight-current-row="true"
-              :cell-style="timeStyle"
             >
               <!-- 表格日期 -->
               <el-table-column
@@ -121,9 +120,6 @@ export default {
     this.check();
   },
   methods: {
-    timeStyle() {
-      return "height:50px;padding:0;";
-    },
     //查看
     getuserlist() {
       hdskuLookData({

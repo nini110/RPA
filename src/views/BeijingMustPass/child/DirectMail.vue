@@ -168,7 +168,7 @@
 
               <!-- 查看详情 -->
               <el-table-column property="cheack" label="操作" align="center">
-                <el-button type="text" @click="dialogVisible = true"
+                <el-button class="el-icon-reading" type="text" @click="dialogVisible = true"
                   >查看详情</el-button
                 >
               </el-table-column>

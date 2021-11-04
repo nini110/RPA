@@ -1,6 +1,6 @@
 // rem等比适配配置文件
 // 基准大小
-const baseSize = 14
+const baseSize = 12
 // 设置 rem 函数
 function setRem () {
   // 当前页面宽度相对于 1920宽的缩放比例，可根据自己需要修改。

@@ -1,4 +1,4 @@
-.el-tag {
+/deep/.el-tag {
     margin: 0 10px 0 0!important;
     color: #2066BD;
     width: 60px;
@@ -8,15 +8,17 @@
 /deep/.dialogJb {
     width: 600px!important;
     .el-dialog__body {
-        padding: 30px;
+        padding: 20px 30px 0 30px;
         .el-form-item {
             &__label {
                 width: 120px!important;
+                font-size: 12px;
                 display: inline-block;
                 vertical-align: middle;
             }
             &__content {
                 width: calc(100% - 120px)!important;
+                font-size: 12px;
                 display: inline-block;
                 vertical-align: middle;                
                 .el-select,
@@ -33,28 +35,29 @@
                     width: 80px;
                 }
             }
+            &.lw {
+                .el-form-item__label {
+                  width: 70px!important;
+                  text-align: left;
+                }
+                .el-form-item__content {
+                    width: calc(100% -70px)!important;
+                    .el-input {
+                        width: 100%;
+                    }
+                  }
+              }
         }
     }
 }
-.send {
+/deep/.send {
     display: flex;
     overflow: hidden;
 }
-.upobtn {
-    text-align: center;
-    span {
-        padding: 10px 30px;
-        cursor: pointer;
-        border: 1px solid #2066BD;
-        border-radius: 4px;
-        margin-bottom: 20px;
-        color: #2066BD;
-        &:hover {
-            background-color: #2067bd11;
-        }
-    }
+/deep/.upobtn {
+    padding-left: 100px;
 }
-.namelist {
+/deep/.namelist {
     width: 120px;
     height: 240px;
     text-align: right;
@@ -62,7 +65,7 @@
       color: #2066bd;
     }
   }
-  .btnSizeBig {
+  /deep/.btnSizeBig {
     padding: 5px 5px;
     height: 38px;
     border: 1px solid #0051b3;
@@ -71,27 +74,57 @@
     cursor: pointer;
     line-height: 38px;
   }
-  .detail {
+  /deep/.detail {
 	&_btn {
 		margin: 20px 0;
 		text-align: right;
 	}
 }
-.editDia {
+/deep/.editDia {
 	.namelist {
 		width: 100%;
-        height: 130px;
+        height: auto;
         overflow-x: hidden;
         ul {
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
+            // align-items: center;
             li {
-                width: 20%;
+                width: 12%;
+                margin-bottom: 10px;
             }
             span {
                 // width: 20%;
             }
         }
 	}
+}
+/deep/.el {
+    &-collapse-item__content {
+        padding-bottom: 10px;
+    }
+}
+/deep/.el-checkbox {
+    &__label {
+        font-size: 12px;
+        // margin-bottom: 12px;
+    }
+    &-group {
+        display: flex;
+        flex-wrap: wrap;
+        // padding: 0 30px;
+        .el-checkbox {
+            width: 49%;
+            font-size: 12px;
+            box-sizing: border-box;
+            padding: 0 20px;
+            margin: 1% 1% 2% 0;
+            background-color: #ecf5ff;
+            &__label {
+                font-size: 12px;
+            }
+        }
+    }
+
 }

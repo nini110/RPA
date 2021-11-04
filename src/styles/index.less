@@ -1,5 +1,10 @@
 @import "reset";
 
+.el-button {
+    &:before {
+        padding-right: 3px;
+    }
+}
 .el-button--text {
     color: #2066BD;
 }
@@ -74,10 +79,13 @@
     }
 }
 .el-table {
+    td {
+        padding: 2px 0;
+    }
     .cell {
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
+        // overflow: hidden;
+        // white-space: nowrap;
+        // text-overflow: ellipsis;
     }
 }
 .poperNotice {
@@ -97,6 +105,7 @@
 }
 .el-dialog__body {
     padding: 30px;
+    font-size: 12px;
 }
 .el-checkbox__input.is-checked+.el-checkbox__label {
     color: #2066BD;
@@ -136,32 +145,51 @@
     }
 
 }
+.el-form-item {
+    margin-bottom: 12px;
+    &__label,
+    &__content {
+        font-size: 12px;
+    }
+}
+.el-input,
+.el-select,
+.el-radio__label,
+.el-tabs__item,
+.el-button,
+.el-table,
+.el-select-dropdown__item,
+.el-upload__text,
+.el-divider__text,
+.el-message-box__message {
+    font-size: 12px!important;
+}
 .el-dialog__title {
-    font-size: 20px;
+    font-size: 16px;
     font-weight: bold;
     position: relative;
-    padding-left: 30px;
+    padding-left: 25px;
     display: inline-block;
     &:before,
     &:after {
         position: absolute;
-        top: 0;
+        top: 2px;
         left: 3px;
         display: block;
         content: '';
         width: 0;
         height: 0;
-        border-top: 13px solid transparent;
-        border-left: 13px solid rgba(255, 0, 0, 0.342);
-        border-bottom: 13px solid transparent;
+        border-top: 10px solid transparent;
+        border-left: 10px solid rgba(255, 0, 0, 0.342);
+        border-bottom: 10px solid transparent;
     }
     &:after {
-        top: 3px;
+        top: 4px;
         left: 10px;
         z-index: 2;
-        border-top: 10px solid transparent;
-        border-left: 10px solid rgba(255, 102, 0, 1);
-        border-bottom: 10px solid transparent;
+        border-top: 8px solid transparent;
+        border-left: 8px solid rgba(255, 102, 0, 1);
+        border-bottom: 8px solid transparent;
     }
 }
 .el-collapse-item__header.is-active {

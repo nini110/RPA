@@ -84,7 +84,6 @@
               :height="tableHeight"
               @cell-click="celltable"
               :highlight-current-row="true"
-              :cell-style="timeStyle"
             >
               <el-table-column
                 type="index"
@@ -105,7 +104,7 @@
               >
               </el-table-column>
               <el-table-column property="cheack" width="150" label="操作">
-                <el-button type="text" @click="dialogVisible = true"
+                <el-button class="el-icon-reading" type="text" @click="dialogVisible = true"
                   >查看详情</el-button
                 >
               </el-table-column>
@@ -210,9 +209,6 @@ export default {
     this.tableHeight = window.getComputedStyle(this.$refs.tableBox).height
   },
   methods: {
-    timeStyle() {
-      return "height:50px;padding:0;";
-    },
     closeDialog(val) {
       this.showVarDia = false;
     },

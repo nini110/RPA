@@ -8,7 +8,7 @@
         size="medium"
         >新建项目</el-button
       >
-      <div  class="tabbles itemtable" ref="tabbles">
+      <div class="tabbles itemtable" ref="tabbles">
         <el-table
           :data="tableDataList"
           :height="tableHeight"
@@ -63,12 +63,15 @@
               </el-tooltip>
             </template>
             <template slot-scope="scope">
-              <el-button type="text" @click="editFn(scope.row.id)"
+              <el-button class="el-icon-edit" type="text" @click="editFn(scope.row.id)"
                 >编辑</el-button
               >
-              <el-button type="text" @click="deleteFn">删除</el-button>
+              <el-button class="el-icon-delete" type="text" @click="deleteFn"
+                >删除</el-button
+              >
               <el-button
                 type="text"
+                class="el-icon-time "
                 @click="routerLink(scope.row.id, scope.row.project_name)"
                 >实时看板</el-button
               >
@@ -301,12 +304,11 @@ export default {
       thousandsOfSichuanFlag: true,
       trillFlag: true,
       submitData: [],
-       tableHeight: 0,
+      tableHeight: 0,
     };
   },
   mounted() {
-    this.tableHeight = window.getComputedStyle(this.$refs.tabbles).height
-
+    this.tableHeight = window.getComputedStyle(this.$refs.tabbles).height;
   },
   methods: {
     cellClick(row) {
@@ -487,7 +489,6 @@ export default {
     },
     // 编辑按钮
     editFn(id) {
-      
       this.flag = false;
       this.dialogVisible = true;
       this.editId = id;
@@ -498,13 +499,11 @@ export default {
     },
     // 获取项目列表
     projectList() {
-      
       projectList({
         page: this.currentPage,
         page_size: this.pagesize,
       })
         .then((res) => {
-          
           this.tableDataList = res.data.results;
           this.total = res.data.count;
         })
@@ -514,12 +513,10 @@ export default {
     },
     // 出价策略列表
     strategyList() {
-      
       strategyList({
         page: 0,
       })
         .then((res) => {
-          
           this.cjtableData = res.data.data.data;
         })
         .catch((err) => {
@@ -528,13 +525,11 @@ export default {
     },
     // 预算策略列表
     budgetStrategyList() {
-      
       let params = {
         page: 0,
       };
       budgetStrategyList(params)
         .then((res) => {
-          
           this.ystableData = res.data.data.data;
         })
         .catch((err) => {
@@ -543,13 +538,11 @@ export default {
     },
     // 计划策略列表
     planStrategyList() {
-      
       let params = {
         page: 0,
       };
       planStrategyList(params)
         .then((res) => {
-          
           this.jhtableData = res.data.data.data;
         })
         .catch((err) => {

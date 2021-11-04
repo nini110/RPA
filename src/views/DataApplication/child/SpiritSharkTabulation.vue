@@ -136,7 +136,6 @@
               tooltip-effect="dark"
               :height="tableHeight"
               @selection-change="handleSelectionChange"
-              :cell-style="timeStyle"
             >
               <el-table-column type="selection" width="80"> </el-table-column>
               <el-table-column
@@ -182,24 +181,28 @@
                     <el-button
                       v-if="scope.row.status === 1"
                       type="text"
+                      class="el-icon-download"
                       @click="downLoad(scope.row.id, scope.row.report_name)"
                       >下载</el-button
                     >
                     <el-button
                       v-if="scope.row.status !== 1"
                       type="text"
+                      class="el-icon-download"
                       disabled
                       >下载</el-button
                     >
                     <el-button
                       v-if="scope.row.status === 0"
                       type="text"
+                      class="el-icon-delete"
                       disabled
                       >删除</el-button
                     >
                     <el-button
                       v-if="scope.row.status !== 0"
                       type="text"
+                      class="el-icon-delete"
                       @click="deleteReport(scope.row.id)"
                       >删除</el-button
                     >
@@ -297,9 +300,6 @@ export default {
     this.tableHeight = window.getComputedStyle(this.$refs.tableBox).height;
   },
   methods: {
-    timeStyle() {
-      return "height:50px;padding:0;";
-    },
     getFileEvent(val) {
       this.fileList = val;
     },

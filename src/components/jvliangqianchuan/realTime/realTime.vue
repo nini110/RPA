@@ -114,7 +114,6 @@
             <el-table
               class="tableBox"
               :data="tableData"
-              :cell-style="timeStyle"
               :height="tableHeight"
             >
               <el-table-column
@@ -282,9 +281,6 @@ export default {
     this.tableHeight = window.getComputedStyle(this.$refs.tableBox).height
   },
   methods: {
-    timeStyle() {
-      return "height:50px;padding:0;";
-    },
     // 实时数据
     readTimeData() {
       let params = {

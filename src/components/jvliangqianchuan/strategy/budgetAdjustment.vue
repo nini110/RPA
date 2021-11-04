@@ -103,16 +103,16 @@
               </el-tooltip>
             </template>
             <template slot-scope="scope">
-              <el-button type="text" v-if="scope.row.status" disabled
+              <el-button class="el-icon-edit" type="text" v-if="scope.row.status" disabled
                 >编辑</el-button
               >
-              <el-button type="text" @click="editFn(scope.row.id)" v-else
+              <el-button class="el-icon-edit" type="text" @click="editFn(scope.row.id)" v-else
                 >编辑</el-button
               >
-              <el-button type="text" v-if="scope.row.status" disabled
+              <el-button class="el-icon-delete" type="text" v-if="scope.row.status" disabled
                 >删除</el-button
               >
-              <el-button type="text" v-else @click="deleteFn()">删除</el-button>
+              <el-button class="el-icon-delete" type="text" v-else @click="deleteFn()">删除</el-button>
             </template>
           </el-table-column>
         </el-table>

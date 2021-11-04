@@ -52,8 +52,8 @@
             width="150"
             fixed="right"
           >
-            <el-button type="text">编辑</el-button>
-            <el-button type="text" @click="deleteFn()">删除</el-button>
+            <el-button class="el-icon-edit" type="text">编辑</el-button>
+            <el-button class="el-icon-delete" type="text" @click="deleteFn()">删除</el-button>
           </el-table-column>
         </el-table>
       </div>

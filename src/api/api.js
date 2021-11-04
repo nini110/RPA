@@ -102,6 +102,12 @@ export const updateUser = request({
     method:'post',
     responseType: 'form'
 })
+// 数据应用--竞标监控--修改活动   ok
+export const updateActive = request({
+    url: `${BASEPATH}/apps/update_activity/`,
+    method:'post',
+    responseType: 'form'
+})
 // 数据应用--灵鲨制表--选择项目   ok
 export const selectItem = request({
     url: `${BASEPATH2}/tabulation/all_project/get`,
