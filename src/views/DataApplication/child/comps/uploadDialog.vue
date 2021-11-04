@@ -280,7 +280,7 @@ export default {
             vm.form.progressPercent = 100;
             vm.handleSuccess();
             vm.$emit('close', 'suc')
-            vm.$message.success(res.data.data.msg);
+            vm.$message.success('上传成功');
           } else {
             vm.$message.warning(res.data.data);
           }

@@ -1,15 +1,18 @@
 import axios from 'axios';
 import Qs from 'qs'
+import LoadingMask from '@/utils/loading'
+
 // const baseURL = 'http://114.67.229.243:8001';
 export const service = axios.create({
     // baseURL,
-    timeout: 150000
+    timeout: 15000
 })
 const headers = {
     'form': 'application/x-www-form-urlencoded',
     'form-data': 'multipart/form-data',
     'json': 'application/json'
 }
+LoadingMask.init(service) // 全局遮罩
 service.interceptors.request.use(config => {
     if (config.method === 'get') {
         config.headers = {
