@@ -1,8 +1,7 @@
-
 const px2rem = require('postcss-px2rem')
- 
+
 const postcss = px2rem({
-  remUnit: 12   //基准大小 baseSize，需要和rem.js中相同
+	remUnit: 12 //基准大小 baseSize，需要和rem.js中相同
 })
 module.exports = {
 	// chainWebpack: config => {
@@ -19,14 +18,18 @@ module.exports = {
 	// },
 	css: {
 		loaderOptions: {
-		  postcss: {
-			plugins: [
-			  postcss
-			]
-		  }
+			postcss: {
+				// plugins: [
+				//   postcss
+				// ],
+				plugins: [
+					require('postcss-px2rem')({
+						// 以设计稿750为例， 750 / 10 = 75
+						remUnit: 220
+					}),
+				]
+			}
 		}
 	}
-	
-  }
-  
-  
+
+}

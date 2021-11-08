@@ -71,12 +71,12 @@ export default {
   },
   created() {
     // 线上发布时created中所有都注释
-    // this.$route.query.wx_code = "_Gl8aanxpubxKN5Uep8EUB4TsfcB3xnRWir4tTxqp7Q";
-    // this.$route.query.wx_userid = "1020108";
-    // this.$route.query.user_name = "方涛";
-    // localStorage.setItem("wx_code", this.$route.query.wx_code);
-    // localStorage.setItem("wx_userid", this.$route.query.wx_userid);
-    // localStorage.setItem("user_name", this.$route.query.user_name);
+    this.$route.query.wx_code = "o1pg_OPuTwcrSiMg8hMClimLzLn9uuQ-75NAUCI-AhQ";
+    this.$route.query.wx_userid = "1020108";
+    this.$route.query.user_name = "方涛";
+    localStorage.setItem("wx_code", this.$route.query.wx_code);
+    localStorage.setItem("wx_userid", this.$route.query.wx_userid);
+    localStorage.setItem("user_name", this.$route.query.user_name);
   },
   methods: {
     close() {
@@ -205,6 +205,10 @@ a {
       display: flex;
       flex-wrap: nowrap;
       align-items: center;
+	  .el-button {
+	  	font-size: 16px!important;
+	  	background: transparent!important;
+	  }
       &:before {
         content: "";
         width: 1px;
@@ -230,6 +234,7 @@ a {
         &:before {
           padding-right: 10px;
         }
+
       }
     }
     &_user {
@@ -243,6 +248,7 @@ a {
       .user {
         flex-grow: 1;
         width: 220px;
+		font-size: 16px;
         text-align: center;
       }
       .logout {
