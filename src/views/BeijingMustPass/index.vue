@@ -1,7 +1,6 @@
 <template>
 	<!-- 京准通工具 -->
 	<div class="BeijingMustPass">
-		<!-- <router-view/> -->
 		<IptComp :toolType="toolType"></IptComp>
 	</div>
 </template>

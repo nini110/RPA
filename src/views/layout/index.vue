@@ -84,27 +84,27 @@ export default {
                     children: [
                         {
                             label: '数坊人群圈选',
-                            value: '/layout/bigData/numberOfLaneCrowd',
+                            value: '/layout/bigData/Number',
                             index: '2-1'
                         },
                         {
                             label: '营销活动人群',
-                            value: '/layout/bigData/MarketingActivityCrowds',
+                            value: '/layout/bigData/Activity',
                             index: '2-2'
                         },
                         {
                             label: '自定义分析创建',
-                            value: '/layout/bigData/CustomAnalysisCreation',
+                            value: '/layout/bigData/Analysis',
                             index: '2-3'
                         },
                         {
                             label: '数坊人群交并差集',
-                            value: '/layout/bigData/CrowdCrossAndMergeDifferenceSet',
+                            value: '/layout/bigData/Difference',
                             index: '2-4'
                         },
                         {
                             label: '营销人群追踪',
-                            value: '/layout/bigData/MarketingPopulationTracking',
+                            value: '/layout/bigData/Population',
                             index: '2-5'
                         }                                                                                             
                     ]

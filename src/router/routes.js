@@ -82,44 +82,44 @@ const routes = [
 				component: () => import("../views/BigData"),
 				children: [
 					{
-						path: 'numberOfLaneCrowd',
-						name: 'NumberOfLaneCrowd',
+						path: 'Number',
+						name: 'Number',
 						meta: {
 							title: '数坊人群圈选'
 						},
-						component: () => import("@/views/BigData/child/NumberOfLaneCrowd.vue"),
+						component: () => import("@/views/BigData"),
 					},
 					{
-						path: 'marketingActivityCrowds',
-						name: 'MarketingActivityCrowds',
+						path: 'Activity',
+						name: 'Activity',
 						meta: {
 							title: '营销活动人群'
 						},
-						component: () => import("@/views/BigData/child/MarketingActivityCrowds.vue"),
+						component: () => import("@/views/BigData"),
 					},
 					{
-						path: 'customAnalysisCreation',
-						name: 'CustomAnalysisCreation',
+						path: 'Analysis',
+						name: 'Analysis',
 						meta: {
 							title: '自定义分析创建'
 						},
-						component: () => import("@/views/BigData/child/CustomAnalysisCreation.vue"),
+						component: () => import("@/views/BigData"),
 					},
 					{
-						path: 'crowdCrossAndMergeDifferenceSet',
-						name: 'CrowdCrossAndMergeDifferenceSet',
+						path: 'Difference',
+						name: 'Difference',
 						meta: {
 							title: '数坊人群交并差集'
 						},
-						component: () => import("@/views/BigData/child/CrowdCrossAndMergeDifferenceSet.vue"),
+						component: () => import("@/views/BigData"),
 					},
 					{
-						path: 'marketingPopulationTracking',
-						name: 'MarketingPopulationTracking',
+						path: 'Population',
+						name: 'Population',
 						meta: {
 							title: '营销人群追踪'
 						},
-						component: () => import("@/views/BigData/child/MarketingPopulationTracking.vue"),
+						component: () => import("@/views/BigData"),
 					},
 				]
 			},
