@@ -51,30 +51,30 @@ export default {
             {
               title: "京东展位",
               class: "",
-              url: "/layout/beijingMustPass/JingdongBooth",
+              url: "/layout/beijingMustPass/Booth",
               img: require("../assets/images/hg_02.png"),
               subtitle: "批量化创建京东展位计划",
             },
             {
               title: "京东直投",
               class: "",
-              url: "/layout/beijingMustPass/jingdongDirectInvestment",
+              url: "/layout/beijingMustPass/Direct",
               img: require("../assets/images/hg_03.png"),
               subtitle: "京东展位批量化创建工具",
             },
+			{
+			  title: "京腾魔方",
+			  class: "",
+			  url: "/layout/beijingMustPass/Cube",
+			  img: require("../assets/images/hg_05.png"),
+			  subtitle: "批量化快速创建京腾人群",
+			},
             {
               title: "京腾人群定向",
               class: "",
-              url: "/layout/beijingMustPass/rubiksCube",
+              url: "/layout/beijingMustPass/People",
               img: require("../assets/images/hg_04.png"),
               subtitle: "京腾人群定向批量化快速创建人群",
-            },
-            {
-              title: "京腾魔方",
-              class: "",
-              url: "/layout/beijingMustPass/peopleOriented",
-              img: require("../assets/images/hg_05.png"),
-              subtitle: "批量化快速创建京腾人群",
             },
           ],
         },
@@ -86,21 +86,21 @@ export default {
             {
               title: "数坊人群圈选",
               class: "",
-              url: "/layout/bigData/numberOfLaneCrowd",
+              url: "/layout/bigData/Number",
               img: require("../assets/images/hg_06.png"),
               subtitle: "京东批量人群维度圈定工具",
             },
             {
               title: "营销活动人群",
               class: "",
-              url: "/layout/bigData/MarketingActivityCrowds",
+              url: "/layout/bigData/Activity",
               img: require("../assets/images/hg_07.png"),
               subtitle: "京东数坊营销人群追踪工具",
             },
             {
               title: "数坊自定义分析",
               class: "",
-              url: "/layout/bigData/CustomAnalysisCreation",
+              url: "/layout/bigData/Analysis",
 
               img: require("../assets/images/hg_08.png"),
               subtitle: "京东数坊自定义分析工具",
@@ -108,7 +108,7 @@ export default {
             {
               title: "数坊交并差集",
               class: "",
-              url: "/layout/bigData/CrowdCrossAndMergeDifferenceSet",
+              url: "/layout/bigData/Difference",
 
               img: require("../assets/images/hg_09.png"),
               subtitle: "数坊已有人群交并差集",
@@ -116,7 +116,7 @@ export default {
             {
               title: "营销人群追踪",
               class: "",
-              url: "/layout/bigData/MarketingPopulationTracking",
+              url: "/layout/bigData/Population",
               img: require("../assets/images/hg_10.png"),
               subtitle: "创建营销活动追踪报告",
             },
