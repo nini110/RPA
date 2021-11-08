@@ -56,22 +56,22 @@ export default {
                         },
                         {
                             label: '京东展位',
-                            value: '/layout/beijingMustPass/JingdongBooth',
+                            value: '/layout/beijingMustPass/Booth',
                             index: '1-2'
                         },
                         {
                             label: '京东直投',
-                            value: '/layout/beijingMustPass/jingdongDirectInvestment',
+                            value: '/layout/beijingMustPass/Direct',
                             index: '1-3'
                         },
                         {
                             label: '京腾魔方',
-                            value: '/layout/beijingMustPass/rubiksCube',
+                            value: '/layout/beijingMustPass/Cube',
                             index: '1-4'
                         },
                         {
                             label: '京腾人群方向',
-                            value: '/layout/beijingMustPass/peopleOriented',
+                            value: '/layout/beijingMustPass/People',
                             index: '1-5'
                         }                                                                                             
                     ]

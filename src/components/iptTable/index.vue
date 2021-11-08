@@ -1,5 +1,5 @@
 <template>
-  <div class="jingdongBooth outerDiv">
+  <div class="DMP outerDiv">
     <div class="content">
       <div class="form">
         <el-form
@@ -58,11 +58,26 @@
           </div>
           <div class="formObj_button">
             <a
+			  v-if="$route.name === 'DMP' || $route.name === 'Booth' || $route.name === 'Cube'"
               class="btnnormal btnnormal_down"
-              href="http://tool.afocus.com.cn/file_download/京东展位.xlsx"
-              download="京东展位.xlsx"
+              href="http://tool.afocus.com.cn/file_download/DMP自动化人群包.xlsx"
+              download="DMP自动化人群包.xlsx"
               ><div class="btnSize">下载模板</div></a
             >
+            <a
+			v-if="$route.name === 'Direct'"
+              class="btnnormal btnnormal_down"
+              href="http://tool.afocus.com.cn/file_download/新版直投-单元创建工具配置.xlsx"
+              download="新版直投-单元创建工具配置.xlsx"
+              ><div class="btnSizeBig">单元创建工具配置下载</div></a
+            >
+            <a
+			v-if="$route.name === 'Direct'"
+              class="btnnormal btnnormal_down marginL"
+              href="http://tool.afocus.com.cn/file_download/新版直投-计划创建工具配置.xlsx"
+              download="新版直投-计划创建工具配置.xlsx"
+              ><div class="btnSizeBig">计划创建工具配置下载</div></a
+            >			
             <el-button
               type="primary"
               class="btnnormal marginL"
@@ -92,12 +107,11 @@
           </div>
           <div class="tableTab" v-if="tableData">
             <el-table
-              ref="singleTable"
               class="tableBox"
               :data="tableData"
               size="small"
-              :height="tableHeight"
               @cell-click="celltable"
+              :height="tableHeight"
               :highlight-current-row="true"
             >
               <el-table-column
@@ -166,12 +180,17 @@ import {
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import Upload from "@/components/upload"
-
 export default {
-  name: "JingdongBooth",
+  name: "DMP",
   components: {
     VarifyDialog,
     Upload
+  },
+  props: {
+	toolType: {
+		type: String,
+		default: ''
+	}
   },
   data() {
     return {
@@ -198,18 +217,12 @@ export default {
         choose: 1,
         progressPercent: 0,
       },
-      switchText: "",
       fileList: [], // excel文件列表
-      activeName: "first",
       loadingbut: false,
       loadingbuttext: "执行",
       tableData: [],
       total: "",
-      exc: "",
-      userid: "",
-      code: "",
       username: "", //用户名
-      rizhi: "", //日志内容
       msg: "", //根据上传判断执行条件
       dialogVisible: false,
       //分页器状态
@@ -218,30 +231,39 @@ export default {
       currpage: 1, //默认开始页面
       tablerow: "", //当前选中用户
       id: [], //查看日志的id
-      idT: "", //查看详情渲染的idT
-      title: "", //查看详情渲染的title
       log: "", //查看详情渲染的log
-      choose: "", //传值为1或2
       tableHeight: 0,
     };
   },
-  created() {
-    // check方法调用接口,判断用户是否登录!
+  watch: {
+  	$route: {
+  		handler(newval, oldval) {
+  			const vm = this;
+  			console.log(newval)
     this.check();
+  this.username = localStorage.getItem("user_name");
+  this.people = localStorage.getItem("user_name");
+  this.getuserlist();
+  		},
+  		immediate: true,
+  		deep: true
+  	}
   },
-  mounted() {
-    this.username = localStorage.getItem("user_name");
-    this.people = localStorage.getItem("user_name");
-    this.getuserlist(1);
-    this.tableHeight = window.getComputedStyle(this.$refs.tableBox).height
-
-  },
-
+  // created() {
+  //   // check方法调用接口,判断用户是否登录!
+  //   this.check();
+  // },
+  // mounted() {
+  //   this.username = localStorage.getItem("user_name");
+  //   this.people = localStorage.getItem("user_name");
+  //   this.getuserlist(1);
+  //   this.tableHeight = window.getComputedStyle(this.$refs.tableBox).height
+  // },
   methods: {
-    closeDialog(val) {
+    closeDialog() {
       this.showVarDia = false;
     },
-        getFileEvent(val) {
+    getFileEvent(val) {
       this.fileList = val;
     },
     //点击选中的用户 查看详情
@@ -250,8 +272,6 @@ export default {
       fxcjviewDetails({ id: this.tablerow.id })
         .then((res) => {
           if (res.data.code == 10000) {
-            this.idT = res.data.data.id;
-            this.title = res.data.data.title;
             this.log = res.data.data.log;
           } else if (res.data.code == 10001) {
             this.$message.warning("是否忘记传参");
@@ -286,7 +306,8 @@ export default {
     //查看
     getuserlist() {
       fxcjExamine({
-        tool_type: "9",
+        // tool_type: "0",
+		tool_type: this.toolType,
         limit: this.pagesize,
         page: this.currpage,
       })
@@ -311,7 +332,7 @@ export default {
             username: this.form.input,
             password: this.form.pass,
             trans_name: this.username,
-            tool_type: "9",
+            tool_type: this.toolType,
             choose: this.form.choose,
             pin: this.form.pin,
           })
@@ -370,5 +391,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../index";
+@import "@/views/index";
 </style>

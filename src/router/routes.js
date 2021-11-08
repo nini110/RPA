@@ -35,44 +35,44 @@ const routes = [
 						meta: {
 							title: 'DMP'
 						},
-						component: () => import("@/views/BeijingMustPass/child/DMP.vue"),
+						component: () => import("@/views/BeijingMustPass"),
 					},
 					{
-						path: 'jingdongBooth',
-						name: 'JingdongBooth',
+						path: 'Booth',
+						name: 'Booth',
 						meta: {
 							title: '京东展位'
 						},
-						component: () => import("@/views/BeijingMustPass/child/JingdongBooth.vue"),
+						component: () => import("@/views/BeijingMustPass"),
 					},
 					{
-						path: 'jingdongDirectInvestment',
-						name: 'JingdongDirectInvestment',
+						path: 'Direct',
+						name: 'Direct',
 						meta: {
 							title: '京东直投'
 						},
-						component: () => import("@/views/BeijingMustPass/child/JingdongDirectInvestment.vue"),
+						component: () => import("@/views/BeijingMustPass"),
 					},
 					{
-						path: 'rubiksCube',
-						name: 'RubiksCube',
+						path: 'Cube',
+						name: 'Cube',
 						meta: {
 							title: '京腾魔方'
 						},
-						component: () => import("@/views/BeijingMustPass/child/RubiksCube.vue"),
+						component: () => import("@/views/BeijingMustPass"),
 					},
 					{
-						path: 'peopleOriented',
-						name: 'PeopleOriented',
+						path: 'People',
+						name: 'People',
 						meta: {
 							title: '京腾人群方向'
 						},
-						component: () => import("@/views/BeijingMustPass/child/PeopleOriented.vue"),
+						component: () => import("@/views/BeijingMustPass"),
 					},
 					{
-						path: 'directMail',
-						name: 'DirectMail',
-						component: () => import("@/views/BeijingMustPass/child/DirectMail.vue"),
+						path: 'Mail',
+						name: 'Mail',
+						component: () => import("@/views/BeijingMustPass"),
 					},
 				]
 			},
