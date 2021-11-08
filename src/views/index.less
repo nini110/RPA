@@ -264,9 +264,8 @@
 }
 
 .stateItem {
-	i {
+	/deep/i {
 		color: #666;
-
 		&:before {
 			display: inline-block;
 			width: 20px;
@@ -287,8 +286,10 @@
 		}
 
 		&.warn {
+			animation: none;
 			&:before {
 				background-color: #e6a23c;
+				text-align: center;
 			}
 		}
 

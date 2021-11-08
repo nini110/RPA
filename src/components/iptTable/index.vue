@@ -104,7 +104,7 @@
 								<div class="btnSize">下载模板</div>
 							</a>
 						</div>
-						<el-button type="primary" class="btnnormal marginL"
+						<el-button type="primary" :class="$route.fullPath.indexOf('People') !== -1 ? 'btnnormal':'btnnormal marginL'"
 							:disabled="this.fileList == '' ? true : false" @click="uploadFile">立即上传</el-button>
 						<el-button type="primary" class="btnnormal marginL" :disabled="!this.msg"
 							@click="going" :loading="loadingbut">{{ loadingbuttext }}</el-button>
