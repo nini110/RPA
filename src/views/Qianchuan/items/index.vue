@@ -14,7 +14,11 @@
           :height="tableHeight"
           tooltip-effect="dark"
           @cell-click="cellClick"
+		  :header-cell-style="{background:'#F5F7FA',color: '#666'}"
         >
+		<template slot="empty">
+		    <span class="iconfont icon-wushuju">暂无数据</span>
+		  </template>
           <el-table-column align="center" label="序号" width="100" type="index">
           </el-table-column>
           <el-table-column prop="project_name" label="项目名称" min-width="180">

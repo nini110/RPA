@@ -117,9 +117,12 @@
 					<div v-if="showVarDia" class="dialog">
 						<VarifyDialog :pageJumps="pageJumps" @close="closeDialog"></VarifyDialog>
 					</div>
-					<div class="tableTab" v-if="tableData">
-						<el-table class="tableBox" :data="tableData" size="small" :height="tableHeight"
-							:highlight-current-row="true">
+					<div class="tableTab">
+						<el-table v-if="tableData" class="tableBox" :data="tableData" size="small"
+							:highlight-current-row="true" :header-cell-style="{background:'#f4f4f4',color: '#666'}">
+							<template slot="empty">
+							    <span class="iconfont icon-wushuju">暂无数据</span>
+							  </template>
 							<el-table-column type="index" width="100" label="序号" align="center"></el-table-column>
 							<el-table-column property="create_time" label="日期" min-width="200">
 							</el-table-column>
@@ -161,7 +164,7 @@
 		fxcjExamine,
 	} from "@/api/api.js";
 	import VarifyDialog from "@/components/varifyDialog";
-	import Upload from "@/components/upload"
+	import Upload from "@/components/upload";
 	export default {
 		name: "DMP",
 		components: {
@@ -223,7 +226,6 @@
 				pagesize: 10, //每页的数据条数
 				currpage: 1, //默认开始页面
 				log: "", //查看详情渲染的log
-				tableHeight: 0,
 			};
 		},
 		watch: {

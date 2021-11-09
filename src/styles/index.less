@@ -78,10 +78,33 @@
         border-color: #2066BD;
     }
 }
+/deep/.el-table__row.hover-row {
+  background: red!important;
+
+}
 .el-table {
+	position: relative;
     td {
         padding: 2px 0;
     }
+	&__body-wrapper {
+		height: 100%;
+	}
+	&__empty-text {
+		// position: absolute;
+		span {
+			font-size: 16px;
+			line-height: 46px;
+				color: #999;
+			&:before {
+				display: inline-block;
+				vertical-align: middle;
+				font-size: 46px;
+				padding-right: 20px;
+				color: #999;
+			}
+		}
+	}
     .cell {
         // overflow: hidden;
         // white-space: nowrap;

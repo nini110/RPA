@@ -9,7 +9,6 @@ import './utils/rem'  //px转rem
 import 'element-ui/lib/theme-chalk/index.css';
 import './styles/index.less'
 import './assets/fonts/iconfont.css';
-// import 'lib-flexible'
 // import less from 'less'
 import router from './router'
 

@@ -1,4 +1,3 @@
-import Home from '../views/Home.vue'
 import login from '../login.vue'
 import layout from '@/views/layout'
 
@@ -17,7 +16,7 @@ const routes = [
 	{
 		path: '/',
 		name: 'Home',
-		component: Home,
+		component: ()=> import("@/views/Home"),
 	},
 	{
 		path: '/layout',
@@ -233,6 +232,30 @@ const routes = [
 							title: 'RealTime'
 						},
 						component: () => import("@/views/Qianchuan/realTime"),
+					}
+				]
+			},
+			// 快车提质
+			{
+				path: 'kuaiche',
+				name: 'Kuaiche',
+				component: () => import("@/views/Kuaiche"),
+				children: [
+					{
+						path: 'effect',
+						name: 'Effect',
+						meta: {
+							title: '效果变化'
+						},
+						component: () => import("@/views/Kuaiche/effect"),
+					},
+					{
+						path: 'record',
+						name: 'Record',
+						meta: {
+							title: '修改记录'
+						},
+						component: () => import("@/views/Kuaiche/effect")
 					}
 				]
 			},

@@ -63,7 +63,10 @@
 					<div class="tableTab">
 						<el-button type="text" size="mini" @click="DeleteReportAll">批量删除</el-button>
 						<el-table class="tableBox" ref="multipleTable" :data="itemList" tooltip-effect="dark"
-							:height="tableHeight" @selection-change="handleSelectionChange">
+							:height="tableHeight" :header-cell-style="{background:'#f4f4f4',color: '#666'}" @selection-change="handleSelectionChange">
+							<template slot="empty">
+							    <span class="iconfont icon-wushuju">暂无数据</span>
+							  </template>
 							<el-table-column type="selection" width="80"> </el-table-column>
 							<el-table-column type="index" width="100" label="序号" align="center"></el-table-column>
 							<el-table-column prop="report_name" label="报表名称" min-width="150">
