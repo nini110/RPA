@@ -163,17 +163,17 @@ export default {
                     children: [
                         {
                             label: '项目',
-                            value: '/layout/thirdPartyTools/item',
+                            value: '/layout/qianchuan/items',
                             index: '5-1'
                         },
                         {
                             label: '策略',
-                            value: '/layout/thirdPartyTools/homeitem',
+                            value: '/layout/qianchuan/strategy',
                             index: '5-2'
                         },
                         {
                             label: '模板',
-                            value: '/layout/thirdPartyTools/formBoard',
+                            value: '/layout/qianchuan/modules',
                             index: '5-3'
                         }                                                                                          
                     ]

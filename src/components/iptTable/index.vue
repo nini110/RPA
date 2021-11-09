@@ -31,26 +31,26 @@
 					<div class="formObj_button">
 						<!-- dmp -->
 						<div v-if="$route.name === 'DMP'">
-							<a class="btnnormal btnnormal_down"
+							<a class="btnnormal btnnormal_down marginR"
 								href="http://tool.afocus.com.cn/file_download/DMP自动化人群包.xlsx" download="DMP自动化人群包.xlsx">
 								<div class="btnSize">下载模板</div>
 							</a>
 						</div>
 						<!-- 展位 -->
 						<div v-if="$route.name === 'Booth'">
-							<a class="btnnormal btnnormal_down" href="http://tool.afocus.com.cn/file_download/京东展位.xlsx"
-								download="京东展位.xlsx">
+							<a class="btnnormal btnnormal_down marginR"
+								href="http://tool.afocus.com.cn/file_download/京东展位.xlsx" download="京东展位.xlsx">
 								<div class="btnSize">下载模板</div>
 							</a>
 						</div>
 						<!-- 直投 -->
 						<div v-if="$route.name === 'Direct'">
-							<a class="btnnormal btnnormal_down"
+							<a class="btnnormal btnnormal_down marginR"
 								href="http://tool.afocus.com.cn/file_download/新版直投-单元创建工具配置.xlsx"
 								download="新版直投-单元创建工具配置.xlsx">
 								<div class="btnSizeBig">单元创建工具配置下载</div>
 							</a>
-							<a class="btnnormal btnnormal_down marginL"
+							<a class="btnnormal btnnormal_down marginR"
 								href="http://tool.afocus.com.cn/file_download/新版直投-计划创建工具配置.xlsx"
 								download="新版直投-计划创建工具配置.xlsx">
 								<div class="btnSizeBig">计划创建工具配置下载</div>
@@ -58,33 +58,33 @@
 						</div>
 						<!-- 魔方 -->
 						<div v-if="$route.name === 'Cube'">
-							<a class="btnnormal btnnormal_down"
+							<a class="btnnormal btnnormal_down marginR"
 								href="http://tool.afocus.com.cn/file_download/京腾魔方人群.xlsx" download="京腾魔方人群.xlsx">
 								<div class="btnSize">下载模板</div>
 							</a>
 						</div>
 						<!-- 数坊人群圈选 -->
 						<div v-if="$route.name === 'Number'">
-							<a class="btnnormal btnnormal_down"
+							<a class="btnnormal btnnormal_down marginR"
 								href="http://tool.afocus.com.cn/file_download/数坊人群圈选.xlsx" download="数坊人群圈选.xlsx">
 								<div class="btnSize">下载模板</div>
 							</a>
 						</div>
 						<!-- 营销活动人群 -->
 						<div v-if="$route.name === 'Activity'">
-							<a class="btnnormal btnnormal_down" href="http://tool.afocus.com.cn/file_download/营销活动.xlsx"
-								download="营销活动.xlsx">
+							<a class="btnnormal btnnormal_down marginR"
+								href="http://tool.afocus.com.cn/file_download/营销活动.xlsx" download="营销活动.xlsx">
 								<div class="btnSize">下载模板</div>
 							</a>
 						</div>
 						<!-- 自定义分析创建 -->
 						<div v-if="$route.name === 'Analysis'">
-							<a class="btnnormal btnnormal_down"
+							<a class="btnnormal btnnormal_down marginR"
 								href="http://tool.afocus.com.cn/file_download/数坊自定义分析-分析配置项.xlsx"
 								download="数坊自定义分析-分析配置项.xlsx">
 								<div class="btnSizeBig">分析配置项下载</div>
 							</a>
-							<a class="btnnormal btnnormal_down marginL"
+							<a class="btnnormal btnnormal_down marginR"
 								href="http://tool.afocus.com.cn/file_download/数坊自定义分析-新建分析.xlsx"
 								download="数坊自定义分析-新建分析.xlsx">
 								<div class="btnSizeBig">新建分析项下载</div>
@@ -92,22 +92,22 @@
 						</div>
 						<!-- 数坊人群交并差集 -->
 						<div v-if="$route.name === 'Difference'">
-							<a class="btnnormal btnnormal_down"
+							<a class="btnnormal btnnormal_down marginR"
 								href="http://tool.afocus.com.cn/file_download/数坊已有人群集合.xlsx" download="数坊已有人群集合.xlsx">
 								<div class="btnSize">下载模板</div>
 							</a>
 						</div>
 						<!-- 营销人群追踪 -->
 						<div v-if="$route.name === 'Population'">
-							<a class="btnnormal btnnormal_down"
+							<a class="btnnormal btnnormal_down marginR"
 								href="http://tool.afocus.com.cn/file_download/数坊自动化报告.xlsx" download="数坊自动化报告.xlsx">
 								<div class="btnSize">下载模板</div>
 							</a>
 						</div>
-						<el-button type="primary" :class="$route.fullPath.indexOf('People') !== -1 ? 'btnnormal':'btnnormal marginL'"
+						<el-button type="primary" class="btnnormal marginR"
 							:disabled="this.fileList == '' ? true : false" @click="uploadFile">立即上传</el-button>
-						<el-button type="primary" class="btnnormal marginL" :disabled="!this.msg"
-							@click="going" :loading="loadingbut">{{ loadingbuttext }}</el-button>
+						<el-button type="primary" class="btnnormal marginR" :disabled="!this.msg" @click="going"
+							:loading="loadingbut">{{ loadingbuttext }}</el-button>
 					</div>
 				</el-form>
 			</div>
@@ -118,8 +118,8 @@
 						<VarifyDialog :pageJumps="pageJumps" @close="closeDialog"></VarifyDialog>
 					</div>
 					<div class="tableTab" v-if="tableData">
-						<el-table class="tableBox" :data="tableData" size="small"
-							:height="tableHeight" :highlight-current-row="true">
+						<el-table class="tableBox" :data="tableData" size="small" :height="tableHeight"
+							:highlight-current-row="true">
 							<el-table-column type="index" width="100" label="序号" align="center"></el-table-column>
 							<el-table-column property="create_time" label="日期" min-width="200">
 							</el-table-column>

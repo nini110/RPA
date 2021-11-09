@@ -76,6 +76,7 @@ export default {
               img: require("../assets/images/hg_04.png"),
               subtitle: "京腾人群定向批量化快速创建人群",
             },
+
           ],
         },
         {

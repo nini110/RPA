@@ -189,50 +189,50 @@ const routes = [
 			},
 			// 巨量千川
 			{
-				path: 'thirdPartyTools',
-				name: 'ThirdPartyTools',
-				component: () => import("../views/ThirdPartyTools"),
+				path: 'qianchuan',
+				name: 'Qianchuan',
+				component: () => import("@/views/Qianchuan"),
 				children: [
 					{
-						path: 'item',
+						path: 'items',
 						name: 'Items',
 						meta: {
 							title: '项目'
 						},
-						component: () => import("@/views/ThirdPartyTools/child/Items.vue"),
+						component: () => import("@/views/Qianchuan/items"),
 					},
 					{
-						path: 'homeitem',
-						name: 'Homeitem',
+						path: 'strategy',
+						name: 'Strategy',
 						meta: {
 							title: '策略'
 						},
-						component: () => import("@/views/ThirdPartyTools/child/Homeitem.vue")
+						component: () => import("@/views/Qianchuan/strategy")
 					},
 					{
-						path: 'formBoard',
-						name: 'FormBoard',
+						path: 'modules',
+						name: 'Modules',
 						meta: {
 							title: '模板'
 						},
-						component: () => import("@/views/ThirdPartyTools/child/FormBoard.vue"),
+						component: () => import("@/views/Qianchuan/modules"),
 					},
-					{
-						path: 'plan',
-						name: 'Plan',
-						meta: {
-							title: 'plan'
-						},
-						component: () => import("@/views/ThirdPartyTools/child/Plan.vue"),
+					// {
+					// 	path: 'plan',
+					// 	name: 'Plan',
+					// 	meta: {
+					// 		title: 'plan'
+					// 	},
+					// 	component: () => import("@/views/Qianchuan/plan"),
 
-					},
+					// },
 					{
 						path: 'realTime',
 						name: 'RealTime',
 						meta: {
 							title: 'RealTime'
 						},
-						component: () => import("@/views/ThirdPartyTools/child/RealTime.vue"),
+						component: () => import("@/views/Qianchuan/realTime"),
 					}
 				]
 			},
