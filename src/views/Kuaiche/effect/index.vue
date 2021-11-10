@@ -29,16 +29,19 @@
 							<template slot="empty">
 								<span class="iconfont icon-wushuju">暂无数据</span>
 							</template>
-							<el-table-column type="index" width="100" label="序号" align="center" fixed="left">
+							<el-table-column type="index" width="80" label="序号" align="center" fixed="left">
 							</el-table-column>
-							<el-table-column prop="keyword" label="关键词/单元" min-width="150" fixed="left">
+							<el-table-column prop="keyword" label="关键词/单元" min-width="120" fixed="left">
 							</el-table-column>
-							<el-table-column prop="unit_name" label="类型" min-width="150" fixed="left">
+							<el-table-column prop="unit_name" label="类型" min-width="120" fixed="left">
 							</el-table-column>
-							<el-table-column prop="plan_name" label="计划" min-width="150" fixed="left">
+							<el-table-column prop="plan_name" label="计划" min-width="120" fixed="left">
 							</el-table-column>
 							<el-table-column v-for="(item, idx) in topMenuList" :key="idx" :prop="item.prop"
-								:label="item.label" :min-width="item.width" :sortable="item.sortable">
+								:label="item.label" :width="item.width" :sortable="item.sortable">
+								<template slot-scope="scope">
+									<span>{{scope.row[`${item.prop}`]  | formatPercent}}</span>
+								</template>
 							</el-table-column>
 							<el-table-column v-if="$route.name==='Record'" label="操作" width="150" fixed="right">
 								<template slot-scope="scope">
@@ -64,7 +67,7 @@
 	import {
 		effectBox,
 		priceBox
-	} from '@/api/api'
+	} from '@/api/api';
 	export default {
 		name: 'Effect',
 		data() {
@@ -113,43 +116,43 @@
 									prop: 'diff_show',
 									label: '展现量变化',
 									sortable: 'custom',
-									width: '250'
+									width: '220'
 								},
 								{
 									prop: 'diff_click',
 									label: '点击量变化',
 									sortable: 'custom',
-									width: '250'
+									width: '220'
 								},
 								{
 									prop: 'diff_click_rate',
 									label: '点击率变化',
 									sortable: 'custom',
-									width: '250'
+									width: '220'
 								},
 								{
 									prop: 'diff_order_line',
 									label: '15天成交订单量变化',
 									sortable: 'custom',
-									width: '250'
+									width: '220'
 								},
 								{
 									prop: 'diff_zh_rate',
 									label: '转化率变化',
 									sortable: 'custom',
-									width: '250'
+									width: '220'
 								},
 								{
 									prop: 'diff_total_cost',
 									label: '15天成交订单金额变化',
 									sortable: 'custom',
-									width: '250'
+									width: '220'
 								},
 								{
 									prop: 'diff_roi',
 									label: '15天成交ROI变化',
 									sortable: 'custom',
-									width: '250'
+									width: '220'
 								},
 							]
 							break;
@@ -205,6 +208,8 @@
 								if (res.data.code === 10000 && res.data.data.length > 0) {
 									vm.tableData = res.data.data;
 									vm.total = res.data.count;
+								} else if(res.data.code === 10004) {
+									vm.$message.warning(res.data.data);
 								} else {
 									vm.$message.warning('暂无数据');
 								}

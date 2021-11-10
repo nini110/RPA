@@ -5,6 +5,7 @@ import store from './store'
 import axios from 'axios'
 import qs from 'qs'
 import ElementUI from 'element-ui';
+import format from './utils/format';
 import './utils/rem'  //px转rem
 import 'element-ui/lib/theme-chalk/index.css';
 import './styles/index.less'
@@ -25,6 +26,9 @@ Vue.use(ElementUI);
 // Vue.prototype.DomainName = 'http://192.168.90.35:5005';
 Vue.prototype.DomainName = 'http://tool.afocus.com.cn:5005';
 
+Object.keys(format).forEach(key => {
+	Vue.filter(key, format[key])
+})
 Vue.config.productionTip = false
 new Vue({
   router,
