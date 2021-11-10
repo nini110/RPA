@@ -2,44 +2,45 @@
 	<div class="DMP outerDiv">
 		<div class="content">
 			<div class="form">
-				<el-form ref="form" :model="form" class="formObj">
-					<div class="formObj_ipt">
+				<el-form ref="form" :model="form" class="formObj" :rules="rules">
+					<div class="formObj_ipt ts">
 						<el-form-item label="PIN:" prop="pin">
 							<el-input v-model="form.pin" size="medium" placeholder="请选择" clearable></el-input>
 						</el-form-item>
-						<el-form-item label="日期:" prop="date">
-							<el-select v-model="form.date" placeholder="请选择日期">
-								<el-option v-for="item in options" :key="item.code" :label="item.label"
-									:value="item.code">
-								</el-option>
-							</el-select>
+						<el-form-item class="tophasBtn" label="日期:" prop="search_date">
+							<el-date-picker class="tophasBtn_data" v-model="form.search_date" format="yyyy-MM-dd"
+								value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
+							</el-date-picker>
+							<el-button type="primary" class="tophasBtn_btn btnnormal" @click="searchEvent">查询
+							</el-button>
 						</el-form-item>
-						<el-form-item label="关键词/单元:" prop="keywords">
-							<el-input v-model="form.keywords" size="medium" placeholder="请输入关键词/单元" clearable>
-							</el-input>
-						</el-form-item>
-					</div>
-					<div class="formObj_button">
-						<el-button type="primary" class="btnnormal marginR">查询
-						</el-button>
 					</div>
 				</el-form>
 			</div>
-			<div ref="tableBox" class="tableBox hasUp3">
+			<div ref="tableBox" class="tableBox hasUp4">
 				<el-divider></el-divider>
 				<div class="tables">
-					<div class="tableTab" v-if="tableData">
-						<el-table class="tableBox" ref="table" :data="tableData" size="small" :height="tableHeight"
-							tooltip-effect="dark" :highlight-current-row="true" :header-cell-style="{background:'#F5F7FA',color: '#666'}">
+					<!-- :height="tableHeight" -->
+					<div class="tableTab" v-show="tableData">
+						<el-table class="tableBox" border :data="tableData" ref="table" size="small"
+							:highlight-current-row="true" height="0"
+							:header-cell-style="{background:'#F5F7FA',color: '#666'}" @sort-change="sortChange"
+							style="width: 100%">
 							<template slot="empty">
 								<span class="iconfont icon-wushuju">暂无数据</span>
 							</template>
 							<el-table-column type="index" width="100" label="序号" align="center" fixed="left">
 							</el-table-column>
-							<el-table-column v-for="(item, idx) in topMenuList" :key="idx" :prop="item.prop"
-								:fixed="item.fixed" :label="item.label" :min-width="item.width">
+							<el-table-column prop="keyword" label="关键词/单元" min-width="150" fixed="left">
 							</el-table-column>
-							<el-table-column v-if="$route.name ==='Record'" label="操作" width="150" fixed="right">
+							<el-table-column prop="unit_name" label="类型" min-width="150" fixed="left">
+							</el-table-column>
+							<el-table-column prop="plan_name" label="计划" min-width="150" fixed="left">
+							</el-table-column>
+							<el-table-column v-for="(item, idx) in topMenuList" :key="idx" :prop="item.prop"
+								:label="item.label" :min-width="item.width" :sortable="item.sortable">
+							</el-table-column>
+							<el-table-column v-if="$route.name==='Record'" label="操作" width="150" fixed="right">
 								<template slot-scope="scope">
 									<el-button class="el-icon-edit" type="text">调价
 									</el-button>
@@ -50,7 +51,7 @@
 					<!-- 分页器 -->
 					<div class="block" v-if="total">
 						<el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-							:current-page.sync="currpage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]"
+							:current-page.sync="currentPage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]"
 							layout="total, sizes, prev, pager, next, jumper" :total="total">
 						</el-pagination>
 					</div>
@@ -59,220 +60,178 @@
 		</div>
 	</div>
 </template>
-
 <script>
+	import {
+		effectBox,
+		priceBox
+	} from '@/api/api'
 	export default {
 		name: 'Effect',
 		data() {
 			return {
+				rules: {
+					pin: [{
+						required: true,
+						message: '请输入PIN',
+						trigger: 'blur'
+					}],
+					search_date: [{
+						required: true,
+						message: '请选择日期',
+						trigger: 'blur'
+					}],
+				},
 				form: {
 					pin: '',
-					date: '',
-					keywords: ''
+					search_date: '',
+					sort_word: ''
 				},
-				options: [{
-						label: '昨天VS前天',
-						code: 1
-					},
-					{
-						label: '过去3天VS过去4~6天',
-						code: 2
-					},
-					{
-						label: '过去7天VS过去8~14天',
-						code: 3
-					},
-				],
-				tableData: null,
-				topMenuList: null,
+				tableData: [],
+				topMenuList: [],
 				tableHeight: 0,
 				//分页器状态
-				total: 20,
+				total: null,
 				currentPage: 1,
-				pagesize: 10, //每页的数据条数
-				currpage: 1, //默认开始页面
+				pagesize: 100,
 			}
 		},
 		watch: {
 			$route: {
 				handler(newval, oldval) {
 					const vm = this;
-					// vm.tableData = null;
-					// vm.topMenuList = null;
-
+					vm.form = {
+						pin: '',
+						search_date: '',
+						sort_word: ''
+					}
+					vm.total = null;
+					vm.tableData = [];
+					vm.topMenuList = [];
 					switch (newval.name) {
 						case 'Effect':
-							vm.tableData = [{
-									key: '热水器',
-									type: 'ECPA',
-									danyuan: '类目词',
-									plan: '热水器',
-									zhan: '+13%',
-									dian: '+20%',
-									lv: '+6%',
-									cheng: '+19%',
-									zghuan: '+2%',
-									jine: '+5%',
-									roi: '0'
-								},
-								{
-									key: '热水器',
-									type: 'ECPA',
-									danyuan: '类目词',
-									plan: '热水器',
-									zhan: '+13%',
-									dian: '+20%',
-									lv: '+6%',
-									cheng: '+19%',
-									zghuan: '+2%',
-									jine: '+5%',
-									roi: '0'
-								}
-							]
 							vm.topMenuList = [{
-									prop: 'key',
-									label: '关键词/单元',
-									fixed: 'left',
-									width: '150'
-								},
-								{
-									prop: 'type',
-									label: '类型',
-									fixed: 'left',
-									width: '150'
-								},
-								{
-									prop: 'danyuan',
-									label: '单元',
-									fixed: 'left',
-									width: '150'
-								},
-								{
-									prop: 'plan',
-									label: '计划',
-									fixed: 'left',
-									width: '150'
-								},
-								{
-									prop: 'zhan',
+									prop: 'diff_show',
 									label: '展现量变化',
-									width: '200'
+									sortable: 'custom',
+									width: '250'
 								},
 								{
-									prop: 'dian',
+									prop: 'diff_click',
 									label: '点击量变化',
-									width: '200'
+									sortable: 'custom',
+									width: '250'
 								},
 								{
-									prop: 'lv',
+									prop: 'diff_click_rate',
 									label: '点击率变化',
-									width: '200'
+									sortable: 'custom',
+									width: '250'
 								},
 								{
-									prop: 'cheng',
+									prop: 'diff_order_line',
 									label: '15天成交订单量变化',
-									width: '200'
+									sortable: 'custom',
+									width: '250'
 								},
 								{
-									prop: 'zghuan',
+									prop: 'diff_zh_rate',
 									label: '转化率变化',
-									width: '200'
+									sortable: 'custom',
+									width: '250'
 								},
 								{
-									prop: 'jine',
+									prop: 'diff_total_cost',
 									label: '15天成交订单金额变化',
-									width: '200'
+									sortable: 'custom',
+									width: '250'
 								},
 								{
-									prop: 'roi',
+									prop: 'diff_roi',
 									label: '15天成交ROI变化',
-									width: '200'
+									sortable: 'custom',
+									width: '250'
 								},
 							]
 							break;
 						case 'Record':
-							vm.tableData = [{
-									key: '热水器',
-									type: 'ECPA',
-									danyuan: '类目词',
-									plan: '热水器',
-									zhan: '1.7',
-									dian: '1.8',
-									lv: '2021-11-08',
-								},
-								{
-									key: '热水器',
-									type: 'ECPA',
-									danyuan: '类目词',
-									plan: '热水器',
-									zhan: '1.7',
-									dian: '1.8',
-									lv: '2021-11-08',
-								}
-							]
 							vm.topMenuList = [{
-									prop: 'key',
-									label: '关键词/单元',
-									fixed: 'left',
-									width: '150'
-								},
-								{
-									prop: 'type',
-									label: '类型',
-									fixed: 'left',
-									width: '150'
-								},
-								{
-									prop: 'danyuan',
-									label: '单元',
-									fixed: 'left',
-									width: '150'
-								},
-								{
-									prop: 'plan',
-									label: '计划',
-									fixed: 'left',
-									width: '150'
-								},
-								{
-									prop: 'zhan',
+									prop: 'old_price',
 									label: '原出价',
 									width: '200'
 								},
 								{
-									prop: 'dian',
+									prop: 'new_price',
 									label: '调整后出价',
 									width: '200'
 								},
 								{
-									prop: 'lv',
+									prop: 'khd',
 									label: '调整时间',
 									width: '200'
 								},
 							]
 							break;
 					}
-					this.$nextTick(() => {
-						this.$refs.table.doLayout()
-					})
 				},
 				immediate: true,
 				deep: true
 			}
 		},
-		created() {
-
+		mounted() {
 		},
 		methods: {
+			sortChange(val) {
+				const vm = this;
+				vm.form.sort_word = val.prop
+				vm.getTable()
+			},
+			searchEvent() {
+				const vm = this;
+				vm.getTable()
+			},
+			// 获取效果列表
+			getTable(pages, current) {
+				const vm = this;
+				vm.$refs.form.validate((valid) => {
+					if (valid) {
+						vm.tableData = [];
+						if (vm.$route.name === 'Effect') {
+							// 获取效果列表
+							effectBox({
+								...vm.form,
+								limit: vm.pagesize,
+								page: vm.currentPage
+							}).then(res => {
+								if (res.data.code === 10000 && res.data.data.length > 0) {
+									vm.tableData = res.data.data;
+									vm.total = res.data.count;
+								}
+							})
+						} else {
+							// 获取改价列表
+							priceBox({
+								...vm.form,
+								limit: vm.pagesize,
+								page: vm.currentPage
+							}).then(res => {
+								if (res.data.code === 10000 && res.data.data.length > 0) {
+									// vm.tableData = res.data.data;
+									vm.total = res.data.count;
+								}
+							})
+						}
+					}
+				})
+			},
 			//分页器功能
 			handleSizeChange(val) {
 				this.pagesize = val;
-				// this.getuserlist(this.pagesize);
+				this.getTable();
 			},
 			//有接口请求 每点击一页进行一次数据请求 参数页码为动态值：
 			handleCurrentChange(page) {
-				this.currpage = page;
-				// this.getuserlist(this.currpage);
+				this.currentPage = page;
+				this.getTable();
 			},
 		},
 

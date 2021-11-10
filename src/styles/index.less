@@ -83,12 +83,23 @@
 
 }
 .el-table {
-	position: relative;
+	// position: relative;
+	// tr {
+	// 	height: 16px!important;
+	// }
     td {
         padding: 2px 0;
+		.cell {
+			padding: 10px;
+			button {
+				padding: 0;
+			}
+		}
     }
+
 	&__body-wrapper {
-		height: 100%;
+		height: calc(100% - 40px)!important;
+		overflow-y: scroll!important;
 	}
 	&__empty-text {
 		// position: absolute;
@@ -143,15 +154,36 @@
 // }
     /**滚动条的宽度*/
     ::-webkit-scrollbar {
-        width: 1px;/*竖向*/
-        height: 10px;/*横向*/
+        width: 10px;/*竖向*/
+        height: 20px;/*横向*/
     }
  
     /*滚动条的滑块*/
     ::-webkit-scrollbar-thumb {
-        background-color: #2067bd42;
+        background-color: #d0d0d0;
         border-radius: 3px;
     }
+	.el-table__fixed {
+		bottom: 0!important;
+	}
+	//   .el-table {
+	//     .el-table__fixed { // 左固定列
+	//       height: auto !important;
+	//       bottom: 18px; // 改为自动高度后，设置与父容器的底部距离，高度会动态改变，值可以设置比滚动条的高度稍微大一些
+	//     }
+	// 	}
+	// 固定列相关样式
+	/deep/ .el-table__fixed-right-patch {
+	  background-color: transparent;
+	}
+	/deep/ .el-table__fixed-right::before, 
+	/deep/ .el-table__fixed::before {
+	  background-color: transparent;
+	}
+	// // 解决固定列高度错位问题 8px与滚动条高度相等
+	// /deep/.el-table__fixed-body-wrapper .el-table__body {
+	//   padding-bottom: 20px!important;
+	// }
 .tagBox {
     .el-form-item {
         &__content {
@@ -169,10 +201,13 @@
 
 }
 .el-form-item {
-    margin-bottom: 12px;
+    margin-bottom: 14px;
     &__label,
     &__content {
         font-size: 12px;
+		.el-input__inner {
+			height: 34px;
+		}
     }
 }
 .el-input,

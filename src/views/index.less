@@ -31,7 +31,7 @@
 }
 
 /deep/.marginL {
-	margin-left: 0 0 0 10px; 
+	margin: 0 0 0 10px!important; 
 }
 /deep/.marginR {
 	margin: 0 10px 0 0;
@@ -57,7 +57,9 @@
 			flex-grow: 1;
 		}
 	}
-
+/deep/.el-form-item__error {
+	font-size: 10px!important;
+}
 	.content {
 		box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 		// display: flex;
@@ -72,19 +74,26 @@
 			padding-top: 50px;
 			width: 100%;
 			background-color: #fff;
-
+				padding-right: 120px;
+				box-sizing: border-box;
 			.formObj {
 				// width:500px;
 				width: 100%;
 				margin: 0 auto;
 
 				&_ipt {
+					&.ts {
+						.el-form-item {
+							margin-bottom: 0;
+						}
+					}
 					/deep/.el-form-item {
 						box-sizing: border-box;
 						width: 50%;
 						display: inline-block;
+						vertical-align: middle;
 						// padding: 0 20px;
-						padding-right: 50px;
+						// padding-right: 50px;
 						&__label {
 							width: 120px !important;
 							display: inline-block;
@@ -173,6 +182,9 @@
 			&.hasUp3 {
 				height: calc(100% - 230px) !important;
 			}
+			&.hasUp4 {
+				height: calc(100% - 120px) !important;
+			}
 
 			.tables {
 				// width: 88%;
@@ -232,7 +244,7 @@
 				}
 
 				&.cls2 {
-					height: calc(100% - 260px) !important;
+					height: calc(100% - 240px) !important;
 				}
 			}
 
@@ -240,7 +252,7 @@
 				height: calc(100% - 180px);
 
 				.tables {
-					height: calc(100% - 50px);
+					height: calc(100% - 30px);
 
 					.tableBox {
 						height: 100% !important;
@@ -308,4 +320,17 @@
 			}
 		}
 	}
+}
+.tophasBtn {
+	position: relative;
+	&_data {
+		width: 80%;
+	}
+	&_btn {
+		position: absolute;
+		top: 2px;
+		right: 0;
+		
+	}
+	
 }

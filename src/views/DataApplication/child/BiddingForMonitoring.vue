@@ -4,18 +4,18 @@
 		<div class="content">
 			<div class="form">
 				<div class="upobtn">
-					<el-button class="btnnormal marginL" type="primary" @click="upList()">上传竞标</el-button>
+					<el-button class="btnnormal" type="primary" @click="upList()">上传竞标</el-button>
 				</div>
 			</div>
 			<div ref="tableBox" class="tableBox jiankong">
 				<el-divider>列表</el-divider>
 				<div class="tables" v-if="tableData">
-					<el-table ref="singleTable" class="tableBox" :data="tableData" :height="tableHeight"
+					<el-table ref="singleTable" border class="tableBox" :data="tableData" :height="tableHeight"
 						:highlight-current-row="true" :header-cell-style="{background:'#f4f4f4',color: '#666'}">
 						<template slot="empty">
 							<span class="iconfont icon-wushuju">暂无数据</span>
 						</template>
-						<el-table-column type="index" width="100" label="序号" align="center">
+						<el-table-column type="index" width="80" label="序号" align="center">
 						</el-table-column>
 						<el-table-column property="bidding_name" label="竞标名称" min-width="120">
 						</el-table-column>

@@ -281,3 +281,14 @@ export const readTimeData = request({
     url:"http://192.168.90.29:8000/index/real_time_data/getlist",
     method:'get',
 })
+
+// 提质--效果列表
+export const effectBox = request({
+    url:`${BASEPATH}/apps/dimensional_change/`,
+    method:'get',
+})
+// 提质--改价记录列表
+export const priceBox = request({
+    url:`${BASEPATH}/apps/kc_log/`,
+    method:'get',
+})

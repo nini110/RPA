@@ -1,4 +1,4 @@
-import login from '../login.vue'
+import login from '@/views/login.vue'
 import layout from '@/views/layout'
 
 // 巨量千川

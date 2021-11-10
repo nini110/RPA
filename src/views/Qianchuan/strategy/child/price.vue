@@ -29,25 +29,25 @@
 					<template slot="empty">
 						<span class="iconfont icon-wushuju">暂无数据</span>
 					</template>
-					<el-table-column align="center" type="selection" width="80">
+					<el-table-column align="center" type="selection" width="50" fixed="left">
 					</el-table-column>
-					<el-table-column align="center" label="序号" width="100" type="index">
+					<el-table-column align="center" label="序号" width="80" type="index"  fixed="left">
 					</el-table-column>
-					<el-table-column prop="count" label="状态" width="120" align="center">
+					<el-table-column prop="count" label="状态" width="150" align="center" fixed="left" >
 						<template slot-scope="scope">
 							<div v-if="scope.row.status" class="yes">使用中</div>
 							<div v-else class="no">未使用</div>
 						</template>
 					</el-table-column>
-					<el-table-column prop="name" label="策略名称" min-width="200">
+					<el-table-column prop="name" label="策略名称" min-width="200" fixed="left">
 					</el-table-column>
-					<el-table-column prop="total_satisfy_count" min-width="100" label="累计撞线数">
+					<el-table-column prop="total_satisfy_count" min-width="200" label="累计撞线数">
 					</el-table-column>
-					<el-table-column prop="total_project_count" min-width="100" label="累计项目数">
+					<el-table-column prop="total_project_count" min-width="200" label="累计项目数">
 					</el-table-column>
-					<el-table-column prop="total_plan_count" min-width="100" label="累计计划数">
+					<el-table-column prop="total_plan_count" min-width="200" label="累计计划数">
 					</el-table-column>
-					<el-table-column prop="username" min-width="100" label="创建人">
+					<el-table-column prop="username" min-width="200" label="创建人">
 					</el-table-column>
 					<el-table-column prop="address" width="150" label="操作" fixed="right">
 						<template slot="header">
