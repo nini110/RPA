@@ -3,45 +3,52 @@
 	<div class="activePageSKU outerDiv">
 		<div class="content">
 			<div class="form">
-				<div class="formObj">
-					<div class="topContent">
-						<el-input placeholder="请输入活动页面URL" v-model="input" class="input-with-select" clearable>
-							<el-button slot="append" type="primary" :disabled="this.input == '' ? true : false"
-								@click="going">执行</el-button>
-						</el-input>
+				<el-form ref="form" :model="form" class="formObj">
+					<div class="formObj_ipt">
+						<el-form-item label="PIN:" prop="pin">
+							<el-input placeholder="请输入活动页面URL" v-model.trim="form.url" class="input-with-select" clearable>
+								<el-button slot="append" type="primary" :disabled="!form.url"
+									@click="going">执行</el-button>
+							</el-input>
+						</el-form-item>
 					</div>
-					<div class="tableTab" style="width: 100%; margin-top: 20px" v-if="tableData">
-						<el-table ref="singleTable" :data="tableData" height="540" :header-cell-style="{background:'#f4f4f4',color: '#666'}" :highlight-current-row="true">
+				</el-form>
+			</div>
+			<div class="tableBox">
+				<div class="tables">
+					<div class="tableTab">
+						<el-table ref="singleTable" :data="tableData" height="540"
+							:header-cell-style="{background:'#f4f4f4',color: '#666'}" :highlight-current-row="true">
 							<template slot="empty">
 								<span class="iconfont icon-wushuju">暂无数据</span>
 							</template>
 							<!-- 表格日期 -->
-							<el-table-column property="c_time" label="时间" width="150" align="center">
+							<el-table-column property="c_time" label="时间" min-width="150" align="center">
 								<template slot-scope="scope">
 									<div>
 										{{ scope.row.c_time }}
 									</div>
 								</template>
 							</el-table-column>
-
+						
 							<!-- 查看链接 -->
-							<el-table-column property="link" label="查看链接" width="300" align="center">
+							<el-table-column property="link" label="查看链接" min-width="300" align="center">
 								<template slot-scope="scope">
 									<div>
 										{{ scope.row.link }}
 									</div>
 								</template>
 							</el-table-column>
-
+						
 							<!-- excel表 -->
-							<el-table-column property="file_name" label="Excel表" width="280" align="center">
+							<el-table-column property="file_name" label="Excel表" min-width="280" align="center">
 								<template slot-scope="scope">
 									<div>
 										{{ scope.row.file_name }}
 									</div>
 								</template>
 							</el-table-column>
-
+						
 							<!-- 操作 -->
 							<el-table-column property="download" label="下载" width="150" align="center">
 								<template slot-scope="scope">
@@ -68,10 +75,11 @@
 	export default {
 		data() {
 			return {
+				form: {
+					url: ''
+				},
 				//表格数据接受
 				tableData: [],
-				//输入skuURl
-				input: "",
 				//请求传的参数
 				userid: "",
 				code: "",
@@ -89,44 +97,30 @@
 		methods: {
 			//查看
 			getuserlist() {
+				const vm = this;
 				hdskuLookData({
-						trans_name: this.username,
+						trans_name: vm.username,
 					})
 					.then((res) => {
-						this.tableData = res.data.data;
+						if (res.data.data.length > 0) {
+							vm.tableData = res.data.data;
+						} else {
+							vm.$message.warning('暂无数据');
+						}
 					})
-					.catch((err) => {
-						console.log(err);
-					});
 			},
 			//执行
 			going() {
 				performSku({
 						trans_name: this.username,
-						url: this.input,
+						url: this.form.url,
 					})
-					.then((res) => {})
-					.catch((err) => {
-						console.log(err);
-					});
-				// let sku = new FormData();
-				// sku.append("trans_name",this.username)
-				// sku.append("url",this.input);
-				// this.$axios({
-				//   url:"http://114.67.229.243:5005/apps/sku_get/",
-				//   method:"post",
-				//   headers: { uid: this.userid, code: this.code },
-				//   data: sku,
-				// }).then((data)=>{
-				//   if(data.data.code=="10000"){
-				//     console.log(data.data.code)
-				//     this.input = "";
-				//     this.getuserlist()
-				//   }
-
-				// },(err)=>{
-				//   console.log(err)
-				// })
+					.then((res) => {
+						  if(res.data.code === 10000){
+						    this.form.url = "";
+						    this.getuserlist()
+						  }
+					})
 			},
 			// 下载
 			lianjie(scope) {
@@ -169,20 +163,5 @@
 </script>
 
 <style lang="less" scoped>
-	@import "../../index";
-
-	.activePageSKU {
-		.content {
-			.form {
-				.formObj {
-					width: 900px;
-					margin: 0 auto;
-
-					.topContent {
-						display: flex;
-					}
-				}
-			}
-		}
-	}
+	@import "@/views/index";
 </style>

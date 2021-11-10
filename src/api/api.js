@@ -278,7 +278,7 @@ export const StrategiesUpdate = request({
 })
 // 获取项目实时数据 （暂）
 export const readTimeData = request({
-    url:"http://192.168.90.29:8000/index/real_time_data/getlist",
+    url:`${BASEPATH3}/index/real_time_data/getlist`,
     method:'get',
 })
 

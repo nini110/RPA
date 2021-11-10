@@ -1,7 +1,7 @@
 <template>
-	<div class="layout">
-		<el-menu :default-active="currentMenu" class="el-menu-vertical-demo layout_menu" unique-opened
-			active-text-color="#2066BD">
+	<div class="layout" :class="{'single':$route.name ==='RealTime'}">
+		<el-menu v-if="$route.name !=='RealTime'" :default-active="currentMenu"
+			class="el-menu-vertical-demo layout_menu" unique-opened active-text-color="#2066BD">
 			<div v-for="(item, idx) in menuList" :key="idx" class="layout_menu_box">
 				<el-submenu v-if="item.children" :index="item.index">
 					<template slot="title">
@@ -10,7 +10,9 @@
 					</template>
 					<div v-if="item.deep === 3">
 						<el-submenu v-for="(item1, idx1) in item.children" :key="idx1" :index="item1.index">
-							<template slot="title"><el-divider class="fenge" content-position="right">{{item1.label}}</el-divider></template>
+							<template slot="title">
+								<el-divider class="fenge" content-position="right">{{item1.label}}</el-divider>
+							</template>
 							<el-menu-item v-for="(item2, idx2) in item1.children" :key="idx2" :index="item2.index"
 								@click="selectEvent(item2)">{{item2.label}}</el-menu-item>
 						</el-submenu>
@@ -35,6 +37,7 @@
 				<router-view class="app-router-view" />
 			</div>
 		</div>
+
 	</div>
 </template>
 <script>

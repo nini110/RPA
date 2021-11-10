@@ -205,6 +205,8 @@
 								if (res.data.code === 10000 && res.data.data.length > 0) {
 									vm.tableData = res.data.data;
 									vm.total = res.data.count;
+								} else {
+									vm.$message.warning('暂无数据');
 								}
 							})
 						} else {
@@ -215,8 +217,10 @@
 								page: vm.currentPage
 							}).then(res => {
 								if (res.data.code === 10000 && res.data.data.length > 0) {
-									// vm.tableData = res.data.data;
+									vm.tableData = res.data.data;
 									vm.total = res.data.count;
+								} else {
+									vm.$message.warning('暂无数据');
 								}
 							})
 						}

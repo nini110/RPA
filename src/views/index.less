@@ -44,8 +44,9 @@
 	margin: 0 auto;
 
 	.centerTop {
-		padding-top: 20px;
-		background-color: #fff;
+		box-sizing: border-box;
+		margin-top: 20px;
+		padding: 0 120px;
 		width: 100%;
 		display: flex;
 		flex-wrap: nowrap;
@@ -55,6 +56,11 @@
 		.item {
 			text-align: center;
 			flex-grow: 1;
+			background-color: #f0f0f0;
+			padding: 12px 0;
+			button {
+				padding: 0;
+			}
 		}
 	}
 /deep/.el-form-item__error {
