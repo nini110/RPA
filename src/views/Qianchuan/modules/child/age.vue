@@ -8,7 +8,7 @@
 				<div class="searchs">
 					<div class="searchs_label">模板名称：</div>
 					<div>
-						<el-input v-model="input" placeholder="请输入内容" size="medium" class="w240"></el-input>
+						<el-input v-model="input" placeholder="请输入内容" class="inp" size="medium"></el-input>
 					</div>
 					<div>
 						<el-button type="primary" class="btnnormal" style="margin-left: 10px">查询</el-button>
@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<div class="tabbles pricetable" ref="tabbles">
-				<el-table :data="tableData" border :height="tableHeight" @cell-click="cellClick" :header-cell-style="{background:'#F5F7FA',color: '#666'}">
+				<el-table :data="tableData"  :height="tableHeight" @cell-click="cellClick" :header-cell-style="{background:'#F5F7FA',color: '#666'}">
 					<template slot="empty">
 						<span class="iconfont icon-wushuju">暂无数据</span>
 					</template>

@@ -631,7 +631,7 @@
   .el-select-dropdown.is-multiple .el-select-dropdown__item {
     padding-right: 40px; }
   .el-select-dropdown.is-multiple .el-select-dropdown__item.selected {
-    color: #2066BD;
+    color: #27b4ff;
     background-color: #FFFFFF; }
     .el-select-dropdown.is-multiple .el-select-dropdown__item.selected.hover {
       background-color: #F5F7FA; }

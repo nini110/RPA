@@ -573,7 +573,7 @@
   width: 100%;
   height: 100%;
   opacity: 0.5;
-  background: #000000; }
+  background: #303133; }
 
 .el-popup-parent--hidden {
   overflow: hidden; }
@@ -1007,12 +1007,12 @@
   .el-button.is-round {
     padding: 12px 20px; }
   .el-button:hover, .el-button:focus {
-    color: #2066BD;
-    border-color: #bcd1eb;
-    background-color: #e9f0f8; }
+    color: #27b4ff;
+    border-color: #bee9ff;
+    background-color: #e9f8ff; }
   .el-button:active {
-    color: #1d5caa;
-    border-color: #1d5caa;
+    color: #28a7eb;
+    border-color: #28a7eb;
     outline: none; }
   .el-button::-moz-focus-inner {
     border: 0; }
@@ -1020,16 +1020,16 @@
     margin-left: 5px; }
   .el-button.is-plain:hover, .el-button.is-plain:focus {
     background: #FFFFFF;
-    border-color: #2066BD;
-    color: #2066BD; }
+    border-color: #27b4ff;
+    color: #27b4ff; }
   .el-button.is-plain:active {
     background: #FFFFFF;
-    border-color: #1d5caa;
-    color: #1d5caa;
+    border-color: #28a7eb;
+    color: #28a7eb;
     outline: none; }
   .el-button.is-active {
-    color: #1d5caa;
-    border-color: #1d5caa; }
+    color: #28a7eb;
+    border-color: #28a7eb; }
   .el-button.is-disabled, .el-button.is-disabled:hover, .el-button.is-disabled:focus {
     color: #C0C4CC;
     cursor: not-allowed;
@@ -1063,42 +1063,42 @@
     padding: 12px; }
   .el-button--primary {
     color: #FFFFFF;
-    background-color: #2066BD;
-    border-color: #2066BD; }
+    background-color: #27b4ff;
+    border-color: #27b4ff; }
     .el-button--primary:hover, .el-button--primary:focus {
-      background: #4d85ca;
-      border-color: #4d85ca;
+      background: #52c3ff;
+      border-color: #52c3ff;
       color: #FFFFFF; }
     .el-button--primary:active {
-      background: #1d5caa;
-      border-color: #1d5caa;
+      background: #28a7eb;
+      border-color: #28a7eb;
       color: #FFFFFF;
       outline: none; }
     .el-button--primary.is-active {
-      background: #1d5caa;
-      border-color: #1d5caa;
+      background: #28a7eb;
+      border-color: #28a7eb;
       color: #FFFFFF; }
     .el-button--primary.is-disabled, .el-button--primary.is-disabled:hover, .el-button--primary.is-disabled:focus, .el-button--primary.is-disabled:active {
       color: #FFFFFF;
-      background-color: #90b3de;
-      border-color: #90b3de; }
+      background-color: #93daff;
+      border-color: #93daff; }
     .el-button--primary.is-plain {
-      color: #2066BD;
-      background: #e9f0f8;
-      border-color: #a6c2e5; }
+      color: #27b4ff;
+      background: #e9f8ff;
+      border-color: #a9e1ff; }
       .el-button--primary.is-plain:hover, .el-button--primary.is-plain:focus {
-        background: #2066BD;
-        border-color: #2066BD;
+        background: #27b4ff;
+        border-color: #27b4ff;
         color: #FFFFFF; }
       .el-button--primary.is-plain:active {
-        background: #1d5caa;
-        border-color: #1d5caa;
+        background: #28a7eb;
+        border-color: #28a7eb;
         color: #FFFFFF;
         outline: none; }
       .el-button--primary.is-plain.is-disabled, .el-button--primary.is-plain.is-disabled:hover, .el-button--primary.is-plain.is-disabled:focus, .el-button--primary.is-plain.is-disabled:active {
-        color: #79a3d7;
-        background-color: #e9f0f8;
-        border-color: #d2e0f2; }
+        color: #7dd2ff;
+        background-color: #e9f8ff;
+        border-color: #d4f0ff; }
   .el-button--success {
     color: #FFFFFF;
     background-color: #67C23A;
@@ -1108,13 +1108,13 @@
       border-color: #85ce61;
       color: #FFFFFF; }
     .el-button--success:active {
-      background: #5daf34;
-      border-color: #5daf34;
+      background: #62b439;
+      border-color: #62b439;
       color: #FFFFFF;
       outline: none; }
     .el-button--success.is-active {
-      background: #5daf34;
-      border-color: #5daf34;
+      background: #62b439;
+      border-color: #62b439;
       color: #FFFFFF; }
     .el-button--success.is-disabled, .el-button--success.is-disabled:hover, .el-button--success.is-disabled:focus, .el-button--success.is-disabled:active {
       color: #FFFFFF;
@@ -1129,8 +1129,8 @@
         border-color: #67C23A;
         color: #FFFFFF; }
       .el-button--success.is-plain:active {
-        background: #5daf34;
-        border-color: #5daf34;
+        background: #62b439;
+        border-color: #62b439;
         color: #FFFFFF;
         outline: none; }
       .el-button--success.is-plain.is-disabled, .el-button--success.is-plain.is-disabled:hover, .el-button--success.is-plain.is-disabled:focus, .el-button--success.is-plain.is-disabled:active {
@@ -1146,13 +1146,13 @@
       border-color: #ebb563;
       color: #FFFFFF; }
     .el-button--warning:active {
-      background: #cf9236;
-      border-color: #cf9236;
+      background: #d4973b;
+      border-color: #d4973b;
       color: #FFFFFF;
       outline: none; }
     .el-button--warning.is-active {
-      background: #cf9236;
-      border-color: #cf9236;
+      background: #d4973b;
+      border-color: #d4973b;
       color: #FFFFFF; }
     .el-button--warning.is-disabled, .el-button--warning.is-disabled:hover, .el-button--warning.is-disabled:focus, .el-button--warning.is-disabled:active {
       color: #FFFFFF;
@@ -1167,8 +1167,8 @@
         border-color: #E6A23C;
         color: #FFFFFF; }
       .el-button--warning.is-plain:active {
-        background: #cf9236;
-        border-color: #cf9236;
+        background: #d4973b;
+        border-color: #d4973b;
         color: #FFFFFF;
         outline: none; }
       .el-button--warning.is-plain.is-disabled, .el-button--warning.is-plain.is-disabled:hover, .el-button--warning.is-plain.is-disabled:focus, .el-button--warning.is-plain.is-disabled:active {
@@ -1184,13 +1184,13 @@
       border-color: #f78989;
       color: #FFFFFF; }
     .el-button--danger:active {
-      background: #dd6161;
-      border-color: #dd6161;
+      background: #e16666;
+      border-color: #e16666;
       color: #FFFFFF;
       outline: none; }
     .el-button--danger.is-active {
-      background: #dd6161;
-      border-color: #dd6161;
+      background: #e16666;
+      border-color: #e16666;
       color: #FFFFFF; }
     .el-button--danger.is-disabled, .el-button--danger.is-disabled:hover, .el-button--danger.is-disabled:focus, .el-button--danger.is-disabled:active {
       color: #FFFFFF;
@@ -1205,8 +1205,8 @@
         border-color: #F56C6C;
         color: #FFFFFF; }
       .el-button--danger.is-plain:active {
-        background: #dd6161;
-        border-color: #dd6161;
+        background: #e16666;
+        border-color: #e16666;
         color: #FFFFFF;
         outline: none; }
       .el-button--danger.is-plain.is-disabled, .el-button--danger.is-plain.is-disabled:hover, .el-button--danger.is-plain.is-disabled:focus, .el-button--danger.is-plain.is-disabled:active {
@@ -1222,13 +1222,13 @@
       border-color: #a6a9ad;
       color: #FFFFFF; }
     .el-button--info:active {
-      background: #82848a;
-      border-color: #82848a;
+      background: #86898f;
+      border-color: #86898f;
       color: #FFFFFF;
       outline: none; }
     .el-button--info.is-active {
-      background: #82848a;
-      border-color: #82848a;
+      background: #86898f;
+      border-color: #86898f;
       color: #FFFFFF; }
     .el-button--info.is-disabled, .el-button--info.is-disabled:hover, .el-button--info.is-disabled:focus, .el-button--info.is-disabled:active {
       color: #FFFFFF;
@@ -1243,8 +1243,8 @@
         border-color: #909399;
         color: #FFFFFF; }
       .el-button--info.is-plain:active {
-        background: #82848a;
-        border-color: #82848a;
+        background: #86898f;
+        border-color: #86898f;
         color: #FFFFFF;
         outline: none; }
       .el-button--info.is-plain.is-disabled, .el-button--info.is-plain.is-disabled:hover, .el-button--info.is-plain.is-disabled:focus, .el-button--info.is-plain.is-disabled:active {
@@ -1277,16 +1277,16 @@
       padding: 7px; }
   .el-button--text {
     border-color: transparent;
-    color: #2066BD;
+    color: #27b4ff;
     background: transparent;
     padding-left: 0;
     padding-right: 0; }
     .el-button--text:hover, .el-button--text:focus {
-      color: #4d85ca;
+      color: #52c3ff;
       border-color: transparent;
       background-color: transparent; }
     .el-button--text:active {
-      color: #1d5caa;
+      color: #28a7eb;
       border-color: transparent;
       background-color: transparent; }
     .el-button--text.is-disabled, .el-button--text.is-disabled:hover, .el-button--text.is-disabled:focus {
@@ -1657,7 +1657,7 @@
     width: 100%;
     font-size: inherit;
     color: #606266;
-    background-color: #606266;
+    background-color: #303133;
     background-image: none;
     border: 1px solid #DCDFE6;
     border-radius: 4px;
@@ -1675,7 +1675,7 @@
       border-color: #C0C4CC; }
     .el-textarea__inner:focus {
       outline: none;
-      border-color: #2066BD; }
+      border-color: #27b4ff; }
   .el-textarea .el-input__count {
     color: #909399;
     background: #FFFFFF;
@@ -1747,7 +1747,7 @@
       padding: 0 5px; }
   .el-input__inner {
     -webkit-appearance: none;
-    background-color: #606266;
+    background-color: #303133;
     background-image: none;
     border-radius: 4px;
     border: 1px solid #DCDFE6;
@@ -1777,7 +1777,7 @@
       border-color: #C0C4CC; }
     .el-input__inner:focus {
       outline: none;
-      border-color: #2066BD; }
+      border-color: #27b4ff; }
   .el-input__suffix {
     position: absolute;
     height: 100%;
@@ -1816,7 +1816,7 @@
     pointer-events: none; }
   .el-input.is-active .el-input__inner {
     outline: none;
-    border-color: #2066BD; }
+    border-color: #27b4ff; }
   .el-input.is-disabled .el-input__inner {
     background-color: #F5F7FA;
     border-color: #E4E7ED;
@@ -1979,7 +1979,7 @@
     .el-message-box__headerbtn .el-message-box__close {
       color: #909399; }
     .el-message-box__headerbtn:focus .el-message-box__close, .el-message-box__headerbtn:hover .el-message-box__close {
-      color: #2066BD; }
+      color: #27b4ff; }
   .el-message-box__content {
     padding: 10px 15px;
     color: #606266;

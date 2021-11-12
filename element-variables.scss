@@ -16,13 +16,13 @@ $--color-transition-base: color .2s cubic-bezier(.645,.045,.355,1) !default;
 /* Color
 -------------------------- */
 /// color|1|Brand Color|0
-$--color-primary: #2066BD !default;
+$--color-primary: #27b4ff !default;
 /// color|1|Background Color|4
 $--color-white: #FFFFFF !default;
-$--color-grey: #606266 !default;
-$--color-midgrey: #2d2d2d !default;
+$--color-grey: #303133 !default;
+$--color-midgrey: #606266 !default;
 /// color|1|Background Color|4
-$--color-black: #000000 !default;
+$--color-black: #000 !default;
 $--color-primary-light-1: mix($--color-white, $--color-primary, 10%) !default; /* 53a8ff */
 $--color-primary-light-2: mix($--color-white, $--color-primary, 20%) !default; /* 66b1ff */
 $--color-primary-light-3: mix($--color-white, $--color-primary, 30%) !default; /* 79bbff */
@@ -499,7 +499,7 @@ $--group-title-width: 66px !default;
 -------------------------- */
 $--tab-font-size: $--font-size-base !default;
 $--tab-border-line: 1px solid #e4e4e4 !default;
-$--tab-header-color-active: $--color-text-secondary !default;
+$--tab-header-color-active: $--color-grey !default;
 $--tab-header-color-hover: $--color-text-regular !default;
 $--tab-header-color: $--color-text-regular !default;
 $--tab-header-fill-active: rgba($--color-black, 0.06) !default;
@@ -615,7 +615,7 @@ $--switch-button-size: 16px !default;
 
 /* Dialog
 -------------------------- */
-$--dialog-background-color: $--color-midgrey !default;
+$--dialog-background-color: $--color-black !default;
 $--dialog-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !default;
 /// fontSize||Font|1
 $--dialog-title-font-size: $--font-size-large !default;

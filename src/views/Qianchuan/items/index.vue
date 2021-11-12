@@ -3,7 +3,7 @@
 		<div class="centers">
 			<el-button type="primary" class="btnnormal" @click="newStrategyFn()" size="medium" style="margin-bottom: 20px;">新建项目</el-button>
 			<div class="tabbles itemtable" ref="tabbles">
-				<el-table :data="tableDataList" border height="0" tooltip-effect="dark" @cell-click="cellClick"
+				<el-table :data="tableDataList" height="0" tooltip-effect="dark" @cell-click="cellClick"
 					:header-cell-style="{background:'#F5F7FA',color: '#666'}">
 					<template slot="empty">
 						<span class="iconfont icon-wushuju">暂无数据</span>

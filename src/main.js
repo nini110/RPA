@@ -9,6 +9,7 @@ import format from './utils/format';
 import './utils/rem' //px转rem
 import 'element-ui/lib/theme-chalk/index.css';
 import '../theme/deep.less'
+// import '../theme/index.css'
 import './styles/index.less'
 import './assets/fonts/iconfont.css';
 // import less from 'less'

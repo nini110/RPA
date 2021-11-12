@@ -10,7 +10,7 @@
 			<div ref="tableBox" class="tableBox jiankong">
 				<el-divider>列表</el-divider>
 				<div class="tables" v-if="tableData">
-					<el-table ref="singleTable" border class="tableBox" :data="tableData" :height="tableHeight"
+					<el-table ref="singleTable" class="tableBox" :data="tableData" :height="tableHeight"
 						:highlight-current-row="true" :header-cell-style="{background:'#f4f4f4',color: '#666'}">
 						<template slot="empty">
 							<span class="iconfont icon-wushuju">暂无数据</span>

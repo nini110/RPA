@@ -118,7 +118,7 @@
 						<VarifyDialog :pageJumps="pageJumps" @close="closeDialog"></VarifyDialog>
 					</div>
 					<div class="tableTab">
-						<el-table v-if="tableData" border class="tableBox" :data="tableData" size="small"
+						<el-table v-if="tableData"  class="tableBox" :data="tableData" size="small"
 							:highlight-current-row="true" :header-cell-style="{background:'#f4f4f4',color: '#666'}" height="0">
 							<template slot="empty">
 							    <span class="iconfont icon-wushuju">暂无数据</span>
@@ -128,7 +128,7 @@
 							</el-table-column>
 							<el-table-column property="title" label="基本信息" min-width="200">
 							</el-table-column>
-							<el-table-column property="cheack" label="操作" width="150" fixed="right">
+							<el-table-column property="cheack" label="操作" width="150">
 								<template slot-scope="scope">
 									<el-button class="el-icon-reading" type="text" @click="detailEvent(scope.row)">查看详情
 									</el-button>

@@ -62,13 +62,13 @@
 				<div class="tables">
 					<div class="tableTab">
 						<el-button type="text" size="mini" @click="DeleteReportAll">批量删除</el-button>
-						<el-table class="tableBox" border ref="multipleTable" :data="itemList" tooltip-effect="dark"
+						<el-table class="tableBox" ref="multipleTable" :data="itemList" tooltip-effect="dark"
 							:height="tableHeight" :header-cell-style="{background:'#f4f4f4',color: '#666'}" @selection-change="handleSelectionChange">
 							<template slot="empty">
 							    <span class="iconfont icon-wushuju">暂无数据</span>
 							  </template>
-							<el-table-column type="selection" width="50" align="center" fixed="left"> </el-table-column>
-							<el-table-column type="index" width="80" label="序号" align="center" fixed="left"></el-table-column>
+							<el-table-column type="selection" width="50" align="center"> </el-table-column>
+							<el-table-column type="index" width="80" label="序号" align="center"></el-table-column>
 							<el-table-column prop="report_name" label="报表名称" min-width="150">
 							</el-table-column>
 							<el-table-column prop="status" label="状态" width="120">
@@ -88,7 +88,7 @@
 							</el-table-column>
 							<el-table-column prop="create_time" label="创建时间" min-width="140">
 							</el-table-column>
-							<el-table-column prop="id" label="操作" width="200" fixed="right">
+							<el-table-column prop="id" label="操作" width="200">
 								<template slot-scope="scope">
 									<div>
 										<el-button v-if="scope.row.status === 1" type="text" class="el-icon-download"

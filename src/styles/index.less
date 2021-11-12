@@ -1,48 +1,59 @@
 @import "reset";
 .darkmode--activated {
+	.el-button--primary.is-disabled {
+		background-color: #27b4ff;
+		border: 1px solid #27b4ff;
+	}
 	.el-table {
-		border: 1px solid #606266!important;
+		// border: 1px solid #909399!important;
 		left: 1px;
 		&:before {
-			background-color: #606266!important;
+			background-color: #909399!important;
 		}
 		&__fixed-right {
 			// border: ;
 			&:before {
-				background-color: #606266!important;
+				background-color: #909399!important;
 			}
 		}
 		&--border::after {
-			background-color: #606266!important;
+			background-color: #909399!important;
+		}
+		tr:hover {
+			background: #303222!important;
+		}
+		tr.hover-row {
+			.cell {
+				color: #fff!important;
+			}
+			td {
+				background-color: #47494c!important
+			}
 		}
 	}
 	.el-message-box {
-		background-color: #2d2d2d;
+		background-color: #000;
 		border: transparent;
 	}
 	.el-table__fixed-right-patch,
 	.el-tabs--border-card,
 	{
-		background-color: #606266!important;
+		// background-color: #909399!important;
 	}
-	// .el-pagination.is-background button {
-	// 	background-color: #ccc;
-	// }
-	.el-table--border td {
-		border-color: #606266!important;
-	}
+
 	.el-range-input {
-		background-color:  #606266!important;
+		background-color:  #303133!important;
 		color: #C0C4CC!important;
 	}
 	.el-table__empty-block,
 	.el-table tr,
 	.el-table__body-wrapper{
-		background-color: #000000;
+		background-color: #303133;
+		color: #909399!important;
 	}
 	.el-upload-dragger,
 	.btnnormal_down{
-		background: #606266!important;
+		background: #303133!important;
 		color: #C0C4CC!important;
 		border-color: transparent!important;
 	}
@@ -61,9 +72,10 @@
 	}
 	.el-input__inner {
 		color: #C0C4CC!important;
+		background: #303133!important;
 	}
 	.el-select-dropdown {
-		background: #606266!important;
+		background: #303133!important;
 	}
 	.el-upload__text,
 	{
@@ -71,6 +83,7 @@
 	}
 	.el-table__header-wrapper th,
 	.el-table__fixed-header-wrapper th {
+		border: none!important;
 		background: #505050!important;
 		color: #fff!important;
 	}
@@ -79,11 +92,21 @@
 	.el-tabs__content,
 	.el-progress-bar__outer,
 	{
+		border-color:transparent!important;
 		background-color: #606266!important;
 	}
+	 .el-tabs__item.is-active {
+		 border-color: #303133!important;
+		 background-color: #303133!important;
+	 }
 	.strategyNormal .search_label {
 		color: #C0C4CC!important;
 	}
+	// .dialogEdit {
+	// 	.el-form-item__label {
+	// 		color: #C0C4CC!important;
+	// 	}
+	// }
 }
 .darkmode-toggle {
 	z-index: 999;
@@ -100,56 +123,12 @@
         padding-right: 3px;
     }
 }
-// .el-button--text {
-//     color: #2066BD;
-// }
-// .el-input__inner:focus {
-//     border-color: #2066BD!important;
 
-// }
-// .el-select-dropdown__item.selected {
-//     color: #2066BD;
-// }
-// .el-checkbox__input.is-checked .el-checkbox__inner,
-// .el-checkbox__input.is-indeterminate .el-checkbox__inner {
-//     background-color: #2066BD!important;
-//     border-color: #2066BD;
-// }
-// .el-radio__input.is-checked {
-//     &+.el-radio__label {
-//         color: #2066BD;
-
-//     }
-//     .el-radio__inner {
-//         background-color: #2066BD;
-//         border-color: #2066BD;
-//     }
-// }
-// .el-tabs__item {
-//     &:hover {
-//         color: #2066BD!important;
-//     }
-//     &.is-active {
-//         color: #2066BD!important;
-//     }
-// }
-.el-pagination.is-background .el-pager li:not(.disabled) {
-    &.active {
-        // background-color: #2066BD;
-    }
-    &:hover {
-        // color: #2066BD;
-    }
-}
 .el-input-group__append {
     border-color: transparent;
     color: #666;
-    // background-color: #2066BD;
-
 }
 .el-input-group__append .el-button--primary.is-disabled:hover {
-    // background-color: #2066BD;
-    // border-color: #2066BD;
     color: #fff;
 }
 .el-input-group__append button.el-button {
@@ -158,40 +137,17 @@
 	color: #fff;
 }
 .el-input-group__append button.el-button:hover {
-    // background-color: #2066BD;
-    // border-color: #2066BD;
     color: #fff;
 	
 }
-// .el-message-box__close:hover {
-//     &:before {
-//         color: #2066BD;
-//     }
-// }
-// .el-message-box__btns {
-//     .el-button--default:hover {
-//         border-color: #2066BD;
-//         background-color: #2066BD;
-//         color: #fff;
-//     }
-//     .el-button--primary {
-//         background-color: #2066BD;
-//         border-color: #2066BD;
-//     }
-// }
-// /deep/.el-table__row.hover-row {
-//   background: red!important;
-
-// }
+.el-form-item {
+	margin-bottom: 24px!important;
+}
 .el-table {
-	// position: relative;
-	// tr {
-	// 	height: 16px!important;
-	// }
     td {
         padding: 5px 0;
 		.cell {
-			padding: 10px;
+			padding: 20px;
 			button {
 				padding: 0;
 			}
@@ -220,11 +176,6 @@
 			}
 		}
 	}
-    .cell {
-        // overflow: hidden;
-        // white-space: nowrap;
-        // text-overflow: ellipsis;
-    }
 }
 .poperNotice {
     padding: 12px 12px 0 12px;
@@ -245,12 +196,6 @@
     padding: 30px;
     font-size: 12px;
 }
-// .el-checkbox__input.is-checked+.el-checkbox__label {
-//     color: #2066BD;
-// }
-// .el-cascader-node.in-active-path, .el-cascader-node.is-active, .el-cascader-node.is-selectable.in-checked-path {
-//     color: #2066BD;
-// }
 // .el-scrollbar__wrap { overflow: scroll; width: 104%; height: 108%; } 
 // .el-scrollbar__wrap { overflow-x: hidden;} 
 // .el-scrollbar__bar.is-horizontal {
@@ -291,9 +236,6 @@
 .tagBox {
     .el-form-item {
         &__content {
-            // display: flex;
-            // justify-content: flex-start;
-            // flex-wrap: wrap;
             height: 150px;
             span {
                 width: 18%;
@@ -302,29 +244,6 @@
             }
         }
     }
-
-}
-.el-form-item {
-    margin-bottom: 14px;
-    &__label,
-    &__content {
-        font-size: 12px;
-		.el-input__inner {
-			height: 34px;
-		}
-    }
-}
-.el-input,
-.el-select,
-.el-radio__label,
-.el-tabs__item,
-.el-button,
-.el-table,
-.el-select-dropdown__item,
-.el-upload__text,
-.el-divider__text,
-.el-message-box__message {
-    font-size: 12px!important;
 }
 .el-dialog__title {
     font-size: 16px;
