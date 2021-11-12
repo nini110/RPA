@@ -4,7 +4,7 @@
 		<div class="home">
 			<div class="home_menu">
 				<div class="home_menu_left">
-					<div  v-for="(item, idx) in homeMenu" :key="idx" class="box" @mouseover="overevent(idx)">
+					<div  v-for="(item, idx) in homeMenu" :key="idx" class="box" @click="overevent(idx)">
 						<p :class="item.icon" class="home_menu_title">{{ item.label }}</p>
 					</div>
 				</div>
@@ -24,17 +24,6 @@
 									<p class="st">{{ item1.subtitle }}</p>
 								</div>
 							</li>
-<!-- 							<li v-for="(item1, idx1) in item.child" :key="idx1" :class="idx1===0 ? 'ts': 'normal'"
-								@click="routerLink(item1.url)" @mouseover="suboverevent(item1)">
-								<div v-if="idx1 === 0">
-									<p class="t">{{ item1.title }}</p>
-									<p class="st">{{ item1.subtitle }}</p>
-								</div>
-								<div v-else>
-									<p class="t">{{ item1.title }}</p>
-									<p class="st">{{ item1.subtitle }}</p>
-								</div>
-							</li> -->
 						</ul>
 				      </el-carousel-item>
 				    </el-carousel>
@@ -259,9 +248,15 @@
 			routerLink() {
 				this.$router.push(this.currentBox.url);
 			},
-			overevent: debounce(function(idx) {
+			// 使用鼠标划入mouseenter事件
+			// overevent: debounce(function(idx) {
+			// 	this.$refs.carousel.setActiveItem(idx)
+			// }, 700),
+			// 使用click事件
+			overevent(idx) {
+				this.currentBox = this.homeMenu[idx].child[0]
 				this.$refs.carousel.setActiveItem(idx)
-			}, 300),
+			},
 			suboverevent(val) {
 				const vm = this;
 				vm.currentBox = val

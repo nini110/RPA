@@ -47,7 +47,7 @@
 		 height: 100%;
 		 padding: 20px;
 		 padding-top: 130px;
-		 background-color: #fff;
+		 // background-color: #fff;
 		 box-sizing: border-box;
 		 .el-tabs {
 			 height: 100%;

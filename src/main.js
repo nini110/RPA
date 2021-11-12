@@ -12,12 +12,30 @@ import './styles/index.less'
 import './assets/fonts/iconfont.css';
 // import less from 'less'
 import router from './router'
-
 import * as echarts from 'echarts';
 
 // Vue.use(less)
 
 import check from '@/utils/loginCheck.js';
+import Darkmode from 'darkmode-js';
+const options = {
+  bottom: 'unset', // default: '32px'
+  right: '220px', // default: '32px'
+  left: 'unset', // default: 'unset'
+  time: '0.5s', // default: '0.3s'
+  mixColor: '#fff', // default: '#fff'
+  backgroundColor: '#fff',  // default: '#fff'
+  buttonColorDark: '#100f2c',  // default: '#100f2c'
+  buttonColorLight: '#fff', // default: '#fff'
+  saveInCookies: false, // default: true,
+  label: '🌓', // default: ''
+  // label: '切换主题', // default: ''
+  autoMatchOsTheme: true // default: true
+}
+
+const darkmode = new Darkmode(options);
+darkmode.showWidget();
+
 Vue.prototype.check = check
 Vue.prototype.$axios = axios
 Vue.prototype.qs = qs

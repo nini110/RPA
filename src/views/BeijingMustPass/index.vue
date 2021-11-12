@@ -50,7 +50,6 @@
 
 		},
 		created() {
-
 		}
 	}
 </script>

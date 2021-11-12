@@ -10,6 +10,7 @@
     "animejs": "^3.2.1",
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
+    "darkmode-js": "^1.5.7",
     "echarts": "^5.1.2",
     "element-ui": "^2.15.5",
     "less": "^4.1.1",
