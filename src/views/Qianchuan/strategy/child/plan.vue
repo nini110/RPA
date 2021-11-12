@@ -33,7 +33,7 @@
 				</div>
 			</div>
 			<div class="tabbles pricetable" ref="tabbles">
-				<el-table ref="multipleTable" :height="tableHeight" :data="tableData" tooltip-effect="dark"
+				<el-table ref="multipleTable" border :height="tableHeight" :data="tableData" tooltip-effect="dark"
 					style="width: 100%" @cell-click="cellClick" @selection-change="handleSelectionChange" :header-cell-style="{background:'#F5F7FA',color: '#666'}">
 					<template slot="empty">
 						<span class="iconfont icon-wushuju">暂无数据</span>

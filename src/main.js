@@ -6,8 +6,9 @@ import axios from 'axios'
 import qs from 'qs'
 import ElementUI from 'element-ui';
 import format from './utils/format';
-import './utils/rem'  //px转rem
+import './utils/rem' //px转rem
 import 'element-ui/lib/theme-chalk/index.css';
+import '../theme/deep.less'
 import './styles/index.less'
 import './assets/fonts/iconfont.css';
 // import less from 'less'
@@ -18,23 +19,30 @@ import * as echarts from 'echarts';
 
 import check from '@/utils/loginCheck.js';
 import Darkmode from 'darkmode-js';
-const options = {
-  bottom: 'unset', // default: '32px'
-  right: '220px', // default: '32px'
-  left: 'unset', // default: 'unset'
-  time: '0.5s', // default: '0.3s'
-  mixColor: '#fff', // default: '#fff'
-  backgroundColor: '#fff',  // default: '#fff'
-  buttonColorDark: '#100f2c',  // default: '#100f2c'
-  buttonColorLight: '#fff', // default: '#fff'
-  saveInCookies: false, // default: true,
-  label: '🌓', // default: ''
-  // label: '切换主题', // default: ''
-  autoMatchOsTheme: true // default: true
-}
 
+
+const options = {
+	bottom: 'unset', // default: '32px'
+	right: 'unset', // default: '32px'
+	left: 'unset', // default: 'unset'
+	time: '0.5s', // default: '0.3s'
+	mixColor: '#fff', // default: '#fff'
+	backgroundColor: '#fff', // default: '#fff'
+	buttonColorDark: '#fff', // default: '#100f2c'
+	buttonColorLight: '#fff', // default: '#fff'
+	saveInCookies: true, // default: true,
+	label: '🌓', // default: ''
+	// label: '切换主题', // default: ''
+	autoMatchOsTheme: true // default: true
+}
 const darkmode = new Darkmode(options);
-darkmode.showWidget();
+				darkmode.showWidget();
+// import('../theme/index2.css')
+// if (darkmode.isActivated()) {
+// 	import('../theme/index.css')
+// } else {
+// 	import('../theme/index2.css')
+// }
 
 Vue.prototype.check = check
 Vue.prototype.$axios = axios
@@ -49,7 +57,7 @@ Object.keys(format).forEach(key => {
 })
 Vue.config.productionTip = false
 new Vue({
-  router,
-  store,
-  render: h => h(App)
+	router,
+	store,
+	render: h => h(App)
 }).$mount('#app')

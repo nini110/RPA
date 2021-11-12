@@ -76,6 +76,11 @@
 								label: '京腾人群方向',
 								value: '/layout/beijingMustPass/People',
 								index: '1-5'
+							},
+							{
+								label: '购物触点',
+								value: '/layout/beijingMustPass/GoShop',
+								index: '1-6'
 							}
 						]
 					},

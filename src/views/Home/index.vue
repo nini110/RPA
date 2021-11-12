@@ -78,6 +78,13 @@
 								img: require("../../assets/images/hg_04.png"),
 								subtitle: "京腾人群定向批量化快速创建人群",
 							},
+							{
+								title: "购物触点",
+								class: "",
+								url: "/layout/beijingMustPass/GoShop",
+								img: require("../../assets/images/hg_04.png"),
+								subtitle: "暂无描述",
+							},
 
 						],
 					},

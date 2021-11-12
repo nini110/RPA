@@ -30,7 +30,7 @@
 					{{ yh }}
 					<span class="logout iconfont icon-tcdl" @click="close"></span>
 				</div>
-				<div class="phone iconfont icon-shouji">移动版</div>
+				<div id ="togleCol" class="phone iconfont icon-shouji" @click="toggleMode()">移动版</div>
 			</div>
 		</div>
 	</div>
@@ -41,9 +41,25 @@
 		data() {
 			return {
 				yh: "",
+				options: {
+				  bottom: 'unset', // default: '32px'
+				  right: '220px', // default: '32px'
+				  left: 'unset', // default: 'unset'
+				  time: '0.5s', // default: '0.3s'
+				  mixColor: '#fff', // default: '#fff'
+				  backgroundColor: '#fff',  // default: '#fff'
+				  buttonColorDark: '#100f2c',  // default: '#100f2c'
+				  buttonColorLight: '#fff', // default: '#fff'
+				  saveInCookies: false, // default: true,
+				  label: '🌓', // default: ''
+				  // label: '切换主题', // default: ''
+				  autoMatchOsTheme: true // default: true
+				}
 			};
 		},
-		created() {},
+		created() {
+
+		},
 		mounted() {
 			//如果本地存储为空，跳回登入页 单方面前端开发时 注销此项
 			if (
@@ -88,6 +104,10 @@
 			}
 		},
 		methods: {
+			toggleMode() {
+				// const darkmode = new Darkmode(this.options);
+				// darkmode.toggle();
+			},
 			close() {
 				let userid = localStorage.getItem("wx_userid");
 				let code = localStorage.getItem("wx_code");

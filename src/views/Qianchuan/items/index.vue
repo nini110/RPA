@@ -391,9 +391,9 @@
 				this.dialogVisible = true;
 				this.editId = id;
 				this.projectEdit(id);
-				this.strategyList();
-				this.budgetStrategyList();
-				this.planStrategyList();
+				// this.strategyList();
+				// this.budgetStrategyList();
+				// this.planStrategyList();
 			},
 			// 获取项目列表
 			projectList() {

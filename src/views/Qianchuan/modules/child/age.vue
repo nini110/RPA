@@ -16,7 +16,7 @@
 				</div>
 			</div>
 			<div class="tabbles pricetable" ref="tabbles">
-				<el-table :data="tableData" :height="tableHeight" @cell-click="cellClick" :header-cell-style="{background:'#F5F7FA',color: '#666'}">
+				<el-table :data="tableData" border :height="tableHeight" @cell-click="cellClick" :header-cell-style="{background:'#F5F7FA',color: '#666'}">
 					<template slot="empty">
 						<span class="iconfont icon-wushuju">暂无数据</span>
 					</template>

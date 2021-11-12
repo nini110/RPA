@@ -69,6 +69,14 @@ const routes = [
 						component: () => import("@/views/BeijingMustPass"),
 					},
 					{
+						path: 'GoShop',
+						name: 'GoShop',
+						meta: {
+							title: '购物触点'
+						},
+						component: () => import("@/views/BeijingMustPass"),
+					},				
+					{
 						path: 'Mail',
 						name: 'Mail',
 						component: () => import("@/views/BeijingMustPass"),
