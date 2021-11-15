@@ -37,13 +37,7 @@ const options = {
 	autoMatchOsTheme: true // default: true
 }
 const darkmode = new Darkmode(options);
-				darkmode.showWidget();
-// import('../theme/index2.css')
-// if (darkmode.isActivated()) {
-// 	import('../theme/index.css')
-// } else {
-// 	import('../theme/index2.css')
-// }
+darkmode.showWidget();
 
 Vue.prototype.check = check
 Vue.prototype.$axios = axios
