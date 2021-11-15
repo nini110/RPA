@@ -29,7 +29,7 @@
 					<template slot="empty">
 						<span class="iconfont icon-wushuju">暂无数据</span>
 					</template>
-					<el-table-column align="center" type="selection" width="50" fixed="left">
+					<el-table-column align="center" type="selection" width="60" fixed="left">
 					</el-table-column>
 					<el-table-column align="center" label="序号" width="80" type="index"  fixed="left">
 					</el-table-column>

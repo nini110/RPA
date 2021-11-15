@@ -3,8 +3,8 @@
 }
 
 /deep/.btnnormal {
-	background-color: #2066BD;
-	border: 1px solid #0051B3;
+	// background-color: #2066BD;
+	// border: 1px solid #0051B3;
 	text-align: center;
 	cursor: pointer;
 	padding: 4px 20px;
@@ -12,6 +12,7 @@
 	font-size: 12px;
 	line-height: 26px;
 	vertical-align: 2px;
+	margin: 0;
 
 	&:hover {
 		// background-color: #5083c0;
@@ -22,7 +23,7 @@
 		border-radius: 4px;
 		background-color: #fff;
 		color: #2066BD;
-
+		border: 1px solid #303133;
 		&:hover {
 			background-color: #2066BD;
 			color: #fff;
@@ -75,7 +76,7 @@
 		width: 100%;
 
 		.form {
-			padding-top: 50px;
+			padding-top: 30px;
 			width: 100%;
 			// background-color: #fff;
 				padding-right: 120px;
@@ -144,6 +145,12 @@
 
 						&-upload-dragger {
 							width: 322px;
+							height: 120px;
+							.el-icon-upload {
+								margin: 0;
+								display: block;
+								padding-top: 15px;
+							}
 						}
 					}
 				}
@@ -176,7 +183,7 @@
 			// background-color: #fff;
 
 			&.hasUp {
-				height: calc(100% - 510px) !important;
+				height: calc(100% - 450px) !important;
 			}
 
 			&.hasUp2 {
@@ -238,12 +245,12 @@
 				.tableTab {
 					.tableBox {
 						width: 100%;
-						height: calc(100% - 50px) !important;
+						height: calc(100% - 40px) !important;
 					}
 				}
 
 				&.cls1 {
-					height: calc(100% - 535px) !important;
+					height: calc(100% - 475px) !important;
 				}
 
 				&.cls2 {

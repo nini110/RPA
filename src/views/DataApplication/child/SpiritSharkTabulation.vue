@@ -67,7 +67,7 @@
 							<template slot="empty">
 							    <span class="iconfont icon-wushuju">暂无数据</span>
 							  </template>
-							<el-table-column type="selection" width="50" align="center"> </el-table-column>
+							<el-table-column type="selection" width="60" align="center"> </el-table-column>
 							<el-table-column type="index" width="80" label="序号" align="center"></el-table-column>
 							<el-table-column prop="report_name" label="报表名称" min-width="150">
 							</el-table-column>

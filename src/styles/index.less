@@ -1,23 +1,40 @@
 @import "reset";
 .darkmode--activated {
+	.btnnormal_down {
+		background: #303133!important;
+		color: #C0C4CC!important;
+		border-color: transparent!important;
+		&:hover {
+			background: #27b4ff!important;
+			color:#fff!important;
+		}
+	}
+	.el-button + .el-button {
+		margin: 0;
+	}
 	.el-button--primary.is-disabled {
 		background-color: #27b4ff;
 		border: 1px solid #27b4ff;
 	}
-	.el-table--enable-row-hover .el-table__body tr:hover>td {
-		background-color: #5a5a5a;
-		color: #fff;
-	}
 	.el-table {
-		// border: 1px solid #909399!important;
+		background-color: #5a5a5a;
 		left: 1px;
 		&:before {
 			background-color: #909399!important;
 		}
-		&__fixed-right {
-			// border: ;
+		&--enable-row-hover .el-table__body tr:hover>td,
+		&__body tr.current-row>td {
+			background-color: #5a5a5a;
+			color: #fff;
+		}
+		&__fixed {
 			&:before {
-				background-color: #909399!important;
+				display: none;
+			}
+			&-right {
+				&:before {
+					display: none;
+				}
 			}
 		}
 		&--border::after {
@@ -39,12 +56,6 @@
 		background-color: #000;
 		border: transparent;
 	}
-	.el-table__fixed-right-patch,
-	.el-tabs--border-card,
-	{
-		// background-color: #909399!important;
-	}
-
 	.el-range-input {
 		background-color:  #303133!important;
 		color: #C0C4CC!important;
@@ -56,11 +67,7 @@
 		color: #909399!important;
 	}
 	.el-upload-dragger,
-	.btnnormal_down{
-		background: #303133!important;
-		color: #C0C4CC!important;
-		border-color: transparent!important;
-	}
+
 	.el-select-dropdown__item {
 		color: #fff!important;
 		&:hover,
@@ -151,7 +158,7 @@
     td {
         padding: 5px 0;
 		.cell {
-			padding: 20px;
+			padding: 6px 0;
 			button {
 				padding: 0;
 			}
