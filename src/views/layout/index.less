@@ -31,30 +31,30 @@
             width: calc(100% - 200px);
         }
         &_box {
-            background-color: #2b303d;
+            // background-color: #2b303d;
         }
     }
     /deep/.el {
         &-menu {
+			user-select: none;
             &-item {
                 color: #aebfdd;
-                background-color: #2b303d;
+                // background-color: #2b303d;
                 padding: 0 55px!important;
                 font-size: 12px;
                 &:focus {
                     background-color: rgba(255, 255, 255, 0.103)!important;                    
                 }
-                &.is-active {
+                &.is-active,
+				&:hover {
                     color: #f85646!important;  
                     background-color: rgba(255, 255, 255, 0.103)!important;                    
                 }
-                &:hover {
-                    background-color: rgba(255, 255, 255, 0.103)!important;                    
-                }     
                 &-group {
-                    background-color: #30354183;;
                     &__title {
-                        padding: 0;
+						line-height: 50px;
+                        padding: 0 55px!important;
+						color: #5d5f63;
                     }   
                 }        
             }
@@ -85,24 +85,12 @@
         &-menu--inline{
             box-sizing: border-box;
             overflow: hidden;
-            background-color: #31394d;
+            background-color: #212634;                    
 			.el-submenu__title {
 				padding-left: 55px!important;
 				background-color: #2b303d;
 				color: #ccc;
 				padding-right: 50px!important;
-				.fenge {
-					display: inline-block;
-					background-color: #909399;
-					div {
-						font-size: 12px!important;
-						background-color: transparent;
-						padding: 0 10px;
-						color: #909399;
-						font-weight: bold;
-						background-color: #2b303d;
-					}
-				}
 			}
 
         }

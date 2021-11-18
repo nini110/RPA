@@ -5,17 +5,17 @@
 			<div v-for="(item, idx) in menuList" :key="idx" class="layout_menu_box">
 				<el-submenu v-if="item.children" :index="item.index">
 					<template slot="title">
-						<i :class="item.icon"></i>
+						<i class="iconfont" :class="item.icon"></i>
+<!-- 						<svg class="icon svg-icon titleicon" aria-hidden="true">
+						    <use :xlink:href="item.icon"></use>
+						</svg> -->
 						<span>{{item.label}}</span>
 					</template>
 					<div v-if="item.deep === 3">
-						<el-submenu v-for="(item1, idx1) in item.children" :key="idx1" :index="item1.index">
-							<template slot="title">
-								<el-divider class="fenge" content-position="right">{{item1.label}}</el-divider>
-							</template>
-							<el-menu-item v-for="(item2, idx2) in item1.children" :key="idx2" :index="item2.index"
-								@click="selectEvent(item2)">{{item2.label}}</el-menu-item>
-						</el-submenu>
+						<el-menu-item-group v-for="(item1, idx1) in item.children" :key="idx1">
+							<template slot="title">{{item1.label}}</template>
+							<el-menu-item v-for="(item2, idx2) in item1.children" :key="idx2" :index="item2.index" @click="selectEvent(item2)">{{item2.label}}</el-menu-item>
+						</el-menu-item-group>
 					</div>
 					<div v-else>
 						<el-menu-item-group>
@@ -37,7 +37,6 @@
 				<router-view class="app-router-view" />
 			</div>
 		</div>
-
 	</div>
 </template>
 <script>
@@ -172,21 +171,21 @@
 						children: [{
 								label: '巨量千川',
 								value: '',
-								index: '5-1',
+								// index: '5-1',
 								children: [{
 										label: '项目',
 										value: '/layout/qianchuan/items',
-										index: '5-1-1'
+										index: '5-1'
 									},
 									{
 										label: '策略',
 										value: '/layout/qianchuan/strategy',
-										index: '5-1-2'
+										index: '5-2'
 									},
 									{
 										label: '模板',
 										value: '/layout/qianchuan/modules',
-										index: '5-1-3'
+										index: '5-3'
 									}
 								]
 							},
@@ -194,16 +193,16 @@
 								label: '快车提质',
 								icon: 'iconfont icon-xiangmu',
 								value: '',
-								index: '5-2',
+								// index: '5-2',
 								children: [{
 										label: '效果变化',
 										value: '/layout/kuaiche/effect',
-										index: '5-2-1'
+										index: '5-4'
 									},
 									{
 										label: '修改记录',
 										value: '/layout/kuaiche/record',
-										index: '5-2-2'
+										index: '5-5'
 									}
 								]
 							},

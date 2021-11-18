@@ -8,12 +8,22 @@
 							<el-input v-model="form.pin" size="medium" placeholder="请选择" clearable></el-input>
 						</el-form-item>
 						<el-form-item class="tophasBtn" label="日期:" prop="search_date">
-							<el-date-picker class="tophasBtn_data" v-model="form.search_date" format="yyyy-MM-dd"
-								value-format="yyyy-MM-dd" type="date" placeholder="选择日期">
+							<el-date-picker
+								class="tophasBtn_data" 
+								v-model="form.search_date" 
+								format="yyyy-MM-dd"
+								value-format="yyyy-MM-dd" 
+								type="daterange" 
+								range-separator="至"
+								start-placeholder="开始日期"
+								end-placeholder="结束日期">
 							</el-date-picker>
 							<el-button type="primary" class="tophasBtn_btn btnnormal" @click="searchEvent">查询
 							</el-button>
 						</el-form-item>
+						<el-form-item label="关键词:" prop="search_keyword">
+							<el-input v-model="form.search_keyword" size="medium" placeholder="请输入关键词" clearable></el-input>
+						</el-form-item>						
 					</div>
 				</el-form>
 			</div>
@@ -31,16 +41,17 @@
 							</template>
 							<el-table-column type="index" width="80" label="序号" align="center" fixed="left">
 							</el-table-column>
-							<el-table-column prop="keyword" label="关键词/单元" min-width="120" fixed="left">
+							<el-table-column prop="keyword" label="关键词" min-width="140" fixed="left">
 							</el-table-column>
-							<el-table-column prop="unit_name" label="类型" min-width="120" fixed="left">
-							</el-table-column>
-							<el-table-column prop="plan_name" label="计划" min-width="120" fixed="left">
+							<el-table-column prop="unit_name" label="单元" min-width="140" fixed="left">
+							</el-table-column>							
+							<el-table-column prop="plan_name" label="计划" min-width="140" fixed="left">
 							</el-table-column>
 							<el-table-column v-for="(item, idx) in topMenuList" :key="idx" :prop="item.prop"
 								:label="item.label" :width="item.width" :sortable="item.sortable">
 								<template slot-scope="scope">
-									<span>{{scope.row[`${item.prop}`]  | formatPercent}}</span>
+									<span v-if="$route.name==='Effect'">{{scope.row[`${item.prop}`]  | formatPercent}}</span>
+									<span v-else>{{scope.row[`${item.prop}`]}}</span>
 								</template>
 							</el-table-column>
 							<el-table-column v-if="$route.name==='Record'" label="操作" width="150" fixed="right">
@@ -86,8 +97,9 @@
 				},
 				form: {
 					pin: '',
-					search_date: '',
-					sort_word: ''
+					search_date: [],
+					sort_word: '',
+					search_keyword: ''
 				},
 				tableData: [],
 				topMenuList: [],
@@ -104,8 +116,9 @@
 					const vm = this;
 					vm.form = {
 						pin: '',
-						search_date: '',
-						sort_word: ''
+						search_date: [],
+						sort_word: '',
+						search_keyword: ''
 					}
 					vm.total = null;
 					vm.tableData = [];
@@ -134,7 +147,7 @@
 									prop: 'diff_order_line',
 									label: '15天成交订单量变化',
 									sortable: 'custom',
-									width: '220'
+									width: '250'
 								},
 								{
 									prop: 'diff_zh_rate',
@@ -146,7 +159,7 @@
 									prop: 'diff_total_cost',
 									label: '15天成交订单金额变化',
 									sortable: 'custom',
-									width: '220'
+									width: '250'
 								},
 								{
 									prop: 'diff_roi',
@@ -157,20 +170,26 @@
 							]
 							break;
 						case 'Record':
-							vm.topMenuList = [{
+							vm.topMenuList = [
+								{
+									prop: 'khd',
+									label: '类型',
+									width: '120'
+								},
+								{
+									prop: 'update_time',
+									label: '改价日期',
+									width: '200'
+								},
+								{
 									prop: 'old_price',
 									label: '原出价',
-									width: '200'
+									width: '120'
 								},
 								{
 									prop: 'new_price',
 									label: '调整后出价',
-									width: '200'
-								},
-								{
-									prop: 'khd',
-									label: '调整时间',
-									width: '200'
+									width: '120'
 								},
 							]
 							break;
@@ -202,6 +221,8 @@
 							// 获取效果列表
 							effectBox({
 								...vm.form,
+								start_date: vm.form.search_date[0],
+								end_date: vm.form.search_date[1],
 								limit: vm.pagesize,
 								page: vm.currentPage
 							}).then(res => {
@@ -218,6 +239,8 @@
 							// 获取改价列表
 							priceBox({
 								...vm.form,
+								start_date: vm.form.search_date[0],
+								end_date: vm.form.search_date[1],
 								limit: vm.pagesize,
 								page: vm.currentPage
 							}).then(res => {

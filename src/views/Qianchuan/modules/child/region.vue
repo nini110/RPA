@@ -34,7 +34,7 @@
 					</el-table-column>
 					<el-table-column prop="username" label="创建人" min-width="120">
 					</el-table-column>
-					<el-table-column prop="address" label="操作" width="150" fixed="right">
+					<el-table-column prop="address" label="操作" width="180" fixed="right">
 						<el-button class="el-icon-edit" type="text">编辑</el-button>
 						<el-button class="el-icon-delete" type="text" @click="deleteFn()">删除</el-button>
 					</el-table-column>

@@ -49,7 +49,7 @@
 					</el-table-column>
 					<el-table-column prop="username" min-width="200" label="创建人">
 					</el-table-column>
-					<el-table-column prop="address" width="150" label="操作" fixed="right">
+					<el-table-column prop="address" width="180" label="操作" fixed="right">
 						<template slot="header">
 							操作
 							<el-tooltip class="item" effect="dark" content="当状态为使用中时,不可编辑和删除" placement="top">

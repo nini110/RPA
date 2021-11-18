@@ -39,9 +39,9 @@
 							<div>2021-08-27</div>
 						</template>
 					</el-table-column>
-					<el-table-column prop="founder" label="创建者" min-width="80">
+					<el-table-column prop="founder" label="创建者" min-width="120">
 					</el-table-column>
-					<el-table-column label="操作" width="260" fixed="right">
+					<el-table-column label="操作" width="280" fixed="right">
 						<template slot="header">
 							操作
 							<el-tooltip effect="dark" content="" placement="top">
@@ -259,9 +259,6 @@
 								this.$message.error(res.data.msg);
 							}
 						})
-						.catch((err) => {
-							console.log(err);
-						});
 				} else {
 					this.$message({
 						type: "error",
@@ -309,7 +306,6 @@
 						let end3 = end1[0] + end1[1] + end2[0] + end2[1] + end2[2];
 						let end4 = end3.replace(/\s*/g, "");
 						let end5 = group(end4, 2);
-						console.log(end5);
 						this.form.timeData = [
 							new Date(
 								parseInt(start5[0] + start5[1]),
@@ -329,7 +325,6 @@
 							),
 						];
 						// timeData: [new Date(2000, 10, 10, 10, 10), new Date(2000, 10, 11, 10, 10)],
-						console.log(this.form.timeData);
 						this.Strategies(res.data.id);
 						let params1 = {
 							shop_id: res.data.shop_id,
@@ -343,9 +338,6 @@
 						this.getThousandsOfSichuan(params1);
 						this.getTrill(params2);
 					})
-					.catch((err) => {
-						console.log(err);
-					});
 			},
 			// 新建项目按钮
 			newStrategyFn() {
@@ -358,9 +350,6 @@
 				this.form.cjstrategy = "";
 				this.form.ysstrategy = "";
 				this.form.jhstrategy = "";
-				this.strategyList();
-				this.budgetStrategyList();
-				this.planStrategyList();
 			},
 			// 弹窗确定按钮
 			isOk() {
@@ -376,14 +365,10 @@
 						strategy_id: id,
 					})
 					.then((res) => {
-						console.log(res);
 						this.form.cjstrategy = res.data.data.bid_strategy_data.id;
 						this.form.ysstrategy = res.data.data.budget_strategy_data.id;
 						this.form.jhstrategy = res.data.data.plan_strategy_data.id;
 					})
-					.catch((err) => {
-						console.log(err);
-					});
 			},
 			// 编辑按钮
 			editFn(id) {
@@ -391,9 +376,6 @@
 				this.dialogVisible = true;
 				this.editId = id;
 				this.projectEdit(id);
-				// this.strategyList();
-				// this.budgetStrategyList();
-				// this.planStrategyList();
 			},
 			// 获取项目列表
 			projectList() {
@@ -405,9 +387,6 @@
 						this.tableDataList = res.data.results;
 						this.total = res.data.count;
 					})
-					.catch((err) => {
-						console.log(err);
-					});
 			},
 			handleAuthorization() {
 				if (!this.flag) {
@@ -498,9 +477,6 @@
 								this.$message.error(res.data.msg);
 							}
 						})
-						.catch((err) => {
-							console.log(err);
-						});
 				} else {
 					this.$message({
 						type: "error",
@@ -514,9 +490,6 @@
 					.then((res) => {
 						this.trillOptions = res.data.data;
 					})
-					.catch((err) => {
-						console.log(err);
-					});
 			},
 			//授权账号下拉
 			getSQselect() {
@@ -528,23 +501,15 @@
 				// getSQselect(params)
 				getSQselect()
 					.then((res) => {
-						console.log(res.data.data[1].length);
 						for (var key in res.data.data) {
 							arr.push(res.data.data[key]);
 						}
-						console.log(arr);
 						for (let i = 0; i < arr.length; i++) {
-							console.log(i);
 							for (let k = 0; k < arr[i].length; k++) {
 								this.authorizationOption.push(arr[i][k]);
 							}
 						}
-						console.log(topadata);
 					})
-					.catch((err) => {
-						console.log(err);
-					});
-				console.log(arr);
 			},
 			// 千川账号获取
 			getThousandsOfSichuan(params) {
@@ -552,9 +517,6 @@
 					.then((res) => {
 						this.ThousandsOfSichuanOptions = res.data.data;
 					})
-					.catch((err) => {
-						console.log(err);
-					});
 			},
 			// 删除按钮
 			deleteFn() {

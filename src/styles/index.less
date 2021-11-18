@@ -28,6 +28,8 @@
 			color: #fff;
 		}
 		&__fixed {
+			height:auto !important; 
+			bottom:17px !important;
 			&:before {
 				display: none;
 			}
@@ -159,15 +161,29 @@
     td {
         padding: 5px 0;
 		.cell {
-			padding: 6px 0;
+			padding: 6px 10px;
 			button {
 				padding: 0;
 			}
 		}
     }
+	&__fixed {
+		height:auto !important; 
+		bottom:17px !important;
+		&:before {
+			display: none;
+		}
+		&-right {
+			height:auto !important;
+			bottom:17px !important;
+			&:before {
+				display: none;
+			}
+		}
+	}
 
 	&__body-wrapper {
-		height: calc(100% - 40px)!important;
+		// height: calc(100% - 40px)!important;
 		overflow-y: scroll!important;
 	}
 	&__empty-block {
@@ -216,7 +232,7 @@
     /**滚动条的宽度*/
     ::-webkit-scrollbar {
         width: 20px;/*竖向*/
-        height: 30px;/*横向*/
+        height: 20px;/*横向*/
     }
  
     /*滚动条的滑块*/
