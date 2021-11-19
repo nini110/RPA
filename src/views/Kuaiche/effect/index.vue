@@ -107,7 +107,7 @@
 				//分页器状态
 				total: null,
 				currentPage: 1,
-				pagesize: 100,
+				pagesize: 10,
 			}
 		},
 		watch: {
