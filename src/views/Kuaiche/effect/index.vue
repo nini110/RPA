@@ -32,7 +32,7 @@
 				<div class="tables">
 					<!-- :height="tableHeight" -->
 					<div class="tableTab" v-show="tableData">
-						<el-table class="tableBox" border :data="tableData" ref="table" size="small"
+						<el-table class="tableBox" border :data="tableData" ref="table"
 							:highlight-current-row="true" height="0"
 							:header-cell-style="{background:'#F5F7FA',color: '#666'}" @sort-change="sortChange"
 							style="width: 100%">
@@ -41,14 +41,14 @@
 							</template>
 							<el-table-column type="index" width="80" label="序号" align="center" fixed="left">
 							</el-table-column>
-							<el-table-column prop="keyword" label="关键词" min-width="140" fixed="left">
+							<el-table-column prop="keyword" label="关键词" min-width="180" fixed="left">
 							</el-table-column>
-							<el-table-column prop="unit_name" label="单元" min-width="140" fixed="left">
+							<el-table-column prop="unit_name" label="单元" min-width="180" fixed="left">
 							</el-table-column>							
-							<el-table-column prop="plan_name" label="计划" min-width="140" fixed="left">
+							<el-table-column prop="plan_name" label="计划" min-width="180" fixed="left">
 							</el-table-column>
 							<el-table-column v-for="(item, idx) in topMenuList" :key="idx" :prop="item.prop"
-								:label="item.label" :width="item.width" :sortable="item.sortable">
+								:label="item.label" :width="item.width" :sortable="item.sortable" :align="item.align">
 								<template slot-scope="scope">
 									<span v-if="$route.name==='Effect'">{{scope.row[`${item.prop}`]  | formatPercent}}</span>
 									<span v-else>{{scope.row[`${item.prop}`]}}</span>
@@ -129,42 +129,49 @@
 									prop: 'diff_show',
 									label: '展现量变化',
 									sortable: 'custom',
+									align: 'right',
 									width: '220'
 								},
 								{
 									prop: 'diff_click',
 									label: '点击量变化',
 									sortable: 'custom',
+									align: 'right',
 									width: '220'
 								},
 								{
 									prop: 'diff_click_rate',
 									label: '点击率变化',
 									sortable: 'custom',
+									align: 'right',
 									width: '220'
 								},
 								{
 									prop: 'diff_order_line',
 									label: '15天成交订单量变化',
 									sortable: 'custom',
+									align: 'right',
 									width: '250'
 								},
 								{
 									prop: 'diff_zh_rate',
 									label: '转化率变化',
 									sortable: 'custom',
+									align: 'right',
 									width: '220'
 								},
 								{
 									prop: 'diff_total_cost',
 									label: '15天成交订单金额变化',
 									sortable: 'custom',
+									align: 'right',
 									width: '250'
 								},
 								{
 									prop: 'diff_roi',
 									label: '15天成交ROI变化',
 									sortable: 'custom',
+									align: 'right',
 									width: '220'
 								},
 							]

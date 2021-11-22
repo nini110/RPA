@@ -118,7 +118,7 @@
 						<VarifyDialog :pageJumps="pageJumps" @close="closeDialog"></VarifyDialog>
 					</div>
 					<div class="tableTab">
-						<el-table v-if="tableData"  class="tableBox" :data="tableData" size="small"
+						<el-table v-if="tableData"  class="tableBox" :data="tableData"
 							:highlight-current-row="true" :header-cell-style="{background:'#f4f4f4',color: '#666'}" height="0">
 							<template slot="empty">
 							    <span class="iconfont icon-wushuju">暂无数据</span>

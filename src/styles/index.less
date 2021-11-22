@@ -158,6 +158,14 @@
 	margin-bottom: 24px!important;
 }
 .el-table {
+	th {
+		.cell {
+			// padding: 8px 10px;
+			box-sizing: border-box;
+			height: 42px!important;
+			line-height: 42px!important;
+		}
+	}
     td {
         padding: 5px 0;
 		.cell {
@@ -180,10 +188,16 @@
 				display: none;
 			}
 		}
+		&-body-wrapper {
+			top: 67px !important;
+		}
 	}
-
+	&__header-wrapper {
+		box-sizing: border-box!important;
+		padding-right: 20px!important;
+	}
 	&__body-wrapper {
-		// height: calc(100% - 40px)!important;
+		height: calc(100% - 67px)!important;
 		overflow-y: scroll!important;
 	}
 	&__empty-block {
