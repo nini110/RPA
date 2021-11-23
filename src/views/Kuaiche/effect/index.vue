@@ -47,8 +47,15 @@
 							</el-table-column>							
 							<el-table-column prop="plan_name" label="计划" min-width="180" fixed="left">
 							</el-table-column>
-							<el-table-column v-for="(item, idx) in topMenuList" :key="idx" :prop="item.prop"
-								:label="item.label" :width="item.width" :sortable="item.sortable" :align="item.align">
+							<el-table-column v-for="(item, idx) in topMenuList" :key="idx" 
+								:prop="item.prop"
+								:column-key="item.prop"
+								:label="item.label"
+								:width="item.width"
+								:sortable="item.sortable" 
+								:align="item.align"
+								:filters="[{text: '去除值为0的元素', value: 0}]"
+								:filter-method="filterTag">
 								<template slot-scope="scope">
 									<span v-if="$route.name==='Effect'">{{scope.row[`${item.prop}`]  | formatPercent}}</span>
 									<span v-else>{{scope.row[`${item.prop}`]}}</span>
@@ -99,6 +106,7 @@
 					pin: '',
 					search_date: [],
 					sort_word: '',
+					sort_line: '',
 					search_keyword: ''
 				},
 				tableData: [],
@@ -125,37 +133,10 @@
 					vm.topMenuList = [];
 					switch (newval.name) {
 						case 'Effect':
-							vm.topMenuList = [{
-									prop: 'diff_show',
-									label: '展现量变化',
-									sortable: 'custom',
-									align: 'right',
-									width: '220'
-								},
+							vm.topMenuList = [
 								{
-									prop: 'diff_click',
-									label: '点击量变化',
-									sortable: 'custom',
-									align: 'right',
-									width: '220'
-								},
-								{
-									prop: 'diff_click_rate',
-									label: '点击率变化',
-									sortable: 'custom',
-									align: 'right',
-									width: '220'
-								},
-								{
-									prop: 'diff_order_line',
-									label: '15天成交订单量变化',
-									sortable: 'custom',
-									align: 'right',
-									width: '250'
-								},
-								{
-									prop: 'diff_zh_rate',
-									label: '转化率变化',
+									prop: 'diff_roi',
+									label: '15天成交ROI变化',
 									sortable: 'custom',
 									align: 'right',
 									width: '220'
@@ -168,8 +149,36 @@
 									width: '250'
 								},
 								{
-									prop: 'diff_roi',
-									label: '15天成交ROI变化',
+									prop: 'diff_order_line',
+									label: '15天成交订单量变化',
+									sortable: 'custom',
+									align: 'right',
+									width: '250'
+								},	
+								{
+									prop: 'diff_zh_rate',
+									label: '转化率变化',
+									sortable: 'custom',
+									align: 'right',
+									width: '220'
+								},
+								{
+									prop: 'diff_click_rate',
+									label: '点击率变化',
+									sortable: 'custom',
+									align: 'right',
+									width: '220'
+								},
+								{
+									prop: 'diff_click',
+									label: '点击量变化',
+									sortable: 'custom',
+									align: 'right',
+									width: '220'
+								},																																							
+								{
+									prop: 'diff_show',
+									label: '展现量变化',
 									sortable: 'custom',
 									align: 'right',
 									width: '220'
@@ -209,9 +218,15 @@
 		mounted() {
 		},
 		methods: {
+			// 过滤
+			filterTag(value, row, column) {
+				return row[column.columnKey] !== value;
+			},
+			// 排序
 			sortChange(val) {
 				const vm = this;
 				vm.form.sort_word = val.prop
+				vm.form.sort_line = val.order === 'descending' ? 'DESC' : 'ASC'
 				vm.getTable()
 			},
 			searchEvent() {

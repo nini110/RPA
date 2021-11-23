@@ -264,7 +264,15 @@ const routes = [
 							title: '修改记录'
 						},
 						component: () => import("@/views/Kuaiche/effect")
-					}
+					},
+					{
+						path: 'charts',
+						name: 'Charts',
+						meta: {
+							title: '图表'
+						},
+						component: () => import("@/views/Kuaiche/effect/charts")
+					}					
 				]
 			},
 			// 公共数据获取
