@@ -1,48 +1,71 @@
 <template>
-  <div id="effecrChart"></div>
+  <div style="height: 100%">
+    <el-tabs v-model="activeName">
+      <el-tab-pane 
+        :disabled="tabDisable"
+        v-for="(item, idx) in tabList"
+        :key="idx"
+        :label="item.label" 
+        :name="item.name"></el-tab-pane>
+    </el-tabs>
+    <div id="effecrChart"></div>
+  </div>
 </template>
 <script>
+import { effectCharts } from "@/api/api";
 export default {
   name: "Charts",
+  props: {
+    searchVal: {
+      defalut: null,
+      type: Object,
+    },
+    getDataFlag: {
+      defalut: false,
+      type: Boolean,
+    },    
+  },
   data() {
     return {
-      // ROI提升
-      data_up: [
-        { value: 400, name: "涨价" },
-        { value: 50, name: "降价" },
-        { value: 150, name: "未变" },
+      tabDisable: true,
+      tabList:[
+        {
+          label: 'ROI变化',
+          name: '1'
+        },
+        {
+          label: '展现量变化',
+          name: '2'
+        },
+        {
+          label: '点击量变化',
+          name: '3'
+        },
+        {
+          label: '点击率变化',
+          name: '4'
+        },
+        {
+          label: '订单量变化',
+          name: '5'
+        },
+        {
+          label: '订单金额变化',
+          name: '6'
+        },
+        {
+          label: '转化率变化',
+          name: '7'
+        },
       ],
-      // ROI下降
-      data_down: [
-        { value: 180, name: "涨价" },
-        { value: 10, name: "降价" },
-        { value: 10, name: "未变" },
-      ],
-      // ROI未变
-      data_keep: [
-        { value: 10, name: "涨价" },
-        { value: 30, name: "降价" },
-        { value: 60, name: "未变" },
-      ],
-      //   options: {
-      //     series: {
-      //       type: "sunburst",
-      //       data: data,
-      //       radius: [60, "90%"],
-      //       itemStyle: {
-      //         borderRadius: 7,
-      //         borderWidth: 2,
-      //       },
-      //       label: {
-      //         show: false,
-      //       },
-      //     },
-      //   },
+      activeName: null,
+      outerData: {},
+      innerData: {},
       options: {
         title: {
-            text: '图表展示',
-            top: 20,
-            left: 'center',
+          text: "",
+          top: 20,
+          left: "center",
         },
         tooltip: {
           trigger: "item",
@@ -52,16 +75,43 @@ export default {
           type: "plain",
           show: true,
           orient: "vertival",
-          top: 10,
-          left: 40,
-          data: ["提升", "下降", "保持", "Roi提升-涨价", "Roi提升-降价", "Roi提升-未变", "Roi下降-涨价", "Roi下降-降价", "Roi下降-未变", "Roi保持-涨价", "Roi保持-降价", "Roi保持-未变"],
+          top: 30,
+          left: 80,
+          data: [
+            "上升",
+            "下降",
+            "不变",
+            "上升:涨价",
+            "上升:降价",
+            "上升:未变",
+            "下降:涨价",
+            "下降:降价",
+            "下降:未变",
+            "不变:涨价",
+            "不变:降价",
+            "不变:未变",
+          ],
+          selected: {
+            "上升": true,
+            "下降": true,
+            "不变": false,
+            "上升:涨价": true,
+            "上升:降价": true,
+            "上升:未变": true,
+            "下降:涨价": true,
+            "下降:降价": true,
+            "下降:未变": true,
+            "不变:涨价": false,
+            "不变:降价": false,
+            "不变:未变": false,
+          }
         },
         series: [
           {
             name: "ROI",
             type: "pie",
             colorBy: "data",
-            clockwise: false,
+            // clockwise: false,
             // selectedMode: "single",
             itemStyle: {
               normal: {
@@ -79,11 +129,7 @@ export default {
             labelLine: {
               show: false,
             },
-            data: [
-              { value: 600, name: "提升"},
-              { value: 200, name: "下降" },
-              { value: 100, name: "保持" },
-            ],
+            data: [],
             emptyCircleStyle: {
               color: "#e6a23c",
               shadowColor: "rgba(150, 0, 0, 1)",
@@ -93,11 +139,10 @@ export default {
           {
             name: "价格",
             type: "pie",
-            // roseType: 'radius',
-            clockwise: false,
-            radius: ["34%", "60%"],
+            // clockwise: false,
+            radius: ["38%", "60%"],
             labelLine: {
-              length: 30,
+              length: 60,
             },
             label: {
               formatter: "{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ",
@@ -131,104 +176,142 @@ export default {
                 },
               },
             },
-            data: [
-              {
-                value: 400,
-                name: "Roi提升-涨价",
-                itemStyle: {
-                  color: "#80C160",
-                },
-              },
-              {
-                value: 50,
-                name: "Roi提升-降价",
-                itemStyle: {
-                  color: "#A6C298",
-                },
-              },
-              {
-                value: 150,
-                name: "Roi提升-未变",
-                itemStyle: {
-                  color: "#BAC9B3",
-                },
-              },
-              //   -----
-              {
-                value: 180,
-                name: "Roi下降-涨价",
-                itemStyle: {
-                  color: "#F89999",
-                },
-              },
-              {
-                value: 10,
-                name: "Roi下降-降价",
-                itemStyle: {
-                  color: "#F2B9B9",
-                },
-              },
-              {
-                value: 10,
-                name: "Roi下降-未变",
-                itemStyle: {
-                  color: "#F4D4D4",
-                },
-              },
-              //   --
-              {
-                value: 10,
-                name: "Roi保持-涨价",
-                itemStyle: {
-                  color: "#F7D07E",
-                },
-              },
-              {
-                value: 30,
-                name: "Roi保持-降价",
-                itemStyle: {
-                  color: "#F4DDAE",
-                },
-              },
-              {
-                value: 60,
-                name: "Roi保持-未变",
-                itemStyle: {
-                  color: "#F2E7CF",
-                },
-              },
-            ],
+            data: [],
           },
         ],
       },
     };
   },
+  watch: {
+    getDataFlag(newval, oldval) {
+      if(newval) {
+        debugger
+        this.getChartsEvent(this.searchVal, this.activeName);
+      }
+    },
+    activeName(newval, oldval) {
+      const vm = this;
+      vm.$nextTick(() => {
+          switch(newval) {
+            case '1': 
+              vm.options.series[0].data = vm.outerData.ROI变化数量
+              vm.options.series[1].data = vm.innerData.ROI变化数量
+              break
+            case '2': 
+              vm.options.series[0].data = vm.outerData.展现变化数量
+              vm.options.series[1].data = vm.innerData.展现变化数量
+              break
+            case '3': 
+              vm.options.series[0].data = vm.outerData.点击变化数量
+              vm.options.series[1].data = vm.innerData.点击变化数量
+              break
+            case '4': 
+              vm.options.series[0].data = vm.outerData.点击率变化数量
+              vm.options.series[1].data = vm.innerData.点击率变化数量
+              break
+            case '5': 
+              vm.options.series[0].data = vm.outerData.订单行变化数量
+              vm.options.series[1].data = vm.innerData.订单行变化数量
+              break
+            case '6': 
+              vm.options.series[0].data = vm.outerData.订单金额变化数量
+              vm.options.series[1].data = vm.innerData.订单金额变化数量
+              break
+            case '7': 
+              vm.options.series[0].data = vm.outerData.转化率变化数量
+              vm.options.series[1].data = vm.innerData.转化率变化数量
+              break                                          
+          }
+          let myChart = vm.$echarts.init(document.getElementById("effecrChart"));
+          myChart.setOption(vm.options);
+      })
+
+    },
+  },
+  created() {
+    const vm = this;
+  },
   mounted() {
     const vm = this;
-    let myChart = vm.$echarts.init(document.getElementById("effecrChart"));
-    myChart.setOption(vm.options);
-    // myChart.on("click", function (params) {
-    //   let opt = myChart.getOption();
-    //   switch (params.name) {
-    //     case "提升":
-    //       opt.series[1].data = vm.data_up;
-    //       break;
-    //     case "下降":
-    //       opt.series[1].data = vm.data_down;
-    //       break;
-    //     case "保持":
-    //       opt.series[1].data = vm.data_keep;
-    //       break;
-    //   }
-    //   myChart.setOption(opt, true);
-    // });
+
   },
-  methods: {},
+  methods: {
+    // 获取图表数据
+    getChartsEvent(val, tag) {
+      const vm = this;
+      effectCharts(val).then((res) => {
+        if (res.data.code === 10000) {
+          let result = res.data.data;
+          let obj = {};
+          let midObj = {};
+          let numObj = null;
+
+          for (let i in result) {
+            // ROI变化数量
+            vm.outerData[i] = [];
+            vm.innerData[i] = [];
+
+            for (let j in result[i]) {
+              // 上升  下降   不变
+              let midArr = {};
+              for (let k in result[i][j]) {
+                // 出价上升数量   出价下降数量  总数
+                let a = result[i][j].出价上升数量;
+                let b = result[i][j].出价下降数量;
+                let c = result[i][j].出价不变数量;
+                let e = result[i][j].总数;
+                let d = [
+                  { value: a, name: j +":涨价" },
+                  { value: b, name: j +":降价" },
+                  { value: c, name: j +":未变" },
+                ];
+                d.forEach((val, idx) => {
+                  if (j === "上升") {
+                    vm.$set(d[0], "itemStyle", { color: "#80C160" });
+                    vm.$set(d[1], "itemStyle", { color: "#A6C298" });
+                    vm.$set(d[2], "itemStyle", { color: "#BAC9B3" });
+                  } else if (j === "下降") {
+                    vm.$set(d[0], "itemStyle", { color: "#F89999" });
+                    vm.$set(d[1], "itemStyle", { color: "#F2B9B9" });
+                    vm.$set(d[2], "itemStyle", { color: "#F4D4D4" });
+                  } else if (j === "不变") {
+                    vm.$set(d[0], "itemStyle", { color: "#F7D07E" });
+                    vm.$set(d[1], "itemStyle", { color: "#F4DDAE" });
+                    vm.$set(d[2], "itemStyle", { color: "#F2E7CF" });
+                  }
+                });
+                if (k !== "总数") {
+                  midArr[j] = d;
+                } else {
+                  numObj = { value: e, name: j };
+                  vm.outerData[i].push(numObj);
+                }
+ 
+                midObj[j] = midArr;
+              }
+              for(let m in midArr) {
+                midArr[m].forEach((item, idx) => {
+                  vm.innerData[i].push(item);
+                })
+              }
+            }
+            obj[i] = midObj;
+          }
+          vm.tabDisable = false;
+          vm.activeName = '1';
+          vm.$emit('close')
+        }
+      });
+    },
+  },
 };
 </script>
 
 <style scoped>
 #effecrChart {
   height: 100%;
+}
+.el-tabs {
+  padding: 0 120px;
 }
 </style>

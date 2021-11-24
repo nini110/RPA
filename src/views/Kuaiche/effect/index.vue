@@ -21,7 +21,7 @@
 							<el-button type="primary" class="tophasBtn_btn btnnormal" @click="searchEvent">查询
 							</el-button>
 						</el-form-item>
-						<el-form-item label="关键词:" prop="search_keyword">
+						<el-form-item v-if="$route.name!=='Charts'" label="关键词:" prop="search_keyword">
 							<el-input v-model="form.search_keyword" size="medium" placeholder="请输入关键词" clearable></el-input>
 						</el-form-item>						
 					</div>
@@ -29,7 +29,12 @@
 			</div>
 			<div ref="tableBox" class="tableBox hasUp4">
 				<el-divider></el-divider>
-				<div class="tables">
+				<Chart
+				 	v-if="$route.name==='Charts'"
+					 :getDataFlag="getDataFlag"
+					 @close="chartReset"
+				 	:searchVal='searchVal'></Chart>
+				<div v-else class="tables">
 					<!-- :height="tableHeight" -->
 					<div class="tableTab" v-show="tableData">
 						<el-table class="tableBox" border :data="tableData" ref="table"
@@ -86,10 +91,16 @@
 		effectBox,
 		priceBox
 	} from '@/api/api';
+	import Chart from './charts.vue'
 	export default {
 		name: 'Effect',
+		components: {
+			Chart,
+		},
 		data() {
 			return {
+				getDataFlag: false,
+				searchVal: null, // 传给图表组件的查询条件
 				rules: {
 					pin: [{
 						required: true,
@@ -122,6 +133,7 @@
 			$route: {
 				handler(newval, oldval) {
 					const vm = this;
+					vm.getDataFlag = false
 					vm.form = {
 						pin: '',
 						search_date: [],
@@ -216,8 +228,12 @@
 			}
 		},
 		mounted() {
+
 		},
 		methods: {
+			chartReset() {
+				this.getDataFlag = false
+			},
 			// 过滤
 			filterTag(value, row, column) {
 				return row[column.columnKey] !== value;
@@ -231,7 +247,16 @@
 			},
 			searchEvent() {
 				const vm = this;
-				vm.getTable()
+				if (vm.$route.name !== 'Charts') {
+					vm.getTable()
+				} else {
+					vm.searchVal = {
+						...vm.form,
+						start_date: vm.form.search_date[0],
+						end_date: vm.form.search_date[1],
+					}
+					vm.getDataFlag = true
+				}
 			},
 			// 获取效果列表
 			getTable(pages, current) {

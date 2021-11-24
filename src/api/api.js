@@ -292,3 +292,8 @@ export const priceBox = request({
     url:`${BASEPATH}/apps/kc_log/`,
     method:'get',
 })
+// 提质--提质变化总览
+export const effectCharts = request({
+    url:`${BASEPATH}/apps/change_overview/`,
+    method:'get',
+})

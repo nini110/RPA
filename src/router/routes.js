@@ -271,7 +271,8 @@ const routes = [
 						meta: {
 							title: '图表'
 						},
-						component: () => import("@/views/Kuaiche/effect/charts")
+						// component: () => import("@/views/Kuaiche/effect/charts")
+						component: () => import("@/views/Kuaiche/effect")
 					}					
 				]
 			},
