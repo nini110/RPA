@@ -116,7 +116,7 @@ export default {
             itemStyle: {
               normal: {
                 color: function (colors) {
-                  var colorList = ["#5FC82B", "#f56c6c", "#FFC851"];
+                  var colorList = [ "#f56c6c", "#5FC82B", "#FFC851"];
                   return colorList[colors.dataIndex];
                 },
               },
@@ -268,13 +268,13 @@ export default {
                 ];
                 d.forEach((val, idx) => {
                   if (j === "上升") {
-                    vm.$set(d[0], "itemStyle", { color: "#80C160" });
-                    vm.$set(d[1], "itemStyle", { color: "#A6C298" });
-                    vm.$set(d[2], "itemStyle", { color: "#BAC9B3" });
-                  } else if (j === "下降") {
                     vm.$set(d[0], "itemStyle", { color: "#F89999" });
                     vm.$set(d[1], "itemStyle", { color: "#F2B9B9" });
                     vm.$set(d[2], "itemStyle", { color: "#F4D4D4" });
+                  } else if (j === "下降") {
+                    vm.$set(d[0], "itemStyle", { color: "#80C160" });
+                    vm.$set(d[1], "itemStyle", { color: "#A6C298" });
+                    vm.$set(d[2], "itemStyle", { color: "#BAC9B3" });
                   } else if (j === "不变") {
                     vm.$set(d[0], "itemStyle", { color: "#F7D07E" });
                     vm.$set(d[1], "itemStyle", { color: "#F4DDAE" });

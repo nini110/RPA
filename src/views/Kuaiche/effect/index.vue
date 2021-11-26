@@ -87,10 +87,12 @@
                 label="关键词"
                 min-width="180"
                 fixed="left"
-				show-overflow-tooltip
+				        show-overflow-tooltip
               >
                 <template slot-scope="scope">
+                  <span v-if="$route.name==='Effect'">{{ scope.row.keyword }}</span>
                   <span
+                    v-else
                     class="temInfoSpan"
                     @click="showInfoDarwer(scope.row)"
                     >{{ scope.row.keyword }}</span
@@ -100,6 +102,7 @@
               <el-table-column
                 prop="unit_name"
                 label="单元"
+                show-overflow-tooltip
                 min-width="180"
                 fixed="left"
               >
@@ -107,6 +110,7 @@
               <el-table-column
                 prop="plan_name"
                 label="计划"
+                show-overflow-tooltip
                 min-width="180"
                 fixed="left"
               >
@@ -227,8 +231,8 @@ export default {
         const vm = this;
         vm.getDataFlag = false;
         vm.form = {
-          pin: "小米灵狐代投1",
-          search_date: ["2021-11-13", "2021-11-15"],
+          pin: "",
+          search_date: [],
           sort_word: "",
           search_keyword: "",
         };

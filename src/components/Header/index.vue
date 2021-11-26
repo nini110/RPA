@@ -29,7 +29,7 @@
 					{{ yh }}
 					<span class="logout iconfont icon-tcdl" @click="close"></span>
 				</div>
-				<div id ="togleCol" class="phone iconfont icon-shouji" @click="toggleMode()">移动版</div>
+				<!-- <div id ="togleCol" class="phone iconfont icon-shouji" @click="toggleMode()">移动版</div> -->
 			</div>
 		</div>
 	</div>
