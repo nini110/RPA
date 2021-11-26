@@ -5,7 +5,7 @@
 	</div>
 </template>
 <script>
-	import Header from '@/views/Header'
+	import Header from '@/components/Header'
 	export default {
 		name: "App",
 		components: {
@@ -16,12 +16,12 @@
 		},
 		created() {
 			// 线上发布时created中所有都注释
-			// this.$route.query.wx_code = "5rRiCCq82ZxhRLr4C2hpUrRiDyoKH6kQp-t01A_mov8";
-			// this.$route.query.wx_userid = "1020108";
-			// this.$route.query.user_name = "方涛";
-			// localStorage.setItem("wx_code", this.$route.query.wx_code);
-			// localStorage.setItem("wx_userid", this.$route.query.wx_userid);
-			// localStorage.setItem("user_name", this.$route.query.user_name);
+			this.$route.query.wx_code = "uNGMpy8BQ5xzwjRj1AEzmZqUamCjzwDI9_NOs7Mcx80";
+			this.$route.query.wx_userid = "1020108";
+			this.$route.query.user_name = "方涛";
+			localStorage.setItem("wx_code", this.$route.query.wx_code);
+			localStorage.setItem("wx_userid", this.$route.query.wx_userid);
+			localStorage.setItem("user_name", this.$route.query.user_name);
 		},
 	};
 </script>

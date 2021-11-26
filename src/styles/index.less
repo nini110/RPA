@@ -75,7 +75,7 @@
 		color: #fff!important;
 		&:hover,
 		&.hover, 
-		&:active,
+		&:active
 		{
 			color: #666!important;
 		}
@@ -91,8 +91,7 @@
 	.el-select-dropdown {
 		background: #303133!important;
 	}
-	.el-upload__text,
-	{
+	.el-upload__text {
 		color: #C0C4CC!important;
 	}
 	.el-table__header-wrapper th,
@@ -104,7 +103,7 @@
 	.el-tabs,
 	.el-tabs__header,
 	.el-tabs__content,
-	.el-progress-bar__outer,
+	.el-progress-bar__outer
 	{
 		border-color:transparent!important;
 		background-color: #606266!important;
@@ -137,88 +136,156 @@
         padding-right: 3px;
     }
 }
+.el {
+	&-drawer {
+		// width: 100%!important;
+		// &__wrapper {
+		// 	width: 20%;
+		// 	left: unset;
+		// 	margin-left: 20px;
+		// 	overflow: visible!important;
+		// }
+		// &__container {
 
-.el-input-group__append {
-    border-color: transparent;
-    color: #666;
-}
-.el-input-group__append .el-button--primary.is-disabled:hover {
-    color: #fff;
-}
-.el-input-group__append button.el-button {
-    margin: 0;
-	padding: 0;
-	color: #fff;
-}
-.el-input-group__append button.el-button:hover {
-    color: #fff;
+		// }
+		padding: 30px 40px;
+		&__header {
+			font-size: 16px;
+			font-weight: bold;
+		}
+		&__body {
 	
-}
-.el-form-item {
-	margin-bottom: 24px!important;
-}
-.el-table {
-	th {
-		.cell {
-			// padding: 8px 10px;
-			box-sizing: border-box;
-			height: 42px!important;
-			line-height: 42px!important;
 		}
 	}
-    td {
-        padding: 5px 0;
-		.cell {
-			padding: 6px 10px;
-			button {
-				padding: 0;
+	&-table {
+		th {
+			.cell {
+				text-align: left;
+				// padding: 8px 10px;
+				box-sizing: border-box;
+				height: 42px!important;
+				line-height: 42px!important;
 			}
 		}
-    }
-	&__fixed {
-		height:auto !important; 
-		bottom:17px !important;
-		&:before {
-			display: none;
+		td {
+			padding: 5px 0!important;
+			border-bottom: 1px solid #e9ecf3;
+			.cell {
+				padding: 6px 10px;
+				button {
+					padding: 0;
+				}
+			}
 		}
-		&-right {
-			height:auto !important;
-			bottom:17px !important;
+		&__fixed {
+			height:auto !important; 
+			bottom:18px !important;
 			&:before {
 				display: none;
 			}
-		}
-		&-body-wrapper {
-			top: 67px !important;
-		}
-	}
-	&__header-wrapper {
-		box-sizing: border-box!important;
-		padding-right: 20px!important;
-	}
-	&__body-wrapper {
-		height: calc(100% - 67px)!important;
-		overflow-y: scroll!important;
-	}
-	&__empty-block {
-		width: 100%!important;
-	}
-	&__empty-text {
-		// position: absolute;
-		span {
-			font-size: 16px;
-			line-height: 46px;
-				color: #999;
-			&:before {
-				display: inline-block;
-				vertical-align: middle;
-				font-size: 46px;
+			&-right {
+				height:auto !important;
+				bottom:17px !important;
 				padding-right: 20px;
-				color: #999;
+				// right: 20px;
+				&:before {
+					display: none;
+				}
+				&-patch {
+					background-color: transparent;
+				  }
+			}
+			&-body-wrapper {
+				// top: 67px !important;
+				.el-table__body {
+					padding-bottom: 20px!important;
+				  }
+			}
+		}
+		&__header-wrapper {
+			box-sizing: border-box!important;
+			padding-right: 20px!important;
+		}
+		&__body-wrapper {
+			height: calc(100% - 40px)!important;
+			overflow-y: scroll!important;
+		}
+		&__empty-block {
+			width: 100%!important;
+		}
+		&__empty-text {
+			// position: absolute;
+			span {
+				font-size: 16px;
+				line-height: 46px;
+					color: #999;
+				&:before {
+					display: inline-block;
+					vertical-align: middle;
+					font-size: 46px;
+					padding-right: 20px;
+					color: #999;
+				}
 			}
 		}
 	}
+	&-input {
+		&-group__append {
+			border-color: transparent;
+			color: #666;
+			button.el-button {
+				margin: 0;
+				padding: 0;
+				color: #fff;
+				&:hover {
+					color: #fff;
+					
+				}
+				&--primary.is-disabled:hover {
+					color: #fff;
+				}
+			}
+		}
+	}
+	&-form-item {
+		margin-bottom: 24px!important;
+	}
+	&-dialog {
+		&__title {
+			font-size: 16px;
+			font-weight: bold;
+			position: relative;
+			padding-left: 25px;
+			display: inline-block;
+			&:before,
+			&:after {
+				position: absolute;
+				top: 2px;
+				left: 3px;
+				display: block;
+				content: '';
+				width: 0;
+				height: 0;
+				border-top: 10px solid transparent;
+				border-left: 10px solid rgba(255, 0, 0, 0.342);
+				border-bottom: 10px solid transparent;
+			}
+			&:after {
+				top: 4px;
+				left: 10px;
+				z-index: 2;
+				border-top: 8px solid transparent;
+				border-left: 8px solid rgba(255, 102, 0, 1);
+				border-bottom: 8px solid transparent;
+			}
+		}
+		&__body {
+			padding: 30px;
+			font-size: 12px;
+		}
+	}
 }
+
 .poperNotice {
     padding: 12px 12px 0 12px;
     .down {
@@ -234,15 +301,6 @@
         }
     }
 }
-.el-dialog__body {
-    padding: 30px;
-    font-size: 12px;
-}
-// .el-scrollbar__wrap { overflow: scroll; width: 104%; height: 108%; } 
-// .el-scrollbar__wrap { overflow-x: hidden;} 
-// .el-scrollbar__bar.is-horizontal {
-//     display: none;
-// }
     /**滚动条的宽度*/
     ::-webkit-scrollbar {
         width: 20px;/*竖向*/
@@ -254,27 +312,6 @@
         background-color: #d0d0d0;
         border-radius: 3px;
     }
-	.el-table__fixed {
-		bottom: 0!important;
-	}
-	//   .el-table {
-	    .el-table__fixed { // 左固定列
-	      height: auto !important;
-	      bottom: 18px!important; // 改为自动高度后，设置与父容器的底部距离，高度会动态改变，值可以设置比滚动条的高度稍微大一些
-	    }
-	// 	}
-	// 固定列相关样式
-	/deep/ .el-table__fixed-right-patch {
-	  background-color: transparent;
-	}
-	/deep/ .el-table__fixed-right::before, 
-	/deep/ .el-table__fixed::before {
-	  background-color: transparent;
-	}
-	// // 解决固定列高度错位问题 8px与滚动条高度相等
-	/deep/.el-table__fixed-body-wrapper .el-table__body {
-	  padding-bottom: 20px!important;
-	}
 .tagBox {
     .el-form-item {
         &__content {
@@ -287,34 +324,7 @@
         }
     }
 }
-.el-dialog__title {
-    font-size: 16px;
-    font-weight: bold;
-    position: relative;
-    padding-left: 25px;
-    display: inline-block;
-    &:before,
-    &:after {
-        position: absolute;
-        top: 2px;
-        left: 3px;
-        display: block;
-        content: '';
-        width: 0;
-        height: 0;
-        border-top: 10px solid transparent;
-        border-left: 10px solid rgba(255, 0, 0, 0.342);
-        border-bottom: 10px solid transparent;
-    }
-    &:after {
-        top: 4px;
-        left: 10px;
-        z-index: 2;
-        border-top: 8px solid transparent;
-        border-left: 8px solid rgba(255, 102, 0, 1);
-        border-bottom: 8px solid transparent;
-    }
-}
+
 .el-collapse-item__header.is-active {
     position: relative;
     &:before,

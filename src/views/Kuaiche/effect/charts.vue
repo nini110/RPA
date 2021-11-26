@@ -185,7 +185,6 @@ export default {
   watch: {
     getDataFlag(newval, oldval) {
       if(newval) {
-        debugger
         this.getChartsEvent(this.searchVal, this.activeName);
       }
     },
@@ -223,7 +222,7 @@ export default {
               break                                          
           }
           let myChart = vm.$echarts.init(document.getElementById("effecrChart"));
-          myChart.setOption(vm.options);
+          myChart.setOption(vm.options, true);
       })
 
     },
@@ -239,6 +238,8 @@ export default {
     // 获取图表数据
     getChartsEvent(val, tag) {
       const vm = this;
+      vm.tabDisable = true;
+      vm.activeName = null;
       effectCharts(val).then((res) => {
         if (res.data.code === 10000) {
           let result = res.data.data;

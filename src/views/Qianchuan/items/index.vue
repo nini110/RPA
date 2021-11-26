@@ -8,15 +8,15 @@
 					<template slot="empty">
 						<span class="iconfont icon-wushuju">暂无数据</span>
 					</template>
-					<el-table-column align="center" label="序号" width="80" type="index" fixed="left">
+					<el-table-column label="序号" width="80" type="index" fixed="left">
 					</el-table-column>
-					<el-table-column prop="project_name" label="项目名称" fixed="left" min-width="300">
+					<el-table-column prop="project_name" label="项目名称" fixed="left" min-width="300" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="shop_name" label="抖店/代理商" min-width="300">
+					<el-table-column prop="shop_name" label="抖店/代理商" min-width="300" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="quanchuan_name" label="千川账号" min-width="300">
+					<el-table-column prop="quanchuan_name" label="千川账号" min-width="300" show-overflow-tooltip>
 					</el-table-column>
-					<el-table-column prop="douyin_name" label="抖音账号" min-width="300">
+					<el-table-column prop="douyin_name" label="抖音账号" min-width="300" show-overflow-tooltip>
 					</el-table-column>
 					<el-table-column prop="address3" label="投放时间" min-width="300">
 						<template slot-scope="scope">

@@ -7,9 +7,7 @@ import qs from 'qs'
 import ElementUI from 'element-ui';
 import format from './utils/format';
 import './utils/rem' //px转rem
-import 'element-ui/lib/theme-chalk/index.css';
-import '../theme/deep.less'
-// import '../theme/index.css'
+import '../element-#287BB5/index.css'
 import './styles/index.less'
 import './assets/fonts/iconfont.css';
 // import less from 'less'
@@ -37,7 +35,7 @@ const options = {
 	autoMatchOsTheme: true // default: true
 }
 const darkmode = new Darkmode(options);
-darkmode.showWidget();
+// darkmode.showWidget();
 
 Vue.prototype.check = check
 Vue.prototype.$axios = axios

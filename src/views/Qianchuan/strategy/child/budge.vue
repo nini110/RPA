@@ -29,11 +29,11 @@
 					<template slot="empty">
 						<span class="iconfont icon-wushuju">暂无数据</span>
 					</template>
-					<el-table-column align="center" type="selection" width="60">
+					<el-table-column type="selection" width="60">
 					</el-table-column>
-					<el-table-column align="center" label="序号" width="80" type="index">
+					<el-table-column label="序号" width="80" type="index">
 					</el-table-column>
-					<el-table-column prop="count" label="状态" width="150" align="center">
+					<el-table-column prop="count" label="状态" width="150">
 						<template slot-scope="scope">
 							<div v-if="scope.row.status" class="yes">使用中</div>
 							<div v-else class="no">未使用</div>
