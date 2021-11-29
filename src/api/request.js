@@ -1,6 +1,8 @@
 import axios from 'axios';
 import Qs from 'qs'
 import LoadingMask from '@/utils/loading'
+import { Message } from 'element-ui'
+
 
 // const baseURL = 'http://114.67.229.243:8001';
 export const service = axios.create({
@@ -66,7 +68,50 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(response => {
     return response
 }), error => {
-    return err
+    if (error && error.response) {
+        switch (error.response.status) {
+            case 404:
+              error.message = '网络请求不存在';
+              break;
+            case 500:
+              error.message = '服务器开小差了，请稍后重试';
+              break;
+            case 502:
+              error.message = '抱歉，服务暂时不可用，请稍后重试';
+              break;
+            case 503:
+              error.message = '抱歉，服务暂时不可用，请稍后重试';
+              break;
+            case 401:
+              error.message = '请重新登录！';
+              break;
+            default:
+              error.message = '系统繁忙，请稍后重试';
+          }
+          Message({
+            type: 'error',
+            message: error.message,
+            duration: 2000,
+            offset:200
+          })
+    } else {
+        if (error.message.includes('timeout')) {
+          Message({
+            type: 'error',
+            message: '请求超时，请检查网络是否连接正常',
+            duration: 2000,
+            offset:200
+          })
+        } else {
+          Message({
+            type: 'error',
+            message: '请求失败，请检查网络是否已连接',
+            duration: 2000,
+            offset:200
+          })
+        }
+      }
+    return Promise.reject(error)
 }
 async function axiosHttp(body, parData, config) {
     let { url, method, responseType } = config;

@@ -2,13 +2,19 @@
   <el-dialog
     title="修改人员"
     :visible.sync="show"
-    custom-class="dialogJb editDia"
+    width="35%"
+    custom-class="editDia"
     :close-on-click-modal="false"
     @close="closeDialog"
   >
     <el-form class="formObj">
       <div class="formObj_ipt">
-        <el-form-item v-if="editNum === 1" label="添加人员:" prop="input" class="lw">
+        <el-form-item
+          v-if="editNum === 1"
+          label="添加人员:"
+          prop="input"
+          class="lw"
+        >
           <el-input
             class="inline-input"
             v-model="cSubcategoryNo"
@@ -81,14 +87,14 @@
       </div>
     </el-form>
     <span slot="footer" class="dialog-footer">
+      <el-button class="btnnormal btnnormal_down" @click="closeDialog()"
+        >取 消</el-button
+      >
       <el-button
         class="btnnormal marginL"
         type="primary"
         @click="isModification()"
         >确 定</el-button
-      >
-      <el-button class="btnnormal btnnormal_down" @click="closeDialog()"
-        >取 消</el-button
       >
     </span>
   </el-dialog>

@@ -4,6 +4,7 @@
     title="上传竞标"
     :visible.sync="show"
     @close="closeDialog"
+    width="35%"
     max-height="800px"
     custom-class="dialogJb"
     :close-on-click-modal="false"

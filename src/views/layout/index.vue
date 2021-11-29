@@ -230,12 +230,11 @@ export default {
                   value: "/layout/kuaiche/charts",
                   index: "5-5",
                 },
-                {
-                  label: "修改记录",
-                  value: "/layout/kuaiche/record",
-                  index: "5-6",
-                },
-
+                // {
+                //   label: "修改记录",
+                //   value: "/layout/kuaiche/record",
+                //   index: "5-6",
+                // },
               ],
             },
           ],

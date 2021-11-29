@@ -257,14 +257,14 @@ const routes = [
 						},
 						component: () => import("@/views/Kuaiche/effect"),
 					},
-					{
-						path: 'record',
-						name: 'Record',
-						meta: {
-							title: '修改记录'
-						},
-						component: () => import("@/views/Kuaiche/effect")
-					},
+					// {
+					// 	path: 'record',
+					// 	name: 'Record',
+					// 	meta: {
+					// 		title: '修改记录'
+					// 	},
+					// 	component: () => import("@/views/Kuaiche/effect")
+					// },
 					{
 						path: 'charts',
 						name: 'Charts',

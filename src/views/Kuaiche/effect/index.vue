@@ -66,7 +66,7 @@
               border
               :data="tableData"
               ref="table"
-              :highlight-current-row="true"
+              highlight-current-row
               height="0"
               :header-cell-style="{ background: '#F5F7FA', color: '#666' }"
               @sort-change="sortChange"
@@ -87,12 +87,10 @@
                 label="关键词"
                 min-width="180"
                 fixed="left"
-				        show-overflow-tooltip
+                show-overflow-tooltip
               >
                 <template slot-scope="scope">
-                  <span v-if="$route.name==='Effect'">{{ scope.row.keyword }}</span>
                   <span
-                    v-else
                     class="temInfoSpan"
                     @click="showInfoDarwer(scope.row)"
                     >{{ scope.row.keyword }}</span
@@ -217,7 +215,57 @@ export default {
         search_keyword: "",
       },
       tableData: [],
-      topMenuList: [],
+      topMenuList: [
+        {
+          prop: "diff_roi",
+          label: "15天成交ROI变化",
+          sortable: "custom",
+          align: "right",
+          width: "220",
+        },
+        {
+          prop: "diff_total_cost",
+          label: "15天成交订单金额变化",
+          sortable: "custom",
+          align: "right",
+          width: "250",
+        },
+        {
+          prop: "diff_order_line",
+          label: "15天成交订单量变化",
+          sortable: "custom",
+          align: "right",
+          width: "250",
+        },
+        {
+          prop: "diff_zh_rate",
+          label: "转化率变化",
+          sortable: "custom",
+          align: "right",
+          width: "220",
+        },
+        {
+          prop: "diff_click_rate",
+          label: "点击率变化",
+          sortable: "custom",
+          align: "right",
+          width: "220",
+        },
+        {
+          prop: "diff_click",
+          label: "点击量变化",
+          sortable: "custom",
+          align: "right",
+          width: "220",
+        },
+        {
+          prop: "diff_show",
+          label: "展现量变化",
+          sortable: "custom",
+          align: "right",
+          width: "220",
+        },
+      ],
       tableHeight: 0,
       //分页器状态
       total: null,
@@ -238,106 +286,6 @@ export default {
         };
         vm.total = null;
         vm.tableData = [];
-        vm.topMenuList = [];
-        switch (newval.name) {
-          case "Effect":
-            vm.topMenuList = [
-              {
-                prop: "diff_roi",
-                label: "15天成交ROI变化",
-                sortable: "custom",
-                align: "right",
-                width: "220",
-              },
-              {
-                prop: "diff_total_cost",
-                label: "15天成交订单金额变化",
-                sortable: "custom",
-                align: "right",
-                width: "250",
-              },
-              {
-                prop: "diff_order_line",
-                label: "15天成交订单量变化",
-                sortable: "custom",
-                align: "right",
-                width: "250",
-              },
-              {
-                prop: "diff_zh_rate",
-                label: "转化率变化",
-                sortable: "custom",
-                align: "right",
-                width: "220",
-              },
-              {
-                prop: "diff_click_rate",
-                label: "点击率变化",
-                sortable: "custom",
-                align: "right",
-                width: "220",
-              },
-              {
-                prop: "diff_click",
-                label: "点击量变化",
-                sortable: "custom",
-                align: "right",
-                width: "220",
-              },
-              {
-                prop: "diff_show",
-                label: "展现量变化",
-                sortable: "custom",
-                align: "right",
-                width: "220",
-              },
-            ];
-            break;
-          case "Record":
-            vm.topMenuList = [
-              {
-                prop: "khd",
-                label: "类型",
-                width: "120",
-              },
-              // {
-              // 	prop: 'update_time',
-              // 	label: '改价日期',
-              // 	width: '200'
-              // },
-              // {
-              // 	prop: 'old_price',
-              // 	label: '原出价',
-              // 	width: '120'
-              // },
-              // {
-              // 	prop: 'new_price',
-              // 	label: '调整后出价',
-              // 	width: '120'
-              // },
-              {
-                prop: "initial",
-                label: "初始价格",
-                width: "200",
-              },
-              {
-                prop: "final",
-                label: "最终价格",
-                width: "200",
-              },
-              {
-                prop: "autoNum",
-                label: "算法改价次数",
-                width: "200",
-              },
-              {
-                prop: "dayNum",
-                label: "人工改价天数",
-                width: "200",
-              },
-            ];
-            break;
-        }
       },
       immediate: true,
       deep: true,
@@ -371,60 +319,60 @@ export default {
     },
     searchEvent() {
       const vm = this;
-      if (vm.$route.name !== "Charts") {
-        vm.getTable();
-      } else {
-        vm.searchVal = {
-          ...vm.form,
-          start_date: vm.form.search_date[0],
-          end_date: vm.form.search_date[1],
-        };
-        vm.getDataFlag = true;
-      }
+      vm.$refs.form.validate((valid) => {
+        if (valid) {
+          if (vm.$route.name !== "Charts") {
+            vm.getTable();
+          } else {
+            vm.searchVal = {
+              ...vm.form,
+              start_date: vm.form.search_date[0],
+              end_date: vm.form.search_date[1],
+            };
+            vm.getDataFlag = true;
+          }
+        }
+      });
     },
     // 获取效果列表
     getTable(pages, current) {
       const vm = this;
-      vm.$refs.form.validate((valid) => {
-        if (valid) {
-          vm.tableData = [];
-          if (vm.$route.name === "Effect") {
-            // 获取效果列表
-            effectBox({
-              ...vm.form,
-              start_date: vm.form.search_date[0],
-              end_date: vm.form.search_date[1],
-              limit: vm.pagesize,
-              page: vm.currentPage,
-            }).then((res) => {
-              if (res.data.code === 10000 && res.data.data.length > 0) {
-                vm.tableData = res.data.data;
-                vm.total = res.data.count;
-              } else if (res.data.code === 10004) {
-                vm.$message.warning(res.data.data);
-              } else {
-                vm.$message.warning("暂无数据");
-              }
-            });
+      vm.tableData = [];
+      if (vm.$route.name === "Effect") {
+        // 获取效果列表
+        effectBox({
+          ...vm.form,
+          start_date: vm.form.search_date[0],
+          end_date: vm.form.search_date[1],
+          limit: vm.pagesize,
+          page: vm.currentPage,
+        }).then((res) => {
+          if (res.data.code === 10000 && res.data.data.length > 0) {
+            vm.tableData = res.data.data;
+            vm.total = res.data.count;
+          } else if (res.data.code === 10004) {
+            vm.$message.warning(res.data.data);
           } else {
-            // 获取改价列表
-            priceBox({
-              ...vm.form,
-              start_date: vm.form.search_date[0],
-              end_date: vm.form.search_date[1],
-              limit: vm.pagesize,
-              page: vm.currentPage,
-            }).then((res) => {
-              if (res.data.code === 10000 && res.data.data.length > 0) {
-                vm.tableData = res.data.data;
-                vm.total = res.data.count;
-              } else {
-                vm.$message.warning("暂无数据");
-              }
-            });
+            vm.$message.warning("暂无数据");
           }
-        }
-      });
+        });
+      } else {
+        // 获取改价列表
+        priceBox({
+          ...vm.form,
+          start_date: vm.form.search_date[0],
+          end_date: vm.form.search_date[1],
+          limit: vm.pagesize,
+          page: vm.currentPage,
+        }).then((res) => {
+          if (res.data.code === 10000 && res.data.data.length > 0) {
+            vm.tableData = res.data.data;
+            vm.total = res.data.count;
+          } else {
+            vm.$message.warning("暂无数据");
+          }
+        });
+      }
     },
     //分页器功能
     handleSizeChange(val) {

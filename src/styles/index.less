@@ -1,4 +1,5 @@
 @import "reset";
+@baseItemColor: #287BB5;
 .darkmode--activated {
 	.btnnormal_down {
 		background: #303133!important;
@@ -137,6 +138,43 @@
     }
 }
 .el {
+	&-divider {
+		&__text i {
+			color: #606266;
+			font-size: 14px;
+			&:before{
+				margin-right: 10px;
+			}
+		}
+	}
+	&-form {
+		padding: 20px 0 0 0;
+		&-item {
+			margin-bottom: 30px;
+			&__label,
+			&__content {
+				display: inline-block;
+				vertical-align: middle;
+			}
+			&__label {
+				width: 140px;
+			}
+			&__content {
+				width: calc(100% - 140px);
+				.el-date-editor,
+				.el-select {
+					width: 100%;
+				}
+			}
+			&.serchBtn {
+				text-align: center;
+				margin-bottom: 0;
+				.el-button {
+					padding: 15px 40px;
+				}
+			}
+		}
+	}
 	&-drawer {
 		// width: 100%!important;
 		// &__wrapper {
@@ -152,12 +190,20 @@
 		&__header {
 			font-size: 16px;
 			font-weight: bold;
+			padding-left: 0;
+			padding-right: 0;
+			color: @baseItemColor;
 		}
 		&__body {
 	
 		}
 	}
 	&-table {
+		tr {
+			&.current-row {
+				background-color: #e0e4e6;
+			}
+		}
 		th {
 			.cell {
 				text-align: left;
@@ -205,6 +251,7 @@
 			}
 			&-body-wrapper {
 				// top: 67px !important;
+				height: calc(100% - 40px)!important;
 				.el-table__body {
 					padding-bottom: 20px!important;
 				  }
@@ -236,6 +283,10 @@
 				}
 			}
 		}
+		.btn {
+			cursor: pointer;
+			color: @baseItemColor;
+		}
 	}
 	&-input {
 		&-group__append {
@@ -259,12 +310,14 @@
 		margin-bottom: 24px!important;
 	}
 	&-dialog {
+		// padding: 30px 20px;
 		&__title {
-			font-size: 16px;
-			font-weight: bold;
 			position: relative;
 			padding-left: 25px;
 			display: inline-block;
+			font-size: 22px;
+			font-weight: bold;
+			color: @baseItemColor;
 			&:before,
 			&:after {
 				position: absolute;
@@ -287,10 +340,88 @@
 				border-bottom: 8px solid transparent;
 			}
 		}
-		&__body {
+		&__header {
 			padding: 30px;
-			font-size: 12px;
+			font-size: 24px;
 		}
+		&__body {
+			padding: 0 30px 10px 30px;
+			font-size: 12px;
+			.dialogBtn {
+				text-align: right;
+			}
+		}
+		&__footer {
+			padding: 30px;
+		}
+	}
+	&-message-box {
+		padding: 20px;
+		&__header {
+			padding: 15px 30px;
+			&:before,
+			&:after {
+				position: absolute;
+				top: 14px;
+				left: 0;
+				display: block;
+				content: '';
+				width: 0;
+				height: 0;
+				border-top: 13px solid transparent;
+				border-left: 13px solid rgba(255, 0, 0, 0.342);
+				border-bottom: 13px solid transparent;
+			}
+			&:after {
+				top: 17px;
+				left: 6px;
+				z-index: 2;
+				border-top: 10px solid transparent;
+				border-left: 10px solid rgba(255, 102, 0, 1);
+				border-bottom: 10px solid transparent;
+			}
+		}
+		&__content {
+			margin-bottom: 20px;
+		}
+		&__title {
+			font-size: 22px;
+			font-weight: bold;
+			color: @baseItemColor;
+		}
+		&__icon {
+			&:before {
+				color: #e6a23c;
+				font-size: 22px;
+				margin-right: 6px;
+
+			}
+		}
+		&__message {
+			p {
+				font-size: 18px;
+				color: #606266;
+			}
+		}
+		&__btns {
+			margin-bottom: 10px;
+			button {
+				padding: 10px 20px;
+				border: 1px solid @baseItemColor;
+				&.el-button--text {
+					&:hover {
+						background-color: @baseItemColor;
+						color: #fff;
+					}
+				}
+			}
+		}
+
+	}
+	&-row {
+		display: flex;
+		justify-content: space-between;
+		flex-wrap: wrap;
 	}
 }
 

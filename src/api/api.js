@@ -234,48 +234,50 @@ export const ageTemplateUpdata = request({
     method:'post',
     responseType: 'form'
 })
+// 千川---项目--------------------------------------------------------------
 // 项目授权账号下拉  待测
-export const getSQselect = request({
+export const getShop = request({
     url:`${BASEPATH3}/index/get_shop_info/`,
     method:'get',
 })
 // 千川账号下拉   待测
-export const getThousandsOfSichuan = request({
+export const getQianchuan = request({
     url:`${BASEPATH3}/index/get_qc_info/`,
     method:'get',
 })
 // 抖音账号下拉  待测
-export const getTrill = request({
+export const getDouyin = request({
     url:`${BASEPATH3}/index/get_shop_dy_list/`,
     method:'get',
 })
-// 项目创建  待测
-export const projectFound = request({
-    url:`${BASEPATH3}/index/project/add`,
-    method:'post',
-    responseType: 'form'
-})
 // 获取项目列表  待测
-export const projectList = request({
+export const getProjectList = request({
     url:`${BASEPATH3}/index/project/`,
     method:'get',
 })
 // // 获取项目详情
-export const projectEdit = request({
+export const getProjectDetail = request({
     url:`${BASEPATH3}/index/project/`,
     method:'get'
 })
 // 获取项目中的策略详情  待测
-export const Strategies = request({
+export const getStrategies = request({
     url:`${BASEPATH3}/index/project/update`,
     method:'get',
 })
 // 编辑更新项目   待测
-export const StrategiesUpdate = request({
+export const updateItem = request({
     url:`${BASEPATH3}/index/project/update`,
     method:'post',
     responseType: 'form'
 })
+// 项目创建  待测
+export const foundItem = request({
+    url:`${BASEPATH3}/index/project/add`,
+    method:'post',
+    responseType: 'form'
+})
+// ----------------------------------------------------------------
 // 获取项目实时数据 （暂）
 export const readTimeData = request({
     url:`${BASEPATH3}/index/real_time_data/getlist`,

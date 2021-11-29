@@ -3,9 +3,10 @@
   <el-dialog
     title="修改预算"
     :visible.sync="show"
-    max-height="600px"
+    max-height="400px"
+    width="40%"
     @close="closeDialog"
-    custom-class="dialogEdit dialogJb"
+    custom-class="dialogEdit"
     :close-on-click-modal="false"
   >
     <el-table
@@ -17,7 +18,7 @@
     >
       <el-table-column
         type="index"
-        width="100"
+        width="80"
         size="small"
         label="序号"
         align="center"
@@ -43,20 +44,20 @@
       </el-table-column>
     </el-table>
     <span slot="footer" class="dialog-footer">
-            <el-button
-        size="small"
-        type="primary"
-        class="btnnormal marginL"
-        :disabled="this.changelist == '' ? true : false"
-        @click="sendlist"
-        >确定</el-button
-      >
       <el-button
         class="btnnormal btnnormal_down"
         @click="closeDialog"
         size="small"
         type="danger"
         >取消</el-button
+      >
+      <el-button
+        size="small"
+        type="primary"
+        class="btnnormal marginL"
+        :disabled="this.changelist == '' ? true : false"
+        @click="sendlist"
+        >确定</el-button
       >
     </span>
   </el-dialog>
@@ -124,8 +125,13 @@ export default {
       });
     },
     closeDialog() {
-        this.$emit("close");
-    }
+      this.$emit("close");
+    },
   },
 };
 </script>
+<style scoped>
+.detail_body {
+  padding: 0 50px;
+}
+</style>
