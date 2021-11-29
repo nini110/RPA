@@ -38,6 +38,15 @@ export default {
       type: Object,
       default: null,
     },
+    showDrawer: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  watch: {
+    showDrawer(newval, oldval) {
+      this.drawer = newval
+    }
   },
   data() {
     return {

@@ -18,6 +18,7 @@
             </el-form-item>
             <el-form-item class="tophasBtn" label="日期:" prop="search_date">
               <el-date-picker
+               :class="{'tophasBtn_data2': $route.name === 'Charts'}"
                 class="tophasBtn_data"
                 v-model="form.search_date"
                 format="yyyy-MM-dd"
@@ -28,12 +29,22 @@
                 end-placeholder="结束日期"
               >
               </el-date-picker>
-              <el-button
-                type="primary"
-                class="tophasBtn_btn btnnormal"
-                @click="searchEvent"
-                >查询
-              </el-button>
+              <div class="tophasBtn_btn_div">
+                <el-button
+                  type="primary"
+                  class="tophasBtn_btn btnnormal marginL"
+                  @click="searchEvent"
+                  >查询
+                </el-button>
+                <el-button
+                  v-if="$route.name === 'Charts'"
+                  type="primary"
+                  class="tophasBtn_btn btnnormal marginL"
+                  :disabled="openDis"
+                  @click="openEvent"
+                  >OPEN
+                </el-button>
+              </div>
             </el-form-item>
             <el-form-item
               v-if="$route.name !== 'Charts'"
@@ -55,6 +66,7 @@
         <Chart
           v-if="$route.name === 'Charts'"
           :getDataFlag="getDataFlag"
+          :showDrawerFlag="showDrawerFlag"
           @close="chartReset"
           :searchVal="searchVal"
         ></Chart>
@@ -162,7 +174,7 @@
       </div>
     </div>
     <Drawer
-      v-if="showDrawer"
+      :showDrawer="showDrawer"
       :openDrawerInfo="openDrawerInfo"
       @close="closeDrawer"
     ></Drawer>
@@ -170,7 +182,7 @@
 </template>
 <script>
 import { effectBox, priceBox } from "@/api/api";
-import Chart from "./charts.vue";
+import Chart from "./charts2.vue";
 import Drawer from "./drawer.vue";
 export default {
   name: "Effect",
@@ -182,6 +194,8 @@ export default {
     return {
       openDrawerInfo: null,
       showDrawer: false,
+      showDrawerFlag: false,
+      openDis: true,
       getDataFlag: false,
       searchVal: null, // 传给图表组件的查询条件
       pinOptions: [
@@ -293,6 +307,9 @@ export default {
   },
   mounted() {},
   methods: {
+    openEvent() {
+      this.showDrawerFlag = true;
+    },
     // 抽屉详情
     showInfoDarwer(val) {
       const vm = this;
@@ -305,6 +322,8 @@ export default {
     },
     chartReset() {
       this.getDataFlag = false;
+      this.showDrawerFlag = false;
+      this.openDis = false
     },
     // 过滤
     filterTag(value, row, column) {
