@@ -1,7 +1,7 @@
 <template>
 	<div class="formBoard">
 		<div class="tabs">
-			<el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+			<el-tabs v-model="activeName" @tab-click="handleClick">
 				<el-tab-pane label="地域模板" name="first">
 					<region></region>
 				</el-tab-pane>
@@ -51,7 +51,7 @@
 		 .el-tabs {
 			 height: 100%;
 			 &__content {
-		 		height: calc( 100% - 80px)!important;
+		 		height: calc( 100% - 60px)!important;
 				 .el-tab-pane {
 					 height: 100%;
 				 }

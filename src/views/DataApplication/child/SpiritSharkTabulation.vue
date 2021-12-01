@@ -5,62 +5,72 @@
       <div class="form">
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
           <div class="formObj_ipt">
-            <el-form-item label="项目:" prop="SelectItemData">
-              <el-select
-                v-model="SelectItemData"
-                placeholder="请选择项目"
-                size="medium"
-                clearable
-                @change="selectChang"
-              >
-                <el-option
-                  v-for="(item, index) in SelectItem"
-                  :key="index"
-                  :label="item.project_name"
-                  :value="[item.project_name, item.file]"
-                >
-                </el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item class="hasdate" label="数据日期:" prop="timeData">
-              <el-select
-                v-model="selectValue"
-                placeholder="请选择类型"
-                style="width: 130px"
-                size="medium"
-                @change="selectChangT"
-              >
-                <el-option label="日报" value="1"></el-option>
-              </el-select>
-              <el-date-picker
-                v-model="timeData"
-                type="date"
-                style="width: 170px; margin-left: 20px"
-                size="medium"
-                @blur="dateBlur"
-                format="yyyy 年 MM 月 dd 日"
-                value-format="yyyy-MM-dd"
-                placeholder="选择日期"
-              >
-              </el-date-picker>
-            </el-form-item>
-            <el-form-item label="数据状态:">
-              <div class="state stateItem">
-                <i
-                  v-show="dataState === '' || dataState === '参数错误'"
-                  class="info el-icon-minus"
-                ></i>
-                <i v-show="dataState === 1" class="suc el-icon-check"
-                  >数据已准备</i
-                >
-                <i v-show="dataState === 0" class="warn el-icon-loading"
-                  >数据准备中</i
-                >
-                <i v-show="dataState === 2" class="dang el-icon-close"
-                  >数据未准备</i
-                >
-              </div>
-            </el-form-item>
+			  <el-row>
+				  <el-col :span="12">
+					  <el-form-item label="项目:" prop="SelectItemData">
+					    <el-select
+					      v-model="SelectItemData"
+					      placeholder="请选择项目"
+					      size="medium"
+					      clearable
+					      @change="selectChang"
+					    >
+					      <el-option
+					        v-for="(item, index) in SelectItem"
+					        :key="index"
+					        :label="item.project_name"
+					        :value="[item.project_name, item.file]"
+					      >
+					      </el-option>
+					    </el-select>
+					  </el-form-item>
+				  </el-col>
+				  <el-col :span="12">
+					  <el-form-item class="hasdate" label="数据日期:" prop="timeData">
+					    <el-select
+					      v-model="selectValue"
+					      placeholder="请选择类型"
+					      style="width: 130px"
+					      size="medium"
+					      @change="selectChangT"
+					    >
+					      <el-option label="日报" value="1"></el-option>
+					    </el-select>
+					    <el-date-picker
+					      v-model="timeData"
+					      type="date"
+					      style="width: 170px; margin-left: 20px"
+					      size="medium"
+					      @blur="dateBlur"
+					      format="yyyy 年 MM 月 dd 日"
+					      value-format="yyyy-MM-dd"
+					      placeholder="选择日期"
+					    >
+					    </el-date-picker>
+					  </el-form-item>
+				  </el-col>
+				  <el-col :span="24">
+					  <el-form-item label="数据状态:">
+					    <div class="state stateItem">
+					      <i
+					        v-show="dataState === '' || dataState === '参数错误'"
+					        class="info el-icon-minus"
+					      ></i>
+					      <i v-show="dataState === 1" class="suc el-icon-check"
+					        >数据已准备</i
+					      >
+					      <i v-show="dataState === 0" class="warn el-icon-loading"
+					        >数据准备中</i
+					      >
+					      <i v-show="dataState === 2" class="dang el-icon-close"
+					        >数据未准备</i
+					      >
+					    </div>
+					  </el-form-item>
+				  </el-col>
+			  </el-row>
+
+
           </div>
           <div class="formObj_upload">
             <el-form-item label="" v-show="SelectItemData[1]">

@@ -1,7 +1,7 @@
 <template>
 	<div class="strategy" style="height: 100%">
 		<div class="tabs">
-			<el-tabs v-model="activeName" type="border-card" @tab-click="handleClick">
+			<el-tabs v-model="activeName" @tab-click="handleClick">
 				<el-tab-pane label="出价调整" name="first">
 					<PriceAdjustment></PriceAdjustment>
 				</el-tab-pane>
@@ -54,7 +54,7 @@
 		 .el-tabs {
 			 height: 100%;
 			 &__content {
-		 		height: calc( 100% - 80px);
+		 		height: calc( 100% - 60px);
 				 .el-tab-pane {
 					 height: 100%;
 				 }

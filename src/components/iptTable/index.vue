@@ -4,24 +4,34 @@
 			<div class="form">
 				<el-form ref="form" :model="form" class="formObj" :rules="rules">
 					<div class="formObj_ipt">
-						<el-form-item label="账号:" prop="input">
-							<el-input v-model="form.input" size="medium" placeholder="请输入账号" clearable></el-input>
-						</el-form-item>
-						<el-form-item label="密码:" prop="pass">
-							<el-input v-model="form.pass" size="medium" placeholder="请输入密码" clearable></el-input>
-						</el-form-item>
-						<!-- 只有京准通里有类型选择 -->
-						<el-form-item v-if="$route.fullPath.indexOf('beijingMustPass') !== -1" label="类型:"
-							prop="choose">
-							<el-select v-model="form.choose" placeholder="请选择类型">
-								<el-option v-for="item in options" :key="item.value" :label="item.label"
-									:value="item.value">
-								</el-option>
-							</el-select>
-						</el-form-item>
-						<el-form-item label="备注内容:">
-							<el-input v-model="form.pin" size="medium" placeholder="请输入备注内容" clearable></el-input>
-						</el-form-item>
+						<el-row>
+							<el-col :span="12">
+								<el-form-item label="账号:" prop="input">
+									<el-input v-model="form.input" size="medium" placeholder="请输入账号" clearable></el-input>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12">
+								<el-form-item label="密码:" prop="pass">
+									<el-input v-model="form.pass" size="medium" placeholder="请输入密码" clearable></el-input>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12" v-if="$route.fullPath.indexOf('beijingMustPass') !== -1">
+								<!-- 只有京准通里有类型选择 -->
+								<el-form-item label="类型:"
+									prop="choose">
+									<el-select v-model="form.choose" placeholder="请选择类型">
+										<el-option v-for="item in options" :key="item.value" :label="item.label"
+											:value="item.value">
+										</el-option>
+									</el-select>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12">
+								<el-form-item label="备注内容:">
+									<el-input v-model="form.pin" size="medium" placeholder="请输入备注内容" clearable></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
 					</div>
 					<div class="formObj_upload">
 						<el-form-item label="">

@@ -23,7 +23,7 @@ export default {
 
 <style lang="less">
   .DataApplication {
-    padding-top: 80px;
+    padding-top: 60px;
     height: 100%;
     box-sizing: border-box;
   }

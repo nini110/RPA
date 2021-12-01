@@ -524,6 +524,7 @@ export default {
   height: 210px;
   left: 200px !important;
   .el-drawer {
+	  width: 100%!important;
     height: 100% !important;
     padding-bottom: 0;
     &__close-btn {
