@@ -14964,7 +14964,7 @@ export let county = [{
 }]
 // 73843: function(e) {
 // 按照省市 - 地理划分
- export let city = [{
+export let city = [{
 	id: 11,
 	name: "北京",
 	level: 1
@@ -16576,4 +16576,3 @@ export let county = [{
 	name: "澳门",
 	level: 1
 }]
- 

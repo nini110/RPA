@@ -14,7 +14,7 @@
 	</div>
 </template>
 <script>
-	import PriceAdjustment from './child/price.vue'
+	import PriceAdjustment from './child/outer.vue'
 	export default {
 		name: 'Strategy',
 		data() {

@@ -115,5 +115,57 @@ export default {
 	],
 	tablist_modules: {
 
-	}
+	},
+	ageOptions: [{
+			value: 0,
+			lable: "不限",
+		},
+		{
+			value: 1,
+			lable: "18-23",
+		},
+		{
+			value: 2,
+			lable: "24-30",
+		},
+		{
+			value: 3,
+			lable: "31-40",
+		},
+		{
+			value: 4,
+			lable: "41-49",
+		},
+		{
+			value: 5,
+			lable: "50+",
+		},
+	],
+	moduleOptions: [{
+			prop: 'name',
+			label: "模板名称",
+			width: 200
+		},
+		{
+			prop: 'total_satisfy_count',
+			label: "累计执行次数",
+			width: 120
+		},
+		{
+			prop: 'total_project_count',
+			label: "累计项目数",
+			width: 120
+		},
+		{
+			prop: 'total_plan_count',
+			label: "累计计划数",
+			width: 120
+		},
+		{
+			prop: 'username',
+			label: "创建人",
+			width: 120
+		}
+	],
+	
 }

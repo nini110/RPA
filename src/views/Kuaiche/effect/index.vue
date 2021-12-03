@@ -215,10 +215,10 @@
 					const vm = this;
 					vm.getDataFlag = false;
 					vm.form = {
-						pin: "方太灵狐广告代理",
-						search_date: ['2021-12-1', '2021-12-1'],
+						pin: "",
+						search_date: [],
 						sort_word: "",
-						search_keyword: "油烟机",
+						search_keyword: "",
 					};
 					vm.total = null;
 					vm.tableData = [];

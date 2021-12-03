@@ -236,7 +236,7 @@
 			},
 			activeName(newval, oldval) {
 				const vm = this;
-				vm.options2 = JSON.parse(JSON.stringify(vm.options))
+				// vm.options2 = JSON.parse(JSON.stringify(vm.options))
 				vm.$nextTick(() => {
 					switch (newval) {
 						case "1":
@@ -268,6 +268,15 @@
 							vm.options.series[1].data = vm.outerData.转化率变化数量;
 							break;
 					}
+					vm.options2 = JSON.parse(JSON.stringify(vm.options))
+					vm.options2.series[0].itemStyle = {
+								normal: {
+									color: function(colors) {
+										var colorList = ["#f56c6c", "#5FC82B", "#FFC851"];
+										return colorList[colors.dataIndex];
+									},
+								},
+							}
 					let currentOp = [vm.options, vm.options2]
 					currentOp.forEach((item, idx) => {
 						let mingzhong = (

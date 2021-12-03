@@ -86,7 +86,6 @@
 	import message from "@/mixin/message";
 	import opt from '../../option.js'
 	import DialogPrice from './dialog_price.vue'
-
 	import DialogBudge from './dialog_budge.vue'
 	import DialogPlan from './dialog_plan.vue'
 	export default {
