@@ -30,7 +30,7 @@
 		}
 		&__fixed {
 			height:auto !important; 
-			bottom:17px !important;
+			bottom:15px !important;
 			&:before {
 				display: none;
 			}
@@ -139,6 +139,9 @@
 }
 .el {
 	&-toolTip {
+		&:focus {
+			display: none;
+		}
 		&-key {
 			p {
 				font-size: 12px!important;
@@ -148,18 +151,19 @@
 	}
 	&-divider {
 		// margin-top: 0;
-		&__text i {
-			color: #606266;
-			font-size: 14px;
-			&:before{
-				margin-right: 10px;
+		&__text {
+			color: #909399;
+			i {
+				font-size: 14px;
+				&:before{
+					margin-right: 10px;
+				}
 			}
 		}
 	}
 	&-form {
-		padding: 20px 0 0 0;
 		&-item {
-			margin-bottom: 30px;
+			margin-bottom: 22px;
 			&__label,
 			&__content {
 				display: inline-block;
@@ -244,13 +248,13 @@
 		}
 		&__fixed {
 			height:auto !important; 
-			bottom:18px !important;
+			bottom:15px !important;
 			&:before {
 				display: none;
 			}
 			&-right {
 				height:auto !important;
-				bottom:17px !important;
+				bottom:15px !important;
 				padding-right: 20px;
 				// right: 20px;
 				&:before {
@@ -317,16 +321,13 @@
 			}
 		}
 	}
-	&-form-item {
-		margin-bottom: 24px!important;
-	}
 	&-dialog {
 		// padding: 30px 20px;
 		&__title {
 			position: relative;
 			padding-left: 25px;
 			display: inline-block;
-			font-size: 22px;
+			font-size: 18px;
 			font-weight: bold;
 			color: @baseItemColor;
 			&:before,
@@ -356,14 +357,14 @@
 			font-size: 24px;
 		}
 		&__body {
-			padding: 0 30px 10px 30px;
+			padding: 0 30px 0 30px;
 			font-size: 12px;
 			.dialogBtn {
 				text-align: right;
 			}
 		}
 		&__footer {
-			padding: 30px;
+			padding: 0 30px 30px 30px;
 		}
 	}
 	&-message-box {

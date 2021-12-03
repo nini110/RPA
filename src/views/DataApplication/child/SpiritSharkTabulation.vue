@@ -1,6 +1,6 @@
 <template>
   <!-- 灵鲨制表 -->
-  <div class="spiritSharkTabulation outerDiv">
+  <div class="outerDiv">
     <div class="content">
       <div class="form">
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
@@ -525,5 +525,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "../../index";
+@import "@/views/index";
 </style>

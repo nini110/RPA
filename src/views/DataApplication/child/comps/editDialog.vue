@@ -9,20 +9,6 @@
   >
     <el-form class="formObj">
       <div class="formObj_ipt">
-        <el-form-item
-          v-if="editNum === 1"
-          label="添加人员:"
-          prop="input"
-          class="lw"
-        >
-          <el-input
-            class="inline-input"
-            v-model="cSubcategoryNo"
-            placeholder="请输入上传人员姓名或关键字"
-            @input="searchPeople"
-            clearable
-          ></el-input>
-        </el-form-item>
         <el-collapse-transition>
           <el-form-item v-if="peopleOptions.length > 0" label="" class="tagBox">
             <el-scrollbar style="height: 100%">

@@ -1,6 +1,5 @@
 export default {
-	tablist_items: [
-		{
+	tablist_items: [{
 			label: '账号类型',
 			prop: 'zh_type',
 			width: 220
@@ -46,10 +45,75 @@ export default {
 			width: 220
 		},
 	],
-	tablist_strategy: {
-		
-	},
+	tablist_strategy: [{
+			prop: 'name',
+			label: '策略名称',
+			width: '200'
+		},
+		{
+			prop: 'total_satisfy_count',
+			label: '累计撞线数',
+			width: '200'
+		},
+		{
+			prop: 'total_project_count',
+			label: '累计项目数',
+			width: '200'
+		},
+		{
+			prop: 'total_plan_count',
+			label: '累计计划数',
+			width: '200'
+		},
+		{
+			prop: 'username',
+			label: '创建人',
+			width: '200'
+		},
+	],
+	dataOptions1: [{
+			value: 1,
+			label: "消耗差值比",
+		},
+		{
+			value: 2,
+			label: "展示量差值比",
+		},
+		{
+			value: 3,
+			label: "点击量差值比",
+		},
+		{
+			value: 4,
+			label: "转化差值比",
+		},
+		{
+			value: 5,
+			label: "成交订单量差值比",
+		},
+		{
+			value: 6,
+			label: "成交金额差值比",
+		},
+		{
+			value: 7,
+			label: "下单订单差值比",
+		},
+		{
+			value: 8,
+			label: "下单金额差值比",
+		},
+	],
+	dataOptions2: [{
+			value: 1,
+			label: "OR",
+		},
+		{
+			value: 2,
+			label: "AND",
+		},
+	],
 	tablist_modules: {
-		
+
 	}
 }

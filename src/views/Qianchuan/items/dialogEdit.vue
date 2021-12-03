@@ -1,128 +1,105 @@
 <template>
-	<el-dialog
-	  :title="dialogWord"
-	  :visible.sync="showFlag"
-	  width="40%"
-	  :close-on-click-modal="false"
-	  @close="closeEvent"
-	  >
-			<el-form ref="dialogForm" :model="form" :rules="rules">
-				<el-row>
-				  <el-col :span="24">
-					  <el-form-item label="项目名称:" prop="project_name">
-							<el-input v-model="form.project_name" placeholder="请输入项目名称" clearable></el-input>
-					  </el-form-item>
-				  </el-col>
-				  <el-col :span="24">
-					  <el-form-item label="账号类型:" prop="type">
-							<el-radio v-model="form.type" label="1">店铺</el-radio>
-							<el-radio v-model="form.type" label="2">代理商</el-radio>
-					  </el-form-item>	
-				  </el-col>				  
-				  <el-col :span="24">
-					  <el-form-item label="授权账号:" prop="shop_id">
-					  	  <el-select v-model="form.shop_id" @change="shopChangeEvent" placeholder="请选择授权账号">
-					  	    <el-option
-					  	      v-for="(item, idx) in shopOptions"
-					  	      :key="item.advertiser_id"
-					  	      :label="item.advertiser_name"
-					  	      :value="item.advertiser_id">
-					  	    </el-option>
-					  	  </el-select>
-					  </el-form-item>
-				  </el-col>	
-				  <el-col :span="24">
-					  <el-form-item label="千川账号:" prop="quanchuan_id">
-					  	  <el-select v-model="form.quanchuan_id" @change="qcChangeEvent" placeholder="请选择千川账号">
-					  	    <el-option
-					  	      v-for="item in quanchuanOptions"
-					  	      :key="item.id"
-					  	      :label="item.name"
-					  	      :value="item.id">
-					  	    </el-option>
-					  	  </el-select>
-					  </el-form-item>
-				  </el-col>	
-				  <el-col :span="24">
-					  <el-form-item label="抖音账号:" prop="douyin_id">
-					  	  <el-select v-model="form.douyin_id" @change="dyChangeEvent" placeholder="请选择抖音账号">
-					  	    <el-option
-					  	      v-for="item in douyinOptions"
-					  	      :key="item.aweme_id"
-					  	      :label="item.aweme_name"
-					  	      :value="item.aweme_id">
-					  	    </el-option>
-					  	  </el-select>
-					  </el-form-item>
-				  </el-col>														  
-				  <el-col :span="24">
-					  <el-form-item label="投放时间:" prop="timeData">
-					  	<el-date-picker
-					  	    v-model="timeData"
-					  	    type="datetimerange"
-							format="yyyy-MM-dd HH:mm:ss"
-							value-format="yyyy-MM-dd HH:mm:ss"
-					  	    range-separator="至"
-					  	    start-placeholder="开始日期"
-					  	    end-placeholder="结束日期">
-					  	</el-date-picker>
-					  </el-form-item>	
-				  </el-col>	
-				  <el-col :span="24">
-					  <el-form-item label="数据获取间隔:" prop="date">
-							5分钟
-					  </el-form-item>	
-				  </el-col>	
-				  <el-col :span="24">
-					  <el-form-item label="绑定策略:" prop="strategy">
-							<el-tabs v-model="activeName" @tab-click="tabEvent">
-							    <el-tab-pane label="出价调整" name="first">
-									<el-select v-model="form.bid_id" placeholder="请选择绑定策略">
-										<el-option
-											v-for="(item, index) in cjOpt"
-											:key="index"
-											:label="item.name" :value="item.id"></el-option>
-									</el-select>
-								</el-tab-pane>
-							    <el-tab-pane label="预算调整" name="second">
-									<el-select v-model="form.budget_id" placeholder="请选择绑定策略">
-										<el-option
-											v-for="(item, index) in ysOpt"
-											:key="index"
-											:label="item.name" :value="item.id"></el-option>
-									</el-select>									
-								</el-tab-pane>
-							    <el-tab-pane label="计划复制" name="third">
-									<el-select v-model="form.plan_id" placeholder="请选择绑定策略">
-										<el-option
-											v-for="(item, index) in jhOpt"
-											:key="index"
-											:label="item.name" :value="item.id"></el-option>
-									</el-select>									
-								</el-tab-pane>
-							</el-tabs>
-					  </el-form-item>	
-				  </el-col>																			
-				  <el-col :span="24">
-					  <el-form-item class="dialogBtn">
-						<el-button
-							type="primary" plain
-							plain
-							@click="closeEvent"
-						>取消</el-button>
-						<el-button
-							type="primary"
-							@click="updateEvent"
-						>{{btnWord}}</el-button>
-					  </el-form-item>
-				  </el-col>				  
-				</el-row>
-			</el-form>
+	<el-dialog :title="dialogWord" :visible.sync="showFlag" width="40%" :close-on-click-modal="false"
+		@close="closeEvent">
+		<el-form ref="dialogForm" :model="form" :rules="rules">
+			<el-row>
+				<el-col :span="24">
+					<el-form-item label="项目名称:" prop="project_name">
+						<el-input v-model="form.project_name" placeholder="请输入项目名称" clearable></el-input>
+					</el-form-item>
+				</el-col>
+				<el-col :span="24">
+					<el-form-item label="账号类型:" prop="type">
+						<el-radio v-model="form.type" label="1">店铺</el-radio>
+						<el-radio v-model="form.type" label="2">代理商</el-radio>
+					</el-form-item>
+				</el-col>
+				<el-col :span="24">
+					<el-form-item label="授权账号:" prop="shop_id">
+						<el-select v-model="form.shop_id" @change="shopChangeEvent" placeholder="请选择授权账号">
+							<el-option v-for="(item, idx) in shopOptions" :key="item.advertiser_id"
+								:label="item.advertiser_name" :value="item.advertiser_id">
+							</el-option>
+						</el-select>
+					</el-form-item>
+				</el-col>
+				<el-col :span="24">
+					<el-form-item label="千川账号:" prop="quanchuan_id">
+						<el-select v-model="form.quanchuan_id" @change="qcChangeEvent" placeholder="请选择千川账号">
+							<el-option v-for="item in quanchuanOptions" :key="item.id" :label="item.name"
+								:value="item.id">
+							</el-option>
+						</el-select>
+					</el-form-item>
+				</el-col>
+				<el-col :span="24">
+					<el-form-item label="抖音账号:" prop="douyin_id">
+						<el-select v-model="form.douyin_id" @change="dyChangeEvent" placeholder="请选择抖音账号">
+					 	<el-option v-for="item in douyinOptions" :key="item.aweme_id" :label="item.aweme_name"
+								:value="item.aweme_id">
+							</el-option>
+						</el-select>
+					</el-form-item>
+				</el-col>
+				<el-col :span="24">
+					<el-form-item label="投放时间:" prop="timeData">
+						<el-date-picker v-model="timeData" type="datetimerange" format="yyyy-MM-dd HH:mm:ss"
+							value-format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="开始日期"
+							end-placeholder="结束日期">
+						</el-date-picker>
+					</el-form-item>
+				</el-col>
+				<el-col :span="24">
+					<el-form-item label="数据获取间隔:" prop="date">
+						5分钟
+					</el-form-item>
+				</el-col>
+				<el-col :span="24">
+					<el-form-item label="绑定策略:" prop="strategy">
+						<el-tabs v-model="activeName" @tab-click="tabEvent">
+							<el-tab-pane label="出价调整" name="first">
+								<el-select v-model="form.bid_id" placeholder="请选择绑定策略">
+									<el-option v-for="(item, index) in cjOpt" :key="index" :label="item.name"
+										:value="item.id"></el-option>
+								</el-select>
+							</el-tab-pane>
+							<el-tab-pane label="预算调整" name="second">
+								<el-select v-model="form.budget_id" placeholder="请选择绑定策略">
+									<el-option v-for="(item, index) in ysOpt" :key="index" :label="item.name"
+										:value="item.id"></el-option>
+								</el-select>
+							</el-tab-pane>
+							<el-tab-pane label="计划复制" name="third">
+								<el-select v-model="form.plan_id" placeholder="请选择绑定策略">
+									<el-option v-for="(item, index) in jhOpt" :key="index" :label="item.name"
+										:value="item.id"></el-option>
+								</el-select>
+							</el-tab-pane>
+						</el-tabs>
+					</el-form-item>
+				</el-col>
+			</el-row>
+		</el-form>
+		<span slot="footer" class="dialog-footer">
+						<el-button type="primary" plain @click="closeEvent">取消</el-button>
+						<el-button type="primary" @click="updateEvent">{{btnWord}}</el-button>
+		</span>
 	</el-dialog>
 </template>
 
 <script>
-	import { getProjectDetail, getShop, getQianchuan, getDouyin, getStrategies, foundItem, updateItem, strategyList, budgetStrategyList, planStrategyList } from '@/api/api';
+	import {
+		getProjectDetail,
+		getShop,
+		getQianchuan,
+		getDouyin,
+		getStrategies,
+		foundItem,
+		updateItem,
+		strategyList,
+		budgetStrategyList,
+		planStrategyList
+	} from '@/api/api';
 	export default {
 		name: 'DialogEdit',
 		props: {
@@ -141,18 +118,38 @@
 				dialogWord: '',
 				activeName: 'first',
 				rules: {
-					project_name: [{required: true, message: '请输入项目名称', trigger: 'blur'}],
-					type: [{required: true, message: '请选择账号类型', trigger: 'blur'}],
-					shop_id: [{required: true, message: '请选择授权账号', trigger: 'blur'}],
-					quanchuan_id: [{required: true, message: '请选择千川账号', trigger: 'blur'}],
-					douyin_id: [{required: true, message: '请选择抖音账号', trigger: 'blur'}],
+					project_name: [{
+						required: true,
+						message: '请输入项目名称',
+						trigger: 'blur'
+					}],
+					type: [{
+						required: true,
+						message: '请选择账号类型',
+						trigger: 'blur'
+					}],
+					shop_id: [{
+						required: true,
+						message: '请选择授权账号',
+						trigger: 'blur'
+					}],
+					quanchuan_id: [{
+						required: true,
+						message: '请选择千川账号',
+						trigger: 'blur'
+					}],
+					douyin_id: [{
+						required: true,
+						message: '请选择抖音账号',
+						trigger: 'blur'
+					}],
 					// timeData: [{required: true, message: '请选择投放时间', trigger: 'blur'}],
 				},
 				showFlag: true,
 				timeData: [], // 投放时间
 				form: {
 					founder: '',
-					project_name: '',// 项目名称
+					project_name: '', // 项目名称
 					type: '1', // 账号类型
 					shop_id: '', // 授权账号
 					shop_name: '',
@@ -190,7 +187,7 @@
 			}
 		},
 		watch: {
-			shop_id:{
+			shop_id: {
 				handler(newval, oldval) {
 					for (let j of this.shopOptions) {
 						if (newval == j.advertiser_id) {
@@ -202,7 +199,7 @@
 				immediate: true,
 				deep: true
 			},
-			quanchuan_id:{
+			quanchuan_id: {
 				handler(newval, oldval) {
 					for (let j of this.quanchuanOptions) {
 						if (newval == j.id) {
@@ -214,7 +211,7 @@
 				immediate: true,
 				deep: true
 			},
-			douyin_id:{
+			douyin_id: {
 				handler(newval, oldval) {
 					for (let j of this.douyinOptions) {
 						if (newval == j.aweme_id) {
@@ -225,8 +222,8 @@
 				},
 				immediate: true,
 				deep: true
-			},						
-		},		
+			},
+		},
 		created() {
 			const vm = this;
 			vm.btnWord = vm.dailogFlag === 1 ? '新增' : '更新';
@@ -260,7 +257,7 @@
 					vm.form.strategy_id = vm.submitData.strategy_id;
 					vm.shopNum = vm.submitData.num;
 					vm.form.shop_id = parseFloat(vm.submitData.shop_id);
-					vm.form.shop_name =vm.submitData.shop_name
+					vm.form.shop_name = vm.submitData.shop_name
 					vm.form.quanchuan_id = parseFloat(vm.submitData.quanchuan_id);
 					vm.form.quanchuan_name = vm.submitData.quanchuan_name
 					vm.form.douyin_id = parseFloat(vm.submitData.douyin_id);
@@ -280,7 +277,7 @@
 			},
 			// 新增|| 更新项目
 			updateEvent() {
-				const vm= this;
+				const vm = this;
 				let data = {
 					...vm.form,
 					cast_start_time: vm.timeData[0],
@@ -290,7 +287,7 @@
 					zh_type: vm.form.type === '1' ? '店铺' : '代理商',
 				}
 				vm.$refs.dialogForm.validate(valid => {
-					if(valid) {
+					if (valid) {
 						if (vm.dailogFlag === 1) {
 							// 新建
 							console.log('新建', data)
@@ -308,6 +305,7 @@
 							console.log('更新', data)
 							updateItem(data).then(res => {
 								if (res.data.code === 200) {
+									vm.$message.success('更新成功');
 									vm.closeEvent()
 								} else if (res.data.code === 1) {
 									vm.$message.error(res.data.msg);
@@ -367,10 +365,12 @@
 			// 获取授权账户下拉
 			shopOPEvent() {
 				const vm = this;
-				getShop({'': ''}).then(res => {
+				getShop({
+					'': ''
+				}).then(res => {
 					let arr = [];
 					let result = res.data.data
-					for(let j in result) {
+					for (let j in result) {
 						result[j].map((item) => {
 							return vm.$set(item, 'num', j)
 						})
@@ -384,7 +384,7 @@
 					}
 				})
 			},
- 			// 千川下拉
+			// 千川下拉
 			qcOPEvent(data) {
 				const vm = this;
 				getQianchuan(data).then(res => {

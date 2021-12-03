@@ -3,22 +3,18 @@
 		<div class="tabs">
 			<el-tabs v-model="activeName" @tab-click="handleClick">
 				<el-tab-pane label="出价调整" name="first">
-					<PriceAdjustment></PriceAdjustment>
 				</el-tab-pane>
 				<el-tab-pane label="预算调整" name="second">
-					<budgetAdjustment></budgetAdjustment>
 				</el-tab-pane>
 				<el-tab-pane label="计划复制" name="third">
-					<plantocopy></plantocopy>
 				</el-tab-pane>
 			</el-tabs>
+			<PriceAdjustment :activeTab="activeName"></PriceAdjustment>
 		</div>
 	</div>
 </template>
 <script>
-	import plantocopy from './child/plan.vue'
 	import PriceAdjustment from './child/price.vue'
-	import budgetAdjustment from './child/budge.vue'
 	export default {
 		name: 'Strategy',
 		data() {
@@ -27,9 +23,7 @@
 			}
 		},
 		components:{
-			PriceAdjustment,
-			plantocopy,
-			budgetAdjustment
+			PriceAdjustment
 		},
 		methods: {
 			handleClick(tab, event) {
@@ -50,16 +44,6 @@
 		 height: 100%;
 		 box-sizing: border-box;
 		 padding: 110px 120px 20px 120px;
-		 // background-color: #fff;
-		 .el-tabs {
-			 height: 100%;
-			 &__content {
-		 		height: calc( 100% - 60px);
-				 .el-tab-pane {
-					 height: 100%;
-				 }
-			 }
-		 }
 	 }
  }
 </style>

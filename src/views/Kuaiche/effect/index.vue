@@ -3,11 +3,11 @@
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" class="formObj" :rules="rules">
-					<div class="formObj_ipt ts">
+					<div class="formObj_ipt">
 						<el-row>
 							<el-col :span="12">
 								<el-form-item label="PIN:" prop="pin">
-									<el-select v-model="form.pin" placeholder="请选择">
+									<el-select v-model="form.pin" placeholder="请选择" clearable>
 										<el-option v-for="item in pinOptions" :key="item.label" :label="item.label"
 											:value="item.label" clearable>
 										</el-option>
@@ -60,15 +60,8 @@
 							<el-table-column prop="keyword" label="关键词" min-width="180" fixed="left"
 								show-overflow-tooltip>
 								<template slot-scope="scope">
-									    <el-tooltip class="item" effect="dark" placement="bottom" popper-class="el-toolTip-key">
-										  <div slot="content">
-											  <p><span>单元名称：</span>{{scope.row.unit_name}}</p>
-											  <p><span>计划名称：</span>{{scope.row.plan_name}}</p>
-										  </div>
-									      <span class="temInfoSpan"
-									      	@click="showInfoDarwer(scope.row)">{{ scope.row.keyword}}</span>
-									    </el-tooltip>
-
+									<span class="temInfoSpan"
+										@click="showInfoDarwer(scope.row)">{{ scope.row.keyword}}</span>
 								</template>
 							</el-table-column>
 							<el-table-column label="操作" width="150" fixed="left">
@@ -76,12 +69,6 @@
 									<el-button class="el-icon-edit" type="text">调价</el-button>
 								</template>
 							</el-table-column>
-<!-- 							<el-table-column prop="unit_name" label="单元" show-overflow-tooltip min-width="180"
-								fixed="left">
-							</el-table-column>
-							<el-table-column prop="plan_name" label="计划" show-overflow-tooltip min-width="180"
-								fixed="left">
-							</el-table-column> -->
 							<el-table-column v-for="(item, idx) in topMenuList" :key="idx" :prop="item.prop"
 								:column-key="item.prop" :label="item.label" :width="item.width"
 								:sortable="item.sortable" :align="item.align"
@@ -229,9 +216,9 @@
 					vm.getDataFlag = false;
 					vm.form = {
 						pin: "方太灵狐广告代理",
-						search_date: ['2021-11-13', '2021-11-15'],
+						search_date: ['2021-12-1', '2021-12-1'],
 						sort_word: "",
-						search_keyword: "方太",
+						search_keyword: "油烟机",
 					};
 					vm.total = null;
 					vm.tableData = [];
@@ -334,6 +321,7 @@
 		cursor: pointer;
 		color: #287bb5;
 	}
+
 	.el-divider {
 		margin-top: 0;
 	}
