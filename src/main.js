@@ -34,7 +34,7 @@ const options = {
 	// label: '切换主题', // default: ''
 	autoMatchOsTheme: true // default: true
 }
-const darkmode = new Darkmode(options);
+// const darkmode = new Darkmode(options);
 // darkmode.showWidget();
 
 Vue.prototype.check = check

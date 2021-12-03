@@ -226,8 +226,8 @@
 		},
 		created() {
 			const vm = this;
-			vm.btnWord = vm.dailogFlag === 1 ? '新增' : '更新';
-			vm.dialogWord = vm.dailogFlag === 1 ? '新增项目' : '更新项目';
+			vm.btnWord = vm.dailogFlag === 1 ? '保存' : '更新';
+			vm.dialogWord = vm.dailogFlag === 1 ? '新增项目' : '编辑项目';
 			vm.form.founder = localStorage.getItem("user_name");
 			vm.shopOPEvent();
 			vm.tabEvent();
