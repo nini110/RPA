@@ -305,6 +305,6 @@ export const effectCharts = request({
 })
 // 预算预警
 export const alarmSetting = request({
-    url:`${BASEPATH2}/apps/set_monitoring`,
+    url:`${BASEPATH}/apps/set_monitoring/`,
     method:'post',
 })
