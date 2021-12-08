@@ -1,6 +1,9 @@
-export const validPin = (rule, value, callback, current) => {
-	return callback()
-}
-export const validPercent = (rule, value, callback, current, dsd, dd, yyu) => {
-	return callback()
+export const validPercent = (zhi, outerIdx, innerIdx, rule, value, callback) => {
+	let iptVale = zhi.boxData[outerIdx].children[innerIdx].model
+	let iptPlaceHolder = zhi.boxData[outerIdx].children[innerIdx].placeholder
+	if(iptVale) {
+		return callback()
+	} else {
+		return callback(new Error(iptPlaceHolder))
+	}
 }

@@ -1,14 +1,14 @@
 <template>
 	<div class="outerDiv">
-		<div class="content">
+		<div>
 			<div class="form">
-				<el-form ref="form">
+				<el-form ref="form" :model="form">
 					<div v-for="(itemSum, idxSum) in boxData" :key="idxSum">
 						<el-divider>{{itemSum.txt}}</el-divider>
 						<el-row>
 							<el-col v-for="(item, idx) in itemSum.children" :key="idx" :span="8">
 								<el-form-item v-if="item.type==='select'" :label="item.label" :prop="item.prop"
-									>
+									:rules="item.rules">
 									<el-select v-model="item.model" :placeholder="item.placeholder" size="medium"
 										:disabled="item.disabled" clearable>
 										<el-option v-for="val in item.options" :key="val.code" :label="val.name"
@@ -17,7 +17,7 @@
 									</el-select>
 								</el-form-item>
 								<el-form-item v-if="item.type==='input'" :label="item.label" :prop="item.prop"
-									>
+									:rules="item.rules">
 									<el-input v-model.trim="item.model" size="medium" :placeholder="item.placeholder"
 										clearable :disabled="item.disabled" clearable></el-input>
 								</el-form-item>
@@ -26,6 +26,7 @@
 					</div>
 				</el-form>
 				<div style="text-align: right">
+					<el-button class="btnnormal btnnormal_down marginR" type="plain" @click="resetEvent">重置</el-button>
 					<el-button class="btnnormal marginR" type="primary" disabled>修改</el-button>
 					<el-button class="btnnormal" type="primary" @click="submitEvent">执行</el-button>
 				</div>
@@ -46,7 +47,9 @@
 		name: 'ALarm',
 		data() {
 			return {
-				aaa: 14,
+				form: {
+					
+				},
 				boxData: [{
 						txt: '盯盘维度',
 						children: [{
@@ -61,9 +64,7 @@
 								}],
 								rules: {
 									required: true,
-									validator: validPin.bind(
-										this.model
-									),
+									validator: validPercent.bind(this, this, 0, 0),
 									trigger: 'change'
 								},
 								disabled: false
@@ -74,11 +75,11 @@
 								prop: 'user_password',
 								label: '密码',
 								placeholder: '请输入密码',
-								rules: {
-									required: true,
-									message: '请输入密码',
-									trigger: 'blur'
-								},
+								// rules: {
+								// 	required: true,
+								// 	validator: validPercent.bind(this, this, 0, 1),
+								// 	trigger: 'blur'
+								// },
 								disabled: true
 							},
 							{
@@ -89,8 +90,8 @@
 								placeholder: '请选择产品线',
 								rules: {
 									required: true,
-									message: '请选择产品线',
-									trigger: 'blur'
+									validator: validPercent.bind(this, this, 0, 2),
+									trigger: 'change'
 								},
 								options: [{
 										name: '快车',
@@ -110,8 +111,8 @@
 								label: '推广计划',
 								rules: {
 									required: true,
-									message: '请选择推广计划',
-									trigger: 'blur'
+									validator: validPercent.bind(this, this, 0, 3),
+									trigger: 'change'
 								},
 								placeholder: '请选择推广计划',
 								options: [{
@@ -129,6 +130,11 @@
 								prop: 'data',
 								label: '时间',
 								placeholder: '请选择时间',
+								// rules: {
+								// 	required: true,
+								// 	validator: validPercent.bind(this, this, 1, 0),
+								// 	trigger: 'change'
+								// },
 								options: [],
 								disabled: true
 							},
@@ -138,6 +144,11 @@
 								prop: 'zhibiaoTYpe',
 								label: '指标类型',
 								placeholder: '请输入指标类型',
+								// rules: {
+								// 	required: true,
+								// 	validator: validPercent.bind(this, this, 1, 1),
+								// 	trigger: 'change'
+								// },
 								disabled: true
 							},
 							{
@@ -146,6 +157,11 @@
 								prop: 'rule',
 								label: '规则',
 								placeholder: '请选择规则',
+								// rules: {
+								// 	required: true,
+								// 	validator: validPercent.bind(this, this, 1, 2),
+								// 	trigger: 'change'
+								// },
 								options: [],
 								disabled: true
 							},
@@ -155,6 +171,11 @@
 								prop: 'duibizhibiao',
 								label: '对比指标',
 								placeholder: '请选择对比指标',
+								// rules: {
+								// 	required: true,
+								// 	validator: validPercent.bind(this, this, 1, 3),
+								// 	trigger: 'change'
+								// },
 								options: [],
 								disabled: true
 							},
@@ -166,7 +187,7 @@
 								placeholder: '请输入阈值(0-100的整数)',
 								rules: {
 									required: true,
-									validator: validPercent.bind(this.aaa),
+									validator: validPercent.bind(this, this, 1, 4),
 									trigger: 'blur'
 								},
 								disabled: false
@@ -183,8 +204,8 @@
 								placeholder: '请选择操作类型',
 								rules: {
 									required: true,
-									message: '请选择操作类型',
-									trigger: 'blur'
+									validator: validPercent.bind(this, this, 2, 0),
+									trigger: 'change'
 								},
 								options: [{
 									name: '企业微信发送通知',
@@ -200,7 +221,7 @@
 								placeholder: '请输入企业微信ID',
 								rules: {
 									required: true,
-									message: '请输入企业微信ID',
+									validator: validPercent.bind(this, this, 2, 1),
 									trigger: 'blur'
 								},
 								disabled: false
@@ -245,18 +266,8 @@
 						vm.$set(data, j.prop, j.prop === 'target_percentage' ? j.model / 100 : j.model)
 					}
 				}
-				console.log(data)
-				// vm.$refs.form.validate((valid) => {
-				// 	if (valid) {
-				// 		alarmSetting(data).then(res => {
-				// 			if (res.data.code === 10000) {
-				// 				vm.$message.success("预警生成成功");
-				// 			} else {
-				// 				vm.$message.error(res.data.msg);
-				// 			}
-				// 		})
-				// 	}
-				// })
+				vm.$refs.form.validate((valid) => {
+					if (valid) {
 						alarmSetting(data).then(res => {
 							if (res.data.code === 10000) {
 								vm.$message.success("预警生成成功");
@@ -264,7 +275,17 @@
 								vm.$message.error(res.data.msg);
 							}
 						})
-
+					}
+				})
+			},
+			resetEvent() {
+				const vm = this;
+				for (let i of vm.boxData) {
+					for (let j of i.children) {
+						vm.$set(j, 'model', '')
+					}
+				}
+				vm.$refs.form.resetFields()
 			}
 		}
 	}

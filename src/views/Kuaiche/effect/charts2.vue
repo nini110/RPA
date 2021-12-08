@@ -354,10 +354,10 @@
 								vm.innerData[1].value   // 下降
 							)
 						let youxiao = (
-								item[0].value[selectTag] + // 上升涨价
-								item[1].value[selectTag] + // 上升降价
-								item[3].value[selectTag] + // 下降涨价
-								item[4].value[selectTag]   // 下降降价
+								item[0].value[selectTag2] + // 上升涨价
+								item[1].value[selectTag2] + // 上升降价
+								item[3].value[selectTag2] + // 下降涨价
+								item[4].value[selectTag2]   // 下降降价
 							) / (
 								item[0].value[selectTag2] +   // 总改价数
 								item[1].value[selectTag2] +
