@@ -153,7 +153,7 @@
 							proportion: result.proportion * 100,
 							condition: result.condition,
 							count: result.count,
-							plan: result.plan_operate,
+							plan_operate: result.plan_operate,
 						};
 					})
 			},

@@ -91,12 +91,13 @@
 		}
 		th {
 			border: 1px solid #e9ecf3;
+			padding-right: 20px;
 			.cell {
 				text-align: left;
 				// padding: 8px 10px;
 				box-sizing: border-box;
-				height: 42px!important;
-				line-height: 42px!important;
+				height: 46px!important;
+				line-height: 46px!important;
 			}
 			&.is-right {
 				.cell {
@@ -119,15 +120,14 @@
 		}
 		&__fixed {
 			height:auto !important; 
-			bottom:15px !important;
+			bottom:14px !important;
 			&:before {
 				display: none;
 			}
 			&-right {
 				height:auto !important;
-				bottom:15px !important;
-				padding-right: 20px;
-				// right: 20px;
+				bottom:14px !important;
+				margin-right: 12px;
 				&:before {
 					display: none;
 				}
@@ -136,7 +136,6 @@
 				  }
 			}
 			&-body-wrapper {
-				// top: 67px !important;
 				height: calc(100% - 40px)!important;
 				.el-table__body {
 					padding-bottom: 20px!important;
@@ -303,8 +302,11 @@
 	}
 	&-row {
 		display: flex;
-		justify-content: space-between;
+		// justify-content: center;
 		flex-wrap: wrap;
+	}
+	&-col {
+		float: none;
 	}
 }
 
@@ -325,8 +327,8 @@
 }
     /**滚动条的宽度*/
     ::-webkit-scrollbar {
-        width: 20px;/*竖向*/
-        height: 20px;/*横向*/
+        width: 14px;/*竖向*/
+        height: 18px;/*横向*/
     }
  
     /*滚动条的滑块*/

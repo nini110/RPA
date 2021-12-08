@@ -240,31 +240,45 @@ export default {
           ],
         },
         {
-          label: "公共数据获取",
+          label: "预算预警",
           deep: 2,
           icon: "iconfont icon-gonggongziliao",
           value: "",
           index: "6",
           children: [
             {
+              label: "预警",
+              value: "/layout/budgetAlarm/alarm",
+              index: "6-1",
+            },
+          ],
+        },		
+        {
+          label: "公共数据获取",
+          deep: 2,
+          icon: "iconfont icon-gonggongziliao",
+          value: "",
+          index: "7",
+          children: [
+            {
               label: "京东招标",
               value: "/layout/publicDomainDataAcquisition/jingdongBidding",
-              index: "6-1",
+              index: "7-1",
             },
             {
               label: "活动页面SKU",
               value: "/layout/publicDomainDataAcquisition/activePageSKU",
-              index: "6-2",
+              index: "7-2",
             },
             {
               label: "京东市场监控",
               value: "/layout/publicDomainDataAcquisition/howToMonitor",
-              index: "6-3",
+              index: "7-3",
             },
             {
               label: "品牌SKU获取",
               value: "/layout/publicDomainDataAcquisition/brandSKUAcquisition",
-              index: "6-4",
+              index: "7-4",
             },
           ],
         },

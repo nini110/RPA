@@ -1,5 +1,5 @@
 <template>
-	<div class="DMP outerDiv">
+	<div class="outerDiv">
 		<div class="content">
 			<div class="form">
 				<el-form ref="form" :model="form" class="formObj" :rules="rules">

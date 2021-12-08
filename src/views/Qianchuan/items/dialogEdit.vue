@@ -10,8 +10,8 @@
 				</el-col>
 				<el-col :span="24">
 					<el-form-item label="账号类型:" prop="type">
-						<el-radio v-model="form.type" label="1">店铺</el-radio>
-						<el-radio v-model="form.type" label="2">代理商</el-radio>
+						<el-radio v-model="form.type" label="1" @change="typeChangeEve">店铺</el-radio>
+						<el-radio v-model="form.type" label="2" @change="typeChangeEve">代理商</el-radio>
 					</el-form-item>
 				</el-col>
 				<el-col :span="24">
@@ -25,7 +25,8 @@
 				</el-col>
 				<el-col :span="24">
 					<el-form-item label="千川账号:" prop="quanchuan_id">
-						<el-select v-model="form.quanchuan_id" @change="qcChangeEvent" placeholder="请选择千川账号">
+						<el-select v-model="form.quanchuan_id" @change="qcChangeEvent" placeholder="请选择千川账号"
+							:disabled="quanchuanCan">
 							<el-option v-for="item in quanchuanOptions" :key="item.id" :label="item.name"
 								:value="item.id">
 							</el-option>
@@ -34,8 +35,9 @@
 				</el-col>
 				<el-col :span="24">
 					<el-form-item label="抖音账号:" prop="douyin_id">
-						<el-select v-model="form.douyin_id" @change="dyChangeEvent" placeholder="请选择抖音账号">
-					 	<el-option v-for="item in douyinOptions" :key="item.aweme_id" :label="item.aweme_name"
+						<el-select v-model="form.douyin_id" @change="dyChangeEvent" placeholder="请选择抖音账号"
+							:disabled="douyinCan">
+							<el-option v-for="item in douyinOptions" :key="item.aweme_id" :label="item.aweme_name"
 								:value="item.aweme_id">
 							</el-option>
 						</el-select>
@@ -81,8 +83,8 @@
 			</el-row>
 		</el-form>
 		<span slot="footer" class="dialog-footer">
-						<el-button type="primary" plain @click="closeEvent">取消</el-button>
-						<el-button type="primary" @click="updateEvent">{{btnWord}}</el-button>
+			<el-button type="primary" plain @click="closeEvent">取消</el-button>
+			<el-button type="primary" @click="updateEvent">{{btnWord}}</el-button>
 		</span>
 	</el-dialog>
 </template>
@@ -146,6 +148,8 @@
 					// timeData: [{required: true, message: '请选择投放时间', trigger: 'blur'}],
 				},
 				showFlag: true,
+				quanchuanCan: true,
+				douyinCan: true,
 				timeData: [], // 投放时间
 				form: {
 					founder: '',
@@ -238,18 +242,26 @@
 		methods: {
 			// 获取项目中策略详情
 			getItemStrategy(id) {
+				const vm = this;
 				getStrategies({
 					strategy_id: id,
 				}).then(res => {
-					this.form.bid_id = res.data.data.bid_strategy_data.id;
-					this.form.budget_id = res.data.data.budget_strategy_data.id;
-					this.form.plan_id = res.data.data.plan_strategy_data.id;
+					if (res.data.code === 200) {
+						vm.form.bid_id = res.data.data.bid_strategy_data.id || '';
+						vm.form.budget_id = res.data.data.budget_strategy_data.id || '';
+						vm.form.plan_id = res.data.data.plan_strategy_data.id || '';
+					} else {
+						vm.$message.error(res.data.msg);
+					}
+
 				})
 			},
 			// 获取项目详情
 			detailEvent(id) {
 				const vm = this;
-				getProjectDetail({}, id).then(res => {
+				getProjectDetail({
+					'haha': ''
+				}, id).then(res => {
 					vm.submitData = JSON.parse(JSON.stringify(res.data));
 					vm.form.project_name = vm.submitData.project_name;
 					vm.form.type = vm.submitData.zh_type === '店铺' ? '1' : '2';
@@ -270,7 +282,7 @@
 						advertiser_id: parseFloat(vm.submitData.quanchuan_id),
 						num: vm.shopNum,
 					};
-					vm.getItemStrategy(vm.submitData.id)
+					vm.getItemStrategy(vm.submitData.strategy_id)
 					vm.qcOPEvent(params1)
 					vm.dyOPEvent(params2)
 				})
@@ -290,7 +302,6 @@
 					if (valid) {
 						if (vm.dailogFlag === 1) {
 							// 新建
-							console.log('新建', data)
 							foundItem(data).then(res => {
 								if (res.data.code === 200) {
 									vm.$message.success('创建成功');
@@ -302,7 +313,6 @@
 						} else {
 							vm.$set(data, 'project_id', vm.submitData.id)
 							vm.$set(data, 'strategy_id', vm.submitData.id)
-							console.log('更新', data)
 							updateItem(data).then(res => {
 								if (res.data.code === 200) {
 									vm.$message.success('更新成功');
@@ -330,8 +340,8 @@
 			// 授权账户改变
 			shopChangeEvent(val) {
 				const vm = this;
-				vm.form.quanchuan = '';
-				vm.form.douyin = '';
+				vm.form.quanchuan_id = '';
+				vm.form.douyin_id = '';
 				vm.ifShop = false;
 				for (let j of vm.shopOptions) {
 					if (val === j.advertiser_id) {
@@ -348,7 +358,7 @@
 			// 千川账户改变
 			qcChangeEvent(val) {
 				const vm = this;
-				vm.form.douyin = '';
+				vm.form.douyin_id = '';
 				vm.ifQc = false;
 				let data = {
 					advertiser_id: val,
@@ -376,7 +386,6 @@
 						})
 						arr.push(result[j])
 					}
-					console.log(arr)
 					for (let i = 0; i < arr.length; i++) {
 						for (let k = 0; k < arr[i].length; k++) {
 							vm.shopOptions.push(arr[i][k]);
@@ -389,6 +398,7 @@
 				const vm = this;
 				getQianchuan(data).then(res => {
 					vm.quanchuanOptions = res.data.data
+					vm.quanchuanCan = false
 				})
 			},
 			// 抖音下拉
@@ -396,6 +406,7 @@
 				const vm = this;
 				getDouyin(data).then(res => {
 					vm.douyinOptions = res.data.data.aweme_id_list
+					vm.douyinCan = false
 				})
 			},
 			closeEvent() {
@@ -404,6 +415,12 @@
 				// vm.ifQc = true;
 				// vm.ifDy = true;
 				vm.$emit('close')
+			},
+			// 账号 类型切换事件
+			typeChangeEve(val) {
+				this.form.shop_id = ''
+				this.form.quanchuan_id = ''
+				this.form.douyin_id = ''
 			}
 		}
 	}

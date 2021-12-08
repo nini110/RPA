@@ -243,6 +243,22 @@ const routes = [
 					}
 				]
 			},
+			// 预算预警
+			{
+				path: 'budgetAlarm',
+				name: 'BudgetAlarm',
+				component: () => import("@/views/BudgetAlarm"),
+				children: [
+					{
+						path: 'alarm',
+						name: 'Alarm',
+						meta: {
+							title: '预警'
+						},
+						component: () => import("@/views/BudgetAlarm/alarm"),
+					},
+				]
+			},
 			// 快车提质
 			{
 				path: 'kuaiche',
@@ -276,6 +292,7 @@ const routes = [
 					}					
 				]
 			},
+			
 			// 公共数据获取
 			{
 				path: 'publicDomainDataAcquisition',

@@ -30,18 +30,13 @@ export default {
 			width: 220
 		},
 		{
-			label: '创建时间',
-			prop: 'address7',
-			width: 220
-		},
-		{
-			label: '投放时间',
-			prop: 'address3',
-			width: 220
-		},
-		{
 			label: '创建者',
 			prop: 'founder',
+			width: 220
+		},
+		{
+			label: '创建时间',
+			prop: 'createTime',
 			width: 220
 		},
 	],

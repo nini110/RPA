@@ -1,6 +1,6 @@
 <template>
 	<!-- 大数据工具 -->
-	<div class="BigData">
+	<div style="height: 100%">
 		<IptComp :toolType="toolType"></IptComp>
 	</div>
 </template>
@@ -53,9 +53,4 @@
 </script>
 
 <style lang="less" scoped>
-	.BigData {
-		padding-top: 60px;
-		height: 100%;
-		box-sizing: border-box;
-	}
 </style>

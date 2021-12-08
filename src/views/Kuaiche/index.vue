@@ -1,6 +1,6 @@
 <template>
   <!-- 第三方工具 -->
-  <div class="BeijingMustPass">
+  <div class="BeijingMustPass" style="height: 100%">
     <router-view />
   </div>
 </template>
@@ -15,9 +15,4 @@ export default {
 </script>
 
 <style lang="less">
-	.BeijingMustPass {
-		padding-top: 60px;
-		height: 100%;
-		box-sizing: border-box;
-	}
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<!-- 京准通工具 -->
-	<div class="BeijingMustPass">
+	<div style="height: 100%">
 		<IptComp :toolType="toolType"></IptComp>
 	</div>
 </template>
@@ -60,9 +60,4 @@
 </script>
 
 <style lang="less" scoped>
-	.BeijingMustPass {
-		padding-top: 60px;
-		height: 100%;
-		box-sizing: border-box;
-	}
 </style>

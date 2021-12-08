@@ -1,5 +1,5 @@
 <template>
-	<div class="strategy" style="height: 100%">
+	<div class="strategy publicDiv" style="height: 100%">
 		<div class="tabs">
 			<el-tabs v-model="activeName" @tab-click="handleClick">
 				<el-tab-pane label="出价调整" name="first">
@@ -34,16 +34,5 @@
 </script>
 
 <style lang="less">
-
- .strategy{
-	 display: flex;
-	 width: 100%;
-	 flex-direction: row-reverse;
-	 .tabs{
-		 width: 100%;
-		 height: 100%;
-		 box-sizing: border-box;
-		 padding: 110px 120px 20px 120px;
-	 }
- }
+	@import "../index";
 </style>
