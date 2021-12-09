@@ -1,22 +1,21 @@
 <template>
 	<div class="chartsBox">
+		<table v-if="showResult">
+			<tr>
+				<th></th>
+				<th>算法调价</th>
+				<th>人工调价</th>
+			</tr>
+			<tr v-for="(item, idx) in percentList" :key="idx">
+				<td>{{item.label}}</td>
+				<td>{{item.children[0].value | formatPercent}}</td>
+				<td>{{item.children[1].value | formatPercent}}</td>
+			</tr>
+		</table>
 		<div class="chartsBox_btm" style="height: 100%">
 			<div class="effecrChartBox" id="effecrChart"></div>
 			<div class="effecrChartBox" id="effecrChart2"></div>
 		</div>
-		<el-drawer title="" :visible.sync="showFlag" direction="ttb" class="bijiao" :modal="false" @close="handleClose">
-			<div class="chartsBox_top">
-				<div>
-					<h2>算法调价</h2>
-					<h2>人工调价</h2>
-				</div>
-				<div v-for="(item, idx) in percentList" :key="idx">
-					<p>{{item.children[0].value | formatPercent}}</p>
-					<p>{{item.label}}</p>
-					<p>{{item.children[1].value | formatPercent}}</p>
-				</div>
-			</div>
-		</el-drawer>
 	</div>
 </template>
 <script>
@@ -34,13 +33,10 @@
 				defalut: false,
 				type: Boolean,
 			},
-			showDrawerFlag: {
-				defalut: false,
-				type: Boolean,
-			},
 		},
 		data() {
 			return {
+				showResult: false,
 				percentList: [{
 						label: '命中率',
 						children: [{
@@ -126,9 +122,9 @@
 					},
 					legend: {
 						show: true,
-						//   orient: "vertival",
-						top: 30,
-						left: 80,
+						orient: 'vertical',
+						left: 0,
+						top: 'middle',
 						data: [
 							"上升",
 							"下降",
@@ -166,6 +162,8 @@
 								position: "inner",
 								fontSize: 14,
 							},
+							top: 80,
+							left: '10%',
 							itemStyle: {
 								normal: {
 									color: function(colors) {
@@ -184,12 +182,20 @@
 							type: "pie",
 							radius: ["33%", "50%"],
 							labelLine: {
-								length: 30,
+								length: 20,
 							},
+							top: 80,
+							left: '10%',
 							selectedMode: 'single',
-							selectedOffset: 30,
+							selectedOffset: 10,
 							label: {
-								formatter: "{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ",
+								// show: false,
+								// position: "outside",
+								fontSize: 14,
+								lineHeight: 22,
+								padding: 5,
+								// formatter: "{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ",
+								formatter: "{b}\n {per|{d}%}  ",
 								backgroundColor: "#F6F8FC",
 								borderColor: "#8C8D8E",
 								borderWidth: 1,
@@ -224,7 +230,49 @@
 						},
 					],
 				},
-				options2: {},
+				options2: {
+					title: {
+						text: '调价具体信息',
+						// subtext: 'Fake Data',
+						left: "center",
+						bottom: "20px",
+					},
+					tooltip: {
+						trigger: 'axis'
+					},
+					legend: {
+						top: 30,
+						data: ['总数', '仅系统', '仅人工', '系统/人工']
+					},
+					// 工具栏
+					// toolbox: {
+					// 	show: false,
+					// 	feature: {
+					// 		dataView: {
+					// 			show: true,
+					// 			readOnly: false
+					// 		},
+					// 		magicType: {
+					// 			show: true,
+					// 			type: ['line', 'bar']
+					// 		},
+					// 		restore: {
+					// 			show: true
+					// 		},
+					// 		saveAsImage: {
+					// 			show: true
+					// 		}
+					// 	}
+					// },
+					calculable: true,
+					xAxis: [{
+						type: 'category'
+					}],
+					yAxis: [{
+						type: 'value'
+					}],
+					series: []
+				}
 			};
 		},
 		watch: {
@@ -248,136 +296,163 @@
 							break;
 					}
 					myChart.setOption(vm.options, true);
-					myChart.dispatchAction({type: 'highlight',seriesIndex: 1,dataIndex: 0});//设置默认选中高亮部分
+					myChart.dispatchAction({
+						type: 'highlight',
+						seriesIndex: 1,
+						dataIndex: 0
+					}); //设置默认选中高亮部分
 					myChart.on('click', function(params) {
 						let data;
 						vm.nextArr.forEach((item, idx) => {
 							if (item.name === params.name) {
-								vm.options2.series[0].data = [{
-									name: params.name + '总数',
-									value: item.value.总数,
-									itemStyle: {
-										color: params.color
-									}
-								}]
-								data = [{
+								vm.options2.xAxis[0].data = [
+									item.name
+								]
+								console.log('+++', item)
+								let arr = [{
+										name: '总数',
+										data: [item.value.总数]
+									},
+									{
 										name: '仅系统',
-										value: item.value.仅系统,
+										data: [item.value.仅系统],
 										itemStyle: {
 											color: "#409eff"
 										}
 									},
 									{
 										name: '仅人工',
-										value: item.value.仅人工,
+										data: [item.value.仅人工],
 										itemStyle: {
-											color: "#EF83F5"
+											color: "#FFF540"
 										}
 									},
 									{
 										name: '系统/人工',
-										value: item.value['系统/人工'],
+										data: [item.value['系统/人工']],
 										itemStyle: {
-											color: "#F4A462"
+											color: "#FF40A9"
 										}
+									},
+
+								]
+								arr.forEach((val, idx) => {
+									vm.$set(val, 'type', 'bar')
+									if (val.name === '总数') {
+										vm.$set(val, 'markLine', {
+											data: [{
+												type: 'average',
+												name: 'Avg'
+											}]
+										})
+										vm.$set(val, 'itemStyle', item.itemStyle)
+									} else {
+										vm.$set(val, 'markPoint', {
+											data: [{
+												type: 'max',
+												name: 'Max'
+											}]
+										})
 									}
-								]
-								vm.options2.legend.data = [
-									"仅系统",
-									"仅人工",
-									"系统/人工"
-								]
-								vm.options2.series[1].data = data;
+								})
+								vm.options2.series = arr
 							}
 						})
 						myChart2.setOption(vm.options2);
 					});
 					// 图表2的数据
-					vm.options2 = JSON.parse(JSON.stringify(vm.options))
-					vm.options2.legend = {
-						show: true,
-						top: 30,
-						left: 'center',
-						data: [
-							"仅系统",
-							"仅人工",
-							"系统/人工"
-						]
-					}
-					vm.options2.title.text = "调价具体信息"
-					vm.options2.series[1].selectedMode = false
-					vm.options2.series[0].data = [{
-						name: '上升:涨价总数',
-						value: vm.nextArr[0].value.总数,
-						itemStyle: {
-							color: '#F89999'
-						}
-					}]
-					vm.options2.series[1].data = [{
+					// console.log('innerData', vm.innerData)
+					// console.log('nextArr', vm.nextArr)
+					let initItem = vm.nextArr[0]
+					vm.options2.xAxis[0].data = [
+						initItem.name
+					]
+					let initArr = [{
+							name: '总数',
+							data: [initItem.value.总数],
+							itemStyle: initItem.itemStyle
+						},
+						{
 							name: '仅系统',
-							value: vm.nextArr[0].value.仅系统,
+							data: [initItem.value.仅系统],
 							itemStyle: {
 								color: "#409eff"
 							}
 						},
 						{
 							name: '仅人工',
-							value: vm.nextArr[0].value.仅人工,
+							data: [initItem.value.仅人工],
 							itemStyle: {
-								color: "#EF83F5"
+								color: "#FFF540"
 							}
 						},
 						{
 							name: '系统/人工',
-							value: vm.nextArr[0].value['系统/人工'],
+							data: [initItem.value['系统/人工']],
 							itemStyle: {
-								color: "#F4A462"
+								color: "#FF40A9"
 							}
 						},
-					]
-					myChart2.setOption(vm.options2, true);
 
-					console.log('innerData', vm.innerData)
-					console.log('nextArr', vm.nextArr)
-						
+					]
+					initArr.forEach((val, idx) => {
+						vm.$set(val, 'type', 'bar')
+						if (val.name === '总数') {
+							vm.$set(val, 'markLine', {
+								data: [{
+									type: 'average',
+									name: 'Avg'
+								}]
+							})
+						} else {
+							vm.$set(val, 'markPoint', {
+								data: [{
+									type: 'max',
+									name: 'Max'
+								}]
+							})
+						}
+					})
+					vm.options2.series = initArr;
+					myChart2.setOption(vm.options2);
 					let currentOp = [vm.nextArr, vm.nextArr]
 					currentOp.forEach((item, idx) => {
-						let selectTag = idx===0 ? '仅系统' : '仅人工'
-						let selectTag2 = idx===0 ? '系统' : '人工'
+						let selectTag = idx === 0 ? '仅系统' : '仅人工'
+						let selectTag2 = idx === 0 ? '系统' : '人工'
 						let mingzhong = (
-								item[0].value[selectTag] + // 上升涨价
-								item[1].value[selectTag] + // 上升降价
-								item[3].value[selectTag] + // 下降涨价
-								item[4].value[selectTag]   // 下降降价
-							) / (
-								vm.innerData[0].value + // 上升
-								vm.innerData[1].value   // 下降
-							)
+							item[0].value[selectTag] + // 上升涨价
+							item[1].value[selectTag] + // 上升降价
+							item[3].value[selectTag] + // 下降涨价
+							item[4].value[selectTag] // 下降降价
+						) / (
+							vm.innerData[0].value + // 上升
+							vm.innerData[1].value // 下降
+						)
 						let youxiao = (
-								item[0].value[selectTag2] + // 上升涨价
-								item[1].value[selectTag2] + // 上升降价
-								item[3].value[selectTag2] + // 下降涨价
-								item[4].value[selectTag2]   // 下降降价
-							) / (
-								item[0].value[selectTag2] +   // 总改价数
-								item[1].value[selectTag2] +
-								item[2].value[selectTag2] +
-								item[3].value[selectTag2] +
-								item[4].value[selectTag2] +
-								item[5].value[selectTag2] +
-								item[6].value[selectTag2] +
-								item[7].value[selectTag2] +
-								item[8].value[selectTag2]
-							)
+							item[0].value[selectTag2] + // 上升涨价
+							item[1].value[selectTag2] + // 上升降价
+							item[3].value[selectTag2] + // 下降涨价
+							item[4].value[selectTag2] // 下降降价
+						) / (
+							item[0].value[selectTag2] + // 总改价数
+							item[1].value[selectTag2] +
+							item[2].value[selectTag2] +
+							item[3].value[selectTag2] +
+							item[4].value[selectTag2] +
+							item[5].value[selectTag2] +
+							item[6].value[selectTag2] +
+							item[7].value[selectTag2] +
+							item[8].value[selectTag2]
+						)
 						let zhunque = (
-								item[0].value[selectTag] + // 上升涨价
-								item[4].value[selectTag]   // 下降降价
-							) / (
-								item[0].value[selectTag] + // 上升涨价
-								item[1].value[selectTag] + // 上升降价
-								item[3].value[selectTag] + // 下降涨价
-								item[4].value[selectTag]   // 下降降价
-							)
+							item[0].value[selectTag] + // 上升涨价
+							item[4].value[selectTag] // 下降降价
+						) / (
+							item[0].value[selectTag] + // 上升涨价
+							item[1].value[selectTag] + // 上升降价
+							item[3].value[selectTag] + // 下降涨价
+							item[4].value[selectTag] // 下降降价
+						)
 
 						// 命中率 0算法   1人工
 						vm.$set(vm.percentList[0].children[idx], 'value', mingzhong)
@@ -386,7 +461,7 @@
 						// 准确率
 						vm.$set(vm.percentList[2].children[idx], 'value', zhunque)
 					})
-
+					vm.showResult = true
 				});
 			},
 		},
@@ -397,10 +472,6 @@
 			const vm = this;
 		},
 		methods: {
-			handleClose() {
-				this.showFlag = false;
-				this.$emit("close");
-			},
 			// 获取图表数据
 			getChartsEvent(val, tag) {
 				const vm = this;
@@ -523,7 +594,6 @@
 
 						vm.tabDisable = false;
 						vm.activeName = "1";
-						vm.showFlag = true; // 展示抽屉
 						vm.$emit("close");
 					}
 				});
@@ -538,70 +608,33 @@
 		height: 100%;
 		display: inline-block;
 	}
+
 	.el-tabs {
 		padding: 0 120px;
 	}
 
 	.chartsBox {
+		width: 100%;
 		height: 100%;
 		padding: 0 30px;
-		&_top {
-			div {
-				display: flex;
-				justify-content: center;
-				overflow: hidden;
-
-				h2 {
-					font-size: 22px;
-					line-height: 40px;
-					color: #606266;
-					flex-basis: 200px;
-					text-align: center;
-				}
-
-				p {
-					flex-basis: 100px;
-					text-align: center;
-					font-size: 18px;
-					line-height: 32px;
-					// margin: 0 25px;
-					color: #606266;
-				}
+		position: relative;
+		table {
+			left: 30px;
+			top: 0;
+			width: 50%;
+			position: absolute;
+			tr {
+				background-color: #F5F7FA;
+				text-align: center;
+				color: #606266;
 			}
-		}
-
-		&_btm {}
-	}
-
-	/deep/.bijiao {
-		height: 180px;
-		left: 200px !important;
-		overflow: auto;
-		box-shadow: 0 5px 5px #eeeff9;
-
-		.el-drawer {
-			width: 100% !important;
-			height: 100% !important;
-			padding-bottom: 0;
-			// background-color: #f1f2fd;
-
-			&__close-btn {
-				position: absolute;
-				top: 30px;
-				right: 30px;
-
-				i:before {
-					font-size: 30px;
-				}
+			th {
+				line-height: 44px;
+				font-size: 18px;
 			}
-
-			&__title {
-				padding-bottom: 0;
-			}
-
-			&__header {
-				padding: 0;
-				margin: 0;
+			td {
+				line-height: 34px;
+				font-size: 14px;
 			}
 		}
 	}

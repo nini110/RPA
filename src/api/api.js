@@ -9,14 +9,14 @@ if (process.env.NODE_ENV === 'production') {
     BASEPATH = 'http://114.67.229.243:8001'
     BASEPATH2 = 'http://tool.afocus.com.cn'
     BASEPATH3 = 'http://114.67.229.243:8002'
-	BASEPATH4 = 'http://106.14.107.148:8002'
+	BASEPATH4 = 'http://106.14.107.148:8001'
     // 生产环境
 } else {
     // 开发环境
     BASEPATH = 'http://114.67.229.243:8001'
     BASEPATH2 = 'http://tool.afocus.com.cn'
     BASEPATH3 = 'http://114.67.229.243:8002'
-	BASEPATH4 = 'http://106.14.107.148:8002'
+	BASEPATH4 = 'http://106.14.107.148:8001'
 }
 // 数据应用--竞标监控--竞标搜索  ok
 export const BiddingSearch = request({
@@ -305,6 +305,6 @@ export const effectCharts = request({
 })
 // 预算预警
 export const alarmSetting = request({
-    url:`${BASEPATH}/apps/set_monitoring/`,
+    url:`${BASEPATH4}/tools/set_monitoring`,
     method:'post',
 })

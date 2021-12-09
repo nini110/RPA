@@ -29,9 +29,11 @@
 					<span slot="title">{{ item.label }}</span>
 				</el-menu-item>
 			</div>
-			<svg class="icon svg-icon titleicon" aria-hidden="true">
-				<use :xlink:href="detailIcon"></use>
-			</svg>
+			<div class="layout_menu_btmIcon">
+				<svg class="icon svg-icon titleicon" aria-hidden="true">
+					<use :xlink:href="detailIcon"></use>
+				</svg>
+			</div>
 		</el-menu>
 		<div class="layout_menu_right">
 			<div class="app-main" id="appMain">
@@ -128,7 +130,7 @@
 						index: "3",
 						children: [{
 								label: "灵鲨制表",
-								icon2: '#icon-excel',
+								icon2: '#icon-jianzhibiaoge',
 								value: "/layout/dataApplication/spiritSharkTabulation",
 								index: "3-1",
 							},
@@ -189,13 +191,13 @@
 									},
 									{
 										label: "策略",
-										icon2: '#icon-celvejiancha',
+										icon2: '#icon-celveshishi',
 										value: "/layout/qianchuan/strategy",
 										index: "5-2",
 									},
 									{
 										label: "模板",
-										icon2: '#icon-mobanguanli',
+										icon2: '#icon-daochumoban',
 										value: "/layout/qianchuan/modules",
 										index: "5-3",
 									},
@@ -235,7 +237,7 @@
 						index: "6",
 						children: [{
 							label: "预警",
-							icon2: '#icon-yuanyujing',
+							icon2: '#icon-jinggao',
 							value: "/layout/budgetAlarm/alarm",
 							index: "6-1",
 						}, ],
@@ -248,21 +250,25 @@
 						index: "7",
 						children: [{
 								label: "京东招标",
+								icon2: '#icon-yusuanzhaobiaoxiangmu',
 								value: "/layout/publicDomainDataAcquisition/jingdongBidding",
 								index: "7-1",
 							},
 							{
 								label: "活动页面SKU",
+								icon2: '#icon-huodong',
 								value: "/layout/publicDomainDataAcquisition/activePageSKU",
 								index: "7-2",
 							},
 							{
 								label: "京东市场监控",
+								icon2: '#icon-shichangjiandu',
 								value: "/layout/publicDomainDataAcquisition/howToMonitor",
 								index: "7-3",
 							},
 							{
 								label: "品牌SKU获取",
+								icon2: '#icon-pinpai',
 								value: "/layout/publicDomainDataAcquisition/brandSKUAcquisition",
 								index: "7-4",
 							},

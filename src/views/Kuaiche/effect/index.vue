@@ -16,7 +16,7 @@
 							</el-col>
 							<el-col :span="12">
 								<el-form-item class="tophasBtn" label="日期:" prop="search_date">
-									<el-date-picker :class="{'tophasBtn_data2': $route.name === 'Charts'}"
+									<el-date-picker
 										class="tophasBtn_data" v-model="form.search_date" format="yyyy-MM-dd"
 										value-format="yyyy-MM-dd" type="daterange" range-separator="至"
 										start-placeholder="开始日期" end-placeholder="结束日期">
@@ -24,10 +24,6 @@
 									<div class="tophasBtn_btn_div">
 										<el-button type="primary" class="tophasBtn_btn btnnormal marginL"
 											@click="searchEvent">查询
-										</el-button>
-										<el-button v-if="$route.name === 'Charts'" type="primary"
-											class="tophasBtn_btn btnnormal marginL" :disabled="openDis"
-											@click="openEvent">OPEN
 										</el-button>
 									</div>
 								</el-form-item>
@@ -44,8 +40,7 @@
 			</div>
 			<div ref="tableBox" class="tableBox hasUp4">
 				<el-divider></el-divider>
-				<Chart v-if="$route.name === 'Charts'" :getDataFlag="getDataFlag" :showDrawerFlag="showDrawerFlag"
-					@close="chartReset" :searchVal="searchVal"></Chart>
+				<Chart v-if="$route.name === 'Charts'" :getDataFlag="getDataFlag" :searchVal="searchVal"></Chart>
 				<div v-else class="tables">
 					<!-- :height="tableHeight" -->
 					<div class="tableTab" v-show="tableData">
@@ -112,8 +107,6 @@
 			return {
 				openDrawerInfo: {},
 				showDrawer: false,
-				showDrawerFlag: false,
-				openDis: true,
 				getDataFlag: false,
 				searchVal: null, // 传给图表组件的查询条件
 				pinOptions: [{
@@ -229,9 +222,6 @@
 		},
 		mounted() {},
 		methods: {
-			openEvent() {
-				this.showDrawerFlag = true;
-			},
 			// 抽屉详情
 			showInfoDarwer(val) {
 				const vm = this;
@@ -244,11 +234,6 @@
 			closeDrawer() {
 				const vm = this;
 				vm.showDrawer = false;
-			},
-			chartReset() {
-				this.getDataFlag = false;
-				this.showDrawerFlag = false;
-				this.openDis = false
 			},
 			// 过滤
 			filterTag(value, row, column) {
