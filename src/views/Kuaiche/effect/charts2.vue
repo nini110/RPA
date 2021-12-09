@@ -591,7 +591,6 @@
 								itemStyle: item.itemStyle
 							})
 						})
-
 						vm.tabDisable = false;
 						vm.activeName = "1";
 						vm.$emit("close");

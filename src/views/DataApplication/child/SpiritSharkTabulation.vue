@@ -45,6 +45,7 @@
 					      format="yyyy 年 MM 月 dd 日"
 					      value-format="yyyy-MM-dd"
 					      placeholder="选择日期"
+						  :picker-options="pickerOptionsStart"
 					    >
 					    </el-date-picker>
 					  </el-form-item>
@@ -269,6 +270,11 @@ export default {
   mixins: [message],
   data() {
     return {
+		pickerOptionsStart: {
+			disabledDate: (time) => {
+				return time.getTime() >= new Date().getTime();
+			}
+		},
       rules: {
         SelectItemData: [
           {

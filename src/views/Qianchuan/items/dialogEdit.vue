@@ -47,7 +47,7 @@
 					<el-form-item label="投放时间:" prop="timeData">
 						<el-date-picker v-model="timeData" type="datetimerange" format="yyyy-MM-dd HH:mm:ss"
 							value-format="yyyy-MM-dd HH:mm:ss" range-separator="至" start-placeholder="开始日期"
-							end-placeholder="结束日期">
+							end-placeholder="结束日期" >
 						</el-date-picker>
 					</el-form-item>
 				</el-col>

@@ -16,10 +16,10 @@
 							</el-col>
 							<el-col :span="12">
 								<el-form-item class="tophasBtn" label="日期:" prop="search_date">
-									<el-date-picker
-										class="tophasBtn_data" v-model="form.search_date" format="yyyy-MM-dd"
-										value-format="yyyy-MM-dd" type="daterange" range-separator="至"
-										start-placeholder="开始日期" end-placeholder="结束日期">
+									<el-date-picker class="tophasBtn_data" v-model="form.search_date"
+										format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange"
+										range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+										:picker-options="pickerOptionsStart">
 									</el-date-picker>
 									<div class="tophasBtn_btn_div">
 										<el-button type="primary" class="tophasBtn_btn btnnormal marginL"
@@ -40,7 +40,8 @@
 			</div>
 			<div ref="tableBox" class="tableBox hasUp4">
 				<el-divider></el-divider>
-				<Chart v-if="$route.name === 'Charts'" :getDataFlag="getDataFlag" :searchVal="searchVal"></Chart>
+				<Chart v-if="$route.name === 'Charts'" :getDataFlag="getDataFlag" :searchVal="searchVal"
+					@close="chartReset"></Chart>
 				<div v-else class="tables">
 					<!-- :height="tableHeight" -->
 					<div class="tableTab" v-show="tableData">
@@ -105,6 +106,11 @@
 		},
 		data() {
 			return {
+				pickerOptionsStart: {
+					disabledDate: (time) => {
+						return time.getTime() >= new Date().getTime();
+					}
+				},
 				openDrawerInfo: {},
 				showDrawer: false,
 				getDataFlag: false,
@@ -234,6 +240,9 @@
 			closeDrawer() {
 				const vm = this;
 				vm.showDrawer = false;
+			},
+			chartReset() {
+				this.getDataFlag = false;
 			},
 			// 过滤
 			filterTag(value, row, column) {

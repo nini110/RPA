@@ -105,7 +105,7 @@
 								disabled: false
 							},
 							{
-								type: 'select',
+								type: 'input',
 								model: '',
 								prop: 'plan_id',
 								label: '推广计划',
@@ -114,7 +114,7 @@
 									validator: validPercent.bind(this, this, 0, 3),
 									trigger: 'change'
 								},
-								placeholder: '请选择推广计划',
+								placeholder: '请输入推广计划',
 								options: [{
 									name: 'example',
 									code: '575097395'
