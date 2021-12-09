@@ -25,7 +25,11 @@
 			</div>
 
 			<div class="topTtle_login_user">
-				<div class="el-icon-user-solid user">
+				<div class="user">
+					<!-- {{ yh }} -->
+					<svg class="icon svg-icon titleicon" aria-hidden="true">
+						<use xlink:href="#icon-user__easyico"></use>
+					</svg>
 					{{ yh }}
 					<span class="logout iconfont icon-tcdl" @click="close"></span>
 				</div>

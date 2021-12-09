@@ -10,6 +10,8 @@ import './utils/rem' //px转rem
 import '../element-#287BB5/index.css'
 import './styles/index.less'
 import './assets/fonts/iconfont.css';
+import './assets/fonts/iconfont.js';
+
 // import less from 'less'
 import router from './router'
 import * as echarts from 'echarts';

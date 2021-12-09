@@ -6,9 +6,6 @@
 				<el-submenu v-if="item.children" :index="item.index">
 					<template slot="title">
 						<i class="iconfont" :class="item.icon"></i>
-						<!-- 						<svg class="icon svg-icon titleicon" aria-hidden="true">
-						    <use :xlink:href="item.icon"></use>
-						</svg> -->
 						<span>{{ item.label }}</span>
 					</template>
 					<div v-if="item.deep === 3">
@@ -32,6 +29,9 @@
 					<span slot="title">{{ item.label }}</span>
 				</el-menu-item>
 			</div>
+			<svg class="icon svg-icon titleicon" aria-hidden="true">
+				<use :xlink:href="detailIcon"></use>
+			</svg>
 		</el-menu>
 		<div class="layout_menu_right">
 			<div class="app-main" id="appMain">
@@ -47,6 +47,7 @@
 		name: "layout",
 		data() {
 			return {
+				detailIcon: '',
 				currentMenu: "1-1",
 				menuList: [{
 						label: "提效工具",
@@ -127,16 +128,19 @@
 						index: "3",
 						children: [{
 								label: "灵鲨制表",
+								icon2: '#icon-excel',
 								value: "/layout/dataApplication/spiritSharkTabulation",
 								index: "3-1",
 							},
 							{
 								label: "竞标监控",
+								icon2: '#icon-monitor-tv-svgrepo-com',
 								value: "/layout/dataApplication/biddingForMonitoring",
 								index: "3-2",
 							},
 							{
 								label: "桑吉图数据",
+								icon2: '#icon-sangjitu1',
 								value: "/layout/dataApplication/sankey",
 								index: "3-3",
 							},
@@ -150,11 +154,13 @@
 						index: "4",
 						children: [{
 								label: "图片处理",
+								icon2: '#icon-015-file',
 								value: "/layout/videoTools/pictureProcessing",
 								index: "4-1",
 							},
 							{
 								label: "截取",
+								icon2: '#icon-caijiandan',
 								value: "/layout/videoTools/cutOut",
 								index: "4-2",
 							},
@@ -177,16 +183,19 @@
 								// index: '5-1',
 								children: [{
 										label: "项目",
+										icon2: '#icon-shangpincanshumoban',
 										value: "/layout/qianchuan/items",
 										index: "5-1",
 									},
 									{
 										label: "策略",
+										icon2: '#icon-celvejiancha',
 										value: "/layout/qianchuan/strategy",
 										index: "5-2",
 									},
 									{
 										label: "模板",
+										icon2: '#icon-mobanguanli',
 										value: "/layout/qianchuan/modules",
 										index: "5-3",
 									},
@@ -199,11 +208,13 @@
 								// index: '5-2',
 								children: [{
 										label: "效果变化",
+										icon2: '#icon-xiaoguofenxi',
 										value: "/layout/kuaiche/effect",
 										index: "5-4",
 									},
 									{
 										label: "效果图表",
+										icon2: '#icon--bingzhuangtu',
 										value: "/layout/kuaiche/charts",
 										index: "5-5",
 									},
@@ -219,11 +230,12 @@
 					{
 						label: "预算预警",
 						deep: 2,
-						icon: "iconfont icon-gonggongziliao",
+						icon: "iconfont icon-yujingfenxi",
 						value: "",
 						index: "6",
 						children: [{
 							label: "预警",
+							icon2: '#icon-yuanyujing',
 							value: "/layout/budgetAlarm/alarm",
 							index: "6-1",
 						}, ],
@@ -265,13 +277,16 @@
 				for (let j of i.children) {
 					if (i.deep === 2) {
 						if (vm.$route.fullPath === j.value) {
+							console.log(j)
 							vm.currentMenu = j.index;
+							vm.detailIcon = j.icon2
 							break;
 						}
 					} else if (i.deep === 3) {
 						for (let k of j.children) {
 							if (vm.$route.fullPath === k.value) {
 								vm.currentMenu = k.index;
+								vm.detailIcon = k.icon2
 								break;
 							}
 						}
@@ -282,6 +297,7 @@
 		methods: {
 			selectEvent(item) {
 				const vm = this;
+				vm.detailIcon = item.icon2
 				vm.$router.push(item.value);
 			},
 		},
