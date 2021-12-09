@@ -109,11 +109,11 @@
 								model: '',
 								prop: 'plan_id',
 								label: '推广计划',
-								rules: {
-									required: true,
-									validator: validPercent.bind(this, this, 0, 3),
-									trigger: 'change'
-								},
+								// rules: {
+								// 	required: true,
+								// 	validator: validPercent.bind(this, this, 0, 3),
+								// 	trigger: 'change'
+								// },
 								placeholder: '请输入推广计划',
 								options: [{
 									name: 'example',

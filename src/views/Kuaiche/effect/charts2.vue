@@ -420,10 +420,10 @@
 						let selectTag = idx === 0 ? '仅系统' : '仅人工'
 						let selectTag2 = idx === 0 ? '系统' : '人工'
 						let mingzhong = (
-							item[0].value[selectTag] + // 上升涨价
-							item[1].value[selectTag] + // 上升降价
-							item[3].value[selectTag] + // 下降涨价
-							item[4].value[selectTag] // 下降降价
+							item[0].value[selectTag2] + // 上升涨价
+							item[1].value[selectTag2] + // 上升降价
+							item[3].value[selectTag2] + // 下降涨价
+							item[4].value[selectTag2] // 下降降价
 						) / (
 							vm.innerData[0].value + // 上升
 							vm.innerData[1].value // 下降
@@ -445,13 +445,13 @@
 							item[8].value[selectTag2]
 						)
 						let zhunque = (
-							item[0].value[selectTag] + // 上升涨价
-							item[4].value[selectTag] // 下降降价
+							item[0].value[selectTag2] + // 上升涨价
+							item[4].value[selectTag2] // 下降降价
 						) / (
-							item[0].value[selectTag] + // 上升涨价
-							item[1].value[selectTag] + // 上升降价
-							item[3].value[selectTag] + // 下降涨价
-							item[4].value[selectTag] // 下降降价
+							item[0].value[selectTag2] + // 上升涨价
+							item[1].value[selectTag2] + // 上升降价
+							item[3].value[selectTag2] + // 下降涨价
+							item[4].value[selectTag2] // 下降降价
 						)
 
 						// 命中率 0算法   1人工

@@ -20,7 +20,7 @@
 					<template slot="empty">
 						<span class="iconfont icon-wushuju">暂无数据</span>
 					</template>
-					<el-table-column align="center" type="index" label="序号" width="80">
+					<el-table-column align="center" type="index" label="序号" width="100">
 					</el-table-column>
 					<el-table-column v-for="(item, idx) in moduleOptions" :prop="item.prop" :label="item.label"
 						:min-width="item.width">

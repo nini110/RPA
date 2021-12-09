@@ -9,9 +9,9 @@
 					<template slot="empty">
 						<span class="iconfont icon-wushuju">暂无数据</span>
 					</template>
-					<el-table-column type="selection" align="center" width="60">
+					<el-table-column type="selection" align="center" width="100">
 					</el-table-column>
-					<el-table-column label="序号" type="index" fixed="left" width="80">
+					<el-table-column label="序号" type="index" fixed="left" width="100">
 					</el-table-column>
 					<el-table-column prop="project_name" label="项目名称" fixed="left" show-overflow-tooltip
 						min-width="200">
