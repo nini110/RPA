@@ -308,3 +308,8 @@ export const alarmSetting = request({
     url:`${BASEPATH4}/tools/set_monitoring`,
     method:'post',
 })
+// 预算预警-获取所有用户
+export const alarmUser = request({
+    url:`${BASEPATH4}/tools/get_all_user`,
+    method:'get',
+})

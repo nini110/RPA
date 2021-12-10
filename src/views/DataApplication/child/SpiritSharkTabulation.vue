@@ -2,7 +2,7 @@
   <!-- 灵鲨制表 -->
   <div class="outerDiv">
     <div class="content">
-      <div class="form">
+      <div class="content_form">
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
           <div class="formObj_ipt">
 			  <el-row>
@@ -87,14 +87,14 @@
                 <div v-if="SelectItemData[1] === true">
                   <el-button
                     type="primary"
-                    class="btnnormal"
+                    class="el-icon-right btnnormal"
                     @click="generate()"
                     v-if="dataState === 1 && fileList.length !== 0"
                     >生成</el-button
                   >
                   <el-button
                     type="primary"
-                    class="btnnormal"
+                    class="el-icon-right btnnormal"
                     @click="generate()"
                     disabled
                     v-else
@@ -102,7 +102,7 @@
                   </el-button>
                   <el-button
                     type="primary"
-                    class="btnnormal marginL"
+                    class="el-icon-refresh btnnormal marginL"
                     @click="reset()"
                     >重置</el-button
                   >
@@ -110,7 +110,7 @@
                 <div v-else>
                   <el-button
                     type="primary"
-                    class="btnnormal"
+                    class="el-icon-right btnnormal"
                     @click="generate()"
                     v-if="dataState === 1"
                   >
@@ -118,7 +118,7 @@
                   >
                   <el-button
                     type="primary"
-                    class="btnnormal"
+                    class="el-icon-right btnnormal"
                     @click="generate()"
                     disabled
                     v-else
@@ -126,7 +126,7 @@
                   </el-button>
                   <el-button
                     type="primary"
-                    class="btnnormal marginL"
+                    class="el-icon-refresh btnnormal marginL"
                     @click="reset()"
                     >重置</el-button
                   >
@@ -136,7 +136,7 @@
           </div>
         </el-form>
       </div>
-      <div ref="tableBox" class="tableBox teshu" :class="outerTableHeight">
+      <div ref="tableBox" class="content_tableBox teshu" :class="outerTableHeight">
         <el-divider>列表</el-divider>
         <div class="tables">
           <div class="tableTab">
@@ -152,9 +152,6 @@
               :header-cell-style="{ background: '#f4f4f4', color: '#666' }"
               @selection-change="handleSelectionChange"
             >
-              <template slot="empty">
-                <span class="iconfont icon-wushuju">暂无数据</span>
-              </template>
               <el-table-column type="selection" width="60" align="center">
               </el-table-column>
               <el-table-column
@@ -230,22 +227,22 @@
               </el-table-column>
             </el-table>
           </div>
-          <!-- 分页器 -->
-          <div class="block" v-if="total">
-            <el-pagination
-              @current-change="handleCurrentChange"
-              @size-change="handleSizeChange"
-              :current-page.sync="currpage"
-              :page-size="pagesize"
-              background
-              :page-sizes="[10, 20, 50, 100]"
-              layout="total, sizes, prev, pager, next, jumper"
-              :total="total"
-            >
-            </el-pagination>
-          </div>
         </div>
-      </div>
+		<!-- 分页器 -->
+		<div class="block" v-if="total">
+		  <el-pagination
+		    @current-change="handleCurrentChange"
+		    @size-change="handleSizeChange"
+		    :current-page.sync="currpage"
+		    :page-size="pagesize"
+		    background
+		    :page-sizes="[10, 20, 50, 100]"
+		    layout="total, sizes, prev, pager, next, jumper"
+		    :total="total"
+		  >
+		  </el-pagination>
+		</div>
+	  </div>
     </div>
   </div>
 </template>

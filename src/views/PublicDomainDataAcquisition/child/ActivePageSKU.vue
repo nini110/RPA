@@ -2,7 +2,7 @@
 	<!-- 活动页面SKU -->
 	<div class="activePageSKU outerDiv">
 		<div class="content">
-			<div class="form">
+			<div class="content_form">
 				<el-form ref="form" :model="form" class="formObj">
 					<div class="formObj_ipt">
 						<el-form-item label="PIN:" prop="pin">
@@ -14,11 +14,11 @@
 					</div>
 				</el-form>
 			</div>
-			<div class="tableBox">
+			<div class="content_tableBox hasUp4">
 				<div class="tables">
 					<div class="tableTab">
-						<el-table ref="singleTable" :data="tableData" height="540"
-							:header-cell-style="{background:'#f4f4f4',color: '#666'}" :highlight-current-row="true">
+						<el-table ref="singleTable" class="tableBox" :data="tableData"
+							:header-cell-style="{background:'#F5F7FA',color: '#666'}" :highlight-current-row="true">
 							<template slot="empty">
 								<span class="iconfont icon-wushuju">暂无数据</span>
 							</template>

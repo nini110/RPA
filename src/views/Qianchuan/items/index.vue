@@ -1,14 +1,11 @@
 <template>
 	<div class="itemsComp publicDiv">
 		<div class="centers">
-			<el-button type="primary" class="btnnormal" style="margin-bottom: 20px" @click="createEvent(1)">新建项目
+			<el-button type="primary" class="el-icon-plus btnnormal" style="margin-bottom: 20px" @click="createEvent(1)">新建项目
 			</el-button>
 			<div class="tabbles itemtable" ref="tabbles">
 				<el-table class="tableBox" :data="tableData" highlight-current-row
 					:header-cell-style="{ background: '#F5F7FA', color: '#666' }" stripe>
-					<template slot="empty">
-						<span class="iconfont icon-wushuju">暂无数据</span>
-					</template>
 					<el-table-column type="selection" align="center" width="100">
 					</el-table-column>
 					<el-table-column label="序号" type="index" fixed="left" width="100">

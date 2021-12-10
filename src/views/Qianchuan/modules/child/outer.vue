@@ -3,23 +3,20 @@
 		<div class="centers">
 			<div class="tabTops">
 				<div>
-					<el-button type="primary" class="btnnormal" @click="editFn(1)" size="medium">新建模板
+					<el-button type="primary" class="el-icon-plus btnnormal" @click="editFn(1)" size="medium">新建模板
 					</el-button>
 				</div>
 				<div class="searchs">
 					<div class="searchs_label">模板名称：</div>
 					<el-input v-model="searchName" placeholder="请输入模板名称" size="medium" clearable></el-input>
 					<div>
-						<el-button type="primary" class="btnnormal" size="medium" style="margin-left: 10px">查询
+						<el-button type="primary" class="el-icon-search btnnormal" size="medium" style="margin-left: 10px">查询
 						</el-button>
 					</div>
 				</div>
 			</div>
 			<div class="tabbles pricetable" ref="tabbles">
 				<el-table :data="tableData" :header-cell-style="{background:'#F5F7FA',color: '#666'}">
-					<template slot="empty">
-						<span class="iconfont icon-wushuju">暂无数据</span>
-					</template>
 					<el-table-column align="center" type="index" label="序号" width="100">
 					</el-table-column>
 					<el-table-column v-for="(item, idx) in moduleOptions" :prop="item.prop" :label="item.label"

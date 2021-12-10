@@ -1,7 +1,7 @@
 <template>
 	<div class="DMP outerDiv">
 		<div class="content">
-			<div class="form">
+			<div class="content_form">
 				<el-form ref="form" :model="form" class="formObj" :rules="rules">
 					<div class="formObj_ipt">
 						<el-row>
@@ -22,7 +22,7 @@
 										:picker-options="pickerOptionsStart">
 									</el-date-picker>
 									<div class="tophasBtn_btn_div">
-										<el-button type="primary" class="tophasBtn_btn btnnormal marginL"
+										<el-button type="primary" class="el-icon-search tophasBtn_btn btnnormal marginL"
 											@click="searchEvent">查询
 										</el-button>
 									</div>
@@ -38,20 +38,16 @@
 					</div>
 				</el-form>
 			</div>
-			<div ref="tableBox" class="tableBox hasUp4">
-				<el-divider></el-divider>
+			<div ref="tableBox" class="content_tableBox hasUp4">
 				<Chart v-if="$route.name === 'Charts'" :getDataFlag="getDataFlag" :searchVal="searchVal"
 					@close="chartReset"></Chart>
 				<div v-else class="tables">
 					<!-- :height="tableHeight" -->
 					<div class="tableTab" v-show="tableData">
-						<el-table class="tableBox" border :data="tableData" ref="table" highlight-current-row height="0"
+						<el-table class="tableBox" :data="tableData" ref="table" highlight-current-row height="0"
 							:header-cell-style="{ background: '#F5F7FA', color: '#666' }" @sort-change="sortChange"
 							style="width: 100%">
-							<template slot="empty">
-								<span class="iconfont icon-wushuju">暂无数据</span>
-							</template>
-							<el-table-column type="index" width="80" label="序号" align="center" fixed="left">
+							<el-table-column type="index" width="100" label="序号" align="center" fixed="left">
 							</el-table-column>
 							<el-table-column prop="keyword" label="关键词" min-width="180" fixed="left"
 								show-overflow-tooltip>
@@ -79,13 +75,13 @@
 
 						</el-table>
 					</div>
-					<!-- 分页器 -->
-					<div class="block" v-if="total">
-						<el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
-							:current-page.sync="currentPage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]"
-							layout="total, sizes, prev, pager, next, jumper" :total="total">
-						</el-pagination>
-					</div>
+				</div>
+				<!-- 分页器 -->
+				<div class="block" v-if="total">
+					<el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+						:current-page.sync="currentPage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]"
+						layout="total, sizes, prev, pager, next, jumper" :total="total">
+					</el-pagination>
 				</div>
 			</div>
 		</div>

@@ -4,7 +4,7 @@
 		<div class="centers">
 			<div class="PriceTops">
 				<div class="btn">
-					<el-button type="primary" class="btnnormal" @click="editFn(1)" size="medium">新建策略</el-button>
+					<el-button type="primary" class="el-icon-plus btnnormal" @click="editFn(1)" size="medium">新建策略</el-button>
 				</div>
 				<div class="search">
 					<div class="search_label">状态：</div>
@@ -18,7 +18,7 @@
 					<div class="search_label">策略名称：</div>
 					<el-input v-model="searchName" placeholder="请输入策略名称" size="medium" class="inp" clearable></el-input>
 					<div>
-						<el-button style="margin-left: 10px" class="btnnormal" type="primary" size="medium">查询
+						<el-button style="margin-left: 10px" class="el-icon-search btnnormal" type="primary" size="medium">查询
 						</el-button>
 					</div>
 				</div>
@@ -26,9 +26,6 @@
 			<div class="tabbles pricetable" ref="tabbles">
 				<el-table ref="multipleTable" :data="tableData" tooltip-effect="dark"
 					@selection-change="handleSelectionChange" :header-cell-style="{background:'#F5F7FA',color: '#666'}">
-					<template slot="empty">
-						<span class="iconfont icon-wushuju">暂无数据</span>
-					</template>
 					<el-table-column align="center" type="selection" width="100" fixed="left">
 					</el-table-column>
 					<el-table-column align="center" label="序号" width="100" type="index" fixed="left">

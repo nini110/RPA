@@ -1,20 +1,28 @@
 <template>
 	<div class="chartsBox">
-		<table v-if="showResult">
-			<tr>
-				<th></th>
-				<th>算法调价</th>
-				<th>人工调价</th>
-			</tr>
-			<tr v-for="(item, idx) in percentList" :key="idx">
-				<td>{{item.label}}</td>
-				<td>{{item.children[0].value | formatPercent}}</td>
-				<td>{{item.children[1].value | formatPercent}}</td>
-			</tr>
-		</table>
 		<div class="chartsBox_btm" style="height: 100%">
-			<div class="effecrChartBox" id="effecrChart"></div>
-			<div class="effecrChartBox" id="effecrChart2"></div>
+			<div v-if="noData" class="imgInfo">
+				<img src="@/assets/images/chartsData2.png" alt="">
+				<span>数据可视化展示</span>
+			</div>
+			<div v-else class="left">
+				<table v-if="showResult">
+					<tr>
+						<th></th>
+						<th>系统调价</th>
+						<th>人工调价</th>
+					</tr>
+					<tr v-for="(item, idx) in percentList" :key="idx">
+						<td>{{item.label}}</td>
+						<td>{{item.children[0].value | formatPercent(item.label)}}</td>
+						<td>{{item.children[1].value | formatPercent(item.label)}}</td>
+					</tr>
+				</table>
+				<div class="effecrChartBox" id="effecrChart"></div>
+			</div>
+			<div class="right">
+				<div class="effecrChartBox effecrChartBox2" id="effecrChart2"></div>
+			</div>
 		</div>
 	</div>
 </template>
@@ -36,11 +44,25 @@
 		},
 		data() {
 			return {
+				noData: true,
 				showResult: false,
-				percentList: [{
+				percentList: [
+					{
+						label: '总数',
+						children: [{
+								label: '系统',
+								value: ''
+							},
+							{
+								label: '人工',
+								value: ''
+							},
+						]
+					},
+					{
 						label: '命中率',
 						children: [{
-								label: '算法',
+								label: '系统',
 								value: ''
 							},
 							{
@@ -52,7 +74,7 @@
 					{
 						label: '有效率',
 						children: [{
-								label: '算法',
+								label: '系统',
 								value: ''
 							},
 							{
@@ -64,7 +86,7 @@
 					{
 						label: '准确率',
 						children: [{
-								label: '算法',
+								label: '系统',
 								value: ''
 							},
 							{
@@ -162,7 +184,7 @@
 								position: "inner",
 								fontSize: 14,
 							},
-							top: 80,
+							// top: 80,
 							left: '10%',
 							itemStyle: {
 								normal: {
@@ -184,7 +206,7 @@
 							labelLine: {
 								length: 20,
 							},
-							top: 80,
+							// top: 80,
 							left: '10%',
 							selectedMode: 'single',
 							selectedOffset: 10,
@@ -415,10 +437,16 @@
 					})
 					vm.options2.series = initArr;
 					myChart2.setOption(vm.options2);
+					console.log(vm.nextArr)
 					let currentOp = [vm.nextArr, vm.nextArr]
 					currentOp.forEach((item, idx) => {
 						let selectTag = idx === 0 ? '仅系统' : '仅人工'
 						let selectTag2 = idx === 0 ? '系统' : '人工'
+						let zongshu = 0;
+						item.forEach((sub,idx) => {
+							zongshu += sub.value[selectTag2]
+						})
+						// let zongshu = ()
 						let mingzhong = (
 							item[0].value[selectTag2] + // 上升涨价
 							item[1].value[selectTag2] + // 上升降价
@@ -454,12 +482,13 @@
 							item[4].value[selectTag2] // 下降降价
 						)
 
-						// 命中率 0算法   1人工
-						vm.$set(vm.percentList[0].children[idx], 'value', mingzhong)
+						// 命中率 0系统   1人工
+						vm.$set(vm.percentList[0].children[idx], 'value', zongshu)
+						vm.$set(vm.percentList[1].children[idx], 'value', mingzhong)
 						// 有效率
-						vm.$set(vm.percentList[1].children[idx], 'value', youxiao)
+						vm.$set(vm.percentList[2].children[idx], 'value', youxiao)
 						// 准确率
-						vm.$set(vm.percentList[2].children[idx], 'value', zhunque)
+						vm.$set(vm.percentList[3].children[idx], 'value', zhunque)
 					})
 					vm.showResult = true
 				});
@@ -475,6 +504,8 @@
 			// 获取图表数据
 			getChartsEvent(val, tag) {
 				const vm = this;
+				// vm.noData = true;
+				vm.activeName = null;
 				vm.tabDisable = true;
 				vm.activeName = null;
 				vm.innerData = []
@@ -591,6 +622,7 @@
 								itemStyle: item.itemStyle
 							})
 						})
+						vm.noData = false;
 						vm.tabDisable = false;
 						vm.activeName = "1";
 						vm.$emit("close");
@@ -602,39 +634,5 @@
 </script>
 
 <style scoped lang="less">
-	.effecrChartBox {
-		width: 50%;
-		height: 100%;
-		display: inline-block;
-	}
-
-	.el-tabs {
-		padding: 0 120px;
-	}
-
-	.chartsBox {
-		width: 100%;
-		height: 100%;
-		padding: 0 30px;
-		position: relative;
-		table {
-			left: 30px;
-			top: 0;
-			width: 50%;
-			position: absolute;
-			tr {
-				background-color: #F5F7FA;
-				text-align: center;
-				color: #606266;
-			}
-			th {
-				line-height: 44px;
-				font-size: 18px;
-			}
-			td {
-				line-height: 34px;
-				font-size: 14px;
-			}
-		}
-	}
+	@import './charts.less';
 </style>

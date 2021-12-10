@@ -80,7 +80,9 @@
 			color: @baseItemColor;
 		}
 		&__body {
-	
+			.el-table__empty-block {
+				display: none;
+			}
 		}
 	}
 	&-table {
@@ -152,21 +154,11 @@
 		}
 		&__empty-block {
 			width: 100%!important;
+			background: url("../assets/images/noneData2.png") no-repeat center center;
+			background-size: 15% auto;
 		}
 		&__empty-text {
-			// position: absolute;
-			span {
-				font-size: 16px;
-				line-height: 46px;
-					color: #999;
-				&:before {
-					display: inline-block;
-					vertical-align: middle;
-					font-size: 46px;
-					padding-right: 20px;
-					color: #999;
-				}
-			}
+			display: none;
 		}
 		.btn {
 			cursor: pointer;
@@ -307,6 +299,11 @@
 	}
 	&-col {
 		float: none;
+	}
+	&-upload {
+		&__text {
+			color: #909399!important;
+		}
 	}
 }
 

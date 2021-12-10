@@ -10,7 +10,8 @@
 								<el-form-item v-if="item.type==='select'" :label="item.label" :prop="item.prop"
 									:rules="item.rules">
 									<el-select v-model="item.model" :placeholder="item.placeholder" size="medium"
-										:disabled="item.disabled" clearable>
+										:disabled="item.disabled" @change="val => {selectChange(val, idxSum, idx)}"
+										clearable>
 										<el-option v-for="val in item.options" :key="val.code" :label="val.name"
 											:value="val.code">
 										</el-option>
@@ -26,9 +27,9 @@
 					</div>
 				</el-form>
 				<div style="text-align: right">
-					<el-button class="btnnormal btnnormal_down marginR" type="plain" @click="resetEvent">重置</el-button>
-					<el-button class="btnnormal marginR" type="primary" disabled>修改</el-button>
-					<el-button class="btnnormal" type="primary" @click="submitEvent">执行</el-button>
+					<el-button class="el-icon-refresh btnnormal btnnormal_down marginR" type="plain" @click="resetEvent">重置</el-button>
+					<el-button class="el-icon-edit btnnormal marginR" type="primary" disabled>修改</el-button>
+					<el-button class="el-icon-right btnnormal" type="primary" @click="submitEvent">保存</el-button>
 				</div>
 			</div>
 		</div>
@@ -37,7 +38,8 @@
 
 <script>
 	import {
-		alarmSetting
+		alarmSetting,
+		alarmUser
 	} from '@/api/api'
 	import {
 		validPin,
@@ -48,7 +50,7 @@
 		data() {
 			return {
 				form: {
-					
+
 				},
 				boxData: [{
 						txt: '盯盘维度',
@@ -58,10 +60,7 @@
 								prop: 'user_name',
 								label: 'PIN',
 								placeholder: '请选择PIN',
-								options: [{
-									name: '小米灵狐代投1',
-									code: '小米灵狐代投1'
-								}],
+								options: [],
 								rules: {
 									required: true,
 									validator: validPercent.bind(this, this, 0, 0),
@@ -72,14 +71,14 @@
 							{
 								type: 'input',
 								model: '',
-								prop: 'user_password',
+								prop: 'password',
 								label: '密码',
 								placeholder: '请输入密码',
-								// rules: {
-								// 	required: true,
-								// 	validator: validPercent.bind(this, this, 0, 1),
-								// 	trigger: 'blur'
-								// },
+								rules: {
+									required: true,
+									validator: validPercent.bind(this, this, 0, 1),
+									trigger: 'blur'
+								},
 								disabled: true
 							},
 							{
@@ -202,16 +201,16 @@
 								prop: 'optionType',
 								label: '操作类型',
 								placeholder: '请选择操作类型',
-								rules: {
-									required: true,
-									validator: validPercent.bind(this, this, 2, 0),
-									trigger: 'change'
-								},
+								// rules: {
+								// 	required: true,
+								// 	validator: validPercent.bind(this, this, 2, 0),
+								// 	trigger: 'change'
+								// },
 								options: [{
 									name: '企业微信发送通知',
 									code: '1'
 								}],
-								disabled: false
+								disabled: true
 							},
 							{
 								type: 'input',
@@ -257,6 +256,9 @@
 				]
 			}
 		},
+		created() {
+			this.getUser()
+		},
 		methods: {
 			submitEvent() {
 				const vm = this;
@@ -277,6 +279,34 @@
 						})
 					}
 				})
+			},
+			getUser() {
+				const vm = this;
+				alarmUser().then(res => {
+					if (res.data.code === 10000) {
+						res.data.data.forEach((item, idx) => {
+							let target = vm.boxData[0].children[0].options
+							target.push({
+								name: item,
+								code: item
+							})
+						})
+					} else {
+						vm.$msg.error(res.data.msg)
+					}
+				})
+			},
+			selectChange(val, idxSum, idx) {
+				const vm = this;
+				// idxSum:boxdata第一层index、
+				// idx:boxdata第二层index、
+				let target = vm.boxData[0].children[0]
+				if (idxSum === 0 && idx === 0) {
+					vm.boxData[0].children[1].disabled = !val
+					if (!val) {
+						vm.boxData[0].children[1].model = ''
+					}
+				}
 			},
 			resetEvent() {
 				const vm = this;

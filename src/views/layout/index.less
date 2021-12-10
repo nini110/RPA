@@ -37,17 +37,17 @@
             // background-color: #2b303d;
         }
 		&_btmIcon {
-			position: absolute;
+			position: fixed;
 			bottom: 0;
-			left: 50%;
-			transform: translateX(-50%);
-			width: 100%;
+			left: 0;
+			width:200px;
 			height: 200px;
-			text-align: center;
-			line-height: 200px;
-			// background-color: rgba(75, 77, 80 .9);
-			// background-color: #343538;
-			// box-shadow: 0px 5px 20px #343538;
+			svg {
+				position: absolute;
+				left: 50%;
+				top: 50%;
+				transform: translate(-50%, -50%);
+			}
 		}
 		.titleicon {
 			width: 80px;

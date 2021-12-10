@@ -1,208 +1,189 @@
 <template>
-  <!-- 自定义分析创建 -->
-  <div class="brandSKUAcquisition outerDiv">
-    <div class="content">
-      <div class="form">
-        <el-form ref="form" :model="form" class="formObj">
-          <div class="formObj_ipt">
-            <el-form-item label="选择平台:">
-              <el-select
-                v-model="value"
-                placeholder="请选择"
-                size="medium"
-                clearable
-              >
-                <el-option
-                  v-for="item in options"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value"
-                ></el-option>
-              </el-select>
-            </el-form-item>
-            <el-form-item label="关键词:">
-              <el-input
-                placeholder="请输入关键词或店铺名称"
-                v-model="keyword"
-                size="medium"
-                clearable
-              ></el-input>
-            </el-form-item>
-            <el-form-item label="选择页码:" class="trPage">
-              第 <el-input-number
-                v-model="num"
-                :min="1"
-                size="medium"
-                :controls="false"
-                label="描述文字"
-              ></el-input-number
-              > 页 — 第 <el-input-number
-                v-model="num"
-                :min="1"
-                size="medium"
-                :controls="false"
-                label="描述文字"
-              ></el-input-number
-              > 页
-            </el-form-item>
-            <el-form-item label="接收邮箱">
-              <el-input
-                placeholder="请输入邮箱地址"
-                v-model="mail"
-                size="medium"
-                clearable
-              ></el-input>
-            </el-form-item>
-          </div>
-            <div class="formObj_button">
-              <el-button
-                type="primary"
-                class="btnnormal"
-                @click="going"
-                v-loading.fullscreen.lock="fullscreenLoading"
-                >执行</el-button
-              >
-              <p class="btnTip">
-                *如果半小时未收到邮件请联系产品部*
-              </p>
-            </div>
-        </el-form>
-        <el-divider></el-divider>
-      </div>
-    </div>
-  </div>
+	<!-- 自定义分析创建 -->
+	<div class="brandSKUAcquisition outerDiv">
+		<div class="content">
+			<div class="content_form">
+				<el-form ref="form" :model="form" class="formObj">
+					<div class="formObj_ipt">
+						<el-row>
+							<el-col :span="12">
+								<el-form-item label="选择平台:">
+									<el-select v-model="value" placeholder="请选择" size="medium" clearable>
+										<el-option v-for="item in options" :key="item.value" :label="item.label"
+											:value="item.value"></el-option>
+									</el-select>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12">
+								<el-form-item label="关键词:">
+									<el-input placeholder="请输入关键词或店铺名称" v-model="keyword" size="medium" clearable>
+									</el-input>
+								</el-form-item>
+							</el-col>
+							<el-col :span="12">
+								<el-form-item label="选择页码:" class="trPage">
+									第 <el-input-number v-model="num" :min="1" size="medium" :controls="false"
+										label="描述文字"></el-input-number> 页 — 第 <el-input-number v-model="num" :min="1"
+										size="medium" :controls="false" label="描述文字"></el-input-number> 页
+								</el-form-item>
+							</el-col>
+							<el-col :span="12">
+								<el-form-item label="接收邮箱">
+									<el-input placeholder="请输入邮箱地址" v-model="mail" size="medium" clearable></el-input>
+								</el-form-item>
+							</el-col>
+						</el-row>
+					</div>
+					<div class="formObj_button">
+						<el-button type="primary" class="btnnormal" @click="going"
+							v-loading.fullscreen.lock="fullscreenLoading">执行</el-button>
+						<p class="btnTip">
+							*如果半小时未收到邮件请联系产品部*
+						</p>
+					</div>
+				</el-form>
+			</div>
+			<div class="content_tableBox">
+				<el-divider></el-divider>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-import { fxcjtools } from "@/api/api.js";
-export default {
-  data() {
-    return {
-      form: {},
-      num: 1,
-      //下拉框value
-      options: [
-        {
-          value: "选项1",
-          label: "京东",
-        },
-        {
-          value: "选项2",
-          label: "淘宝",
-        },
-        {
-          value: "选项3",
-          label: "多点",
-        },
-        {
-          value: "选项4",
-          label: "百度",
-        },
-        {
-          value: "选项5",
-          label: "微博",
-        },
-      ],
-      value: "",
-      keyword: "",
+	import {
+		fxcjtools
+	} from "@/api/api.js";
+	export default {
+		data() {
+			return {
+				form: {},
+				num: 1,
+				//下拉框value
+				options: [{
+						value: "选项1",
+						label: "京东",
+					},
+					{
+						value: "选项2",
+						label: "淘宝",
+					},
+					{
+						value: "选项3",
+						label: "多点",
+					},
+					{
+						value: "选项4",
+						label: "百度",
+					},
+					{
+						value: "选项5",
+						label: "微博",
+					},
+				],
+				value: "",
+				keyword: "",
 
-      mail: "", //邮箱地址
-      userid: "",
-      code: "",
+				mail: "", //邮箱地址
+				userid: "",
+				code: "",
 
-      username: "", //用户名
+				username: "", //用户名
 
-      rizhi: "", //日志内容
+				rizhi: "", //日志内容
 
-      msg: "", //根据上传判断执行条件
-      dialogVisible: false,
+				msg: "", //根据上传判断执行条件
+				dialogVisible: false,
 
-      fullscreenLoading: false, //loading框显示隐藏
-    };
-  },
-  methods: {
-    //执行
-    going() {
-      //调用大数据工具请求
-      this.fullscreenLoading = true;
-      fxcjtools({
-        username: this.username,
-        password: "123456",
-        trans_name: "lxd",
-        tool_type: "8",
-      })
-        .then((res) => {
-          debugger;
-          console.log(res);
-          this.fullscreenLoading = false;
-          if (res.data.code == "10000") {
-            this.$message.success("执行成功");
-          } else if (res.data.code == "10001") {
-            this.$message.warning("未上传cookie或tool type或trans_name");
-          } else if (res.data.code == "10003") {
-            this.$message.error("内部错误");
-          } else if (res.data.code == "10004") {
-            this.$message.warning("请求受限");
-          } else if (res.data.code == "10005") {
-            this.$message.warning("请检查用户密码是否正确");
-          } else {
-            this.$message.error("执行失败");
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
-  created() {
-    // check方法调用接口,判断用户是否登录!
-    this.check();
-  },
+				fullscreenLoading: false, //loading框显示隐藏
+			};
+		},
+		methods: {
+			//执行
+			going() {
+				//调用大数据工具请求
+				this.fullscreenLoading = true;
+				fxcjtools({
+						username: this.username,
+						password: "123456",
+						trans_name: "lxd",
+						tool_type: "8",
+					})
+					.then((res) => {
+						debugger;
+						console.log(res);
+						this.fullscreenLoading = false;
+						if (res.data.code == "10000") {
+							this.$message.success("执行成功");
+						} else if (res.data.code == "10001") {
+							this.$message.warning("未上传cookie或tool type或trans_name");
+						} else if (res.data.code == "10003") {
+							this.$message.error("内部错误");
+						} else if (res.data.code == "10004") {
+							this.$message.warning("请求受限");
+						} else if (res.data.code == "10005") {
+							this.$message.warning("请检查用户密码是否正确");
+						} else {
+							this.$message.error("执行失败");
+						}
+					})
+					.catch((err) => {
+						console.log(err);
+					});
+			},
+		},
+		created() {
+			// check方法调用接口,判断用户是否登录!
+			this.check();
+		},
 
-  mounted() {
-    this.userid = localStorage.getItem("wx_userid");
-    this.code = localStorage.getItem("wx_code");
-    this.username = localStorage.getItem("user_name");
-    this.people = localStorage.getItem("user_name");
-  },
-};
+		mounted() {
+			this.userid = localStorage.getItem("wx_userid");
+			this.code = localStorage.getItem("wx_code");
+			this.username = localStorage.getItem("user_name");
+			this.people = localStorage.getItem("user_name");
+		},
+	};
 </script>
 
 <style lang="less" scoped>
-@import "../../index";
+	@import "../../index";
 
-.brandSKUAcquisition {
-  .content {
-    .form {
-      .tables {
-        width: 620px;
-        margin: 0 auto;
-        .dialog {
-          .tips {
-            width: 80%;
-            height: 50px;
-            margin: 0 auto;
-            text-align: center;
-            font-size: 18px;
-            line-height: 50px;
-          }
-          .tipsItem {
-            width: 80%;
-            height: 50px;
-            margin: 0 auto;
-            text-align: center;
-            font-size: 12px;
-            color: red;
-            line-height: 50px;
-          }
-          .button {
-            width: 100px;
-            height: 40px;
-            margin: 0 auto;
-          }
-        }
-      }
-    }
-  }
-}
+	.brandSKUAcquisition {
+		.content {
+			.form {
+				.tables {
+					width: 620px;
+					margin: 0 auto;
+
+					.dialog {
+						.tips {
+							width: 80%;
+							height: 50px;
+							margin: 0 auto;
+							text-align: center;
+							font-size: 18px;
+							line-height: 50px;
+						}
+
+						.tipsItem {
+							width: 80%;
+							height: 50px;
+							margin: 0 auto;
+							text-align: center;
+							font-size: 12px;
+							color: red;
+							line-height: 50px;
+						}
+
+						.button {
+							width: 100px;
+							height: 40px;
+							margin: 0 auto;
+						}
+					}
+				}
+			}
+		}
+	}
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<!-- 公共数据获取 -->
-	<div class="PublicDomainDataAcquisition">
+	<div class="PublicDomainDataAcquisition" style="height: 100%">
 		<router-view/>
 	</div>
 </template>
@@ -21,9 +21,4 @@ export default {
 </script>
 
 <style lang="less">
-  .PublicDomainDataAcquisition {
-    padding-top: 80px;
-    height: 100%;
-    box-sizing: border-box;
-  }
 </style>
