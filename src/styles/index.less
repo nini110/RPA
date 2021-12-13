@@ -34,7 +34,7 @@
 	}
 	&-form {
 		&-item {
-			margin-bottom: 22px;
+			margin-bottom: 18px;
 			&__label,
 			&__content {
 				display: inline-block;
@@ -154,15 +154,43 @@
 		}
 		&__empty-block {
 			width: 100%!important;
-			background: url("../assets/images/noneData2.png") no-repeat center center;
-			background-size: 15% auto;
+			background: url("../assets/images/noneData3.png") no-repeat center center;
+			background-size: 25% auto;
 		}
 		&__empty-text {
 			display: none;
 		}
 		.btn {
 			cursor: pointer;
-			color: @baseItemColor;
+			color: #606266;
+			padding: 10px 20px!important;
+			border-radius: 4px;
+			vertical-align: middle;
+			transition: all 400ms linear;
+			border-color: transparent;
+			&.is-disabled {
+				background-color: #aaafae;
+				color: #fff;
+				&:hover {
+					background-color: #aaafae;
+					color: #fff;
+				}
+				
+			}
+			&_info {
+				background-color: #eef0f1;
+				&:hover {
+					background-color: #979798;
+					color: #fff;
+				}
+			}
+			&_delete {
+				background-color: rgba(245, 108, 108, .2);
+				&:hover {
+					background-color: rgba(245, 108, 108, .8);
+					color: #fff;
+				}
+			}
 		}
 	}
 	&-input {
@@ -219,14 +247,14 @@
 			font-size: 24px;
 		}
 		&__body {
-			padding: 0 30px 0 30px;
+			padding: 0 30px;
 			font-size: 12px;
 			.dialogBtn {
 				text-align: right;
 			}
 		}
 		&__footer {
-			padding: 0 30px 30px 30px;
+			padding:30px;
 		}
 	}
 	&-message-box {
@@ -236,7 +264,7 @@
 			&:before,
 			&:after {
 				position: absolute;
-				top: 14px;
+				top: 10px;
 				left: 0;
 				display: block;
 				content: '';
@@ -247,7 +275,7 @@
 				border-bottom: 13px solid transparent;
 			}
 			&:after {
-				top: 17px;
+				top: 13px;
 				left: 6px;
 				z-index: 2;
 				border-top: 10px solid transparent;
@@ -256,10 +284,10 @@
 			}
 		}
 		&__content {
-			margin-bottom: 20px;
+			// margin-bottom: 20px;
 		}
 		&__title {
-			font-size: 22px;
+			font-size: 16px;
 			font-weight: bold;
 			color: @baseItemColor;
 		}
@@ -273,12 +301,12 @@
 		}
 		&__message {
 			p {
-				font-size: 18px;
+				font-size: 14px;
 				color: #606266;
 			}
 		}
 		&__btns {
-			margin-bottom: 10px;
+			// margin-bottom: 10px;
 			button {
 				padding: 10px 20px;
 				border: 1px solid @baseItemColor;
@@ -303,6 +331,54 @@
 	&-upload {
 		&__text {
 			color: #909399!important;
+		}
+	}
+	&-button {
+		&--primary {
+			padding: 11px 36px;
+			border: none;
+			&:hover,
+			&:focus {
+				background-color: @baseItemColor;
+			}
+			&.is-plain {
+				background-color: @baseItemColor;
+				font-size: 14px;
+				color: #fff;
+				// padding: 14px 36px;
+				border-radius: 4px;
+				outline: none;
+				transition: 600ms ease all;
+				position: relative;
+				display: inline-block;
+				&:hover {
+				  background: #fff;
+							color: @baseItemColor;
+				  &:before,
+				  &:after {
+				    width: 100%;
+							  background-color: @baseItemColor;
+				    transition: 600ms ease all;
+				  }
+				}
+				&:before,
+				&:after {
+				  content: '';
+				  position: absolute;
+				  top: 0;
+				  right: 0;
+				  height: 2px;
+				  width: 0;
+				  transition: 400ms ease all;
+				}
+						
+				&::after {
+				  right: inherit;
+				  top: inherit;
+				  left: 0;
+				  bottom: 0;
+				}
+			}
 		}
 	}
 }
@@ -334,6 +410,9 @@
         border-radius: 3px;
     }
 .tagBox {
+	display: flex;
+	flex-direction: row-reverse;
+	margin-bottom: 0!important;
     .el-form-item {
         &__content {
             height: 150px;

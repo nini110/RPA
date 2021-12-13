@@ -1,33 +1,48 @@
 .w320 {
 	width: 320px;
 }
-
+@baseItemColor: #287BB5;
 /deep/.btnnormal {
-	// background-color: #2066BD;
-	// border: 1px solid #0051B3;
-	text-align: center;
-	cursor: pointer;
-	padding: 4px 20px;
-	min-width: 120px;
-	font-size: 12px;
-	line-height: 26px;
-	vertical-align: 2px;
-	margin: 0;
-
-	&:hover {
-		// background-color: #5083c0;
-	}
-
 	&_down {
-		display: inline-block;
-		border-radius: 4px;
-		background-color: #fff;
-		color: #287bb5;
-		border: 1px solid #287BB5;
-		&:hover {
-			background-color: #287bb5;
-			color: #fff;
-		}
+		  cursor: pointer;
+		  background-color: @baseItemColor;
+		  font-size: 14px;
+		  color: #fff;
+		  padding: 8.5px 36px;
+		  border-radius: 4px;
+		  border: none;
+		  outline: none;
+		  transition: 600ms ease all;
+		  position: relative;
+		  display: inline-block;
+		  vertical-align: top;
+		  &:hover {
+		    background: #fff;
+			color: @baseItemColor;
+		    &:before,
+		    &:after {
+		      width: 100%;
+			  background-color: @baseItemColor;
+		      transition: 600ms ease all;
+		    }
+		  }
+		  &:before,
+		  &:after {
+		    content: '';
+		    position: absolute;
+		    top: 0;
+		    right: 0;
+		    height: 2px;
+		    width: 0;
+		    transition: 400ms ease all;
+		  }
+		
+		  &::after {
+		    right: inherit;
+		    top: inherit;
+		    left: 0;
+		    bottom: 0;
+		  }
 	}
 }
 
@@ -184,7 +199,7 @@
 				height: calc(100% - 230px) !important;
 			}
 			&.hasUp4 {
-				height: calc(100% - 180px) !important;
+				height: calc(100% - 150px) !important;
 			}
 			&.hasUp5 {
 				height: calc(100% - 120px) !important;
@@ -244,11 +259,11 @@
 				}
 
 				&.cls1 {
-					height: calc(100% - 475px) !important;
+					height: calc(100% - 455px) !important;
 				}
 
 				&.cls2 {
-					height: calc(100% - 240px) !important;
+					height: calc(100% - 237px) !important;
 				}
 			}
 
@@ -331,7 +346,9 @@
 		width: 80%;
 	}
 	&_btn {
+		padding: 10px 36px!important;
 		display: inline-block;
+		vertical-align: top;
 		&_div {
 			position: absolute;
 			top: 2px;
@@ -340,4 +357,7 @@
 		
 	}
 	
+}
+.inlineButton {
+	display: inline-block;
 }

@@ -37,9 +37,7 @@
 		</el-menu>
 		<div class="layout_menu_right">
 			<div class="app-main" id="appMain">
-				<transition name="el-fade-in">
-					<router-view class="app-router-view" />
-				</transition>
+				<router-view class="app-router-view" />
 			</div>
 		</div>
 	</div>
@@ -131,19 +129,19 @@
 						children: [{
 								label: "灵鲨制表",
 								icon2: '#icon-jianzhibiaoge',
-								value: "/layout/dataApplication/spiritSharkTabulation",
+								value: "/layout/dataApplication/tabulation",
 								index: "3-1",
 							},
 							{
 								label: "竞标监控",
 								icon2: '#icon-monitor-tv-svgrepo-com',
-								value: "/layout/dataApplication/biddingForMonitoring",
+								value: "/layout/dataApplication/monitor",
 								index: "3-2",
 							},
 							{
 								label: "桑吉图数据",
 								icon2: '#icon-sangjitu1',
-								value: "/layout/dataApplication/sankey",
+								value: "/layout/dataApplication/snake",
 								index: "3-3",
 							},
 						],

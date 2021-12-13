@@ -1,11 +1,12 @@
 <template>
 	<div class="itemsComp publicDiv">
 		<div class="centers">
-			<el-button type="primary" class="el-icon-plus btnnormal" style="margin-bottom: 20px" @click="createEvent(1)">新建项目
+			<el-button v-waves type="primary" class="el-icon-plus btnnormal" style="margin-bottom: 20px"
+				@click="createEvent(1)">新建项目
 			</el-button>
 			<div class="tabbles itemtable" ref="tabbles">
 				<el-table class="tableBox" :data="tableData" highlight-current-row
-					:header-cell-style="{ background: '#F5F7FA', color: '#666' }" stripe>
+					:header-cell-style="{ background: '#eef0f1', color: '#606266' }" stripe>
 					<el-table-column type="selection" align="center" width="100">
 					</el-table-column>
 					<el-table-column label="序号" type="index" fixed="left" width="100">
@@ -22,13 +23,14 @@
 							<div>{{scope.row.castTime[1]}}</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="操作" fixed="right" width="300">
+					<el-table-column label="操作" fixed="right" width="320">
 						<template slot-scope="scope">
-							<span class="btn el-icon-edit" style="margin-right: 20px"
-								@click="createEvent(2, scope.row.id)">编辑</span>
-							<span class="btn el-icon-delete" style="margin-right: 20px" @click="deleteEvent">删除</span>
-							<span class="btn el-icon-time" style="margin-right: 20px"
-								@click="routerLink(scope.row.id, scope.row.project_name)">实时看板</span>
+							<span v-waves class="btn btn_info el-icon-edit" style="margin-right: 20px"
+								@click="createEvent(2, scope.row.id)"></span>
+							<span v-waves class="btn btn_info el-icon-s-data" style="margin-right: 20px"
+								@click="routerLink(scope.row.id, scope.row.project_name)"></span>
+							<span v-waves class="btn btn_delete el-icon-delete" style="margin-right: 20px"
+								@click="deleteEvent"></span>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -51,6 +53,7 @@
 	import DialodEdit from "./dialogEdit.vue";
 	import opt from "../option.js";
 	import message from "@/mixin/message";
+	// import getWidth from "@/mixin/getWidth";
 
 	export default {
 		name: "Items",
@@ -122,9 +125,6 @@
 					tipTitle: "是否确认删除当前项目？",
 					confirmButtonFn: () => {
 						this.$message("暂无删除接口功能");
-					},
-					cancelButtonFn: () => {
-						this.$message("已取消");
 					},
 				});
 			},

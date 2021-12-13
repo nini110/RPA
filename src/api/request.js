@@ -7,7 +7,7 @@ import { Message } from 'element-ui'
 // const baseURL = 'http://114.67.229.243:8001';
 export const service = axios.create({
     // baseURL,
-    timeout: 15000
+    timeout: 150000
 })
 const headers = {
     'form': 'application/x-www-form-urlencoded',

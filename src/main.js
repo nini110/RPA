@@ -6,6 +6,7 @@ import axios from 'axios'
 import qs from 'qs'
 import ElementUI from 'element-ui';
 import format from './utils/format';
+import directives from '@/directive'
 import './utils/rem' //px转rem
 import '../element-#287BB5/index.css'
 import './styles/index.less'
@@ -49,6 +50,10 @@ Vue.prototype.DomainName = 'http://tool.afocus.com.cn:5005';
 
 Object.keys(format).forEach(key => {
 	Vue.filter(key, format[key])
+})
+
+Object.keys(directives).forEach(key => {
+	Vue.directive(key, directives[key])
 })
 Vue.config.productionTip = false
 new Vue({

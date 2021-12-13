@@ -137,28 +137,28 @@ const routes = [
 				component: () => import("../views/DataApplication"),
 				children: [
 					{
-						path: 'spiritSharkTabulation',
-						name: 'SpiritSharkTabulation',
+						path: 'tabulation',
+						name: 'Tabulation',
 						meta: {
 							title: '灵鲨制表'
 						},
-						component: () => import("@/views/DataApplication/child/SpiritSharkTabulation.vue"),
+						component: () => import("@/views/DataApplication/tabulation/index"),
 					},
 					{
-						path: 'biddingForMonitoring',
-						name: 'BiddingForMonitoring',
+						path: 'monitor',
+						name: 'Monitor',
 						meta: {
 							title: '竞标监控'
 						},
-						component: () => import("@/views/DataApplication/child/BiddingForMonitoring.vue"),
+						component: () => import("@/views/DataApplication/monitor"),
 					},
 					{
-						path: 'sankey',
-						name: 'Sankey',
+						path: 'snake',
+						name: 'Snake',
 						meta: {
 							title: '桑吉图数据'
 						},
-						component: () => import("@/views/DataApplication/child/Sanke.vue"),
+						component: () => import("@/views/DataApplication/snake"),
 					}
 				]
 			},

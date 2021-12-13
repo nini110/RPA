@@ -83,8 +83,8 @@
 			</el-row>
 		</el-form>
 		<span slot="footer" class="dialog-footer">
-			<el-button type="primary" plain @click="closeEvent">取消</el-button>
-			<el-button type="primary" @click="updateEvent">{{btnWord}}</el-button>
+			<el-button v-waves type="primary" plain @click="closeEvent">取消</el-button>
+			<el-button v-waves type="primary" @click="updateEvent">{{btnWord}}</el-button>
 		</span>
 	</el-dialog>
 </template>

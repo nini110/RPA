@@ -4,7 +4,8 @@
 		<div class="centers">
 			<div class="PriceTops">
 				<div class="btn">
-					<el-button type="primary" class="el-icon-plus btnnormal" @click="editFn(1)" size="medium">新建策略</el-button>
+					<el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="editFn(1)" size="medium">新建策略
+					</el-button>
 				</div>
 				<div class="search">
 					<div class="search_label">状态：</div>
@@ -18,14 +19,15 @@
 					<div class="search_label">策略名称：</div>
 					<el-input v-model="searchName" placeholder="请输入策略名称" size="medium" class="inp" clearable></el-input>
 					<div>
-						<el-button style="margin-left: 10px" class="el-icon-search btnnormal" type="primary" size="medium">查询
+						<el-button v-waves style="margin-left: 10px" class="el-icon-search btnnormal" type="primary"
+							size="medium">查询
 						</el-button>
 					</div>
 				</div>
 			</div>
 			<div class="tabbles pricetable" ref="tabbles">
 				<el-table ref="multipleTable" :data="tableData" tooltip-effect="dark"
-					@selection-change="handleSelectionChange" :header-cell-style="{background:'#F5F7FA',color: '#666'}">
+					@selection-change="handleSelectionChange" :header-cell-style="{background:'#eef0f1',color: '#606266'}">
 					<el-table-column align="center" type="selection" width="100" fixed="left">
 					</el-table-column>
 					<el-table-column align="center" label="序号" width="100" type="index" fixed="left">
@@ -39,7 +41,7 @@
 					<el-table-column v-for="(item, idx) in tabList" :key="idx" :prop="item.prop" :label="item.label"
 						:min-width="item.width">
 					</el-table-column>
-					<el-table-column prop="address" width="180" label="操作" fixed="right">
+					<el-table-column prop="address" width="200" label="操作" fixed="right">
 						<template slot="header">
 							操作
 							<el-tooltip class="item" effect="dark" content="当状态为使用中时,不可编辑和删除" placement="top">
@@ -47,10 +49,10 @@
 							</el-tooltip>
 						</template>
 						<template slot-scope="scope">
-							<el-button class="el-icon-edit" type="text" @click="editFn(2, scope.row)"
-								:disabled="scope.row.status ? true : false">编辑</el-button>
-							<el-button class="el-icon-delete" type="text" @click="deleteFn()"
-								:disabled="scope.row.status ? true : false">删除</el-button>
+							<el-button v-waves class="btn btn_info el-icon-edit" type="text" @click="editFn(2, scope.row)"
+								:disabled="scope.row.status ? true : false"></el-button>
+							<el-button v-waves class="btn btn_delete el-icon-delete" type="text" @click="deleteFn()"
+								:disabled="scope.row.status ? true : false"></el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -194,10 +196,7 @@
 					tipTitle: "是否确认删除当前策略？",
 					confirmButtonFn: () => {
 						this.$message("暂无删除接口功能");
-					},
-					cancelButtonFn: () => {
-						this.$message("已取消");
-					},
+					}
 				});
 			},
 			// 编辑按钮

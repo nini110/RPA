@@ -50,9 +50,9 @@
 			</el-row>
 		</el-form>
 		<span slot="footer" class="dialog-footer">
-			<el-button class="btnnormal btnnormal_down" @click="closeEvent" size="medium">取 消
+			<el-button v-waves type="primary" plain @click="closeEvent" size="medium">取 消
 			</el-button>
-			<el-button class="btnnormal marginL" type="primary" @click="saveEvent()" size="medium">{{btnTxt}}
+			<el-button v-waves type="primary" @click="saveEvent()" size="medium">{{btnTxt}}
 			</el-button>
 		</span>
 	</el-dialog>

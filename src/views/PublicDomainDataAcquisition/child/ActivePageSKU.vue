@@ -18,7 +18,7 @@
 				<div class="tables">
 					<div class="tableTab">
 						<el-table ref="singleTable" class="tableBox" :data="tableData"
-							:header-cell-style="{background:'#F5F7FA',color: '#666'}" :highlight-current-row="true">
+							:header-cell-style="{background:'#eef0f1',color: '#606266'}" :highlight-current-row="true">
 							<template slot="empty">
 								<span class="iconfont icon-wushuju">暂无数据</span>
 							</template>

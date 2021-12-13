@@ -2,27 +2,30 @@
 	<div class="chartsBox">
 		<div class="chartsBox_btm" style="height: 100%">
 			<div v-if="noData" class="imgInfo">
-				<img src="@/assets/images/chartsData2.png" alt="">
+				<img src="@/assets/images/noneData2.png" alt="">
 				<span>数据可视化展示</span>
 			</div>
-			<div v-else class="left">
-				<table v-if="showResult">
-					<tr>
-						<th></th>
-						<th>系统调价</th>
-						<th>人工调价</th>
-					</tr>
-					<tr v-for="(item, idx) in percentList" :key="idx">
-						<td>{{item.label}}</td>
-						<td>{{item.children[0].value | formatPercent(item.label)}}</td>
-						<td>{{item.children[1].value | formatPercent(item.label)}}</td>
-					</tr>
-				</table>
-				<div class="effecrChartBox" id="effecrChart"></div>
+			<div v-else style="height: 100%">
+				<div class="left">
+					<table v-if="showResult">
+						<tr>
+							<th></th>
+							<th>系统调价</th>
+							<th>人工调价</th>
+						</tr>
+						<tr v-for="(item, idx) in percentList" :key="idx">
+							<td>{{item.label}}</td>
+							<td>{{item.children[0].value | formatPercent(item.label)}}</td>
+							<td>{{item.children[1].value | formatPercent(item.label)}}</td>
+						</tr>
+					</table>
+					<div ref="effecrChart" class="effecrChartBox" id="effecrChart"></div>
+				</div>
+				<div class="right">
+					<div ref="effecrChart2" class="effecrChartBox effecrChartBox2" id="effecrChart2"></div>
+				</div>
 			</div>
-			<div class="right">
-				<div class="effecrChartBox effecrChartBox2" id="effecrChart2"></div>
-			</div>
+
 		</div>
 	</div>
 </template>
@@ -46,8 +49,7 @@
 			return {
 				noData: true,
 				showResult: false,
-				percentList: [
-					{
+				percentList: [{
 						label: '总数',
 						children: [{
 								label: '系统',
@@ -443,7 +445,7 @@
 						let selectTag = idx === 0 ? '仅系统' : '仅人工'
 						let selectTag2 = idx === 0 ? '系统' : '人工'
 						let zongshu = 0;
-						item.forEach((sub,idx) => {
+						item.forEach((sub, idx) => {
 							zongshu += sub.value[selectTag2]
 						})
 						// let zongshu = ()
@@ -497,10 +499,8 @@
 		created() {
 			const vm = this;
 		},
-		mounted() {
-			const vm = this;
-		},
 		methods: {
+
 			// 获取图表数据
 			getChartsEvent(val, tag) {
 				const vm = this;
@@ -625,8 +625,8 @@
 						vm.noData = false;
 						vm.tabDisable = false;
 						vm.activeName = "1";
-						vm.$emit("close");
 					}
+					vm.$emit("close");
 				});
 			},
 		},

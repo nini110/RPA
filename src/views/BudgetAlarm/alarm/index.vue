@@ -27,9 +27,12 @@
 					</div>
 				</el-form>
 				<div style="text-align: right">
-					<el-button class="el-icon-refresh btnnormal btnnormal_down marginR" type="plain" @click="resetEvent">重置</el-button>
-					<el-button class="el-icon-edit btnnormal marginR" type="primary" disabled>修改</el-button>
-					<el-button class="el-icon-right btnnormal" type="primary" @click="submitEvent">保存</el-button>
+					<a class="btnnormal btnnormal_down marginR">
+						<div class="el-icon-refresh btnSize" @click="resetEvent">重置</div>
+					</a>
+					<!-- <el-button v-waves class="el-icon-refresh marginR" type="primary" plain @click="resetEvent"></el-button> -->
+					<el-button v-waves class="el-icon-edit" type="primary" disabled>修改</el-button>
+					<el-button v-waves class="el-icon-right " type="primary" @click="submitEvent">保存</el-button>
 				</div>
 			</div>
 		</div>

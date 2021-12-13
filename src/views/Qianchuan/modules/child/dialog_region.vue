@@ -11,7 +11,7 @@
 					<div class="provinceAndCity">
 						<div class="search" style="display: flex">
 							<el-input size="medium" placeholder="省市搜索不支持按拼音、拼音首字母"></el-input>
-							<el-button slot="append" icon="el-icon-search" size="medium">搜索</el-button>
+							<el-button v-waves slot="append" icon="el-icon-search" size="medium">搜索</el-button>
 						</div>
 						<div class="tabsItem">
 							<el-tabs v-model="nowActive" @tab-click="handleClick" style="width: 100%">
@@ -54,9 +54,9 @@
 			</el-tabs>
 		</el-form>
 		<span slot="footer" class="dialog-footer">
-			<el-button class="btnnormal btnnormal_down" @click="closeEvent" size="medium">取 消
+			<el-button type="primary" plain @click="closeEvent" size="medium">取 消
 			</el-button>
-			<el-button type="primary" class="btnnormal marginL" @click="saveEvent" size="medium">{{btnTxt}}
+			<el-button type="primary" @click="saveEvent" size="medium">{{btnTxt}}
 			</el-button>
 		</span>
 	</el-dialog>

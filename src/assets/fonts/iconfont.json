@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "6185788",
+      "name": "角色修改",
+      "font_class": "jiaosexiugai",
+      "unicode": "e690",
+      "unicode_decimal": 59024
+    },
+    {
+      "icon_id": "11355275",
+      "name": "活动记录",
+      "font_class": "huodongjilu",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
       "icon_id": "1962969",
       "name": "icon_重大事项预警审核",
       "font_class": "icon_zhongdashixiangyujingshenhe",

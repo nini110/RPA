@@ -22,7 +22,7 @@
 										:picker-options="pickerOptionsStart">
 									</el-date-picker>
 									<div class="tophasBtn_btn_div">
-										<el-button type="primary" class="el-icon-search tophasBtn_btn btnnormal marginL"
+										<el-button v-waves type="primary" class="el-icon-search marginL"
 											@click="searchEvent">查询
 										</el-button>
 									</div>
@@ -45,7 +45,7 @@
 					<!-- :height="tableHeight" -->
 					<div class="tableTab" v-show="tableData">
 						<el-table class="tableBox" :data="tableData" ref="table" highlight-current-row height="0"
-							:header-cell-style="{ background: '#F5F7FA', color: '#666' }" @sort-change="sortChange"
+							:header-cell-style="{ background: '#eef0f1', color: '#606266' }" @sort-change="sortChange"
 							style="width: 100%">
 							<el-table-column type="index" width="100" label="序号" align="center" fixed="left">
 							</el-table-column>

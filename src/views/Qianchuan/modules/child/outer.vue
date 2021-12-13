@@ -1,14 +1,14 @@
 <template>
 	<div class="region strategyNormal">
 		<div class="centers">
-			<div class="tabTops">
+			<div class="PriceTops">
 				<div>
-					<el-button type="primary" class="el-icon-plus btnnormal" @click="editFn(1)" size="medium">新建模板
+					<el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="editFn(1)" size="medium">新建模板
 					</el-button>
 				</div>
-				<div class="searchs">
-					<div class="searchs_label">模板名称：</div>
-					<el-input v-model="searchName" placeholder="请输入模板名称" size="medium" clearable></el-input>
+				<div class="search">
+					<div class="search_label">模板名称：</div>
+					<el-input v-model="searchName" placeholder="请输入模板名称" class="inp" size="medium" clearable></el-input>
 					<div>
 						<el-button type="primary" class="el-icon-search btnnormal" size="medium" style="margin-left: 10px">查询
 						</el-button>
@@ -16,18 +16,18 @@
 				</div>
 			</div>
 			<div class="tabbles pricetable" ref="tabbles">
-				<el-table :data="tableData" :header-cell-style="{background:'#F5F7FA',color: '#666'}">
+				<el-table :data="tableData" :header-cell-style="{background:'#eef0f1',color: '#606266'}">
 					<el-table-column align="center" type="index" label="序号" width="100">
 					</el-table-column>
 					<el-table-column v-for="(item, idx) in moduleOptions" :prop="item.prop" :label="item.label"
 						:min-width="item.width">
 					</el-table-column>
-					<el-table-column prop="address" label="操作" width="180" fixed="right">
+					<el-table-column prop="address" label="操作" width="200" fixed="right">
 						<template slot-scope="scope">
-							<el-button class="el-icon-edit" type="text" @click="editFn(2, scope.row)"
-								:disabled="scope.row.status ? true : false">编辑</el-button>
-							<el-button class="el-icon-delete" type="text" @click="deleteFn()"
-								:disabled="scope.row.status ? true : false">删除</el-button>
+							<el-button v-waves class="btn btn_info el-icon-edit" type="text" @click="editFn(2, scope.row)"
+								:disabled="scope.row.status ? true : false"></el-button>
+							<el-button v-waves class="btn btn_delete el-icon-delete" type="text" @click="deleteFn()"
+								:disabled="scope.row.status ? true : false"></el-button>
 						</template>
 					</el-table-column>
 				</el-table>
@@ -134,10 +134,7 @@
 					tipTitle: "是否确认删除当前模板？",
 					confirmButtonFn: () => {
 						this.$message("暂无删除接口功能");
-					},
-					cancelButtonFn: () => {
-						this.$message("已取消");
-					},
+					}
 				});
 			},
 			// 编辑按钮
