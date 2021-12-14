@@ -253,11 +253,9 @@
 				const vm = this;
 				vm.form.date = ''
 				vm.dataState = ''
-				vm.tableData = []
 				vm.fileList = [];
 				vm.progressPercent = 0;
 				vm.dateDis = true
-				vm.total = null
 				if (val) {
 					vm.dateDis = false
 					for (let i of vm.itemOptions) {
@@ -268,6 +266,8 @@
 					vm.getTableData();
 				} else {
 					vm.checkedItem = {}
+					vm.tableData = []
+					vm.total = null
 				}
 			},
 			// 获取数据状态

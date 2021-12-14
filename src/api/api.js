@@ -313,3 +313,8 @@ export const alarmUser = request({
     url:`${BASEPATH4}/tools/get_all_user`,
     method:'get',
 })
+// 预算预警-获取所有推广计划
+export const alarmPlan = request({
+    url:`${BASEPATH4}/tools/get_all_plan_id`,
+    method:'get',
+})

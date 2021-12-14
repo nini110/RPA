@@ -23,7 +23,7 @@
 							<div>{{scope.row.castTime[1]}}</div>
 						</template>
 					</el-table-column>
-					<el-table-column label="操作" fixed="right" width="320">
+					<el-table-column label="操作" fixed="right" min-width="320" class="caozuo">
 						<template slot-scope="scope">
 							<span v-waves class="btn btn_info el-icon-edit" style="margin-right: 20px"
 								@click="createEvent(2, scope.row.id)"></span>

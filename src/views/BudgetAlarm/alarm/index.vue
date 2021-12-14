@@ -42,7 +42,8 @@
 <script>
 	import {
 		alarmSetting,
-		alarmUser
+		alarmUser,
+		alarmPlan
 	} from '@/api/api'
 	import {
 		validPin,
@@ -298,6 +299,18 @@
 						vm.$msg.error(res.data.msg)
 					}
 				})
+			},
+			getPlan() {
+				const vm = this;
+				let data = {
+					user_name: vm.boxData[0].children[0].model,
+					password: vm.boxData[0].children[1].model,
+					product_line: vm.boxData[0].children[2].model,
+				}
+				console.log(data)
+				// alarmPlan().then(res => {
+					
+				// })
 			},
 			selectChange(val, idxSum, idx) {
 				const vm = this;

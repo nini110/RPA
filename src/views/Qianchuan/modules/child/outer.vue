@@ -10,7 +10,7 @@
 					<div class="search_label">模板名称：</div>
 					<el-input v-model="searchName" placeholder="请输入模板名称" class="inp" size="medium" clearable></el-input>
 					<div>
-						<el-button type="primary" class="el-icon-search btnnormal" size="medium" style="margin-left: 10px">查询
+						<el-button v-waves type="primary" class="el-icon-search btnnormal" size="medium" style="margin-left: 10px">查询
 						</el-button>
 					</div>
 				</div>

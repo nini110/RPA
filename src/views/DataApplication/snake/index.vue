@@ -4,9 +4,9 @@
     <div class="content">
       <div class="sankeyList">
         <div class="sankeyList_title">
-          小米手机8月1日-8月24日广告销售数据桑基图
+          OPPO手机12月13日数据广告销售数据桑基图
         </div>
-        <div class="snakeTable">
+<!--        <div class="snakeTable">
           <el-collapse v-model="activeName" accordion>
             <el-collapse-item
               v-for="(item, idx) in tableData"
@@ -19,7 +19,7 @@
               </div>
             </el-collapse-item>
           </el-collapse>
-        </div>
+        </div> -->
         <div class="echartsBox">
           <div id="main3"></div>
         </div>
