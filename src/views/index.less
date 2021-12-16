@@ -281,8 +281,33 @@
 			}
 		}
 	}
-}
+	&_left,
+	&_right {
+		display: inline-block;
+		vertical-align: top;
+		padding: 20px 0;
 
+	}
+	&_left {
+		width: 30%;
+		height: 100%;
+
+	}
+	&_right {
+		width: 65%;
+		height: 100%;
+		box-sizing: border-box;
+		padding: 20px 50px;
+		margin-left: 5%;
+		.el-card {
+			margin-bottom: 60px;
+		}
+		.detailSpan {
+			color: #606266;
+		}
+
+	}
+}
 /deep/.el {
 	&-upload {
 		&-dragger:hover {

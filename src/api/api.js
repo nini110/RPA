@@ -323,3 +323,8 @@ export const alarmDetail = request({
     url:`${BASEPATH4}/tools/get_target_percentage`,
     method:'post',
 })
+// 预算预警-删除预警
+export const alarmDelete = request({
+    url:`${BASEPATH4}/tools/del_monitoring`,
+    method:'post',
+})

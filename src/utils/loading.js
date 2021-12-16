@@ -10,7 +10,7 @@ class LoadingMask {
 		this.options = {
 			delay: 300,
 			lock: false,
-			text: '加载中...', // 加载文本
+			text: '加载中', // 加载文本
 			spinner: 'el-icon-loading', // icon 类名
 			background: 'rgba(0, 0, 0, 0.5)', // 遮罩背景色
 			whiteList: []

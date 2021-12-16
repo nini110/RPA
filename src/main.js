@@ -5,6 +5,7 @@ import store from './store'
 import axios from 'axios'
 import qs from 'qs'
 import ElementUI from 'element-ui';
+
 import format from './utils/format';
 import directives from '@/directive'
 import './utils/rem' //px转rem
@@ -44,8 +45,31 @@ Vue.prototype.check = check
 Vue.prototype.$axios = axios
 Vue.prototype.qs = qs
 Vue.prototype.$echarts = echarts
+Vue.prototype.$msg = function(options) {
+	let iconcls;
+	if(options.type === 'error') {
+		iconcls = '#icon-cuowu'
+	} else if(options.type === 'warning'){
+		iconcls = '#icon-jinggao1'
+	} else {
+		iconcls = '#icon-chenggong'
+	}
+	const msg = this.$message({
+		dangerouslyUseHTMLString: true, // 将dangerouslyUseHTMLString属性设置为 true，message 就会被当作 HTML 片段处理。
+		message: `
+		<svg class="icon svg-icon titleicon" aria-hidden="true">
+			<use xlink:href="${iconcls}"></use>
+		</svg>
+		<p class="el-message__content">${options.msg}</p>
+		`,
+		duration: options.duration || 2000,
+		center: true
+	  })
+	  return msg
+}
+
 Vue.use(ElementUI);
-// Vue.prototype.DomainName = 'http://192.168.90.35:5005';
+// Vue.prototype.DomainName = 'http://192.168.90.209:5000';
 Vue.prototype.DomainName = 'http://tool.afocus.com.cn:5005';
 
 Object.keys(format).forEach(key => {

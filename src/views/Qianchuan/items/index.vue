@@ -124,7 +124,7 @@
 					showClose: true,
 					tipTitle: "是否确认删除当前项目？",
 					confirmButtonFn: () => {
-						this.$message("暂无删除接口功能");
+         				 vm.$msg({ type: "warning", msg: '暂无删除接口功能' });
 					},
 				});
 			},

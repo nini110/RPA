@@ -9,6 +9,19 @@
     }
 }
 .el {
+	&-loading {
+		&-spinner {
+			i:before {
+			font-size: 50px;
+			color: #fff;
+
+			}
+		}
+		&-text {
+			font-size: 14px!important;
+			color: #fff!important;
+		}
+	}
 	&-toolTip {
 		&:focus {
 			display: none;
@@ -255,6 +268,27 @@
 		}
 		&__footer {
 			padding:30px;
+		}
+	}
+	&-message {
+		&__icon {
+			display: none;
+		}
+		&__content {
+			.titleicon {
+				display: inline-block;
+				vertical-align: middle;
+				width: 20px;
+				height: 20px;
+				margin-right: 15px;
+			}
+			p {
+				display: inline-block;
+				vertical-align: middle;
+				line-height: 20px;
+				font-size: 16px;
+				color: #606266!important;
+			}
 		}
 	}
 	&-message-box {
