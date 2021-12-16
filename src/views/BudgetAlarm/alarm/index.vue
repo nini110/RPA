@@ -10,8 +10,8 @@
 								<el-form-item v-if="item.type==='select'" :label="item.label" :prop="item.prop"
 									:rules="item.rules">
 									<el-select v-model="item.model" :placeholder="item.placeholder" size="medium"
-										:disabled="item.disabled" @change="val => {selectChange(val, idxSum, idx)}"
-										clearable>
+										:disabled="item.disabled"
+										@change="val => {selectChange(val, idxSum, idx, itemSum, item)}" clearable>
 										<el-option v-for="val in item.options" :key="val.code" :label="val.name"
 											:value="val.code">
 										</el-option>
@@ -43,14 +43,17 @@
 	import {
 		alarmSetting,
 		alarmUser,
-		alarmPlan
+		alarmPlan,
+		alarmDetail
 	} from '@/api/api'
+	import message from "@/mixin/message";
 	import {
 		validPin,
 		validPercent
 	} from '@/validator/validator'
 	export default {
 		name: 'ALarm',
+		mixins: [message],
 		data() {
 			return {
 				form: {
@@ -105,7 +108,7 @@
 										code: 'touchPoint'
 									}
 								],
-								disabled: false
+								disabled: true
 							},
 							{
 								type: 'input',
@@ -121,7 +124,8 @@
 								options: [{
 									name: 'example',
 									code: '575097395'
-								}]
+								}],
+								disabled: true
 							},
 						]
 					},
@@ -221,7 +225,7 @@
 								model: '',
 								prop: 'qywx_id',
 								label: '企业微信ID',
-								placeholder: '请输入企业微信ID',
+								placeholder: '请输入企业微信ID ( 以 | 分割 )',
 								rules: {
 									required: true,
 									validator: validPercent.bind(this, this, 2, 1),
@@ -274,13 +278,22 @@
 				}
 				vm.$refs.form.validate((valid) => {
 					if (valid) {
-						alarmSetting(data).then(res => {
-							if (res.data.code === 10000) {
-								vm.$message.success("预警生成成功");
-							} else {
-								vm.$message.error(res.data.msg);
+						vm.openMessageBox({
+							type: "warning",
+							showClose: true,
+							tipTitle: `构建账号全量任务耗时较长(约1分钟),请 [ 确定 ] 构建`,
+							confirmButtonFn: () => {
+								alarmSetting(data).then(res => {
+									if (res.data.code === 10000) {
+										vm.$message.success("预警生成成功");
+										vm.resetEvent()
+									} else {
+										vm.$message.error(res.data.msg);
+									}
+								})
 							}
-						})
+						});
+
 					}
 				})
 			},
@@ -296,7 +309,7 @@
 							})
 						})
 					} else {
-						vm.$msg.error(res.data.msg)
+						vm.$message.error(res.data.msg)
 					}
 				})
 			},
@@ -309,18 +322,51 @@
 				}
 				console.log(data)
 				// alarmPlan().then(res => {
-					
+
 				// })
 			},
-			selectChange(val, idxSum, idx) {
+			selectChange(val, idxSum, idx, itemSum, item) {
 				const vm = this;
 				// idxSum:boxdata第一层index、
 				// idx:boxdata第二层index、
 				let target = vm.boxData[0].children[0]
-				if (idxSum === 0 && idx === 0) {
-					vm.boxData[0].children[1].disabled = !val
-					if (!val) {
-						vm.boxData[0].children[1].model = ''
+				if (item.prop === 'user_name') {
+					for (let i of vm.boxData) {
+						for (let j of i.children) {
+							if (j.prop === 'password' || j.prop === 'product_line') {
+								j.disabled = !val
+								if (!val) {
+									j.model = ''
+								}
+							}
+
+						}
+					}
+				}
+				if (item.prop === "product_line") {
+					let data = {}
+					for (let i of vm.boxData) {
+						for (let j of i.children) {
+							vm.$set(data, j.prop, j.model)
+						}
+					}
+					if (val) {
+						alarmDetail(data).then(res => {
+							if (res.data.code === 10000) {
+								for (let i of vm.boxData) {
+									for (let j of i.children) {
+										if (j.prop === 'qywx_id') {
+											j.model = res.data.data.qywx_id
+										}
+										if (j.prop === 'target_percentage') {
+											j.model = res.data.data.target_percentage * 100
+										}
+									}
+								}
+							} else {
+								vm.$message.error(res.data.msg)
+							}
+						})
 					}
 				}
 			},

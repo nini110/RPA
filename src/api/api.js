@@ -318,3 +318,8 @@ export const alarmPlan = request({
     url:`${BASEPATH4}/tools/get_all_plan_id`,
     method:'get',
 })
+// 预算预警-获取详情
+export const alarmDetail = request({
+    url:`${BASEPATH4}/tools/get_target_percentage`,
+    method:'post',
+})

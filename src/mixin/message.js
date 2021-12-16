@@ -14,13 +14,14 @@ export default {
 				confirmButtonClass: options.confirmButtonClass || 'el-button--solid w90',
 				cancelButtonClass: options.cancelButtonClass || 'el-button--text',
 				showCancelButton: options.showCancelButton || true,
-				message: `<span class='tips-box'>
-                    <i class="el-message-box__icon el-icon-${options.type || 'warning'}"></i>
-                    <span class='tips-box-info'>
-                        <span class='tips-box-title'>${options.tipTitle || ''}</span>
-                        <span class='tips-box-txt'>${options.tipContent || ''}</span>
-                    </span>
-                 </span>`,
+				message: 
+				`<div class='tips-box'>
+					<div>
+						<i class="el-message-box__icon el-icon-${options.type || 'warning'}"></i>
+						<span class='tips-box-title'>${options.tipTitle || ''}</span>
+					</div>
+					<div class='tips-box-txt'>${options.tipContent || ''}</div>
+                 </div>`,
 				confirmButtonText: options.confirmButtonText || '确 定',
 				cancelButtonText: options.cancelButtonText || '取 消'
 			}).then(action => {
