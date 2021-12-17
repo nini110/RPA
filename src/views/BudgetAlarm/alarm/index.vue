@@ -41,7 +41,13 @@
               <el-input
                 v-model.trim="item.model"
                 size="medium"
+                :show-password="item.prop === 'password'"
                 :placeholder="item.placeholder"
+                @input="
+                  (val) => {
+                    inputChangeLeft(val, item);
+                  }
+                "
                 clearable
                 :disabled="item.disabled"
               ></el-input>
@@ -61,7 +67,7 @@
                 :key="idx"
                 :span="12"
               >
-                <div v-if="inputFlag">
+                <div v-if="btnState.inputFlag">
                   <el-form-item
                     v-if="item.type === 'select'"
                     :label="item.label"
@@ -128,12 +134,11 @@
         <a class="btnnormal btnnormal_down marginR">
           <div class="el-icon-refresh btnSize" @click="resetEvent">重置</div>
         </a>
-        <!-- <el-button v-waves class="el-icon-refresh marginR" type="primary" plain @click="resetEvent"></el-button> -->
         <el-button
           v-waves
           class="el-icon-delete"
           type="primary"
-          :disabled="deleteFlag"
+          :disabled="btnState.deleteFlag"
           @click="deleteEvent"
           >删除</el-button
         >
@@ -141,7 +146,7 @@
           v-waves
           class="el-icon-edit"
           type="primary"
-          :disabled="btnDisabled"
+          :disabled="btnState.saveFlag"
           @click="editEvent"
           >{{ btnTxt }}</el-button
         >
@@ -166,24 +171,26 @@ export default {
   mixins: [message],
   data() {
     return {
-      currentInfo: {}, // 当前用户 查询类目等信息
-      btnTxt: "修改",
+      currentInfo: {}, // 当前用户 查询类目等信息集合
       form: {},
-      deleteFlag: true,
-      btnDisabled: true,
-      inputFlag: false,
+      btnTxt: "修改",
+      btnState: {
+        inputFlag: false,
+        deleteFlag: true,
+        saveFlag: true,
+      },
       boxDataLeft: [],
       boxDataRight: [],
     };
   },
+  computed: {
+    inputFlag() {
+      return this.btnState.inputFlag;
+    },
+  },
   watch: {
     inputFlag(newval, oldval) {
-      const vm = this;
-      if (newval) {
-        vm.btnTxt = "保存";
-      } else {
-        vm.btnTxt = "修改";
-      }
+      this.btnTxt = newval ? "保存" : "修改";
     },
   },
   created() {
@@ -195,71 +202,62 @@ export default {
     editEvent() {
       const vm = this;
       if (vm.btnTxt === "修改") {
-        vm.inputFlag = true;
+        vm.btnState.inputFlag = true
       } else {
-        let dataLeft = {};
-        for (let i of vm.boxDataLeft) {
-          vm.$set(dataLeft, i.prop, i.model);
-        }
-        let dataRight = {};
-        for (let i of vm.boxDataRight) {
-          for (let j of i.children) {
-            vm.$set(
-              dataRight,
-              j.prop,
-              j.prop === "target_percentage" ? j.model / 100 : j.model
-            );
+        if (vm.btnState.inputFlag) {
+          let dataRight = {};
+          for (let i of vm.boxDataRight) {
+            for (let j of i.children) {
+              vm.$set(
+                dataRight,
+                j.prop,
+                j.prop === "target_percentage" ? j.model / 100 : j.model
+              );
+            }
           }
+          vm.$refs.form1.validate((valid) => {
+            if (valid) {
+              vm.openMessageBox({
+                type: "warning",
+                showClose: true,
+                tipTitle: `构建账号全量任务耗时较长(约1分钟),请 [ 确定 ] 构建`,
+                confirmButtonFn: () => {
+                  alarmSetting({
+                    ...vm.currentInfo,
+                    ...dataRight,
+                  }).then((res) => {
+                    if (res.data.code === 10000) {
+                      vm.$msg({ msg: res.data.msg });
+                      vm.resetEvent();
+                    } else {
+                      vm.$msg({ type: "error", msg: res.data.msg });
+                    }
+                  });
+                },
+              });
+            }
+          });
         }
-        vm.$refs.form1.validate((valid) => {
-          if (valid) {
-            vm.openMessageBox({
-              type: "warning",
-              showClose: true,
-              tipTitle: `构建账号全量任务耗时较长(约1分钟),请 [ 确定 ] 构建`,
-              confirmButtonFn: () => {
-                alarmSetting({
-                  ...dataLeft,
-                  ...dataRight,
-                }).then((res) => {
-                  if (res.data.code === 10000) {
-                    vm.$msg({ msg: "预警生成成功" });
-                    vm.getInfo(vm.currentInfo);
-                    vm.inputFlag = false;
-                    vm.deleteFlag = false;
-                    vm.btnDisabled = false;
-                    // vm.resetEvent();
-                  } else {
-                    vm.$msg({ type: "error", msg: res.data.msg });
-                  }
-                });
-              },
-            });
-          }
-        });
       }
     },
+    // 删除预警
     deleteEvent() {
       const vm = this;
-      let data = {};
-      for (let i of vm.boxDataLeft) {
-        vm.$set(data, i.prop, i.model);
-      }
       vm.openMessageBox({
         type: "warning",
         showClose: true,
-        tipTitle: `是否确认删除当前产品线的预警信息`,
+        tipTitle: `是否确认删除当前产品线的预警信息？`,
         confirmButtonFn: () => {
-          alarmDelete(data).then((res) => {
+          alarmDelete(vm.currentInfo).then((res) => {
             if (res.data.code === 10000) {
               vm.$msg({ msg: "预警删除成功" });
-              vm.deleteFlag = true;
-              vm.inputFlag = true;
-              for (let i of vm.boxDataRight) {
-                for (let j of i.children) {
-                  vm.$set(j, "model", "");
-                }
-              }
+              // 预警删除之后，数据为空,可输入，按钮状态：不可删除,可保存，
+              vm.btnState = {
+                inputFlag: true,
+                deleteFlag: true,
+                saveFlag: false,
+              };
+              vm.clearRight();
             } else {
               vm.$msg({ type: "error", msg: res.data.msg });
             }
@@ -296,9 +294,18 @@ export default {
 
       // })
     },
+    // 左侧
     selectChangeLeft(val, item) {
       const vm = this;
       if (item.prop === "user_name") {
+        // pin改变的时候，重置所有信息
+        vm.clearRight();
+        vm.btnState = {
+          inputFlag: false,
+          deleteFlag: true,
+          saveFlag: true,
+        };
+        vm.currentInfo = {};
         for (let i of vm.boxDataLeft) {
           if (i.prop === "password" || i.prop === "product_line") {
             i.disabled = !val;
@@ -311,7 +318,21 @@ export default {
           for (let i of vm.boxDataLeft) {
             vm.$set(vm.currentInfo, i.prop, i.model);
           }
+          vm.clearRight();
           vm.getInfo(vm.currentInfo);
+        }
+      }
+    },
+    inputChangeLeft(val, item) {
+      const vm = this;
+      if (item.prop === "password") {
+        for (let i of vm.boxDataLeft) {
+          if (i.prop === "product_line") {
+            i.disabled = !val;
+            if (!val) {
+              i.model = "";
+            }
+          }
         }
       }
     },
@@ -334,17 +355,25 @@ export default {
               }
             }
           }
-          vm.btnDisabled = false;
-          vm.deleteFlag = false;
-          vm.inputFlag = false;
+          vm.btnState = {
+            inputFlag: false,
+            deleteFlag: false,
+            saveFlag: false,
+          };
         } else if (res.data.code === 10002) {
-          // 没有配置过，需要去配置
-          vm.inputFlag = true;
+          vm.$msg({ type: "warning", msg: "暂无账户预警信息" });
+          vm.btnState = {
+            inputFlag: true,
+            deleteFlag: true,
+            saveFlag: false,
+          };
         } else {
           vm.$msg({ type: "error", msg: res.data.msg });
-          // vm.btnDisabled = true;
-          // vm.deleteFlag = true;
-          // vm.inputFlag = false;
+          vm.btnState = {
+            inputFlag: false,
+            deleteFlag: true,
+            saveFlag: true,
+          };
         }
       });
     },
@@ -378,20 +407,36 @@ export default {
       //   }
       // }
     },
-    resetEvent() {
-      const vm = this;
-      for (let i of vm.boxDataLeft) {
-        vm.$set(i, "model", "");
-      }
-      for (let i of vm.boxDataRight) {
+    // 清空右侧所有信息
+    clearRight() {
+      for (let i of this.boxDataRight) {
         for (let j of i.children) {
-          vm.$set(j, "model", "");
+          this.$set(j, "model", "");
         }
       }
+    },
+    // 清空左侧所有信息
+    clearLeft() {
+      for (let i of this.boxDataLeft) {
+        this.$set(i, "model", "");
+        for (let i of this.boxDataLeft) {
+          if (i.prop === "password" || i.prop === "product_line") {
+            i.disabled = true;
+            i.model = "";
+          }
+        }
+      }
+    },
+    resetEvent() {
+      const vm = this;
+      vm.clearLeft();
+      vm.clearRight();
       vm.currentInfo = {};
-      vm.deleteFlag = true;
-      vm.btnDisabled = true;
-      vm.inputFlag = false;
+      vm.btnState = {
+        inputFlag: false,
+        deleteFlag: true,
+        saveFlag: true,
+      };
       // vm.$refs.form.resetFields();
     },
   },
