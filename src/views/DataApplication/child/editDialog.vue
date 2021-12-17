@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    :title="editNum=== 1 ? '修改人员' : ' 修改活动'"
+    :title="editNum === 1 ? '修改人员' : ' 修改活动'"
     :visible.sync="show"
     width="35%"
     custom-class="editDia"
@@ -77,7 +77,7 @@
         >取 消</el-button
       >
       <el-button
-	    v-waves
+        v-waves
         class="marginL"
         type="primary"
         @click="isModification()"
@@ -193,11 +193,7 @@ export default {
             vm.peoplelList = [];
             vm.cSubcategoryNo = "";
             vm.actionList = [];
-
-            vm.$message({
-              type: "success",
-              message: "修改成功!",
-            });
+            vm.$msg({ msg: "修改成功!" });
           }
         });
       } else {
@@ -210,10 +206,7 @@ export default {
           if (res.data.code === 10000) {
             vm.$emit("close", "suc");
             vm.actionList = [];
-            vm.$message({
-              type: "success",
-              message: "修改成功!",
-            });
+            vm.$msg({ msg: "修改成功!" });
           }
         });
       }

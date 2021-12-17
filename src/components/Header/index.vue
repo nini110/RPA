@@ -49,10 +49,19 @@
       <div class="topTtle_login_user">
         <div class="user">
           <!-- {{ yh }} -->
-          <svg class="icon svg-icon titleicon" aria-hidden="true">
-            <use xlink:href="#icon-user__easyico"></use>
-          </svg>
-          {{ yh }}
+
+          <el-popover
+            content=""
+            trigger="hover"
+            placement="bottom"
+            popper-class="poperNotice"
+          >
+            <div slot="reference">
+              <img class="user_img" :src="user.img" alt="" />
+              <span class="user_name">{{ user.name }}</span>
+            </div>
+            <div style="text-align: center">{{ user.id }}</div>
+          </el-popover>
           <span class="logout iconfont icon-tcdl" @click="close"></span>
         </div>
         <!-- <div id ="togleCol" class="phone iconfont icon-shouji" @click="toggleMode()">移动版</div> -->
@@ -61,11 +70,16 @@
   </div>
 </template>
 <script>
+import message from "@/mixin/message";
 export default {
   name: "Header",
+  mixins: [message],
   data() {
     return {
-      yh: "",
+      user: {
+        name: "",
+        img: "",
+      },
       options: {
         bottom: "unset", // default: '32px'
         right: "220px", // default: '32px'
@@ -90,11 +104,14 @@ export default {
       localStorage.getItem("wx_code") &&
       localStorage.getItem("user_name")
     ) {
-      this.yh = localStorage.getItem("user_name");
-      this.$msg({ msg: "登入成功" });
+      this.user = {
+        name: localStorage.getItem("user_name"),
+        id: "工号： " + localStorage.getItem("wx_userid"),
+        img: localStorage.getItem("thumb_avatar"),
+      };
+      this.user.name = localStorage.getItem("user_name");
       this.$axios({
-        url: "http://tool.afocus.com.cn:5005/platform/authentication",
-        // url:'http://192.168.90.209:5000/platform/authentication',
+        url: `${this.DomainName}/platform/authentication`,
         method: "get",
         params: {
           user_id: localStorage.getItem("wx_userid"),
@@ -103,49 +120,47 @@ export default {
       }).then((data) => {
         if (data.data.status == true) {
         } else if (data.data.status == false) {
-          location.href = this.DomainName + "/platform/login";
-          // location.href = "http://tool.afocus.com.cn:5005/platform/login";
+          location.href = `${this.DomainName}/platform/login`;
         } else {
           this.$msg({ type: "warning", msg: "信息丢失试试重新登入" });
         }
       });
     } else {
       this.$msg({ type: "warning", msg: "请进行扫码登入" });
-      this.yh = "未登入";
-      location.href = this.DomainName + "/platform/login";
-      // location.href = "http://tool.afocus.com.cn:5005/platform/login";
+      this.user.name = "未登入";
+      location.href = `${this.DomainName}/platform/login`;
     }
   },
   methods: {
-    toggleMode() {
-      // const darkmode = new Darkmode(this.options);
-      // darkmode.toggle();
-    },
+    toggleMode() {},
+    // 退出登录
     close() {
+      const vm = this;
       let userid = localStorage.getItem("wx_userid");
       let code = localStorage.getItem("wx_code");
       let username = localStorage.getItem("user_name");
-      this.$axios({
-        // 后端服务器端口路径
-        url: "http://tool.afocus.com.cn:5005/platform/logout",
-        // url: "http://192.168.90.209:5000/platform/logout",
-        // 相当于ajax的type
-        method: "get",
-        params: {
-          wx_userid: userid,
-          wx_code: code,
+      vm.openMessageBox({
+        type: "warning",
+        showClose: true,
+        tipTitle: `是否 [ 确定 ] 退出当前帐号？`,
+        confirmButtonFn: () => {
+          vm.$axios({
+            // 后端服务器端口路径
+            url:  `${this.DomainName}/platform/logout`,
+            method: "get",
+            params: {
+              wx_userid: userid,
+              wx_code: code,
+            },
+          }).then((response) => {
+            if (response.data.code == 1) {
+              vm.$msg({ type: "error", msg: "退出失败" });
+            } else {
+              localStorage.clear();
+              location.href = `${this.DomainName}/platform/login`;
+            }
+          });
         },
-      }).then((response) => {
-        if (response.data.code == 1) {
-          alert(response.data.msg);
-        } else {
-          //点击退出的时候清空 cookie 和session
-          localStorage.clear();
-          //开发的时候需要注释了 不然会跳转页面 测试的时候开启
-          location.href = this.DomainName + "/platform/login";
-          // location.href = "http://tool.afocus.com.cn:5005/platform/login";
-        }
-        // this.cars = response.data;
       });
     },
   },

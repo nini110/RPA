@@ -40,6 +40,7 @@ const options = {
 }
 // const darkmode = new Darkmode(options);
 // darkmode.showWidget();
+Vue.use(ElementUI);
 
 Vue.prototype.check = check
 Vue.prototype.$axios = axios
@@ -68,9 +69,8 @@ Vue.prototype.$msg = function(options) {
 	  return msg
 }
 
-Vue.use(ElementUI);
 // Vue.prototype.DomainName = 'http://192.168.90.209:5000';
-Vue.prototype.DomainName = 'http://tool.afocus.com.cn:5005';
+Vue.prototype.DomainName = 'http://114.67.229.243:5005';
 
 Object.keys(format).forEach(key => {
 	Vue.filter(key, format[key])
