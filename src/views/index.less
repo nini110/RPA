@@ -286,12 +286,32 @@
 		display: inline-block;
 		vertical-align: top;
 		padding: 20px 0;
+		box-sizing: border-box;
+		/deep/.el {
+			&-form {
+				height: calc(100% - 50px);
+				&-item__label {
+					width: 120px;
+				}
+			}
+			&-card {
+				height: 100%;
+				display: flex;
+				align-items: center;
+			}
+		}
 
 	}
 	&_left {
 		width: 30%;
 		height: 100%;
-
+		.tips {
+			color: #f56c6c;
+			text-align: center;
+			font-weight: bold;
+			font-size: 12px;
+			line-height: 48px;
+		}
 	}
 	&_right {
 		width: 65%;
@@ -299,11 +319,21 @@
 		box-sizing: border-box;
 		padding: 20px 50px;
 		margin-left: 5%;
+		position: relative;
 		.el-card {
 			margin-bottom: 60px;
 		}
 		.detailSpan {
 			color: #606266;
+		}
+		.nodata {
+			background: url("../assets/images/noneData3.png") no-repeat center center;
+			background-size: 50% auto;
+		}
+		.bottomBtn {
+			position: absolute;
+			bottom: 20px;
+			right: 50px;
 		}
 
 	}

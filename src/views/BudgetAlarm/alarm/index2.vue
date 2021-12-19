@@ -63,17 +63,23 @@
       <el-form ref="form" :model="form" :class="{ nodata: !hasInfo }">
         <div v-if="hasInfo">
           <div v-for="(itemSum, idxSum) in boxDataRight" :key="idxSum">
-            <el-divider>{{ itemSum.txt }}</el-divider>
-            <el-row>
-              <el-col
+            <el-descriptions
+              :title="itemSum.txt"
+              :column="2"
+              size="medium"
+              border
+            >
+              <el-descriptions-item
                 v-for="(item, idx) in itemSum.children"
                 :key="idx"
-                :span="12"
               >
+                <template slot="label">
+                  <i :class="item.icon"></i>
+                  {{ item.label }}
+                </template>
                 <div v-if="btnState.inputFlag">
                   <el-form-item
                     v-if="item.type === 'select'"
-                    :label="item.label"
                     :prop="item.prop"
                     :rules="item.rules"
                   >
@@ -100,7 +106,6 @@
                   </el-form-item>
                   <el-form-item
                     v-if="item.type === 'input'"
-                    :label="item.label"
                     :prop="item.prop"
                     :rules="item.rules"
                   >
@@ -114,11 +119,7 @@
                   </el-form-item>
                 </div>
                 <div v-else>
-                  <el-form-item
-                    :label="item.label"
-                    :prop="item.prop"
-                    class="detailSpan"
-                  >
+                  <el-form-item :prop="item.prop" class="detailSpan">
                     <span v-if="item.prop === 'target_percentage'">{{
                       item.model ? item.model + "%" : "暂无数据"
                     }}</span>
@@ -128,8 +129,8 @@
                     <span v-else>{{ item.model || "暂无数据" }}</span>
                   </el-form-item>
                 </div>
-              </el-col>
-            </el-row>
+              </el-descriptions-item>
+            </el-descriptions>
           </div>
         </div>
       </el-form>
@@ -419,7 +420,7 @@ export default {
     clearRight() {
       for (let i of this.boxDataRight) {
         for (let j of i.children) {
-          this.$set(j, "model", "");
+          this.$set(j, "model", j.prop === 'optionType' ? '企业微信发送通知' : "");
         }
       }
     },

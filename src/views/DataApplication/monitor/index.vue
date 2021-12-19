@@ -28,6 +28,7 @@
               width="100"
               label="序号"
               align="center"
+              fixed="left"
             >
             </el-table-column>
             <el-table-column
@@ -128,7 +129,7 @@ export default {
         {
           prop: "bidding_name",
           label: "竞标名称",
-          width: 120,
+          width: 140,
         },
         {
           prop: "activity_name",

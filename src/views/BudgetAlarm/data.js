@@ -75,6 +75,7 @@ export default {
                     model: "",
                     prop: "data",
                     label: "时间:",
+                    icon: 'iconfont icon-shijian',
                     placeholder: "请选择时间",
                     // rules: {
                     // 	required: true,
@@ -88,6 +89,7 @@ export default {
                     type: "select",
                     model: "",
                     prop: "zhibiaoTYpe",
+                    icon: 'iconfont icon-zhibiao',
                     label: "指标类型:",
                     placeholder: "请输入指标类型",
                     // rules: {
@@ -101,6 +103,7 @@ export default {
                     type: "select",
                     model: "",
                     prop: "rule",
+                    icon: 'iconfont icon-guize',
                     label: "规则:",
                     placeholder: "请选择规则",
                     // rules: {
@@ -115,6 +118,7 @@ export default {
                     type: "select",
                     model: "",
                     prop: "duibizhibiao",
+                    icon: 'iconfont icon-duibi',
                     label: "对比指标:",
                     placeholder: "请选择对比指标",
                     // rules: {
@@ -129,6 +133,7 @@ export default {
                     type: "input",
                     model: "",
                     prop: "target_percentage",
+                    icon: 'iconfont icon-yuzhi',
                     label: "阈值:",
                     placeholder: "请输入阈值(0-100的整数)",
                     // rules: {
@@ -146,6 +151,7 @@ export default {
                     type: "select",
                     model: "企业微信发送通知",
                     prop: "optionType",
+                    icon: 'el-icon-setting',
                     label: "操作类型:",
                     placeholder: "请选择操作类型",
                     // rules: {
@@ -155,14 +161,29 @@ export default {
                     // },
                     options: [{
                         name: "企业微信发送通知",
-                        code: "企业微信发送通知",
+                        code: "1",
                     }, ],
                     disabled: true,
                 },
                 {
                     type: "input",
                     model: "",
+                    prop: "inform_times",
+                    icon: 'iconfont icon-noticetongzhi',
+                    label: "预警通知次数:",
+                    placeholder: "请输入预警通知次数",
+                    // rules: {
+                    //     required: true,
+                    //     validator: validPercent.bind(this, this, 2, 2),
+                    //     trigger: "blur",
+                    // },
+                    disabled: false,
+                },                
+                {
+                    type: "input",
+                    model: "",
                     prop: "qywx_id",
+                    icon: 'iconfont icon-weixin',
                     label: "企业微信ID:",
                     placeholder: "请输入企业微信ID ( 以 | 分割 )",
                     // rules: {
@@ -172,19 +193,7 @@ export default {
                     // },
                     disabled: false,
                 },
-                {
-                    type: "input",
-                    model: "",
-                    prop: "inform_times",
-                    label: "预警通知次数:",
-                    placeholder: "请输入预警通知次数",
-                    // rules: {
-                    //     required: true,
-                    //     validator: validPercent.bind(this, this, 2, 2),
-                    //     trigger: "blur",
-                    // },
-                    disabled: false,
-                },
+
                 // {
                 // 	type: 'select',
                 // 	model: '',

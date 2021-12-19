@@ -6,6 +6,69 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "1415522",
+      "name": "阈值",
+      "font_class": "yuzhi",
+      "unicode": "e83b",
+      "unicode_decimal": 59451
+    },
+    {
+      "icon_id": "1727359",
+      "name": "23规则",
+      "font_class": "guize",
+      "unicode": "e89a",
+      "unicode_decimal": 59546
+    },
+    {
+      "icon_id": "3978385",
+      "name": "对比",
+      "font_class": "duibi",
+      "unicode": "e665",
+      "unicode_decimal": 58981
+    },
+    {
+      "icon_id": "5823219",
+      "name": "通知",
+      "font_class": "tongzhi",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "6486517",
+      "name": "时间",
+      "font_class": "shijian",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "6588698",
+      "name": "微信",
+      "font_class": "weixin",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "9921998",
+      "name": "notice",
+      "font_class": "noticetongzhi",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "12331689",
+      "name": "指标",
+      "font_class": "zhibiao",
+      "unicode": "e66a",
+      "unicode_decimal": 58986
+    },
+    {
+      "icon_id": "10502043",
+      "name": "删除",
+      "font_class": "ziyuan",
+      "unicode": "e6a5",
+      "unicode_decimal": 59045
+    },
+    {
       "icon_id": "6999239",
       "name": "错误",
       "font_class": "cuowu",

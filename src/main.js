@@ -70,7 +70,7 @@ Vue.prototype.$msg = function(options) {
 }
 
 // Vue.prototype.DomainName = 'http://192.168.90.209:5000';
-Vue.prototype.DomainName = 'http://114.67.229.243:5005';
+Vue.prototype.DomainName = 'http://tool.afocus.com.cn';
 
 Object.keys(format).forEach(key => {
 	Vue.filter(key, format[key])

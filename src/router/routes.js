@@ -255,7 +255,7 @@ const routes = [
 						meta: {
 							title: '预警'
 						},
-						component: () => import("@/views/BudgetAlarm/alarm"),
+						component: () => import("@/views/BudgetAlarm/alarm/index2.vue"),
 					},
 				]
 			},
