@@ -43,25 +43,25 @@
               property="cheack"
               label="操作"
               fixed="right"
-              width="400"
+              width="280"
             >
               <template slot-scope="scope">
-                <div class="btn btn_info" @click="detailEvent(scope.row)">
+                <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
                   <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-13edit"></use>
                   </svg>
                 </div>
-                <div class="btn btn_info" @click="editEvent(scope.row)">
+                <div v-waves class="btn btn_info" @click="editEvent(scope.row)">
                   <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-33profile"></use>
                   </svg>
                 </div>
-                <div class="btn btn_info" @click="editActiveEvent(scope.row)">
+                <div v-waves class="btn btn_info" @click="editActiveEvent(scope.row)">
                   <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-wodehuodong"></use>
                   </svg>
                 </div>
-                <div class="btn btn_info" @click="deleteEvent(scope.row)">
+                <div v-waves class="btn btn_info" @click="deleteEvent(scope.row)">
                   <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-lajitong"></use>
                   </svg>

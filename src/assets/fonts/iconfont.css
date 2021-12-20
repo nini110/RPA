@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2894766 */
-  src: url('iconfont.woff2?t=1639971397503') format('woff2'),
-       url('iconfont.woff?t=1639971397503') format('woff'),
-       url('iconfont.ttf?t=1639971397503') format('truetype');
+  src: url('iconfont.woff2?t=1639973232272') format('woff2'),
+       url('iconfont.woff?t=1639973232272') format('woff'),
+       url('iconfont.ttf?t=1639973232272') format('truetype');
 }
 
 .iconfont {
@@ -13,12 +13,16 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-lajitong:before {
-  content: "\e638";
+.icon-xinxi:before {
+  content: "\e612";
 }
 
-.icon-smart-32:before {
-  content: "\e607";
+.icon-download:before {
+  content: "\e618";
+}
+
+.icon-lajitong:before {
+  content: "\e638";
 }
 
 .icon-12download:before {
@@ -49,20 +53,12 @@
   content: "\e6cc";
 }
 
-.icon-dateboard-copy:before {
-  content: "\e605";
-}
-
 .icon-yewukanban:before {
   content: "\e611";
 }
 
 .icon-33profile:before {
   content: "\e62e";
-}
-
-.icon-shanchuwenjian:before {
-  content: "\f5a3";
 }
 
 .icon-weixin1:before {

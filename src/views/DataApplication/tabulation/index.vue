@@ -173,7 +173,7 @@
                      :disabled="scope.row.status !== 1"
                   >
                     <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-12download"></use>
+                      <use xlink:href="#icon-download"></use>
                     </svg>
                   </div>
                   <div

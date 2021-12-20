@@ -234,7 +234,7 @@
                 <template slot-scope="scope">
                   <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
                     <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-jurassic_open"></use>
+                      <use xlink:href="#icon-xinxi"></use>
                     </svg>
                   </div>
                   <!-- <el-button

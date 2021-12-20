@@ -6,18 +6,25 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "14113890",
+      "name": "信息",
+      "font_class": "xinxi",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "2296007",
+      "name": "download",
+      "font_class": "download",
+      "unicode": "e618",
+      "unicode_decimal": 58904
+    },
+    {
       "icon_id": "1713561",
       "name": "垃圾桶",
       "font_class": "lajitong",
       "unicode": "e638",
       "unicode_decimal": 58936
-    },
-    {
-      "icon_id": "8869311",
-      "name": "热门活动",
-      "font_class": "smart-32",
-      "unicode": "e607",
-      "unicode_decimal": 58887
     },
     {
       "icon_id": "16017187",
@@ -69,13 +76,6 @@
       "unicode_decimal": 59084
     },
     {
-      "icon_id": "11911142",
-      "name": "数据看板",
-      "font_class": "dateboard-copy",
-      "unicode": "e605",
-      "unicode_decimal": 58885
-    },
-    {
       "icon_id": "12413472",
       "name": "业务看板",
       "font_class": "yewukanban",
@@ -88,13 +88,6 @@
       "font_class": "33profile",
       "unicode": "e62e",
       "unicode_decimal": 58926
-    },
-    {
-      "icon_id": "21815822",
-      "name": "删除文件",
-      "font_class": "shanchuwenjian",
-      "unicode": "f5a3",
-      "unicode_decimal": 62883
     },
     {
       "icon_id": "880414",
