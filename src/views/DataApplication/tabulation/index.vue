@@ -166,20 +166,41 @@
               </el-table-column>
               <el-table-column prop="id" label="操作" width="220">
                 <template slot-scope="scope">
-                  <el-button
+                  <div
+                    v-waves
+                    class="btn btn_info"
+                    @click="downEvent(scope.row)"
+                     :disabled="scope.row.status !== 1"
+                  >
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-12download"></use>
+                    </svg>
+                  </div>
+                  <div
+                    v-waves
+                    class="btn btn_info"
+                    @click="deleteEvent(scope.row)"
+                    :disabled="scope.row.status === 0"
+                  >
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-lajitong"></use>
+                    </svg>
+                  </div>
+                  <!-- <el-button
                     v-waves
                     :disabled="scope.row.status !== 1"
                     class="btn btn_info el-icon-download"
                     @click="downEvent(scope.row)"
                   >
                   </el-button>
+
                   <el-button
                     v-waves
                     :disabled="scope.row.status === 0"
                     class="btn btn_delete el-icon-delete"
                     @click="deleteEvent(scope.row)"
                   >
-                  </el-button>
+                  </el-button> -->
                 </template>
               </el-table-column>
             </el-table>

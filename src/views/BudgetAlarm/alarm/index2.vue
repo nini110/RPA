@@ -175,7 +175,7 @@ export default {
   mixins: [message],
   data() {
     return {
-      hasInfo: false,
+      hasInfo: true,
       currentInfo: {}, // 当前用户 查询类目等信息集合
       form: {},
       btnTxt: "修改",

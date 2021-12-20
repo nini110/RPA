@@ -262,12 +262,14 @@
 		.btn {
 			cursor: pointer;
 			color: #606266;
-			padding: 10px 20px !important;
+			padding: 18px!important;
 			border-radius: 4px;
 			vertical-align: middle;
 			transition: all 400ms linear;
 			border-color: transparent;
-
+			position: relative;
+			display: inline-block;
+			margin-right: 10px;
 			&.is-disabled {
 				background-color: #aaafae;
 				color: #fff;
@@ -280,11 +282,18 @@
 			}
 
 			&_info {
-				background-color: #eef0f1;
-
+				background-color: #ebeeee;
 				&:hover {
-					background-color: #979798;
+					background-color: #c4c4c7;
 					color: #fff;
+				}
+				svg {
+					width: 20px;
+					height: 20px;
+					position: absolute;
+					left: 50%;
+					top: 50%;
+					transform: translate(-50%, -50%);
 				}
 			}
 

@@ -112,20 +112,16 @@
               </el-tooltip>
             </template>
             <template slot-scope="scope">
-              <el-button
-                v-waves
-                class="btn btn_info el-icon-edit"
-                type="text"
-                @click="editFn(2, scope.row)"
-                :disabled="scope.row.status ? true : false"
-              ></el-button>
-              <el-button
-                v-waves
-                class="btn btn_delete el-icon-delete"
-                type="text"
-                @click="deleteFn()"
-                :disabled="scope.row.status ? true : false"
-              ></el-button>
+              <div v-waves class="btn btn_info" @click="editFn(2, scope.row)" :disabled="scope.row.status ? true : false">
+                <svg class="icon svg-icon titleicon" aria-hidden="true">
+                  <use xlink:href="#icon-13edit"></use>
+                </svg>
+              </div>
+              <div v-waves class="btn btn_info" @click="deleteFn()" :disabled="scope.row.status ? true : false">
+                <svg class="icon svg-icon titleicon" aria-hidden="true">
+                  <use xlink:href="#icon-lajitong"></use>
+                </svg>
+              </div>
             </template>
           </el-table-column>
         </el-table>

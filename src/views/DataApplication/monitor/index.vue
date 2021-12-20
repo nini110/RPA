@@ -46,13 +46,33 @@
               width="400"
             >
               <template slot-scope="scope">
-                <el-button
+                <div class="btn btn_info" @click="detailEvent(scope.row)">
+                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <use xlink:href="#icon-13edit"></use>
+                  </svg>
+                </div>
+                <div class="btn btn_info" @click="editEvent(scope.row)">
+                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <use xlink:href="#icon-33profile"></use>
+                  </svg>
+                </div>
+                <div class="btn btn_info" @click="editActiveEvent(scope.row)">
+                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <use xlink:href="#icon-wodehuodong"></use>
+                  </svg>
+                </div>
+                <div class="btn btn_info" @click="deleteEvent(scope.row)">
+                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <use xlink:href="#icon-lajitong"></use>
+                  </svg>
+                </div>
+                <!-- <el-button
                   class="btn btn_info el-icon-edit"
                   type="text"
                   @click="detailEvent(scope.row)"
                 >
-                </el-button>
-                <el-button
+                </el-button> -->
+                <!-- <el-button
                   class="btn btn_info iconfont icon-jiaosexiugai"
                   type="text"
                   @click="editEvent(scope.row)"
@@ -69,7 +89,7 @@
                   type="text"
                   @click="deleteEvent(scope.row)"
                 >
-                </el-button>
+                </el-button> -->
               </template>
             </el-table-column>
           </el-table>

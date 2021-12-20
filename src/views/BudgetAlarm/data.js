@@ -75,7 +75,7 @@ export default {
                     model: "",
                     prop: "data",
                     label: "时间:",
-                    icon: 'iconfont icon-shijian',
+                    icon: 'el-icon-date',
                     placeholder: "请选择时间",
                     // rules: {
                     // 	required: true,
@@ -103,7 +103,7 @@ export default {
                     type: "select",
                     model: "",
                     prop: "rule",
-                    icon: 'iconfont icon-guize',
+                    icon: 'el-icon-s-operation',
                     label: "规则:",
                     placeholder: "请选择规则",
                     // rules: {
@@ -133,7 +133,7 @@ export default {
                     type: "input",
                     model: "",
                     prop: "target_percentage",
-                    icon: 'iconfont icon-yuzhi',
+                    icon: 'el-icon-stopwatch',
                     label: "阈值:",
                     placeholder: "请输入阈值(0-100的整数)",
                     // rules: {
@@ -169,7 +169,7 @@ export default {
                     type: "input",
                     model: "",
                     prop: "inform_times",
-                    icon: 'iconfont icon-noticetongzhi',
+                    icon: 'iconfont icon-yujing',
                     label: "预警通知次数:",
                     placeholder: "请输入预警通知次数",
                     // rules: {
@@ -183,7 +183,7 @@ export default {
                     type: "input",
                     model: "",
                     prop: "qywx_id",
-                    icon: 'iconfont icon-weixin',
+                    icon: 'iconfont icon-weixin1',
                     label: "企业微信ID:",
                     placeholder: "请输入企业微信ID ( 以 | 分割 )",
                     // rules: {

@@ -232,13 +232,18 @@
               </el-table-column>
               <el-table-column property="cheack" label="操作" width="150">
                 <template slot-scope="scope">
-                  <el-button
+                  <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-jurassic_open"></use>
+                    </svg>
+                  </div>
+                  <!-- <el-button
                     v-waves
                     class="btn btn_info el-icon-document"
                     type="text"
                     @click="detailEvent(scope.row)"
                   >
-                  </el-button>
+                  </el-button> -->
                 </template>
               </el-table-column>
             </el-table>
@@ -437,44 +442,43 @@ export default {
                 ? vm.form.choose
                 : "3",
             pin: vm.form.pin,
-          })
-            .then((res) => {
-              if (res.data.code == "10000") {
-                vm.getuserlist();
-                vm.$msg({ msg: "执行成功" });
+          }).then((res) => {
+            if (res.data.code == "10000") {
+              vm.getuserlist();
+              vm.$msg({ msg: "执行成功" });
 
-                vm.loadingbuttext = "执行";
-                vm.loadingbut = false;
-              } else if (res.data.code == "10001") {
-                vm.$msg({
-                  type: "warning",
-                  msg: "未上传cookie或tool type或trans_name",
-                });
+              vm.loadingbuttext = "执行";
+              vm.loadingbut = false;
+            } else if (res.data.code == "10001") {
+              vm.$msg({
+                type: "warning",
+                msg: "未上传cookie或tool type或trans_name",
+              });
 
-                vm.loadingbuttext = "执行";
-                vm.loadingbut = false;
-              } else if (res.data.code == "10003") {
-                vm.$msg({ type: "error", msg: "内部错误" });
+              vm.loadingbuttext = "执行";
+              vm.loadingbut = false;
+            } else if (res.data.code == "10003") {
+              vm.$msg({ type: "error", msg: "内部错误" });
 
-                vm.loadingbuttext = "执行";
-                vm.loadingbut = false;
-              } else if (res.data.code == "10004") {
-                vm.$msg({ type: "warning", msg: "请求受限" });
-                vm.loadingbuttext = "执行";
-                vm.loadingbut = false;
-              } else if (res.data.code == "10005") {
-                if (res.data.msg === "账号或密码错误") {
-                  vm.$msg({ type: "error", msg: "请检查用户密码是否正确" });
-                } else {
-                  vm.pageJumps = res.data.msg.substring(14);
-                  vm.showVarDia = true;
-                }
-                vm.loadingbuttext = "执行";
-                vm.loadingbut = false;
+              vm.loadingbuttext = "执行";
+              vm.loadingbut = false;
+            } else if (res.data.code == "10004") {
+              vm.$msg({ type: "warning", msg: "请求受限" });
+              vm.loadingbuttext = "执行";
+              vm.loadingbut = false;
+            } else if (res.data.code == "10005") {
+              if (res.data.msg === "账号或密码错误") {
+                vm.$msg({ type: "error", msg: "请检查用户密码是否正确" });
               } else {
-                vm.$msg({ type: "error", msg: "执行失败" });
+                vm.pageJumps = res.data.msg.substring(14);
+                vm.showVarDia = true;
               }
-            })
+              vm.loadingbuttext = "执行";
+              vm.loadingbut = false;
+            } else {
+              vm.$msg({ type: "error", msg: "执行失败" });
+            }
+          });
           vm.msg = "";
           vm.fileList = [];
           vm.form.progressPercent = 0;
