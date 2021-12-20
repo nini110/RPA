@@ -237,9 +237,9 @@ export default {
           prop: "plan_id",
           label: "推广计划:",
           rules: {
-          	required: true,
-          	validator: validTrue,
-          	trigger: 'change'
+            required: true,
+            validator: validTrue,
+            trigger: "change",
           },
           placeholder: "请输入推广计划",
           options: [
@@ -263,9 +263,9 @@ export default {
               icon: "el-icon-date",
               placeholder: "请选择时间",
               rules: {
-              	required: true,
-              	validator: validTrue,
-              	trigger: 'change'
+                required: true,
+                validator: validTrue,
+                trigger: "change",
               },
               options: [],
               disabled: true,
@@ -278,9 +278,9 @@ export default {
               label: "指标类型:",
               placeholder: "请输入指标类型",
               rules: {
-              	required: true,
-              	validator: validTrue,
-              	trigger: 'change'
+                required: true,
+                validator: validTrue,
+                trigger: "change",
               },
               disabled: true,
             },
@@ -292,9 +292,9 @@ export default {
               label: "规则:",
               placeholder: "请选择规则",
               rules: {
-              	required: true,
-              	validator: validTrue,
-              	trigger: 'change'
+                required: true,
+                validator: validTrue,
+                trigger: "change",
               },
               options: [],
               disabled: true,
@@ -307,9 +307,9 @@ export default {
               label: "对比指标:",
               placeholder: "请选择对比指标",
               rules: {
-              	required: true,
-              	validator: validTrue,
-              	trigger: 'change'
+                required: true,
+                validator: validTrue,
+                trigger: "change",
               },
               options: [],
               disabled: true,
@@ -341,9 +341,9 @@ export default {
               label: "操作类型:",
               placeholder: "请选择操作类型",
               rules: {
-              	required: true,
-              	validator: validTrue,
-              	trigger: 'change'
+                required: true,
+                validator: validTrue,
+                trigger: "change",
               },
               options: [
                 {
@@ -437,32 +437,40 @@ export default {
               );
             }
           }
+          let validLeft;
+          let validRight;
           vm.$refs.form1.validate((valid) => {
-            if (valid) {
-              vm.$refs.form2.validate((valid2) => {
-                if (valid2) {
-                  vm.openMessageBox({
-                    type: "warning",
-                    showClose: true,
-                    tipTitle: `构建账号全量任务耗时较长, 请 [ 确定 ] 构建`,
-                    confirmButtonFn: () => {
-                      alarmSetting({
-                        ...vm.currentInfo,
-                        ...dataRight,
-                      }).then((res) => {
-                        if (res.data.code === 10000) {
-                          vm.$msg({ msg: res.data.msg });
-                          vm.resetEvent();
-                        } else {
-                          vm.$msg({ type: "error", msg: res.data.msg });
-                        }
-                      });
-                    },
-                  });
-                }
-              });
-            }
+            validLeft = valid;
+            return validLeft;
           });
+          vm.$refs.form2.validate((valid) => {
+            validRight = valid;
+            return validRight;
+          });
+          if (validLeft && validLeft) {
+            vm.$refs.form2.validate((valid2) => {
+              if (valid2) {
+                vm.openMessageBox({
+                  type: "warning",
+                  showClose: true,
+                  tipTitle: `构建账号全量任务耗时较长, 请 [ 确定 ] 构建`,
+                  confirmButtonFn: () => {
+                    alarmSetting({
+                      ...vm.currentInfo,
+                      ...dataRight,
+                    }).then((res) => {
+                      if (res.data.code === 10000) {
+                        vm.$msg({ msg: res.data.msg });
+                        vm.resetEvent();
+                      } else {
+                        vm.$msg({ type: "error", msg: res.data.msg });
+                      }
+                    });
+                  },
+                });
+              }
+            });
+          }
         }
       }
     },

@@ -6,9 +6,9 @@
           <div class="formObj_ipt">
             <el-row>
               <el-col :span="12">
-                <el-form-item label="账号:" prop="input">
+                <el-form-item label="账号:" prop="username">
                   <el-input
-                    v-model="form.input"
+                    v-model.trim="form.username"
                     size="medium"
                     placeholder="请输入账号"
                     clearable
@@ -17,9 +17,9 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="密码:" prop="pass">
+                <el-form-item label="密码:" prop="password">
                   <el-input
-                    v-model="form.pass"
+                    v-model.trim="form.password"
                     size="medium"
                     placeholder="请输入密码"
                     clearable
@@ -47,7 +47,7 @@
               <el-col :span="12">
                 <el-form-item label="备注内容:">
                   <el-input
-                    v-model="form.pin"
+                    v-model.trim="form.pin"
                     size="medium"
                     placeholder="请输入备注内容"
                     clearable
@@ -58,127 +58,27 @@
             </el-row>
           </div>
           <div class="formObj_upload">
-            <el-form-item label="">
+            <el-form-item label="" :error="errorUpInfo">
               <Upload
-                :progressPercent="form.progressPercent"
+                :progressPercent="progressPercent"
                 @getFile="getFileEvent"
               ></Upload>
             </el-form-item>
           </div>
           <div class="formObj_button">
-            <!-- dmp -->
-            <div v-if="$route.name === 'DMP'">
+            <div v-for="(item, idx) in btnBox" :key="idx">
               <a
                 class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/DMP自动化人群包.xlsx"
-                download="DMP自动化人群包.xlsx"
+                :href="item.url"
+                :download="item.downName"
               >
-                <div class="el-icon-download btnSize">下载模板</div>
-              </a>
-            </div>
-            <!-- 展位 -->
-            <div v-if="$route.name === 'Booth'">
-              <a
-                class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/京东展位.xlsx"
-                download="京东展位.xlsx"
-              >
-                <div class="el-icon-download btnSize">下载模板</div>
-              </a>
-            </div>
-            <!-- 直投 -->
-            <div v-if="$route.name === 'Direct'">
-              <a
-                class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/新版直投-单元创建工具配置.xlsx"
-                download="新版直投-单元创建工具配置.xlsx"
-              >
-                <div class="el-icon-download btnSizeBig">
-                  单元创建工具配置下载
-                </div>
-              </a>
-              <a
-                class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/新版直投-计划创建工具配置.xlsx"
-                download="新版直投-计划创建工具配置.xlsx"
-              >
-                <div class="el-icon-download btnSizeBig">
-                  计划创建工具配置下载
-                </div>
-              </a>
-            </div>
-            <!-- 魔方 -->
-            <div v-if="$route.name === 'Cube'">
-              <a
-                class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/京腾魔方人群.xlsx"
-                download="京腾魔方人群.xlsx"
-              >
-                <div class="el-icon-download btnSize">下载模板</div>
-              </a>
-            </div>
-            <!-- 数坊人群圈选 -->
-            <div v-if="$route.name === 'Number'">
-              <a
-                class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/数坊人群圈选.xlsx"
-                download="数坊人群圈选.xlsx"
-              >
-                <div class="el-icon-download btnSize">下载模板</div>
-              </a>
-            </div>
-            <!-- 营销活动人群 -->
-            <div v-if="$route.name === 'Activity'">
-              <a
-                class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/营销活动.xlsx"
-                download="营销活动.xlsx"
-              >
-                <div class="el-icon-download btnSize">下载模板</div>
-              </a>
-            </div>
-            <!-- 自定义分析创建 -->
-            <div v-if="$route.name === 'Analysis'">
-              <a
-                class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/数坊自定义分析-分析配置项.xlsx"
-                download="数坊自定义分析-分析配置项.xlsx"
-              >
-                <div class="el-icon-download btnSizeBig">分析配置项下载</div>
-              </a>
-              <a
-                class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/数坊自定义分析-新建分析.xlsx"
-                download="数坊自定义分析-新建分析.xlsx"
-              >
-                <div class="el-icon-download btnSizeBig">新建分析项下载</div>
-              </a>
-            </div>
-            <!-- 数坊人群交并差集 -->
-            <div v-if="$route.name === 'Difference'">
-              <a
-                class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/数坊已有人群集合.xlsx"
-                download="数坊已有人群集合.xlsx"
-              >
-                <div class="el-icon-download btnSize">下载模板</div>
-              </a>
-            </div>
-            <!-- 营销人群追踪 -->
-            <div v-if="$route.name === 'Population'">
-              <a
-                class="btnnormal_down marginR"
-                href="http://tool.afocus.com.cn/file_download/数坊自动化报告.xlsx"
-                download="数坊自动化报告.xlsx"
-              >
-                <div class="el-icon-download btnSize">下载模板</div>
+                <div class="el-icon-download btnSize">{{ item.btnTxt }}</div>
               </a>
             </div>
             <el-button
               v-waves
               type="primary"
               class="el-icon-upload2 marginR"
-              :disabled="this.fileList == '' ? true : false"
               @click="uploadFile"
               >立即上传</el-button
             >
@@ -186,7 +86,7 @@
               v-waves
               type="primary"
               class="el-icon-right marginR"
-              :disabled="!this.msg"
+              :disabled="!msg"
               @click="going"
               :loading="loadingbut"
               >{{ loadingbuttext }}</el-button
@@ -232,7 +132,11 @@
               </el-table-column>
               <el-table-column property="cheack" label="操作" width="150">
                 <template slot-scope="scope">
-                  <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
+                  <div
+                    v-waves
+                    class="btn btn_info"
+                    @click="detailEvent(scope.row)"
+                  >
                     <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-xinxi"></use>
                     </svg>
@@ -302,17 +206,128 @@ export default {
       default: "",
     },
   },
+  watch: {
+    $route: {
+      handler(newval, oldval) {
+        const vm = this;
+        vm.check();
+        vm.username = localStorage.getItem("user_name");
+        vm.people = localStorage.getItem("user_name");
+        vm.getuserlist();
+        switch (newval.name) {
+          case "DMP":
+            vm.btnBox = [
+              {
+                url: "http://tool.afocus.com.cn/file_download/DMP自动化人群包.xlsx",
+                downName: "DMP自动化人群包.xlsx",
+                btnTxt: "下载模板",
+              },
+            ];
+            break;
+          case "Booth":
+            vm.btnBox = [
+              {
+                url: "http://tool.afocus.com.cn/file_download/京东展位.xlsx",
+                downName: "京东展位.xlsx",
+                btnTxt: "下载模板",
+              },
+            ];
+            break;
+          case "Direct":
+            vm.btnBox = [
+              {
+                url: "http://tool.afocus.com.cn/file_download/新版直投-单元创建工具配置.xlsx",
+                downName: "新版直投-单元创建工具配置.xlsx",
+                btnTxt: "单元创建工具配置下载",
+              },
+              {
+                url: "http://tool.afocus.com.cn/file_download/新版直投-计划创建工具配置.xlsx",
+                downName: "新版直投-计划创建工具配置.xlsx",
+                btnTxt: "计划创建工具配置下载",
+              },
+            ];
+            break;
+          case "Cube":
+            vm.btnBox = [
+              {
+                url: "http://tool.afocus.com.cn/file_download/京腾魔方人群.xlsx",
+                downName: "京腾魔方人群.xlsx",
+                btnTxt: "下载模板",
+              },
+            ];
+            break;
+          case "Number":
+            vm.btnBox = [
+              {
+                url: "http://tool.afocus.com.cn/file_download/数坊人群圈选.xlsx",
+                downName: "数坊人群圈选.xlsx",
+                btnTxt: "下载模板",
+              },
+            ];
+            break;
+          case "Activity":
+            vm.btnBox = [
+              {
+                url: "http://tool.afocus.com.cn/file_download/营销活动.xlsx",
+                downName: "营销活动.xlsx",
+                btnTxt: "下载模板",
+              },
+            ];
+            break;
+          case "Analysis":
+            vm.btnBox = [
+              {
+                url: "http://tool.afocus.com.cn/file_download/数坊自定义分析-分析配置项.xlsx",
+                downName: "数坊自定义分析-分析配置项.xlsx",
+                btnTxt: "分析配置项下载",
+              },
+              {
+                url: "http://tool.afocus.com.cn/file_download/数坊自定义分析-新建分析.xlsx",
+                downName: "数坊自定义分析-新建分析.xlsx",
+                btnTxt: "新建分析项下载",
+              },
+            ];
+            break;
+          case "Difference":
+            vm.btnBox = [
+              {
+                url: "http://tool.afocus.com.cn/file_download/数坊已有人群集合.xlsx",
+                downName: "数坊已有人群集合.xlsx",
+                btnTxt: "下载模板",
+              },
+            ];
+            break;
+          case "Population":
+            vm.btnBox = [
+              {
+                url: "http://tool.afocus.com.cn/file_download/数坊自动化报告.xlsx",
+                downName: "数坊自动化报告.xlsx",
+                btnTxt: "下载模板",
+              },
+            ];
+            break;
+          default:
+            vm.btnBox = null;
+            break;
+        }
+      },
+      immediate: true,
+      deep: true,
+    },
+  },
   data() {
     return {
+      errorUpInfo: "",
+      btnBox: null,
       rules: {
-        input: [
+        username: [
           {
             required: true,
             message: "请输入账号",
             trigger: "blur",
           },
         ],
-        pass: [
+        password: [
           {
             required: true,
             message: "请输入密码",
@@ -339,12 +354,12 @@ export default {
         },
       ],
       form: {
-        input: "",
-        pass: "",
+        username: "",
+        password: "",
         pin: "",
         choose: 1,
-        progressPercent: 0,
       },
+      progressPercent: 0,
       fileList: [], // excel文件列表
       loadingbut: false,
       loadingbuttext: "执行",
@@ -360,50 +375,49 @@ export default {
       log: "", //查看详情渲染的log
     };
   },
-  watch: {
-    $route: {
-      handler(newval, oldval) {
-        const vm = this;
-        vm.check();
-        vm.username = localStorage.getItem("user_name");
-        vm.people = localStorage.getItem("user_name");
-        vm.getuserlist();
-      },
-      immediate: true,
-      deep: true,
-    },
-  },
   methods: {
     closeDialog() {
       this.showVarDia = false;
     },
     getFileEvent(val) {
       this.fileList = val;
+      this.errorUpInfo = ''
     },
     //立即上传 并判断上传文件是否为空if () {
     uploadFile(data) {
+      const vm = this;
+      if (!vm.fileList || vm.fileList.length === 0) {
+        vm.errorUpInfo = "请上传文件";
+        return false;
+      }
       fxcjupload({
-        trans_name: this.username,
-        file: this.fileList,
+        trans_name: vm.username,
+        file: vm.fileList,
       }).then((res) => {
         if (res.data.code == 10000) {
-          this.form.progressPercent = 100;
-          this.msg = res.data.code;
-          this.fileList = [];
+          vm.errorUpInfo = "";
+          vm.progressPercent = 100;
+          vm.msg = res.data.code;
+          vm.fileList = [];
           vm.$msg({ msg: "上传成功" });
         }
       });
     },
-    //查看
+    //查看列表
     getuserlist() {
+      const vm = this;
       fxcjExamine({
-        tool_type: this.toolType,
-        limit: this.pagesize,
-        page: this.currpage,
+        tool_type: vm.toolType,
+        limit: vm.pagesize,
+        page: vm.currpage,
       }).then((res) => {
-        let result = res.data;
-        this.tableData = result.data;
-        this.total = result.count;
+        if (res.data.code === 10000) {
+          let result = res.data;
+          vm.tableData = result.data;
+          vm.total = result.count;
+        } else {
+          vm.$msg({ type: "error", msg: res.data.msg });
+        }
       });
     },
     // 查看详情按钮
@@ -432,38 +446,19 @@ export default {
         if (valid) {
           this.loadingbut = true;
           this.loadingbuttext = "审核中...";
-          fxcjtools({
-            username: vm.form.input,
-            password: vm.form.pass,
+          let data = {
+            ...vm.form,
             trans_name: vm.username,
             tool_type: vm.toolType,
             choose:
               vm.$route.fullPath.indexOf("beijingMustPass") !== -1
                 ? vm.form.choose
                 : "3",
-            pin: vm.form.pin,
-          }).then((res) => {
+          };
+          fxcjtools(data).then((res) => {
             if (res.data.code == "10000") {
               vm.getuserlist();
               vm.$msg({ msg: "执行成功" });
-
-              vm.loadingbuttext = "执行";
-              vm.loadingbut = false;
-            } else if (res.data.code == "10001") {
-              vm.$msg({
-                type: "warning",
-                msg: "未上传cookie或tool type或trans_name",
-              });
-
-              vm.loadingbuttext = "执行";
-              vm.loadingbut = false;
-            } else if (res.data.code == "10003") {
-              vm.$msg({ type: "error", msg: "内部错误" });
-
-              vm.loadingbuttext = "执行";
-              vm.loadingbut = false;
-            } else if (res.data.code == "10004") {
-              vm.$msg({ type: "warning", msg: "请求受限" });
               vm.loadingbuttext = "执行";
               vm.loadingbut = false;
             } else if (res.data.code == "10005") {
@@ -473,15 +468,13 @@ export default {
                 vm.pageJumps = res.data.msg.substring(14);
                 vm.showVarDia = true;
               }
-              vm.loadingbuttext = "执行";
-              vm.loadingbut = false;
             } else {
-              vm.$msg({ type: "error", msg: "执行失败" });
+              vm.$msg({ type: "error", msg: res.data.msg });
             }
           });
           vm.msg = "";
           vm.fileList = [];
-          vm.form.progressPercent = 0;
+          vm.progressPercent = 0;
         }
       });
     },
