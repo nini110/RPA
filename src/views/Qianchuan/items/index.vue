@@ -185,7 +185,7 @@ export default {
     },
     routerLink(ids, names) {
       const { href } = this.$router.resolve({
-        name: "RealTime",
+        path: '/layout2/qianchuan/realTime',
         query: {
           id: ids,
           name: names,

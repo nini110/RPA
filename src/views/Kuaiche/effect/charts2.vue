@@ -147,10 +147,11 @@ export default {
           left: "center",
           bottom: "20px",
         },
-        tooltip: {
-          trigger: "item",
-          formatter: "{a} <br/>{b}: {c} ({d}%)",
-        },
+        // tooltip: {
+        //   trigger: "item",
+        //   formatter: "酷酷酷酷酷",
+        //   enterable: true,
+        // },
         legend: {
           show: true,
           orient: "vertical",
@@ -193,6 +194,7 @@ export default {
             label: {
               position: "inner",
               fontSize: 14,
+              formatter: "{a} \n{b}: {c}",
             },
             // top: 80,
             left: "10%",
@@ -214,20 +216,16 @@ export default {
             type: "pie",
             radius: ["33%", "50%"],
             labelLine: {
-              length: 20,
+              length: 30,
             },
-            // top: 80,
             left: "10%",
             selectedMode: "single",
-            selectedOffset: 10,
+            selectedOffset: 20,
             label: {
-              // show: false,
-              // position: "outside",
               fontSize: 14,
               lineHeight: 22,
               padding: 5,
-              // formatter: "{a|{a}}{abg|}\n{hr|}\n  {b|{b}：}{c}  {per|{d}%}  ",
-              formatter: "{b}\n {per|{d}%}  ",
+              formatter: "{b}\n数量：{c}\n占比：{per|{d}%}  ",
               backgroundColor: "#F6F8FC",
               borderColor: "#8C8D8E",
               borderWidth: 1,
@@ -274,7 +272,7 @@ export default {
         },
         legend: {
           top: 30,
-          data: ["总数", "仅系统", "仅人工", "系统/人工"],
+          data: ["总数", "仅系统", "仅人工", "系统人工"],
         },
         // 工具栏
         // toolbox: {
@@ -339,12 +337,10 @@ export default {
           seriesIndex: 1,
           dataIndex: 0,
         }); //设置默认选中高亮部分
-        myChart.on("click", function (params) {
-          let data;
+        myChart.on("mouseover", function (params) {
           vm.nextArr.forEach((item, idx) => {
             if (item.name === params.name) {
               vm.options2.xAxis[0].data = [item.name];
-              console.log("+++", item);
               let arr = [
                 {
                   name: "总数",
@@ -365,8 +361,8 @@ export default {
                   },
                 },
                 {
-                  name: "系统/人工",
-                  data: [item.value["系统/人工"]],
+                  name: "系统人工",
+                  data: [item.value.系统人工],
                   itemStyle: {
                     color: "#FF40A9",
                   },
@@ -400,9 +396,68 @@ export default {
           });
           myChart2.setOption(vm.options2);
         });
+        myChart.on('click', function(params) {
+          let roi_type;
+          let price_type;
+          switch (params.name) {
+            case "上升:涨价":
+              roi_type = "rise";
+              price_type = "rise";
+              break;
+            case "上升:降价":
+              roi_type = "rise";
+              price_type = "decline";
+              break;
+            case "上升:未变":
+              roi_type = "rise";
+              price_type = "constant";
+              break;
+            // ------
+            case "下降:涨价":
+              roi_type = "decline";
+              price_type = "rise";
+              break;
+            case "下降:降价":
+              roi_type = "decline";
+              price_type = "decline";
+              break;
+            case "下降:未变":
+              roi_type = "decline";
+              price_type = "constant";
+              break;
+            // ====
+            case "不变:涨价":
+              roi_type = "constant";
+              price_type = "rise";
+              break;
+            case "不变:降价":
+              roi_type = "constant";
+              price_type = "decline";
+              break;
+            case "不变:未变":
+              roi_type = "constant";
+              price_type = "constant";
+              break;
+          }
+          if (
+            params.name !== "上升" &&
+            params.name !== "下降" &&
+            params.name !== "不变"
+          ) {
+            const { href } = vm.$router.resolve({
+              path: "/layout2/kuaiche/effect",
+              query: {
+                roi_type,
+                price_type,
+                pin: vm.searchVal.pin,
+                stDate: vm.searchVal.search_date[0],
+                edDate: vm.searchVal.search_date[1],
+              },
+            });
+            window.open(href, "_blank");
+          }
+        })
         // 图表2的数据
-        // console.log('innerData', vm.innerData)
-        // console.log('nextArr', vm.nextArr)
         let initItem = vm.nextArr[0];
         vm.options2.xAxis[0].data = [initItem.name];
         let initArr = [
@@ -426,8 +481,8 @@ export default {
             },
           },
           {
-            name: "系统/人工",
-            data: [initItem.value["系统/人工"]],
+            name: "系统人工",
+            data: [initItem.value.系统人工],
             itemStyle: {
               color: "#FF40A9",
             },
@@ -457,10 +512,11 @@ export default {
         });
         vm.options2.series = initArr;
         myChart2.setOption(vm.options2);
-        // console.log(vm.nextArr)
+
+        console.log(vm.nextArr);
+
         let currentOp = [vm.nextArr, vm.nextArr];
         currentOp.forEach((item, idx) => {
-          let selectTag = idx === 0 ? "仅系统" : "仅人工";
           let selectTag2 = idx === 0 ? "系统" : "人工";
           let zongshu = 0;
           item.forEach((sub, idx) => {
@@ -524,7 +580,7 @@ export default {
       vm.nextArr = [];
       effectCharts(val).then((res) => {
         if (res.data.code === 10000) {
-          let result = res.data.data;
+          let result = res.data.data.ROI变化数量;
           for (let i in result) {
             let midArr = [];
             // 上升  下降   不变
@@ -565,19 +621,17 @@ export default {
             }
           }
           vm.nextArr.forEach((item, idx) => {
-            let onlyP = item.value.总数 - item.value.系统;
-            let onlyS = item.value.总数 - item.value.人工;
-            let sysAndP = item.value.总数 - onlyP - onlyS;
+            vm.$set(
+              item.value,
+              "系统",
+              item.value.系统人工 + item.value.仅系统
+            );
+            vm.$set(
+              item.value,
+              "人工",
+              item.value.系统人工 + item.value.仅人工
+            );
 
-            if (item.name.indexOf("未变") !== -1) {
-              vm.$set(item.value, "仅人工", 0);
-              vm.$set(item.value, "仅系统", 0);
-              vm.$set(item.value, "系统/人工", 0);
-            } else {
-              vm.$set(item.value, "仅人工", onlyP);
-              vm.$set(item.value, "仅系统", onlyS);
-              vm.$set(item.value, "系统/人工", sysAndP);
-            }
             switch (item.name) {
               case "上升:涨价":
                 vm.$set(item, "itemStyle", {
@@ -636,6 +690,7 @@ export default {
           vm.noData = false;
           vm.tabDisable = false;
           vm.activeName = "1";
+          console.log("+++", vm.nextArr);
         } else {
           vm.$msg({ type: "warning", msg: "暂无数据" });
         }

@@ -169,8 +169,8 @@
                   <div
                     v-waves
                     class="btn btn_info"
+                    :class="{ dis: scope.row.status !== 1 }"
                     @click="downEvent(scope.row)"
-                     :disabled="scope.row.status !== 1"
                   >
                     <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-download"></use>
@@ -179,28 +179,13 @@
                   <div
                     v-waves
                     class="btn btn_info"
+                    :class="{ dis: scope.row.status === 0 }"
                     @click="deleteEvent(scope.row)"
-                    :disabled="scope.row.status === 0"
                   >
                     <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-lajitong"></use>
                     </svg>
                   </div>
-                  <!-- <el-button
-                    v-waves
-                    :disabled="scope.row.status !== 1"
-                    class="btn btn_info el-icon-download"
-                    @click="downEvent(scope.row)"
-                  >
-                  </el-button>
-
-                  <el-button
-                    v-waves
-                    :disabled="scope.row.status === 0"
-                    class="btn btn_delete el-icon-delete"
-                    @click="deleteEvent(scope.row)"
-                  >
-                  </el-button> -->
                 </template>
               </el-table-column>
             </el-table>
@@ -318,6 +303,9 @@ export default {
     // 下载
     downEvent(row) {
       const vm = this;
+      if (row.status !== 1) {
+        return false;
+      }
       vm.multipleSelection = row.id;
       vm.fileName = row.report_name;
       DownloadReport({
@@ -475,6 +463,9 @@ export default {
     // 删除
     deleteEvent(row) {
       const vm = this;
+      if (row.status === 0) {
+        return false;
+      }
       vm.multipleSelection = "";
       vm.openMessageBox({
         type: "warning",

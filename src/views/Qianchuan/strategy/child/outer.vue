@@ -112,12 +112,22 @@
               </el-tooltip>
             </template>
             <template slot-scope="scope">
-              <div v-waves class="btn btn_info" @click="editFn(2, scope.row)" :disabled="scope.row.status ? true : false">
+              <div
+                v-waves
+                class="btn btn_info"
+                :class="{ 'dis': scope.row.status }"
+                @click="editFn(2, scope.row)"
+              >
                 <svg class="icon svg-icon titleicon" aria-hidden="true">
                   <use xlink:href="#icon-13edit"></use>
                 </svg>
               </div>
-              <div v-waves class="btn btn_info" @click="deleteFn()" :disabled="scope.row.status ? true : false">
+              <div
+                v-waves
+                class="btn btn_info"
+                :class="{ 'dis': scope.row.status }"
+                @click="deleteFn(scope.row)"
+              >
                 <svg class="icon svg-icon titleicon" aria-hidden="true">
                   <use xlink:href="#icon-lajitong"></use>
                 </svg>
@@ -283,8 +293,11 @@ export default {
       }
     },
     // 删除事件
-    deleteFn() {
+    deleteFn(row) {
       const vm = this;
+      if (row.status) {
+        return false;
+      }
       vm.openMessageBox({
         type: "warning",
         showClose: true,
@@ -297,6 +310,9 @@ export default {
     // 编辑按钮
     editFn(tag, row) {
       const vm = this;
+      if (row.status) {
+        return false;
+      }
       vm.editFlag = tag;
       if (vm.activeTab === "first") {
         vm.showPriceDialog = true;

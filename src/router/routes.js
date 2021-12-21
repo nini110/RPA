@@ -1,5 +1,6 @@
 import login from '@/views/login.vue'
 import layout from '@/views/layout'
+import layout2 from '@/views/layout/index2.vue'
 
 // 巨量千川
 // import Homeitem from '@/views/ThirdPartyTools/child/Homeitem.vue'
@@ -8,7 +9,9 @@ import layout from '@/views/layout'
 const routes = [
 	//login页面
 	{
-		path: '/login', name: 'login', component: login,
+		path: '/login',
+		name: 'login',
+		component: login,
 		meta: {
 			layout: 'login'
 		}
@@ -16,19 +19,55 @@ const routes = [
 	{
 		path: '/',
 		name: 'Home',
-		component: ()=> import("@/views/Home/index"),
+		component: () => import("@/views/Home/index"),
+	},
+	{
+		path: '/layout2',
+		name: 'layout2',
+		component: layout2,
+		children: [
+			// 巨量千川--实时看板
+			{
+				path: 'qianchuan',
+				name: 'Qianchuan',
+				component: () => import("@/views/Qianchuan"),
+				children: [{
+					path: 'realTime',
+					name: 'RealTime',
+					meta: {
+						title: 'RealTime'
+					},
+					component: () => import("@/views/Qianchuan/realTime"),
+				}]
+			},
+			// 提质--效果列表
+			{
+				path: 'kuaiche',
+				name: 'Kuaiche',
+				component: () => import("@/views/Kuaiche"),
+				children: [{
+						path: 'effect',
+						name: 'Effect',
+						meta: {
+							title: '效果变化'
+						},
+						component: () => import("@/views/Kuaiche/effect"),
+					}
+				]
+			},
+
+
+		]
 	},
 	{
 		path: '/layout',
 		name: 'layout',
 		component: layout,
-		children: [
-			{
+		children: [{
 				path: 'beijingMustPass',
 				name: 'BeijingMustPass',
 				component: () => import("../views/BeijingMustPass"),
-				children: [
-					{
+				children: [{
 						path: 'DMP',
 						name: 'DMP',
 						meta: {
@@ -75,7 +114,7 @@ const routes = [
 							title: '购物触点'
 						},
 						component: () => import("@/views/BeijingMustPass"),
-					},				
+					},
 					{
 						path: 'Mail',
 						name: 'Mail',
@@ -87,8 +126,7 @@ const routes = [
 				path: 'bigData',
 				name: 'BigData',
 				component: () => import("../views/BigData"),
-				children: [
-					{
+				children: [{
 						path: 'Number',
 						name: 'Number',
 						meta: {
@@ -135,8 +173,7 @@ const routes = [
 				path: 'dataApplication',
 				name: 'DataApplication',
 				component: () => import("../views/DataApplication"),
-				children: [
-					{
+				children: [{
 						path: 'tabulation',
 						name: 'Tabulation',
 						meta: {
@@ -167,8 +204,7 @@ const routes = [
 				path: 'videoTools',
 				name: 'VideoTools',
 				component: () => import("../views/VideoTools"),
-				children: [
-					{
+				children: [{
 						path: 'pictureProcessing',
 						name: 'PictureProcessing',
 						meta: {
@@ -199,8 +235,7 @@ const routes = [
 				path: 'qianchuan',
 				name: 'Qianchuan',
 				component: () => import("@/views/Qianchuan"),
-				children: [
-					{
+				children: [{
 						path: 'items',
 						name: 'Items',
 						meta: {
@@ -233,14 +268,6 @@ const routes = [
 					// 	component: () => import("@/views/Qianchuan/plan"),
 
 					// },
-					{
-						path: 'realTime',
-						name: 'RealTime',
-						meta: {
-							title: 'RealTime'
-						},
-						component: () => import("@/views/Qianchuan/realTime"),
-					}
 				]
 			},
 			// 预算预警
@@ -248,24 +275,21 @@ const routes = [
 				path: 'budgetAlarm',
 				name: 'BudgetAlarm',
 				component: () => import("@/views/BudgetAlarm"),
-				children: [
-					{
-						path: 'alarm',
-						name: 'Alarm',
-						meta: {
-							title: '预警'
-						},
-						component: () => import("@/views/BudgetAlarm/alarm/index2.vue"),
+				children: [{
+					path: 'alarm',
+					name: 'Alarm',
+					meta: {
+						title: '预警'
 					},
-				]
+					component: () => import("@/views/BudgetAlarm/alarm/index2.vue"),
+				}, ]
 			},
 			// 快车提质
 			{
 				path: 'kuaiche',
 				name: 'Kuaiche',
 				component: () => import("@/views/Kuaiche"),
-				children: [
-					{
+				children: [{
 						path: 'effect',
 						name: 'Effect',
 						meta: {
@@ -273,33 +297,23 @@ const routes = [
 						},
 						component: () => import("@/views/Kuaiche/effect"),
 					},
-					// {
-					// 	path: 'record',
-					// 	name: 'Record',
-					// 	meta: {
-					// 		title: '修改记录'
-					// 	},
-					// 	component: () => import("@/views/Kuaiche/effect")
-					// },
 					{
 						path: 'charts',
 						name: 'Charts',
 						meta: {
 							title: '图表'
 						},
-						// component: () => import("@/views/Kuaiche/effect/charts")
 						component: () => import("@/views/Kuaiche/effect")
-					}					
+					}
 				]
 			},
-			
+
 			// 公共数据获取
 			{
 				path: 'publicDomainDataAcquisition',
 				name: 'PublicDomainDataAcquisition',
 				component: () => import("../views/PublicDomainDataAcquisition"),
-				children: [
-					{
+				children: [{
 						path: 'jingdongBidding',
 						name: 'JingdongBidding',
 						meta: {

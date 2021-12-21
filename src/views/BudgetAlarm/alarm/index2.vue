@@ -15,6 +15,7 @@
                 v-model="item.model"
                 :placeholder="item.placeholder"
                 size="medium"
+                filterable
                 :disabled="item.disabled"
                 @change="
                   (val) => {
@@ -175,6 +176,7 @@ export default {
       currentInfo: {}, // 当前用户 查询类目等信息集合
       form: {},
       btnTxt: "修改",
+      timeout: null,
       btnState: {
         inputFlag: false,
         deleteFlag: true,
@@ -191,7 +193,7 @@ export default {
           rules: {
             required: true,
             validator: validPercent.bind(this, "boxDataLeft", this, 0),
-            trigger: "change",
+            trigger: "change blur",
           },
           disabled: false,
         },
@@ -204,7 +206,7 @@ export default {
           rules: {
             required: true,
             validator: validPercent.bind(this, "boxDataLeft", this, 1),
-            trigger: "blur",
+            trigger: "change blur",
           },
           disabled: true,
         },
@@ -217,7 +219,7 @@ export default {
           rules: {
             required: true,
             validator: validPercent.bind(this, "boxDataLeft", this, 2),
-            trigger: "change",
+            trigger: "change blur",
           },
           options: [
             {
@@ -505,8 +507,7 @@ export default {
       alarmUser().then((res) => {
         if (res.data.code === 10000) {
           res.data.data.forEach((item, idx) => {
-            let target = vm.boxDataLeft[0].options;
-            target.push({
+            vm.boxDataLeft[0].options.push({
               name: item,
               code: item,
             });
@@ -528,6 +529,7 @@ export default {
 
       // })
     },
+
     // 左侧
     selectChangeLeft(val, item) {
       const vm = this;

@@ -2,7 +2,13 @@
   <div class="DMP outerDiv">
     <div class="content">
       <div class="content_form">
-        <el-form ref="form" :model="form" class="formObj" :rules="rules">
+        <el-form
+          ref="form"
+          :model="form"
+          class="formObj"
+          :rules="rules"
+          :disabled="fromChart"
+        >
           <div class="formObj_ipt">
             <el-row>
               <el-col :span="12">
@@ -111,7 +117,11 @@
               </el-table-column>
               <el-table-column label="操作" width="150" fixed="left">
                 <template slot-scope="scope">
-                  <el-button class="el-icon-edit" type="text">调价</el-button>
+                  <div v-waves class="btn btn_info">
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-13edit"></use>
+                    </svg>
+                  </div>
                 </template>
               </el-table-column>
               <el-table-column
@@ -176,6 +186,7 @@ export default {
           return time.getTime() >= new Date().getTime();
         },
       },
+      fromChart: false,
       openDrawerInfo: {},
       showDrawer: false,
       getDataFlag: false,
@@ -297,7 +308,23 @@ export default {
       deep: true,
     },
   },
-  mounted() {},
+  mounted() {
+    const vm = this;
+    let info = vm.$route.query;
+    if (vm.$route.fullPath.indexOf("layout2") !== -1) {
+      vm.fromChart = true;
+      vm.form.pin = info.pin;
+      vm.form.search_date = [info.stDate, info.edDate];
+      vm.searchVal = {
+        ...vm.form,
+        start_date: vm.form.search_date[0],
+        end_date: vm.form.search_date[1],
+        roi_type: info.roi_type,
+        price_type: info.price_type,
+      };
+      vm.getTable(vm.searchVal);
+    }
+  },
   methods: {
     // 抽屉详情
     showInfoDarwer(val) {
@@ -324,7 +351,7 @@ export default {
       const vm = this;
       vm.form.sort_word = val.prop;
       vm.form.sort_line = val.order === "descending" ? "DESC" : "ASC";
-      vm.getTable();
+      vm.getTable(vm.searchVal);
     },
     searchEvent() {
       const vm = this;
@@ -336,7 +363,7 @@ export default {
             end_date: vm.form.search_date[1],
           };
           if (vm.$route.name !== "Charts") {
-            vm.getTable();
+            vm.getTable(vm.searchVal);
           } else {
             vm.getDataFlag = true;
           }
@@ -344,36 +371,36 @@ export default {
       });
     },
     // 获取效果列表
-    getTable(pages, current) {
+    getTable(data) {
       const vm = this;
       vm.tableData = [];
       // 获取效果列表
       effectBox({
-        ...vm.form,
-        start_date: vm.form.search_date[0],
-        end_date: vm.form.search_date[1],
+        ...data,
         limit: vm.pagesize,
         page: vm.currentPage,
       }).then((res) => {
-        if (res.data.code === 10000 && res.data.data.length > 0) {
-          vm.tableData = res.data.data;
-          vm.total = res.data.count;
-        } else if (res.data.code === 10004) {
-          vm.$msg({ type: "error", msg: res.data.msg });
+        if (res.data.code === 10000) {
+          if (res.data.data.length > 0) {
+            vm.tableData = res.data.data;
+            vm.total = res.data.count;
+          } else {
+            vm.$msg({ type: "error", msg: "暂无数据" });
+          }
         } else {
-          vm.$msg({ type: "warning", msg: "暂无数据" });
+          vm.$msg({ type: "error", msg: res.data.data });
         }
       });
     },
     //分页器功能
     handleSizeChange(val) {
       this.pagesize = val;
-      this.getTable();
+      this.getTable(this.searchVal);
     },
     //有接口请求 每点击一页进行一次数据请求 参数页码为动态值：
     handleCurrentChange(page) {
       this.currentPage = page;
-      this.getTable();
+      this.getTable(this.searchVal);
     },
   },
 };

@@ -14,21 +14,27 @@
 .el {
 	&-descriptions {
 		margin-bottom: 40px;
+
 		&__title {
 			color: #606266;
 			font-weight: normal;
 		}
+
 		&__body {
 			table {
 				width: 100%;
+
 				th {
 					width: 18%;
 				}
+
 				td {
 					width: 30%;
 				}
+
 				.el-form-item {
 					margin-bottom: 0;
+
 					&__content {
 						width: 100%;
 					}
@@ -119,11 +125,13 @@
 			&__content {
 				width: calc(100% - 140px);
 
+				.el-autocomplete,
 				.el-date-editor,
 				.el-select {
-					width: 100%;
+					width: 100% !important;
 				}
 			}
+
 			&__error {
 				padding-top: 0;
 			}
@@ -265,14 +273,15 @@
 		.btn {
 			cursor: pointer;
 			color: #606266;
-			padding: 18px!important;
+			padding: 18px !important;
 			border-radius: 4px;
 			vertical-align: middle;
-			transition: all 400ms linear;
+			transition: all 200ms linear;
 			border-color: transparent;
 			position: relative;
 			display: inline-block;
 			margin-right: 10px;
+
 			&.is-disabled {
 				background-color: #aaafae;
 				color: #fff;
@@ -286,17 +295,37 @@
 
 			&_info {
 				background-color: #ebeeee;
+
+				&.dis {
+					background-color: #c4c4c7;
+
+					cursor: not-allowed;
+
+				}
+
 				&:hover {
 					background-color: #c4c4c7;
 					color: #fff;
 				}
-				svg {
+
+				svg,
+				button {
 					width: 20px;
 					height: 20px;
 					position: absolute;
 					left: 50%;
 					top: 50%;
 					transform: translate(-50%, -50%);
+					transition: all 200ms linear;
+
+				}
+
+				button {
+					width: 36px;
+					height: 36px;
+					z-index: 10;
+					opacity: 0;
+
 				}
 			}
 
@@ -376,7 +405,20 @@
 		&__body {
 			padding: 0 30px;
 			font-size: 12px;
-
+			.dialogInfo {
+				padding-bottom: 40px;
+				p {
+					font-size: 12px;
+					color: #606266;
+					line-height: 20px;
+					margin-bottom: 8px;
+					span {
+						// min-width: 80px;
+						display: inline-block;
+						text-indent: 2em;
+					}
+				}
+			}
 			.dialogBtn {
 				text-align: right;
 			}

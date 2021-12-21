@@ -167,19 +167,23 @@
           >
           </el-pagination>
         </div>
-        <!-- 查看详情弹出框 -->
-        <div class="dialog">
-          <el-dialog
-            title="查看详情"
-            :visible.sync="dialogVisible"
-            width="500px"
-            max-height="600px"
-            :close-on-click-modal="false"
-          >
-            <div>详情信息：{{ log }}</div>
-          </el-dialog>
-        </div>
       </div>
+    </div>
+    <!-- 查看详情弹出框 -->
+    <div class="dialog">
+      <el-dialog
+        title="查看详情"
+        :visible.sync="dialogVisible"
+        width="500px"
+        max-height="600px"
+        :close-on-click-modal="false"
+      >
+        <div class="dialogInfo">
+          <p><span>创建人：</span>{{curInfo.title}}</p>
+          <p><span>创建时间：</span>{{curInfo.create_time}}</p>
+          <p><span>信息：</span>{{curInfo.log}}</p>
+        </div>
+      </el-dialog>
     </div>
   </div>
 </template>
@@ -317,6 +321,7 @@ export default {
   },
   data() {
     return {
+      curInfo: {},
       errorUpInfo: "",
       btnBox: null,
       rules: {
@@ -381,7 +386,7 @@ export default {
     },
     getFileEvent(val) {
       this.fileList = val;
-      this.errorUpInfo = ''
+      this.errorUpInfo = "";
     },
     //立即上传 并判断上传文件是否为空if () {
     uploadFile(data) {
@@ -427,12 +432,9 @@ export default {
         id: row.id,
       }).then((res) => {
         if (res.data.code == 10000) {
-          vm.log = res.data.data.log;
+          vm.curInfo = res.data.data
+          // vm.log = res.data.data.log;
           vm.dialogVisible = true;
-        } else if (res.data.code == 10001) {
-          vm.$msg({ type: "warning", msg: "是否忘记传参" });
-        } else if (res.data.code == 10002) {
-          vm.$msg({ type: "warning", msg: "您传入的id有误" });
         } else {
           vm.$msg({ type: "error", msg: "查看失败" });
         }
