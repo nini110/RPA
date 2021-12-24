@@ -572,7 +572,6 @@ export default {
     getChartsEvent(val, tag) {
       const vm = this;
       // vm.noData = true;
-      vm.activeName = null;
       vm.tabDisable = true;
       vm.activeName = null;
       vm.innerData = [];

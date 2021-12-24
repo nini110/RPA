@@ -56,6 +56,12 @@
           </el-col>
         </el-row>
       </el-form>
+      <div class="outerDiv_left_info">
+        <h3 class="el-icon-info">须知</h3>
+        <p>1、每天有四次刷新推广计划ID，早上8点，中午12点，下午18点，晚上24点，刷新时刻点不是正在投放状态的ID，将不纳入本轮次监控，直到下次任务刷新。</p>
+        <p>2、临近设置阈值的5%内，每10分钟企业微信通知预警一次，直到通知次数耗尽。</p>
+        <p>3、如果有新上的计划ID，想立即被监控，可通过修改预警信息的方式，手动刷新自己账号的监控列表。</p>
+      </div>
     </div>
     <div class="outerDiv_right">
       <el-form ref="form2" :model="form" :class="{ nodata: !hasInfo }">
@@ -225,6 +231,10 @@ export default {
             {
               name: "京东快车",
               code: "kuaiche",
+            },
+            {
+              name: "京东展位",
+              code: "zhanwei",
             },
             {
               name: "购物触点",
