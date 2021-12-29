@@ -328,3 +328,8 @@ export const alarmDelete = request({
     url:`${BASEPATH4}/tools/del_monitoring`,
     method:'post',
 })
+// 小V消耗图表
+export const expendDate = request({
+    url:`${BASEPATH2}/tabulation/jzt_cost/get`,
+    method:'get',
+})

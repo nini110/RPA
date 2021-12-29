@@ -47,6 +47,7 @@ export default {
     },
   },
   data() {
+    const vm = this;
     return {
       noData: true,
       showResult: false,
@@ -141,22 +142,25 @@ export default {
       outerData: [],
       nextArr: [],
       options: {
-        // backgroundColor: '#2c343c',
+        backgroundColor: "#303133",
         title: {
           text: "Roi数据图示",
           left: "center",
           bottom: "20px",
+          textStyle: {
+            color: "#fff",
+            fontSize: "18",
+          },
         },
-        // tooltip: {
-        //   trigger: "item",
-        //   formatter: "酷酷酷酷酷",
-        //   enterable: true,
-        // },
         legend: {
           show: true,
           orient: "vertical",
-          left: 0,
+          left: 15,
           top: "middle",
+          textStyle: {
+            color: "#90979c",
+            fontSize: 12,
+          },
           data: [
             "上升",
             "下降",
@@ -199,6 +203,7 @@ export default {
             // top: 80,
             left: "10%",
             itemStyle: {
+              barBorderRadius: [30, 30, 0, 0], //圆角大小
               normal: {
                 color: function (colors) {
                   var colorList = ["#f56c6c", "#5FC82B", "#FFC851"];
@@ -222,28 +227,28 @@ export default {
             selectedMode: "single",
             selectedOffset: 20,
             label: {
-              fontSize: 14,
+              fontSize: 12,
               lineHeight: 22,
               padding: 5,
-              formatter: "{b}\n数量：{c}\n占比：{per|{d}%}  ",
-              backgroundColor: "#F6F8FC",
-              borderColor: "#8C8D8E",
+              formatter: "{b}\n数量:{c}\n占比:{per|{d}%}",
+              backgroundColor: "#303133",
+              borderColor: "#909399",
               borderWidth: 1,
               borderRadius: 4,
               rich: {
                 a: {
-                  color: "#6E7079",
-                  lineHeight: 18,
+                  color: "#fff",
+                  lineHeight: 12,
                   align: "center",
                 },
                 hr: {
-                  borderColor: "#8C8D8E",
+                  borderColor: "#fff",
                   width: "100%",
                   borderWidth: 1,
                   height: 0,
                 },
                 b: {
-                  color: "#4C5058",
+                  color: "#fff",
                   fontSize: 12,
                   fontWeight: "bold",
                   lineHeight: 26,
@@ -261,39 +266,33 @@ export default {
         ],
       },
       options2: {
+        backgroundColor: "#303133",
         title: {
           text: "调价具体信息",
           // subtext: 'Fake Data',
           left: "center",
           bottom: "20px",
+          textStyle: {
+            color: "#fff",
+            fontSize: "18",
+          },
         },
         tooltip: {
           trigger: "axis",
+          backgroundColor: "#303133",
+          borderColor: "#909399",
+          textStyle: {
+            color: "#fff",
+          },
         },
         legend: {
           top: 30,
           data: ["总数", "仅系统", "仅人工", "系统人工"],
+          textStyle: {
+            color: "#90979c",
+            fontSize: 12,
+          },
         },
-        // 工具栏
-        // toolbox: {
-        // 	show: false,
-        // 	feature: {
-        // 		dataView: {
-        // 			show: true,
-        // 			readOnly: false
-        // 		},
-        // 		magicType: {
-        // 			show: true,
-        // 			type: ['line', 'bar']
-        // 		},
-        // 		restore: {
-        // 			show: true
-        // 		},
-        // 		saveAsImage: {
-        // 			show: true
-        // 		}
-        // 	}
-        // },
         calculable: true,
         xAxis: [
           {
@@ -396,7 +395,7 @@ export default {
           });
           myChart2.setOption(vm.options2);
         });
-        myChart.on('click', function(params) {
+        myChart.on("click", function (params) {
           let roi_type;
           let price_type;
           switch (params.name) {
@@ -456,7 +455,7 @@ export default {
             });
             window.open(href, "_blank");
           }
-        })
+        });
         // 图表2的数据
         let initItem = vm.nextArr[0];
         vm.options2.xAxis[0].data = [initItem.name];
@@ -691,7 +690,7 @@ export default {
           vm.activeName = "1";
           console.log("+++", vm.nextArr);
         } else {
-          vm.$msg({ type: "warning", msg: "暂无数据" });
+          vm.$msg({ type: "warning", msg: res.data.msg });
         }
         vm.$emit("close");
       });

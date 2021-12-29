@@ -7,7 +7,10 @@ import qs from 'qs'
 import ElementUI from 'element-ui';
 
 import format from './utils/format';
+import './utils/global'// 全局
+
 import directives from '@/directive'
+import './promission'// 这里进行路由后台获取的模拟
 import './utils/rem' //px转rem
 import '../element-#287BB5/index.css'
 import './styles/index.less'

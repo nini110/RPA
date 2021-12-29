@@ -1,7 +1,6 @@
 <template>
-  <div class="layout" :class="{ single: $route.name === 'RealTime' }">
+  <div class="layout">
     <el-menu
-      v-if="$route.name !== 'RealTime'"
       :default-active="currentMenu"
       class="el-menu-vertical-demo layout_menu"
       unique-opened
@@ -41,7 +40,7 @@
             </el-menu-item-group>
           </div>
         </el-submenu>
-        <el-menu-item v-else index="2">
+        <el-menu-item v-else :index="item.index" @click="selectEvent(item)">
           <i class="el-icon-menu"></i>
           <span slot="title">{{ item.label }}</span>
         </el-menu-item>
@@ -62,6 +61,7 @@
 <script>
 export default {
   name: "layout",
+
   data() {
     return {
       detailIcon: "",
@@ -266,6 +266,7 @@ export default {
             },
           ],
         },
+
         {
           label: "公共数据获取",
           deep: 2,
@@ -276,25 +277,25 @@ export default {
             {
               label: "京东招标",
               icon2: "#icon-yusuanzhaobiaoxiangmu",
-              value: "/layout/publicDomainDataAcquisition/jingdongBidding",
+              value: "/layout/publicData/bidding",
               index: "7-1",
             },
             {
               label: "活动页面SKU",
               icon2: "#icon-huodong",
-              value: "/layout/publicDomainDataAcquisition/activePageSKU",
+              value: "/layout/publicData/active",
               index: "7-2",
             },
             {
               label: "京东市场监控",
               icon2: "#icon-shichangjiandu",
-              value: "/layout/publicDomainDataAcquisition/howToMonitor",
+              value: "/layout/publicData/market",
               index: "7-3",
             },
             {
               label: "品牌SKU获取",
               icon2: "#icon-pinpai",
-              value: "/layout/publicDomainDataAcquisition/brandSKUAcquisition",
+              value: "/layout/publicData/brand",
               index: "7-4",
             },
           ],
@@ -302,8 +303,33 @@ export default {
       ],
     };
   },
-  mounted() {
+  computed: {
+    curroutes() {
+      return global.antRouter;
+    },
+  },
+  created() {
     const vm = this;
+    let res = vm.curroutes[3].children.filter((item) => {
+      return item.name === "Expend";
+    });
+    if (res && res.length > 0) {
+      vm.menuList.push({
+        label: "灵鲨消耗",
+        deep: 2,
+        icon: "iconfont icon-zhibiao",
+        value: "",
+        index: "8",
+        children: [
+          {
+            label: "图表",
+            icon2: "#icon-xiaoguofenxi",
+            value: "/layout/expend/chart",
+            index: "8-1",
+          },
+        ],
+      });
+    }
     for (let i of vm.menuList) {
       for (let j of i.children) {
         if (i.deep === 2) {

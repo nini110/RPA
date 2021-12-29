@@ -6,36 +6,46 @@ import layout2 from '@/views/layout/index2.vue'
 // import Homeitem from '@/views/ThirdPartyTools/child/Homeitem.vue'
 
 
-const routes = [
-	//login页面
-	{
+const routes = [{
 		path: '/login',
 		name: 'login',
 		component: login,
 		meta: {
-			layout: 'login'
+			layout: 'login',
+			deep: 1
 		}
 	},
 	{
 		path: '/',
 		name: 'Home',
-		component: () => import("@/views/Home/index"),
+		meta: {
+			deep: 1
+		},
+		component: () => import("@/views/Home"),
 	},
 	{
 		path: '/layout2',
 		name: 'layout2',
+		meta: {
+			deep: 1
+		},
 		component: layout2,
 		children: [
 			// 巨量千川--实时看板
 			{
 				path: 'qianchuan',
 				name: 'Qianchuan',
+				meta: {
+					deep: 2
+				},
 				component: () => import("@/views/Qianchuan"),
 				children: [{
 					path: 'realTime',
 					name: 'RealTime',
 					meta: {
-						title: 'RealTime'
+						title: '实时看板',
+						deep: 3,
+						filePath: 'Qianchuan/realTime'
 					},
 					component: () => import("@/views/Qianchuan/realTime"),
 				}]
@@ -44,16 +54,20 @@ const routes = [
 			{
 				path: 'kuaiche',
 				name: 'Kuaiche',
+				meta: {
+					deep: 2
+				},
 				component: () => import("@/views/Kuaiche"),
 				children: [{
-						path: 'effect',
-						name: 'Effect',
-						meta: {
-							title: '效果变化'
-						},
-						component: () => import("@/views/Kuaiche/effect"),
-					}
-				]
+					path: 'effect',
+					name: 'Effect',
+					meta: {
+						title: '效果变化',
+						deep: 3,
+						filePath: 'Kuaiche/effect'
+					},
+					component: () => import("@/views/Kuaiche/effect"),
+				}]
 			},
 
 
@@ -63,15 +77,23 @@ const routes = [
 		path: '/layout',
 		name: 'layout',
 		component: layout,
+		meta: {
+			deep: 1
+		},
 		children: [{
 				path: 'beijingMustPass',
 				name: 'BeijingMustPass',
+				meta: {
+					deep: 2
+				},
 				component: () => import("../views/BeijingMustPass"),
 				children: [{
 						path: 'DMP',
 						name: 'DMP',
 						meta: {
-							title: 'DMP'
+							title: 'DMP',
+							deep: 3,
+							filePath: 'BeijingMustPass'
 						},
 						component: () => import("@/views/BeijingMustPass"),
 					},
@@ -79,7 +101,9 @@ const routes = [
 						path: 'Booth',
 						name: 'Booth',
 						meta: {
-							title: '京东展位'
+							title: '京东展位',
+							deep: 3,
+							filePath: 'BeijingMustPass'
 						},
 						component: () => import("@/views/BeijingMustPass"),
 					},
@@ -87,7 +111,9 @@ const routes = [
 						path: 'Direct',
 						name: 'Direct',
 						meta: {
-							title: '京东直投'
+							title: '京东直投',
+							deep: 3,
+							filePath: 'BeijingMustPass'
 						},
 						component: () => import("@/views/BeijingMustPass"),
 					},
@@ -95,7 +121,9 @@ const routes = [
 						path: 'Cube',
 						name: 'Cube',
 						meta: {
-							title: '京腾魔方'
+							title: '京腾魔方',
+							deep: 3,
+							filePath: 'BeijingMustPass'
 						},
 						component: () => import("@/views/BeijingMustPass"),
 					},
@@ -103,7 +131,9 @@ const routes = [
 						path: 'People',
 						name: 'People',
 						meta: {
-							title: '京腾人群方向'
+							title: '京腾人群方向',
+							deep: 3,
+							filePath: 'BeijingMustPass'
 						},
 						component: () => import("@/views/BeijingMustPass"),
 					},
@@ -111,58 +141,73 @@ const routes = [
 						path: 'GoShop',
 						name: 'GoShop',
 						meta: {
-							title: '购物触点'
+							title: '购物触点',
+							deep: 3,
+							filePath: 'BeijingMustPass'
 						},
 						component: () => import("@/views/BeijingMustPass"),
 					},
-					{
-						path: 'Mail',
-						name: 'Mail',
-						component: () => import("@/views/BeijingMustPass"),
-					},
+					// {
+					// 	path: 'Mail',
+					// 	name: 'Mail',
+					// 	component: () => import("@/views/BeijingMustPass"),
+					// },
 				]
 			},
 			{
 				path: 'bigData',
 				name: 'BigData',
+				meta: {
+					deep: 2
+				},
 				component: () => import("../views/BigData"),
 				children: [{
-						path: 'Number',
+						path: 'number',
 						name: 'Number',
 						meta: {
-							title: '数坊人群圈选'
+							title: '数坊人群圈选',
+							deep: 3,
+							filePath: 'BeijingMustPass'
 						},
 						component: () => import("@/views/BigData"),
 					},
 					{
-						path: 'Activity',
+						path: 'activity',
 						name: 'Activity',
 						meta: {
-							title: '营销活动人群'
+							title: '营销活动人群',
+							deep: 3,
+							filePath: 'BigData'
 						},
 						component: () => import("@/views/BigData"),
 					},
 					{
-						path: 'Analysis',
+						path: 'analysis',
 						name: 'Analysis',
 						meta: {
-							title: '自定义分析创建'
+							title: '自定义分析创建',
+							deep: 3,
+							filePath: 'BigData'
 						},
 						component: () => import("@/views/BigData"),
 					},
 					{
-						path: 'Difference',
+						path: 'difference',
 						name: 'Difference',
 						meta: {
-							title: '数坊人群交并差集'
+							title: '数坊人群交并差集',
+							deep: 3,
+							filePath: 'BigData'
 						},
 						component: () => import("@/views/BigData"),
 					},
 					{
-						path: 'Population',
+						path: 'population',
 						name: 'Population',
 						meta: {
-							title: '营销人群追踪'
+							title: '营销人群追踪',
+							deep: 3,
+							filePath: 'BigData'
 						},
 						component: () => import("@/views/BigData"),
 					},
@@ -172,20 +217,27 @@ const routes = [
 			{
 				path: 'dataApplication',
 				name: 'DataApplication',
+				meta: {
+					deep: 2
+				},
 				component: () => import("../views/DataApplication"),
 				children: [{
 						path: 'tabulation',
 						name: 'Tabulation',
 						meta: {
-							title: '灵鲨制表'
+							title: '灵鲨制表',
+							deep: 3,
+							filePath: 'DataApplication/tabulation'
 						},
-						component: () => import("@/views/DataApplication/tabulation/index"),
+						component: () => import("@/views/DataApplication/tabulation"),
 					},
 					{
 						path: 'monitor',
 						name: 'Monitor',
 						meta: {
-							title: '竞标监控'
+							title: '竞标监控',
+							deep: 3,
+							filePath: 'DataApplication/monitor'
 						},
 						component: () => import("@/views/DataApplication/monitor"),
 					},
@@ -193,53 +245,63 @@ const routes = [
 						path: 'snake',
 						name: 'Snake',
 						meta: {
-							title: '桑吉图数据'
+							title: '桑吉图数据',
+							deep: 3,
+							filePath: 'DataApplication/snake'
 						},
 						component: () => import("@/views/DataApplication/snake"),
 					}
 				]
 			},
 			//视频工具  
-			{
-				path: 'videoTools',
-				name: 'VideoTools',
-				component: () => import("../views/VideoTools"),
-				children: [{
-						path: 'pictureProcessing',
-						name: 'PictureProcessing',
-						meta: {
-							title: '图片处理'
-						},
-						component: () => import("@/views/VideoTools/child/PictureProcessing.vue"),
-					},
-					{
-						path: 'cutOut',
-						name: 'CutOut',
-						meta: {
-							title: '截取'
-						},
-						component: () => import("@/views/VideoTools/child/CutOut.vue"),
-					},
-					{
-						path: 'piece',
-						name: 'Piece',
-						meta: {
-							title: '拼合'
-						},
-						component: () => import("@/views/VideoTools/child/Piece.vue"),
-					}
-				]
-			},
+			// {
+			// 	path: 'videoTools',
+			// 	name: 'VideoTools',
+			// 	meta: {
+			// 		deep: 2
+			// 	},
+			// 	component: () => import("../views/VideoTools"),
+			// 	children: [{
+			// 			path: 'pictureProcessing',
+			// 			name: 'PictureProcessing',
+			// 			meta: {
+			// 				title: '图片处理'
+			// 			},
+			// 			component: () => import("@/views/VideoTools/child/PictureProcessing.vue"),
+			// 		},
+			// 		{
+			// 			path: 'cutOut',
+			// 			name: 'CutOut',
+			// 			meta: {
+			// 				title: '截取'
+			// 			},
+			// 			component: () => import("@/views/VideoTools/child/CutOut.vue"),
+			// 		},
+			// 		{
+			// 			path: 'piece',
+			// 			name: 'Piece',
+			// 			meta: {
+			// 				title: '拼合'
+			// 			},
+			// 			component: () => import("@/views/VideoTools/child/Piece.vue"),
+			// 		}
+			// 	]
+			// },
 			// 巨量千川
 			{
 				path: 'qianchuan',
 				name: 'Qianchuan',
+				meta: {
+					deep: 2
+				},
 				component: () => import("@/views/Qianchuan"),
 				children: [{
 						path: 'items',
 						name: 'Items',
 						meta: {
-							title: '项目'
+							title: '项目',
+							deep: 3,
+							filePath: 'Qianchuan/items'
 						},
 						component: () => import("@/views/Qianchuan/items"),
 					},
@@ -247,7 +309,9 @@ const routes = [
 						path: 'strategy',
 						name: 'Strategy',
 						meta: {
-							title: '策略'
+							title: '策略',
+							deep: 3,
+							filePath: 'Qianchuan/strategy'
 						},
 						component: () => import("@/views/Qianchuan/strategy")
 					},
@@ -255,7 +319,9 @@ const routes = [
 						path: 'modules',
 						name: 'Modules',
 						meta: {
-							title: '模板'
+							title: '模板',
+							deep: 3,
+							filePath: 'Qianchuan/modules'
 						},
 						component: () => import("@/views/Qianchuan/modules"),
 					},
@@ -274,26 +340,36 @@ const routes = [
 			{
 				path: 'budgetAlarm',
 				name: 'BudgetAlarm',
+				meta: {
+					deep: 2
+				},
 				component: () => import("@/views/BudgetAlarm"),
 				children: [{
 					path: 'alarm',
 					name: 'Alarm',
 					meta: {
-						title: '预警'
+						title: '预警',
+						deep: 3,
+						filePath: 'BudgetAlarm/alarm'
 					},
-					component: () => import("@/views/BudgetAlarm/alarm/index2.vue"),
+					component: () => import("@/views/BudgetAlarm/alarm"),
 				}, ]
 			},
 			// 快车提质
 			{
 				path: 'kuaiche',
 				name: 'Kuaiche',
+				meta: {
+					deep: 2
+				},
 				component: () => import("@/views/Kuaiche"),
 				children: [{
 						path: 'effect',
 						name: 'Effect',
 						meta: {
-							title: '效果变化'
+							title: '效果变化',
+							deep: 3,
+							filePath: 'Kuaiche/effect'
 						},
 						component: () => import("@/views/Kuaiche/effect"),
 					},
@@ -301,7 +377,9 @@ const routes = [
 						path: 'charts',
 						name: 'Charts',
 						meta: {
-							title: '图表'
+							title: '图表',
+							deep: 3,
+							filePath: 'Kuaiche/effect'
 						},
 						component: () => import("@/views/Kuaiche/effect")
 					}
@@ -310,46 +388,58 @@ const routes = [
 
 			// 公共数据获取
 			{
-				path: 'publicDomainDataAcquisition',
-				name: 'PublicDomainDataAcquisition',
-				component: () => import("../views/PublicDomainDataAcquisition"),
+				path: 'publicData',
+				name: 'PublicData',
+				meta: {
+					deep: 2
+				},
+				component: () => import("../views/PublicData"),
 				children: [{
-						path: 'jingdongBidding',
-						name: 'JingdongBidding',
+						path: 'bidding',
+						name: 'Bidding',
 						meta: {
-							title: '京东招标'
+							title: '京东招标',
+							deep: 3,
+							filePath: 'PublicData/bidding'
 						},
-						component: () => import("@/views/PublicDomainDataAcquisition/child/JingdongBidding.vue"),
+						component: () => import("@/views/PublicData/bidding"),
 
 					},
 					{
-						path: 'activePageSKU',
-						name: 'ActivePageSKU',
+						path: 'active',
+						name: 'Active',
 						meta: {
-							title: '活动页面SKU'
+							title: '活动页面SKU',
+							deep: 3,
+							filePath: 'PublicData/active'
 						},
-						component: () => import("@/views/PublicDomainDataAcquisition/child/ActivePageSKU.vue"),
+						component: () => import("@/views/PublicData/active"),
 
 					},
 					{
-						path: 'howToMonitor',
-						name: 'HowToMonitor',
+						path: 'market',
+						name: 'Market',
 						meta: {
-							title: '京东市场监控'
+							title: '京东市场监控',
+							deep: 3,
+							filePath: 'PublicData/market'
 						},
-						component: () => import("@/views/PublicDomainDataAcquisition/child/HowToMonitor.vue"),
+						component: () => import("@/views/PublicData/market"),
 
 					},
 					{
-						path: 'brandSKUAcquisition',
-						name: 'BrandSKUAcquisition',
+						path: 'brand',
+						name: 'Brand',
 						meta: {
-							title: '品牌SKU获取'
+							title: '品牌SKU获取',
+							deep: 3,
+							filePath: 'PublicData/brand'
 						},
-						component: () => import("@/views/PublicDomainDataAcquisition/child/BrandSKUAcquisition.vue"),
+						component: () => import("@/views/PublicData/brand"),
 					}
 				]
-			}
+			},
+			// 唯品会
 		]
 	}
 ]

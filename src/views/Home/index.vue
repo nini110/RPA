@@ -246,28 +246,28 @@ export default {
             {
               title: "京东招标",
               class: "",
-              url: "/layout/publicDomainDataAcquisition/jingdongBidding",
+              url: "/layout/publicData/bidding",
               img: require("../../assets/images/hg_18.png"),
               subtitle: "招标信息爬取入库发送变更通知",
             },
             {
               title: "活动页面SKU",
               class: "",
-              url: "/layout/publicDomainDataAcquisition/activePageSKU",
+              url: "/layout/publicData/active",
               img: require("../../assets/images/hg_19.png"),
               subtitle: "批量获取京东活动页商品SKU",
             },
             {
               title: "京东市场监控",
               class: "",
-              url: "/layout/publicDomainDataAcquisition/howToMonitor",
+              url: "/layout/publicData/market",
               img: require("../../assets/images/hg_20.png"),
               subtitle: "了解京东特定市场每日变化",
             },
             {
               title: "品牌SKU获取",
               class: "",
-              url: "/layout/publicDomainDataAcquisition/brandSKUAcquisition",
+              url: "/layout/publicData/brand",
               img: require("../../assets/images/hg_21.png"),
               subtitle: "获取某一店铺品牌下SKU",
             },
@@ -275,6 +275,33 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    curroutes() {
+      return global.antRouter;
+    },
+  },
+  created() {
+    const vm = this;
+    let res = vm.curroutes[3].children.filter((item) => {
+      return item.name === "Expend";
+    });
+    if (res && res.length > 0) {
+      vm.homeMenu.push({
+        label: "灵鲨消耗",
+        icon: "iconfont icon-zhibiao",
+        class: "",
+        child: [
+          {
+            title: "图表",
+            class: "",
+            url: "/layout/expend/chart",
+            img: require("../../assets/images/hg_18.png"),
+            subtitle: "灵鲨小V消耗数据图示",
+          },
+        ],
+      });
+    }
   },
   mounted() {
     const vm = this;
@@ -289,10 +316,6 @@ export default {
     routerLink() {
       this.$router.push(this.currentBox.url);
     },
-    // 使用鼠标划入mouseenter事件
-    // overevent: debounce(function(idx) {
-    // 	this.$refs.carousel.setActiveItem(idx)
-    // }, 700),
     // 使用click事件
     overevent(idx) {
       this.currentBox = this.homeMenu[idx].child[0];

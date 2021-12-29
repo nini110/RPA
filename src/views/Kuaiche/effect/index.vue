@@ -171,7 +171,7 @@
 </template>
 <script>
 import { effectBox } from "@/api/api";
-import Chart from "./charts2.vue";
+import Chart from "./charts.vue";
 import Drawer from "./drawer.vue";
 export default {
   name: "Effect",
