@@ -1,7 +1,9 @@
 <template>
   <!-- 第三方工具 -->
   <div style="height: 100%">
-    <router-view />
+    <transition name="el-fade-in-linear">
+      <router-view />
+    </transition>
   </div>
 </template>
 

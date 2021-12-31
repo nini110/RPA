@@ -304,16 +304,20 @@
 
 	}
 	&_left {
-		width: 29%;
+		width: 35%;
 		height: 100%;
-		display: inline-flex;
-		align-items: center;
+		// display: inline-flex;
+		// align-items: center;
 		flex-wrap: wrap;
+		position: relative;
 		box-shadow: -20px 0 30px #f0f0f0;
 		padding: 0 20px;
 		box-sizing: border-box;
-		margin-left: 3%;
 		&_info {
+			position: absolute;
+			user-select: none;
+			bottom: 0;
+			left: 0;
 			margin: 20px 0 20px 40px ;
 			h3 {
 				font-size: 14px;
@@ -340,9 +344,13 @@
 			font-size: 12px;
 			line-height: 48px;
 		}
+		.up {
+			text-align: right;
+			margin-bottom: 20px;
+		}
 	}
 	&_right {
-		width: 60%;
+		width: 59%;
 		height: 100%;
 		box-sizing: border-box;
 		padding: 20px 50px;
@@ -373,8 +381,12 @@
 }
 /deep/.el {
 	&-upload {
-		&-dragger:hover {
-			border-color: #287BB5;
+		width: 100%;
+		&-dragger {
+			width: 100%;
+			&:hover {
+				border-color: #287BB5;
+			}
 		}
 
 		&__text {

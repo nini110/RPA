@@ -1,29 +1,27 @@
 <template>
-	<!-- 视频工具 -->
-	<div class="VideoTools">
-		<router-view/>
-	</div>
+  <!-- 视频工具 -->
+  <div class="VideoTools">
+    <transition name="el-fade-in-linear">
+      <router-view />
+    </transition>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'VideoTools',
+  name: "VideoTools",
   data() {
-    return {
-    };
+    return {};
   },
-  methods:{
-	
-  },
-  created() {
-  }
-}
+  methods: {},
+  created() {},
+};
 </script>
 
 <style lang="less">
-  .VideoTools {
-    padding-top: 80px;
-    height: 100%;
-    box-sizing: border-box;
-  }
+.VideoTools {
+  padding-top: 80px;
+  height: 100%;
+  box-sizing: border-box;
+}
 </style>

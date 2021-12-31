@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<Header></Header>
-		<transition name="fade-transform" mode="out-in">
+		<transition name="el-fade-in-linear">
 			<router-view/>
 		</transition>
 	</div>
@@ -18,7 +18,7 @@
 		},
 		created() {
 			// 线上发布时created中所有都注释
-			// this.$route.query.wx_code = "90d6fBZP_X0rBb-GQhm8XIJZ8mxidEMUiRj42YuN7oo";
+			// this.$route.query.wx_code = "NwO_Q0jegzgDQJoFwpPYRPMSykjwHIyIG474sQGJKdw";
 			// this.$route.query.wx_userid = "1020108";
 			// this.$route.query.user_name = "方涛";
 			// localStorage.setItem("wx_code", this.$route.query.wx_code);

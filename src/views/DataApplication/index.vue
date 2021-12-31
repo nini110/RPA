@@ -1,8 +1,9 @@
 <template>
 	<!-- 数据应用 -->
 	<div style="height: 100%">
-		<router-view/>
-	</div>
+<transition name="el-fade-in-linear">
+      <router-view />
+    </transition>	</div>
 </template>
 
 <script>

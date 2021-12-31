@@ -1,7 +1,9 @@
 <template>
   <!-- 第三方工具 -->
   <div class="publicDiv" style="height: 100%">
-    <router-view />
+    <transition name="el-fade-in-linear">
+      <router-view />
+    </transition>
   </div>
 </template>
 
@@ -15,5 +17,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-	@import "../Qianchuan/index.less";
+@import "../Qianchuan/index.less";
 </style>

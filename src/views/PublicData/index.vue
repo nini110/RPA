@@ -1,23 +1,21 @@
 <template>
-	<!-- 公共数据获取 -->
-	<div class="PublicDomainDataAcquisition" style="height: 100%">
-		<router-view/>
-	</div>
+  <!-- 公共数据获取 -->
+  <div class="PublicDomainDataAcquisition" style="height: 100%">
+    <transition name="el-fade-in-linear">
+      <router-view />
+    </transition>
+  </div>
 </template>
 
 <script>
 export default {
-  name: 'PublicDomainDataAcquisition',
+  name: "PublicDomainDataAcquisition",
   data() {
-    return {
-    };
+    return {};
   },
-  methods:{
-	
-  },
-  created() {
-  }
-}
+  methods: {},
+  created() {},
+};
 </script>
 
 <style lang="less">

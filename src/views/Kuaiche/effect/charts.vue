@@ -204,10 +204,11 @@ export default {
           {
             name: "ROI",
             type: "pie",
+            selectedOffset: 0,
             center: ["50%", "50%"],
             radius: [0, "45%"],
             label: {
-              fontSize: 16,
+              fontSize: 12,
               position: "inner",
               // formatter: (params) => {
               //   return `${params.name}: ${params.value}`;
@@ -404,7 +405,7 @@ export default {
         ]),
         barBorderRadius: [5, 5, 0, 0], //圆角大小
         shadowColor: "rgba(64,160,255,1)",
-        shadowBlur: 4,
+        shadowBlur: 2,
       };
       let op2Cor2 = {
         color: new vm.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -419,7 +420,7 @@ export default {
         ]),
         barBorderRadius: [5, 5, 0, 0], //圆角大小
         shadowColor: "rgba(255,245,64,1)",
-        shadowBlur: 4,
+        shadowBlur: 2,
       };
       let op2Cor3 = {
         color: new vm.$echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -434,7 +435,7 @@ export default {
         ]),
         barBorderRadius: [5, 5, 0, 0], //圆角大小
         shadowColor: "rgba(255,64,149,1)",
-        shadowBlur: 4,
+        shadowBlur: 2,
       };
       vm.$nextTick(() => {
         let myChart = vm.$echarts.init(document.getElementById("effecrChart"));
@@ -763,8 +764,8 @@ export default {
             value: v.value,
             itemStyle: {
               color: { type: "linear", colorStops: vm.colorList[i] },
-              shadowColor:vm.colorList[i],
-              shadowBlur: 6,
+              shadowColor: '#909399',
+              shadowBlur: 4,
             },
             label: {
               color: vm.color[i],

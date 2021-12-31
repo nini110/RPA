@@ -11,14 +11,15 @@
       :on-success="handleSuccess"
       :on-error="handleError"
       :file-list="fileList"
+      :multiple="multiple"
     >
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div class="el-upload__tip" slot="tip">
+      <div  v-if="showPros" class="el-upload__tip" slot="tip">
         {{ txt }}
       </div>
     </el-upload>
-    <div style="width: 360px">
+    <div v-if="showPros" style="width: 360px">
       <el-progress
         v-if="!progressPercent"
         :percentage="progressPercent"
@@ -40,13 +41,21 @@ export default {
       type: Number,
     },
     txt: {
-      default: '请先上传xlsx文件后，再进行执行操作',
+      default: "请先上传xlsx文件后，再进行执行操作",
       type: String,
+    },
+    multiple: {
+      default: true,
+      type: Boolean,
+    },
+    showPros: {
+      default: true,
+      type: Boolean,
     },
   },
   data() {
     return {
-      fileList: []
+      fileList: [],
     };
   },
   methods: {
@@ -64,19 +73,19 @@ export default {
     // 文件状态改变时的钩子
     fileChange(file, fileList) {
       this.fileList.push(file.raw);
-    //   this.progressPercent = 0;
-      this.$emit('getFile', this.fileList)
+      //   this.progressPercent = 0;
+      this.$emit("getFile", this.fileList);
     },
     //文件列表移除时的钩子
     remfile(file, fileList) {
       this.fileList.pop("file");
-      this.$emit('getFile', this.fileList)
+      this.$emit("getFile", this.fileList);
     },
     // 文件上传成功时的钩子
     handleSuccess(res, file, fileList) {
       this.$message.success("文件上传成功");
       this.fileList = [];
-      this.$emit('getFile', this.fileList)
+      this.$emit("getFile", this.fileList);
     },
     // 文件上传失败时的钩子
     handleError(err, file, fileList) {

@@ -53,7 +53,9 @@
     </el-menu>
     <div class="layout_menu_right">
       <div class="app-main" id="appMain">
-        <router-view class="app-router-view" />
+        <transition name="el-fade-in-linear">
+          <router-view class="app-router-view" />
+        </transition>
       </div>
     </div>
   </div>
