@@ -13,7 +13,7 @@ export default {
 				customClass: options.customClass || 'el-message-box1',
 				confirmButtonClass: options.confirmButtonClass || 'el-button--solid w90',
 				cancelButtonClass: options.cancelButtonClass || 'el-button--text',
-				showCancelButton: options.showCancelButton || true,
+				showCancelButton: options.showCancelButton || false,
 				message: 
 				`<div class='tips-box'>
 					<div>

@@ -333,10 +333,11 @@ export const alarmModuleDay = request({
     url:`${BASEPATH4}/tools/download_budget_model_by_day`,
     method:'get',
 })
-// 预算预警-下载模板（时段）
-export const alarmModuleTime = request({
-    url:`${BASEPATH4}/tools/download_budget_model_by_time`,
-    method:'get',
+// 预算预警- 批量设置
+export const alarmModuleSet = request({
+    url:`${BASEPATH4}/tools/set_budget_by_day`,
+    method:'post',
+    responseType: 'form-data'
 })
 // 小V消耗图表
 export const expendDate = request({

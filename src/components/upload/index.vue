@@ -3,7 +3,7 @@
     <el-upload
       drag
       :auto-upload="false"
-      accept=".xlsx"
+      accept=".xlsx,.csv"
       :action="UploadUrl()"
       :on-remove="remfile"
       :before-upload="beforeUploadFile"
@@ -49,7 +49,7 @@ export default {
       type: Boolean,
     },
     showPros: {
-      default: true,
+      default: false,
       type: Boolean,
     },
   },

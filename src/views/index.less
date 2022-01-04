@@ -10,7 +10,7 @@
 		  color: #fff;
 		  padding: 8.5px 20px;
 		  box-sizing: border-box;
-		  min-width: 113px;
+		  min-width: 115px;
 		  border-radius: 4px;
 		  border: none;
 		  outline: none;
@@ -55,11 +55,6 @@
 		    top: inherit;
 		    left: 0;
 		    bottom: 0;
-		  }
-		  .btnSize {
-			  &:before {
-				  margin-right: 3px;
-			  }
 		  }
 	}
 }
@@ -212,15 +207,14 @@
 								margin-left: 120px !important;
 							}
 						}
-
 						&-upload-dragger {
 							width: 322px;
 							height: 120px;
-							.el-icon-upload {
-								margin: 0;
-								display: block;
-								padding-top: 15px;
-							}
+						}
+						
+						&-upload-list {
+							width: 322px;
+
 						}
 					}
 				}
@@ -255,7 +249,7 @@
 			// background-color: #fff;
 
 			&.hasUp {
-				height: calc(100% - 450px) !important;
+				height: calc(100% - 380px) !important;
 			}
 
 			&.hasUp2 {
@@ -354,37 +348,21 @@
 		vertical-align: top;
 		padding: 20px 0;
 		box-sizing: border-box;
-		// /deep/.el {
-		// 	&-form {
-		// 		height: calc(100% - 50px);
-		// 		&-item__label {
-		// 			width: 120px;
-		// 		}
-		// 	}
-		// 	&-card {
-		// 		height: 100%;
-		// 		display: flex;
-		// 		align-items: center;
-		// 	}
-		// }
-
 	}
 	&_left {
 		width: 35%;
 		height: 100%;
-		// display: inline-flex;
-		// align-items: center;
 		flex-wrap: wrap;
 		position: relative;
 		box-shadow: -20px 0 30px #f0f0f0;
-		padding: 0 20px;
+		padding: 40px 20px;
 		box-sizing: border-box;
 		&_info {
 			position: absolute;
 			user-select: none;
-			bottom: 0;
+			bottom: 40px;
 			left: 0;
-			margin: 20px 0 20px 40px ;
+			margin: 20px 20px 20px 30px ;
 			h3 {
 				font-size: 14px;
 				color: #909399;
@@ -454,12 +432,30 @@
 				border-color: #287BB5;
 			}
 		}
-
 		&__text {
+			font-size: 12px!important;
 			em {
 				color: #287BB5;
 			}
 		}
+		&-dragger {
+			height: 120px;
+			.el-icon-upload {
+				margin: 0;
+				display: block;
+				padding-top: 15px;
+			}
+		}
+		
+		&-list {
+			&__item {
+				margin: 0!important;
+				font-size: 12px;
+
+			}
+
+		}
+
 	}
 }
 

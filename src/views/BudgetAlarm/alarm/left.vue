@@ -62,7 +62,6 @@ import { mapGetters } from "vuex";
 export default {
   name: "Left",
   mixins: [message],
-
   data() {
     return {
       form: {},

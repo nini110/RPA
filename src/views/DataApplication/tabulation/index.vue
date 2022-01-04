@@ -470,6 +470,7 @@ export default {
       vm.openMessageBox({
         type: "warning",
         showClose: true,
+        showCancelButton: true,
         tipTitle: `确定删除该条报表信息: ${row.report_name}？`,
         confirmButtonFn: () => {
           vm.multipleSelection = row.id;
@@ -484,6 +485,7 @@ export default {
         vm.openMessageBox({
           type: "warning",
           showClose: true,
+          showCancelButton: true,
           tipTitle: "确定删除所选中的报表？",
           confirmButtonFn: () => {
             vm.multipleSelection = ID;

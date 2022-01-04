@@ -143,6 +143,7 @@ export default {
         type: "warning",
         showClose: true,
         tipTitle: `是否 [ 确定 ] 退出当前帐号？`,
+        showCancelButton: true,
         confirmButtonFn: () => {
           vm.$axios({
             // 后端服务器端口路径

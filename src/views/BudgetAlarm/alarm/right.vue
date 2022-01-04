@@ -68,8 +68,8 @@
       </div>
     </el-form>
     <div class="bottomBtn" style="text-align: right">
-      <a class="btnnormal btnnormal_down marginL">
-        <div class="el-icon-refresh btnSize" @click="resetEvent">重置</div>
+      <a class="btnnormal btnnormal_down marginL" @click="resetEvent">
+        <div class="el-icon-refresh btnSize">重置</div>
       </a>
       <el-button
         v-waves
@@ -334,6 +334,7 @@ export default {
               vm.openMessageBox({
                 type: "warning",
                 showClose: true,
+                showCancelButton: true,
                 tipTitle: `构建账号全量任务耗时较长, 请 [ 确定 ] 构建`,
                 confirmButtonFn: () => {
                   alarmSetting({
@@ -360,6 +361,7 @@ export default {
       vm.openMessageBox({
         type: "warning",
         showClose: true,
+        showCancelButton: true,
         tipTitle: `是否确认删除当前产品线的预警信息？`,
         confirmButtonFn: () => {
           alarmDelete(vm.currentIfo).then((res) => {

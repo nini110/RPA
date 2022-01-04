@@ -195,6 +195,7 @@ export default {
       vm.openMessageBox({
         type: "warning",
         showClose: true,
+        showCancelButton: true,
         tipTitle: "是否确认删除当前模板？",
         confirmButtonFn: () => {
           this.$message("暂无删除接口功能");

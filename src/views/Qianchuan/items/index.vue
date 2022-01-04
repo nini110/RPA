@@ -172,6 +172,7 @@ export default {
       vm.openMessageBox({
         type: "warning",
         showClose: true,
+        showCancelButton: true,
         tipTitle: "是否确认删除当前项目？",
         confirmButtonFn: () => {
           vm.$msg({ type: "warning", msg: "暂无删除接口功能" });

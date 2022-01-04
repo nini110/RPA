@@ -5,14 +5,14 @@
       <div class="up">
         <a class="btnnormal btnnormal_down" @click="upList">
           <div
-            class="el-icon-refresh btnSize"
-            :class="multipleUp ? 'el-icon-refresh-right' : 'el-icon-upload2'"
+            class="btnSize"
+            :class="multipleUp ? 'el-icon-close' : 'el-icon-upload2'"
           >
             {{ multipleUpTxt }}
           </div>
         </a>
       </div>
-      <LeftUp v-if="multipleUp"></LeftUp>
+      <LeftUp v-if="multipleUp" @close="close"></LeftUp>
       <Left v-else></Left>
       <div class="outerDiv_left_info">
         <h3 class="el-icon-info">须知</h3>
@@ -75,17 +75,7 @@ export default {
   },
   // 离开页面的时候数据初始化
   beforeDestroy() {
-    const vm = this;
-    vm.$store.commit("pageData/UPDATE_HASINFO", false); //无数据
-    vm.$store.commit("pageData/UPDATE_BTNSTATE", {
-      //按钮
-      inputFlag: false,
-      deleteFlag: true,
-      saveFlag: true,
-    });
-    vm.$store.commit("pageData/UPDATE_CURRENTIFO", null); //查询项
-    vm.$store.commit("pageData/UPDATE_SEARCHRES", null); //结果
-    vm.$store.commit("pageData/UPDATE_ClRLEFT", true); // 清空左侧输入框
+    this.resetEvent()
   },
   methods: {
     // 获取所有PIN
@@ -107,9 +97,24 @@ export default {
     },
     upList() {
       this.multipleUp = !this.multipleUp;
-      if (this.multipleUp) {
-        this.$msg({ type: "error", msg: "暂无批量设置功能" });
-      }
+    },
+    close() {
+      this.multipleUp = false;
+      this.resetEvent()
+    },
+    // 重置
+    resetEvent() {
+      const vm = this;
+      vm.$store.commit("pageData/UPDATE_HASINFO", false); //无数据
+      vm.$store.commit("pageData/UPDATE_BTNSTATE", {
+        //按钮
+        inputFlag: false,
+        deleteFlag: true,
+        saveFlag: true,
+      });
+      vm.$store.commit("pageData/UPDATE_CURRENTIFO", null); //查询项
+      vm.$store.commit("pageData/UPDATE_SEARCHRES", null); //结果
+      vm.$store.commit("pageData/UPDATE_ClRLEFT", true); // 清空左侧输入框
     },
   },
 };
