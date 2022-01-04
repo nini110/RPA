@@ -81,7 +81,7 @@
           <div class="formObj_button">
             <el-col :span="24">
               <a class="btnnormal_down marginR inlineButton" @click="reset">
-                <div class="el-icon-refresh btnSize" @click="reset">重置</div>
+                <div class="el-icon-refresh btnSize">重置</div>
               </a>
               <div v-if="checkedItem.file" class="inlineButton">
                 <el-button

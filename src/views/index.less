@@ -8,7 +8,9 @@
 		  background-color: @baseItemColor;
 		  font-size: 14px;
 		  color: #fff;
-		  padding: 8.5px 36px;
+		  padding: 8.5px 20px;
+		  box-sizing: border-box;
+		  min-width: 113px;
 		  border-radius: 4px;
 		  border: none;
 		  outline: none;
@@ -16,15 +18,25 @@
 		  position: relative;
 		  display: inline-block;
 		  vertical-align: top;
+		  background-color:#fff;
+		  color: @baseItemColor;
+		  text-align: center;
 		  &:hover {
-		    background: #fff;
-			color: @baseItemColor;
+			background-color: @baseItemColor;
+			color: #fff;
 		    &:before,
 		    &:after {
-		      width: 100%;
-			  background-color: @baseItemColor;
-		      transition: 600ms ease all;
+		      width: 0;
+			  height: 4px;
+			  border-radius:0 0 0 50%;
+			  background: #fff;
+			  color: @baseItemColor;
+		      transition: 400ms ease all;
 		    }
+			&:after {
+				border-radius:0 50% 0 0;
+
+			}
 		  }
 		  &:before,
 		  &:after {
@@ -33,7 +45,8 @@
 		    top: 0;
 		    right: 0;
 		    height: 2px;
-		    width: 0;
+		    width: 100%;
+			background-color: @baseItemColor;
 		    transition: 400ms ease all;
 		  }
 		
@@ -43,8 +56,61 @@
 		    left: 0;
 		    bottom: 0;
 		  }
+		  .btnSize {
+			  &:before {
+				  margin-right: 3px;
+			  }
+		  }
 	}
 }
+// /deep/.btnnormal {
+// 	&_down {
+// 		  cursor: pointer;
+// 		  background-color: @baseItemColor;
+// 		  font-size: 14px;
+// 		  color: #fff;
+// 		  padding: 8.5px 32px;
+// 		  border-radius: 4px;
+// 		  border: none;
+// 		  outline: none;
+// 		  transition: 600ms ease all;
+// 		  position: relative;
+// 		  display: inline-block;
+// 		  vertical-align: top;
+// 		  &:hover {
+// 		    background: #fff;
+// 			color: @baseItemColor;
+// 		    &:before,
+// 		    &:after {
+// 		      width: 100%;
+// 			  background-color: @baseItemColor;
+// 		      transition: 600ms ease all;
+// 		    }
+// 		  }
+// 		  &:before,
+// 		  &:after {
+// 		    content: '';
+// 		    position: absolute;
+// 		    top: 0;
+// 		    right: 0;
+// 		    height: 2px;
+// 		    width: 0;
+// 		    transition: 400ms ease all;
+// 		  }
+		
+// 		  &::after {
+// 		    right: inherit;
+// 		    top: inherit;
+// 		    left: 0;
+// 		    bottom: 0;
+// 		  }
+// 		  .btnSize {
+// 			  &:before {
+// 				  margin-right: 3px;
+// 			  }
+// 		  }
+// 	}
+// }
 
 /deep/.marginL {
 	margin: 0 0 0 10px!important; 

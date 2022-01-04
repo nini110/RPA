@@ -125,13 +125,13 @@
     </div>
     <span slot="footer" class="dialog-footer">
       <a
-        class="btnnormal_down"
+        class="btnnormal_down marginR"
         href="http://tool.afocus.com.cn/file_download/预算监控模板.xlsx"
         download="预算监控模板.xlsx"
       >
-        <div class="btnSize">下载模板</div>
+        <div class="btnSize el-icon-download">下载模板</div>
       </a>
-      <el-button v-waves class="marginL" type="primary" @click="uploadFile"
+      <el-button v-waves class="el-icon-upload2" type="primary" @click="uploadFile"
         >立即上传</el-button
       >
     </span>

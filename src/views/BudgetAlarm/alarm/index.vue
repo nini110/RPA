@@ -3,14 +3,6 @@
     <div class="outerDiv_left">
       <el-divider>盯盘维度</el-divider>
       <div class="up">
-        <a
-          v-if="multipleUp"
-          class="btnnormal_down marginR"
-          href="http://tool.afocus.com.cn/file_download/新版直投-单元创建工具配置.xlsx"
-          download="测试"
-        >
-          <div class="el-icon-download btnSize">模板</div>
-        </a>
         <a class="btnnormal btnnormal_down" @click="upList">
           <div
             class="el-icon-refresh btnSize"

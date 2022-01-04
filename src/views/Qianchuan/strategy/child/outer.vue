@@ -310,7 +310,7 @@ export default {
     // 编辑按钮
     editFn(tag, row) {
       const vm = this;
-      if (row.status) {
+      if (row && row.status) {
         return false;
       }
       vm.editFlag = tag;

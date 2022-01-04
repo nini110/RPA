@@ -328,6 +328,16 @@ export const alarmDelete = request({
     url:`${BASEPATH4}/tools/del_monitoring`,
     method:'post',
 })
+// 预算预警-下载模板（日）
+export const alarmModuleDay = request({
+    url:`${BASEPATH4}/tools/download_budget_model_by_day`,
+    method:'get',
+})
+// 预算预警-下载模板（时段）
+export const alarmModuleTime = request({
+    url:`${BASEPATH4}/tools/download_budget_model_by_time`,
+    method:'get',
+})
 // 小V消耗图表
 export const expendDate = request({
     url:`${BASEPATH2}/tabulation/jzt_cost/get`,

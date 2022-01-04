@@ -73,12 +73,12 @@
       </div>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button v-waves type="primary" plain @click="closeDialog()"
-        >取 消</el-button
-      >
+      <a class="btnnormal btnnormal_down marginR" @click="closeDialog()">
+        <div class="el-icon-close btnSize">取消</div>
+      </a>
       <el-button
         v-waves
-        class="marginL"
+        class="el-icon-finished"
         type="primary"
         @click="isModification()"
         >确 定</el-button

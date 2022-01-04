@@ -139,12 +139,16 @@
       </el-row>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button v-waves type="primary" plain @click="closeEvent"
-        >取消</el-button
+      <a class="btnnormal btnnormal_down marginR" @click="closeEvent">
+        <div class="el-icon-close btnSize">取消</div>
+      </a>
+      <el-button
+        v-waves
+        class="el-icon-finished"
+        type="primary"
+        @click="updateEvent"
+        >{{ btnWord }}</el-button
       >
-      <el-button v-waves type="primary" @click="updateEvent">{{
-        btnWord
-      }}</el-button>
     </span>
   </el-dialog>
 </template>

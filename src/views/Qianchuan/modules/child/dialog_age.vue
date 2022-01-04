@@ -32,10 +32,15 @@
       </el-form-item>
     </el-form>
     <span slot="footer" class="dialog-footer">
-      <el-button v-waves type="primary" plain @click="closeEvent" size="medium"
-        >取 消
-      </el-button>
-      <el-button v-waves type="primary" @click="saveEvent" size="medium"
+      <a class="btnnormal btnnormal_down marginR" @click="closeEvent">
+        <div class="el-icon-close btnSize">取消</div>
+      </a>
+      <el-button
+        v-waves
+        class="el-icon-finished"
+        type="primary"
+        @click="saveEvent"
+        size="medium"
         >{{ btnTxt }}
       </el-button>
     </span>

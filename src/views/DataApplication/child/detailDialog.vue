@@ -44,10 +44,14 @@
       </el-table-column>
     </el-table>
     <span slot="footer" class="dialog-footer">
-      <el-button v-waves type="primary" plain @click="closeDialog"
-        >取消</el-button
-      >
-      <el-button v-waves type="primary" class="marginL" @click="sendlist"
+      <a class="btnnormal btnnormal_down marginR" @click="closeDialog">
+        <div class="el-icon-close btnSize">取消</div>
+      </a>
+      <el-button
+        v-waves
+        class="el-icon-finished"
+        type="primary"
+        @click="sendlist"
         >确定</el-button
       >
     </span>

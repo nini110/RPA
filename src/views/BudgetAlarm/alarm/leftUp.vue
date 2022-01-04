@@ -59,12 +59,28 @@
         </el-form-item>
       </el-col>
     </el-row>
+    <div class="footer_btn">
+      <a class="btnnormal btnnormal_down" @click="down(1)">
+        <div class="el-icon-refresh btnSize el-icon-download">模板（日）</div>
+      </a>
+      <a class="btnnormal btnnormal_down marginL" @click="down(2)">
+        <div class="el-icon-refresh btnSize el-icon-download">模板（时段）</div>
+      </a>
+      <el-button
+        v-waves
+        class="el-icon-edit marginL"
+        type="primary"
+        @click="submitEvent"
+        >提交</el-button
+      >
+    </div>
   </el-form>
 </template>
 <script>
 import Upload from "@/components/upload";
 import { validPercent, validPercent2, validTrue } from "@/validator/validator";
 import { mapGetters } from "vuex";
+import { alarmModuleDay, alarmModuleTime } from "@/api/api";
 
 export default {
   name: "LeftUp",
@@ -141,6 +157,19 @@ export default {
       this.fileList = val;
       // this.errorUpInfo = "";
     },
+    down(val) {
+      if (val === 1) {
+        alarmModuleDay().then((res) => {});
+      } else {
+        alarmModuleTime().then((res) => {});
+      }
+    },
+    submitEvent() {},
   },
 };
 </script>
+<style scoped lang="less">
+.footer_btn {
+  text-align: right;
+}
+</style>
