@@ -21,7 +21,6 @@
 			$route: {
 				handler(newval, oldval) {
 					const vm = this;
-					console.log(newval)
 					switch (newval.name) {
 						case 'DMP':
 							this.toolType = '0';
@@ -45,7 +44,6 @@
 							this.toolType = '14';
 							break;							
 					}
-					console.log(this.toolType)
 				},
 				immediate: true,
 				deep: true

@@ -93,7 +93,7 @@ function filterAsyncRouter(asyncRouterMap) { // 遍历后台传来的路由字�
 
 function routerGo(to, next) {
     getRouter = filterAsyncRouter(getRouter); // 过滤路由
-    router.addRoutes(getRouter); // 动态添加路由
+    router.selfaddRoutes(getRouter); // 动态添加路由
     global.antRouter = getRouter; // 将路由数据传递给全局变量，做侧边栏菜单渲染工作
     next({
         ...to,

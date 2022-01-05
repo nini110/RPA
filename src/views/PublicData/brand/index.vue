@@ -110,8 +110,6 @@
 						tool_type: "8",
 					})
 					.then((res) => {
-						debugger;
-						console.log(res);
 						this.fullscreenLoading = false;
 						if (res.data.code == "10000") {
 							this.$message.success("执行成功");
@@ -127,9 +125,6 @@
 							this.$message.error("执行失败");
 						}
 					})
-					.catch((err) => {
-						console.log(err);
-					});
 			},
 		},
 		created() {

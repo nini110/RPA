@@ -302,7 +302,6 @@ export default {
       }
     },
     currentIfo(newval, oldval) {
-      console.log("信息", newval);
     },
   },
   methods: {

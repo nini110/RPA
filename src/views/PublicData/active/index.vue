@@ -154,7 +154,6 @@ export default {
     },
     // 下载
     lianjie(scope) {
-      console.log(scope.row.file_name);
       this.$axios({
         url: "http://114.67.229.243:8001/apps/sku_excel_download/",
         method: "get",
@@ -178,7 +177,6 @@ export default {
           window.location.href = objectUrl;
         },
         (err) => {
-          console.log(err);
         }
       );
     },

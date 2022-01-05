@@ -336,7 +336,6 @@ export default {
       for (let j of i.children) {
         if (i.deep === 2) {
           if (vm.$route.fullPath === j.value) {
-            console.log(j);
             vm.currentMenu = j.index;
             vm.detailIcon = j.icon2;
             break;

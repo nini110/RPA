@@ -34,7 +34,6 @@ class DoneMessage {
   }
   successTime(options, time, single = true) {
     /*用法: this.$messageSingle.successTime("操作成功", 1000);*/
-    console.log(time)
     this[showMessage]('success', { showClose: true, message: options, duration: time == undefined ? 2000 : time }, single)
   }
 }

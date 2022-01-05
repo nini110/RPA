@@ -9,6 +9,10 @@ const router = new VueRouter({
   mode: 'hash'
 })
 
+router.selfaddRoutes = function (params){
+  router.matcher = new VueRouter().matcher;
+  router.addRoutes(params)
+}
 
 NProgress.configure({
   showSpinner: false

@@ -274,7 +274,6 @@ export default {
           } else if (vm.fileList.length === 0) {
             vm.$msg({ type: "warning", msg: "请选择要上传的excel文件" });
           } else {
-            console.log(vm.form.bidId);
             let data = {
               file: vm.fileList,
               user_list: vm.itemid,
@@ -327,7 +326,6 @@ export default {
     },
     //多选框--全选
     actionEventAll(val) {
-      console.log(this.form.checkedActions);
       this.form.checkedActions = val;
       this.form.isIndeterminate = false;
     },

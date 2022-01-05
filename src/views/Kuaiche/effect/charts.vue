@@ -780,7 +780,6 @@ export default {
           vm.noData = false;
           vm.tabDisable = false;
           vm.activeName = "1";
-          console.log("+++", vm.nextArr);
         } else {
           vm.$msg({ type: "warning", msg: res.data.msg });
         }
