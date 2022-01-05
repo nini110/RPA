@@ -68,7 +68,7 @@
               <div
                 v-waves
                 class="btn btn_info"
-                @click="deleteFn()"
+                @click="deleteFn(scope.row)"
                 :disabled="scope.row.status ? true : false"
               >
                 <svg class="icon svg-icon titleicon" aria-hidden="true">
@@ -190,13 +190,14 @@ export default {
       }
     },
     // 删除事件
-    deleteFn() {
+    deleteFn(row) {
       const vm = this;
       vm.openMessageBox({
         type: "warning",
         showClose: true,
         showCancelButton: true,
-        tipTitle: "是否确认删除当前模板？",
+        tipTitle: "确定删除当前模板信息：",
+        curItem: `${row.name}？`,
         confirmButtonFn: () => {
           this.$message("暂无删除接口功能");
         },

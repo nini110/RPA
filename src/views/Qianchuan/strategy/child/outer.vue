@@ -302,7 +302,8 @@ export default {
         type: "warning",
         showClose: true,
         showCancelButton: true,
-        tipTitle: "是否确认删除当前策略？",
+        tipTitle: "确定删除当前策略信息：",
+        curItem: `${row.name}？`,
         confirmButtonFn: () => {
           vm.$msg({ type: "warining", msg: "暂无删除接口功能" });
         },

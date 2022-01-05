@@ -6,7 +6,7 @@
         <div class="sankeyList_title">
           OPPO手机12月13日数据广告销售数据桑基图
         </div>
-<!--        <div class="snakeTable">
+       <!-- <div class="snakeTable">
           <el-collapse v-model="activeName" accordion>
             <el-collapse-item
               v-for="(item, idx) in tableData"

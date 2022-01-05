@@ -15,6 +15,7 @@
       :data="xqlist"
       height="540"
       :highlight-current-row="true"
+      :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
     >
       <el-table-column
         type="index"
@@ -52,7 +53,7 @@
         class="el-icon-finished"
         type="primary"
         @click="sendlist"
-        >确定</el-button
+        >保存</el-button
       >
     </span>
   </el-dialog>

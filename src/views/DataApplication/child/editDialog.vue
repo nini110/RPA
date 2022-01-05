@@ -81,7 +81,7 @@
         class="el-icon-finished"
         type="primary"
         @click="isModification()"
-        >确 定</el-button
+        >保存</el-button
       >
     </span>
   </el-dialog>

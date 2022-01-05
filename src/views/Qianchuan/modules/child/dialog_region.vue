@@ -158,11 +158,11 @@ export default {
         switch (newval) {
           case 1:
             vm.diaTxt = "新建地域模板";
-            vm.btnTxt = "保 存";
+            vm.btnTxt = "保存";
             break;
           case 2:
             vm.diaTxt = "编辑地域模板";
-            vm.btnTxt = "更 新";
+            vm.btnTxt = "更新";
             break;
         }
       },

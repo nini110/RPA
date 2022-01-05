@@ -114,9 +114,7 @@
         <el-divider>列表</el-divider>
         <div class="tables">
           <div class="tableTab">
-            <el-button type="text" size="mini" @click="DeleteReportAll"
-              >批量删除</el-button
-            >
+            <span class="deleteAllBtn" @click="DeleteReportAll"> 批量删除 </span>
             <el-table
               class="tableBox"
               ref="multipleTable"
@@ -471,7 +469,8 @@ export default {
         type: "warning",
         showClose: true,
         showCancelButton: true,
-        tipTitle: `确定删除该条报表信息: ${row.report_name}？`,
+        tipTitle: `确定删除当前报表信息：`,
+        curItem: `${row.report_name}？`,
         confirmButtonFn: () => {
           vm.multipleSelection = row.id;
           vm.delApi();
@@ -534,4 +533,11 @@ export default {
 
 <style lang="less" scoped>
 @import "@/views/index";
+.deleteAllBtn {
+  display: inline-block;
+  color: #606266;
+  font-size: 12px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
 </style>

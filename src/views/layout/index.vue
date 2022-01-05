@@ -45,11 +45,11 @@
           <span slot="title">{{ item.label }}</span>
         </el-menu-item>
       </div>
-      <div class="layout_menu_btmIcon">
+      <!-- <div class="layout_menu_btmIcon">
         <svg class="icon svg-icon titleicon" aria-hidden="true">
           <use :xlink:href="detailIcon"></use>
         </svg>
-      </div>
+      </div> -->
     </el-menu>
     <div class="layout_menu_right">
       <div class="app-main" id="appMain">

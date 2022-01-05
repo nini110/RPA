@@ -34,6 +34,17 @@
         </el-form-item>
       </el-col>
       <el-col>
+        <el-form-item label="企业微信:" prop="askWho">
+          <el-input
+            v-model.trim="form.askWho"
+            autosize
+            size="medium"
+            placeholder="请输入企业微信ID（以 | 分割）"
+            clearable
+          ></el-input>
+        </el-form-item>
+      </el-col>
+      <el-col>
         <el-form-item label="添加文件:" prop="file">
           <Upload
             :showPros="false"
@@ -59,7 +70,6 @@
 </template>
 <script>
 import Upload from "@/components/upload";
-import { validPercent, validPercent2, validTrue } from "@/validator/validator";
 import { mapGetters } from "vuex";
 import { alarmModuleDay, alarmModuleSet } from "@/api/api";
 import { createLinkToClick } from "@/utils/public.js";
@@ -100,12 +110,14 @@ export default {
       form: {
         userName: "",
         passWord: "",
+        askWho: '',
         file: "",
       },
       disPwd: true,
       rules: {
         userName: [{ required: true, message: "请选择PIN", trigger: "blur" }],
         passWord: [{ required: true, message: "请输入密码", trigger: "blur" }],
+        askWho:  [{ required: true, message: "请输入企业微信ID", trigger: "blur" }],
         file: [{ required: true, validator: validFile, trigger: "blur" }],
       },
       fileList: [],
@@ -127,9 +139,6 @@ export default {
     },
     submitEvent() {
       const vm = this;
-      console.log(vm.form);
-      console.log(vm.fileList);
-
       vm.$refs.form1.validate((valid) => {
         if (valid) {
           alarmModuleSet({

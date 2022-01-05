@@ -78,30 +78,6 @@
                     <use xlink:href="#icon-lajitong"></use>
                   </svg>
                 </div>
-                <!-- <el-button
-                  class="btn btn_info el-icon-edit"
-                  type="text"
-                  @click="detailEvent(scope.row)"
-                >
-                </el-button> -->
-                <!-- <el-button
-                  class="btn btn_info iconfont icon-jiaosexiugai"
-                  type="text"
-                  @click="editEvent(scope.row)"
-                >
-                </el-button>
-                <el-button
-                  class="btn btn_info iconfont icon-huodongjilu"
-                  type="text"
-                  @click="editActiveEvent(scope.row)"
-                >
-                </el-button>
-                <el-button
-                  class="btn btn_delete el-icon-delete"
-                  type="text"
-                  @click="deleteEvent(scope.row)"
-                >
-                </el-button> -->
               </template>
             </el-table-column>
           </el-table>
@@ -260,7 +236,8 @@ export default {
         type: "warning",
         showClose: true,
         showCancelButton: true,
-        tipTitle: `确定删除该条竞标信息: ${row.bidding_name}？`,
+        tipTitle: `确定删除当前竞标信息：`,
+        curItem: `${row.bidding_name}？`,
         confirmButtonFn: () => {
           biddingDelete({
             bidding_id: row.bidding_id,

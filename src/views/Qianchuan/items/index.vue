@@ -66,7 +66,7 @@
                   <use xlink:href="#icon-yewukanban"></use>
                 </svg>
               </div>
-              <div v-waves class="btn btn_info" @click="deleteEvent">
+              <div v-waves class="btn btn_info" @click="deleteEvent(scope.row)">
                 <svg class="icon svg-icon titleicon" aria-hidden="true">
                   <use xlink:href="#icon-lajitong"></use>
                 </svg>
@@ -167,13 +167,14 @@ export default {
       vm.showDialog = true;
     },
     // 删除事件
-    deleteEvent() {
+    deleteEvent(row) {
       const vm = this;
       vm.openMessageBox({
         type: "warning",
         showClose: true,
         showCancelButton: true,
-        tipTitle: "是否确认删除当前项目？",
+        tipTitle: "确定删除当前项目信息：",
+        curItem: `${row.project_name}？`,
         confirmButtonFn: () => {
           vm.$msg({ type: "warning", msg: "暂无删除接口功能" });
         },
