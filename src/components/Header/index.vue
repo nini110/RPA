@@ -1,6 +1,6 @@
 <template>
   <div class="topTtle">
-    <div class="topTtle_logo" @click="$router.push('/')">
+    <div class="topTtle_logo">
       <img src="../../assets/logo.png" alt="" />
     </div>
     <div class="topTtle_login">
@@ -46,7 +46,7 @@
         </el-popover>
       </div>
 
-      <div class="topTtle_login_user">
+      <div v-if="$route.name !== 'login'" class="topTtle_login_user">
         <div class="user">
           <!-- {{ yh }} -->
 
@@ -120,7 +120,9 @@ export default {
       }).then((data) => {
         if (data.data.status == true) {
         } else if (data.data.status == false) {
-          location.href = `${this.DomainName}/platform/login`;
+          this.$router.push({
+            path: "/login",
+          });
         } else {
           this.$msg({ type: "warning", msg: "信息丢失试试重新登入" });
         }
@@ -128,7 +130,9 @@ export default {
     } else {
       this.$msg({ type: "warning", msg: "请进行扫码登入" });
       this.user.name = "未登入";
-      location.href = `${this.DomainName}/platform/login`;
+      this.$router.push({
+        path: "/login",
+      });
     }
   },
   methods: {
@@ -147,7 +151,7 @@ export default {
         confirmButtonFn: () => {
           vm.$axios({
             // 后端服务器端口路径
-            url:  `${this.DomainName}/platform/logout`,
+            url: `${this.DomainName}/platform/logout`,
             method: "get",
             params: {
               wx_userid: userid,
@@ -158,7 +162,11 @@ export default {
               vm.$msg({ type: "error", msg: "退出失败" });
             } else {
               localStorage.clear();
-              location.href = `${this.DomainName}/platform/login`;
+              // location.href = `${this.DomainName}/platform/login`;
+              // location.href = `${this.DomainName}/#/login`;
+              this.$router.push({
+                path: "/login",
+              });
             }
           });
         },

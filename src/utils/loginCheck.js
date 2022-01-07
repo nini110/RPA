@@ -10,12 +10,19 @@ function check() {
 		}
 	}).then((data) => {
 		if (!data.data.status) {
-			this.$msg({
-				type: "error",
-				msg: '登录失效'
-			});
+			// this.$msg({
+			// 	type: "error",
+			// 	msg: '登录失效，请重新登录'
+			// });
 			setTimeout(() => {
-				location.href = `${this.DomainName}/platform/login`;
+				this.$router.push({
+					path: "/login",
+				});
+				localStorage.removeItem('wx_code')
+				localStorage.removeItem('wx_userid')
+				localStorage.removeItem('user_name')
+				localStorage.removeItem('thumb_avatar')
+				console.log('清掉cookie了')
 			}, 2000)
 		}
 	})

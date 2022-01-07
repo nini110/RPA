@@ -58,12 +58,16 @@
             </el-row>
           </div>
           <div class="formObj_upload">
-            <el-form-item label="" :error="errorUpInfo">
-              <Upload
-                :progressPercent="progressPercent"
-                @getFile="getFileEvent"
-              ></Upload>
-            </el-form-item>
+            <el-row>
+              <el-col :span="8">
+                <el-form-item label="" :error="errorUpInfo">
+                  <Upload
+                    :progressPercent="progressPercent"
+                    @getFile="getFileEvent"
+                  ></Upload>
+                </el-form-item>
+              </el-col>
+            </el-row>
           </div>
           <div class="formObj_button">
             <div v-for="(item, idx) in btnBox" :key="idx">
@@ -179,9 +183,9 @@
         :close-on-click-modal="false"
       >
         <div class="dialogInfo">
-          <p><span>创建人：</span>{{curInfo.title}}</p>
-          <p><span>创建时间：</span>{{curInfo.create_time}}</p>
-          <p><span>信息：</span>{{curInfo.log}}</p>
+          <p><span>创建人：</span>{{ curInfo.title }}</p>
+          <p><span>创建时间：</span>{{ curInfo.create_time }}</p>
+          <p><span>信息：</span>{{ curInfo.log }}</p>
         </div>
       </el-dialog>
     </div>
@@ -432,7 +436,7 @@ export default {
         id: row.id,
       }).then((res) => {
         if (res.data.code == 10000) {
-          vm.curInfo = res.data.data
+          vm.curInfo = res.data.data;
           // vm.log = res.data.data.log;
           vm.dialogVisible = true;
         } else {

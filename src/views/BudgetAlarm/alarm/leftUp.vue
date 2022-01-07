@@ -13,7 +13,7 @@
           >
             <el-option
               v-for="val in options"
-              :key="val.code"
+              :key="val.code + Math.random()"
               :label="val.name"
               :value="val.code"
             >

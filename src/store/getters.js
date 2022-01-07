@@ -7,5 +7,11 @@ const getters = {
   serchRes: state => state.pageData.serchRes,  // 当前查询的结果
   checkLeft: state => state.pageData.checkLeft,  // 是否需要校验左侧信息
   checkRight: state => state.pageData.checkRight,  // 是否需要校验右侧信息
+
+  wx_code: state => state.pageData.wx_code,  // 是否需要校验右侧信息
+  wx_userid: state => state.pageData.wx_userid,  // 是否需要校验右侧信息
+  user_name: state => state.pageData.user_name,  // 是否需要校验右侧信息
+  thumb_avatar: state => state.pageData.thumb_avatar,  // 是否需要校验右侧信息
+
 }
 export default getters

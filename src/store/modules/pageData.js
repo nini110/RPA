@@ -10,7 +10,12 @@ const state = {
   currentIfo: null,
   serchRes: null,
   checkLeft: false,
-  checkRight: false
+  checkRight: false,
+
+  wx_code: '',
+  wx_userid: '',
+  user_name: '',
+  thumb_avatar: ''
 };
 
 const mutations = {

@@ -1,4 +1,3 @@
-import login from '@/views/login.vue'
 import layout from '@/views/layout'
 import layout2 from '@/views/layout/index2.vue'
 
@@ -6,22 +5,18 @@ import layout2 from '@/views/layout/index2.vue'
 // import Homeitem from '@/views/ThirdPartyTools/child/Homeitem.vue'
 
 
-const routes = [{
+const routes = [
+	{
+		path: '/',
+		redirect: '/login'
+	},{
 		path: '/login',
 		name: 'login',
-		component: login,
+		component: () => import("@/views/Login/index.vue"),
 		meta: {
 			layout: 'login',
 			deep: 1
 		}
-	},
-	{
-		path: '/',
-		name: 'Home',
-		meta: {
-			deep: 1
-		},
-		component: () => import("@/views/Home"),
 	},
 	{
 		path: '/layout2',
@@ -441,6 +436,7 @@ const routes = [{
 			},
 			// 唯品会
 		]
-	}
+	},
+
 ]
 export default routes;

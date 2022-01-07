@@ -2,7 +2,8 @@ import router from './router'
 import routes from './router/routes'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import login from '@/views/login.vue'
+import login from '@/views/Login/index.vue'
+
 import layout from '@/views/layout'
 import layout2 from '@/views/layout/index2.vue'
 const _import = require('./router/importFn'); // 获取组件的方法
@@ -11,19 +12,40 @@ NProgress.configure({
     showSpinner: false
 }) // NProgress Configuration
 let getRouter; // 用来获取后台拿到的路由
+let flag = true
 router.beforeEach((to, from, next) => {
+    let userid = localStorage.getItem('wx_userid')
     NProgress.start()
     if (!getRouter) { // 不加这个判断，路由会陷入死循环
+        getRouter = handleRoutes(routes); // 后台拿到路由
+        if (getRouter) {
+            routerGo(to, next) // 执行路由跳转方法
+        }
+        NProgress.done()
+    } else if (getRouter && !userid) {
+        next()
+    } else if (getRouter && userid && flag) {
+        flag = false
         getRouter = handleRoutes(routes); // 后台拿到路由
         if (getRouter) {
             // saveObjArr('router', getRouter) // 存储路由到localStorage
             routerGo(to, next) // 执行路由跳转方法
         }
-        NProgress.done()
     } else {
         next();
         NProgress.done()
     }
+    // if (!getRouter) { // 不加这个判断，路由会陷入死循环
+    //     getRouter = handleRoutes(routes); // 后台拿到路由
+    //     if (getRouter) {
+    //         // saveObjArr('router', getRouter) // 存储路由到localStorage
+    //         routerGo(to, next) // 执行路由跳转方法
+    //     }
+    //     NProgress.done()
+    // } else {
+    //     next();
+    //     NProgress.done()
+    // }
 });
 
 function handleRoutes(menuList) {
@@ -32,6 +54,7 @@ function handleRoutes(menuList) {
         return
     }
     let whitelist = ['19261', '19302', '20306', '1020108', '21400']
+    console.log('进来渲染路由了')
     let userid = localStorage.getItem('wx_userid')
     for (let i in whitelist) {
         if (whitelist[i] === userid) {
@@ -66,24 +89,26 @@ function handleRoutes(menuList) {
 
 function filterAsyncRouter(asyncRouterMap) { // 遍历后台传来的路由字符串，转换为组件对象
     const accessedRouters = asyncRouterMap.filter(route => {
-        if (route.meta.deep === 1) {
-            if (route.name === 'layout') { // Layout组件特殊处理
-                route.component = layout
-            } else if (route.name === 'layout2') { // Layout组件特殊处理
-                route.component = layout2
-            } else if (route.name === 'login') { // Layout组件特殊处理
-                route.component = login
-            } else {
+        if (route.path !== '/') {
+            if (route.meta.deep === 1) {
+                if (route.name === 'layout') { // Layout组件特殊处理
+                    route.component = layout
+                } else if (route.name === 'layout2') { // Layout组件特殊处理
+                    route.component = layout2
+                } else if (route.name === 'login') { // Layout组件特殊处理
+                    route.component = login
+                } else {
+                    route.component = _import(route.name)
+                }
+            } else if (route.meta.deep === 2) {
                 route.component = _import(route.name)
-            }
-        } else if (route.meta.deep === 2) {
-            route.component = _import(route.name)
-        } else {
-            route.component = _import(route.meta.filePath)
+            } else {
+                route.component = _import(route.meta.filePath)
 
-        }
-        if (route.children && route.children.length) {
-            route.children = filterAsyncRouter(route.children)
+            }
+            if (route.children && route.children.length) {
+                route.children = filterAsyncRouter(route.children)
+            }
         }
         return true
     });
@@ -101,6 +126,5 @@ function routerGo(to, next) {
     })
 }
 router.afterEach(() => {
-    // finish progress bar
     NProgress.done()
 })
