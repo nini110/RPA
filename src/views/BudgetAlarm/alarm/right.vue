@@ -279,12 +279,14 @@ export default {
     // 为true需要清空所有校验
     checkRight(newval, oldval) {
       const vm = this;
-      vm.$refs.form2.resetFields();
+      if (vm.hasInfo) {
+        vm.$refs.form2.resetFields();
+      }
     },
     // 查询结果赋值
     serchRes(newval, oldval) {
       const vm = this;
-      if (newval.code === 10000) {
+      if (newval && newval.code === 10000) {
         // 有详情，可以修改删除
         for (let i of vm.boxDataRight) {
           for (let j of i.children) {
@@ -301,8 +303,7 @@ export default {
         }
       }
     },
-    currentIfo(newval, oldval) {
-    },
+    currentIfo(newval, oldval) {},
   },
   methods: {
     editEvent() {

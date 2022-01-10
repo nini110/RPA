@@ -31,7 +31,6 @@ export default {
       localStorage.setItem("user_name", this.$route.query.user_name);
       localStorage.setItem("thumb_avatar", this.$route.query.thumb_avatar);
       this.$router.push({ path: "layout/beijingMustPass/DMP" });
-      console.log(2)
     }
     if (wx_code && wx_userid) {
       this.$router.push({ path: "layout/beijingMustPass/DMP" });

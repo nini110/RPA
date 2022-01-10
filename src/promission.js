@@ -16,45 +16,28 @@ let flag = true
 router.beforeEach((to, from, next) => {
     let userid = localStorage.getItem('wx_userid')
     NProgress.start()
-    if (!getRouter) { // 不加这个判断，路由会陷入死循环
+    // 不加这个判断，路由会陷入死循环、
+    // 注：因为routerGo方法中next方法具有参数，即中断当前导航，执行新导航，而不是放行的意思，所以会无线循环下去，next()为放行
+    if (!getRouter) {
         getRouter = handleRoutes(routes); // 后台拿到路由
-        if (getRouter) {
-            routerGo(to, next) // 执行路由跳转方法
-        }
+        routerGo(to, next)
         NProgress.done()
-    } else if (getRouter && !userid) {
-        next()
-    } else if (getRouter && userid && flag) {
+    } else if (getRouter && userid && flag) {// userid拿到之后，重新处理路由，将flag变为false，避免无限定向
         flag = false
         getRouter = handleRoutes(routes); // 后台拿到路由
-        if (getRouter) {
-            // saveObjArr('router', getRouter) // 存储路由到localStorage
-            routerGo(to, next) // 执行路由跳转方法
-        }
+        routerGo(to, next)
     } else {
         next();
         NProgress.done()
     }
-    // if (!getRouter) { // 不加这个判断，路由会陷入死循环
-    //     getRouter = handleRoutes(routes); // 后台拿到路由
-    //     if (getRouter) {
-    //         // saveObjArr('router', getRouter) // 存储路由到localStorage
-    //         routerGo(to, next) // 执行路由跳转方法
-    //     }
-    //     NProgress.done()
-    // } else {
-    //     next();
-    //     NProgress.done()
-    // }
 });
-
+// 动态加入路由元素
 function handleRoutes(menuList) {
     let ret = [];
     if (!menuList || menuList.length <= 0) {
         return
     }
     let whitelist = ['19261', '19302', '20306', '1020108', '21400']
-    console.log('进来渲染路由了')
     let userid = localStorage.getItem('wx_userid')
     for (let i in whitelist) {
         if (whitelist[i] === userid) {
@@ -86,8 +69,8 @@ function handleRoutes(menuList) {
     ret = [...menuList]
     return ret
 }
-
-function filterAsyncRouter(asyncRouterMap) { // 遍历后台传来的路由字符串，转换为组件对象
+// 遍历后台传来的路由字符串，转换为组件对象
+function filterAsyncRouter(asyncRouterMap) {
     const accessedRouters = asyncRouterMap.filter(route => {
         if (route.path !== '/') {
             if (route.meta.deep === 1) {

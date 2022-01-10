@@ -1,25 +1,15 @@
 <template>
   <div class="outerDiv">
     <div class="outerDiv_left">
-      <el-divider>盯盘维度</el-divider>
-      <div class="up">
-        <a class="btnnormal btnnormal_down" @click="upList">
-          <div
-            class="btnSize"
-            :class="multipleUp ? 'el-icon-close' : 'el-icon-upload2'"
-          >
-            {{ multipleUpTxt }}
-          </div>
-        </a>
-      </div>
-      <LeftUp v-if="multipleUp" @close="close"></LeftUp>
-      <Left v-else></Left>
+      <el-divider>{{multipleUpTxt}}</el-divider>
+      <Left v-if="!multipleUp"></Left>
+      <LeftUp v-else @close="close"></LeftUp>
       <div class="outerDiv_left_info">
         <h3 class="el-icon-info">须知</h3>
         <p v-for="(item, idx) in tipInfo" :key="idx">{{ item }}</p>
       </div>
     </div>
-    <div class="outerDiv_right">
+    <div v-if="!multipleUp" class="outerDiv_right">
       <Right></Right>
     </div>
   </div>
@@ -43,7 +33,7 @@ export default {
   },
   data() {
     return {
-      multipleUpTxt: "一键设置",
+      multipleUpTxt: "盯盘维度",
       btnTxt: "修改",
       multipleUp: false,
       pinList: [],
@@ -51,9 +41,16 @@ export default {
     };
   },
   watch: {
+    $route: {
+      handler(newval, oldval) {
+        this.multipleUp = newval.name === "Budget";
+      },
+      immediate: true,
+      deep: true
+    },
     multipleUp: {
       handler(newval, oldval) {
-        this.multipleUpTxt = newval ? "取消" : "批量设置";
+        this.multipleUpTxt = newval ? "预算设置" : "盯盘维度";
         this.tipInfo = newval
           ? [
               "1、使用该系统更新预算的时间段为当日起往后顺延30日（同京准通平台可设置时间段一致）",
@@ -75,7 +72,7 @@ export default {
   },
   // 离开页面的时候数据初始化
   beforeDestroy() {
-    this.resetEvent()
+    this.resetEvent();
   },
   methods: {
     // 获取所有PIN
@@ -100,7 +97,7 @@ export default {
     },
     close() {
       this.multipleUp = false;
-      this.resetEvent()
+      this.resetEvent();
     },
     // 重置
     resetEvent() {

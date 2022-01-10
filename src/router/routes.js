@@ -348,7 +348,17 @@ const routes = [
 						filePath: 'BudgetAlarm/alarm'
 					},
 					component: () => import("@/views/BudgetAlarm/alarm"),
-				}, ]
+				},
+				{
+					path: 'budget',
+					name: 'Budget',
+					meta: {
+						title: '预算',
+						deep: 3,
+						filePath: 'BudgetAlarm/alarm'
+					},
+					component: () => import("@/views/BudgetAlarm/alarm"),
+				} ]
 			},
 			// 快车提质
 			{

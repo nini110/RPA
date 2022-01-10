@@ -182,6 +182,12 @@ export default {
               value: "/layout/budgetAlarm/alarm",
               index: "4-2",
             },
+            {
+              label: "一键预算",
+              icon2: "#icon-jinggao",
+              value: "/layout/budgetAlarm/budget",
+              index: "4-3",
+            },
           ],
         },
         // {
