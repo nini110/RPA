@@ -55,7 +55,7 @@
                     <i
                       v-show="!dataState || dataState === '参数错误'"
                       class="info el-icon-minus"
-                    ></i>
+                    >选择项目和日期查询数据状态</i>
                     <i v-show="dataState === 1" class="suc el-icon-check"
                       >数据已准备</i
                     >
@@ -143,13 +143,13 @@
               </el-table-column>
               <el-table-column prop="status" label="状态" width="120">
                 <template slot-scope="scope">
-                  <div v-if="scope.row.status === 0" style="color: orange">
+                  <div v-if="scope.row.status === 0" class="statusDiv ing">
                     生成中
                   </div>
-                  <div v-if="scope.row.status === 1" style="color: #85ce61">
+                  <div v-if="scope.row.status === 1" class="statusDiv suc">
                     已生成
                   </div>
-                  <div v-if="scope.row.status === 2" style="color: #f56c6c">
+                  <div v-if="scope.row.status === 2" class="statusDiv fail">
                     生成失败
                   </div>
                 </template>
@@ -346,6 +346,8 @@ export default {
           vm.tableData = res.data.data.data;
           vm.total = res.data.data.total_count;
         } else {
+          vm.tableData = []
+          vm.total = null
           vm.$msg({ type: "error", msg: res.data.msg });
         }
       });

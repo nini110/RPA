@@ -35,7 +35,7 @@
               placeholder="请选择授权账号"
             >
               <el-option
-                v-for="(item, idx) in shopOptions"
+                v-for="item in shopOptions"
                 :key="item.advertiser_id"
                 :label="item.advertiser_name"
                 :value="item.advertiser_id"

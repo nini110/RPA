@@ -123,7 +123,7 @@
                 align="center"
               ></el-table-column>
               <el-table-column
-                property="create_time"
+                property="create_time_for"
                 label="日期"
                 min-width="200"
               >
@@ -415,6 +415,13 @@ export default {
     //查看列表
     getuserlist() {
       const vm = this;
+      function format(value) {
+        if(value < 10) {
+          return '0' + value
+        } else {
+          return value
+        }
+      }
       fxcjExamine({
         tool_type: vm.toolType,
         limit: vm.pagesize,
@@ -423,6 +430,17 @@ export default {
         if (res.data.code === 10000) {
           let result = res.data;
           vm.tableData = result.data;
+          result.data.forEach((val, idx) => {
+            let time = new Date(val.create_time);
+            let y = time.getFullYear();
+            let m = format(time.getMonth() + 1);
+            let d = format(time.getDate());
+            let h = format(time.getHours());
+            let mm = format(time.getMinutes());
+            let s = format(time.getSeconds());
+            let resTime = y + '-' + m + '-' + d + ' ' + h + ':' + mm + ':' + s
+            vm.$set(val, 'create_time_for', resTime)
+          });
           vm.total = result.count;
         } else {
           vm.$msg({ type: "error", msg: res.data.msg });

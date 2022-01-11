@@ -82,8 +82,8 @@
             fixed="left"
           >
             <template slot-scope="scope">
-              <div v-if="scope.row.status" class="yes">使用中</div>
-              <div v-else class="no">未使用</div>
+              <div v-if="scope.row.status" class="statusDiv suc">使用中</div>
+              <div v-else class="statusDiv fail">未使用</div>
             </template>
           </el-table-column>
           <el-table-column
