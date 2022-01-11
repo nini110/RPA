@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3571605",
+      "name": "ladybug",
+      "font_class": "ladybug",
+      "unicode": "edaa",
+      "unicode_decimal": 60842
+    },
+    {
+      "icon_id": "14772648",
+      "name": "bug-report",
+      "font_class": "bug-report",
+      "unicode": "e60e",
+      "unicode_decimal": 58894
+    },
+    {
       "icon_id": "14113890",
       "name": "信息",
       "font_class": "xinxi",

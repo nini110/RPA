@@ -444,8 +444,15 @@ const routes = [
 					}
 				]
 			},
-			// 唯品会
 		]
+	},
+	{
+		path: '*',
+		name: '404',
+		meta: {
+			deep: 1
+		},
+		component: () => import("@/views/404"),
 	},
 
 ]

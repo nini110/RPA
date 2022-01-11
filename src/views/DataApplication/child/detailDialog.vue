@@ -13,7 +13,7 @@
       class="detail_body"
       ref="singleTable"
       :data="xqlist"
-      height="540"
+      height="600"
       :highlight-current-row="true"
       :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
     >

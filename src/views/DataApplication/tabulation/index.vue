@@ -71,12 +71,14 @@
             </el-row>
           </div>
           <div v-if="checkedItem.file" class="formObj_upload">
-            <el-form-item label="" :error="errorUploadInfo">
-              <Upload
-                :progressPercent="progressPercent"
-                @getFile="getFileEvent"
-              ></Upload>
-            </el-form-item>
+            <el-col :span="8">
+              <el-form-item label="" :error="errorUploadInfo">
+                <Upload
+                  :progressPercent="progressPercent"
+                  @getFile="getFileEvent"
+                ></Upload>
+              </el-form-item>
+            </el-col>
           </div>
           <div class="formObj_button">
             <el-col :span="24">
@@ -114,7 +116,9 @@
         <el-divider>列表</el-divider>
         <div class="tables">
           <div class="tableTab">
-            <span class="deleteAllBtn" @click="DeleteReportAll"> 批量删除 </span>
+            <span class="deleteAllBtn" @click="DeleteReportAll">
+              批量删除
+            </span>
             <el-table
               class="tableBox"
               ref="multipleTable"

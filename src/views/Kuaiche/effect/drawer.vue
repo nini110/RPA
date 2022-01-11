@@ -231,6 +231,7 @@ export default {
         start_date: row.start_date,
         end_date: row.end_date,
         keyword: row.keyword,
+        group_id: row.group_id,
         plan_name: row.plan_name,
         unit_name: row.unit_name,
         limit: 20,

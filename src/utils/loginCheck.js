@@ -22,7 +22,6 @@ function check() {
 				localStorage.removeItem('wx_userid')
 				localStorage.removeItem('user_name')
 				localStorage.removeItem('thumb_avatar')
-				console.log('清掉cookie了')
 			}, 2000)
 		}
 	})

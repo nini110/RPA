@@ -63,19 +63,34 @@
             <div style="text-align: center">{{ user.id }}</div>
           </el-popover>
           <span class="logout iconfont icon-tcdl" @click="close"></span>
+          <el-badge :value="errorLogs.length" class="item" v-if="errorLogs.length>0">
+            <span
+              :class="{ active: errorLogs.length > 0 }"
+              class="bugSpan iconfont icon-bug-report"
+              @click="showError"
+            ></span>
+          </el-badge>
         </div>
         <!-- <div id ="togleCol" class="phone iconfont icon-shouji" @click="toggleMode()">移动版</div> -->
       </div>
     </div>
+    <EorLog :showLog="showLog" @close="closeLog"></EorLog>
   </div>
 </template>
 <script>
 import message from "@/mixin/message";
+import EorLog from "@/components/errorLog/index.vue";
+import { mapGetters } from "vuex";
+
 export default {
   name: "Header",
+  components: {
+    EorLog,
+  },
   mixins: [message],
   data() {
     return {
+      showLog: false,
       user: {
         name: "",
         img: "",
@@ -95,6 +110,9 @@ export default {
         autoMatchOsTheme: true, // default: true
       },
     };
+  },
+  computed: {
+    ...mapGetters(["errorLogs"]),
   },
   created() {},
   mounted() {
@@ -136,6 +154,12 @@ export default {
     }
   },
   methods: {
+    showError() {
+      this.showLog = true;
+    },
+    closeLog() {
+      this.showLog = false;
+    },
     toggleMode() {},
     // 退出登录
     close() {

@@ -69,6 +69,7 @@ export default {
       detailIcon: "",
       currentMenu: "1-1",
       menuList: [
+        
         {
           label: "提效工具",
           deep: 2,
@@ -265,16 +266,10 @@ export default {
                   value: "/layout/kuaiche/charts",
                   index: "5-5",
                 },
-                // {
-                //   label: "修改记录",
-                //   value: "/layout/kuaiche/record",
-                //   index: "5-6",
-                // },
               ],
             },
           ],
         },
-
         {
           label: "公共数据获取",
           deep: 2,

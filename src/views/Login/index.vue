@@ -50,7 +50,7 @@ export default {
         let a = new WwLogin({
           id: "weChat",
           appid: "wwa11b1586b6b9c8a8",
-          agentid: "1000039",
+          agentid: "1000041",
           scope: "snsapi_login",
           redirect_uri: encodeURIComponent(
             `${vm.DomainName}/platform/authority`

@@ -107,6 +107,17 @@
           cursor: pointer;
         }
       }
+      .bugSpan {
+        padding-left: 50px;
+        transition: all 1s linear;
+        color: #fff;
+        font-size: 18px;
+        cursor: pointer;
+        &.active {
+          animation: Cinfinity 1s infinite linear;
+          color: #f56c6c;
+        }
+      }
 
       .phone {
         white-space: nowrap;
@@ -118,4 +129,7 @@
       }
     }
   }
+}
+.el-badge__content.is-fixed {
+  right: 0!important;
 }

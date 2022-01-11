@@ -13,5 +13,7 @@ const getters = {
   user_name: state => state.pageData.user_name,  // 是否需要校验右侧信息
   thumb_avatar: state => state.pageData.thumb_avatar,  // 是否需要校验右侧信息
 
+  errorLogs: state => state.errorLog.logs
+
 }
 export default getters

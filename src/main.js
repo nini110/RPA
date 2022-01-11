@@ -5,6 +5,7 @@ import store from './store'
 import axios from 'axios'
 import qs from 'qs'
 import ElementUI from 'element-ui';
+import './components/errorLog/index.js' // error log
 
 import format from './utils/format';
 import './utils/global'// 全局
@@ -72,8 +73,8 @@ Vue.prototype.$msg = function(options) {
 	  return msg
 }
 
-Vue.prototype.DomainName = 'http://192.168.90.209:5000';
-// Vue.prototype.DomainName = 'http://tool.afocus.com.cn';
+// Vue.prototype.DomainName = 'http://192.168.90.209:5000';
+Vue.prototype.DomainName = 'http://tool.afocus.com.cn';
 
 Object.keys(format).forEach(key => {
 	Vue.filter(key, format[key])
