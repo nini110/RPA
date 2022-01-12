@@ -27,7 +27,6 @@
             fixed="left"
             width='240'
             show-overflow-tooltip
-            min-width="200"
           >
           </el-table-column>
           <el-table-column
@@ -188,7 +187,7 @@ export default {
     },
     routerLink(ids, names) {
       const { href } = this.$router.resolve({
-        path: '/layout2/qianchuan/realTime',
+        path: '/layout/qianchuan/realTime',
         query: {
           id: ids,
           name: names,
