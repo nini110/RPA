@@ -25,6 +25,7 @@
             prop="project_name"
             label="项目名称"
             fixed="left"
+            width='240'
             show-overflow-tooltip
             min-width="200"
           >
@@ -34,14 +35,14 @@
             :key="idx"
             :prop="item.prop"
             :label="item.label"
-            :min-width="item.width"
+            :min-width='item.width'
             show-overflow-tooltip
           >
           </el-table-column>
           <el-table-column
             prop="castTime"
             label="投放时间"
-            min-width="220"
+            width="200"
             show-overflow-tooltip
           >
             <template slot-scope="scope">
@@ -52,8 +53,8 @@
           <el-table-column
             label="操作"
             fixed="right"
-            min-width="260"
             class="caozuo"
+            width="260"
           >
             <template slot-scope="scope">
               <div v-waves class="btn btn_info" @click="createEvent(2, scope.row.id)">

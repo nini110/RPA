@@ -1,15 +1,9 @@
 import layout from '@/views/layout'
-import layout2 from '@/views/layout/index2.vue'
 
-// 巨量千川
-// import Homeitem from '@/views/ThirdPartyTools/child/Homeitem.vue'
-
-
-const routes = [
-	{
+const routes = [{
 		path: '/',
 		redirect: '/login'
-	},{
+	}, {
 		path: '/login',
 		name: 'login',
 		component: () => import("@/views/Login/index.vue"),
@@ -17,56 +11,6 @@ const routes = [
 			layout: 'login',
 			deep: 1
 		}
-	},
-	{
-		path: '/layout2',
-		name: 'layout2',
-		meta: {
-			deep: 1
-		},
-		component: layout2,
-		children: [
-			// 巨量千川--实时看板
-			{
-				path: 'qianchuan',
-				name: 'Qianchuan',
-				meta: {
-					deep: 2
-				},
-				component: () => import("@/views/Qianchuan"),
-				children: [{
-					path: 'realTime',
-					name: 'RealTime',
-					meta: {
-						title: '实时看板',
-						deep: 3,
-						filePath: 'Qianchuan/realTime'
-					},
-					component: () => import("@/views/Qianchuan/realTime"),
-				}]
-			},
-			// 提质--效果列表
-			{
-				path: 'kuaiche',
-				name: 'Kuaiche',
-				meta: {
-					deep: 2
-				},
-				component: () => import("@/views/Kuaiche"),
-				children: [{
-					path: 'effect',
-					name: 'Effect',
-					meta: {
-						title: '效果变化',
-						deep: 3,
-						filePath: 'Kuaiche/effect'
-					},
-					component: () => import("@/views/Kuaiche/effect"),
-				}]
-			},
-
-
-		]
 	},
 	{
 		path: '/layout',
@@ -320,6 +264,16 @@ const routes = [
 						},
 						component: () => import("@/views/Qianchuan/modules"),
 					},
+					{
+						path: 'realTime',
+						name: 'RealTime',
+						meta: {
+							title: '实时看板',
+							deep: 3,
+							filePath: 'Qianchuan/realTime'
+						},
+						component: () => import("@/views/Qianchuan/realTime"),
+					}
 					// {
 					// 	path: 'plan',
 					// 	name: 'Plan',
@@ -340,25 +294,26 @@ const routes = [
 				},
 				component: () => import("@/views/BudgetAlarm"),
 				children: [{
-					path: 'alarm',
-					name: 'Alarm',
-					meta: {
-						title: '预警',
-						deep: 3,
-						filePath: 'BudgetAlarm/alarm'
+						path: 'alarm',
+						name: 'Alarm',
+						meta: {
+							title: '预警',
+							deep: 3,
+							filePath: 'BudgetAlarm/alarm'
+						},
+						component: () => import("@/views/BudgetAlarm/alarm"),
 					},
-					component: () => import("@/views/BudgetAlarm/alarm"),
-				},
-				{
-					path: 'budget',
-					name: 'Budget',
-					meta: {
-						title: '预算',
-						deep: 3,
-						filePath: 'BudgetAlarm/alarm'
-					},
-					component: () => import("@/views/BudgetAlarm/alarm"),
-				} ]
+					{
+						path: 'budget',
+						name: 'Budget',
+						meta: {
+							title: '预算',
+							deep: 3,
+							filePath: 'BudgetAlarm/alarm'
+						},
+						component: () => import("@/views/BudgetAlarm/alarm"),
+					}
+				]
 			},
 			// 快车提质
 			{

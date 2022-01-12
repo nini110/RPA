@@ -238,49 +238,49 @@ export default {
           label: "15天成交ROI变化",
           sortable: "custom",
           align: "right",
-          width: "250",
+          width: "280",
         },
         {
           prop: "diff_total_cost",
           label: "15天成交订单金额变化",
           sortable: "custom",
           align: "right",
-          width: "250",
+          width: "280",
         },
         {
           prop: "diff_order_line",
           label: "15天成交订单量变化",
           sortable: "custom",
           align: "right",
-          width: "250",
+          width: "280",
         },
         {
           prop: "diff_zh_rate",
           label: "转化率变化",
           sortable: "custom",
           align: "right",
-          width: "220",
+          width: "240",
         },
         {
           prop: "diff_click_rate",
           label: "点击率变化",
           sortable: "custom",
           align: "right",
-          width: "220",
+          width: "240",
         },
         {
           prop: "diff_click",
           label: "点击量变化",
           sortable: "custom",
           align: "right",
-          width: "220",
+          width: "240",
         },
         {
           prop: "diff_show",
           label: "展现量变化",
           sortable: "custom",
           align: "right",
-          width: "220",
+          width: "240",
         },
       ],
       tableHeight: 0,
@@ -311,7 +311,7 @@ export default {
   mounted() {
     const vm = this;
     let info = vm.$route.query;
-    if (vm.$route.fullPath.indexOf("layout2") !== -1) {
+    if (vm.$route.fullPath.indexOf("roi_type") !== -1) {
       vm.fromChart = true;
       vm.form.pin = info.pin;
       vm.form.search_date = [info.stDate, info.edDate];
@@ -351,6 +351,11 @@ export default {
       const vm = this;
       vm.form.sort_word = val.prop;
       vm.form.sort_line = val.order === "descending" ? "DESC" : "ASC";
+      vm.searchVal = {
+        ...vm.form,
+        start_date: vm.form.search_date[0],
+        end_date: vm.form.search_date[1],
+      };
       vm.getTable(vm.searchVal);
     },
     searchEvent() {

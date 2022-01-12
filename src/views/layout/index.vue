@@ -1,6 +1,7 @@
 <template>
   <div class="layout">
     <el-menu
+      v-if="hasMenu"
       :default-active="currentMenu"
       class="el-menu-vertical-demo layout_menu"
       unique-opened
@@ -66,10 +67,10 @@ export default {
 
   data() {
     return {
+      hasMenu: true,
       detailIcon: "",
       currentMenu: "1-1",
       menuList: [
-        
         {
           label: "提效工具",
           deep: 2,
@@ -313,40 +314,45 @@ export default {
   },
   created() {
     const vm = this;
-    let res = vm.curroutes[3].children.filter((item) => {
-      return item.name === "Expend";
-    });
-    if (res && res.length > 0) {
-      vm.menuList.push({
-        label: "灵鲨消耗",
-        deep: 2,
-        icon: "iconfont icon-zhibiao",
-        value: "",
-        index: "8",
-        children: [
-          {
-            label: "图表",
-            icon2: "#icon-xiaoguofenxi",
-            value: "/layout/expend/chart",
-            index: "8-1",
-          },
-        ],
+    if (vm.$route.query.roi_type || vm.$route.name === "RealTime") {
+      vm.hasMenu = false;
+    } else {
+      vm.hasMenu = true;
+      let res = vm.curroutes[2].children.filter((item) => {
+        return item.name === "Expend";
       });
-    }
-    for (let i of vm.menuList) {
-      for (let j of i.children) {
-        if (i.deep === 2) {
-          if (vm.$route.fullPath === j.value) {
-            vm.currentMenu = j.index;
-            vm.detailIcon = j.icon2;
-            break;
-          }
-        } else if (i.deep === 3) {
-          for (let k of j.children) {
-            if (vm.$route.fullPath === k.value) {
-              vm.currentMenu = k.index;
-              vm.detailIcon = k.icon2;
+      if (res && res.length > 0) {
+        vm.menuList.push({
+          label: "灵鲨消耗",
+          deep: 2,
+          icon: "iconfont icon-zhibiao",
+          value: "",
+          index: "8",
+          children: [
+            {
+              label: "图表",
+              icon2: "#icon-xiaoguofenxi",
+              value: "/layout/expend/chart",
+              index: "8-1",
+            },
+          ],
+        });
+      }
+      for (let i of vm.menuList) {
+        for (let j of i.children) {
+          if (i.deep === 2) {
+            if (vm.$route.fullPath === j.value) {
+              vm.currentMenu = j.index;
+              vm.detailIcon = j.icon2;
               break;
+            }
+          } else if (i.deep === 3) {
+            for (let k of j.children) {
+              if (vm.$route.fullPath === k.value) {
+                vm.currentMenu = k.index;
+                vm.detailIcon = k.icon2;
+                break;
+              }
             }
           }
         }

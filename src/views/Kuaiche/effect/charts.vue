@@ -556,7 +556,7 @@ export default {
             params.name !== "不变"
           ) {
             const { href } = vm.$router.resolve({
-              path: "/layout2/kuaiche/effect",
+              path: "/layout/kuaiche/effect",
               query: {
                 roi_type,
                 price_type,

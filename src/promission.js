@@ -5,7 +5,6 @@ import 'nprogress/nprogress.css' // progress bar style
 import login from '@/views/Login/index.vue'
 
 import layout from '@/views/layout'
-import layout2 from '@/views/layout/index2.vue'
 const _import = require('./router/importFn'); // 获取组件的方法
 
 NProgress.configure({
@@ -76,8 +75,6 @@ function filterAsyncRouter(asyncRouterMap) {
             if (route.meta.deep === 1) {
                 if (route.name === 'layout') { // Layout组件特殊处理
                     route.component = layout
-                } else if (route.name === 'layout2') { // Layout组件特殊处理
-                    route.component = layout2
                 } else if (route.name === 'login') { // Layout组件特殊处理
                     route.component = login
                 } else {
