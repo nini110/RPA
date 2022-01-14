@@ -52,8 +52,7 @@
           <el-table-column
             label="操作"
             fixed="right"
-            class="caozuo"
-            width="260"
+            width="240"
           >
             <template slot-scope="scope">
               <div v-waves class="btn btn_info" @click="createEvent(2, scope.row.id)">
