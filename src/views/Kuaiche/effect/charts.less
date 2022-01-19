@@ -25,7 +25,7 @@
 
 		.left,
 		.right {
-			width: 66.9%;
+			width: 60.9%;
 			height: 100%;
 			display: inline-block;
 			vertical-align: top;
@@ -35,6 +35,8 @@
 				display: table;
 				margin-top: 15px;
 				border-collapse:collapse;
+				table-layout: fixed;
+				user-select: none;
 				tr {
 					background-color: #303133;
 					text-align: center;
@@ -45,12 +47,22 @@
 				th {
 					line-height: 44px;
 					font-size: 18px;
-					width: 33%;
+					&:nth-child(1) {
+						width: 45%;
+					}
+					&:nth-child(2) {
+						width: 10%;
+						
+					}
+					&:nth-child(3) {
+						width: 45%;
+						
+					}
 				}
 				td {
 					line-height: 34px;
 					font-size: 14px;
-					width: 33%;
+					// width: 33%;
 				}
 			}
 			.effecrChartBox {
@@ -67,7 +79,7 @@
 		    overflow: hidden;
 		}
 		.right {
-			margin-left: 0.1%;
-			width: 33%;
+			margin-left: 0.03%;
+			width: 39%;
 		}
 	}
