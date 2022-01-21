@@ -34,26 +34,35 @@
         </div>
       </div>
       <div class="tabbles pricetable" ref="tabbles">
-        <el-table
+        <vxe-table
           :data="tableData"
-          :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
+          stripe
+          round
+          :column-config="{ resizable: true }"
+          :row-config="{ isCurrent: true, isHover: true }"
+          class="mytable-scrollbar"
+          auto-resize
+          height="auto"
         >
-          <el-table-column align="center" type="index" label="序号" width="100">
-          </el-table-column>
-          <el-table-column
+          >
+          <template #empty>
+            <img src="@/assets/images/noneData3.png" />
+          </template>
+          <vxe-column
+            type="seq"
+            title="序号"
+            width="60"
+            fixed="left"
+          ></vxe-column>
+          <vxe-column
             v-for="(item, idx) in moduleOptions"
             :key="idx"
-            :prop="item.prop"
-            :label="item.label"
-            :min-width="item.width"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            label="操作"
-            width="200"
-            fixed="right"
-          >
+            min-width="15%"
+            :field="item.prop"
+            :title="item.label"
+            show-overflow="tooltip"
+          ></vxe-column>
+          <vxe-column title="操作" fixed="right" width="10%">
             <template slot-scope="scope">
               <div
                 v-waves
@@ -76,8 +85,8 @@
                 </svg>
               </div>
             </template>
-          </el-table-column>
-        </el-table>
+          </vxe-column>
+        </vxe-table>
       </div>
       <div class="block">
         <el-pagination
@@ -199,7 +208,7 @@ export default {
         tipTitle: "确定删除当前模板信息：",
         curItem: `${row.name}？`,
         confirmButtonFn: () => {
-          this.$message("暂无删除接口功能");
+          vm.$msg({ type: "warning", msg: "暂无删除接口功能" });
         },
       });
     },

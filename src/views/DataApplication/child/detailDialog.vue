@@ -9,22 +9,20 @@
     custom-class="dialogEdit"
     :close-on-click-modal="false"
   >
-    <el-table
-      class="detail_body"
+    <vxe-table
       ref="singleTable"
       :data="xqlist"
-      height="600"
-      :highlight-current-row="true"
-      :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
+      stripe
+      round
+      :column-config="{ resizable: true }"
+      :row-config="{ isCurrent: true, isHover: true }"
+      class="mytable-scrollbar"
+      auto-resize
+      height="500"
     >
-      <el-table-column
-        type="index"
-        width="100"
-        size="small"
-        label="序号"
-        align="center"
-      ></el-table-column>
-      <el-table-column property="bidding_id" label="当日预算" align="center">
+      >
+      <vxe-column type="seq" title="序号" width="60" fixed="left"></vxe-column>
+      <vxe-column field="bidding_id" title="当日预算" min-width="20%">
         <template slot-scope="scope">
           <div class="input-box">
             <el-input
@@ -33,17 +31,10 @@
               @input="changethreshold(scope.row)"
               v-model.trim="scope.row.threshold"
             ></el-input>
-          </div>
-        </template>
-      </el-table-column>
-      <el-table-column
-        property="bidding_date"
-        size="small"
-        label="日期"
-        align="center"
-      >
-      </el-table-column>
-    </el-table>
+          </div> </template
+      ></vxe-column>
+      <vxe-column field="bidding_date" title="日期" min-width="15%"></vxe-column>
+    </vxe-table>
     <span slot="footer" class="dialog-footer">
       <a class="btnnormal btnnormal_down marginR" @click="closeDialog">
         <div class="el-icon-close btnSize">取消</div>

@@ -53,9 +53,13 @@
                 <el-form-item label="数据状态:" :error="errorStateInfo">
                   <div class="state stateItem">
                     <i
-                      v-show="!dataState || dataState === '参数错误'"
+                      v-show="
+                        (!dataState || dataState === '参数错误') &&
+                        dataState !== 0
+                      "
                       class="info el-icon-minus"
-                    >选择项目和日期查询数据状态</i>
+                      >选择项目和日期查询数据状态</i
+                    >
                     <i v-show="dataState === 1" class="suc el-icon-check"
                       >数据已准备</i
                     >
@@ -114,34 +118,49 @@
         :class="outerTableHeight"
       >
         <el-divider>列表</el-divider>
+        <vxe-toolbar perfect>
+          <template #buttons>
+            <vxe-button
+              icon="el-icon-delete"
+              status="perfect"
+              content="批量删除"
+              @click="DeleteReportAll"
+            ></vxe-button>
+          </template>
+        </vxe-toolbar>
         <div class="tables">
           <div class="tableTab">
-            <span class="deleteAllBtn" @click="DeleteReportAll">
-              批量删除
-            </span>
-            <el-table
-              class="tableBox"
+            <vxe-table
               ref="multipleTable"
               :data="tableData"
-              tooltip-effect="dark"
-              :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
-              @selection-change="handleSelectionChange"
+              stripe
+              round
+              :column-config="{ resizable: true }"
+              :row-config="{ isCurrent: true, isHover: true }"
+              class="mytable-scrollbar"
+              auto-resize
+              height="auto"
+              @checkbox-all="handleSelectionChange"
+              @checkbox-change="handleSelectionChange"
             >
-              <el-table-column type="selection" width="100" align="center">
-              </el-table-column>
-              <el-table-column
-                type="index"
-                width="100"
-                label="序号"
-                align="center"
-              ></el-table-column>
-              <el-table-column
-                prop="report_name"
-                label="报表名称"
-                min-width="150"
               >
-              </el-table-column>
-              <el-table-column prop="status" label="状态" width="120">
+              <template #empty>
+                <img src="@/assets/images/noneData3.png" />
+              </template>
+              <vxe-column type="checkbox" width="60" fixed="left"></vxe-column>
+              <vxe-column
+                type="seq"
+                title="序号"
+                width="60"
+                fixed="left"
+              ></vxe-column>
+              <vxe-column
+                min-width="15%"
+                field="report_name"
+                title="报表名称"
+                show-overflow="tooltip"
+              ></vxe-column>
+              <vxe-column min-width="15%" field="status" title="状态">
                 <template slot-scope="scope">
                   <div v-if="scope.row.status === 0" class="statusDiv ing">
                     生成中
@@ -152,21 +171,19 @@
                   <div v-if="scope.row.status === 2" class="statusDiv fail">
                     生成失败
                   </div>
-                </template>
-              </el-table-column>
-              <el-table-column
-                prop="data_date"
-                label="数据日期"
-                min-width="100"
+                </template></vxe-column
               >
-              </el-table-column>
-              <el-table-column
-                prop="create_time"
-                label="创建时间"
-                min-width="140"
-              >
-              </el-table-column>
-              <el-table-column prop="id" label="操作" width="220">
+              <vxe-column
+                min-width="15%"
+                field="data_date"
+                title="数据日期"
+              ></vxe-column>
+              <vxe-column
+                min-width="15%"
+                field="create_time"
+                title="创建时间"
+              ></vxe-column>
+              <vxe-column title="操作" fixed="right" width="10%">
                 <template slot-scope="scope">
                   <div
                     v-waves
@@ -189,8 +206,8 @@
                     </svg>
                   </div>
                 </template>
-              </el-table-column>
-            </el-table>
+              </vxe-column>
+            </vxe-table>
           </div>
         </div>
         <!-- 分页器 -->
@@ -346,8 +363,8 @@ export default {
           vm.tableData = res.data.data.data;
           vm.total = res.data.data.total_count;
         } else {
-          vm.tableData = []
-          vm.total = null
+          vm.tableData = [];
+          vm.total = null;
           vm.$msg({ type: "error", msg: res.data.msg });
         }
       });
@@ -451,12 +468,12 @@ export default {
     // 删除事件
     delApi() {
       const vm = this;
+      console.log(vm.multipleSelection);
       DeleteReport({
         id: vm.multipleSelection,
       }).then((res) => {
         if (res.data.code === 200) {
           vm.$msg({ msg: "删除成功！" });
-
           vm.multipleSelection = "";
           vm.getTableData();
         } else {
@@ -493,7 +510,6 @@ export default {
           showCancelButton: true,
           tipTitle: "确定删除所选中的报表？",
           confirmButtonFn: () => {
-            vm.multipleSelection = ID;
             vm.delApi();
           },
         });
@@ -502,10 +518,10 @@ export default {
       }
     },
     // table表格选择项变化时，改变multipleSelection
-    handleSelectionChange(val) {
+    handleSelectionChange({ checked, records }) {
       this.multipleSelection = "";
-      for (let i = 0; i < val.length; i++) {
-        this.multipleSelection += val[i].id + ",";
+      for (let i = 0; i < records.length; i++) {
+        this.multipleSelection += records[i].id + ",";
       }
       this.multipleSelection = this.multipleSelection.substring(
         0,

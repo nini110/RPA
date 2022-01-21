@@ -82,30 +82,40 @@
         <div v-else class="tables">
           <!-- :height="tableHeight" -->
           <div class="tableTab" v-show="tableData">
-            <el-table
-              class="tableBox"
-              :data="tableData"
+            <vxe-table
               ref="table"
-              highlight-current-row
-              height="0"
-              :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
+              :data="tableData"
+              stripe
+              round
+              :column-config="{ resizable: true }"
+              :row-config="{ isCurrent: true, isHover: true }"
+              class="mytable-scrollbar"
+              auto-resize
+              height="auto"
+              :sort-config="{
+                remote: true,
+                trigger: 'cell',
+                defaultSort: { field: 'age', order: 'desc' },
+                orders: ['desc', 'asc', null],
+              }"
               @sort-change="sortChange"
-              style="width: 100%"
             >
-              <el-table-column
-                type="index"
-                width="100"
-                label="序号"
-                align="center"
-                fixed="left"
               >
-              </el-table-column>
-              <el-table-column
-                prop="keyword"
-                label="关键词"
-                min-width="180"
+              <template #empty>
+                <img src="@/assets/images/noneData3.png" />
+              </template>
+              <vxe-column
+                type="seq"
+                title="序号"
+                width="60"
                 fixed="left"
-                show-overflow-tooltip
+              ></vxe-column>
+              <vxe-column
+                field="keyword"
+                title="关键词"
+                fixed="left"
+                width="15%"
+                show-overflow="tooltip"
               >
                 <template slot-scope="scope">
                   <span
@@ -113,27 +123,24 @@
                     @click="showInfoDarwer(scope.row)"
                     >{{ scope.row.keyword }}</span
                   >
-                </template>
-              </el-table-column>
-              <el-table-column label="操作" width="150" fixed="left">
+                </template></vxe-column
+              >
+              <vxe-column field="" title="操作" fixed="left" width="8%">
                 <template slot-scope="scope">
                   <div v-waves class="btn btn_info">
                     <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-13edit"></use>
                     </svg>
-                  </div>
-                </template>
-              </el-table-column>
-              <el-table-column
+                  </div> </template
+              ></vxe-column>
+              <vxe-column
                 v-for="(item, idx) in topMenuList"
                 :key="idx"
-                :prop="item.prop"
-                :column-key="item.prop"
-                :label="item.label"
-                :width="item.width"
-                :sortable="item.sortable"
-                :align="item.align"
-                :filters="[{ text: '去除值为0的元素', value: 0 }]"
+                width="16%"
+                :field="item.prop"
+                :title="item.label"
+                sortable
+                :filters="[{ label: '去除值为0的元素', value: 0 }]"
                 :filter-method="filterTag"
               >
                 <template slot-scope="scope">
@@ -141,9 +148,9 @@
                     scope.row[`${item.prop}`] | formatPercent
                   }}</span>
                   <span v-else>{{ scope.row[`${item.prop}`] }}</span>
-                </template>
-              </el-table-column>
-            </el-table>
+                </template></vxe-column
+              >
+            </vxe-table>
           </div>
         </div>
         <!-- 分页器 -->
@@ -343,14 +350,14 @@ export default {
       this.getDataFlag = false;
     },
     // 过滤
-    filterTag(value, row, column) {
-      return row[column.columnKey] !== value;
+    filterTag({ value, row, column }) {
+      return row[column.field] !== value;
     },
     // 排序
-    sortChange(val) {
+    sortChange({ column, property, order, sortBy, sortList, $event }) {
       const vm = this;
-      vm.form.sort_word = val.prop;
-      vm.form.sort_line = val.order === "descending" ? "DESC" : "ASC";
+      vm.form.sort_word = column.field;
+      vm.form.sort_line = order === "desc" ? "DESC" : "ASC";
       vm.searchVal = {
         ...vm.form,
         start_date: vm.form.search_date[0],

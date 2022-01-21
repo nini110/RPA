@@ -108,33 +108,40 @@
             ></VarifyDialog>
           </div>
           <div class="tableTab">
-            <el-table
-              v-if="tableData"
-              class="tableBox"
+            <vxe-table
+              ref="multipleTable"
               :data="tableData"
-              :highlight-current-row="true"
-              :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
-              height="0"
+              stripe
+              round
+              :column-config="{ resizable: true }"
+              :row-config="{ isCurrent: true, isHover: true }"
+              class="mytable-scrollbar"
+              auto-resize
+              height="auto"
             >
-              <el-table-column
-                type="index"
-                width="100"
-                label="序号"
-                align="center"
-              ></el-table-column>
-              <el-table-column
-                property="create_time_for"
-                label="日期"
-                min-width="200"
               >
-              </el-table-column>
-              <el-table-column
-                property="title"
-                label="基本信息"
-                min-width="200"
-              >
-              </el-table-column>
-              <el-table-column property="cheack" label="操作" width="150">
+              <template #empty>
+                <img src="@/assets/images/noneData3.png" />
+              </template>
+              <vxe-column
+                type="seq"
+                title="序号"
+                width="60"
+                fixed="left"
+              ></vxe-column>
+              <vxe-column
+                min-width="15%"
+                field="create_time_for"
+                title="日期"
+                show-overflow="tooltip"
+              ></vxe-column>
+              <vxe-column
+                min-width="15%"
+                field="title"
+                title="基本信息"
+                show-overflow="tooltip"
+              ></vxe-column>
+              <vxe-column title="操作" fixed="right" width="8%">
                 <template slot-scope="scope">
                   <div
                     v-waves
@@ -145,16 +152,9 @@
                       <use xlink:href="#icon-xinxi"></use>
                     </svg>
                   </div>
-                  <!-- <el-button
-                    v-waves
-                    class="btn btn_info el-icon-document"
-                    type="text"
-                    @click="detailEvent(scope.row)"
-                  >
-                  </el-button> -->
                 </template>
-              </el-table-column>
-            </el-table>
+              </vxe-column>
+            </vxe-table>
           </div>
         </div>
         <!-- 分页器 -->
@@ -416,10 +416,10 @@ export default {
     getuserlist() {
       const vm = this;
       function format(value) {
-        if(value < 10) {
-          return '0' + value
+        if (value < 10) {
+          return "0" + value;
         } else {
-          return value
+          return value;
         }
       }
       fxcjExamine({
@@ -438,8 +438,8 @@ export default {
             let h = format(time.getHours());
             let mm = format(time.getMinutes());
             let s = format(time.getSeconds());
-            let resTime = y + '-' + m + '-' + d + ' ' + h + ':' + mm + ':' + s
-            vm.$set(val, 'create_time_for', resTime)
+            let resTime = y + "-" + m + "-" + d + " " + h + ":" + mm + ":" + s;
+            vm.$set(val, "create_time_for", resTime);
           });
           vm.total = result.count;
         } else {

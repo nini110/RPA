@@ -52,54 +52,42 @@
         </div>
       </div>
       <div class="tabbles pricetable" ref="tabbles">
-        <el-table
+        <vxe-table
           ref="multipleTable"
           :data="tableData"
-          tooltip-effect="dark"
-          @selection-change="handleSelectionChange"
-          :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
+          stripe
+          round
+          :column-config="{ resizable: true }"
+          :row-config="{ isCurrent: true, isHover: true }"
+          class="mytable-scrollbar"
+          auto-resize
+          height="auto"
         >
-          <el-table-column
-            align="center"
-            type="selection"
-            width="100"
-            fixed="left"
           >
-          </el-table-column>
-          <el-table-column
-            align="center"
-            label="序号"
-            width="100"
-            type="index"
+          <template #empty>
+            <img src="@/assets/images/noneData3.png" />
+          </template>
+          <vxe-column
+            type="seq"
+            title="序号"
+            width="60"
             fixed="left"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="count"
-            label="状态"
-            width="150"
-            align="center"
-            fixed="left"
-          >
+          ></vxe-column>
+          <vxe-column field="count" title="状态" fixed="left" width="15%">
             <template slot-scope="scope">
               <div v-if="scope.row.status" class="statusDiv suc">使用中</div>
               <div v-else class="statusDiv fail">未使用</div>
-            </template>
-          </el-table-column>
-          <el-table-column
+            </template></vxe-column
+          >
+          <vxe-column
             v-for="(item, idx) in tabList"
             :key="idx"
-            :prop="item.prop"
-            :label="item.label"
-            :min-width="item.width"
-          >
-          </el-table-column>
-          <el-table-column
-            prop="address"
-            width="200"
-            label="操作"
-            fixed="right"
-          >
+            width="18%"
+            :field="item.prop"
+            :title="item.label"
+            show-overflow="tooltip"
+          ></vxe-column>
+          <vxe-column title="操作" fixed="right" width="10%">
             <template slot="header">
               操作
               <el-tooltip
@@ -115,7 +103,7 @@
               <div
                 v-waves
                 class="btn btn_info"
-                :class="{ 'dis': scope.row.status }"
+                :class="{ dis: scope.row.status }"
                 @click="editFn(2, scope.row)"
               >
                 <svg class="icon svg-icon titleicon" aria-hidden="true">
@@ -125,7 +113,7 @@
               <div
                 v-waves
                 class="btn btn_info"
-                :class="{ 'dis': scope.row.status }"
+                :class="{ dis: scope.row.status }"
                 @click="deleteFn(scope.row)"
               >
                 <svg class="icon svg-icon titleicon" aria-hidden="true">
@@ -133,8 +121,8 @@
                 </svg>
               </div>
             </template>
-          </el-table-column>
-        </el-table>
+          </vxe-column>
+        </vxe-table>
       </div>
       <div class="block">
         <el-pagination
@@ -305,7 +293,7 @@ export default {
         tipTitle: "确定删除当前策略信息：",
         curItem: `${row.name}？`,
         confirmButtonFn: () => {
-          vm.$msg({ type: "warining", msg: "暂无删除接口功能" });
+          vm.$msg({ type: "warning", msg: "暂无删除接口功能" });
         },
       });
     },

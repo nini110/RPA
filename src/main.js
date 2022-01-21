@@ -22,7 +22,10 @@ import './assets/fonts/iconfont.js';
 import router from './router'
 import * as echarts from 'echarts';
 
-// Vue.use(less)
+// table组件
+import 'xe-utils'
+import VXETable from 'vxe-table'
+import 'vxe-table/lib/style.css'
 
 import check from '@/utils/loginCheck.js';
 import Darkmode from 'darkmode-js';
@@ -45,7 +48,7 @@ const options = {
 // const darkmode = new Darkmode(options);
 // darkmode.showWidget();
 Vue.use(ElementUI);
-
+Vue.use(VXETable);
 Vue.prototype.check = check
 Vue.prototype.$axios = axios
 Vue.prototype.qs = qs

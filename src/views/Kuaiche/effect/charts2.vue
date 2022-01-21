@@ -165,7 +165,7 @@ export default {
           },
           enterable: true,
           position: function (point, params, dom, rect, size) {
-            return [point[0] - 20, point[1] - 20];
+            return [point[0] - 40, point[1] - 40];
           },
           backgroundColor: "#303133",
           borderColor: "#fff",

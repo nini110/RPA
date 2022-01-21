@@ -10,57 +10,64 @@
         >新建项目
       </el-button>
       <div class="tabbles itemtable" ref="tabbles">
-        <el-table
-          class="tableBox"
+        <vxe-table
+          ref="xtable"
           :data="tableData"
-          highlight-current-row
-          :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
           stripe
+          round
+          :column-config="{ resizable: true }"
+          :row-config="{ isCurrent: true, isHover: true }"
+          class="mytable-scrollbar"
+          auto-resize
+          height="auto"
         >
-          <el-table-column type="selection" align="center" width="100">
-          </el-table-column>
-          <el-table-column label="序号" type="index" fixed="left" width="100">
-          </el-table-column>
-          <el-table-column
-            prop="project_name"
-            label="项目名称"
-            fixed="left"
-            width='240'
-            show-overflow-tooltip
           >
-          </el-table-column>
-          <el-table-column
+          <template #empty>
+            <img src="@/assets/images/noneData3.png" />
+          </template>
+          <vxe-column
+            type="seq"
+            title="序号"
+            width="60"
+            fixed="left"
+          ></vxe-column>
+          <vxe-column
+            field="project_name"
+            title="项目名称"
+            fixed="left"
+            width="15%"
+            show-overflow="tooltip"
+          ></vxe-column>
+          <vxe-column
             v-for="(item, idx) in tabList"
             :key="idx"
-            :prop="item.prop"
-            :label="item.label"
-            :min-width='item.width'
-            show-overflow-tooltip
-          >
-          </el-table-column>
-          <el-table-column
-            prop="castTime"
-            label="投放时间"
-            width="200"
-            show-overflow-tooltip
-          >
+            width="18%"
+            :field="item.prop"
+            :title="item.label"
+            show-overflow="tooltip"
+          ></vxe-column>
+          <vxe-column field="castTime" title="投放时间" width="20%">
             <template slot-scope="scope">
               <div>{{ scope.row.castTime[0] }}</div>
               <div>{{ scope.row.castTime[1] }}</div>
-            </template>
-          </el-table-column>
-          <el-table-column
-            label="操作"
-            fixed="right"
-            width="240"
+            </template></vxe-column
           >
+          <vxe-column title="操作" fixed="right" width="12%">
             <template slot-scope="scope">
-              <div v-waves class="btn btn_info" @click="createEvent(2, scope.row.id)">
+              <div
+                v-waves
+                class="btn btn_info"
+                @click="createEvent(2, scope.row.id)"
+              >
                 <svg class="icon svg-icon titleicon" aria-hidden="true">
                   <use xlink:href="#icon-13edit"></use>
                 </svg>
               </div>
-              <div v-waves class="btn btn_info" @click="routerLink(scope.row.id, scope.row.project_name)">
+              <div
+                v-waves
+                class="btn btn_info"
+                @click="routerLink(scope.row.id, scope.row.project_name)"
+              >
                 <svg class="icon svg-icon titleicon" aria-hidden="true">
                   <use xlink:href="#icon-yewukanban"></use>
                 </svg>
@@ -71,8 +78,8 @@
                 </svg>
               </div>
             </template>
-          </el-table-column>
-        </el-table>
+          </vxe-column>
+        </vxe-table>
       </div>
       <div class="block">
         <el-pagination
@@ -186,7 +193,7 @@ export default {
     },
     routerLink(ids, names) {
       const { href } = this.$router.resolve({
-        path: '/layout/qianchuan/realTime',
+        path: "/layout/qianchuan/realTime",
         query: {
           id: ids,
           name: names,
