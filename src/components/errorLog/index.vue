@@ -10,50 +10,47 @@
       :close-on-click-modal="false"
       @close="closeEvent"
     >
-      <el-table
+      <vxe-table
         :data="errorLogs"
-        :height="600"
-        class="detail_body"
-        :highlight-current-row="true"
-        :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
+        stripe
+        round
+        :column-config="{ resizable: true }"
+        :row-config="{ isCurrent: true, isHover: true }"
+        class="mytable-scrollbar drawerTable"
       >
-        <el-table-column label="Message">
+        >
+        <template #empty>
+          <span></span>
+        </template>
+        <vxe-column field="keyword" title="错误信息" min-width="15%">
           <template slot-scope="{ row }">
             <div>
               <span class="message-title">信息:</span>
-              <el-tag type="danger">
-                {{ row.err.message }}
-              </el-tag>
+              <span class="message-cot message-cot-danger">{{
+                row.err.message
+              }}</span>
             </div>
             <br />
             <div>
               <span class="message-title">钩子: </span>
-              <el-tag type="info">
-                {{ row.vm.$vnode.tag }} error in {{ row.info }}
-              </el-tag>
+              <span class="message-cot message-cot-info"
+                >{{ row.vm.$vnode.tag }} error in {{ row.info }}</span
+              >
             </div>
             <br />
             <div>
               <span class="message-title">页面: </span>
-              <el-tag>
-                {{ row.url }}
-              </el-tag>
+              <span class="message-cot message-cot-suc">{{ row.url }}</span>
             </div>
-          </template>
-        </el-table-column>
-        <el-table-column label="Stack">
-          <template slot-scope="{ row }">
-            <p class="message-title" v-html="row.err.stack"></p>
-          </template>
-        </el-table-column>
-      </el-table>
-      <span slot="footer" class="dialog-footer">
-        <el-button
-          v-waves
-          type="primary"
-          @click="clearAll"
-          >确定</el-button
+          </template></vxe-column
         >
+        <vxe-column field="keyword" title="位置" min-width="15%">
+          <template slot-scope="{ row }">
+            <p class="message-inf" v-html="row.err.stack"></p> </template
+        ></vxe-column>
+      </vxe-table>
+      <span slot="footer" class="dialog-footer">
+        <el-button v-waves type="primary" @click="clearAll">确定</el-button>
       </span>
     </el-dialog>
   </div>
@@ -109,9 +106,36 @@ export default {
 
 .message {
   &-title {
-    font-size: 12px;
+    display: inline-block;
+    width: 10%;
+    vertical-align: middle;
+    font-size: 14px;
+    line-height: 36px;
     color: #606266;
     padding-right: 8px;
+  }
+  &-inf {
+        font-size: 14px;
+    line-height: 20px;
+  }
+  &-cot {
+    display: inline-block;
+    vertical-align: middle;
+    width: 80%;
+    border-radius: 5px;
+    padding: 5px 10px;
+    color: #606266;
+    font-size: 18px;
+    line-height: 30px;
+    &-info {
+      background-color: #c0c4cc65;
+    }
+    &-danger {
+      background-color: #f56c6c54 ;
+    }
+    &-suc {
+      background-color: #5cbb7a5e;
+    }
   }
 }
 </style>

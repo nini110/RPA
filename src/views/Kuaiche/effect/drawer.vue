@@ -9,116 +9,128 @@
     <el-divider
       ><i :class="table[0].icon">{{ table[0].txt }}</i></el-divider
     >
-    <vxe-table
-      :data="table[0].drawerData"
-      border="outer"
-      stripe
-      round
-      :column-config="{ resizable: true }"
-      :row-config="{ isCurrent: true, isHover: true }"
-      class="mytable-scrollbar drawerTable"
-    >
+    <div class="drawerTable">
+      <vxe-table
+        :data="table[0].drawerData"
+        stripe
+        round
+        :column-config="{ resizable: true }"
+        :row-config="{ isCurrent: true, isHover: true }"
+        class="mytable-scrollbar"
+        auto-resize
+        height="auto"
       >
-      <template #empty>
-        <span></span>
-      </template>
-      <vxe-column
-        v-for="(item1, idx1) in table[0].tabList"
-        :key="idx1"
-        min-width="15%"
-        :field="item1.prop"
-        :title="item1.label"
-        show-overflow="tooltip"
-      ></vxe-column>
-    </vxe-table>
+        >
+        <template #empty>
+          <span></span>
+        </template>
+        <vxe-column
+          v-for="(item1, idx1) in table[0].tabList"
+          :key="idx1"
+          min-width="15%"
+          :field="item1.prop"
+          :title="item1.label"
+          show-overflow="tooltip"
+        ></vxe-column>
+      </vxe-table>
+    </div>
+
     <!-- ------------------------------- -->
     <el-divider
       ><i :class="table[1].icon">{{ table[1].txt }}</i></el-divider
     >
-    <vxe-table
-      :data="table[1].drawerData"
-      border="outer"
-      stripe
-      round
-      :column-config="{ resizable: true }"
-      :row-config="{ isCurrent: true, isHover: true }"
-      class="mytable-scrollbar drawerTable"
-
-    >
+    <div class="drawerTable">
+      <vxe-table
+        :data="table[1].drawerData"
+        stripe
+        round
+        :column-config="{ resizable: true }"
+        :row-config="{ isCurrent: true, isHover: true }"
+        class="mytable-scrollbar"
+        auto-resize
+        height="auto"
       >
-      <template #empty>
-        <span></span>
-      </template>
-      <vxe-column
-        v-for="(item1, idx1) in table[1].tabList"
-        :key="idx1"
-        min-width="15%"
-        :field="item1.prop"
-        :title="item1.label"
-        show-overflow="tooltip"
-      ></vxe-column>
-    </vxe-table>
+        >
+        <template #empty>
+          <span></span>
+        </template>
+        <vxe-column
+          v-for="(item1, idx1) in table[1].tabList"
+          :key="idx1"
+          min-width="15%"
+          :field="item1.prop"
+          :title="item1.label"
+          show-overflow="tooltip"
+        ></vxe-column>
+      </vxe-table>
+    </div>
+
     <!-- 调价详情 -->
     <el-divider
       ><i :class="table[2].icon">{{ table[2].txt }}</i></el-divider
     >
-    <vxe-table
-      :data="table[2].drawerDataAi"
-      border="outer"
-      stripe
-      round
-      :column-config="{ resizable: true }"
-      :row-config="{ isCurrent: true, isHover: true }"
-      class="mytable-scrollbar drawerTable ts"
-
-    >
+    <div class="drawerTable ts">
+      <vxe-table
+        :data="table[2].drawerDataAi"
+        stripe
+        round
+        :column-config="{ resizable: true }"
+        :row-config="{ isCurrent: true, isHover: true }"
+        class="mytable-scrollbar"
+        auto-resize
+        height="auto"
       >
-      <template #empty>
-        <span></span>
-      </template>
-      <vxe-colgroup
-        title="算法调价"
-        v-for="(item1, idx1) in table[2].tabListAi"
-        :key="idx1"
+        >
+        <template #empty>
+          <span></span>
+        </template>
+        <vxe-colgroup
+          title="算法调价"
+          v-for="(item1, idx1) in table[2].tabListAi"
+          :key="idx1"
+        >
+          <vxe-column
+            v-for="(item2, idx2) in item1.children"
+            :key="idx2"
+            min-width="15%"
+            :field="item2.prop"
+            :title="item2.label"
+            show-overflow="tooltip"
+          ></vxe-column>
+        </vxe-colgroup>
+      </vxe-table>
+    </div>
+    <div class="drawerTable ts">
+      <vxe-table
+        :data="table[2].drawerDataPer"
+        stripe
+        round
+        :column-config="{ resizable: true }"
+        :row-config="{ isCurrent: true, isHover: true }"
+        class="mytable-scrollbar"
+        auto-resize
+        height="auto"
       >
-        <vxe-column
-          v-for="(item2, idx2) in item1.children"
-          :key="idx2"
-          min-width="15%"
-          :field="item2.prop"
-          :title="item2.label"
-          show-overflow="tooltip"
-        ></vxe-column>
-      </vxe-colgroup>
-    </vxe-table>
-    <vxe-table
-      :data="table[2].drawerDataAi"
-      border="outer"
-      stripe
-      round
-      :column-config="{ resizable: true }"
-      :row-config="{ isCurrent: true, isHover: true }"
-      class="mytable-scrollbar drawerTable ts"
-    >
-      >
-      <template #empty>
-        <span></span>
-      </template>
-      <vxe-colgroup
-        title="人工调价"
-        v-for="(item1, idx1) in table[2].tabListPer"
-        :key="idx1"
-      >
-        <vxe-column
-          v-for="(item2, idx2) in item1.children"
-          :key="idx2"
-          min-width="15%"
-          :field="item2.prop"
-          :title="item2.label"
-          show-overflow="tooltip"
-        ></vxe-column>
-      </vxe-colgroup>
-    </vxe-table>
+        >
+        <template #empty>
+          <span></span>
+        </template>
+        <vxe-colgroup
+          title="人工调价"
+          v-for="(item1, idx1) in table[2].tabListPer"
+          :key="idx1"
+        >
+          <vxe-column
+            v-for="(item2, idx2) in item1.children"
+            :key="idx2"
+            min-width="15%"
+            :field="item2.prop"
+            :title="item2.label"
+            show-overflow="tooltip"
+          ></vxe-column>
+        </vxe-colgroup>
+      </vxe-table>
+    </div>
   </el-drawer>
 </template>
 <script>
@@ -316,17 +328,9 @@ export default {
 
   &.ts {
     width: 50%;
-    height: 40%;
+    height: 45%;
     display: inline-block;
     vertical-align: top;
-  }
-
-  .el-table {
-    height: calc(100% - 50px) !important;
-
-    &:before {
-      display: none;
-    }
   }
 }
 </style>

@@ -118,7 +118,6 @@
         <Upload
           class="tes"
           txt="请上传xlsx文件，通过搜索添加上传人员，双击上传人员可删除"
-          :progressPercent="form.progressPercent"
           @getFile="getFileEvent"
         ></Upload>
       </div>
@@ -162,7 +161,6 @@ export default {
         checkedActions: [],
         checkAll: false,
         isIndeterminate: false,
-        progressPercent: 0,
       },
       rules: {
         bidId: [
@@ -300,7 +298,6 @@ export default {
             }
             immediatelyUpload(data).then((res) => {
               if (res.data.code == 10000) {
-                vm.form.progressPercent = 100;
                 vm.handleSuccess();
                 vm.$emit("close", "suc");
                 vm.$msg({ msg: "上传成功" });

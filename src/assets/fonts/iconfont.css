@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2894766 */
-  src: url('iconfont.woff2?t=1641869660559') format('woff2'),
-       url('iconfont.woff?t=1641869660559') format('woff'),
-       url('iconfont.ttf?t=1641869660559') format('truetype');
+  src: url('iconfont.woff2?t=1643007354257') format('woff2'),
+       url('iconfont.woff?t=1643007354257') format('woff'),
+       url('iconfont.ttf?t=1643007354257') format('truetype');
 }
 
 .iconfont {
@@ -11,10 +11,6 @@
   font-style: normal;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-.icon-ladybug:before {
-  content: "\edaa";
 }
 
 .icon-bug-report:before {
@@ -41,24 +37,12 @@
   content: "\e62c";
 }
 
-.icon-huodong1:before {
-  content: "\e671";
-}
-
-.icon-049-file:before {
-  content: "\e6fa";
-}
-
 .icon-caozuorizhi:before {
   content: "\e66e";
 }
 
 .icon-wodehuodong:before {
   content: "\e604";
-}
-
-.icon-jurassic_open:before {
-  content: "\e6cc";
 }
 
 .icon-yewukanban:before {
@@ -105,80 +89,12 @@
   content: "\e630";
 }
 
-.icon-jinggao:before {
-  content: "\ecab";
-}
-
-.icon-jianzhibiaoge:before {
-  content: "\e652";
-}
-
-.icon-lunbobiaoge:before {
-  content: "\e62f";
-}
-
-.icon-shichangjiandu:before {
-  content: "\e653";
-}
-
-.icon-yusuanzhaobiaoxiangmu:before {
-  content: "\e6b1";
-}
-
-.icon-huodong:before {
-  content: "\e60d";
-}
-
-.icon-pinpai:before {
-  content: "\e662";
-}
-
-.icon-celveshishi:before {
-  content: "\e72c";
-}
-
-.icon-daochumoban:before {
-  content: "\e69c";
-}
-
 .icon-user__easyico:before {
   content: "\e606";
 }
 
-.icon-sangjitu1:before {
-  content: "\e66f";
-}
-
-.icon-monitor-tv-svgrepo-com:before {
-  content: "\e70b";
-}
-
-.icon--bingzhuangtu:before {
-  content: "\e844";
-}
-
-.icon-xiaoguofenxi:before {
-  content: "\e660";
-}
-
-.icon-caijiandan:before {
-  content: "\e6ac";
-}
-
 .icon-13edit:before {
   content: "\e62a";
-}
-
-.icon-015-file:before {
-  content: "\e6f1";
-}
-
-.icon-shangpincanshumoban:before {
-  content: "\e61d";
-}
-
-.icon-excel:before {
-  content: "\e61e";
 }
 
 .icon-yujingfenxi:before {
@@ -197,10 +113,6 @@
   content: "\e8dd";
 }
 
-.icon-fawenguanli:before {
-  content: "\e603";
-}
-
 .icon--:before {
   content: "\e61c";
 }
@@ -215,10 +127,6 @@
 
 .icon-baobiao:before {
   content: "\e902";
-}
-
-.icon-toufang:before {
-  content: "\e643";
 }
 
 .icon-houtaiguanli-quanxianguanli:before {

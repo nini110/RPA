@@ -6,7 +6,7 @@ const routes = [{
 	}, {
 		path: '/login',
 		name: 'login',
-		component: () => import("@/views/Login/index.vue"),
+		component: () => import(/* webpackChunkName: "R_Login"*/"@/views/Login/index.vue"),
 		meta: {
 			layout: 'login',
 			deep: 1
@@ -34,7 +34,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BeijingMustPass'
 						},
-						component: () => import("@/views/BeijingMustPass"),
+						component: () => import(/* webpackChunkName: "R_DMP"*/"@/views/BeijingMustPass"),
 					},
 					{
 						path: 'Booth',
@@ -44,7 +44,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BeijingMustPass'
 						},
-						component: () => import("@/views/BeijingMustPass"),
+						component: () => import(/* webpackChunkName: "R_Booth"*/"@/views/BeijingMustPass"),
 					},
 					{
 						path: 'Direct',
@@ -54,7 +54,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BeijingMustPass'
 						},
-						component: () => import("@/views/BeijingMustPass"),
+						component: () => import(/* webpackChunkName: "R_Direct"*/"@/views/BeijingMustPass"),
 					},
 					{
 						path: 'Cube',
@@ -64,7 +64,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BeijingMustPass'
 						},
-						component: () => import("@/views/BeijingMustPass"),
+						component: () => import(/* webpackChunkName: "R_Cube"*/"@/views/BeijingMustPass"),
 					},
 					{
 						path: 'People',
@@ -74,7 +74,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BeijingMustPass'
 						},
-						component: () => import("@/views/BeijingMustPass"),
+						component: () => import(/* webpackChunkName: "R_People"*/"@/views/BeijingMustPass"),
 					},
 					{
 						path: 'GoShop',
@@ -84,7 +84,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BeijingMustPass'
 						},
-						component: () => import("@/views/BeijingMustPass"),
+						component: () => import(/* webpackChunkName: "R_GOshop"*/"@/views/BeijingMustPass"),
 					},
 					// {
 					// 	path: 'Mail',
@@ -108,7 +108,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BeijingMustPass'
 						},
-						component: () => import("@/views/BigData"),
+						component: () => import(/* webpackChunkName: "R_Number"*/"@/views/BigData"),
 					},
 					{
 						path: 'activity',
@@ -118,7 +118,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BigData'
 						},
-						component: () => import("@/views/BigData"),
+						component: () => import(/* webpackChunkName: "R_Activity"*/"@/views/BigData"),
 					},
 					{
 						path: 'analysis',
@@ -128,7 +128,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BigData'
 						},
-						component: () => import("@/views/BigData"),
+						component: () => import(/* webpackChunkName: "R_Analysis"*/"@/views/BigData"),
 					},
 					{
 						path: 'difference',
@@ -138,7 +138,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BigData'
 						},
-						component: () => import("@/views/BigData"),
+						component: () => import(/* webpackChunkName: "R_Difference"*/"@/views/BigData"),
 					},
 					{
 						path: 'population',
@@ -148,7 +148,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BigData'
 						},
-						component: () => import("@/views/BigData"),
+						component: () => import(/* webpackChunkName: "R_Population"*/"@/views/BigData"),
 					},
 				]
 			},
@@ -168,7 +168,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'DataApplication/tabulation'
 						},
-						component: () => import("@/views/DataApplication/tabulation"),
+						component: () => import(/* webpackChunkName: "R_tabulation"*/"@/views/DataApplication/tabulation"),
 					},
 					{
 						path: 'monitor',
@@ -178,7 +178,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'DataApplication/monitor'
 						},
-						component: () => import("@/views/DataApplication/monitor"),
+						component: () => import(/* webpackChunkName: "R_Monitor"*/"@/views/DataApplication/monitor"),
 					},
 					{
 						path: 'snake',
@@ -188,7 +188,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'DataApplication/snake'
 						},
-						component: () => import("@/views/DataApplication/snake"),
+						component: () => import(/* webpackChunkName: "R_Sanke"*/"@/views/DataApplication/snake"),
 					}
 				]
 			},
@@ -242,7 +242,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'Qianchuan/items'
 						},
-						component: () => import("@/views/Qianchuan/items"),
+						component: () => import(/* webpackChunkName: "R_Items"*/"@/views/Qianchuan/items"),
 					},
 					{
 						path: 'strategy',
@@ -252,7 +252,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'Qianchuan/strategy'
 						},
-						component: () => import("@/views/Qianchuan/strategy")
+						component: () => import(/* webpackChunkName: "R_Strategy"*/"@/views/Qianchuan/strategy")
 					},
 					{
 						path: 'modules',
@@ -262,7 +262,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'Qianchuan/modules'
 						},
-						component: () => import("@/views/Qianchuan/modules"),
+						component: () => import(/* webpackChunkName: "R_Modules"*/"@/views/Qianchuan/modules"),
 					},
 					{
 						path: 'realTime',
@@ -272,7 +272,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'Qianchuan/realTime'
 						},
-						component: () => import("@/views/Qianchuan/realTime"),
+						component: () => import(/* webpackChunkName: "R_Realtime"*/"@/views/Qianchuan/realTime"),
 					}
 					// {
 					// 	path: 'plan',
@@ -301,7 +301,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BudgetAlarm/alarm'
 						},
-						component: () => import("@/views/BudgetAlarm/alarm"),
+						component: () => import(/* webpackChunkName: "R_Alarm"*/"@/views/BudgetAlarm/alarm"),
 					},
 					{
 						path: 'budget',
@@ -311,7 +311,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'BudgetAlarm/alarm'
 						},
-						component: () => import("@/views/BudgetAlarm/alarm"),
+						component: () => import(/* webpackChunkName: "R_Budget"*/"@/views/BudgetAlarm/alarm"),
 					}
 				]
 			},
@@ -331,7 +331,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'Kuaiche/effect'
 						},
-						component: () => import("@/views/Kuaiche/effect"),
+						component: () => import(/* webpackChunkName: "R_effect"*/"@/views/Kuaiche/effect"),
 					},
 					{
 						path: 'charts',
@@ -341,7 +341,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'Kuaiche/effect'
 						},
-						component: () => import("@/views/Kuaiche/effect")
+						component: () => import(/* webpackChunkName: "R_effect"*/"@/views/Kuaiche/effect")
 					}
 				]
 			},
@@ -362,7 +362,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'PublicData/bidding'
 						},
-						component: () => import("@/views/PublicData/bidding"),
+						component: () => import(/* webpackChunkName: "R_Bidding"*/"@/views/PublicData/bidding"),
 
 					},
 					{
@@ -373,7 +373,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'PublicData/active'
 						},
-						component: () => import("@/views/PublicData/active"),
+						component: () => import(/* webpackChunkName: "R_Active"*/"@/views/PublicData/active"),
 
 					},
 					{
@@ -384,7 +384,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'PublicData/market'
 						},
-						component: () => import("@/views/PublicData/market"),
+						component: () => import(/* webpackChunkName: "R_Market"*/"@/views/PublicData/market"),
 
 					},
 					{
@@ -395,7 +395,7 @@ const routes = [{
 							deep: 3,
 							filePath: 'PublicData/brand'
 						},
-						component: () => import("@/views/PublicData/brand"),
+						component: () => import(/* webpackChunkName: "R_Brand"*/"@/views/PublicData/brand"),
 					}
 				]
 			},
@@ -407,7 +407,7 @@ const routes = [{
 		meta: {
 			deep: 1
 		},
-		component: () => import("@/views/404"),
+		component: () => import(/* webpackChunkName: "R_404"*/"@/views/404"),
 	},
 
 ]

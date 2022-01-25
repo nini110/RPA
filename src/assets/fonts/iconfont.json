@@ -6,13 +6,6 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "3571605",
-      "name": "ladybug",
-      "font_class": "ladybug",
-      "unicode": "edaa",
-      "unicode_decimal": 60842
-    },
-    {
       "icon_id": "14772648",
       "name": "bug-report",
       "font_class": "bug-report",
@@ -55,20 +48,6 @@
       "unicode_decimal": 58924
     },
     {
-      "icon_id": "17456838",
-      "name": "活动",
-      "font_class": "huodong1",
-      "unicode": "e671",
-      "unicode_decimal": 58993
-    },
-    {
-      "icon_id": "21479135",
-      "name": "文件",
-      "font_class": "049-file",
-      "unicode": "e6fa",
-      "unicode_decimal": 59130
-    },
-    {
       "icon_id": "6716814",
       "name": "操作日志",
       "font_class": "caozuorizhi",
@@ -81,13 +60,6 @@
       "font_class": "wodehuodong",
       "unicode": "e604",
       "unicode_decimal": 58884
-    },
-    {
-      "icon_id": "10789838",
-      "name": "打开_操作_jurassic",
-      "font_class": "jurassic_open",
-      "unicode": "e6cc",
-      "unicode_decimal": 59084
     },
     {
       "icon_id": "12413472",
@@ -167,69 +139,6 @@
       "unicode_decimal": 58928
     },
     {
-      "icon_id": "24732507",
-      "name": "警告",
-      "font_class": "jinggao",
-      "unicode": "ecab",
-      "unicode_decimal": 60587
-    },
-    {
-      "icon_id": "15182630",
-      "name": "键值表格",
-      "font_class": "jianzhibiaoge",
-      "unicode": "e652",
-      "unicode_decimal": 58962
-    },
-    {
-      "icon_id": "17320787",
-      "name": "轮播表格",
-      "font_class": "lunbobiaoge",
-      "unicode": "e62f",
-      "unicode_decimal": 58927
-    },
-    {
-      "icon_id": "10572505",
-      "name": "市场监督",
-      "font_class": "shichangjiandu",
-      "unicode": "e653",
-      "unicode_decimal": 58963
-    },
-    {
-      "icon_id": "13635420",
-      "name": "预算招标项目",
-      "font_class": "yusuanzhaobiaoxiangmu",
-      "unicode": "e6b1",
-      "unicode_decimal": 59057
-    },
-    {
-      "icon_id": "20839875",
-      "name": "活动",
-      "font_class": "huodong",
-      "unicode": "e60d",
-      "unicode_decimal": 58893
-    },
-    {
-      "icon_id": "23284361",
-      "name": "品牌",
-      "font_class": "pinpai",
-      "unicode": "e662",
-      "unicode_decimal": 58978
-    },
-    {
-      "icon_id": "12113712",
-      "name": "策略实施",
-      "font_class": "celveshishi",
-      "unicode": "e72c",
-      "unicode_decimal": 59180
-    },
-    {
-      "icon_id": "15837364",
-      "name": "导出模板",
-      "font_class": "daochumoban",
-      "unicode": "e69c",
-      "unicode_decimal": 59036
-    },
-    {
       "icon_id": "1973188",
       "name": "男头像",
       "font_class": "user__easyico",
@@ -237,67 +146,11 @@
       "unicode_decimal": 58886
     },
     {
-      "icon_id": "14310101",
-      "name": "桑基图",
-      "font_class": "sangjitu1",
-      "unicode": "e66f",
-      "unicode_decimal": 58991
-    },
-    {
-      "icon_id": "21241400",
-      "name": "监控",
-      "font_class": "monitor-tv-svgrepo-com",
-      "unicode": "e70b",
-      "unicode_decimal": 59147
-    },
-    {
-      "icon_id": "3869001",
-      "name": "14-饼状图",
-      "font_class": "-bingzhuangtu",
-      "unicode": "e844",
-      "unicode_decimal": 59460
-    },
-    {
-      "icon_id": "11895476",
-      "name": "效果分析",
-      "font_class": "xiaoguofenxi",
-      "unicode": "e660",
-      "unicode_decimal": 58976
-    },
-    {
-      "icon_id": "15551422",
-      "name": "裁剪单",
-      "font_class": "caijiandan",
-      "unicode": "e6ac",
-      "unicode_decimal": 59052
-    },
-    {
       "icon_id": "16017191",
       "name": "13edit",
       "font_class": "13edit",
       "unicode": "e62a",
       "unicode_decimal": 58922
-    },
-    {
-      "icon_id": "21479103",
-      "name": "图片文件",
-      "font_class": "015-file",
-      "unicode": "e6f1",
-      "unicode_decimal": 59121
-    },
-    {
-      "icon_id": "6468450",
-      "name": "商品参数模板",
-      "font_class": "shangpincanshumoban",
-      "unicode": "e61d",
-      "unicode_decimal": 58909
-    },
-    {
-      "icon_id": "13301872",
-      "name": "excel",
-      "font_class": "excel",
-      "unicode": "e61e",
-      "unicode_decimal": 58910
     },
     {
       "icon_id": "20411236",
@@ -328,13 +181,6 @@
       "unicode_decimal": 59613
     },
     {
-      "icon_id": "2740273",
-      "name": "发文管理",
-      "font_class": "fawenguanli",
-      "unicode": "e603",
-      "unicode_decimal": 58883
-    },
-    {
       "icon_id": "3808691",
       "name": "报表",
       "font_class": "-",
@@ -361,13 +207,6 @@
       "font_class": "baobiao",
       "unicode": "e902",
       "unicode_decimal": 59650
-    },
-    {
-      "icon_id": "9863854",
-      "name": "Put in",
-      "font_class": "toufang",
-      "unicode": "e643",
-      "unicode_decimal": 58947
     },
     {
       "icon_id": "24161349",

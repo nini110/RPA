@@ -21,7 +21,7 @@
       height="500"
     >
       >
-      <vxe-column type="seq" title="序号" width="60" fixed="left"></vxe-column>
+      <vxe-column type="seq" title="序号" width="8%" fixed="left"></vxe-column>
       <vxe-column field="bidding_id" title="当日预算" min-width="20%">
         <template slot-scope="scope">
           <div class="input-box">

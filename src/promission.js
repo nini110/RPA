@@ -36,7 +36,7 @@ function handleRoutes(menuList) {
     if (!menuList || menuList.length <= 0) {
         return
     }
-    let whitelist = ['19261', '19302', '20306', '1020108', '21400']
+    let whitelist = ['19261', '19302', '20306', '1020108', '21400', '14026', '15443', '18179', '15056', '18327']
     let userid = localStorage.getItem('wx_userid')
     for (let i in whitelist) {
         if (whitelist[i] === userid) {

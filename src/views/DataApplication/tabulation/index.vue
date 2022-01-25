@@ -78,7 +78,6 @@
             <el-col :span="8">
               <el-form-item label="" :error="errorUploadInfo">
                 <Upload
-                  :progressPercent="progressPercent"
                   @getFile="getFileEvent"
                 ></Upload>
               </el-form-item>
@@ -147,11 +146,11 @@
               <template #empty>
                 <img src="@/assets/images/noneData3.png" />
               </template>
-              <vxe-column type="checkbox" width="60" fixed="left"></vxe-column>
+              <vxe-column type="checkbox" width="3%" fixed="left"></vxe-column>
               <vxe-column
                 type="seq"
                 title="序号"
-                width="60"
+                width="5%"
                 fixed="left"
               ></vxe-column>
               <vxe-column
@@ -262,7 +261,6 @@ export default {
       checkedItem: {},
       tableData: [],
       fileList: [], // excel文件列表
-      progressPercent: 0,
       outerTableHeight: "cls2",
       pickerOptionsStart: {
         disabledDate: (time) => {
@@ -375,7 +373,6 @@ export default {
       vm.form.date = "";
       vm.dataState = "";
       vm.fileList = [];
-      vm.progressPercent = 0;
       vm.dateDis = true;
       if (val) {
         vm.dateDis = false;
@@ -438,7 +435,6 @@ export default {
         username: localStorage.getItem("user_name"),
       }).then((res) => {
         vm.getTableData();
-        vm.progressPercent = 100;
         if (res.data.msg === "success") {
           vm.$msg({ type: "warning", msg: "生成中" });
         } else {
@@ -537,7 +533,6 @@ export default {
       vm.fileList = [];
       vm.tableData = [];
       vm.total = null;
-      vm.progressPercent = 0;
       vm.$refs.form.resetFields();
     },
     //分页器功能

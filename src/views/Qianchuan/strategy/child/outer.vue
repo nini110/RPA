@@ -70,7 +70,7 @@
           <vxe-column
             type="seq"
             title="序号"
-            width="60"
+            width="5%"
             fixed="left"
           ></vxe-column>
           <vxe-column field="count" title="状态" fixed="left" width="15%">

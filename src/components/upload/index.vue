@@ -19,27 +19,12 @@
         {{ txt }}
       </div>
     </el-upload>
-    <div v-if="showPros" style="width: 360px">
-      <el-progress
-        v-if="!progressPercent"
-        :percentage="progressPercent"
-      ></el-progress>
-      <el-progress
-        v-if="progressPercent"
-        :percentage="progressPercent"
-        status="success"
-      ></el-progress>
-    </div>
   </div>
 </template>
 <script>
 export default {
   name: "varifyDialog",
   props: {
-    progressPercent: {
-      default: 0,
-      type: Number,
-    },
     txt: {
       default: "请先上传xlsx文件后，再进行执行操作",
       type: String,
@@ -73,7 +58,6 @@ export default {
     // 文件状态改变时的钩子
     fileChange(file, fileList) {
       this.fileList.push(file.raw);
-      //   this.progressPercent = 0;
       this.$emit("getFile", this.fileList);
     },
     //文件列表移除时的钩子

@@ -62,7 +62,6 @@
               <el-col :span="8">
                 <el-form-item label="" :error="errorUpInfo">
                   <Upload
-                    :progressPercent="progressPercent"
                     @getFile="getFileEvent"
                   ></Upload>
                 </el-form-item>
@@ -126,7 +125,7 @@
               <vxe-column
                 type="seq"
                 title="序号"
-                width="60"
+                width="5%"
                 fixed="left"
               ></vxe-column>
               <vxe-column
@@ -368,7 +367,6 @@ export default {
         pin: "",
         choose: 1,
       },
-      progressPercent: 0,
       fileList: [], // excel文件列表
       loadingbut: false,
       loadingbuttext: "执行",
@@ -405,7 +403,6 @@ export default {
       }).then((res) => {
         if (res.data.code == 10000) {
           vm.errorUpInfo = "";
-          vm.progressPercent = 100;
           vm.msg = res.data.code;
           vm.fileList = [];
           vm.$msg({ msg: "上传成功" });
@@ -498,7 +495,6 @@ export default {
           });
           vm.msg = "";
           vm.fileList = [];
-          vm.progressPercent = 0;
         }
       });
     },
