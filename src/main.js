@@ -6,11 +6,11 @@ import axios from 'axios'
 import qs from 'qs'
 import router from './router'
 //ElementUI按需引入
-import './moduleSet/elementui.js';
-// echarts按需引入
-import './moduleSet/echarts.js'
+import '@/moduleSet/elementui.js';
 // VXEtable组件
-import './moduleSet/vxetable.js';
+import '@/moduleSet/vxetable.js';
+// echarts按需引入，该项目采用在组件中引入
+import '@/moduleSet/echarts.js'
 import './utils/global'// 全局
 // 自定义指令文件
 import directives from '@/directive'

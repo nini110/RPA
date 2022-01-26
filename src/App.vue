@@ -1,24 +1,19 @@
 <template>
 	<div id="app">
-		<Header></Header>
 		<transition name="el-fade-in-linear">
 			<router-view/>
 		</transition>
 	</div>
 </template>
 <script>
-	import Header from '@/components/Header'
 	export default {
 		name: "App",
-		components: {
-			Header
-		},
 		data() {
 			return {};
 		},
 		created() {
 			// 线上发布时created中所有都注释
-			// this.$route.query.wx_code = "J91bfrdasgdKe4STULYwRO4eSGI5ki_4VMlwTnk6TEA";
+			// this.$route.query.wx_code = "BEfkeue0pXfd22xCDZfq81qJ9zeGgUvHgMY1skod_ng";
 			// this.$route.query.wx_userid = "1020108";
 			// this.$route.query.user_name = "方涛";
 			// localStorage.setItem("wx_code", this.$route.query.wx_code);

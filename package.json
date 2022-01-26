@@ -11,6 +11,7 @@
     "axios": "^0.21.1",
     "core-js": "^3.6.5",
     "darkmode-js": "^1.5.7",
+    "dayjs": "^1.10.7",
     "echarts": "^5.1.2",
     "element-ui": "^2.15.5",
     "ex-table-column": "^1.1.2",
@@ -30,6 +31,7 @@
     "xe-utils": "^3.5.2"
   },
   "devDependencies": {
+    "@babel/plugin-syntax-dynamic-import": "^7.8.3",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",
     "@vue/cli-service": "~4.5.0",
@@ -38,6 +40,7 @@
     "babel-plugin-import": "^1.13.3",
     "compression-webpack-plugin": "^1.1.12",
     "element-theme-chalk": "^2.15.6",
+    "image-webpack-loader": "^8.1.0",
     "lib-flexible": "^0.3.2",
     "mini-css-extract-plugin": "^2.5.2",
     "postcss": "^8.3.11",

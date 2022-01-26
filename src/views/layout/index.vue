@@ -1,5 +1,6 @@
 <template>
   <div class="layout">
+    <Header></Header>
     <el-menu
       v-if="hasMenu"
       :default-active="currentMenu"
@@ -62,9 +63,12 @@
   </div>
 </template>
 <script>
+import Header from "@/components/Header";
 export default {
   name: "layout",
-
+  components: {
+    Header,
+  },
   data() {
     return {
       hasMenu: true,

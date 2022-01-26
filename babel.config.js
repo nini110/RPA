@@ -9,7 +9,8 @@ module.exports = {
       {
         "libraryName": "vxe-table",
         "style": true // 样式是否也按需加载
-      }
+      },
+      "@babel/plugin-syntax-dynamic-import" // 路由的动态加载需要
     ],
     // element的按需加载  npm install babel-plugin-component --save-dev
     [

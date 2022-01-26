@@ -5,7 +5,8 @@ import 'nprogress/nprogress.css' // progress bar style
 import login from '@/views/Login/index.vue'
 
 import layout from '@/views/layout'
-const _import = require('./router/importFn'); // 获取组件的方法
+// 获取组件的方法    本地和生产环境的import方法不一样  
+const _import = require('./router/_import_' + process.env.NODE_ENV)
 
 NProgress.configure({
     showSpinner: false
