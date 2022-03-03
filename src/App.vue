@@ -13,7 +13,7 @@
 		},
 		created() {
 			// 线上发布时created中所有都注释
-			// this.$route.query.wx_code = "BEfkeue0pXfd22xCDZfq81qJ9zeGgUvHgMY1skod_ng";
+			// this.$route.query.wx_code = "bJixqg8phJUcizKswA3pbDHG3SsJ3_EPL8l40kwDk7s";
 			// this.$route.query.wx_userid = "1020108";
 			// this.$route.query.user_name = "方涛";
 			// localStorage.setItem("wx_code", this.$route.query.wx_code);

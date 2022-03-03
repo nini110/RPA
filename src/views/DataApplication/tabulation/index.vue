@@ -8,7 +8,15 @@
             <el-row>
               <el-col :span="12">
                 <el-form-item label="项目:" prop="project_name">
-                  <el-select
+                  <el-cascader
+                    v-model="form.project_name"
+                    placeholder="请选择项目"
+                    :options="itemOptions"
+                    size="medium"
+                    :props="{ expandTrigger: 'hover', emitPath: false }"
+                    @change="selectChang"
+                  ></el-cascader>
+                  <!-- <el-select
                     v-model="form.project_name"
                     placeholder="请选择项目"
                     size="medium"
@@ -22,7 +30,7 @@
                       :value="item.project_name"
                     >
                     </el-option>
-                  </el-select>
+                  </el-select> -->
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -77,9 +85,7 @@
           <div v-if="checkedItem.file" class="formObj_upload">
             <el-col :span="8">
               <el-form-item label="" :error="errorUploadInfo">
-                <Upload
-                  @getFile="getFileEvent"
-                ></Upload>
+                <Upload @getFile="getFileEvent"></Upload>
               </el-form-item>
             </el-col>
           </div>
@@ -310,7 +316,7 @@ export default {
     },
   },
   created() {
-    this.check();
+    // this.check();
     this.getSelectItem();
   },
   methods: {
@@ -346,7 +352,44 @@ export default {
     getSelectItem() {
       const vm = this;
       selectItem().then((res) => {
-        vm.itemOptions = res.data.data.data;
+        let arrData = res.data.data.data;
+        let arr = [
+          {
+            value: "BJ",
+            label: "北京",
+            children: [],
+          },
+          {
+            value: "CD",
+            label: "成都",
+            children: [],
+          },
+          {
+            value: "QD",
+            label: "青岛",
+            children: [],
+          },
+        ];
+        arrData.forEach((element) => {
+          let str = element.project_name.substring(0, 2);
+          let obj = {
+            value: element.project_name,
+            label: element.project_name,
+            file: element.file,
+          };
+          switch (str) {
+            case "北京":
+              arr[0].children.push(obj);
+              break;
+            case "成都":
+              arr[1].children.push(obj);
+              break;
+            case "青岛":
+              arr[2].children.push(obj);
+              break;
+          }
+        });
+        vm.itemOptions = arr;
       });
     },
     // 获取表格项目列表信息
@@ -376,9 +419,11 @@ export default {
       vm.dateDis = true;
       if (val) {
         vm.dateDis = false;
-        for (let i of vm.itemOptions) {
-          if (i.project_name === val) {
-            vm.checkedItem = i;
+        for (let i in vm.itemOptions) {
+          for (let j in vm.itemOptions[i].children) {
+            if (vm.itemOptions[i].children[j].value === val) {
+              vm.checkedItem = vm.itemOptions[i].children[j];
+            }
           }
         }
         vm.getTableData();
@@ -528,7 +573,7 @@ export default {
     reset() {
       const vm = this;
       vm.dateDis = true;
-      vm.checkedItem = [];
+      vm.checkedItem = {};
       vm.dataState = "";
       vm.fileList = [];
       vm.tableData = [];

@@ -35,4 +35,5 @@ echarts.use([
   TransformComponent,
   CanvasRenderer
 ]);
+// 如果
 Vue.prototype.$echarts = echarts

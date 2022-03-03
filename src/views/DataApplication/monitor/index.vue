@@ -166,7 +166,7 @@ export default {
     };
   },
   created() {
-    this.check();
+    // this.check();
   },
   mounted() {
     this.username = localStorage.getItem("user_name");

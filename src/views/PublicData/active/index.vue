@@ -9,7 +9,6 @@
               <el-input
                 placeholder="请输入活动页面URL"
                 v-model.trim="form.url"
-                class="input-with-select"
                 clearable
               >
                 <el-button
@@ -27,74 +26,38 @@
       <div class="content_tableBox hasUp4">
         <div class="tables">
           <div class="tableTab">
-            <el-table
-              ref="singleTable"
-              class="tableBox"
+            <vxe-table
               :data="tableData"
-              :header-cell-style="{ background: '#eef0f1', color: '#606266' }"
-              :highlight-current-row="true"
+              stripe
+              round
+              :column-config="{ resizable: true }"
+              :row-config="{ isCurrent: true, isHover: true }"
+              class="mytable-scrollbar"
+              auto-resize
+              height="auto"
             >
-              <template slot="empty">
-                <span class="iconfont icon-wushuju">暂无数据</span>
-              </template>
-              <!-- 表格日期 -->
-              <el-table-column
-                property="c_time"
-                label="时间"
-                min-width="150"
-                align="center"
               >
+              <vxe-column
+                v-for="(item, idx) in tabList"
+                :key="idx"
+                :field="item.prop"
+                :title="item.label"
+                show-overflow="tooltip"
+              ></vxe-column>
+              <vxe-column title="操作" fixed="right" width="10%">
                 <template slot-scope="scope">
-                  <div>
-                    {{ scope.row.c_time }}
+                  <div
+                    v-waves
+                    class="btn btn_info"
+                    @click="lianjie(scope.row)"
+                  >
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-download"></use>
+                    </svg>
                   </div>
                 </template>
-              </el-table-column>
-
-              <!-- 查看链接 -->
-              <el-table-column
-                property="link"
-                label="查看链接"
-                min-width="300"
-                align="center"
-              >
-                <template slot-scope="scope">
-                  <div>
-                    {{ scope.row.link }}
-                  </div>
-                </template>
-              </el-table-column>
-
-              <!-- excel表 -->
-              <el-table-column
-                property="file_name"
-                label="Excel表"
-                min-width="280"
-                align="center"
-              >
-                <template slot-scope="scope">
-                  <div>
-                    {{ scope.row.file_name }}
-                  </div>
-                </template>
-              </el-table-column>
-
-              <!-- 操作 -->
-              <el-table-column
-                property="download"
-                label="下载"
-                width="150"
-                align="center"
-              >
-                <template slot-scope="scope">
-                  <div>
-                    <button @click="lianjie(scope)">
-                      <a id="download" type="primary">下载</a>
-                    </button>
-                  </div>
-                </template>
-              </el-table-column>
-            </el-table>
+              </vxe-column>
+            </vxe-table>
           </div>
         </div>
       </div>
@@ -112,6 +75,20 @@ export default {
       },
       //表格数据接受
       tableData: [],
+      tabList: [
+        {
+          label: "时间",
+          prop: "c_time",
+        },
+        {
+          label: "查看链接",
+          prop: "link",
+        },
+        {
+          label: "Excel表",
+          prop: "file_name",
+        },
+      ],
       //请求传的参数
       userid: "",
       code: "",
@@ -123,8 +100,13 @@ export default {
     };
   },
   created() {
-    // check方法调用接口,判断用户是否登录!
-    this.check();
+
+  },
+  mounted() {
+    this.userid = localStorage.getItem("wx_userid");
+    this.code = localStorage.getItem("wx_code");
+    this.username = localStorage.getItem("user_name");
+    this.getuserlist();
   },
   methods: {
     //查看
@@ -146,6 +128,7 @@ export default {
         trans_name: this.username,
         url: this.form.url,
       }).then((res) => {
+        debugger
         if (res.data.code === 10000) {
           this.form.url = "";
           this.getuserlist();
@@ -164,7 +147,7 @@ export default {
         },
         responseType: "blob",
         params: {
-          file_name: scope.row.file_name,
+          file_name: scope.file_name,
         },
       }).then(
         (res) => {
@@ -176,16 +159,9 @@ export default {
           const objectUrl = URL.createObjectURL(blob);
           window.location.href = objectUrl;
         },
-        (err) => {
-        }
+        (err) => {}
       );
     },
-  },
-  mounted() {
-    this.userid = localStorage.getItem("wx_userid");
-    this.code = localStorage.getItem("wx_code");
-    this.username = localStorage.getItem("user_name");
-    this.getuserlist();
   },
 };
 </script>

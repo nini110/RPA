@@ -189,6 +189,16 @@ const routes = [{
 							filePath: 'DataApplication/snake'
 						},
 						component: () => import(/* webpackChunkName: "R_dataApplication"*/"@/views/DataApplication/snake"),
+					},
+					{
+						path: 'xiaomi',
+						name: 'Xiaomi',
+						meta: {
+							title: '小米分时段报表',
+							deep: 3,
+							filePath: 'DataApplication/xiaomi'
+						},
+						component: () => import(/* webpackChunkName: "R_dataApplication"*/"@/views/DataApplication/xiaomi"),
 					}
 				]
 			},
@@ -401,14 +411,14 @@ const routes = [{
 			},
 		]
 	},
-	{
-		path: '*',
-		name: '404',
-		meta: {
-			deep: 1
-		},
-		component: () => import(/* webpackChunkName: "R_404"*/"@/views/404"),
-	},
+	// {
+	// 	path: '*',
+	// 	name: '404',
+	// 	meta: {
+	// 		deep: 1
+	// 	},
+	// 	component: () => import(/* webpackChunkName: "R_404"*/"@/views/404"),
+	// },
 
 ]
 export default routes;

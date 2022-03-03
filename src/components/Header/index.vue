@@ -20,36 +20,23 @@
             class="poperBtn iconfont icon-yangshengqi"
             >公告</el-button
           >
-          <div class="down">
-            小工具下载地址<a
-              href="http://tool.afocus.com.cn/tool_download/"
-              target="_blank"
-              >点击下载</a
-            >
-          </div>
-          <div class="down">
-            小工具驱动下载地址
-            <a
-              href="https://npm.taobao.org/mirrors/chromedriver/"
-              target="_blank"
-              >点击下载</a
-            >
-          </div>
-          <div class="down">
-            自有客户通用日报模板
-            <a
-              href="http://tool.afocus.com.cn/file_download/自有客户通用日报模板.xlsx"
-              download="自有客户通用日报模板.xlsx"
-              >点击下载</a
-            >
+          <div class="poperNotice_cnt">
+            <div class="down" v-for="(item, idx) in downList" :key="idx">
+              <svg
+                class="icon svg-icon poperNotice_cnt_icon"
+                aria-hidden="true"
+              >
+                <use :xlink:href="item.icon"></use>
+              </svg>
+              {{ item.label }}
+              <a :href="item.url" target="_blank">点击下载</a>
+            </div>
           </div>
         </el-popover>
       </div>
 
       <div v-if="$route.name !== 'login'" class="topTtle_login_user">
         <div class="user">
-          <!-- {{ yh }} -->
-
           <el-popover
             content=""
             trigger="hover"
@@ -81,7 +68,6 @@
 import message from "@/mixin/message";
 import EorLog from "@/components/errorLog/index.vue";
 import { mapGetters } from "vuex";
-
 export default {
   name: "Header",
   components: {
@@ -109,46 +95,70 @@ export default {
         // label: '切换主题', // default: ''
         autoMatchOsTheme: true, // default: true
       },
+      downList: [
+        {
+          icon: "#icon-Windows",
+          label: "工具驱动配置文档(win)",
+          url: "http://tool.afocus.com.cn/file_download/工具驱动配置文档(win).docx",
+        },
+        {
+          icon: "#icon-apple",
+          label: "工具驱动配置文档(mac)",
+          url: "http://tool.afocus.com.cn/file_download/工具驱动配置文档(mac).docx",
+        },
+        {
+          icon: "#icon-gongjuxiang",
+          label: "小工具下载地址",
+          url: "http://tool.afocus.com.cn/tool_download/",
+        },
+        {
+          icon: "#icon-qudongjingling",
+          label: "小工具驱动下载地址",
+          url: "https://npm.taobao.org/mirrors/chromedriver/",
+        },
+        {
+          icon: "#icon-a-Group269-4",
+          label: "自有客户通用日报模板",
+          url: "http://tool.afocus.com.cn/file_download/自有客户通用日报模板.xlsx",
+        },
+      ],
     };
   },
   computed: {
     ...mapGetters(["errorLogs"]),
   },
-  created() {},
-  mounted() {
+  created() {
+    const vm = this;
     //如果本地存储为空，跳回登入页 单方面前端开发时 注销此项
     if (
       localStorage.getItem("wx_userid") &&
       localStorage.getItem("wx_code") &&
       localStorage.getItem("user_name")
     ) {
-      this.user = {
+      vm.user = {
         name: localStorage.getItem("user_name"),
         id: "工号： " + localStorage.getItem("wx_userid"),
         img: localStorage.getItem("thumb_avatar"),
       };
-      this.user.name = localStorage.getItem("user_name");
-      this.$axios({
-        url: `${this.DomainName}/platform/authentication`,
-        method: "get",
-        params: {
-          user_id: localStorage.getItem("wx_userid"),
-          user_code: localStorage.getItem("wx_code"),
-        },
-      }).then((data) => {
-        if (data.data.status == true) {
-        } else if (data.data.status == false) {
-          this.$router.push({
-            path: "/login",
-          });
-        } else {
-          this.$msg({ type: "warning", msg: "信息丢失试试重新登入" });
+      vm.user.name = localStorage.getItem("user_name");
+      vm.check().then((res) => {
+        if (!res) {
+          // vm.$msg({ type: "warning", msg: "登录失效，请进行扫码登入" });
+          setTimeout(() => {
+            vm.$router.push({
+              path: "/login",
+            });
+            localStorage.removeItem("wx_code");
+            localStorage.removeItem("wx_userid");
+            localStorage.removeItem("user_name");
+            localStorage.removeItem("thumb_avatar");
+          }, 2000);
         }
       });
     } else {
-      this.$msg({ type: "warning", msg: "请进行扫码登入" });
-      this.user.name = "未登入";
-      this.$router.push({
+      vm.$msg({ type: "warning", msg: "请进行扫码登入" });
+      vm.user.name = "未登入";
+      vm.$router.push({
         path: "/login",
       });
     }

@@ -9,7 +9,7 @@ import router from './router'
 import '@/moduleSet/elementui.js';
 // VXEtable组件
 import '@/moduleSet/vxetable.js';
-// echarts按需引入，该项目采用在组件中引入
+// echarts按需引入
 import '@/moduleSet/echarts.js'
 import './utils/global'// 全局
 // 自定义指令文件

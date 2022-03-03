@@ -27,6 +27,8 @@ import {
   OptionGroup,
   Button,
   ButtonGroup,
+  Collapse,
+  CollapseItem,
   DatePicker,
   Popover,
   Form,
@@ -37,14 +39,14 @@ import {
   Row,
   Col,
   Upload,
-  Collapse,
-  CollapseItem,
   Cascader,
   Tag,
   MessageBox,
   Message,
   Scrollbar,
-  Drawer
+  Drawer,
+  Descriptions,
+  DescriptionsItem
 } from 'element-ui'
 
 
@@ -90,7 +92,9 @@ const components = {
   Message,
   Tag,
   Scrollbar,
-  Drawer
+  Drawer,
+  Descriptions,
+  DescriptionsItem
 };
 const Elementui = (Vue, config = {}) => {
   if (Elementui.installed) {

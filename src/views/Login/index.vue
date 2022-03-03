@@ -31,21 +31,32 @@ export default {
   },
   beforeCreate() {},
   created() {
+    const vm = this;
     let wx_code = localStorage.getItem("wx_code");
     let wx_userid = localStorage.getItem("wx_userid");
-
-    if (!wx_code && !wx_userid && !this.$route.query.wx_userid) {
-      this.getWeChat();
-    }
-    if (!wx_code && !wx_userid && this.$route.query.wx_userid) {
-      localStorage.setItem("wx_code", this.$route.query.wx_code);
-      localStorage.setItem("wx_userid", this.$route.query.wx_userid);
-      localStorage.setItem("user_name", this.$route.query.user_name);
-      localStorage.setItem("thumb_avatar", this.$route.query.thumb_avatar);
-      this.$router.push({ path: "layout/beijingMustPass/DMP" });
+    if (!wx_code && !wx_userid) {
+      if (vm.$route.query.wx_userid) {
+        localStorage.setItem("wx_code", vm.$route.query.wx_code);
+        localStorage.setItem("wx_userid", vm.$route.query.wx_userid);
+        localStorage.setItem("user_name", vm.$route.query.user_name);
+        localStorage.setItem("thumb_avatar", vm.$route.query.thumb_avatar);
+        vm.$router.push({ path: "layout/beijingMustPass/DMP" });
+      } else {
+        vm.getWeChat();
+      }
     }
     if (wx_code && wx_userid) {
-      this.$router.push({ path: "layout/beijingMustPass/DMP" });
+      vm.check().then((res) => {
+        if (res) {
+          vm.$router.push({ path: "layout/beijingMustPass/DMP" });
+        } else {
+          localStorage.removeItem("wx_code");
+          localStorage.removeItem("wx_userid");
+          localStorage.removeItem("user_name");
+          localStorage.removeItem("thumb_avatar");
+          vm.getWeChat();
+        }
+      });
     }
   },
   beforeDestroy() {

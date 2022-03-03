@@ -16,19 +16,15 @@
             <el-select
               v-model="form.bidId"
               filterable
-              remote
-              reserve-keyword
               placeholder="请输入标名或者项目编号"
-              :remote-method="searchEvent"
-              :loading="loading"
-              :popper-append-to-body="false"
               clearable
+              popper-class="tsselect"
               @change="jbChangeEvent"
             >
               <el-option
                 v-for="item in bidOptions"
                 :key="item.value"
-                :label="`编号:${item.pro_num}——标名：${item.pro_name}`"
+                :label="`${item.pro_num} ~ ${item.pro_name}`"
                 :value="item.pro_num"
               >
               </el-option>
@@ -37,29 +33,27 @@
         </el-col>
         <el-col>
           <el-form-item label="选择活动:">
-            <el-collapse-transition>
-              <div v-if="actionOptions && actionOptions.length > 0">
+            <div v-if="actionOptions && actionOptions.length > 0">
+              <el-checkbox
+                :indeterminate="form.isIndeterminate"
+                v-model="form.checkAll"
+                @change="actionEventAll"
+                >全选</el-checkbox
+              >
+              <el-checkbox-group
+                v-model="form.checkedActions"
+                @change="actionEvent"
+              >
                 <el-checkbox
-                  :indeterminate="form.isIndeterminate"
-                  v-model="form.checkAll"
-                  @change="actionEventAll"
-                  >全选</el-checkbox
+                  v-for="item in actionOptions"
+                  :label="item"
+                  :key="item.id"
                 >
-                <el-checkbox-group
-                  v-model="form.checkedActions"
-                  @change="actionEvent"
-                >
-                  <el-checkbox
-                    v-for="item in actionOptions"
-                    :label="item"
-                    :key="item.id"
-                  >
-                    {{ item.activityName }}
-                  </el-checkbox>
-                </el-checkbox-group>
-              </div>
-              <div v-else>暂无活动内容</div>
-            </el-collapse-transition>
+                  {{ item.activityName }}
+                </el-checkbox>
+              </el-checkbox-group>
+            </div>
+            <div v-else>暂无活动内容</div>
           </el-form-item>
         </el-col>
         <el-col>
@@ -75,25 +69,19 @@
           </el-form-item>
         </el-col>
         <el-col>
-          <el-collapse-transition>
-            <el-form-item
-              v-if="peopleOptions.length > 0"
-              label=""
-              class="tagBox"
-            >
-              <el-scrollbar style="height: 100%">
-                <el-tag
-                  v-for="tag in peopleOptions"
-                  :disable-transitions="false"
-                  :key="tag.userid"
-                  type=""
-                  @close="handleClose(tag)"
-                  @click="addPerson(tag)"
-                  >{{ tag.name }}</el-tag
-                >
-              </el-scrollbar>
-            </el-form-item>
-          </el-collapse-transition>
+          <el-form-item v-if="peopleOptions.length > 0" label="" class="tagBox">
+            <el-scrollbar style="height: 100%">
+              <el-tag
+                v-for="tag in peopleOptions"
+                :disable-transitions="false"
+                :key="tag.userid"
+                type=""
+                @close="handleClose(tag)"
+                @click="addPerson(tag)"
+                >{{ tag.name }}</el-tag
+              >
+            </el-scrollbar>
+          </el-form-item>
         </el-col>
       </el-row>
     </el-form>
@@ -130,7 +118,11 @@
       >
         <div class="btnSize el-icon-download">下载模板</div>
       </a>
-      <el-button v-waves class="el-icon-upload2" type="primary" @click="uploadFile"
+      <el-button
+        v-waves
+        class="el-icon-upload2"
+        type="primary"
+        @click="uploadFile"
         >立即上传</el-button
       >
     </span>
@@ -178,7 +170,6 @@ export default {
           },
         ],
       },
-      loading: false,
       fileList: [], // excel文件列表
       actionOptions: [],
       bidOptions: [],
@@ -200,6 +191,7 @@ export default {
         userid: this.userid,
       },
     ];
+    this.searchEvent();
   },
   methods: {
     // 查找人员
@@ -215,15 +207,14 @@ export default {
       }
     },
     // 查询竞标
-    searchEvent(val) {
+    searchEvent() {
       const vm = this;
-      vm.loading = true;
       BiddingSearch({
-        search: val,
+        aa: ''
       }).then((res) => {
-        vm.loading = false;
         if (res.data.code == "10000" && res.data.data.length) {
-          vm.bidOptions = res.data.data;
+          let result = res.data.data;
+          vm.bidOptions = result;
         } else {
           vm.bidOptions = [];
         }

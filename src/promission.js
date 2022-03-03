@@ -22,7 +22,7 @@ router.beforeEach((to, from, next) => {
         getRouter = handleRoutes(routes); // 后台拿到路由
         routerGo(to, next)
         NProgress.done()
-    } else if (getRouter && userid && flag) {// userid拿到之后，重新处理路由，将flag变为false，避免无限定向
+    } else if (getRouter && userid && flag) { // userid拿到之后，重新处理路由，将flag变为false，避免无限定向
         flag = false
         getRouter = handleRoutes(routes); // 后台拿到路由
         routerGo(to, next)
@@ -58,7 +58,7 @@ function handleRoutes(menuList) {
                                 deep: 3,
                                 filePath: 'Expend/chart'
                             },
-                            component: () => import("@/views/Expend/chart"),
+                            component: () => import( /* webpackChunkName: "R_Expend"*/ "@/views/Expend/chart"),
                         }]
                     });
                 }
@@ -99,6 +99,16 @@ function filterAsyncRouter(asyncRouterMap) {
 
 function routerGo(to, next) {
     getRouter = filterAsyncRouter(getRouter); // 过滤路由
+    // router.selfaddRoutes(getRouter); // 动态添加路由
+    // 防止动态添加的路由刷新404问题  需要在添加完之后再加入404，不要写在routes.js中
+    getRouter.push({
+        path: '*',
+        name: '404',
+        meta: {
+            deep: 1
+        },
+        component: () => import( /* webpackChunkName: "R_404"*/ "@/views/404"),
+    })
     router.selfaddRoutes(getRouter); // 动态添加路由
     global.antRouter = getRouter; // 将路由数据传递给全局变量，做侧边栏菜单渲染工作
     next({

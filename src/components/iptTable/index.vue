@@ -61,9 +61,7 @@
             <el-row>
               <el-col :span="8">
                 <el-form-item label="" :error="errorUpInfo">
-                  <Upload
-                    @getFile="getFileEvent"
-                  ></Upload>
+                  <Upload @getFile="getFileEvent"></Upload>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -217,10 +215,9 @@ export default {
     $route: {
       handler(newval, oldval) {
         const vm = this;
-        vm.check();
+        vm.getuserlist();
         vm.username = localStorage.getItem("user_name");
         vm.people = localStorage.getItem("user_name");
-        vm.getuserlist();
         switch (newval.name) {
           case "DMP":
             vm.btnBox = [

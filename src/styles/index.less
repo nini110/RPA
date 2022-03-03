@@ -1,5 +1,5 @@
 @import "reset";
-@baseItemColor: #287BB5;
+@baseItemColor: hsl(205, 64%, 43%);
 .backColor {
 	/* Permalink - use to edit and share this gradient: /code/cssgradient/index.aspx#528aaf+0,0c72ad+100 */
 	background: #528aaf; /* Old browsers */
@@ -8,14 +8,18 @@
 	background: linear-gradient(to bottom,  #528aaf 0%,#0c72ad 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#528aaf', endColorstr='#0c72ad',GradientType=0 ); /* IE6-9 */
 }
-
+.vxe-button {
+	i {
+	  vertical-align: middle;
+	}
+  }
 .el-button {
 	&:before {
 		padding-right: 3px;
 	}
 }
-
 .el {
+
 	&-tabs {
 		padding: 0!important;
 		&--border-card {
@@ -137,6 +141,7 @@
 
 				.el-autocomplete,
 				.el-date-editor,
+				.el-cascader,
 				.el-select {
 					width: 100% !important;
 				}
@@ -368,17 +373,19 @@
 
 	&-input {
 		&-group__append {
-			border-color: transparent;
+			.backColor();
 			color: #666;
-
+			border: none;
+			outline: 0;
 			button.el-button {
-				margin: 0;
-				padding: 0;
+				height: 100%;
+				border: none;
+				outline: 0;
 				color: #fff;
 
 				&:hover {
 					color: #fff;
-
+					background-color: transparent;
 				}
 
 				&--primary.is-disabled:hover {
@@ -629,12 +636,22 @@
 
 .poperNotice {
 	padding: 12px;
-
+	&_cnt {
+		position: relative;
+		z-index: 10;
+		&_icon {
+			width: 20px;
+			height: 20px;
+			margin-right: 10px;
+			display: inline-block;
+			vertical-align: middle;
+		}
+	}
 	.down {
 		font-size: 14px;
 		color: #666;
 		line-height: 20px;
-		margin-bottom: 12px;
+		margin: 12px 0;
 		user-select: none;
 		a {
 			font-size: 12px;
@@ -652,8 +669,8 @@
 
 	.el-form-item {
 		&__content {
-			height: 150px;
-
+			min-height: 50px;
+			max-height: 150px;
 			span {
 				width: 18%;
 				margin: 0 1% 1% 1% !important;

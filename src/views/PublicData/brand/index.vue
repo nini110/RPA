@@ -128,7 +128,7 @@
 			},
 		},
 		created() {
-			this.check();
+			// this.check();
 		},
 
 		mounted() {

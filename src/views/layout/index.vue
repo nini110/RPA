@@ -11,7 +11,9 @@
       <div v-for="(item, idx) in menuList" :key="idx" class="layout_menu_box">
         <el-submenu v-if="item.children" :index="item.index">
           <template slot="title">
-            <i class="iconfont" :class="item.icon"></i>
+            <svg class="icon svg-icon titleicon" aria-hidden="true">
+              <use :xlink:href="item.icon"></use>
+            </svg>
             <span>{{ item.label }}</span>
           </template>
           <div v-if="item.deep === 3">
@@ -47,11 +49,6 @@
           <span slot="title">{{ item.label }}</span>
         </el-menu-item>
       </div>
-      <!-- <div class="layout_menu_btmIcon">
-        <svg class="icon svg-icon titleicon" aria-hidden="true">
-          <use :xlink:href="detailIcon"></use>
-        </svg>
-      </div> -->
     </el-menu>
     <div class="layout_menu_right">
       <div class="app-main" id="appMain">
@@ -78,7 +75,7 @@ export default {
         {
           label: "提效工具",
           deep: 2,
-          icon: "iconfont icon-shouzhi",
+          icon: "#icon-xiaoshuai",
           value: "",
           index: "1",
           children: [
@@ -117,7 +114,7 @@ export default {
         {
           label: "大数据工具",
           deep: 2,
-          icon: "iconfont icon-gongju",
+          icon: "#icon-gengduoyingyong",
           value: "",
           index: "2",
           children: [
@@ -151,7 +148,7 @@ export default {
         {
           label: "数据应用",
           deep: 2,
-          icon: "iconfont icon-shujutongji",
+          icon: "#icon-jiancedashujuyingyong",
           value: "",
           index: "3",
           children: [
@@ -165,14 +162,20 @@ export default {
               label: "桑吉图数据",
               icon2: "#icon-sangjitu1",
               value: "/layout/dataApplication/snake",
-              index: "3-3",
+              index: "3-2",
             },
+            // {
+            //   label: "分时段监控报表",
+            //   icon2: "#icon-sangjitu1",
+            //   value: "/layout/dataApplication/xiaomi",
+            //   index: "3-3",
+            // },
           ],
         },
         {
           label: "预算预警",
           deep: 2,
-          icon: "iconfont icon-yujingfenxi",
+          icon: "#icon-icon_zhongdashixiangyujing",
           value: "",
           index: "4",
           children: [
@@ -224,7 +227,7 @@ export default {
         {
           label: "提质工具",
           deep: 3,
-          icon: "iconfont icon-xiangmu",
+          icon: "#icon-zhugehuodonggongju",
           value: "",
           index: "5",
           children: [
@@ -255,7 +258,7 @@ export default {
             },
             {
               label: "快车提质",
-              icon: "iconfont icon-xiangmu",
+              icon: "#icon-gengduoyingyong",
               value: "",
               // index: '5-2',
               children: [
@@ -278,7 +281,7 @@ export default {
         {
           label: "公共数据获取",
           deep: 2,
-          icon: "iconfont icon-gonggongziliao",
+          icon: "#icon--wenjian",
           value: "",
           index: "7",
           children: [
@@ -329,7 +332,7 @@ export default {
         vm.menuList.push({
           label: "灵鲨消耗",
           deep: 2,
-          icon: "iconfont icon-zhibiao",
+          icon: "#icon-shujushiti",
           value: "",
           index: "8",
           children: [

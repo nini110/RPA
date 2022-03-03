@@ -93,6 +93,20 @@ service.interceptors.request.use(config => {
 })
 service.interceptors.response.use(
     response => {
+        if (response.data.code === 99998) {
+            $msg({
+                type: "warning",
+                msg: "登录失效，请进行扫码登入"
+            });
+            setTimeout(() => {
+                window.location.replace('/#/login')
+                localStorage.removeItem("wx_code");
+                localStorage.removeItem("wx_userid");
+                localStorage.removeItem("user_name");
+                localStorage.removeItem("thumb_avatar");
+            }, 2000);
+            return
+        }
         return response
     },
     error => {
@@ -109,9 +123,6 @@ service.interceptors.response.use(
                     break;
                 case 503:
                     error.message = '抱歉，服务暂时不可用，请稍后重试';
-                    break;
-                case 401:
-                    error.message = '请重新登录！';
                     break;
                 default:
                     error.message = '系统繁忙，请稍后重试';

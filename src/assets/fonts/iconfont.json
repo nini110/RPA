@@ -6,6 +6,90 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "23787642",
+      "name": "使用模板",
+      "font_class": "a-Group269-4",
+      "unicode": "e699",
+      "unicode_decimal": 59033
+    },
+    {
+      "icon_id": "3204797",
+      "name": "驱动精灵",
+      "font_class": "qudongjingling",
+      "unicode": "e69d",
+      "unicode_decimal": 59037
+    },
+    {
+      "icon_id": "17840957",
+      "name": "apple",
+      "font_class": "apple",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "22442956",
+      "name": "工具箱",
+      "font_class": "gongjuxiang",
+      "unicode": "e70b",
+      "unicode_decimal": 59147
+    },
+    {
+      "icon_id": "25974123",
+      "name": "Windows",
+      "font_class": "Windows",
+      "unicode": "e649",
+      "unicode_decimal": 58953
+    },
+    {
+      "icon_id": "3872819",
+      "name": "21-文件",
+      "font_class": "-wenjian",
+      "unicode": "e84b",
+      "unicode_decimal": 59467
+    },
+    {
+      "icon_id": "18564918",
+      "name": "效率",
+      "font_class": "xiaoshuai",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "1962970",
+      "name": "icon_重大事项预警",
+      "font_class": "icon_zhongdashixiangyujing",
+      "unicode": "e880",
+      "unicode_decimal": 59520
+    },
+    {
+      "icon_id": "2129862",
+      "name": "数据实体",
+      "font_class": "shujushiti",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    },
+    {
+      "icon_id": "12727668",
+      "name": "监测大数据应用",
+      "font_class": "jiancedashujuyingyong",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "14442546",
+      "name": "诸葛活动工具",
+      "font_class": "zhugehuodonggongju",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "24111831",
+      "name": "更多应用",
+      "font_class": "gengduoyingyong",
+      "unicode": "fbcd",
+      "unicode_decimal": 64461
+    },
+    {
       "icon_id": "14772648",
       "name": "bug-report",
       "font_class": "bug-report",

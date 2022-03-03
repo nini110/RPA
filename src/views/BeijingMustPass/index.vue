@@ -10,7 +10,7 @@ import IptComp from "@/components/iptTable/index.vue";
 export default {
   name: "BeijingMustPass",
   components: {
-    IptComp,
+    IptComp
   },
   data() {
     return {

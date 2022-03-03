@@ -14,7 +14,7 @@
 }
 /deep/.namelist {
     width: 140px;
-    height: 180px;
+    height: 120px;
     text-align: right;
     .el-tag {
       color: #2066bd;
@@ -39,7 +39,6 @@
 	.namelist {
 		width: 100%;
         height: auto;
-        overflow-x: hidden;
         ul {
             display: flex;
             flex-wrap: wrap;
@@ -58,6 +57,10 @@
 /deep/.el {
     &-collapse-item__content {
         padding-bottom: 10px;
+    }
+    &-scrollbar__wrap {
+        overflow-y: scroll!important;
+        overflow-x: hidden!important;
     }
 }
 /deep/.el-checkbox {

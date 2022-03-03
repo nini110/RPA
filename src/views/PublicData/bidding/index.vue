@@ -1,31 +1,22 @@
 <template>
-	<!-- 京东招标 -->
-	<div class="JingdongBidding outerDiv">
-		<div class="content">
-			<div class="form">
-				<div class="txt">开发中。。。</div>
-			</div>
-		</div>
-	</div>
+  <!-- 京东招标 -->
+  <div class="JingdongBidding outerDiv">
+    <div class="content">
+      <nopage></nopage>
+    </div>
+  </div>
 </template>
 
 <script>
+import nopage from "@/components/errorPage";
+export default {
+  name: "jdBidding",
+  components: {
+    nopage,
+  },
+};
 </script>
 
 <style lang="less">
-	.JingdongBidding{
-		.content{
-			.form{
-				width: 975px;
-				background-color: #fff;
-				.txt{
-					font-size: 50px;
-					width: 500px;
-					height: 200px;
-					margin: 0 auto;
-					text-align: center;
-				}
-			}
-		}
-	}
+@import "@/views/index";
 </style>
