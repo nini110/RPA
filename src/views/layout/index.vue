@@ -342,6 +342,18 @@ export default {
               value: "/layout/expend/chart",
               index: "8-1",
             },
+                        {
+              label: "自有品牌",
+              icon2: "#icon-xiaoguofenxi",
+              value: "/layout/expend/selfBrand",
+              index: "8-2",
+            },
+                        {
+              label: "竞标项目",
+              icon2: "#icon-xiaoguofenxi",
+              value: "/layout/expend/bidItem",
+              index: "8-3",
+            },
           ],
         });
       }

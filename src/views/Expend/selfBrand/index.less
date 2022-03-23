@@ -1,0 +1,81 @@
+.outerDiv {
+    &_charts {
+        height: 55%;
+        padding-top: 60px;
+        // margin: 60px 120px 20px 120px !important;
+    }
+
+    &_table {
+        height: 45%;
+        padding: 0 120px 50px 120px !important;
+        display: flex;
+        justify-content: space-between;
+    }
+}
+
+#pieBox,
+#barBox {
+    width: 30%;
+    height: calc(100% - 60px);
+    display: inline-block;
+}
+
+#barBox {
+    width: 70%;
+}
+
+/deep/#fullpage {
+    .section {
+        .top {
+            margin: 50px 120px 20px 120px !important;
+            height: calc(100% - 70px);
+            box-shadow: -20px 0 30px #f0f0f0;
+            &_txt {
+                font-size: 18px;
+                line-height: 60px;
+                text-align: center;
+                font-weight: bold;
+                color: #303133;
+            }
+        }
+    }
+}
+
+svg {
+    width: 30px;
+    height: 30px;
+    &.titleicon {
+        width: 40px;
+        height: 40px;
+    }
+}
+
+
+.slideTip {
+    text-align: center;
+    position: fixed;
+    top: 50%;
+    right: 50px;
+    transform: translateY(-50%);
+    width: 40px;
+    font-size: 16px;
+    color: #606266;
+    animation: txtslide 2s linear infinite;
+}
+
+@keyframes txtslide {
+    0% {
+        transform: translateY(-50%);
+        filter: brightness(35%);
+    }
+
+    50% {
+        transform: translateY(-50%);
+        filter: brightness(99%);
+    }
+
+    100% {
+        transform: translateY(-50%);
+        filter: brightness(35%);
+    }
+}

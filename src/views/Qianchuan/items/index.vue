@@ -1,6 +1,7 @@
 <template>
-  <div class="itemsComp publicDiv">
-    <div class="centers">
+  <div class="publicDiv outerDiv">
+    <div class="content">
+      <div class="itemsComp">
       <el-button
         v-waves
         type="primary"
@@ -94,6 +95,8 @@
         >
         </el-pagination>
       </div>
+      </div>
+
     </div>
     <DialodEdit
       v-if="showDialog"
@@ -208,6 +211,5 @@ export default {
 <style lang="less" scoped>
 @import "@/views/index.less";
 @import "./index";
-// @import "../items/index.less";
 @import "../index";
 </style>

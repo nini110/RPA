@@ -120,7 +120,7 @@ export default {
                     color: "rgba(35,195,255,0)",
                   },
                 ]),
-                barBorderRadius: [25, 25, 0, 0], //圆角大小
+                barBorderRadius: [12, 12, 0, 0], //圆角大小
                 shadowColor: "rgba(0,160,221,1)",
                 shadowBlur: 2,
               },
@@ -151,7 +151,7 @@ export default {
                     color: "rgba(254,215,46,0)",
                   },
                 ]),
-                barBorderRadius: [25, 25, 0, 0], //圆角大小
+                barBorderRadius: [12, 12, 0, 0], //圆角大小
                 shadowColor: "rgba(254,215,46,1)",
                 shadowBlur: 2,
               },

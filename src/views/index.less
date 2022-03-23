@@ -1,70 +1,83 @@
 .w320 {
 	width: 320px;
 }
+
 @baseItemColor: #287BB5;
+
 .backColor {
 	/* Permalink - use to edit and share this gradient: /code/cssgradient/index.aspx#528aaf+0,0c72ad+100 */
-	background: #528aaf; /* Old browsers */
-	background: -moz-linear-gradient(top,  #528aaf 0%, #0c72ad 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top,  #528aaf 0%,#0c72ad 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom,  #528aaf 0%,#0c72ad 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#528aaf', endColorstr='#0c72ad',GradientType=0 ); /* IE6-9 */
+	background: #528aaf;
+	/* Old browsers */
+	background: -moz-linear-gradient(top, #528aaf 0%, #0c72ad 100%);
+	/* FF3.6-15 */
+	background: -webkit-linear-gradient(top, #528aaf 0%, #0c72ad 100%);
+	/* Chrome10-25,Safari5.1-6 */
+	background: linear-gradient(to bottom, #528aaf 0%, #0c72ad 100%);
+	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#528aaf', endColorstr='#0c72ad', GradientType=0);
+	/* IE6-9 */
 }
+
 /deep/.btnnormal {
 	&_down {
-		  user-select: none;
-		  cursor: pointer;
-		  font-size: 14px;
-		  padding: 8.5px 20px;
-		  box-sizing: border-box;
-		  min-width: 115px;
-		  border-radius: 4px;
-		  border: none;
-		  outline: none;
-		  transition: 600ms ease all;
-		  position: relative;
-		  display: inline-block;
-		  vertical-align: top;
-		  background-color:#fff;
-		  color: @baseItemColor;
-		  text-align: center;
-		  &:hover {
+		user-select: none;
+		cursor: pointer;
+		font-size: 14px;
+		padding: 8.5px 20px;
+		box-sizing: border-box;
+		min-width: 115px;
+		border-radius: 4px;
+		border: none;
+		outline: none;
+		transition: 600ms ease all;
+		position: relative;
+		display: inline-block;
+		vertical-align: top;
+		background-color: #fff;
+		color: @baseItemColor;
+		text-align: center;
+
+		&:hover {
 			.backColor();
 			color: #fff;
-		    &:before,
-		    &:after {
-		      width: 0;
-			  height: 4px;
-			  border-radius:0 0 0 50%;
-			  background: #fff;
-			  color: @baseItemColor;
-		      transition: 400ms ease all;
-		    }
+
+			&:before,
 			&:after {
-				border-radius:0 50% 0 0;
+				width: 0;
+				height: 4px;
+				border-radius: 0 0 0 50%;
+				background: #fff;
+				color: @baseItemColor;
+				transition: 400ms ease all;
+			}
+
+			&:after {
+				border-radius: 0 50% 0 0;
 
 			}
-		  }
-		  &:before,
-		  &:after {
-		    content: '';
-		    position: absolute;
-		    top: 0;
-		    right: 0;
-		    height: 2px;
-		    width: 100%;
+		}
+
+		&:before,
+		&:after {
+			content: '';
+			position: absolute;
+			top: 0;
+			right: 0;
+			height: 2px;
+			width: 100%;
 			background-color: @baseItemColor;
-		    transition: 400ms ease all;
-		  }
-		
-		  &::after {
-		    right: inherit;
-		    top: inherit;
-		    left: 0;
-		    bottom: 0;
-		  }
+			transition: 400ms ease all;
+		}
+
+		&::after {
+			right: inherit;
+			top: inherit;
+			left: 0;
+			bottom: 0;
+		}
 	}
 }
+
 // /deep/.btnnormal {
 // 	&_down {
 // 		  cursor: pointer;
@@ -99,7 +112,7 @@
 // 		    width: 0;
 // 		    transition: 400ms ease all;
 // 		  }
-		
+
 // 		  &::after {
 // 		    right: inherit;
 // 		    top: inherit;
@@ -115,8 +128,9 @@
 // }
 
 /deep/.marginL {
-	margin: 0 0 0 10px!important; 
+	margin: 0 0 0 10px !important;
 }
+
 /deep/.marginR {
 	margin: 0 10px 0 0;
 }
@@ -142,23 +156,25 @@
 			flex-grow: 1;
 			background-color: #f0f0f0;
 			padding: 12px 0;
+
 			button {
 				padding: 0;
 			}
 		}
 	}
+
 	.content {
-		// box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
 		float: right;
 		width: 100%;
-		height: 100%;
-
+		height: calc(100% - 60px);
+		padding-top: 60px;
 		&_form {
 			padding-top: 50px;
 			width: 100%;
 			// background-color: #fff;
-				padding-right: 120px;
-				box-sizing: border-box;
+			padding-right: 120px;
+			box-sizing: border-box;
+
 			.formObj {
 				// width:500px;
 				width: 100%;
@@ -170,6 +186,7 @@
 							margin-bottom: 0;
 						}
 					}
+
 					/deep/.el-form-item {
 						&__label {
 							width: 120px !important;
@@ -183,6 +200,7 @@
 							display: inline-block;
 							vertical-align: middle;
 							font-size: 12px;
+
 							.el-select {
 								width: 100%;
 							}
@@ -214,12 +232,13 @@
 								margin-left: 120px !important;
 							}
 						}
+
 						&-upload-dragger {
 							// width: 322px;
 							width: 100%;
 							height: 120px;
 						}
-						
+
 						&-upload-list {
 							width: 322px;
 
@@ -232,6 +251,7 @@
 					flex-direction: row;
 					padding-left: 120px;
 					margin-bottom: 24px;
+
 					/deep/.el {
 						&-form-item {
 							&__content {
@@ -263,15 +283,21 @@
 			&.hasUp2 {
 				height: calc(100% - 450px) !important;
 			}
+
 			&.hasUp3 {
 				height: calc(100% - 230px) !important;
 			}
+
 			&.hasUp4 {
 				height: calc(100% - 150px) !important;
 			}
+
 			&.hasUp5 {
 				height: calc(100% - 120px) !important;
-				padding: 0!important;
+				padding: 0 !important;
+			}
+			&.hasUp6 {
+				height: calc(100% - 90px) !important;
 			}
 
 			.tables {
@@ -279,6 +305,18 @@
 				width: 100%;
 				height: calc(100% - 100px);
 				margin: 0 auto;
+				&_two {
+					width: 48%;
+					h3 {
+						font-size: 16px;
+						line-height: 30px;
+						color: #287bb5;
+						// color: #606266;
+						&:before {
+							margin-right: 10px;
+						}
+					}
+				}
 
 				.tableTab {
 					height: 100%;
@@ -322,6 +360,7 @@
 					height: calc(100% - 150px);
 
 				}
+
 				.tableTab {
 					.tableBox {
 						width: 100%;
@@ -352,6 +391,7 @@
 			}
 		}
 	}
+
 	&_left,
 	&_right {
 		display: inline-block;
@@ -359,32 +399,36 @@
 		padding: 20px 0;
 		box-sizing: border-box;
 	}
+
 	&_left {
 		width: 32%;
-		height: 100%;
+		height: calc(100% - 100px);
 		flex-wrap: wrap;
 		position: relative;
 		box-shadow: -20px 0 30px #f0f0f0;
 		padding: 40px 20px 20px 20px;
+		margin: 50px 0 50px 120px;
 		box-sizing: border-box;
+
 		&_info {
 			position: absolute;
 			user-select: none;
 			bottom: 0;
 			left: 0;
-			margin: 20px 20px 20px 30px ;
-			// letter-spacing: 0.5px;
+			margin: 20px 20px 20px 30px;
 			h3 {
 				padding-left: 1.5em;
 				font-size: 14px;
 				color: #287BB5;
 				font-weight: bold;
+
 				&:before {
 					font-size: 14px;
 					margin-right: 5px;
 					font-weight: normal;
 				}
 			}
+
 			p {
 				text-indent: 2em;
 				word-break: break-all;
@@ -394,6 +438,7 @@
 				margin-top: 10px;
 			}
 		}
+
 		.tips {
 			color: #f56c6c;
 			text-align: center;
@@ -401,69 +446,83 @@
 			font-size: 12px;
 			line-height: 48px;
 		}
+
 		.up {
 			text-align: right;
 			margin-bottom: 20px;
 		}
 	}
+
 	&_right {
-		width: 62%;
-		height: 100%;
+		width: calc(68% - 240px);
+		height: calc(100% - 100px);
 		box-sizing: border-box;
-		padding: 20px 50px;
-		margin-left: 5%;
+		padding: 40px 20px 20px 20px;
+		margin: 50px 120px 50px 0;
 		position: relative;
+
 		.el {
 			&-form {
 				height: 100%;
 			}
+
 			&-card {
 				margin-bottom: 60px;
 			}
 		}
+
 		.detailSpan {
 			color: #606266;
 		}
+
 		.nodata {
 			background: url("../assets/images/noneData3.png") no-repeat center center;
 			background-size: 50% auto;
 		}
+
 		.bottomBtn {
 			position: absolute;
 			bottom: 20px;
-			right: 50px;
+			right: 20px;
 		}
 
 	}
 }
+
 /deep/.el {
 	&-upload {
 		width: 100%;
 		user-select: none;
+
 		&-dragger {
 			width: 100%;
+
 			&:hover {
 				border-color: #287BB5;
 			}
 		}
+
 		&__text {
-			font-size: 12px!important;
+			font-size: 12px !important;
+
 			em {
 				color: #287BB5;
 			}
 		}
+
 		&-dragger {
 			height: 120px;
+
 			.el-icon-upload {
 				margin: 0;
 				display: block;
 				padding-top: 15px;
 			}
 		}
-		
+
 		&-list {
 			&__item {
-				margin: 0!important;
+				margin: 0 !important;
 				font-size: 12px;
 
 			}
@@ -482,6 +541,7 @@
 .stateItem {
 	/deep/i {
 		color: #666;
+
 		&:before {
 			display: inline-block;
 			width: 20px;
@@ -503,6 +563,7 @@
 
 		&.warn {
 			animation: none;
+
 			&:before {
 				background-color: #e6a23c;
 				text-align: center;
@@ -516,24 +577,29 @@
 		}
 	}
 }
+
 .tophasBtn {
 	position: relative;
+
 	&_data {
 		width: 80%;
 	}
+
 	&_btn {
-		padding: 10px 36px!important;
+		padding: 10px 36px !important;
 		display: inline-block;
 		vertical-align: top;
+
 		&_div {
 			position: absolute;
 			top: 2px;
 			right: 0;
 		}
-		
+
 	}
-	
+
 }
+
 .inlineButton {
 	display: inline-block;
 }

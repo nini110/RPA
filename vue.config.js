@@ -1,3 +1,4 @@
+// 本项目可用node版本   10.13.0
 // gz压缩
 // npm install --save-dev compression-webpack-plugin@1.1.12
 const CompressionWebpackPlugin = require('compression-webpack-plugin');

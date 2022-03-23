@@ -5,6 +5,10 @@ import store from './store'
 import axios from 'axios'
 import qs from 'qs'
 import router from './router'
+// 全屏滚动
+import VueFullPage  from 'vue-fullpage.js'
+// import "./styles/fullpage.min.css"
+import 'fullpage.js/vendors/scrolloverflow'
 //ElementUI按需引入
 import '@/moduleSet/elementui.js';
 // VXEtable组件
@@ -33,6 +37,7 @@ import './components/errorLog/index.js'
 Vue.prototype.check = check
 Vue.prototype.$axios = axios
 Vue.prototype.qs = qs
+Vue.use(VueFullPage )
 
 // Vue.prototype.DomainName = 'http://192.168.90.209:5000';
 Vue.prototype.DomainName = 'http://tool.afocus.com.cn';

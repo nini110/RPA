@@ -1,6 +1,7 @@
 <template>
-  <div class="DMP outerDiv" style="height:100%">
-    <div class="content weipin">
+  <div class="outerDiv" style="height:100%">
+    <div class="content">
+      <div class="weipin">
       <div class="weipin_form">
         <el-tabs v-model="activeName">
           <el-tab-pane label="京准通" name="0"></el-tab-pane>
@@ -13,6 +14,8 @@
         @close="close"
         ></Chart>
       </div>
+      </div>
+
     </div>
   </div>
 </template>

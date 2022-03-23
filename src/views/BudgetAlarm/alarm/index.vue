@@ -1,5 +1,7 @@
 <template>
   <div class="outerDiv">
+    <div class="content">
+      
     <div class="outerDiv_left">
       <el-divider>{{multipleUpTxt}}</el-divider>
       <Left v-if="!multipleUp"></Left>
@@ -12,6 +14,8 @@
     <div v-if="!multipleUp" class="outerDiv_right">
       <Right></Right>
     </div>
+    </div>
+
   </div>
 </template>
 

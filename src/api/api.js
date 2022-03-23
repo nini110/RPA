@@ -344,3 +344,28 @@ export const expendDate = request({
     url:`${BASEPATH2}/tabulation/jzt_cost/get`,
     method:'get',
 })
+// 自有消耗图表
+export const selfExpend = request({
+    url:`${BASEPATH}/myselfwork/myself_consume/`,
+    method:'post',
+    responseType: 'form-data'
+})
+// 自有品牌列表
+export const selfBrand = request({
+    url:`${BASEPATH}/myselfwork/brand_list/`,
+    method:'get'
+})
+// 自有消耗排行
+export const selfExpendPH = request({
+    url:`${BASEPATH}/myselfwork/myself_brand_consume/`,
+    method:'post',
+    responseType: 'form-data'
+})
+// 自有同环比列表
+export const selfExpendList = request({
+    url:`${BASEPATH}/myselfwork/brand_consume_effect/`,
+    method:'post',
+    responseType: 'form-data'
+})
+
+

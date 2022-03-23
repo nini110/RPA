@@ -37,6 +37,9 @@
               height="auto"
             >
               >
+              <template #empty>
+                <img src="@/assets/images/noneData3.png" />
+              </template>
               <vxe-column
                 v-for="(item, idx) in tabList"
                 :key="idx"
@@ -46,11 +49,7 @@
               ></vxe-column>
               <vxe-column title="操作" fixed="right" width="10%">
                 <template slot-scope="scope">
-                  <div
-                    v-waves
-                    class="btn btn_info"
-                    @click="lianjie(scope.row)"
-                  >
+                  <div v-waves class="btn btn_info" @click="lianjie(scope.row)">
                     <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-download"></use>
                     </svg>
@@ -99,9 +98,7 @@ export default {
       resurl: true,
     };
   },
-  created() {
-
-  },
+  created() {},
   mounted() {
     this.userid = localStorage.getItem("wx_userid");
     this.code = localStorage.getItem("wx_code");
@@ -128,7 +125,7 @@ export default {
         trans_name: this.username,
         url: this.form.url,
       }).then((res) => {
-        debugger
+        debugger;
         if (res.data.code === 10000) {
           this.form.url = "";
           this.getuserlist();

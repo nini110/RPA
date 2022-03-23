@@ -6,6 +6,62 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3896489",
+      "name": "52-鼠标",
+      "font_class": "-shubiao",
+      "unicode": "e86a",
+      "unicode_decimal": 59498
+    },
+    {
+      "icon_id": "6918086",
+      "name": "滚轮键",
+      "font_class": "gunlunjian",
+      "unicode": "e7ca",
+      "unicode_decimal": 59338
+    },
+    {
+      "icon_id": "16404446",
+      "name": "线性上下滑动",
+      "font_class": "xianxingshangxiahuadong",
+      "unicode": "e68a",
+      "unicode_decimal": 59018
+    },
+    {
+      "icon_id": "10986483",
+      "name": "本年度",
+      "font_class": "benniandu",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "21250465",
+      "name": "月度报告",
+      "font_class": "yuedubaogao",
+      "unicode": "e603",
+      "unicode_decimal": 58883
+    },
+    {
+      "icon_id": "8775387",
+      "name": "排行3",
+      "font_class": "paihang",
+      "unicode": "e6ec",
+      "unicode_decimal": 59116
+    },
+    {
+      "icon_id": "8775388",
+      "name": "排行1",
+      "font_class": "paihang1",
+      "unicode": "e6ed",
+      "unicode_decimal": 59117
+    },
+    {
+      "icon_id": "8775389",
+      "name": "排行2",
+      "font_class": "paihang2",
+      "unicode": "e6ee",
+      "unicode_decimal": 59118
+    },
+    {
       "icon_id": "23787642",
       "name": "使用模板",
       "font_class": "a-Group269-4",
