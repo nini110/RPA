@@ -16,5 +16,6 @@ import {
     Colgroup,
     Button,
     Table,
+    Tooltip
 } from 'vxe-table'
-Vue.use(Toolbar).use(Colgroup).use(Button).use(Header).use(Column).use(Table)
+Vue.use(Toolbar).use(Colgroup).use(Button).use(Header).use(Column).use(Tooltip).use(Table)

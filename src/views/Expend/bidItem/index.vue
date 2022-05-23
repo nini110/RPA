@@ -1,286 +1,363 @@
 <template>
-  <div class="DMP outerDiv">
+  <div class="outerDiv">
     <div class="content">
-      <nopage></nopage>
-
-      <!-- <div class="content_form">
-        <el-form ref="form" :model="form" class="formObj" :rules="rules">
-          <div class="formObj_ipt">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="项目:" prop="brand">
-                  <el-select
-                    v-model="form.brand"
-                    class="normalScroll"
-                    placeholder="请选择"
-                    clearable
-                    :popper-append-to-body="false"
-                  >
-                    <el-option
-                      v-for="item in pinOptions"
-                      :key="item.brand"
-                      :label="item.brand"
-                      :value="item.brand"
-                      clearable
-                    >
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item
-                  class="tophasBtn"
-                  label="日期:"
-                  prop="search_date"
+      <div class="ziyou">
+        <div class="ziyou_tab">
+          <el-tabs v-model="activeName">
+            <el-tab-pane label="看板" name="0"></el-tab-pane>
+            <el-tab-pane label="列表" name="1"></el-tab-pane>
+          </el-tabs>
+        </div>
+        <div v-show="activeName === '0'" class="ziyou_chart">
+          <div class="chart ts">
+            <div class="ziyou_chart_topleft ts">
+              <h2>年度总消耗</h2>
+              <div id="barBox" class="ts"></div>
+              <p>
+                <span>今年相较去年同比</span>
+                <span
+                  :class="
+                    varietyPercent > 0
+                      ? 'el-icon-top top'
+                      : 'el-icon-bottom bot'
+                  "
+                  >{{ Math.abs(varietyPercent) * 100 }}%</span
                 >
-                  <el-date-picker
-                    class="tophasBtn_data"
-                    v-model="form.search_date"
-                    format="yyyy-MM-dd"
-                    value-format="yyyy-MM-dd"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    :picker-options="pickerOptionsStart"
-                  >
-                  </el-date-picker>
-                  <div class="tophasBtn_btn_div">
-                    <el-button
-                      v-waves
-                      type="primary"
-                      class="el-icon-search marginL"
-                      @click="searchEvent(serchVal)"
-                      >查询
-                    </el-button>
-                  </div>
-                </el-form-item>
-              </el-col>
-            </el-row>
+              </p>
+            </div>
+            <div class="ziyou_chart_topright ts">
+              <h2>月度总消耗</h2>
+              <div id="lineBox"></div>
+            </div>
           </div>
-        </el-form>
-      </div>
-      <div ref="tableBox" class="content_tableBox hasUp6">
-        <div class="tables">
-          <div class="tableTab" v-show="tableData">
-            <vxe-table
-              ref="table"
-              :data="tableData"
-              stripe
-              round
-              :column-config="{ resizable: true }"
-              :row-config="{ isCurrent: true, isHover: true }"
-              class="mytable-scrollbar normalScroll"
-              auto-resize
-              height="auto"
+          <div class="selfBrand outerDiv_table content_tableBox">
+            <div
+              v-for="(table, index) in tableBox"
+              :key="index"
+              class="tables tables_two"
             >
-              >
-              <template #empty>
-                <img src="@/assets/images/noneData3.png" />
-              </template>
-              <vxe-column
-                type="seq"
-                title="序号"
-                width="5%"
-                fixed="left"
-              ></vxe-column>
-              <vxe-column
-                v-for="(item, idx) in topMenuList"
-                :key="idx"
-                :field="item.prop"
-                :title="item.label"
-              >
-              </vxe-column>
-            </vxe-table>
+              <h3 class="iconfont">{{ table.title }}</h3>
+              <div class="tableTab">
+                <vxe-table
+                  ref="table"
+                  :data="table.tableData"
+                  stripe
+                  round
+                  border="inner"
+                  :column-config="{ resizable: true }"
+                  class="mytable-scrollbar"
+                  auto-resize
+                >
+                  >
+                  <template #empty>
+                    <img src="@/assets/images/noneData3.png" />
+                  </template>
+                  <vxe-column
+                    field="icon"
+                    title="排名"
+                    width="10%"
+                    align="center"
+                  >
+                    <template #default="{ row }">
+                      <svg v-if="row.num === 1" aria-hidden="true">
+                        <use xlink:href="#icon-paihang1" />
+                      </svg>
+                      <svg v-else-if="row.num === 2" aria-hidden="true">
+                        <use xlink:href="#icon-paihang2" />
+                      </svg>
+                      <svg v-else-if="row.num === 3" aria-hidden="true">
+                        <use xlink:href="#icon-paihang" />
+                      </svg>
+                      <span v-else>{{ row.num }}</span>
+                    </template>
+                  </vxe-column>
+                  <vxe-column
+                    v-for="(item, idx) in topMenuList"
+                    :key="idx"
+                    :field="item.prop"
+                    :title="item.label"
+                  />
+                </vxe-table>
+              </div>
+            </div>
           </div>
         </div>
-        <div class="block" v-if="total">
-          <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-size="pagesize"
-            :page-sizes="[10, 20, 50, 100]"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-          >
-          </el-pagination>
+        <div v-show="activeName === '1'" class="ziyou_list">
+          <listPage></listPage>
         </div>
-      </div>-->
+      </div>
     </div>
   </div>
 </template>
 <script>
-import { selfBrand, selfExpendList } from "@/api/api";
-import nopage from "@/components/errorPage";
+import { bidItemExpend } from "@/api/api";
+import listPage from "./list.vue";
 export default {
-  name: "BidItem",
+  name: "SeleBrand",
   components: {
-    nopage,
+    listPage,
   },
   data() {
     return {
-      pickerOptionsStart: {
-        disabledDate: (time) => {
-          return time.getTime() >= new Date().getTime();
+      activeName: "0",
+      tableBox: [
+        {
+          title: "项目月度排行",
+          icon: "icon-benniandu",
+          tableData: [],
         },
-      },
-      pinOptions: [],
-      rules: {
-        brand: [
-          {
-            required: true,
-            message: "请选择品牌",
-            trigger: "blur",
-          },
-        ],
-        search_date: [
-          {
-            required: true,
-            message: "请选择日期",
-            trigger: "blur",
-          },
-        ],
-      },
-      serchVal: null,
-      form: {
-        brand: "",
-        search_date: [],
-      },
-      tableData: [],
+        {
+          title: "类目月度排行",
+          icon: "icon-yuedubaogao",
+          tableData: [],
+        },
+      ],
+      varietyPercent: 0,
       topMenuList: [
         {
           prop: "brand",
           label: "品牌",
-          align: "right",
-          width: "280",
         },
         {
           prop: "consume",
           label: "总消耗",
-          align: "right",
-          width: "280",
-        },
-        {
-          prop: "hb_consume",
-          label: "环比",
-          align: "right",
-          width: "240",
-        },
-        {
-          prop: "tb_consume",
-          label: "同比",
-          align: "right",
-          width: "240",
         },
       ],
-      tableHeight: 0,
-      //分页器状态
-      total: null,
-      currentPage: 1,
-      pagesize: 10,
+      barOption: {
+        backgroundColor: "#f4f5f6",
+        grid: {
+          left: "5%",
+          right: "5%",
+          bottom: "5%",
+          top: "10%",
+          containLabel: true,
+        },
+        xAxis: {
+          show: false,
+          type: "value",
+        },
+        yAxis: [
+          {
+            type: "category",
+            inverse: true,
+            axisLabel: {
+              show: true,
+              textStyle: {
+                color: "#333",
+              },
+              fontSize: 14,
+            },
+            splitLine: {
+              show: false,
+            },
+            axisTick: {
+              show: false,
+            },
+            axisLine: {
+              show: false,
+            },
+            data: ["今年", "去年"],
+          },
+          {
+            type: "category",
+            inverse: true,
+            axisTick: "none",
+            axisLine: "none",
+            show: true,
+            axisLabel: {
+              textStyle: {
+                color: "#333",
+                fontSize: "14",
+              },
+              formatter: function (value) {
+                return value + " 元";
+              },
+            },
+            data: [],
+          },
+        ],
+        series: [
+          {
+            name: "年度总消耗",
+            type: "pictorialBar",
+            zlevel: 1,
+            itemStyle: {
+              normal: {
+                barBorderRadius: 0,
+                color: "#270dd8",
+              },
+            },
+            symbol: "rich", //图形类型，带圆角的矩形
+            symbolMargin: "3", //图形垂直间隔
+            symbolRepeat: true, //图形是否重复
+            symbolSize: [5, 20], //图形元素的尺寸
+            barWidth: 50,
+            data: [60, 90],
+          },
+          {
+            name: "背景",
+            type: "bar",
+            barWidth: 30,
+            barGap: "-100%",
+            data: [100, 100],
+            itemStyle: {
+              normal: {
+                color: "rgba(255,255,255, .8)",
+                barBorderRadius: 4,
+              },
+            },
+          },
+        ],
+      },
+      lineOption: {
+        backgroundColor: "#f4f5f6",
+        legend: {
+          top: 20,
+          data: ["今年", "去年"],
+        },
+        grid: {
+          left: "15%",
+          right: "3%",
+        },
+        xAxis: {
+          type: "category",
+          data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月', '十二月'],
+        },
+        yAxis: {
+          type: "value",
+        },
+        tooltip: {
+          trigger: "axis",
+        },
+        series: [
+          {
+            name: "今年",
+            data: [],
+            type: "line",
+            smooth: true,
+            itemStyle: {
+              color: "#F47FAC", //小圆点和线的颜色
+            },
+            lineStyle: {
+              width: 2,
+              shadowColor: "rgba(0, 0, 0, 0.2)",
+              shadowBlur: 3,
+              shadowOffsetY: 3,
+            },
+            areaStyle: {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: "rgba(200,77,213, 0.2)",
+                  },
+                  {
+                    offset: 1,
+                    color: "rgba(200,77,213, 0)",
+                  },
+                ],
+                global: false, // 缺省为 false
+              },
+            },
+          },
+          {
+            name: "去年",
+            data: [],
+            type: "line",
+            smooth: true,
+            itemStyle: {
+              color: "#3E8FF2", //小圆点和线的颜色
+            },
+            lineStyle: {
+              width: 2,
+              shadowColor: "rgba(0, 0, 0, 0.2)",
+              shadowBlur: 2,
+              shadowOffsetY: 2,
+            },
+            areaStyle: {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: "rgba(13,107, 208, 0.2)",
+                  },
+                  {
+                    offset: 1,
+                    color: "rgba(13,107, 208, 0)",
+                  },
+                ],
+                global: false, // 缺省为 false
+              },
+            },
+          },
+        ],
+      },
     };
   },
   mounted() {
-    const vm = this;
-    vm.getBrand();
-    let myday = vm.formaterDate(new Date().getTime());
-    let oldday = vm.formaterDate(
-      new Date().getTime() - 7 * 24 * 60 * 60 * 1000
-    );
-    vm.form.search_date = [oldday, myday];
-    vm.searchEvent();
-    // this.edge();
+    this.getData();
   },
   methods: {
-    // edge() {
-    //   let arr = [
-    //     ["a", "b", "b", "b", "c", "ddf", "ddf", "a"],
-    //     ["cc", "cc", "cc", "a", "vv", "a", "a", "a"],
-    //     ["a", "mmmm", "a", "mmmm", "a", "a", "mmmm", "mmmm"],
-    //   ];
-    //   for (let i in arr) {
-    //     let midobj = {};
-    //     arr[i].forEach((val, idx) => {
-    //       if (midobj[val]) {
-    //         let num = midobj[val];
-    //         num += 1;
-    //         midobj[val] = num;
-    //       } else {
-    //         midobj[val] = 1;
-    //       }
-    //     });
-    //     let result = [];
-    //     for (let j in midobj) {
-    //       let obj = {};
-    //       this.$set(obj, "code", j);
-    //       this.$set(obj, "num", midobj[j]);
-    //       result.push(obj);
-    //     }
-    //   }
-    // },
-    // 处理日期
-    formaterDate(val) {
-      let Y = new Date(val).getFullYear();
-      let M = new Date(val).getMonth() + 1;
-      let D = new Date(val).getDate();
-      return Y + "-" + M + "-" + D;
-    },
-    // 获取品牌列表
-    getBrand() {
+    getData() {
       const vm = this;
-      selfBrand({
-        a: "",
-      }).then((res) => {
-        vm.pinOptions = res.data.data;
+      bidItemExpend().then((res) => {
+        let bardata = res.data.data.cost_by_year;
+        let linedata = res.data.data.cost_by_month;
+        // 柱状图
+        vm.barOption.yAxis[1].data = [bardata.this_year, bardata.last_year];
+        vm.varietyPercent = bardata.now_proportion;
+        // 折线图
+        linedata.this_year.forEach((val, idx) => {
+          vm.lineOption.series[0].data.push(val.cost);
+        });
+        linedata.last_year.forEach((val, idx) => {
+          vm.lineOption.series[1].data.push(val.cost);
+        });
+        // 排行
+        let itemPH = res.data.data.bidding_rank;
+        let leimuPH = res.data.data.leimu_rank;
+        let arr = [itemPH, itemPH];
+        arr.forEach((item, indx) => {
+          item.forEach((val, idx) => {
+            vm.$set(val, "num", idx + 1);
+          });
+        });
+        vm.tableBox[0].tableData = itemPH
+        vm.tableBox[1].tableData = leimuPH
+
+        vm.handleBar();
+        vm.handleLine();
       });
     },
-    // 获取列表
-    getListData(val) {
+    handleLine() {
       const vm = this;
-      selfExpendList({ ...val }).then((res) => {
-        vm.tableData = res.data.data;
-        vm.total = res.data.count;
+      vm.$nextTick(() => {
+        let myChart = vm.$echarts.init(document.getElementById("lineBox"));
+        myChart.setOption(vm.lineOption, true);
       });
     },
-    searchEvent() {
+    handleBar(val) {
       const vm = this;
-      let data = {
-        start_date: vm.form.search_date[0],
-        end_date: vm.form.search_date[1],
-      };
-      vm.serchVal = {
-        ...data,
-        brand: vm.form.brand,
-        limit: vm.pagesize,
-        page: vm.currentPage,
-      };
-      vm.getListData(vm.serchVal);
-    },
-    //分页器功能
-    handleSizeChange(val) {
-      this.pagesize = val;
-      this.searchEvent();
-    },
-    //有接口请求 每点击一页进行一次数据请求 参数页码为动态值：
-    handleCurrentChange(page) {
-      this.currentPage = page;
-      this.searchEvent();
+      vm.$nextTick(() => {
+        let myChart = vm.$echarts.init(document.getElementById("barBox"));
+        myChart.setOption(vm.barOption, true);
+      });
     },
   },
 };
 </script>
-
-<style lang="less" scoped>
+<style scoped lang="less">
+@import "index";
+@import "../selfBrand/index";
 @import "@/views/index";
-
-.temInfoSpan {
-  cursor: pointer;
-  color: #287bb5;
-}
-
-.el-divider {
-  margin-top: 0;
-}
 </style>

@@ -2,80 +2,134 @@
     &_charts {
         height: 55%;
         padding-top: 60px;
-        // margin: 60px 120px 20px 120px !important;
     }
 
     &_table {
         height: 45%;
-        padding: 0 120px 50px 120px !important;
+        padding: 0 0 50px 0 !important;
         display: flex;
         justify-content: space-between;
     }
-}
 
-#pieBox,
-#barBox {
-    width: 30%;
-    height: calc(100% - 60px);
-    display: inline-block;
-}
+    .ziyou {
+        padding: 40px 0;
+        height: 100%;
+        box-sizing: border-box;
 
-#barBox {
-    width: 70%;
-}
+        &_tab {
+            padding: 0 120px;
+        }
 
-/deep/#fullpage {
-    .section {
-        .top {
-            margin: 50px 120px 20px 120px !important;
-            height: calc(100% - 70px);
-            box-shadow: -20px 0 30px #f0f0f0;
-            &_txt {
-                font-size: 18px;
-                line-height: 60px;
+        &_chart {
+            padding: 0 120px;
+            height: calc(100% - 50px);
+            overflow: auto;
+            
+            h2 {
                 text-align: center;
-                font-weight: bold;
-                color: #303133;
+                font-size: 24px;
+                margin-bottom: 20px;
+                color: #606266;
+            }
+
+            .chart {
+                border-radius: 10px;
+                overflow: hidden;
+                flex-basis: 100%;
+                height: 280px;
+                margin-bottom: 40px;
+                display: flex;
+                justify-content: space-between;
+                flex-wrap: nowrap;
+
+                &.ts {
+                    height: 340px;
+                }
+            }
+
+            &_top {
+
+                &left,
+                &right {
+                    border-radius: 10px;
+                    overflow: hidden;
+                    flex-basis: 48%;
+                    height: 100%;
+                    flex-wrap: wrap;
+                    background-color: #fff;
+                }
+
+                &left {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    &.ts {
+                        flex-basis: 40%
+                    }
+                    h2 {
+                        height: 15%;
+                        margin-bottom: 0;
+                        box-sizing: border-box;
+                    }
+                    p {
+                        flex-basis: 100%;
+                        font-size: 20px;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 20%;
+                        background-color: #e2e3e4;
+
+                        span {
+                            &:nth-child(2) {
+                                font-weight: bold;
+                                padding: 0 20px;
+                            }
+                            &.top {
+                                color: red;
+                            }
+                            &.bot {
+                                color: green;
+                            }
+                        }
+                    }
+                }
+                &right {
+                    &.ts {
+                        flex-basis: 58%
+                    }
+                }
+            }
+
+            &_bottom {
+                flex-basis: 100%;
+                height: 60%;
+            }
+        }
+        &_list {
+            height: 100%;
+            .content {
+                padding-top: 0;
             }
         }
     }
 }
 
+#pieBox,
+#barBox,
+#lineBox {
+    width: 100%;
+    height: 100%;
+    display: inline-block;
+}
+
+#barBox {
+    height: 80%;
+    &.ts {
+        height:65%;
+    }
+}
 svg {
     width: 30px;
     height: 30px;
-    &.titleicon {
-        width: 40px;
-        height: 40px;
-    }
-}
-
-
-.slideTip {
-    text-align: center;
-    position: fixed;
-    top: 50%;
-    right: 50px;
-    transform: translateY(-50%);
-    width: 40px;
-    font-size: 16px;
-    color: #606266;
-    animation: txtslide 2s linear infinite;
-}
-
-@keyframes txtslide {
-    0% {
-        transform: translateY(-50%);
-        filter: brightness(35%);
-    }
-
-    50% {
-        transform: translateY(-50%);
-        filter: brightness(99%);
-    }
-
-    100% {
-        transform: translateY(-50%);
-        filter: brightness(35%);
-    }
 }

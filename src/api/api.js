@@ -3,20 +3,20 @@ import request from "./request.js"
 let BASEPATH = '';
 let BASEPATH2 = '';
 let BASEPATH3 = '';
-let BASEPATH4 = '';
+let BASEPATH5 = '';
 
 if (process.env.NODE_ENV === 'production') {
     BASEPATH = 'http://114.67.229.243:8001'
     BASEPATH2 = 'http://tool.afocus.com.cn'
     BASEPATH3 = 'http://114.67.229.243:8002'
-	BASEPATH4 = 'http://106.14.107.148:8001'
+    BASEPATH5 = 'http://114.67.229.243:8101'
     // 生产环境
 } else {
     // 开发环境
     BASEPATH = 'http://114.67.229.243:8001'
     BASEPATH2 = 'http://tool.afocus.com.cn'
     BASEPATH3 = 'http://114.67.229.243:8002'
-	BASEPATH4 = 'http://106.14.107.148:8001'
+    BASEPATH5 = 'http://114.67.229.243:8101'
 }
 // 数据应用--竞标监控--竞标搜索  ok
 export const BiddingSearch = request({
@@ -305,37 +305,37 @@ export const effectCharts = request({
 })
 // 预算预警
 export const alarmSetting = request({
-    url:`${BASEPATH4}/tools/set_monitoring`,
+    url:`${BASEPATH5}/tools/set_monitoring`,
     method:'post',
 })
 // 预算预警-获取所有用户
 export const alarmUser = request({
-    url:`${BASEPATH4}/tools/get_all_user`,
+    url:`${BASEPATH5}/tools/get_all_user`,
     method:'get',
 })
 // 预算预警-获取所有推广计划
 export const alarmPlan = request({
-    url:`${BASEPATH4}/tools/get_all_plan_id`,
+    url:`${BASEPATH5}/tools/get_all_plan_id`,
     method:'get',
 })
 // 预算预警-获取详情
 export const alarmDetail = request({
-    url:`${BASEPATH4}/tools/get_target_percentage`,
+    url:`${BASEPATH5}/tools/get_target_percentage`,
     method:'post',
 })
 // 预算预警-删除预警
 export const alarmDelete = request({
-    url:`${BASEPATH4}/tools/del_monitoring`,
+    url:`${BASEPATH5}/tools/del_monitoring`,
     method:'post',
 })
 // 预算预警-下载模板（日）
 export const alarmModuleDay = request({
-    url:`${BASEPATH4}/tools/download_budget_model_by_day`,
+    url:`${BASEPATH5}/tools/download_budget_model_by_day`,
     method:'get',
 })
 // 预算预警- 批量设置
 export const alarmModuleSet = request({
-    url:`${BASEPATH4}/tools/set_budget_by_day`,
+    url:`${BASEPATH5}/tools/set_budget_by_day`,
     method:'post',
     responseType: 'form-data'
 })
@@ -347,6 +347,12 @@ export const expendDate = request({
 // 自有消耗图表
 export const selfExpend = request({
     url:`${BASEPATH}/myselfwork/myself_consume/`,
+    method:'post',
+    responseType: 'form-data'
+})
+// 自有消耗图表--饼图
+export const selfExpendPie = request({
+    url:`${BASEPATH}/myselfwork/myself_sector/`,
     method:'post',
     responseType: 'form-data'
 })
@@ -367,5 +373,21 @@ export const selfExpendList = request({
     method:'post',
     responseType: 'form-data'
 })
+// 竞标项目图表
+export const bidItemExpend = request({
+    url:`${BASEPATH5}/report/jingbiao_lhhb_index`,
+    method:'get',
+})
+// 竞标项目结果列表
+export const bidItemList = request({
+    url:`${BASEPATH5}/report/jingbiao_lhhb_report`,
+    method:'post',
+})
+// 竞标项目列表
+export const bidItem = request({
+    url:`${BASEPATH5}/report/jingbiao_lhhb_name`,
+    method:'get'
+})
+
 
 
