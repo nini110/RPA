@@ -82,13 +82,50 @@
               field="brand"
               fixed="left"
             ></vxe-column>
-            <vxe-column
+            <!-- <vxe-column
               v-for="(item, idx) in topMenuList"
               :key="idx"
               :field="item.prop"
               :title="item.label"
               min-width="12%"
-            ></vxe-column>
+            ></vxe-column> -->
+            <vxe-column min-width="12%" field="consume" title="现金消耗">
+              <template #default="{ row }">
+                <span v-if="!row.cash_consume">--</span>
+                <span v-else>{{ row.cash_consume | numberToCurrencyNo }}</span>
+              </template>
+            </vxe-column>
+            <vxe-column min-width="12%" field="consume" title="返佣金消耗">
+              <template #default="{ row }">
+                <span v-if="!row.rebate_consume">--</span>
+                <span v-else>{{ row.rebate_consume | numberToCurrencyNo }}</span>
+              </template>
+            </vxe-column>
+            <vxe-column min-width="12%" field="consume" title="虚拟金消耗">
+              <template #default="{ row }">
+                <span v-if="!row.virtual_consume">--</span>
+                <span v-else>{{ row.virtual_consume | numberToCurrencyNo }}</span>
+              </template>
+            </vxe-column>
+            <vxe-column min-width="12%" field="consume" title="站内返点消耗">
+              <template #default="{ row }">
+                <span v-if="!row.zn_consume">--</span>
+                <span v-else>{{ row.zn_consume | numberToCurrencyNo }}</span>
+              </template>
+            </vxe-column>
+            <vxe-column min-width="12%" field="consume" title="站外返点消耗">
+              <template #default="{ row }">
+                <span v-if="!row.zw_fd">--</span>
+                <span v-else>{{ row.zw_fd | numberToCurrencyNo }}</span>
+              </template>
+            </vxe-column>
+            <vxe-column min-width="12%" field="consume" title="其他非返点消耗">
+              <template #default="{ row }">
+                <span v-if="!row.zw_nfd">--</span>
+                <span v-else>{{ row.zw_nfd | numberToCurrencyNo }}</span>
+              </template>
+            </vxe-column>
+            <!--  -->
             <vxe-column min-width="12%" field="consume" title="总消耗">
               <template #default="{ row }">
                 <span v-if="!row.consume">--</span>

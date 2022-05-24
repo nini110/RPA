@@ -1,6 +1,6 @@
 <template>
   <div class="outerDiv">
-    <div class="content" >
+    <div class="content">
       <div class="ziyou">
         <div class="ziyou_tab">
           <el-tabs v-model="activeName">
@@ -8,7 +8,7 @@
             <el-tab-pane label="列表" name="1"></el-tab-pane>
           </el-tabs>
         </div>
-        <div v-show="activeName==='0'" class="ziyou_chart">
+        <div v-show="activeName === '0'" class="ziyou_chart">
           <h2>年度总消耗</h2>
           <div class="chart">
             <div class="ziyou_chart_topleft">
@@ -16,8 +16,12 @@
               <p>
                 <span>今年相较去年同比</span>
                 <span
-                  :class="varietyPercent > 0 ? 'el-icon-top top' : 'el-icon-bottom bot'"
-                  >{{  Math.abs(varietyPercent) * 100}}%</span
+                  :class="
+                    varietyPercent > 0
+                      ? 'el-icon-top top'
+                      : 'el-icon-bottom bot'
+                  "
+                  >{{ Math.abs(varietyPercent) * 100 }}%</span
                 >
               </p>
             </div>
@@ -36,7 +40,7 @@
               class="tables tables_two"
             >
               <h3 class="iconfont">{{ table.title }}</h3>
-              <div class="tableTab">
+              <div class="tableTab_two">
                 <vxe-table
                   ref="table"
                   :data="table.tableData"
@@ -75,13 +79,20 @@
                     :key="idx"
                     :field="item.prop"
                     :title="item.label"
-                  />
+                    show-overflow="tooltip"
+                    min-width="14%"
+                  >
+                    <template #default="{ row }">
+                      <span v-if="item.prop === 'consume'">{{row[item.prop] | numberToCurrencyNo}}</span>
+                      <span v-else>{{ row[item.prop] }}</span>
+                    </template>
+                  </vxe-column>
                 </vxe-table>
               </div>
             </div>
           </div>
         </div>
-        <div v-show="activeName==='1'" class="ziyou_list">
+        <div v-show="activeName === '1'" class="ziyou_list">
           <listPage></listPage>
         </div>
       </div>
@@ -97,6 +108,7 @@ export default {
     listPage,
   },
   data() {
+    const vm = this;
     return {
       activeName: "0",
       tableBox: [
@@ -124,10 +136,10 @@ export default {
       ],
       piedata: null,
       barOption: {
-        backgroundColor: "#f4f5f6",
+        // backgroundColor: "#f4f5f6",
         grid: {
           left: "10%",
-          right: "15%",
+          right: "12%",
           bottom: "5%",
           top: "10%",
           containLabel: true,
@@ -170,7 +182,7 @@ export default {
                 fontSize: "14",
               },
               formatter: function (value) {
-                return value + " 元";
+                return vm.numberToCurrencyNo(value) + " 元";
               },
             },
             data: [],
@@ -184,33 +196,34 @@ export default {
             itemStyle: {
               normal: {
                 barBorderRadius: 0,
-                color: "#270dd8",
+                // color: "#270dd8",
+                color: "#F72B07",
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形
-            symbolMargin: "3", //图形垂直间隔
+            symbolMargin: "2", //图形垂直间隔
             symbolRepeat: true, //图形是否重复
-            symbolSize: [5, 20], //图形元素的尺寸
+            symbolSize: [3, 20], //图形元素的尺寸
             barWidth: 50,
-            data: [60, 90],
+            data: [],
           },
           {
             name: "背景",
             type: "bar",
             barWidth: 30,
             barGap: "-100%",
-            data: [100, 100],
+            data: [],
             itemStyle: {
               normal: {
-                color: "rgba(255,255,255, .8)",
-                barBorderRadius: 4,
+                color: "rgba(240,240,240, .8)",
               },
             },
+            selectedMode: false,
           },
         ],
       },
       pieOption: {
-        backgroundColor: "#f4f5f6",
+        // backgroundColor: "#f4f5f6",
         legend: {
           show: true,
           top: "center",
@@ -237,15 +250,15 @@ export default {
           },
         },
         tooltip: {
-          show: true,
+          show: false,
           trigger: "item",
           formatter: "{a}<br>{b}:{c}({d}%)",
         },
         color: ["#0d6bd0", "#ffc300", "#00e473"],
         grid: {
-          top: "2%",
-          bottom: "62%",
-          left: "43%",
+          top: "0%",
+          bottom: "65%",
+          left: "45%",
           containLabel: false,
         },
         yAxis: [
@@ -280,7 +293,7 @@ export default {
         series: [],
       },
       lineOption: {
-        backgroundColor: "#f4f5f6",
+        // backgroundColor: "#f4f5f6",
         legend: {
           top: 20,
           data: ["今年", "去年"],
@@ -291,13 +304,68 @@ export default {
         },
         xAxis: {
           type: "category",
-          data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月', '十二月'],
+          data: [
+            "一月",
+            "二月",
+            "三月",
+            "四月",
+            "五月",
+            "六月",
+            "七月",
+            "八月",
+            "九月",
+            "十月",
+            "十一月",
+            "十二月",
+          ],
         },
         yAxis: {
           type: "value",
         },
         tooltip: {
           trigger: "axis",
+          formatter: function (item) {
+            let htm;
+            if (item[0].value) {
+              let zhi = Math.abs(
+                Math.round(
+                  ((item[0].value - item[1].value) / item[1].value) * 10000
+                ) / 100
+              );
+              let txt;
+              let iconclass;
+              if (item[0].value > item[1].value) {
+                iconclass = "red";
+                txt = `增长：${zhi}%`;
+              } else if (item[0].value === item[1].value) {
+              } else {
+                iconclass = "green";
+                txt = `下降：${zhi}%`;
+              }
+              htm = `
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                item[0].color
+              };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
+                item[0].value
+              )}</div>
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                item[1].color
+              };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
+                item[1].value
+              )}</div>
+              <div style="font-size: 12px; color: ${iconclass}"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${iconclass};"></span></span>${txt}</div>
+            `;
+            } else {
+              htm = `
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                item[1].color
+              };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
+                item[1].value
+              )}</div>
+            `;
+            }
+            return htm;
+          },
         },
         series: [
           {
@@ -399,8 +467,13 @@ export default {
         let linedata = res[1].data.data;
         let respie = res[2].data.data;
         // 柱状图
+        vm.barOption.series[0].data = [bardata.now_year, bardata.last_year];
+        vm.barOption.series[1].data =
+          bardata.now_year > bardata.last_year
+            ? [bardata.now_year, bardata.now_year]
+            : [bardata.last_year, bardata.last_year];
         vm.barOption.yAxis[1].data = [bardata.now_year, bardata.last_year];
-        vm.varietyPercent = bardata.now_proportion
+        vm.varietyPercent = bardata.now_proportion;
         // 饼图
         vm.piedata = [
           {
@@ -444,7 +517,13 @@ export default {
       vm.pieOption.legend.data = vm.getArrayValue(vm.piedata, "name");
       let objData = vm.array2obj(vm.piedata, "name");
       vm.pieOption.legend.formatter = function (name) {
-        return "{title|" + name + "}\n{value|" + objData[name].value + "元}";
+        return (
+          "{title|" +
+          name  + '(今年)' +
+          "}\n{value|" +
+          vm.numberToCurrencyNo(objData[name].value) +
+          "元}"
+        );
       };
       let optionData = vm.chuliData(vm.piedata);
       vm.pieOption.yAxis[0].data = optionData.yAxis;
@@ -499,8 +578,8 @@ export default {
           name: "今年",
           type: "pie",
           clockWise: false, //顺时加载
-          hoverAnimation: false, //鼠标移入变大
-          radius: [85 - i * 25 + "%", 72 - i * 25 + "%"],
+          hoverAnimation: true, //鼠标移入变大
+          radius: [95 - i * 25 + "%", 75 - i * 25 + "%"],
           center: ["36%", "50%"],
           label: {
             show: false,
@@ -539,8 +618,8 @@ export default {
           silent: true,
           z: 1,
           clockWise: false, //顺时加载
-          hoverAnimation: false, //鼠标移入变大
-          radius: [85 - i * 25 + "%", 72 - i * 25 + "%"],
+          hoverAnimation: true, //鼠标移入变大
+          radius: [95 - i * 25 + "%", 75 - i * 25 + "%"],
           center: ["36%", "50%"],
           label: {
             show: false,
@@ -583,6 +662,25 @@ export default {
         res.yAxis.push(((dataval[i].value / sumValue) * 100).toFixed(2) + "%");
       }
       return res;
+    },
+    numberToCurrencyNo(value) {
+      if (!value) return 0;
+      // 获取整数部分
+      const intPart = Math.trunc(value);
+      // 整数部分处理，增加,
+      const intPartFormat = intPart
+        .toString()
+        .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+      // 预定义小数部分
+      let floatPart = "";
+      // 将数值截取为小数部分和整数部分
+      const valueArray = value.toString().split(".");
+      if (valueArray.length === 2) {
+        // 有小数部分
+        floatPart = valueArray[1].toString(); // 取得小数部分
+        return intPartFormat + "." + floatPart;
+      }
+      return intPartFormat + floatPart;
     },
   },
 };

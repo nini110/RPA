@@ -9,25 +9,24 @@
           </el-tabs>
         </div>
         <div v-show="activeName === '0'" class="ziyou_chart">
-          <div class="chart ts">
-            <div class="ziyou_chart_topleft ts">
+          <div class="chart ts2">
+            <div class="ts2_box">
               <h2>年度总消耗</h2>
-              <div id="barBox" class="ts"></div>
-              <p>
-                <span>今年相较去年同比</span>
-                <span
-                  :class="
-                    varietyPercent > 0
-                      ? 'el-icon-top top'
-                      : 'el-icon-bottom bot'
-                  "
-                  >{{ Math.abs(varietyPercent) * 100 }}%</span
-                >
-              </p>
+              <div class="ziyou_chart_topleft ts">
+                <div id="barBox1" class="ts"></div>
+                <p>
+                  <span>今年相较去年同比</span>
+                  <span :class="varietyClass"
+                    >{{ Math.abs(varietyPercent) * 100 }}%</span
+                  >
+                </p>
+              </div>
             </div>
-            <div class="ziyou_chart_topright ts">
+            <div class="ts2_box2">
               <h2>月度总消耗</h2>
-              <div id="lineBox"></div>
+              <div class="ziyou_chart_topright ts">
+                <div id="lineBox1"></div>
+              </div>
             </div>
           </div>
           <div class="selfBrand outerDiv_table content_tableBox">
@@ -37,7 +36,7 @@
               class="tables tables_two"
             >
               <h3 class="iconfont">{{ table.title }}</h3>
-              <div class="tableTab">
+              <div class="tableTab tableTab_two">
                 <vxe-table
                   ref="table"
                   :data="table.tableData"
@@ -72,11 +71,20 @@
                     </template>
                   </vxe-column>
                   <vxe-column
-                    v-for="(item, idx) in topMenuList"
+                    v-for="(item, idx) in table.topMenuList"
                     :key="idx"
                     :field="item.prop"
                     :title="item.label"
-                  />
+                    show-overflow="tooltip"
+                    :min-width="item.width"
+                  >
+                    <template #default="{ row }">
+                      <span v-if="item.prop === 'cost'">{{
+                        row[item.prop] | numberToCurrencyNo
+                      }}</span>
+                      <span v-else>{{ row[item.prop] }}</span>
+                    </template>
+                  </vxe-column>
                 </vxe-table>
               </div>
             </div>
@@ -98,6 +106,7 @@ export default {
     listPage,
   },
   data() {
+    const vm = this;
     return {
       activeName: "0",
       tableBox: [
@@ -105,26 +114,41 @@ export default {
           title: "项目月度排行",
           icon: "icon-benniandu",
           tableData: [],
+          topMenuList: [
+            {
+              prop: "biddingName",
+              label: "项目",
+              width: "60%",
+            },
+            {
+              prop: "cost",
+              label: "总消耗",
+              width: "20%",
+            },
+          ],
         },
         {
           title: "类目月度排行",
           icon: "icon-yuedubaogao",
           tableData: [],
+          topMenuList: [
+            {
+              prop: "category",
+              label: "类目",
+              width: "60%",
+            },
+            {
+              prop: "cost",
+              label: "总消耗",
+              width: "20%",
+            },
+          ],
         },
       ],
+      varietyClass: "",
       varietyPercent: 0,
-      topMenuList: [
-        {
-          prop: "brand",
-          label: "品牌",
-        },
-        {
-          prop: "consume",
-          label: "总消耗",
-        },
-      ],
       barOption: {
-        backgroundColor: "#f4f5f6",
+        // backgroundColor: "#f4f5f6",
         grid: {
           left: "5%",
           right: "5%",
@@ -170,7 +194,7 @@ export default {
                 fontSize: "14",
               },
               formatter: function (value) {
-                return value + " 元";
+                return vm.numberToCurrencyNo(value) + " 元";
               },
             },
             data: [],
@@ -184,50 +208,116 @@ export default {
             itemStyle: {
               normal: {
                 barBorderRadius: 0,
-                color: "#270dd8",
+                color: "#F72B07",
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形
-            symbolMargin: "3", //图形垂直间隔
+            symbolMargin: "2", //图形垂直间隔
             symbolRepeat: true, //图形是否重复
-            symbolSize: [5, 20], //图形元素的尺寸
-            barWidth: 50,
-            data: [60, 90],
+            symbolSize: [3, 20], //图形元素的尺寸
+            barWidth: 30,
+            data: [],
           },
           {
             name: "背景",
             type: "bar",
             barWidth: 30,
             barGap: "-100%",
-            data: [100, 100],
+            data: [],
             itemStyle: {
               normal: {
-                color: "rgba(255,255,255, .8)",
-                barBorderRadius: 4,
+                color: "rgba(240,240,240, .8)",
               },
             },
           },
         ],
       },
       lineOption: {
-        backgroundColor: "#f4f5f6",
+        // backgroundColor: "#f4f5f6",
         legend: {
-          top: 20,
+          top: 10,
           data: ["今年", "去年"],
         },
         grid: {
           left: "15%",
           right: "3%",
+          bottom: "15%",
+          top: "18%",
         },
         xAxis: {
           type: "category",
-          data: ['一月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月', '十二月'],
+          data: [
+            "一月",
+            "二月",
+            "三月",
+            "四月",
+            "五月",
+            "六月",
+            "七月",
+            "八月",
+            "九月",
+            "十月",
+            "十一月",
+            "十二月",
+          ],
         },
         yAxis: {
           type: "value",
         },
         tooltip: {
           trigger: "axis",
+          formatter: function (item) {
+            let htm;
+            if (item[0].value && item[1] && item[1].value) {
+              let zhi = Math.abs(
+                Math.round(
+                  ((item[0].value - item[1].value) / item[1].value) * 10000
+                ) / 100
+              );
+              let txt;
+              let iconclass;
+              if (item[0].value > item[1].value) {
+                iconclass = "red";
+                txt = `增长：${zhi}%`;
+              } else if (item[0].value === item[1].value) {
+              } else {
+                iconclass = "green";
+                txt = `下降：${zhi}%`;
+              }
+              htm = `
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                item[0].color
+              };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
+                item[0].value
+              )}</div>
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                item[1].color
+              };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
+                item[1].value
+              )}</div>
+              <div style="font-size: 12px; color: ${iconclass}"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${iconclass};"></span></span>${txt}</div>
+            `;
+            } else {
+              if (item[0] && item[0].value) {
+                htm = `
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                item[0].color
+              };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
+                  item[0].value
+                )}</div>
+            `;
+              } else if (item[0] && item[1].value) {
+                htm = `
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                item[1].color
+              };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
+                  item[1].value
+                )}</div>
+            `;
+              }
+            }
+            return htm;
+          },
         },
         series: [
           {
@@ -314,8 +404,30 @@ export default {
         let bardata = res.data.data.cost_by_year;
         let linedata = res.data.data.cost_by_month;
         // 柱状图
+        vm.barOption.series[0].data = [bardata.this_year, bardata.last_year];
+        vm.barOption.series[1].data =
+          bardata.this_year > bardata.last_year
+            ? [bardata.this_year, bardata.this_year]
+            : [bardata.last_year, bardata.last_year];
         vm.barOption.yAxis[1].data = [bardata.this_year, bardata.last_year];
-        vm.varietyPercent = bardata.now_proportion;
+        // 计算比例
+        if (bardata.this_year === 0 && bardata.last_year !== 0) {
+          vm.varietyClass = "el-icon-bottom bot";
+          vm.varietyPercent = 1;
+        } else if (bardata.this_year !== 0 && bardata.last_year === 0) {
+          vm.varietyClass = "el-icon-top top";
+          vm.varietyPercent = 1;
+        } else if (bardata.this_year === bardata.last_year) {
+          vm.varietyClass = "el-icon-top top";
+          vm.varietyPercent = 1;
+        } else {
+          vm.varietyClass =
+            bardata.this_year > bardata.last_year
+              ? "el-icon-top top"
+              : "el-icon-bottom bot";
+          vm.varietyPercent =
+            (bardata.this_year - bardata.last_year) / bardata.last_year;
+        }
         // 折线图
         linedata.this_year.forEach((val, idx) => {
           vm.lineOption.series[0].data.push(val.cost);
@@ -326,15 +438,14 @@ export default {
         // 排行
         let itemPH = res.data.data.bidding_rank;
         let leimuPH = res.data.data.leimu_rank;
-        let arr = [itemPH, itemPH];
+        let arr = [itemPH, leimuPH];
         arr.forEach((item, indx) => {
           item.forEach((val, idx) => {
             vm.$set(val, "num", idx + 1);
           });
         });
-        vm.tableBox[0].tableData = itemPH
-        vm.tableBox[1].tableData = leimuPH
-
+        vm.tableBox[0].tableData = itemPH;
+        vm.tableBox[1].tableData = leimuPH;
         vm.handleBar();
         vm.handleLine();
       });
@@ -342,16 +453,35 @@ export default {
     handleLine() {
       const vm = this;
       vm.$nextTick(() => {
-        let myChart = vm.$echarts.init(document.getElementById("lineBox"));
+        let myChart = vm.$echarts.init(document.getElementById("lineBox1"));
         myChart.setOption(vm.lineOption, true);
       });
     },
     handleBar(val) {
       const vm = this;
       vm.$nextTick(() => {
-        let myChart = vm.$echarts.init(document.getElementById("barBox"));
+        let myChart = vm.$echarts.init(document.getElementById("barBox1"));
         myChart.setOption(vm.barOption, true);
       });
+    },
+    numberToCurrencyNo(value) {
+      if (!value) return 0;
+      // 获取整数部分
+      const intPart = Math.trunc(value);
+      // 整数部分处理，增加,
+      const intPartFormat = intPart
+        .toString()
+        .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+      // 预定义小数部分
+      let floatPart = "";
+      // 将数值截取为小数部分和整数部分
+      const valueArray = value.toString().split(".");
+      if (valueArray.length === 2) {
+        // 有小数部分
+        floatPart = valueArray[1].toString(); // 取得小数部分
+        return intPartFormat + "." + floatPart;
+      }
+      return intPartFormat + floatPart;
     },
   },
 };
