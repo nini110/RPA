@@ -14,14 +14,23 @@
             <div class="ziyou_chart_topleft">
               <div id="barBox"></div>
               <p>
-                <span>今年相较去年同比</span>
+                <el-tooltip
+                  class="item"
+                  effect="dark"
+                  :content="tooltipContent"
+                  placement="bottom"
+                >
+                  <span class="el-icon-warning-outline infotip"
+                    >今年相较去年同比</span
+                  >
+                </el-tooltip>
                 <span
                   :class="
                     varietyPercent > 0
                       ? 'el-icon-top top'
                       : 'el-icon-bottom bot'
                   "
-                  >{{ Math.abs(varietyPercent) * 100 }}%</span
+                  >{{ Math.abs(varietyPercent) }}%</span
                 >
               </p>
             </div>
@@ -83,7 +92,9 @@
                     min-width="14%"
                   >
                     <template #default="{ row }">
-                      <span v-if="item.prop === 'consume'">{{row[item.prop] | numberToCurrencyNo}}</span>
+                      <span v-if="item.prop === 'consume'">{{
+                        row[item.prop] | numberToCurrencyNo
+                      }}</span>
                       <span v-else>{{ row[item.prop] }}</span>
                     </template>
                   </vxe-column>
@@ -110,6 +121,7 @@ export default {
   data() {
     const vm = this;
     return {
+      tooltipContent: "",
       activeName: "0",
       tableBox: [
         {
@@ -201,9 +213,9 @@ export default {
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形
-            symbolMargin: "2", //图形垂直间隔
+            symbolMargin: "1", //图形垂直间隔
             symbolRepeat: true, //图形是否重复
-            symbolSize: [3, 20], //图形元素的尺寸
+            symbolSize: [2, 20], //图形元素的尺寸
             barWidth: 50,
             data: [],
           },
@@ -443,7 +455,8 @@ export default {
     };
   },
   mounted() {
-    this.getData();
+    const vm = this;
+    vm.getData();
   },
   methods: {
     getData() {
@@ -473,7 +486,20 @@ export default {
             ? [bardata.now_year, bardata.now_year]
             : [bardata.last_year, bardata.last_year];
         vm.barOption.yAxis[1].data = [bardata.now_year, bardata.last_year];
-        vm.varietyPercent = bardata.now_proportion;
+        let currentMonth = new Date().getMonth();
+        let totalConsum_now = 0;
+        let totalConsum_last = 0;
+        for (let i = 0; i < linedata.length; i++) {
+          if (i < currentMonth) {
+            totalConsum_now += linedata[i].now;
+            totalConsum_last += linedata[i].last;
+          }
+        }
+        vm.tooltipContent = `比较周期为【1月】 至 【${currentMonth}月】`;
+        vm.varietyPercent =
+          Math.round(
+            ((totalConsum_now - totalConsum_last) / totalConsum_last) * 10000
+          ) / 100;
         // 饼图
         vm.piedata = [
           {
@@ -519,7 +545,8 @@ export default {
       vm.pieOption.legend.formatter = function (name) {
         return (
           "{title|" +
-          name  + '(今年)' +
+          name +
+          "(今年)" +
           "}\n{value|" +
           vm.numberToCurrencyNo(objData[name].value) +
           "元}"

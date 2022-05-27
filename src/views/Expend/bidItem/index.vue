@@ -15,9 +15,23 @@
               <div class="ziyou_chart_topleft ts">
                 <div id="barBox1" class="ts"></div>
                 <p>
-                  <span>今年相较去年同比</span>
-                  <span :class="varietyClass"
-                    >{{ Math.abs(varietyPercent) * 100 }}%</span
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    :content="tooltipContent"
+                    placement="bottom"
+                  >
+                    <span class="el-icon-warning-outline infotip"
+                      >今年相较去年同比</span
+                    >
+                  </el-tooltip>
+                  <span
+                    :class="
+                      varietyPercent > 0
+                        ? 'el-icon-top top'
+                        : 'el-icon-bottom bot'
+                    "
+                    >{{ Math.abs(varietyPercent) }}%</span
                   >
                 </p>
               </div>
@@ -108,6 +122,7 @@ export default {
   data() {
     const vm = this;
     return {
+      tooltipContent: "",
       activeName: "0",
       tableBox: [
         {
@@ -145,7 +160,6 @@ export default {
           ],
         },
       ],
-      varietyClass: "",
       varietyPercent: 0,
       barOption: {
         // backgroundColor: "#f4f5f6",
@@ -212,9 +226,9 @@ export default {
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形
-            symbolMargin: "2", //图形垂直间隔
+            symbolMargin: "1", //图形垂直间隔
             symbolRepeat: true, //图形是否重复
-            symbolSize: [3, 20], //图形元素的尺寸
+            symbolSize: [2, 20], //图形元素的尺寸
             barWidth: 30,
             data: [],
           },
@@ -395,7 +409,8 @@ export default {
     };
   },
   mounted() {
-    this.getData();
+    const vm = this;
+    vm.getData();
   },
   methods: {
     getData() {
@@ -411,23 +426,25 @@ export default {
             : [bardata.last_year, bardata.last_year];
         vm.barOption.yAxis[1].data = [bardata.this_year, bardata.last_year];
         // 计算比例
-        if (bardata.this_year === 0 && bardata.last_year !== 0) {
-          vm.varietyClass = "el-icon-bottom bot";
-          vm.varietyPercent = 1;
-        } else if (bardata.this_year !== 0 && bardata.last_year === 0) {
-          vm.varietyClass = "el-icon-top top";
-          vm.varietyPercent = 1;
-        } else if (bardata.this_year === bardata.last_year) {
-          vm.varietyClass = "el-icon-top top";
-          vm.varietyPercent = 1;
-        } else {
-          vm.varietyClass =
-            bardata.this_year > bardata.last_year
-              ? "el-icon-top top"
-              : "el-icon-bottom bot";
-          vm.varietyPercent =
-            (bardata.this_year - bardata.last_year) / bardata.last_year;
+        let currentMonth = new Date().getMonth();
+        let totalConsum_now = 0;
+        let totalConsum_last = 0;
+        for (let i = 0; i < linedata.this_year.length; i++) {
+          if (i < currentMonth) {
+            totalConsum_now += linedata.this_year[i].cost;
+          }
         }
+        for (let i = 0; i < linedata.last_year.length; i++) {
+          if (i < currentMonth) {
+            totalConsum_last += linedata.last_year[i].cost;
+          }
+        }
+        vm.tooltipContent = `比较周期为【1月】 至 【${currentMonth}月】`;
+        vm.varietyPercent =
+          Math.round(
+            ((totalConsum_now - totalConsum_last) / totalConsum_last) * 10000
+          ) / 100;
+
         // 折线图
         linedata.this_year.forEach((val, idx) => {
           vm.lineOption.series[0].data.push(val.cost);

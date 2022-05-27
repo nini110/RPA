@@ -270,7 +270,7 @@ export default {
       outerTableHeight: "cls2",
       pickerOptionsStart: {
         disabledDate: (time) => {
-          return time.getTime() >= new Date().getTime();
+          return time.getTime() >= new Date().getTime() - 24 * 60 * 60 * 1000;
         },
       },
       rules: {
@@ -426,7 +426,7 @@ export default {
             }
           }
         }
-        vm.getTableData();
+            vm.getTableData();
       } else {
         vm.checkedItem = {};
         vm.tableData = [];
