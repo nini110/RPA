@@ -138,7 +138,7 @@ export default {
     return {
       pickerOptionsStart: {
         disabledDate: (time) => {
-          return time.getTime() >= new Date().getTime();
+          return time.getTime() >= new Date().getTime() - 24 * 60 * 60 * 1000;
         },
       },
       pinOptions: [],
@@ -230,8 +230,8 @@ export default {
   mounted() {
     const vm = this;
     vm.getBrand();
-    let myday = dayjs().format("YYYY-MM-DD");
-    let oldday = dayjs().subtract(7, "day").format("YYYY-MM-DD");
+    let myday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
+    let oldday = dayjs().subtract(8, "day").format("YYYY-MM-DD");
     vm.form.search_date = [oldday, myday];
     vm.searchEvent();
   },

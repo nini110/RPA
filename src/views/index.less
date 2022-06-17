@@ -309,8 +309,9 @@
 					flex-basis: 48%;
 					display: flex;
 					justify-content: space-between;
+					align-content: space-between;
 					flex-wrap: wrap;
-					height: 100%;
+					min-height: 380px;
 					text-align: center;
 					margin: 0;
 					h3 {
@@ -318,7 +319,6 @@
 						font-size: 24px;
 						line-height: 30px;
 						color: #606266;
-						margin-bottom: 20px;
 						&:before {
 							margin-right: 10px;
 						}
@@ -336,9 +336,7 @@
 						flex-basis: 100%;
 						display: flex;
 						justify-content: center;
-						align-items: center;
-						height: calc(100% - 50px);
-						// background-color: #e2e2e2;
+						min-height: 330px;
 						box-shadow: 0px 0px 10px rgb(240, 240, 240);
 						border-radius: 10px;
 						.vxe-table {

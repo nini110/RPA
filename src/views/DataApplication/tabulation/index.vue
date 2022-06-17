@@ -270,7 +270,7 @@ export default {
       outerTableHeight: "cls2",
       pickerOptionsStart: {
         disabledDate: (time) => {
-          return time.getTime() >= new Date().getTime() - 24 * 60 * 60 * 1000;
+          return time.getTime() >= new Date().getTime();
         },
       },
       rules: {

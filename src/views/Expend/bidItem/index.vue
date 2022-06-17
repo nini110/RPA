@@ -63,7 +63,7 @@
                 >
                   >
                   <template #empty>
-                    <img src="@/assets/images/noneData3.png" />
+                    <img src="@/assets/images/noneData4.png" />
                   </template>
                   <vxe-column
                     field="icon"
