@@ -2,10 +2,12 @@ import router from './router'
 import routes from './router/routes'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
-import login from '@/views/Login/index.vue'
+import login from './views/Login/index.vue'
+import store from './store/index.js'
 
 import layout from '@/views/layout'
 // 获取组件的方法    本地和生产环境的import方法不一样  
+console.log(process.env.NODE_ENV)
 const _import = require('./router/_import_' + process.env.NODE_ENV)
 
 NProgress.configure({
@@ -37,7 +39,7 @@ function handleRoutes(menuList) {
     if (!menuList || menuList.length <= 0) {
         return
     }
-    let whitelist = ['19261', '19302', '20306', '1020108', '21400', '14026', '15443', '18179', '15056', '18327', '21129', '21027', '1020076', '1022002']
+    let whitelist = ['19261', '19302', '20306', '1020108', '21400', '14026', '15443', '18179', '15056', '18327', '21129', '21027', '1020076', '1022002', '1022020']
     let userid = localStorage.getItem('wx_userid')
     for (let i in whitelist) {
         if (whitelist[i] === userid) {

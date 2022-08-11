@@ -1,7 +1,6 @@
 /deep/.el-tag {
     margin: 0 10px 0 0!important;
-    color: #2066BD;
-    width: 60px;
+    color: hsl(213, 71%, 43%);
     text-align: center;
 }
 /deep/.send {
@@ -12,14 +11,14 @@
     padding-left: 120px;
 	margin-bottom: 24px;
 }
-/deep/.namelist {
-    width: 140px;
-    height: 120px;
-    text-align: right;
-    .el-tag {
-      color: #2066bd;
-    }
-  }
+// /deep/.namelist {
+//     // width: 140px;
+//     height: 120px;
+//     text-align: right;
+//     .el-tag {
+//       color: #2066bd;
+//     }
+//   }
   /deep/.btnSizeBig {
     padding: 5px 5px;
     height: 38px;
@@ -35,25 +34,6 @@
 		text-align: right;
 	}
 }
-/deep/.editDia {
-	.namelist {
-		width: 100%;
-        height: auto;
-        ul {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-start;
-            // align-items: center;
-            li {
-                width: 12%;
-                margin-bottom: 10px;
-            }
-            span {
-                // width: 20%;
-            }
-        }
-	}
-}
 /deep/.el {
     &-collapse-item__content {
         padding-bottom: 10px;
@@ -61,6 +41,10 @@
     &-scrollbar__wrap {
         overflow-y: scroll!important;
         overflow-x: hidden!important;
+    }
+    &-divider--horizontal {
+        margin-top: 0;
+        margin-bottom: 20px;
     }
 }
 /deep/.el-checkbox {
@@ -85,4 +69,31 @@
         }
     }
 
+}
+
+.budgetDiv {
+    display: flex;
+    margin-bottom: 20px;
+    position: relative;
+    .el-date-editor {
+        flex-basis: 43%;
+        margin-right: 3%;
+    }
+    .el-input {
+        flex-basis: 43%;
+
+    }
+}
+.addicon {
+    position: absolute;
+    top: 14px;
+    right: 30px;
+    cursor: pointer;
+}
+.delicon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 30px;
+    cursor: pointer;
 }

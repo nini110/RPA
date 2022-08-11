@@ -115,7 +115,7 @@ export default {
           icon: "#icon-qudongjingling",
           label: "小工具驱动下载地址",
           // url: "https://npm.taobao.org/mirrors/chromedriver/",
-          url: "http://chromedriver.storage.googleapis.com/index.html"
+          url: "http://chromedriver.storage.googleapis.com/index.html",
         },
         {
           icon: "#icon-a-Group269-4",

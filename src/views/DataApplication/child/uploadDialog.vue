@@ -12,7 +12,7 @@
     <el-form ref="form" :model="form" class="formObj" :rules="rules">
       <el-row>
         <el-col>
-          <el-form-item label="选择竞标:" prop="bidId">
+          <el-form-item label="选择竞标" prop="bidId">
             <el-select
               v-model="form.bidId"
               filterable
@@ -32,7 +32,7 @@
           </el-form-item>
         </el-col>
         <el-col>
-          <el-form-item label="选择活动:">
+          <el-form-item label="选择活动">
             <div v-if="actionOptions && actionOptions.length > 0">
               <el-checkbox
                 :indeterminate="form.isIndeterminate"
@@ -57,12 +57,12 @@
           </el-form-item>
         </el-col>
         <el-col>
-          <el-form-item label="添加人员:" prop="cSubcategoryNo">
+          <el-form-item label="添加人员" prop="cSubcategoryNo">
             <el-input
               class="inline-input"
               v-model.trim="cSubcategoryNo"
-              placeholder="请输入上传人员姓名或关键字"
-              @input="searchPeople"
+              placeholder="请输入上传人员姓名或关键字失焦查询"
+              @change="searchPeople"
               size="medium"
               clearable
             ></el-input>
@@ -83,41 +83,47 @@
             </el-scrollbar>
           </el-form-item>
         </el-col>
-      </el-row>
-    </el-form>
-    <el-divider></el-divider>
-    <div class="send">
-      <div class="namelist">
-        <el-scrollbar style="height: 100%">
-          <ul style="list-style: none">
-            <li
+        <el-divider  style="{margin-top: 0}"></el-divider>
+        <el-col>
+          <el-form-item label="已选人员" prop="">
+            <el-tag
               v-for="(i, index) in peoplelist"
               :key="index"
               :index="index"
-              style="margin-bottom: 5px"
-              @dblclick="deleteitem(index)"
+              closable
+              @close="deleteitem(index)"
+              >{{ i.name }}</el-tag
             >
-              <el-tag>{{ i.name }}</el-tag>
-            </li>
-          </ul>
-        </el-scrollbar>
-      </div>
-      <div class="上传" style="flex: 1">
-        <Upload
-          class="tes"
-          txt="请上传xlsx文件，通过搜索添加上传人员，双击上传人员可删除"
-          @getFile="getFileEvent"
-        ></Upload>
-      </div>
-    </div>
+          </el-form-item>
+        </el-col>
+        <el-col>
+          <el-form-item label="预算" prop="">
+            <div v-for="(item, idx) in budgetJson" :key="idx" class="budgetDiv">
+              <el-date-picker
+                v-model="item.date"
+                type="date"
+                placeholder="选择日期"
+                format="yyyy-MM-dd"
+                value-format="yyyy-MM-dd"
+              >
+              </el-date-picker>
+              <el-input v-model="item.val" placeholder="请输入预算"></el-input>
+              <span
+                v-if="idx !== 0"
+                class="delicon el-icon-remove"
+                @click="delBudgetEvent(item, idx)"
+              ></span>
+            </div>
+            <span
+              class="addicon el-icon-circle-plus"
+              @click="addBudgetEvent"
+            ></span>
+          </el-form-item>
+        </el-col>
+      </el-row>
+    </el-form>
+    <div class="send"></div>
     <span slot="footer" class="dialog-footer">
-      <a
-        class="btnnormal_down marginR"
-        href="http://tool.afocus.com.cn/file_download/预算监控模板.xlsx"
-        download="预算监控模板.xlsx"
-      >
-        <div class="btnSize el-icon-download">下载模板</div>
-      </a>
       <el-button
         v-waves
         class="el-icon-upload2"
@@ -178,6 +184,12 @@ export default {
       peoplelist: [], //人员列表
       itemid: [], //上传人员id
       itemname: [], //上传人员姓名
+      budgetJson: [
+        {
+          date: "",
+          val: "",
+        },
+      ],
     };
   },
   created() {},
@@ -210,7 +222,7 @@ export default {
     searchEvent() {
       const vm = this;
       BiddingSearch({
-        aa: ''
+        aa: "",
       }).then((res) => {
         if (res.data.code == "10000" && res.data.data.length) {
           let result = res.data.data;
@@ -219,6 +231,18 @@ export default {
           vm.bidOptions = [];
         }
       });
+    },
+    // 新增预算
+    addBudgetEvent() {
+      const vm = this;
+      vm.budgetJson.push({
+        date: "",
+        val: "",
+      });
+    },
+    delBudgetEvent(item, idx) {
+      const vm = this;
+      vm.budgetJson.splice(idx, 1);
     },
     // 选中竞标查询活动
     jbChangeEvent(val) {
@@ -260,16 +284,14 @@ export default {
           vm.itemname = vm.itemname.slice(0, vm.itemname.length - 1);
           if (vm.form.bidId == "") {
             vm.$msg({ type: "warning", msg: "请输入标名或者项目编号" });
-          } else if (vm.fileList.length === 0) {
-            vm.$msg({ type: "warning", msg: "请选择要上传的excel文件" });
           } else {
             let data = {
-              file: vm.fileList,
               user_list: vm.itemid,
               user_name_list: vm.itemname,
               trans_name: vm.username,
               bidding_id: vm.form.bidId,
               bidding_name: jbname,
+              bidding_threshold: vm.budgetJson,
             };
             if (vm.form.checkAll === true) {
               vm.form.checkedActions = [];
@@ -287,9 +309,9 @@ export default {
               vm.$set(data, "activity_name", arrName);
               vm.$set(data, "activity_id", arrId);
             }
+            console.log(data);
             immediatelyUpload(data).then((res) => {
               if (res.data.code == 10000) {
-                vm.handleSuccess();
                 vm.$emit("close", "suc");
                 vm.$msg({ msg: "上传成功" });
               } else {
@@ -324,14 +346,6 @@ export default {
       this.form.isIndeterminate =
         checkedCount > 0 && checkedCount < this.actionOptions.length;
     },
-    // 文件上传成功时的钩子
-    handleSuccess(res, file, fileList) {
-      this.$message.success("文件上传成功");
-      this.fileList = [];
-      this.peoplelist = [];
-      this.itemid = [];
-      this.upDialogFlag = false;
-    },
     getFileEvent(val) {
       this.fileList = val;
     },
@@ -346,5 +360,5 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-// @import "../comps/bidding.less";
+@import "../monitor/bidding.less";
 </style>

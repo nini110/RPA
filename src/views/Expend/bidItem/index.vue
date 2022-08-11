@@ -64,6 +64,7 @@
                   >
                   <template #empty>
                     <img src="@/assets/images/noneData4.png" />
+                    暂无数据
                   </template>
                   <vxe-column
                     field="icon"
@@ -133,12 +134,17 @@ export default {
             {
               prop: "biddingName",
               label: "项目",
-              width: "60%",
+              width: "30%",
+            },
+            {
+              prop: "category",
+              label: "类目",
+              width: "30%",
             },
             {
               prop: "cost",
               label: "总消耗",
-              width: "20%",
+              width: "10%",
             },
           ],
         },
@@ -150,12 +156,17 @@ export default {
             {
               prop: "category",
               label: "类目",
-              width: "60%",
+              width: "30%",
+            },
+            {
+              prop: "bidName",
+              label: "项目",
+              width: "30%",
             },
             {
               prop: "cost",
               label: "总消耗",
-              width: "20%",
+              width: "10%",
             },
           ],
         },
@@ -455,6 +466,13 @@ export default {
         // 排行
         let itemPH = res.data.data.bidding_rank;
         let leimuPH = res.data.data.leimu_rank;
+        leimuPH.forEach((val, idx) => {
+          let str = ''
+          val.biddingName.forEach((val1, idx1) => {
+            str += val1
+          })
+          val.bidName = str.slice(0, str.length - 1)
+        })
         let arr = [itemPH, leimuPH];
         arr.forEach((item, indx) => {
           item.forEach((val, idx) => {
@@ -507,4 +525,21 @@ export default {
 @import "index";
 @import "../selfBrand/index";
 @import "@/views/index";
+/deep/.vxe-table {
+  &.is--empty {
+    .vxe-table--empty-placeholder {
+      height: 83% !important;
+    }
+    .vxe-table--empty-content {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .vxe-table--empty-block {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+    }
+  }
+}
 </style>

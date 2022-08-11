@@ -5,7 +5,6 @@ import {
     Message
 } from 'element-ui'
 
-
 // const baseURL = 'http://114.67.229.243:8001';
 export const service = axios.create({
     // baseURL,
@@ -54,19 +53,22 @@ service.interceptors.request.use(config => {
                 'content-type': headers['form']
             }
             let data = config.data;
+            let result = {}
             for (let i in data) {
                 let item = data[i];
-                let result = {}
                 if (Array.isArray(item) && item.length > 0) {
                     result[i] = JSON.stringify(item)
-                    config.data = Qs.stringify(result)
+                    // config.data = Qs.stringify({...result})
                 } else {
-                    const data = Qs.parse(config.data)
-                    config.data = Qs.stringify({
-                        ...data
-                    })
+                    result[i] = item
+                    // const data = Qs.parse(config.data)
+                    // config.data = Qs.stringify({
+                    //     ...data
+                    // })
                 }
             }
+            config.data = Qs.stringify({...result})
+
         } else if (config.responseType === 'form-data') {
             // 上传文件类型
             config.headers = {

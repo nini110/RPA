@@ -28,23 +28,14 @@
         <div class="editCollapse">
           <el-collapse v-model="activeNames">
             <el-collapse-item v-if="editNum === 1" title="人员列表:" name="1">
-              <div class="namelist">
-                <ul style="list-style: none">
-                  <li
-                    v-for="(i, index) in peoplelList"
-                    :key="index"
-                    :index="index"
-                    @dblclick="NameListdeleteitem(index)"
-                  >
-                    <el-tag v-if="i.user_name" style="margin-left: 10px">{{
-                      i.user_name
-                    }}</el-tag
-                    ><el-tag v-if="i.name" style="margin-left: 10px">{{
-                      i.name
-                    }}</el-tag>
-                  </li>
-                </ul>
-              </div>
+              <el-tag
+                v-for="(i, index) in peoplelList"
+                :key="index"
+                :index="index"
+                closable
+                @close="NameListdeleteitem(index)"
+                >{{ i.name || i.user_name }}</el-tag
+              >
             </el-collapse-item>
             <el-collapse-item v-else title="活动列表:" name="1">
               <div v-if="actionList && actionList.length > 0">

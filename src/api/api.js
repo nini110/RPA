@@ -53,7 +53,7 @@ export const detailsToModify = request({
 export const immediatelyUpload = request({
     url:`${BASEPATH}/apps/bidding_excel/`,
     method:'post',
-    responseType: 'form-data'
+    responseType: 'form'
 })
 // 数据应用--竞标监控--竞标列表删除  ok
 export const biddingDelete = request({
