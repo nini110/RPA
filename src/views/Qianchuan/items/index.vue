@@ -2,101 +2,125 @@
   <div class="publicDiv outerDiv">
     <div class="content">
       <div class="itemsComp">
-      <el-button
-        v-waves
-        type="primary"
-        class="el-icon-plus btnnormal"
-        style="margin-bottom: 20px"
-        @click="createEvent(1)"
-        >新建项目
-      </el-button>
-      <div class="tabbles itemtable" ref="tabbles">
-        <vxe-table
-          ref="xtable"
-          :data="tableData"
-          stripe
-          round
-          :column-config="{ resizable: true }"
-          :row-config="{ isCurrent: true, isHover: true }"
-          class="mytable-scrollbar"
-          auto-resize
-          height="auto"
-        >
+        <el-button
+          v-waves
+          type="primary"
+          class="el-icon-plus btnnormal"
+          style="margin-bottom: 20px"
+          @click="createEvent(1)"
+          >新建项目
+        </el-button>
+        <div class="tabbles itemtable" ref="tabbles">
+          <vxe-table
+            ref="xtable"
+            :data="tableData"
+            stripe
+            round
+            :column-config="{ resizable: true }"
+            :row-config="{ isCurrent: true, isHover: true }"
+            class="mytable-scrollbar"
+            auto-resize
+            height="auto"
           >
-          <template #empty>
-            <img src="@/assets/images/noneData3.png" />
-          </template>
-          <vxe-column
-            type="seq"
-            title="序号"
-            width="5%"
-            fixed="left"
-          ></vxe-column>
-          <vxe-column
-            field="project_name"
-            title="项目名称"
-            fixed="left"
-            width="15%"
-            show-overflow="tooltip"
-          ></vxe-column>
-          <vxe-column
-            v-for="(item, idx) in tabList"
-            :key="idx"
-            width="18%"
-            :field="item.prop"
-            :title="item.label"
-            show-overflow="tooltip"
-          ></vxe-column>
-          <vxe-column field="castTime" title="投放时间" width="20%">
-            <template slot-scope="scope">
-              <div>{{ scope.row.castTime[0] }}</div>
-              <div>{{ scope.row.castTime[1] }}</div>
-            </template></vxe-column
-          >
-          <vxe-column title="操作" fixed="right" width="12%">
-            <template slot-scope="scope">
-              <div
-                v-waves
-                class="btn btn_info"
-                @click="createEvent(2, scope.row.id)"
-              >
-                <svg class="icon svg-icon titleicon" aria-hidden="true">
-                  <use xlink:href="#icon-13edit"></use>
-                </svg>
-              </div>
-              <div
-                v-waves
-                class="btn btn_info"
-                @click="routerLink(scope.row.id, scope.row.project_name)"
-              >
-                <svg class="icon svg-icon titleicon" aria-hidden="true">
-                  <use xlink:href="#icon-yewukanban"></use>
-                </svg>
-              </div>
-              <div v-waves class="btn btn_info" @click="deleteEvent(scope.row)">
-                <svg class="icon svg-icon titleicon" aria-hidden="true">
-                  <use xlink:href="#icon-lajitong"></use>
-                </svg>
-              </div>
+            >
+            <template #empty>
+              <img src="@/assets/images/noneData3.png" />
             </template>
-          </vxe-column>
-        </vxe-table>
+            <vxe-column
+              type="seq"
+              title="序号"
+              width="5%"
+              fixed="left"
+            ></vxe-column>
+            <vxe-column
+              field="project_name"
+              title="项目名称"
+              fixed="left"
+              width="15%"
+              show-overflow="tooltip"
+            ></vxe-column>
+            <vxe-column
+              v-for="(item, idx) in tabList"
+              :key="idx"
+              width="18%"
+              :field="item.prop"
+              :title="item.label"
+              show-overflow="tooltip"
+            ></vxe-column>
+            <vxe-column field="castTime" title="投放时间" width="20%">
+              <template slot-scope="scope">
+                <div>{{ scope.row.castTime[0] }}</div>
+                <div>{{ scope.row.castTime[1] }}</div>
+              </template></vxe-column
+            >
+            <vxe-column title="操作" fixed="right" width="12%">
+              <template slot-scope="scope">
+                <div
+                  v-waves
+                  class="btn btn_info"
+                  @click="createEvent(2, scope.row.id)"
+                >
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="编辑"
+                    placement="top"
+                  >
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-13edit"></use>
+                    </svg>
+                  </el-tooltip>
+                </div>
+                <div
+                  v-waves
+                  class="btn btn_info"
+                  @click="routerLink(scope.row.id, scope.row.project_name)"
+                >
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="看板"
+                    placement="top"
+                  >
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-yewukanban"></use>
+                    </svg>
+                  </el-tooltip>
+                </div>
+                <div
+                  v-waves
+                  class="btn btn_info"
+                  @click="deleteEvent(scope.row)"
+                >
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="删除"
+                    placement="top"
+                  >
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-lajitong"></use>
+                    </svg>
+                  </el-tooltip>
+                </div>
+              </template>
+            </vxe-column>
+          </vxe-table>
+        </div>
+        <div class="block">
+          <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :page-size="pageSize"
+            :current-page="currentPage"
+            :pager-count="5"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+          >
+          </el-pagination>
+        </div>
       </div>
-      <div class="block">
-        <el-pagination
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :page-size="pageSize"
-          :current-page="currentPage"
-          :pager-count="5"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        >
-        </el-pagination>
-      </div>
-      </div>
-
     </div>
     <DialodEdit
       v-if="showDialog"

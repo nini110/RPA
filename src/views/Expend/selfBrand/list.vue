@@ -25,7 +25,7 @@
                 </el-select>
               </el-form-item>
             </el-col>
-            <el-col :span="12">
+            <el-col :span="10">
               <el-form-item class="tophasBtn" label="日期:" prop="search_date">
                 <el-date-picker
                   class="tophasBtn_data"
@@ -38,16 +38,18 @@
                   end-placeholder="结束日期"
                   :picker-options="pickerOptionsStart"
                 ></el-date-picker>
-                <div class="tophasBtn_btn_div">
-                  <el-button
-                    v-waves
-                    type="primary"
-                    class="el-icon-search marginL"
-                    @click="searchEvent(serchVal)"
-                    >查询</el-button
-                  >
-                </div>
               </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <div class="tophasBtn_btn_div">
+                <el-button
+                  v-waves
+                  type="primary"
+                  class="el-icon-search marginL"
+                  @click="searchEvent(serchVal)"
+                  >查询</el-button
+                >
+              </div>
             </el-col>
           </el-row>
         </div>

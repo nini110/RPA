@@ -16,21 +16,6 @@
                     :props="{ expandTrigger: 'hover', emitPath: false }"
                     @change="selectChang"
                   ></el-cascader>
-                  <!-- <el-select
-                    v-model="form.project_name"
-                    placeholder="请选择项目"
-                    size="medium"
-                    clearable
-                    @change="selectChang"
-                  >
-                    <el-option
-                      v-for="(item, index) in itemOptions"
-                      :key="index"
-                      :label="item.project_name"
-                      :value="item.project_name"
-                    >
-                    </el-option>
-                  </el-select> -->
                 </el-form-item>
               </el-col>
               <el-col :span="12">
@@ -83,45 +68,39 @@
             </el-row>
           </div>
           <div v-if="checkedItem.file" class="formObj_upload">
-            <el-col :span="8">
-              <el-form-item label="" :error="errorUploadInfo">
-                <Upload @getFile="getFileEvent"></Upload>
-              </el-form-item>
-            </el-col>
-          </div>
-          <div class="formObj_button">
-            <el-col :span="24">
-              <a class="btnnormal_down marginR inlineButton" @click="reset">
-                <div class="el-icon-refresh btnSize">重置</div>
-              </a>
-              <div v-if="checkedItem.file" class="inlineButton">
-                <el-button
-                  v-waves
-                  type="primary"
-                  class="el-icon-right btnnormal"
-                  @click="generate()"
-                  >生成
-                </el-button>
-              </div>
-              <div v-else class="inlineButton">
-                <el-button
-                  v-waves
-                  type="primary"
-                  class="el-icon-right btnnormal"
-                  @click="generate()"
-                >
-                  生成</el-button
-                >
-              </div>
-            </el-col>
+            <el-form-item label="" :error="errorUploadInfo">
+              <Upload @getFile="getFileEvent"></Upload>
+            </el-form-item>
           </div>
         </el-form>
+        <div class="formObj_button">
+          <el-col :span="24">
+            <a class="btnnormal_down marginR inlineButton" @click="reset">
+              <div class="el-icon-refresh btnSize">重置</div>
+            </a>
+            <div v-if="checkedItem.file" class="inlineButton">
+              <el-button
+                v-waves
+                type="primary"
+                class="el-icon-right btnnormal"
+                @click="generate()"
+                >生成
+              </el-button>
+            </div>
+            <div v-else class="inlineButton">
+              <el-button
+                v-waves
+                type="primary"
+                class="el-icon-right btnnormal"
+                @click="generate()"
+              >
+                生成</el-button
+              >
+            </div>
+          </el-col>
+        </div>
       </div>
-      <div
-        ref="tableBox"
-        class="content_tableBox teshu"
-        :class="outerTableHeight"
-      >
+      <div ref="tableBox" class="content_tableBox teshu">
         <el-divider>列表</el-divider>
         <vxe-toolbar perfect>
           <template #buttons>
@@ -196,9 +175,16 @@
                     :class="{ dis: scope.row.status !== 1 }"
                     @click="downEvent(scope.row)"
                   >
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-download"></use>
-                    </svg>
+                    <el-tooltip
+                      class="item"
+                      effect="dark"
+                      content="下载"
+                      placement="top"
+                    >
+                      <svg class="icon svg-icon titleicon" aria-hidden="true">
+                        <use xlink:href="#icon-download"></use>
+                      </svg>
+                    </el-tooltip>
                   </div>
                   <div
                     v-waves
@@ -206,9 +192,16 @@
                     :class="{ dis: scope.row.status === 0 }"
                     @click="deleteEvent(scope.row)"
                   >
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-lajitong"></use>
-                    </svg>
+                    <el-tooltip
+                      class="item"
+                      effect="dark"
+                      content="删除"
+                      placement="top"
+                    >
+                      <svg class="icon svg-icon titleicon" aria-hidden="true">
+                        <use xlink:href="#icon-lajitong"></use>
+                      </svg>
+                    </el-tooltip>
                   </div>
                 </template>
               </vxe-column>
@@ -254,6 +247,7 @@ export default {
   mixins: [message],
   data() {
     return {
+      pageHaseItem: 0, // 当前页有多少条数据
       errorStateInfo: "",
       errorUploadInfo: "",
       dateDis: true,
@@ -267,7 +261,6 @@ export default {
       checkedItem: {},
       tableData: [],
       fileList: [], // excel文件列表
-      outerTableHeight: "cls2",
       pickerOptionsStart: {
         disabledDate: (time) => {
           return time.getTime() >= new Date().getTime();
@@ -290,6 +283,7 @@ export default {
         ],
       },
       multipleSelection: "",
+      multipleSelectionLength: 0,
       timer: null,
       pagesize: 10,
       currpage: 1,
@@ -301,22 +295,7 @@ export default {
       return this.form.project_name;
     },
   },
-  watch: {
-    checkedItem: {
-      handler(newval, oldval) {
-        const vm = this;
-        if (newval.file) {
-          vm.outerTableHeight = "cls1";
-        } else {
-          vm.outerTableHeight = "cls2";
-        }
-      },
-      deep: true,
-      immediate: true,
-    },
-  },
   created() {
-    // this.check();
     this.getSelectItem();
   },
   methods: {
@@ -403,6 +382,7 @@ export default {
         if (res.data.msg === "success") {
           vm.tableData = res.data.data.data;
           vm.total = res.data.data.total_count;
+          vm.pageHaseItem = vm.tableData.length;
         } else {
           vm.tableData = [];
           vm.total = null;
@@ -417,6 +397,8 @@ export default {
       vm.dataState = "";
       vm.fileList = [];
       vm.dateDis = true;
+      vm.currpage = 1;
+      vm.pagesize = 10;
       if (val) {
         vm.dateDis = false;
         for (let i in vm.itemOptions) {
@@ -426,7 +408,7 @@ export default {
             }
           }
         }
-            vm.getTableData();
+        vm.getTableData();
       } else {
         vm.checkedItem = {};
         vm.tableData = [];
@@ -509,7 +491,6 @@ export default {
     // 删除事件
     delApi() {
       const vm = this;
-      console.log(vm.multipleSelection);
       DeleteReport({
         id: vm.multipleSelection,
       }).then((res) => {
@@ -537,6 +518,11 @@ export default {
         curItem: `${row.report_name}？`,
         confirmButtonFn: () => {
           vm.multipleSelection = row.id;
+          // 仅剩一条数据， 下一次查询需要查前一页
+          let haspageInt = parseInt(vm.total / vm.pagesize);
+          if (vm.pageHaseItem === 1) {
+            vm.currpage = haspageInt > 1 ? haspageInt : 1;
+          }
           vm.delApi();
         },
       });
@@ -551,6 +537,15 @@ export default {
           showCancelButton: true,
           tipTitle: "确定删除所选中的报表？",
           confirmButtonFn: () => {
+            let haspageInt = parseInt(vm.total / vm.pagesize);
+            if (vm.pageHaseItem === vm.multipleSelectionLength) {
+              // 全选
+              if ((vm.currpage === haspageInt + 1)) {
+                // 最后一页
+                vm.currpage = haspageInt > 1 ? haspageInt : 1;
+              }
+            }
+
             vm.delApi();
           },
         });
@@ -560,6 +555,7 @@ export default {
     },
     // table表格选择项变化时，改变multipleSelection
     handleSelectionChange({ checked, records }) {
+      this.multipleSelectionLength = records.length;
       this.multipleSelection = "";
       for (let i = 0; i < records.length; i++) {
         this.multipleSelection += records[i].id + ",";

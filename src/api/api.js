@@ -18,6 +18,7 @@ if (process.env.NODE_ENV === 'production') {
     BASEPATH3 = 'http://114.67.229.243:8002'
     BASEPATH5 = 'http://114.67.229.243:8101'
 }
+
 // 数据应用--竞标监控--竞标搜索  ok
 export const BiddingSearch = request({
     url:`${BASEPATH}/apps/bidding/`,

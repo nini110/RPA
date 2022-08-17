@@ -9,6 +9,12 @@
           </el-tabs>
         </div>
         <div v-show="activeName === '0'" class="ziyou_chart">
+          <el-alert
+            title="数据自动更新时间为每天10点，统计日期上限为当前日期-1"
+            type="warning"
+            :closable="false"
+          >
+          </el-alert>
           <div class="chart ts2">
             <div class="ts2_box">
               <h2>年度总消耗</h2>
@@ -127,7 +133,7 @@ export default {
       activeName: "0",
       tableBox: [
         {
-          title: "项目月度排行",
+          title: "本月度项目排行",
           icon: "icon-benniandu",
           tableData: [],
           topMenuList: [
@@ -149,7 +155,7 @@ export default {
           ],
         },
         {
-          title: "类目月度排行",
+          title: "本月度类目排行",
           icon: "icon-yuedubaogao",
           tableData: [],
           topMenuList: [
@@ -467,12 +473,12 @@ export default {
         let itemPH = res.data.data.bidding_rank;
         let leimuPH = res.data.data.leimu_rank;
         leimuPH.forEach((val, idx) => {
-          let str = ''
+          let str = "";
           val.biddingName.forEach((val1, idx1) => {
-            str += val1
-          })
-          val.bidName = str.slice(0, str.length - 1)
-        })
+            str += val1;
+          });
+          val.bidName = str.slice(0, str.length - 1);
+        });
         let arr = [itemPH, leimuPH];
         arr.forEach((item, indx) => {
           item.forEach((val, idx) => {

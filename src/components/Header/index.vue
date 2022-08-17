@@ -6,7 +6,7 @@
     <div class="topTtle_login">
       <div class="topTtle_login_tip">
         <!-- <img class="img" src="./assets/logo2Blue.png" alt=""> -->
-        <img class="img" src="../../assets/logo2.png" alt="" />
+        <!-- <img class="img" src="../../assets/logo2.png" alt="" /> -->
         <el-popover
           placement="bottom-start"
           title=""
@@ -28,8 +28,18 @@
               >
                 <use :xlink:href="item.icon"></use>
               </svg>
-              {{ item.label }}
+              <span>{{ item.label }}</span>
               <a :href="item.url" target="_blank">点击下载</a>
+            </div>
+            <el-divider></el-divider>
+            <div class="down tool">
+              <svg
+                class="icon svg-icon poperNotice_cnt_icon"
+                aria-hidden="true"
+              >
+                <use xlink:href="#icon-gongjuxiang"></use>
+              </svg>
+              <span @click="download">工具下载</span>
             </div>
           </div>
         </el-popover>
@@ -62,12 +72,87 @@
       </div>
     </div>
     <EorLog :showLog="showLog" @close="closeLog"></EorLog>
+    <div ref="toolRef" class="hidedox" v-html="info"></div>
+    <el-drawer
+      title="工具下载"
+      :visible.sync="downdrawer"
+      direction="rtl"
+      :before-close="handleClose"
+      size="35%"
+      append-to-body
+    >
+      <vxe-table
+        ref="multipleTable"
+        :data="infoList"
+        stripe
+        round
+        :column-config="{ resizable: true }"
+        :row-config="{ isCurrent: true, isHover: true }"
+        class="mytable-scrollbar"
+        auto-resize
+        height="auto"
+      >
+        >
+        <template #empty>
+          <img src="@/assets/images/noneData3.png" />
+        </template>
+        <vxe-column
+          type="seq"
+          title="序号"
+          width="10%"
+          fixed="left"
+        ></vxe-column>
+        <vxe-column min-width="25%" title="名称" show-overflow="tooltip">
+          <template slot-scope="scope">
+            <span class="downSpanSpan" @click="downloadEvent(scope.row)">{{
+              scope.row.name
+            }}</span>
+          </template></vxe-column
+        >
+        <vxe-column
+          min-width="10%"
+          field="size"
+          title="大小"
+          show-overflow="tooltip"
+        ></vxe-column>
+        <vxe-column
+          min-width="15%"
+          field="date"
+          title="更新日期"
+          show-overflow="tooltip"
+        ></vxe-column>
+        <!-- <vxe-column
+          min-width="15%"
+          field="time"
+          title="时间"
+          show-overflow="tooltip"
+        ></vxe-column> -->
+        <!-- <vxe-column title="操作" fixed="right" width="8%">
+          <template slot-scope="scope">
+            <div v-waves class="btn btn_info" @click="download(scope.row)">
+              <el-tooltip
+                class="item"
+                effect="dark"
+                content="下载"
+                placement="top"
+              >
+                <svg class="icon svg-icon titleicon" aria-hidden="true">
+                  <use xlink:href="#icon-download"></use>
+                </svg>
+              </el-tooltip>
+            </div>
+          </template> -->
+        <!-- </vxe-column> -->
+      </vxe-table>
+    </el-drawer>
   </div>
 </template>
 <script>
 import message from "@/mixin/message";
 import EorLog from "@/components/errorLog/index.vue";
 import { mapGetters } from "vuex";
+import { createLinkToClick } from "@/utils/public.js";
+
 export default {
   name: "Header",
   components: {
@@ -76,6 +161,9 @@ export default {
   mixins: [message],
   data() {
     return {
+      downdrawer: false,
+      info: "",
+      infoList: [],
       showLog: false,
       user: {
         name: "",
@@ -105,11 +193,6 @@ export default {
           icon: "#icon-apple",
           label: "工具驱动配置文档(mac)",
           url: "http://tool.afocus.com.cn/file_download/工具驱动配置文档(mac).docx",
-        },
-        {
-          icon: "#icon-gongjuxiang",
-          label: "小工具下载地址",
-          url: "http://tool.afocus.com.cn/tool_download/",
         },
         {
           icon: "#icon-qudongjingling",
@@ -164,7 +247,65 @@ export default {
       });
     }
   },
+  mounted() {
+    const vm = this;
+    vm.$axios({
+      // 后端服务器端口路径
+      url: "http://tool.afocus.com.cn/tool_set/",
+      params: {
+        key: "no",
+      },
+      method: "get",
+      dataType: "html",
+      headers: { "content-type": "application/x-www-form-urlencoded" },
+    }).then((res) => {
+      vm.info = res.data;
+      vm.$nextTick(() => {
+        vm.info = res.data;
+        let target = vm.$refs.toolRef.childNodes[5].childNodes;
+        let midData1 = [];
+        let midData2 = [];
+        for (let i of target) {
+          if (i.nodeName === "#text") {
+            let targetStr = i.nodeValue.trim();
+            midData1.push({
+              date: targetStr.slice(0, 11),
+              time: targetStr.slice(11, 18),
+              size: targetStr.slice(targetStr.length - 3, targetStr.length),
+            });
+          }
+          if (i.nodeName === "A") {
+            midData2.push({
+              name: i.innerText,
+              url: i.pathname,
+            });
+          }
+        }
+        midData1.forEach((val, idx) => {
+          if (idx !== 0) {
+            vm.infoList.push({
+              date: val.date,
+              time: val.time,
+              size: val.size,
+              name: midData2[idx].name,
+              url: midData2[idx].url,
+            });
+          }
+        });
+      });
+    });
+  },
   methods: {
+    handleClose() {
+      this.downdrawer = false;
+    },
+    download() {
+      this.downdrawer = true;
+      // createLinkToClick(`http://tool.afocus.com.cn/tool_set/${item.url}`);
+    },
+    downloadEvent(item) {
+      createLinkToClick(`http://tool.afocus.com.cn/tool_set/${item.url}`);
+    },
     showError() {
       this.showLog = true;
     },
@@ -212,4 +353,11 @@ export default {
 </script>
 <style lang="less">
 @import "./index";
+.hidedox {
+  display: none;
+}
+.downSpanSpan {
+  color: #2779b4;
+  cursor: pointer;
+}
 </style>

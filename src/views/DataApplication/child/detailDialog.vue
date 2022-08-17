@@ -3,10 +3,9 @@
   <el-dialog
     title="修改预算"
     :visible.sync="show"
-    max-height="400px"
-    width="40%"
+    width="30%"
     @close="closeDialog"
-    custom-class="dialogEdit"
+    custom-class="dialogEdit tableDialog1"
     :close-on-click-modal="false"
   >
     <vxe-table
@@ -17,23 +16,22 @@
       :column-config="{ resizable: true }"
       :row-config="{ isCurrent: true, isHover: true }"
       class="mytable-scrollbar"
-      auto-resize
-      height="500"
+      height="auto"
     >
       >
-      <vxe-column type="seq" title="序号" width="8%" fixed="left"></vxe-column>
+      <vxe-column type="seq" title="序号" width="15%" fixed="left"></vxe-column>
       <vxe-column field="bidding_id" title="当日预算" min-width="20%">
         <template slot-scope="scope">
           <div class="input-box">
             <el-input
-              style="text-align: center"
-              size="small"
-              @input="changethreshold(scope.row)"
-              v-model.trim="scope.row.threshold"
-            ></el-input>
+              placeholder="请输入预算"
+              v-model.number="scope.row.threshold"
+              clearable
+            >
+              <template slot="prepend">{{scope.row.bidding_date}} </template>
+            </el-input>            
           </div> </template
       ></vxe-column>
-      <vxe-column field="bidding_date" title="日期" min-width="15%"></vxe-column>
     </vxe-table>
     <span slot="footer" class="dialog-footer">
       <a class="btnnormal btnnormal_down marginR" @click="closeDialog">
@@ -116,8 +114,14 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style lang="less" scoped>
 .detail_body {
   padding: 0 50px;
+}
+/deep/.tableDialog1 {
+  .el-dialog__body {
+    height: 400px;
+    max-height: 500px;
+  }
 }
 </style>

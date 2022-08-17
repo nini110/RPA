@@ -2,7 +2,8 @@ import axios from 'axios';
 import Qs from 'qs'
 import LoadingMask from '@/utils/loading'
 import {
-    Message
+    Message,
+    MessageBox
 } from 'element-ui'
 
 // const baseURL = 'http://114.67.229.243:8001';
@@ -67,7 +68,9 @@ service.interceptors.request.use(config => {
                     // })
                 }
             }
-            config.data = Qs.stringify({...result})
+            config.data = Qs.stringify({
+                ...result
+            })
 
         } else if (config.responseType === 'form-data') {
             // 上传文件类型
@@ -96,16 +99,29 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
     response => {
         if (response.data.code === 99998) {
+            // MessageBox.alert('登录失效，请重新登录', '注意', {
+            //     confirmButtonText: '确定',
+            //     showClose: false,
+            //     closeOnPressEscape: false,
+            //     closeOnClickModal: false,
+            //     callback: action => {
+            //         localStorage.removeItem("wx_code");
+            //         localStorage.removeItem("wx_userid");
+            //         localStorage.removeItem("user_name");
+            //         localStorage.removeItem("thumb_avatar");
+            //         window.location.replace('/#/login')
+            //     }
+            // });
             $msg({
                 type: "warning",
                 msg: "登录失效，请进行扫码登入"
             });
             setTimeout(() => {
-                window.location.replace('/#/login')
                 localStorage.removeItem("wx_code");
                 localStorage.removeItem("wx_userid");
                 localStorage.removeItem("user_name");
                 localStorage.removeItem("thumb_avatar");
+                window.location.replace('/#/login')
             }, 2000);
             return
         }

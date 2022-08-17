@@ -58,15 +58,16 @@
             </el-row>
           </div>
           <div class="formObj_upload">
-            <el-row>
-              <el-col :span="8">
+            <!-- <el-row>
+              <el-col :span="8"> -->
                 <el-form-item label="" :error="errorUpInfo">
                   <Upload @getFile="getFileEvent"></Upload>
                 </el-form-item>
-              </el-col>
-            </el-row>
+              <!-- </el-col>
+            </el-row> -->
           </div>
-          <div class="formObj_button">
+        </el-form>
+         <div class="formObj_button">
             <div v-for="(item, idx) in btnBox" :key="idx">
               <a
                 class="btnnormal_down marginR"
@@ -92,8 +93,7 @@
               :loading="loadingbut"
               >{{ loadingbuttext }}</el-button
             >
-          </div>
-        </el-form>
+          </div>        
       </div>
       <div ref="tableBox" class="content_tableBox hasUp">
         <el-divider></el-divider>
@@ -145,9 +145,16 @@
                     class="btn btn_info"
                     @click="detailEvent(scope.row)"
                   >
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="详情"
+                    placement="top"
+                  >
                     <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-xinxi"></use>
                     </svg>
+                  </el-tooltip>                  
                   </div>
                 </template>
               </vxe-column>

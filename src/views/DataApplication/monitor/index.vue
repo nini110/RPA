@@ -9,7 +9,7 @@
             class="el-icon-upload2"
             type="primary"
             @click="upList"
-            >上传竞标
+            >新建监控计划
           </el-button>
         </div>
       </div>
@@ -52,32 +52,60 @@
                   class="btn btn_info"
                   @click="detailEvent(scope.row)"
                 >
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
-                    <use xlink:href="#icon-13edit"></use>
-                  </svg>
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="预算"
+                    placement="top"
+                  >
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-13edit"></use>
+                    </svg>
+                  </el-tooltip>
                 </div>
                 <div v-waves class="btn btn_info" @click="editEvent(scope.row)">
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
-                    <use xlink:href="#icon-33profile"></use>
-                  </svg>
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="人员"
+                    placement="top"
+                  >
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-33profile"></use>
+                    </svg>
+                  </el-tooltip>
                 </div>
                 <div
                   v-waves
                   class="btn btn_info"
                   @click="editActiveEvent(scope.row)"
                 >
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
-                    <use xlink:href="#icon-wodehuodong"></use>
-                  </svg>
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="活动"
+                    placement="top"
+                  >
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-wodehuodong"></use>
+                    </svg>
+                  </el-tooltip>
                 </div>
                 <div
                   v-waves
                   class="btn btn_info"
                   @click="deleteEvent(scope.row)"
                 >
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
-                    <use xlink:href="#icon-lajitong"></use>
-                  </svg>
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    content="删除"
+                    placement="top"
+                  >
+                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-lajitong"></use>
+                    </svg>
+                  </el-tooltip>
                 </div>
               </template>
             </vxe-column>
@@ -128,6 +156,7 @@ export default {
   mixins: [message],
   data() {
     return {
+      pageHaseItem: 0, // 当前页有多少条数据
       username: "",
       editNum: 1,
       // 弹层flag
@@ -175,18 +204,20 @@ export default {
   methods: {
     // 查看列表
     getlist() {
+      const vm = this
       BidList({
-        trans_name: this.username,
-        limit: this.pagesize,
-        page: this.currpage,
+        trans_name: vm.username,
+        limit: vm.pagesize,
+        page: vm.currpage,
       }).then((res) => {
         if (res.data.code == 10000) {
-          this.tableData = res.data.data;
-          this.total = res.data.count;
+          vm.tableData = res.data.data;
+          vm.total = res.data.count;
+          vm.pageHaseItem = vm.tableData.length;
         } else if (res.data.code == 10001) {
-          this.$msg({ type: "warning", msg: res.data.data });
+          vm.$msg({ type: "warning", msg: res.data.data });
         } else {
-          this.$msg({ type: "error", msg: "出错了" });
+          vm.$msg({ type: "error", msg: "出错了" });
         }
       });
     },
@@ -237,9 +268,14 @@ export default {
         type: "warning",
         showClose: true,
         showCancelButton: true,
-        tipTitle: `确定删除当前竞标信息：`,
+        tipTitle: `确定删除当前监控计划：`,
         curItem: `${row.bidding_name}？`,
         confirmButtonFn: () => {
+          // 仅剩一条数据， 下一次查询需要查前一页
+          let haspageInt = parseInt(vm.total / vm.pagesize);
+          if (vm.pageHaseItem === 1) {
+            vm.currpage = haspageInt > 1 ? haspageInt : 1;
+          }          
           biddingDelete({
             bidding_id: row.bidding_id,
             activity_id: row.activity_id,

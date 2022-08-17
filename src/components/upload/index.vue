@@ -30,7 +30,7 @@ export default {
       type: String,
     },
     multiple: {
-      default: true,
+      default: false,
       type: Boolean,
     },
     showPros: {
@@ -57,6 +57,7 @@ export default {
     },
     // 文件状态改变时的钩子
     fileChange(file, fileList) {
+      this.fileList = []
       this.fileList.push(file.raw);
       this.$emit("getFile", this.fileList);
     },

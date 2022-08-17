@@ -34,13 +34,16 @@ export default {
     const vm = this;
     let wx_code = localStorage.getItem("wx_code");
     let wx_userid = localStorage.getItem("wx_userid");
+    let toinfo = sessionStorage.getItem("toInfo");
     if (!wx_code && !wx_userid) {
       if (vm.$route.query.wx_userid) {
         localStorage.setItem("wx_code", vm.$route.query.wx_code);
         localStorage.setItem("wx_userid", vm.$route.query.wx_userid);
         localStorage.setItem("user_name", vm.$route.query.user_name);
         localStorage.setItem("thumb_avatar", vm.$route.query.thumb_avatar);
-        vm.$router.push({ path: "layout/beijingMustPass/DMP" });
+        vm.$router.push({
+          path: toinfo ? toinfo.slice(1) : "layout/beijingMustPass/DMP",
+        });
       } else {
         vm.getWeChat();
       }
@@ -48,7 +51,9 @@ export default {
     if (wx_code && wx_userid) {
       vm.check().then((res) => {
         if (res) {
-          vm.$router.push({ path: "layout/beijingMustPass/DMP" });
+          vm.$router.push({
+            path: toinfo ? toinfo.slice(1) : "layout/beijingMustPass/DMP",
+          });
         } else {
           localStorage.removeItem("wx_code");
           localStorage.removeItem("wx_userid");

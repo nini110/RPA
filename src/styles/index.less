@@ -123,8 +123,6 @@
 
 	&-form {
 		&-item {
-			margin-bottom: 18px;
-
 			&__label,
 			&__content {
 				display: inline-block;
@@ -167,7 +165,7 @@
 
 	&-drawer {
 		padding: 30px 40px;
-		width: 35% !important;
+		// width: 35% !important;
 
 		&__header {
 			font-size: 16px;
@@ -395,13 +393,16 @@
 	&-button {
 		min-width: 113px;
 		user-select: none;
-		.backColor();
+		// .backColor();
+		&--info {
+			padding: 11px 20px;
+		}
 		&--primary {
 			padding: 11px 20px;
 			border: none;
 			&:hover,
 			&:focus {
-				.backColor();
+				// .backColor();
 			}
 
 			&.is-plain {
@@ -455,24 +456,34 @@
 		position: relative;
 		z-index: 10;
 		&_icon {
-			width: 20px;
-			height: 20px;
+			width:24px;
+			height:24px;
 			margin-right: 10px;
 			display: inline-block;
 			vertical-align: middle;
 		}
 	}
 	.down {
-		font-size: 14px;
+		font-size: 16px;
 		color: #666;
 		line-height: 20px;
-		margin: 12px 0;
+		margin: 10px 8px;
 		user-select: none;
 		a {
-			font-size: 12px;
+			font-size: 16px;
 			color: #2066BD;
 			float: right;
 			margin-left: 15px;
+		}
+	}
+	.el-divider {
+		margin: 15px 0;
+	}
+	.tool {
+		margin: 10px 8px;
+		user-select: none;
+		span {
+			cursor: pointer;
 		}
 	}
 }
@@ -499,6 +510,9 @@
 	right: 50px !important;
 }
 .vxe{
+	&-body--column {
+		height: 70px!important;
+	}
 	&-button {
 		border: none;
 		&:hover,

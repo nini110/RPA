@@ -9,6 +9,13 @@
           </el-tabs>
         </div>
         <div v-show="activeName === '0'" class="ziyou_chart">
+          <el-alert
+            title="数据自动更新时间为每天14点，统计日期上限为当前日期-1"
+            type="warning"
+            :closable="false"
+          >
+          </el-alert>
+
           <h2>年度总消耗</h2>
           <div class="chart">
             <div class="ziyou_chart_topleft">
@@ -125,12 +132,12 @@ export default {
       activeName: "0",
       tableBox: [
         {
-          title: "本年度排行",
+          title: "本年度品牌排行",
           icon: "icon-benniandu",
           tableData: [],
         },
         {
-          title: "本月度排行",
+          title: "本月度品牌排行",
           icon: "icon-yuedubaogao",
           tableData: [],
         },
@@ -268,9 +275,9 @@ export default {
         },
         color: ["#0d6bd0", "#ffc300", "#00e473"],
         grid: {
-          top: "0%",
-          bottom: "65%",
-          left: "45%",
+          top: "6%",
+          bottom: "57%",
+          left: "44%",
           containLabel: false,
         },
         yAxis: [
@@ -313,6 +320,7 @@ export default {
         grid: {
           left: "8%",
           right: "3%",
+          bottom: '13%'
         },
         xAxis: {
           type: "category",
@@ -606,7 +614,7 @@ export default {
           type: "pie",
           clockWise: false, //顺时加载
           hoverAnimation: true, //鼠标移入变大
-          radius: [95 - i * 25 + "%", 75 - i * 25 + "%"],
+          radius: [65 - i * 25 + "%", 75 - i * 25 + "%"],
           center: ["36%", "50%"],
           label: {
             show: false,
@@ -646,7 +654,7 @@ export default {
           z: 1,
           clockWise: false, //顺时加载
           hoverAnimation: true, //鼠标移入变大
-          radius: [95 - i * 25 + "%", 75 - i * 25 + "%"],
+          radius: [65 - i * 25 + "%", 75 - i * 25 + "%"],
           center: ["36%", "50%"],
           label: {
             show: false,

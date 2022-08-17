@@ -1,17 +1,17 @@
 <template>
   <!-- 上传竞标 -->
   <el-dialog
-    title="上传竞标"
+    title="新建监控计划"
     :visible.sync="show"
     @close="closeDialog"
-    width="35%"
+    width="45%"
     max-height="800px"
     custom-class="dialogJb"
     :close-on-click-modal="false"
   >
     <el-form ref="form" :model="form" class="formObj" :rules="rules">
-      <el-row>
-        <el-col>
+      <el-row :gutter="4">
+        <el-col :span="24">
           <el-form-item label="选择竞标" prop="bidId">
             <el-select
               v-model="form.bidId"
@@ -31,7 +31,7 @@
             </el-select>
           </el-form-item>
         </el-col>
-        <el-col>
+        <el-col :span="24">
           <el-form-item label="选择活动">
             <div v-if="actionOptions && actionOptions.length > 0">
               <el-checkbox
@@ -56,19 +56,19 @@
             <div v-else>暂无活动内容</div>
           </el-form-item>
         </el-col>
-        <el-col>
+        <el-col :span="24">
           <el-form-item label="添加人员" prop="cSubcategoryNo">
             <el-input
               class="inline-input"
               v-model.trim="cSubcategoryNo"
-              placeholder="请输入上传人员姓名或关键字失焦查询"
-              @change="searchPeople"
+              placeholder="请输入上传人员姓名或关键字"
+              @input="searchPeople"
               size="medium"
               clearable
             ></el-input>
           </el-form-item>
         </el-col>
-        <el-col>
+        <el-col :span="24">
           <el-form-item v-if="peopleOptions.length > 0" label="" class="tagBox">
             <el-scrollbar style="height: 100%">
               <el-tag
@@ -83,53 +83,82 @@
             </el-scrollbar>
           </el-form-item>
         </el-col>
-        <el-divider  style="{margin-top: 0}"></el-divider>
-        <el-col>
+
+        <el-col :span="24">
           <el-form-item label="已选人员" prop="">
             <el-tag
               v-for="(i, index) in peoplelist"
               :key="index"
               :index="index"
-              closable
+              :closable="peoplelist.length > 1"
               @close="deleteitem(index)"
               >{{ i.name }}</el-tag
             >
           </el-form-item>
         </el-col>
-        <el-col>
-          <el-form-item label="预算" prop="">
-            <div v-for="(item, idx) in budgetJson" :key="idx" class="budgetDiv">
-              <el-date-picker
-                v-model="item.date"
-                type="date"
-                placeholder="选择日期"
-                format="yyyy-MM-dd"
-                value-format="yyyy-MM-dd"
+        <el-col :span="18">
+          <el-form-item label="生成预算" prop="rangeDate">
+            <el-date-picker
+              v-model="form.rangeDate"
+              format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd"
+              type="daterange"
+              :clearable="false"
+              range-separator="至"
+              start-placeholder="开始日期"
+              end-placeholder="结束日期"
+              :picker-options="pickerOptionsStart"
+            >
+            </el-date-picker>
+          </el-form-item>
+        </el-col>
+        <el-col :span="4">
+          <el-button
+            type="info"
+            plain
+            @click="createForm"
+            :disabled="form.rangeDate && form.rangeDate.length === 0"
+            >生成</el-button
+          >
+        </el-col>
+        <el-col class="flexCol">
+          <!-- <el-scrollbar style="height: 100%"> -->
+            <el-form-item
+              v-for="(item, idx) in form.budgetJson"
+              :key="idx"
+              label=""
+              :prop="'budgetJson.' + idx + '.val'"
+              :rules="rules.budget"
+            >
+              <el-input
+                placeholder="请输入预算"
+                v-model.number="item.val"
+                :maxlength="9"
+                clearable
               >
-              </el-date-picker>
-              <el-input v-model="item.val" placeholder="请输入预算"></el-input>
+                <template slot="prepend">{{ item.date }}</template>
+              </el-input>
               <span
-                v-if="idx !== 0"
-                class="delicon el-icon-remove"
+                v-if="form.budgetJson.length > 1"
+                class="delicon el-icon-delete"
                 @click="delBudgetEvent(item, idx)"
               ></span>
-            </div>
-            <span
-              class="addicon el-icon-circle-plus"
-              @click="addBudgetEvent"
-            ></span>
-          </el-form-item>
+            </el-form-item>
+          <!-- </el-scrollbar> -->
         </el-col>
       </el-row>
     </el-form>
     <div class="send"></div>
     <span slot="footer" class="dialog-footer">
+      <a class="btnnormal btnnormal_down marginR" @click="closeDialog()">
+        <div class="el-icon-close btnSize">取消</div>
+      </a>
       <el-button
         v-waves
-        class="el-icon-upload2"
+        class="el-icon-finished"
         type="primary"
         @click="uploadFile"
-        >立即上传</el-button
+        >保存</el-button
       >
     </span>
   </el-dialog>
@@ -142,6 +171,7 @@ import {
   immediatelyUpload,
 } from "@/api/api.js";
 import Upload from "@/components/upload";
+import dayjs from "dayjs";
 
 export default {
   name: "UpDialog",
@@ -151,6 +181,11 @@ export default {
   props: {},
   data() {
     return {
+      pickerOptionsStart: {
+        disabledDate: (time) => {
+          return time.getTime() <= new Date().getTime() - 24 * 60 * 60 * 1000;
+        },
+      },
       show: true,
       form: {
         //搜索的内容
@@ -159,6 +194,8 @@ export default {
         checkedActions: [],
         checkAll: false,
         isIndeterminate: false,
+        budgetJson: [],
+        rangeDate: [],
       },
       rules: {
         bidId: [
@@ -175,8 +212,21 @@ export default {
             trigger: "blur",
           },
         ],
+        rangeDate: [
+          {
+            required: true,
+            message: "请生成预算表单",
+            trigger: "blur",
+          },
+        ],
+        budget: [
+          {
+            type: "number",
+            message: "预算值为数字",
+            trigger: "change",
+          },
+        ],
       },
-      fileList: [], // excel文件列表
       actionOptions: [],
       bidOptions: [],
       peopleOptions: [],
@@ -184,12 +234,6 @@ export default {
       peoplelist: [], //人员列表
       itemid: [], //上传人员id
       itemname: [], //上传人员姓名
-      budgetJson: [
-        {
-          date: "",
-          val: "",
-        },
-      ],
     };
   },
   created() {},
@@ -208,13 +252,25 @@ export default {
   methods: {
     // 查找人员
     searchPeople() {
-      if (this.cSubcategoryNo == "") {
-        this.peopleOptions = [];
+      const vm = this;
+      if (vm.cSubcategoryNo == "") {
+        vm.peopleOptions = [];
       } else {
         getName({
-          search: this.cSubcategoryNo,
+          search: vm.cSubcategoryNo,
         }).then((res) => {
-          this.peopleOptions = res.data.data;
+          vm.peopleOptions = [];
+          let result = res.data.data;
+          // 二次同字段搜索的时候去重
+          for (let i in vm.peoplelist) {
+            for (let k in result) {
+              if (vm.peoplelist[i].userid === result[k].userid) {
+                result.splice(k, 1);
+                break;
+              }
+            }
+          }
+          vm.peopleOptions = result;
         });
       }
     },
@@ -232,17 +288,35 @@ export default {
         }
       });
     },
-    // 新增预算
-    addBudgetEvent() {
+    // 生成
+    createForm() {
       const vm = this;
-      vm.budgetJson.push({
-        date: "",
-        val: "",
-      });
+      if (vm.form.rangeDate && vm.form.rangeDate.length > 0) {
+        let starttime = dayjs(vm.form.rangeDate[0]);
+        let endtime = dayjs(vm.form.rangeDate[1]);
+        let duration = endtime.diff(starttime, "day");
+        let arr = new Array(duration).fill("a");
+        vm.form.budgetJson = [
+          {
+            date: vm.form.rangeDate[0],
+            val: "",
+          },
+        ];
+        arr.forEach((val, idx) => {
+          let res = dayjs(
+            dayjs(vm.form.rangeDate[0]).valueOf() +
+              (idx + 1) * 1000 * 60 * 60 * 24
+          ).format("YYYY-MM-DD");
+          vm.form.budgetJson.push({
+            date: res,
+            val: "",
+          });
+        });
+      }
     },
     delBudgetEvent(item, idx) {
       const vm = this;
-      vm.budgetJson.splice(idx, 1);
+      vm.form.budgetJson.splice(idx, 1);
     },
     // 选中竞标查询活动
     jbChangeEvent(val) {
@@ -262,7 +336,7 @@ export default {
     uploadFile(data) {
       const vm = this;
       vm.$refs.form.validate((valid) => {
-        if (valid) {
+        if (valid && vm.form.budgetJson.length > 0) {
           let arrName = "";
           let arrId = "";
           //上传时需要的人员id
@@ -291,7 +365,7 @@ export default {
               trans_name: vm.username,
               bidding_id: vm.form.bidId,
               bidding_name: jbname,
-              bidding_threshold: vm.budgetJson,
+              bidding_threshold: vm.form.budgetJson,
             };
             if (vm.form.checkAll === true) {
               vm.form.checkedActions = [];
@@ -345,9 +419,6 @@ export default {
       this.form.checkAll = checkedCount === this.actionOptions.length;
       this.form.isIndeterminate =
         checkedCount > 0 && checkedCount < this.actionOptions.length;
-    },
-    getFileEvent(val) {
-      this.fileList = val;
     },
     // 双击删除列表
     deleteitem(index) {

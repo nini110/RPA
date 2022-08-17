@@ -4,6 +4,7 @@
 // ElementUI按需引入
 import Vue from 'vue'
 import {
+  Alert,
   Switch,
   Divider,
   Pagination,
@@ -52,6 +53,7 @@ import {
 
 
 const components = {
+  Alert,
   Switch,
   Divider,
   Pagination,

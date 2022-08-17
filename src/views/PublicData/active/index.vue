@@ -125,7 +125,6 @@ export default {
         trans_name: this.username,
         url: this.form.url,
       }).then((res) => {
-        debugger;
         if (res.data.code === 10000) {
           this.form.url = "";
           this.getuserlist();

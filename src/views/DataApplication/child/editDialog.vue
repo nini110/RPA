@@ -32,7 +32,7 @@
                 v-for="(i, index) in peoplelList"
                 :key="index"
                 :index="index"
-                closable
+                :closable="peoplelList.length > 1"
                 @close="NameListdeleteitem(index)"
                 >{{ i.name || i.user_name }}</el-tag
               >

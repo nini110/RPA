@@ -19,7 +19,8 @@ const routes = [{
 		meta: {
 			deep: 1
 		},
-		children: [{
+		children: [
+			{
 				path: 'beijingMustPass',
 				name: 'BeijingMustPass',
 				meta: {
@@ -283,7 +284,7 @@ const routes = [{
 							filePath: 'Qianchuan/realTime'
 						},
 						component: () => import(/* webpackChunkName: "R_qianchuan"*/"@/views/Qianchuan/realTime"),
-					}
+					},
 					// {
 					// 	path: 'plan',
 					// 	name: 'Plan',
@@ -409,6 +410,45 @@ const routes = [{
 					}
 				]
 			},
+			{
+				path: 'expend',
+				name: 'Expend',
+				meta: {
+					deep: 2
+				},
+				component: () => import("@/views/Expend"),
+				children: [{
+						path: 'chart',
+						name: 'chart',
+						meta: {
+							title: '消耗图表',
+							deep: 3,
+							filePath: 'Expend/chart'
+						},
+						component: () => import( /* webpackChunkName: "R_Expend"*/ "@/views/Expend/chart"),
+					},
+					{
+						path: 'selfBrand',
+						name: 'selfBrand',
+						meta: {
+							title: '自有品牌',
+							deep: 3,
+							filePath: 'Expend/selfBrand'
+						},
+						component: () => import( /* webpackChunkName: "R_Expend"*/ "@/views/Expend/selfBrand"),
+					},
+					{
+						path: 'bidItem',
+						name: 'bidItem',
+						meta: {
+							title: '竞标项目',
+							deep: 3,
+							filePath: 'Expend/bidItem'
+						},
+						component: () => import( /* webpackChunkName: "R_Expend"*/ "@/views/Expend/bidItem"),
+					}
+				]
+			}
 		]
 	},
 	// {

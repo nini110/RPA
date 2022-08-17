@@ -106,9 +106,16 @@
                 :class="{ dis: scope.row.status }"
                 @click="editFn(2, scope.row)"
               >
-                <svg class="icon svg-icon titleicon" aria-hidden="true">
-                  <use xlink:href="#icon-13edit"></use>
-                </svg>
+                <el-tooltip
+                  class="item"
+                  effect="dark"
+                  content="编辑"
+                  placement="top"
+                >
+                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <use xlink:href="#icon-13edit"></use>
+                  </svg>
+                </el-tooltip>
               </div>
               <div
                 v-waves
@@ -116,9 +123,16 @@
                 :class="{ dis: scope.row.status }"
                 @click="deleteFn(scope.row)"
               >
-                <svg class="icon svg-icon titleicon" aria-hidden="true">
-                  <use xlink:href="#icon-lajitong"></use>
-                </svg>
+                <el-tooltip
+                  class="item"
+                  effect="dark"
+                  content="删除"
+                  placement="top"
+                >
+                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <use xlink:href="#icon-lajitong"></use>
+                  </svg>
+                </el-tooltip>
               </div>
             </template>
           </vxe-column>
