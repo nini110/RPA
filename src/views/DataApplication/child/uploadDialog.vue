@@ -32,7 +32,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item label="选择活动">
+          <el-form-item label="选择活动" prop="checkedActions">
             <div v-if="actionOptions && actionOptions.length > 0">
               <el-checkbox
                 :indeterminate="form.isIndeterminate"
@@ -69,7 +69,11 @@
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item v-if="peopleOptions.length > 0" label="" class="tagBox">
+          <el-form-item
+            v-if="peopleOptions.length > 0"
+            label=""
+            class="tagBox ts"
+          >
             <el-scrollbar style="height: 100%">
               <el-tag
                 v-for="tag in peopleOptions"
@@ -85,7 +89,7 @@
         </el-col>
 
         <el-col :span="24">
-          <el-form-item label="已选人员" prop="">
+          <el-form-item label="已选人员" prop="" class="tagBox">
             <el-tag
               v-for="(i, index) in peoplelist"
               :key="index"
@@ -123,27 +127,27 @@
         </el-col>
         <el-col class="flexCol">
           <!-- <el-scrollbar style="height: 100%"> -->
-            <el-form-item
-              v-for="(item, idx) in form.budgetJson"
-              :key="idx"
-              label=""
-              :prop="'budgetJson.' + idx + '.val'"
-              :rules="rules.budget"
+          <el-form-item
+            v-for="(item, idx) in form.budgetJson"
+            :key="idx"
+            label=""
+            :prop="'budgetJson.' + idx + '.val'"
+            :rules="rules.budget"
+          >
+            <el-input
+              placeholder="请输入预算"
+              v-model.number="item.val"
+              :maxlength="9"
+              clearable
             >
-              <el-input
-                placeholder="请输入预算"
-                v-model.number="item.val"
-                :maxlength="9"
-                clearable
-              >
-                <template slot="prepend">{{ item.date }}</template>
-              </el-input>
-              <span
-                v-if="form.budgetJson.length > 1"
-                class="delicon el-icon-delete"
-                @click="delBudgetEvent(item, idx)"
-              ></span>
-            </el-form-item>
+              <template slot="prepend">{{ item.date }}</template>
+            </el-input>
+            <span
+              v-if="form.budgetJson.length > 1"
+              class="delicon el-icon-delete"
+              @click="delBudgetEvent(item, idx)"
+            ></span>
+          </el-form-item>
           <!-- </el-scrollbar> -->
         </el-col>
       </el-row>
@@ -180,6 +184,14 @@ export default {
   },
   props: {},
   data() {
+    const vm = this;
+    let validActions = function(rule, value, callback) {
+      if (vm.actionOptions && vm.actionOptions.length > 0 && vm.form.checkedActions.length === 0) {
+        callback('请选择活动')
+      } else {
+        callback()
+      }
+    }
     return {
       pickerOptionsStart: {
         disabledDate: (time) => {
@@ -196,20 +208,22 @@ export default {
         isIndeterminate: false,
         budgetJson: [],
         rangeDate: [],
+        activity_name: "",
+        activity_id: "",
       },
       rules: {
         bidId: [
           {
             required: true,
             message: "请选择竞标",
-            trigger: "blur",
+            trigger: ["blur", 'change'],
           },
         ],
         checkedActions: [
           {
             required: true,
-            message: "请选择活动",
-            trigger: "blur",
+            validator:validActions,
+            trigger: ["blur", 'change'],
           },
         ],
         rangeDate: [
@@ -235,6 +249,40 @@ export default {
       itemid: [], //上传人员id
       itemname: [], //上传人员姓名
     };
+  },
+  computed: {
+    checkedActivity() {
+      return this.form.checkedActions;
+    },
+  },
+  watch: {
+    checkedActivity: {
+      handler(newval, oldval) {
+        const vm = this;
+        if (newval.length === 0) {
+          vm.form.activity_name = "";
+          vm.form.activity_id = "";
+        } else {
+          if (vm.form.checkAll || newval.length === vm.actionOptions.length) {
+            vm.form.activity_name = "";
+            vm.form.activity_id = "";
+          } else {
+            let arrName = "";
+            let arrId = "";
+            for (let k = 0; k < newval.length; k++) {
+              arrName += newval[k].activityName + ",";
+              arrId += newval[k].id + ",";
+            }
+            arrName = arrName.slice(0, arrName.length - 1);
+            arrId = arrId.slice(0, arrId.length - 1);
+            vm.form.activity_name = arrName;
+            vm.form.activity_id = arrId;
+          }
+        }
+      },
+      immediate: true,
+      deep: true,
+    },
   },
   created() {},
   mounted() {
@@ -325,7 +373,8 @@ export default {
         BidIdQueryActivity({
           bidding_id: val,
         }).then((res) => {
-          vm.actionOptions = res.data.data;
+          let result = res.data.data
+          vm.actionOptions = result;
         });
       } else {
         vm.bidOptions = [];
@@ -337,8 +386,6 @@ export default {
       const vm = this;
       vm.$refs.form.validate((valid) => {
         if (valid && vm.form.budgetJson.length > 0) {
-          let arrName = "";
-          let arrId = "";
           //上传时需要的人员id
           vm.itemid = "";
           vm.itemname = "";
@@ -366,24 +413,9 @@ export default {
               bidding_id: vm.form.bidId,
               bidding_name: jbname,
               bidding_threshold: vm.form.budgetJson,
+              activity_name: vm.form.activity_name,
+              activity_id: vm.form.activity_id,
             };
-            if (vm.form.checkAll === true) {
-              vm.form.checkedActions = [];
-            }
-            if (vm.form.checkedActions.length === 0) {
-              vm.$set(data, "activity_name", "");
-              vm.$set(data, "activity_id", "");
-            } else {
-              for (let k = 0; k < vm.form.checkedActions.length; k++) {
-                arrName += vm.form.checkedActions[k].activityName + ",";
-                arrId += vm.form.checkedActions[k].id + ",";
-              }
-              arrName = arrName.slice(0, arrName.length - 1);
-              arrId = arrId.slice(0, arrId.length - 1);
-              vm.$set(data, "activity_name", arrName);
-              vm.$set(data, "activity_id", arrId);
-            }
-            console.log(data);
             immediatelyUpload(data).then((res) => {
               if (res.data.code == 10000) {
                 vm.$emit("close", "suc");
@@ -410,7 +442,7 @@ export default {
     },
     //多选框--全选
     actionEventAll(val) {
-      this.form.checkedActions = val;
+      this.form.checkedActions = val ? this.actionOptions : [];
       this.form.isIndeterminate = false;
     },
     //多选框--单选

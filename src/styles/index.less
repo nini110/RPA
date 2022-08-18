@@ -19,7 +19,13 @@
 	}
 }
 .el {
-
+	&-tag {
+		margin: 0 10px 0 0 !important;
+		color: #606266;
+		text-align: center;
+		border-color: #d7dadb6e;
+		background-color: #ffcea4;
+	}
 	&-tabs {
 		padding: 0!important;
 		&--border-card {
@@ -490,7 +496,7 @@
 
 .tagBox {
 	display: flex;
-	flex-direction: row-reverse;
+	// flex-direction: row-reverse;
 	margin-bottom: 0 !important;
 	padding-bottom: 22px;
 	.el-form-item {
@@ -502,6 +508,12 @@
 				margin: 0 1% 1% 1% !important;
 				cursor: pointer;
 			}
+		}
+	}
+	&.ts {
+		flex-direction: row-reverse;
+		.el-tag {
+			background-color: #d7dadb6e;
 		}
 	}
 }

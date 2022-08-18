@@ -2,7 +2,7 @@
   <div class="content tsts">
     <div class="content_form" style="padding-top: 10px">
       <el-form ref="form" :model="form" class="formObj" :rules="rules">
-        <div class="formObj_ipt">
+        <div class="formObj_ipt expend">
           <el-row>
             <el-col :span="12">
               <el-form-item label="项目:" prop="brand">

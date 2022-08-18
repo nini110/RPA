@@ -10,7 +10,8 @@
         </div>
         <div v-show="activeName === '0'" class="ziyou_chart">
           <el-alert
-            title="数据自动更新时间为每天14点，统计日期上限为当前日期-1"
+            title="当前消耗数据均为现金消耗，其中，代理数据自动刷新时间为每天14点，子账号明细数据自动刷新时间为每周二2点
+注：数据统计时间截至为当前日期-1"
             type="warning"
             :closable="false"
           >
@@ -320,7 +321,7 @@ export default {
         grid: {
           left: "8%",
           right: "3%",
-          bottom: '13%'
+          bottom: "13%",
         },
         xAxis: {
           type: "category",

@@ -1,8 +1,4 @@
-/deep/.el-tag {
-    margin: 0 10px 0 0 !important;
-    color: hsl(213, 71%, 43%);
-    text-align: center;
-}
+
 
 /deep/.send {
     display: flex;
@@ -13,15 +9,6 @@
     padding-left: 120px;
     margin-bottom: 24px;
 }
-
-// /deep/.namelist {
-//     // width: 140px;
-//     height: 120px;
-//     text-align: right;
-//     .el-tag {
-//       color: #2066bd;
-//     }
-//   }
 /deep/.btnSizeBig {
     padding: 5px 5px;
     height: 38px;
@@ -55,27 +42,35 @@
     }
 }
 
-/deep/.el-checkbox {
-    &__label {
-        font-size: 12px;
-        // margin-bottom: 12px;
+/deep/.el {
+    &-form-item {
+        &.action {
+            .el-form-item__content {
+                width: 100%!important;
+            }
+        }
     }
-
-    &-group {
-        display: flex;
-        flex-wrap: wrap;
-
-        // padding: 0 30px;
-        .el-checkbox {
-            width: 49%;
+    &-checkbox {
+        &__label {
             font-size: 12px;
-            box-sizing: border-box;
-            padding: 0 20px;
-            margin: 1% 1% 2% 0;
-            background-color: #ecf5ff;
+            // margin-bottom: 12px;
+        }
 
-            &__label {
+        &-group {
+            display: flex;
+            flex-wrap: wrap;
+            // padding: 0 30px;
+            .el-checkbox {
+                width: 49%;
                 font-size: 12px;
+                box-sizing: border-box;
+                padding: 0 20px;
+                margin: 1% 1% 2% 0;
+                background-color: #d7dadb6e;
+                border-radius: 5px;
+                &__label {
+                    font-size: 12px;
+                }
             }
         }
     }
@@ -119,33 +114,40 @@
     flex-wrap: wrap;
     max-height: 300px;
     overflow: auto;
-    padding-left: 140px!important;
+    padding-left: 140px !important;
+
     /deep/.el-scrollbar {
         flex-basis: 100%;
+
         &__view {
             display: flex;
             flex-wrap: wrap;
         }
     }
+
     /deep/.el-form-item {
         flex-basis: 42%;
         position: relative;
         padding-right: 7%;
+
         &:hover {
             .delicon {
                 display: block;
+
                 &:hover {
                     color: red;
                 }
             }
         }
+
         &__content {
             width: 100% !important;
-                display: flex;
-                flex-wrap: wrap;
-                box-sizing: border-box;
+            display: flex;
+            flex-wrap: wrap;
+            box-sizing: border-box;
         }
     }
+
     /deep/.el-input-group__prepend {
         padding: 0 10px;
     }

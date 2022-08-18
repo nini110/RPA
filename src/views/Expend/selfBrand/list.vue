@@ -3,7 +3,7 @@
   <div class="content tsts">
     <div class="content_form" style="padding-top: 10px">
       <el-form ref="form" :model="form" class="formObj" :rules="rules">
-        <div class="formObj_ipt">
+        <div class="formObj_ipt expend">
           <el-row>
             <el-col :span="12">
               <el-form-item label="品牌:" prop="brand">
@@ -64,6 +64,11 @@
             round
             :column-config="{ resizable: true }"
             :row-config="{ isCurrent: true, isHover: true }"
+            :tooltip-config="{
+              showAll: true,
+              enterable: true,
+              contentMethod: showTooltipMethod,
+            }"
             class="mytable-scrollbar"
             auto-resize
             height="auto"
@@ -84,39 +89,38 @@
               field="brand"
               fixed="left"
             ></vxe-column>
-            <!-- <vxe-column
-              v-for="(item, idx) in topMenuList"
-              :key="idx"
-              :field="item.prop"
-              :title="item.label"
+            <vxe-column
               min-width="12%"
-            ></vxe-column> -->
-            <vxe-column min-width="12%" field="consume" title="现金消耗">
+              field="jd_consume"
+              title="京牌代理消耗"
+              :title-help="{
+                icon: 'el-icon-question',
+                message: '包含站内数据：快车、触点、展位，站外数据：直投',
+              }"
+            >
               <template #default="{ row }">
-                <span v-if="!row.cash_consume">--</span>
-                <span v-else>{{ row.cash_consume | numberToCurrencyNo }}</span>
+                <span v-if="!row.jd_consume">--</span>
+                <span v-else>{{ row.jd_consume | numberToCurrencyNo }}</span>
               </template>
             </vxe-column>
-            <vxe-column min-width="12%" field="consume" title="返佣金消耗">
+            <vxe-column
+              min-width="12%"
+              field="pin_consume"
+              title="子账号明细消耗"
+              :title-help="{
+                icon: 'el-icon-question',
+                message: '各个自有账号下数据，包含数据：海投、京速推、直投',
+              }"
+            >
               <template #default="{ row }">
-                <span v-if="!row.rebate_consume">--</span>
-                <span v-else>{{
-                  row.rebate_consume | numberToCurrencyNo
-                }}</span>
-              </template>
-            </vxe-column>
-            <vxe-column min-width="12%" field="consume" title="虚拟金消耗">
-              <template #default="{ row }">
-                <span v-if="!row.virtual_consume">--</span>
-                <span v-else>{{
-                  row.virtual_consume | numberToCurrencyNo
-                }}</span>
+                <span v-if="!row.pin_consume">--</span>
+                <span v-else>{{ row.pin_consume | numberToCurrencyNo }}</span>
               </template>
             </vxe-column>
             <vxe-column min-width="12%" field="consume" title="站内返点消耗">
               <template #default="{ row }">
-                <span v-if="!row.zn_consume">--</span>
-                <span v-else>{{ row.zn_consume | numberToCurrencyNo }}</span>
+                <span v-if="!row.zn_fd">--</span>
+                <span v-else>{{ row.zn_fd | numberToCurrencyNo }}</span>
               </template>
             </vxe-column>
             <vxe-column min-width="12%" field="consume" title="站外返点消耗">
@@ -134,22 +138,8 @@
             <!--  -->
             <vxe-column min-width="12%" field="consume" title="总消耗">
               <template #default="{ row }">
-                <span v-if="!row.consume">--</span>
-                <span v-else>{{ row.consume | numberToCurrencyNo }}</span>
-              </template>
-            </vxe-column>
-            <vxe-column min-width="12%" field="hb_consume" title="环比">
-              <template #default="{ row }">
-                <span v-if="!row.hb_consume">--</span>
-                <span v-else>{{ row.hb_consume | numberToCurrencyNo }}</span>
-              </template>
-            </vxe-column>
-            <vxe-column min-width="12%" field="hb_consume" title="环比变化比例">
-              <template #default="{ row }">
-                <span v-if="!row.hb_consume">--</span>
-                <div v-else>
-                  <span :class="row.hb_icon">{{ row.percent_hb }}</span>
-                </div>
+                <span v-if="!row.total_consume">--</span>
+                <span v-else>{{ row.total_consume | numberToCurrencyNo }}</span>
               </template>
             </vxe-column>
             <vxe-column min-width="12%" field="tb_consume" title="同比">
@@ -269,6 +259,21 @@ export default {
     vm.searchEvent();
   },
   methods: {
+    showTooltipMethod({ type, column, row, items, _columnIndex }) {
+      const { property } = column;
+      // 重写默认的提示内容
+      if (property === "jd_consume" || property === "pin_consume") {
+        if (type === "header") {
+          return column.titleHelp.message;
+        }
+        return ''
+      } else {
+        // 返回空字符串，控制单元格不显示提示内容
+        return "";
+      }
+      // 其余的单元格使用默认行为
+      // return null;
+    },
     // 获取品牌列表
     getBrand() {
       const vm = this;

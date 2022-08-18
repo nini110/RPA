@@ -537,12 +537,21 @@ export default {
           showCancelButton: true,
           tipTitle: "确定删除所选中的报表？",
           confirmButtonFn: () => {
+            let haspage = vm.total / vm.pagesize;
             let haspageInt = parseInt(vm.total / vm.pagesize);
             if (vm.pageHaseItem === vm.multipleSelectionLength) {
               // 全选
-              if ((vm.currpage === haspageInt + 1)) {
+              if (vm.currpage === haspageInt + 1) {
                 // 最后一页
                 vm.currpage = haspageInt > 1 ? haspageInt : 1;
+              }
+              if (vm.currpage === haspageInt && haspage !== haspageInt) {
+                // 倒数第二页
+                vm.currpage = haspageInt;
+              }
+              if (vm.currpage === haspageInt && haspage === haspageInt) {
+                // 最后一页
+                vm.currpage = haspageInt - 1;
               }
             }
 
