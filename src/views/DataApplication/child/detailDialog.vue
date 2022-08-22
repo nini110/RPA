@@ -20,18 +20,19 @@
     >
       >
       <vxe-column type="seq" title="序号" width="15%" fixed="left"></vxe-column>
-      <vxe-column field="bidding_id" title="当日预算" min-width="20%">
+      <vxe-column field="threshold" title="当日预算" min-width="20%">
         <template slot-scope="scope">
-          <div class="input-box">
+          <div class="inputbox">
             <el-input
               placeholder="请输入预算"
               v-model.number="scope.row.threshold"
               clearable
             >
-              <template slot="prepend">{{scope.row.bidding_date}} </template>
-            </el-input>            
-          </div> </template
-      ></vxe-column>
+              <template slot="prepend">{{ scope.row.bidding_date }} </template>
+            </el-input>
+          </div>
+        </template>
+      </vxe-column>
     </vxe-table>
     <span slot="footer" class="dialog-footer">
       <a class="btnnormal btnnormal_down marginR" @click="closeDialog">
@@ -94,19 +95,20 @@ export default {
     //上传修改后的预算数据
     sendlist() {
       const vm = this;
-      detailsToModify({
-        id_thresholds: vm.changelist,
-      }).then((res) => {
-        if (res.data.code == 10000) {
-          vm.$emit("close", "suc");
-          vm.$msg({ msg: "更新成功" });
-          vm.$message.success("更新成功");
-        } else if (res.data.code == 10001) {
-          vm.$msg({ type: "warning", msg: "参数丢失" });
-        } else {
-          vm.$msg({ type: "error", msg: "出错了" });
-        }
-      });
+      vm.$refs.vxetableval.validate((valid) => {});
+      // detailsToModify({
+      //   id_thresholds: vm.changelist,
+      // }).then((res) => {
+      //   if (res.data.code == 10000) {
+      //     vm.$emit("close", "suc");
+      //     vm.$msg({ msg: "更新成功" });
+      //     vm.$message.success("更新成功");
+      //   } else if (res.data.code == 10001) {
+      //     vm.$msg({ type: "warning", msg: "参数丢失" });
+      //   } else {
+      //     vm.$msg({ type: "error", msg: "出错了" });
+      //   }
+      // });
     },
     closeDialog() {
       this.$emit("close");

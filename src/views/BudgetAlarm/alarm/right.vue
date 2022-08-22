@@ -412,3 +412,10 @@ export default {
   },
 };
 </script>
+<style lang="less" scoped>
+  .bottomBtn {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+  }
+</style>

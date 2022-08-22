@@ -2,7 +2,7 @@
   <div class="chartsBox">
     <div class="chartsBox_btm" style="height: 100%">
       <div v-if="noData" class="imgInfo">
-        <img src="@/assets/images/noneData2.png" alt="" />
+        <img src="@/assets/images/noneData3.png" alt="" />
         <span>数据可视化展示</span>
       </div>
       <div v-else style="height: 100%">

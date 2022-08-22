@@ -17,8 +17,8 @@
           <el-button
             slot="reference"
             size="mini"
-            class="poperBtn iconfont icon-yangshengqi"
-            >公告</el-button
+            class="poperBtn el-icon-menu"
+            >工具</el-button
           >
           <div class="poperNotice_cnt">
             <div class="down" v-for="(item, idx) in downList" :key="idx">
@@ -72,6 +72,7 @@
       </div>
     </div>
     <EorLog :showLog="showLog" @close="closeLog"></EorLog>
+    <AdInfoDialog></AdInfoDialog>
     <div ref="toolRef" class="hidedox" v-html="info"></div>
     <el-drawer
       title="工具下载"
@@ -121,28 +122,6 @@
           title="更新日期"
           show-overflow="tooltip"
         ></vxe-column>
-        <!-- <vxe-column
-          min-width="15%"
-          field="time"
-          title="时间"
-          show-overflow="tooltip"
-        ></vxe-column> -->
-        <!-- <vxe-column title="操作" fixed="right" width="8%">
-          <template slot-scope="scope">
-            <div v-waves class="btn btn_info" @click="download(scope.row)">
-              <el-tooltip
-                class="item"
-                effect="dark"
-                content="下载"
-                placement="top"
-              >
-                <svg class="icon svg-icon titleicon" aria-hidden="true">
-                  <use xlink:href="#icon-download"></use>
-                </svg>
-              </el-tooltip>
-            </div>
-          </template> -->
-        <!-- </vxe-column> -->
       </vxe-table>
     </el-drawer>
   </div>
@@ -150,6 +129,7 @@
 <script>
 import message from "@/mixin/message";
 import EorLog from "@/components/errorLog/index.vue";
+import AdInfoDialog from "@/components/adInfoDialog/index.vue";
 import { mapGetters } from "vuex";
 import { createLinkToClick } from "@/utils/public.js";
 
@@ -157,6 +137,7 @@ export default {
   name: "Header",
   components: {
     EorLog,
+    AdInfoDialog
   },
   mixins: [message],
   data() {

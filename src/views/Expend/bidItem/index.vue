@@ -10,8 +10,9 @@
         </div>
         <div v-show="activeName === '0'" class="ziyou_chart">
           <el-alert
-            title="数据自动更新时间为每天10点，统计日期上限为当前日期-1"
+            :description="description"
             type="warning"
+            show-icon
             :closable="false"
           >
           </el-alert>
@@ -70,7 +71,7 @@
                   >
                   <template #empty>
                     <img src="@/assets/images/noneData4.png" />
-                    暂无数据
+                    <span>暂无数据</span>
                   </template>
                   <vxe-column
                     field="icon"
@@ -129,6 +130,7 @@ export default {
   data() {
     const vm = this;
     return {
+      description: '',
       tooltipContent: "",
       activeName: "0",
       tableBox: [
@@ -424,6 +426,19 @@ export default {
         ],
       },
     };
+  },
+  watch: {
+    activeName: {
+      handler(newval, oldval) {
+        if (newval === "1") {
+          this.description = "";
+        } else {
+          this.description =
+            "数据自动更新时间为每天10点，统计日期上限为当前日期-1";
+        }
+      },
+      immediate: true,
+    },
   },
   mounted() {
     const vm = this;

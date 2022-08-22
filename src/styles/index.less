@@ -13,12 +13,24 @@
 	  vertical-align: middle;
 	}
   }
+  .vxe-toolbar {
+	  &.ts {
+		height: auto;
+	  }
+  }
 .el-button {
 	&:before {
 		padding-right: 3px;
 	}
 }
 .el {
+	&-alert {
+		padding: 20px 30px;
+		&__description {
+			margin-top: 0!important;
+			color: #606266!important;
+		}
+	}
 	&-tag {
 		margin: 0 10px 0 0 !important;
 		color: #606266;
@@ -540,6 +552,7 @@
 			width: 30%!important;
 			img {
 				width: 70%;
+				flex-basis: 100%;
 			}
 		}
 		.btn {
@@ -626,6 +639,17 @@
 				background-color: #E6A23C;
 			}
 		}
+	}
+}
+
+.noticeDialog {
+    min-height: 500px;
+	.el-dialog__body {
+		padding: 0;
+	}
+	.el-dialog__header,
+	.el-dialog__footer {
+		display: none;
 	}
 }
 .mytable-scrollbar ::-webkit-scrollbar {

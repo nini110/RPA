@@ -117,25 +117,6 @@
                 <span v-else>{{ row.pin_consume | numberToCurrencyNo }}</span>
               </template>
             </vxe-column>
-            <vxe-column min-width="12%" field="consume" title="站内返点消耗">
-              <template #default="{ row }">
-                <span v-if="!row.zn_fd">--</span>
-                <span v-else>{{ row.zn_fd | numberToCurrencyNo }}</span>
-              </template>
-            </vxe-column>
-            <vxe-column min-width="12%" field="consume" title="站外返点消耗">
-              <template #default="{ row }">
-                <span v-if="!row.zw_fd">--</span>
-                <span v-else>{{ row.zw_fd | numberToCurrencyNo }}</span>
-              </template>
-            </vxe-column>
-            <vxe-column min-width="12%" field="consume" title="其他非返点消耗">
-              <template #default="{ row }">
-                <span v-if="!row.zw_nfd">--</span>
-                <span v-else>{{ row.zw_nfd | numberToCurrencyNo }}</span>
-              </template>
-            </vxe-column>
-            <!--  -->
             <vxe-column min-width="12%" field="consume" title="总消耗">
               <template #default="{ row }">
                 <span v-if="!row.total_consume">--</span>
@@ -156,6 +137,25 @@
                 </div>
               </template>
             </vxe-column>
+            <vxe-column min-width="12%" field="consume" title="站内返点消耗">
+              <template #default="{ row }">
+                <span v-if="!row.zn_fd">--</span>
+                <span v-else>{{ row.zn_fd | numberToCurrencyNo }}</span>
+              </template>
+            </vxe-column>
+            <vxe-column min-width="12%" field="consume" title="站外返点消耗">
+              <template #default="{ row }">
+                <span v-if="!row.zw_fd">--</span>
+                <span v-else>{{ row.zw_fd | numberToCurrencyNo }}</span>
+              </template>
+            </vxe-column>
+            <vxe-column min-width="12%" field="consume" title="其他非返点消耗">
+              <template #default="{ row }">
+                <span v-if="!row.zw_nfd">--</span>
+                <span v-else>{{ row.zw_nfd | numberToCurrencyNo }}</span>
+              </template>
+            </vxe-column>
+            <!--  -->
           </vxe-table>
         </div>
       </div>
@@ -211,38 +211,6 @@ export default {
         search_date: [],
       },
       tableData: [],
-      topMenuList: [
-        {
-          prop: "cash_consume",
-          label: "现金消耗",
-          align: "right",
-        },
-        {
-          prop: "rebate_consume",
-          label: "返佣金消耗",
-          align: "right",
-        },
-        {
-          prop: "virtual_consume",
-          label: "虚拟金消耗",
-          align: "right",
-        },
-        {
-          prop: "zn_consume",
-          label: "站内返点消耗",
-          align: "right",
-        },
-        {
-          prop: "zw_fd",
-          label: "站外返点消耗",
-          align: "right",
-        },
-        {
-          prop: "zw_nfd",
-          label: "其他非返点消耗",
-          align: "right",
-        },
-      ],
       tableHeight: 0,
       //分页器状态
       total: null,
@@ -266,7 +234,7 @@ export default {
         if (type === "header") {
           return column.titleHelp.message;
         }
-        return ''
+        return "";
       } else {
         // 返回空字符串，控制单元格不显示提示内容
         return "";
@@ -303,14 +271,7 @@ export default {
           vm.$set(
             item,
             "tb_icon",
-            item.tb_consume < item.consume
-              ? "el-icon-top rise"
-              : "el-icon-bottom down"
-          );
-          vm.$set(
-            item,
-            "hb_icon",
-            item.hb_consume < item.consume
+            item.tb_consume < item.total_consume
               ? "el-icon-top rise"
               : "el-icon-bottom down"
           );

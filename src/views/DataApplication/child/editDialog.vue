@@ -91,7 +91,7 @@
         class="el-icon-finished"
         type="primary"
         @click="isModification()"
-        :disabled="!actionList || actionList.length === 0"
+        :disabled="editNum === 2 && (!actionList || actionList.length === 0)"
         >保存</el-button
       >
     </span>

@@ -33,7 +33,6 @@ import './styles/index.less'
 import check from '@/utils/loginCheck.js';
 // error log
 import './components/errorLog/index.js'
-
 Vue.prototype.check = check
 Vue.prototype.$axios = axios
 Vue.prototype.qs = qs

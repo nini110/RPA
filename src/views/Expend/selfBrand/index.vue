@@ -10,9 +10,9 @@
         </div>
         <div v-show="activeName === '0'" class="ziyou_chart">
           <el-alert
-            title="当前消耗数据均为现金消耗，其中，代理数据自动刷新时间为每天14点，子账号明细数据自动刷新时间为每周二2点
-注：数据统计时间截至为当前日期-1"
+            :description="description"
             type="warning"
+            show-icon
             :closable="false"
           >
           </el-alert>
@@ -112,6 +112,16 @@
           </div>
         </div>
         <div v-show="activeName === '1'" class="ziyou_list">
+          <div style="padding: 0 10rem">
+            <el-alert
+              :description="description"
+              type="warning"
+              show-icon
+              :closable="false"
+            >
+            </el-alert>
+          </div>
+
           <listPage></listPage>
         </div>
       </div>
@@ -129,6 +139,7 @@ export default {
   data() {
     const vm = this;
     return {
+      description: "",
       tooltipContent: "",
       activeName: "0",
       tableBox: [
@@ -462,6 +473,20 @@ export default {
         ],
       },
     };
+  },
+  watch: {
+    activeName: {
+      handler(newval, oldval) {
+        if (newval === "1") {
+          this.description =
+            "1. 当前消耗数据均为现金消耗\xa0\xa0\xa0\xa0\xa0\xa0\xa02. 数据统计时间截至为当前日期-1\xa0\xa0\xa0\xa0\xa0\xa03. 代理数据自动刷新时间为每天14点，子账号明细数据自动刷新时间为每周二2点";
+        } else {
+          this.description =
+            "1. 当前消耗数据均为现金消耗\xa0\xa0\xa0\xa0\xa0\xa0\xa02. 看板统计时间截至为当前日期-1";
+        }
+      },
+      immediate: true
+    },
   },
   mounted() {
     const vm = this;

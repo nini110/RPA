@@ -63,7 +63,7 @@
         </div>
       </el-form>
     </div>
-    <div ref="tableBox" class="content_tableBox hasUp6">
+    <div ref="tableBox" class="content_tableBox hasUp7">
       <div class="tables">
         <div class="tableTab" v-show="tableData">
           <vxe-table
