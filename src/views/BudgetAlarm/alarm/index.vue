@@ -11,8 +11,9 @@
         <p v-for="(item, idx) in tipInfo" :key="idx">{{ item }}</p>
       </div>
     </div>
-    <div v-if="!multipleUp" class="outerDiv_right">
-      <Right></Right>
+    <div class="outerDiv_right">
+      <Right v-if="!multipleUp"></Right>
+      <div else class="noBudget" style="height: 100%"></div>
     </div>
     </div>
 

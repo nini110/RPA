@@ -129,7 +129,8 @@
             >
               >
               <template #empty>
-                <img src="@/assets/images/noneData3.png" />
+                <img src="@/assets/images/search.png" />
+                <span>空空如也</span>
               </template>
               <vxe-column type="checkbox" width="3%" fixed="left"></vxe-column>
               <vxe-column

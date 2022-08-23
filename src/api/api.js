@@ -382,7 +382,7 @@ export const bidItemExpend = request({
 // 竞标项目结果列表
 export const bidItemList = request({
     url:`${BASEPATH5}/report/jingbiao_lhhb_report`,
-    method:'post',
+    method:'get',
 })
 // 竞标项目列表
 export const bidItem = request({

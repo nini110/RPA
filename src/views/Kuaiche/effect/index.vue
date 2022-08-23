@@ -9,9 +9,9 @@
           :rules="rules"
           :disabled="fromChart"
         >
-          <div class="formObj_ipt">
-            <el-row>
-              <el-col :span="12">
+          <div class="formObj_ipt lable3">
+            <el-row type="flex">
+              <el-col :span="8">
                 <el-form-item label="PIN:" prop="pin">
                   <el-select v-model="form.pin" placeholder="请选择" clearable>
                     <el-option
@@ -25,7 +25,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
+              <el-col :span="8">
                 <el-form-item
                   class="tophasBtn"
                   label="日期:"
@@ -43,18 +43,9 @@
                     :picker-options="pickerOptionsStart"
                   >
                   </el-date-picker>
-                  <div class="tophasBtn_btn_div">
-                    <el-button
-                      v-waves
-                      type="primary"
-                      class="el-icon-search marginL"
-                      @click="searchEvent"
-                      >查询
-                    </el-button>
-                  </div>
                 </el-form-item>
               </el-col>
-              <el-col v-if="$route.name !== 'Charts'" :span="12">
+              <el-col v-if="$route.name !== 'Charts'" :span="8">
                 <el-form-item
                   v-if="$route.name !== 'Charts'"
                   label="关键词:"
@@ -67,6 +58,15 @@
                     clearable
                   ></el-input>
                 </el-form-item>
+              </el-col>
+              <el-col :span="24">
+                <el-button
+                  v-waves
+                  type="primary"
+                  class="el-icon-search marginL"
+                  @click="searchEvent"
+                  >查询
+                </el-button>
               </el-col>
             </el-row>
           </div>
@@ -102,7 +102,9 @@
             >
               >
               <template #empty>
-                <img src="@/assets/images/noneData3.png" />
+                <img src="@/assets/images/search.png" />
+                <span>空空如也</span>
+
               </template>
               <vxe-column
                 type="seq"

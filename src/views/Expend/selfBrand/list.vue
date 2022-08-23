@@ -6,7 +6,7 @@
         <div class="formObj_ipt expend">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="品牌:" prop="brand">
+              <el-form-item label="品牌:">
                 <el-select
                   v-model="form.brand"
                   class="normalScroll"
@@ -29,6 +29,7 @@
               <el-form-item class="tophasBtn" label="日期:" prop="search_date">
                 <el-date-picker
                   class="tophasBtn_data"
+                  :clearable="false"
                   v-model="form.search_date"
                   format="yyyy-MM-dd"
                   value-format="yyyy-MM-dd"
@@ -75,7 +76,7 @@
           >
             >
             <template #empty>
-              <img src="@/assets/images/noneData3.png" />
+              <img src="@/assets/images/search.png" />
             </template>
             <vxe-column
               type="seq"
@@ -190,13 +191,6 @@ export default {
       },
       pinOptions: [],
       rules: {
-        brand: [
-          {
-            required: true,
-            message: "请选择品牌",
-            trigger: "blur",
-          },
-        ],
         search_date: [
           {
             required: true,

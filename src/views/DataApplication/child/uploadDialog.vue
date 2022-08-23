@@ -17,7 +17,6 @@
               v-model="form.bidId"
               filterable
               placeholder="请输入标名或者项目编号"
-              clearable
               popper-class="tsselect"
               @change="jbChangeEvent"
             >
@@ -53,7 +52,14 @@
                 </el-checkbox>
               </el-checkbox-group>
             </div>
-            <div v-else>暂无活动内容</div>
+            <div v-else>
+              <span
+                v-if="form.bidId && actionOptions.length === 0"
+                style="color: red"
+                >当前竞标无活动，将无法创建监控计划</span
+              >
+              <span v-else>请先选择竞标</span>
+            </div>
           </el-form-item>
         </el-col>
         <el-col :span="24">
@@ -136,7 +142,7 @@
           >
             <el-input
               placeholder="请输入预算"
-              v-model.number="item.val"
+              v-model.trim="item.val"
               :maxlength="9"
               clearable
             >
@@ -185,13 +191,25 @@ export default {
   props: {},
   data() {
     const vm = this;
-    let validActions = function(rule, value, callback) {
-      if (vm.actionOptions && vm.actionOptions.length > 0 && vm.form.checkedActions.length === 0) {
-        callback('请选择活动')
+    const validActions = function (rule, value, callback) {
+      if (
+        vm.actionOptions &&
+        vm.actionOptions.length > 0 &&
+        vm.form.checkedActions.length === 0
+      ) {
+        callback("请选择活动");
       } else {
-        callback()
+        callback();
       }
-    }
+    };
+    const checkThreshold = (rule, value, callback) => {
+      let res = Number(value);
+      if (!res) {
+        callback(new Error("预算为数字类型"));
+        return;
+      }
+      callback();
+    };    
     return {
       pickerOptionsStart: {
         disabledDate: (time) => {
@@ -216,14 +234,14 @@ export default {
           {
             required: true,
             message: "请选择竞标",
-            trigger: ["blur", 'change'],
+            trigger: ["blur", "change"],
           },
         ],
         checkedActions: [
           {
             required: true,
-            validator:validActions,
-            trigger: ["blur", 'change'],
+            validator: validActions,
+            trigger: ["blur", "change"],
           },
         ],
         rangeDate: [
@@ -236,7 +254,7 @@ export default {
         budget: [
           {
             type: "number",
-            message: "预算值为数字",
+            validator: checkThreshold,
             trigger: "change",
           },
         ],
@@ -369,11 +387,12 @@ export default {
     // 选中竞标查询活动
     jbChangeEvent(val) {
       const vm = this;
+      vm.$refs.form.clearValidate('checkedActions')
       if (val) {
         BidIdQueryActivity({
           bidding_id: val,
         }).then((res) => {
-          let result = res.data.data
+          let result = res.data.data;
           vm.actionOptions = result;
         });
       } else {
@@ -384,6 +403,10 @@ export default {
     //立即上传
     uploadFile(data) {
       const vm = this;
+      if(vm.form.bidId && vm.actionOptions.length === 0) {
+        vm.$msg({ type: "warning", msg: '当前竞标无活动，将无法创建监控计划' });
+        return
+      }
       vm.$refs.form.validate((valid) => {
         if (valid && vm.form.budgetJson.length > 0) {
           //上传时需要的人员id

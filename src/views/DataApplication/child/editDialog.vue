@@ -54,7 +54,7 @@
             </el-form-item>
           </el-col>
         </div>
-        <div v-else>
+        <div v-else style="width: 100%">
           <el-col :span="24">
             <el-form-item label="" class="action" prop="checkedActions">
               <div v-if="actionList && actionList.length > 0">

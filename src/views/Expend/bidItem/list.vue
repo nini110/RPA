@@ -1,11 +1,11 @@
 <template>
   <div class="content tsts">
     <div class="content_form" style="padding-top: 10px">
-      <el-form ref="form" :model="form" class="formObj" :rules="rules">
+      <el-form ref="form" :model="form" class="formObj">
         <div class="formObj_ipt expend">
           <el-row>
             <el-col :span="12">
-              <el-form-item label="项目:" prop="brand">
+              <el-form-item label="项目:">
                 <el-select
                   v-model="form.brand"
                   class="normalScroll"
@@ -25,7 +25,7 @@
               </el-form-item>
             </el-col>
             <el-col :span="10">
-              <el-form-item class="tophasBtn" label="日期:" prop="search_date">
+              <el-form-item class="tophasBtn" label="日期:">
                 <el-date-picker
                   class="tophasBtn_data"
                   v-model="form.search_date"
@@ -79,7 +79,7 @@
           >
             >
             <template #empty>
-              <img src="@/assets/images/noneData3.png" />
+              <img src="@/assets/images/search.png" />
             </template>
             <vxe-column
               type="seq"
@@ -153,22 +153,6 @@ export default {
         },
       },
       pinOptions: [],
-      rules: {
-        brand: [
-          {
-            required: true,
-            message: "请选择品牌",
-            trigger: "blur",
-          },
-        ],
-        search_date: [
-          {
-            required: true,
-            message: "请选择日期",
-            trigger: "blur",
-          },
-        ],
-      },
       serchVal: null,
       form: {
         brand: "",
@@ -234,6 +218,7 @@ export default {
       tableHeight: 0,
       //分页器状态
       total: null,
+
       currentPage: 1,
       pagesize: 10,
     };
@@ -241,9 +226,9 @@ export default {
   mounted() {
     const vm = this;
     vm.getBrand();
-    let myday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
-    let oldday = dayjs().subtract(8, "day").format("YYYY-MM-DD");
-    vm.form.search_date = [oldday, myday];
+    // let myday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
+    // let oldday = dayjs().subtract(8, "day").format("YYYY-MM-DD");
+    // vm.form.search_date = [oldday, myday];
     vm.searchEvent();
   },
   methods: {
@@ -272,8 +257,8 @@ export default {
     searchEvent() {
       const vm = this;
       let data = {
-        start_data: vm.form.search_date[0],
-        end_data: vm.form.search_date[1],
+        start_data: vm.form.search_date.length > 0 ? vm.form.search_date[0] : '',
+        end_data: vm.form.search_date.length > 0 ? vm.form.search_date[1] : '',
         brand_name: vm.form.brand,
       };
       vm.serchVal = {
