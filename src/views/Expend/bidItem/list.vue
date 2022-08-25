@@ -90,7 +90,14 @@
             <vxe-column
               field="brandName"
               title="项目名称"
-              width="30%"
+              width="20%"
+              fixed="left"
+              show-overflow="tooltip"
+            ></vxe-column>
+            <vxe-column
+              field="biddingId"
+              title="ID"
+              width="10%"
               fixed="left"
               show-overflow="tooltip"
             ></vxe-column>
@@ -110,13 +117,10 @@
             >
               <template #default="{ row }">
                 <span v-if="item.type === 'num'">{{
-                  Math.abs(row[item.prop] * 100).toFixed(2) | numberToCurrencyNo
+                  Math.abs(row[item.prop]) | numberToCurrencyNo
                 }}</span>
                 <span v-else-if="item.type === 'per'"
-                  >{{
-                    Math.abs(row[item.prop] * 100).toFixed(2)
-                      | numberToCurrencyNo
-                  }}%</span
+                  >{{ Math.abs(row[item.prop]) | numberToCurrencyNo }}%</span
                 >
                 <span v-else>{{ row[item.prop] }}</span>
               </template>
@@ -192,7 +196,7 @@ export default {
           label: "CPC",
           align: "right",
           width: "240",
-          type: "per",
+          type: "num",
         },
         {
           prop: "thousand_impressions",
@@ -212,7 +216,7 @@ export default {
           prop: "roi",
           label: "ROI",
           width: "240",
-          type: "per",
+          type: "num",
         },
       ],
       tableHeight: 0,
@@ -257,8 +261,9 @@ export default {
     searchEvent() {
       const vm = this;
       let data = {
-        start_data: vm.form.search_date.length > 0 ? vm.form.search_date[0] : '',
-        end_data: vm.form.search_date.length > 0 ? vm.form.search_date[1] : '',
+        start_data:
+          vm.form.search_date.length > 0 ? vm.form.search_date[0] : "",
+        end_data: vm.form.search_date.length > 0 ? vm.form.search_date[1] : "",
         brand_name: vm.form.brand,
       };
       vm.serchVal = {

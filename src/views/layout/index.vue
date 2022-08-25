@@ -279,7 +279,7 @@ export default {
           ],
         },
         {
-          label: "公共数据获取",
+          label: "公域数据",
           deep: 2,
           icon: "#icon--wenjian",
           value: "",
@@ -292,22 +292,10 @@ export default {
               index: "7-1",
             },
             {
-              label: "活动页面SKU",
-              icon2: "#icon-huodong",
-              value: "/layout/publicData/active",
-              index: "7-2",
-            },
-            {
               label: "京东市场监控",
               icon2: "#icon-shichangjiandu",
               value: "/layout/publicData/market",
-              index: "7-3",
-            },
-            {
-              label: "品牌SKU获取",
-              icon2: "#icon-pinpai",
-              value: "/layout/publicData/brand",
-              index: "7-4",
+              index: "7-2",
             },
           ],
         },

@@ -1,7 +1,7 @@
 <template>
   <!-- 上传竞标 -->
   <el-dialog
-    title="新建监控计划"
+    title="新增计划"
     :visible.sync="show"
     @close="closeDialog"
     width="45%"
@@ -442,7 +442,7 @@ export default {
             immediatelyUpload(data).then((res) => {
               if (res.data.code == 10000) {
                 vm.$emit("close", "suc");
-                vm.$msg({ msg: "上传成功" });
+                vm.$msg({ msg: "保存成功" });
               } else {
                 vm.$msg({ type: "warning", msg: res.data.data });
               }

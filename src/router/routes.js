@@ -377,17 +377,6 @@ const routes = [{
 
 					},
 					{
-						path: 'active',
-						name: 'Active',
-						meta: {
-							title: '活动页面SKU',
-							deep: 3,
-							filePath: 'PublicData/active'
-						},
-						component: () => import(/* webpackChunkName: "R_publicData"*/"@/views/PublicData/active"),
-
-					},
-					{
 						path: 'market',
 						name: 'Market',
 						meta: {
@@ -398,16 +387,6 @@ const routes = [{
 						component: () => import(/* webpackChunkName: "R_publicData"*/"@/views/PublicData/market"),
 
 					},
-					{
-						path: 'brand',
-						name: 'Brand',
-						meta: {
-							title: '品牌SKU获取',
-							deep: 3,
-							filePath: 'PublicData/brand'
-						},
-						component: () => import(/* webpackChunkName: "R_publicData"*/"@/views/PublicData/brand"),
-					}
 				]
 			},
 			{

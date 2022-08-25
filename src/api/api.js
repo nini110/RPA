@@ -389,6 +389,35 @@ export const bidItem = request({
     url:`${BASEPATH5}/report/jingbiao_lhhb_name`,
     method:'get'
 })
+// 公域数据---------------------------------------------------------------------
+// 获取列表
+export const pbulicList = request({
+    url:`${BASEPATH}/public/task_list/`,
+    method:'get'
+})
+// 新增
+export const pbulicAddPlan = request({
+    url:`${BASEPATH}/public/add_task/`,
+    method:'post',
+    responseType: 'form'
+})
+// 删除
+export const pbulicDelPlan = request({
+    url:`${BASEPATH}/public/delete_task/`,
+    method:'post',
+    responseType: 'form'
+})
+// 查看
+export const pbulicSeePlan = request({
+    url:`${BASEPATH}/public/get_task/`,
+    method:'get',
+})
+// 编辑
+export const pbulicEditPlan = request({
+    url:`${BASEPATH}/public/update_task/`,
+    method:'post',
+    responseType: 'form'
+})
 
 
 

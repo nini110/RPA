@@ -6,10 +6,10 @@
         <div class="upobtn">
           <el-button
             v-waves
-            class="el-icon-upload2"
+            class="el-icon-circle-plus-outline"
             type="primary"
             @click="upList"
-            >新建监控计划
+            >新增计划
           </el-button>
         </div>
       </div>

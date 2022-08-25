@@ -148,12 +148,12 @@
 			}
 
 			&__label {
-				width: 140px;
+				width: 100px;
 				user-select: none;
 			}
 
 			&__content {
-				width: calc(100% - 140px);
+				width: calc(100% - 100px);
 
 				.el-autocomplete,
 				.el-date-editor,
@@ -262,12 +262,12 @@
 		}
 
 		&__header {
-			padding: 30px;
+			padding: 20px;
 			font-size: 24px;
 		}
 
 		&__body {
-			padding: 0 30px;
+			padding: 0 50px;
 			font-size: 12px;
 
 			.dialogInfo {
@@ -298,6 +298,11 @@
 	}
 
 	&-message {
+		&-box {
+			&__header {
+				font-size: 18px;
+			}
+		}
 		&__icon {
 			display: none;
 		}
@@ -639,6 +644,9 @@
 			}
 			&.ing {
 				background-color: #E6A23C;
+			}
+			&.end {
+				background-color: #b7b7b7;
 			}
 		}
 	}
