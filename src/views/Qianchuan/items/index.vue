@@ -1,16 +1,20 @@
 <template>
   <div class="publicDiv outerDiv">
     <div class="content">
-      <div class="itemsComp">
-        <el-button
-          v-waves
-          type="primary"
-          class="el-icon-plus btnnormal"
-          style="margin-bottom: 20px"
-          @click="createEvent(1)"
-          >新建项目
-        </el-button>
-        <div class="tabbles itemtable" ref="tabbles">
+      <div class="content_form">
+        <div class="upobtn">
+          <el-button
+            v-waves
+            type="primary"
+            class="el-icon-plus btnnormal"
+            @click="createEvent(1)"
+            >新建项目
+          </el-button>
+        </div>
+      </div>
+      <div class="content_tableBox jiankong">
+        <el-divider>列表</el-divider>
+        <div class="tables" ref="tabbles">
           <vxe-table
             ref="xtable"
             :data="tableData"
@@ -235,5 +239,6 @@ export default {
 <style lang="less" scoped>
 @import "@/views/index.less";
 @import "./index";
-@import "../index";
+// @import "../index";
+@import "../../DataApplication/monitor/bidding.less";
 </style>

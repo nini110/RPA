@@ -3,66 +3,6 @@
   <div class="biddingForMonitoring outerDiv">
     <div class="content">
       <div class="content_form">
-        <!-- <el-form ref="form" :model="form" class="formObj">
-          <div class="formObj_ipt lable3">
-            <el-row type="flex">
-              <el-col :span="8">
-                <el-form-item label="计划:" prop="pin">
-                  <el-input
-                    v-model="form.planName"
-                    size="medium"
-                    placeholder="请输入关键词"
-                    clearable
-                  ></el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item
-                  class="tophasBtn"
-                  label="日期:"
-                  prop="search_date"
-                >
-                  <el-date-picker
-                    class="tophasBtn_data"
-                    v-model="form.search_date"
-                    format="yyyy-MM-dd"
-                    value-format="yyyy-MM-dd"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    :picker-options="pickerOptionsStart"
-                  >
-                  </el-date-picker>
-                </el-form-item>
-              </el-col>
-              <el-col :span="8">
-                <el-form-item label="状态" prop="search_keyword">
-                  <el-radio-group v-model="form.status">
-                    <el-radio-button :label="1">全部</el-radio-button>
-                    <el-radio-button :label="2">进行中</el-radio-button>
-                    <el-radio-button :label="3">待开始</el-radio-button>
-                  </el-radio-group>
-                </el-form-item>
-              </el-col>
-              <el-col :span="24">
-                <a class="btnnormal_down marginR inlineButton" @click="reset">
-                  <div class="el-icon-refresh btnSize">重置</div>
-                </a>
-                <div class="inlineButton">
-                  <el-button
-                    v-waves
-                    type="primary"
-                    class="el-icon-right btnnormal"
-                    @click="searchEvent()"
-                  >
-                    查询</el-button
-                  >
-                </div>
-              </el-col>
-            </el-row>
-          </div>
-        </el-form> -->
         <div class="upobtn">
           <el-button
             v-waves
@@ -179,11 +119,6 @@ export default {
         disabledDate: (time) => {
           return time.getTime() >= new Date().getTime();
         },
-      },
-      form: {
-        planName: "",
-        search_date: "",
-        status: 1,
       },
       showAddPage: false,
       tableData: [],

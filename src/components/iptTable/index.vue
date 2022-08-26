@@ -96,7 +96,7 @@
           </div>        
       </div>
       <div ref="tableBox" class="content_tableBox hasUp">
-        <el-divider></el-divider>
+        <el-divider>列表</el-divider>
         <div class="tables">
           <div v-if="showVarDia" class="dialog">
             <VarifyDialog
