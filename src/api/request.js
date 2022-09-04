@@ -117,6 +117,7 @@ service.interceptors.response.use(
                 msg: "登录失效，请进行扫码登入"
             });
             setTimeout(() => {
+                localStorage.removeItem("adTag");
                 localStorage.removeItem("wx_code");
                 localStorage.removeItem("wx_userid");
                 localStorage.removeItem("user_name");

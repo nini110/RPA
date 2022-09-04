@@ -235,8 +235,4 @@ export default {
 <style lang="less" scoped>
 @import "@/views/index";
 @import "../../DataApplication/monitor/bidding.less";
-.temInfoSpan {
-  cursor: pointer;
-  color: #287bb5;
-}
 </style>

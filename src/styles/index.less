@@ -1,13 +1,5 @@
 @import "reset";
-@baseItemColor: hsl(205, 64%, 43%);
-.backColor {
-	/* Permalink - use to edit and share this gradient: /code/cssgradient/index.aspx#528aaf+0,0c72ad+100 */
-	background: #528aaf; /* Old browsers */
-	background: -moz-linear-gradient(top,  #528aaf 0%, #0c72ad 100%); /* FF3.6-15 */
-	background: -webkit-linear-gradient(top,  #528aaf 0%,#0c72ad 100%); /* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom,  #528aaf 0%,#0c72ad 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#528aaf', endColorstr='#0c72ad',GradientType=0 ); /* IE6-9 */
-}
+@baseItemColor: #3B8EFF;
 .vxe-button {
 	i {
 	  vertical-align: middle;
@@ -204,7 +196,7 @@
 
 	&-input {
 		&-group__append {
-			.backColor();
+			background-color: @baseItemColor;
 			color: #666;
 			border: none;
 			outline: 0;
@@ -388,7 +380,7 @@
 				background: #fff!important;
 				transition: all 400ms li;
 					&:hover {
-						.backColor()!important;
+						background-color: @baseItemColor!important;
 						color: #fff;
 					}
 				}
@@ -423,10 +415,6 @@
 		&--primary {
 			padding: 11px 20px;
 			border: none;
-			&:hover,
-			&:focus {
-				// .backColor();
-			}
 
 			&.is-plain {
 				background-color: @baseItemColor;
@@ -651,7 +639,11 @@
 		}
 	}
 }
-
+.excelDialog {
+	.el-dialog__body {
+		height: calc(100% - 180px);
+	}
+}
 .noticeDialog {
     min-height: 500px;
 	.el-dialog__body {

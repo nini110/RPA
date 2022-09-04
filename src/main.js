@@ -25,7 +25,7 @@ import './promission'
 // px转rem
 import './utils/rem'
 // elementui主题文件和iconfont
-import '../element-#287BB5/index.css'
+import '../element-#3B8EFF/index.css'
 import './assets/fonts/iconfont.css';
 import './assets/fonts/iconfont.js';
 import './styles/index.less'

@@ -58,42 +58,38 @@
             </el-row>
           </div>
           <div class="formObj_upload">
-            <!-- <el-row>
-              <el-col :span="8"> -->
-                <el-form-item label="" :error="errorUpInfo">
-                  <Upload @getFile="getFileEvent"></Upload>
-                </el-form-item>
-              <!-- </el-col>
-            </el-row> -->
+            <el-form-item label="" :error="errorUpInfo">
+              <Upload @getFile="getFileEvent"></Upload>
+            </el-form-item>
           </div>
         </el-form>
-         <div class="formObj_button">
-            <div v-for="(item, idx) in btnBox" :key="idx">
-              <a
-                class="btnnormal_down marginR"
-                :href="item.url"
-                :download="item.downName"
-              >
-                <div class="el-icon-download btnSize">{{ item.btnTxt }}</div>
-              </a>
-            </div>
-            <el-button
-              v-waves
-              type="primary"
-              class="el-icon-upload2 marginR"
-              @click="uploadFile"
-              >立即上传</el-button
+        <div class="formObj_button">
+          <div v-for="(item, idx) in btnBox" :key="idx">
+            <a
+              class="btnnormal_down marginR"
+              :href="item.url"
+              :download="item.downName"
             >
-            <el-button
-              v-waves
-              type="primary"
-              class="el-icon-right marginR"
-              :disabled="!msg"
-              @click="going"
-              :loading="loadingbut"
-              >{{ loadingbuttext }}</el-button
-            >
-          </div>        
+              <div class="el-icon-download btnSize">{{ item.btnTxt }}</div>
+            </a>
+          </div>
+          <el-button
+            v-waves
+            type="primary"
+            class="el-icon-upload2 marginR"
+            @click="uploadFile"
+            >立即上传</el-button
+          >
+          <el-button
+            v-waves
+            type="primary"
+            class="el-icon-right marginR"
+            :disabled="!msg"
+            @click="going"
+            :loading="loadingbut"
+            >{{ loadingbuttext }}</el-button
+          >
+        </div>
       </div>
       <div ref="tableBox" class="content_tableBox hasUp">
         <el-divider>列表</el-divider>
@@ -146,16 +142,16 @@
                     class="btn btn_info"
                     @click="detailEvent(scope.row)"
                   >
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    content="详情"
-                    placement="top"
-                  >
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-xinxi"></use>
-                    </svg>
-                  </el-tooltip>                  
+                    <el-tooltip
+                      class="item"
+                      effect="dark"
+                      content="详情"
+                      placement="top"
+                    >
+                      <svg class="icon svg-icon titleicon" aria-hidden="true">
+                        <use xlink:href="#icon-xinxi"></use>
+                      </svg>
+                    </el-tooltip>
                   </div>
                 </template>
               </vxe-column>
@@ -194,6 +190,8 @@
         </div>
       </el-dialog>
     </div>
+    <!-- excel -->
+    <!-- <ExcelDialog v-if="showExcel" @close="closeEvent" :excelOptions="excelOptions"></ExcelDialog> -->
   </div>
 </template>
 
@@ -205,12 +203,14 @@ import {
   fxcjExamine,
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
+// import ExcelDialog from "@/components/excelDialog";
 import Upload from "@/components/upload";
 
 export default {
   name: "DMP",
   components: {
     VarifyDialog,
+    // ExcelDialog,
     Upload,
   },
   props: {
@@ -218,6 +218,10 @@ export default {
       type: String,
       default: "",
     },
+    excelOptions: {
+      type: Array,
+      default: [],
+    },    
   },
   watch: {
     $route: {
@@ -329,6 +333,7 @@ export default {
   },
   data() {
     return {
+      showExcel: false,
       curInfo: {},
       errorUpInfo: "",
       btnBox: null,
@@ -398,6 +403,7 @@ export default {
     //立即上传 并判断上传文件是否为空if () {
     uploadFile(data) {
       const vm = this;
+      // vm.showExcel = true
       if (!vm.fileList || vm.fileList.length === 0) {
         vm.errorUpInfo = "请上传文件";
         return false;
@@ -502,6 +508,11 @@ export default {
           vm.fileList = [];
         }
       });
+    },
+    //
+    closeEvent() {
+      const vm = this;
+      vm.showExcel = false;
     },
     //分页器功能
     handleSizeChange(val) {

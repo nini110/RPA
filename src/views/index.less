@@ -2,21 +2,7 @@
 	width: 320px;
 }
 
-@baseItemColor: #287BB5;
-
-.backColor {
-	/* Permalink - use to edit and share this gradient: /code/cssgradient/index.aspx#528aaf+0,0c72ad+100 */
-	background: #528aaf;
-	/* Old browsers */
-	background: -moz-linear-gradient(top, #528aaf 0%, #0c72ad 100%);
-	/* FF3.6-15 */
-	background: -webkit-linear-gradient(top, #528aaf 0%, #0c72ad 100%);
-	/* Chrome10-25,Safari5.1-6 */
-	background: linear-gradient(to bottom, #528aaf 0%, #0c72ad 100%);
-	/* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
-	filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#528aaf', endColorstr='#0c72ad', GradientType=0);
-	/* IE6-9 */
-}
+@baseItemColor: #3B8EFF;
 
 /deep/.btnnormal {
 	&_down {
@@ -38,7 +24,7 @@
 		text-align: center;
 
 		&:hover {
-			.backColor();
+			background-color: @baseItemColor;
 			color: #fff;
 
 			&:before,
@@ -85,7 +71,11 @@
 /deep/.marginR {
 	margin: 0 10px 0 0;
 }
-
+.temInfoSpan {
+	cursor: pointer;
+	color: @baseItemColor;
+  }
+  
 .outerDiv {
 	// width: 1200px;
 	width: 100%;
@@ -402,7 +392,7 @@
 			h3 {
 				padding-left: 1.5em;
 				font-size: 14px;
-				color: #287BB5;
+				color: @baseItemColor;
 				font-weight: bold;
 
 				&:before {
@@ -485,7 +475,7 @@
 			width: 100%;
 			background-image: linear-gradient(to right, #7676765c , #a1a1a121);
 			&:hover {
-				border-color: #287BB5;
+				border-color: @baseItemColor;
 			}
 		}
 
@@ -493,7 +483,7 @@
 			font-size: 12px !important;
 			color: #303133!important;
 			em {
-				color: #287BB5;
+				color: @baseItemColor;
 			}
 		}
 

@@ -71,6 +71,7 @@
                   >
                   <template #empty>
                     <img src="@/assets/images/noneData4.png" />
+                    <span>暂无数据</span>
                   </template>
                   <vxe-column
                     field="icon"
@@ -749,4 +750,21 @@ export default {
 <style scoped lang="less">
 @import "index";
 @import "@/views/index";
+/deep/.vxe-table {
+  &.is--empty {
+    .vxe-table--empty-placeholder {
+      height: 83% !important;
+    }
+    .vxe-table--empty-content {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    .vxe-table--empty-block {
+      display: flex;
+      justify-content: center;
+      align-content: center;
+    }
+  }
+}
 </style>

@@ -26,7 +26,7 @@
             ></el-input>
           </el-form-item>
         </el-col>
-        <el-col class="">
+        <el-col class="flexCol">
           <el-form-item label="查找方式:">
             <el-radio-group v-model="form.task_type" @change="radioChangeEvent">
               <el-radio border :label="1">三级类目</el-radio>
@@ -50,7 +50,7 @@
               <el-input
                 v-model.trim="form.keywords"
                 size="medium"
-                placeholder="请输入关键词（品类或品牌的名称）"
+                placeholder="多个关键词用英文逗号隔开（至多十个）"
                 clearable
               ></el-input>
             </el-form-item>
@@ -60,7 +60,7 @@
               <el-input
                 v-model.trim="form.skus"
                 size="medium"
-                placeholder="请输入SKU（多个SKU用英文逗号隔开）"
+                placeholder="多个SKU用英文逗号隔开"
                 clearable
               ></el-input>
             </el-form-item>
@@ -70,12 +70,11 @@
               <el-input
                 v-model.trim="form.shops"
                 size="medium"
-                placeholder="请输入店铺名称"
+                placeholder="多个店铺名称用英文逗号隔开（至多五个）"
                 clearable
               ></el-input>
             </el-form-item>
           </div>
-
           <div
             v-if="
               form.task_type === 1 ||
@@ -101,8 +100,16 @@
               <el-input-number
                 v-model="form.limit_num"
                 :min="1"
-                :max="10"
+                :max="300"
               ></el-input-number>
+              <el-tooltip
+                class="dateitem"
+                effect="dark"
+                content="范围为1 - 300"
+                placement="bottom-start"
+              >
+                <span class="el-icon-warning"></span>
+              </el-tooltip>
             </el-form-item>
           </div>
         </el-col>
@@ -117,6 +124,7 @@
             <el-checkbox-group
               v-model="form.checkedActions"
               @change="actionEvent"
+              class="w3"
             >
               <el-checkbox
                 v-for="item in actionOptions"
@@ -129,7 +137,10 @@
                   content="包含京东秒杀、优惠券、活动"
                   placement="bottom"
                 >
-                  <span>{{ item.activityName }} <i class="el-icon-warning"></i> </span>
+                  <span
+                    >{{ item.activityName }}
+                    <i class="el-icon-warning-outline"></i>
+                  </span>
                 </el-tooltip>
                 <span v-else>{{ item.activityName }}</span>
               </el-checkbox>
@@ -155,13 +166,14 @@
           <el-form-item label="发送邮件:" prop="send_email">
             <el-input
               v-model.trim="form.send_email"
-              type="textarea"
               clearable
               size="medium"
-              placeholder="请输入邮箱地址（多个邮箱地址用英文逗号隔开）"
+              type="textarea"
+              autosize
+              placeholder="多个邮箱地址用英文逗号隔开"
             ></el-input>
             <el-tooltip
-              class="dateitem"
+              class="dateitem dateitem2"
               effect="dark"
               content="邮件发送时间为每天10点"
               placement="bottom-start"
@@ -212,11 +224,45 @@ export default {
         callback();
       }
     };
+    const validKeywords = function (rule, value, callback) {
+      let result;
+      if (!value) {
+        callback(new Error("请输入关键词（多个关键词用英文逗号隔开）"));
+      } else {
+        if (value.slice(-1) === ",") {
+          result = value.slice(0, value.length - 1).split(",");
+        } else {
+          result = value.split(",");
+        }
+        if (result.length > 10) {
+          callback(new Error("最多出入10个关键词"));
+        } else {
+          callback();
+        }
+      }
+    };
+    const validShops = function (rule, value, callback) {
+      let result;
+      if (!value) {
+        callback(new Error("请输入店铺名称（多个店铺名称用英文逗号隔开）"));
+      } else {
+        if (value.slice(-1) === ",") {
+          result = value.slice(0, value.length - 1).split(",");
+        } else {
+          result = value.split(",");
+        }
+        if (result.length > 5) {
+          callback(new Error("最多输入5个店铺名称"));
+        } else {
+          callback();
+        }
+      }
+    };
     return {
       dialogTitle: "",
       pickerOptionsStart: {
         disabledDate: (time) => {
-          return time.getTime() <= new Date().getTime() - 24*60*60*1000;
+          return time.getTime() <= new Date().getTime() - 24 * 60 * 60 * 1000;
         },
       },
       show: true,
@@ -228,7 +274,7 @@ export default {
         shops: "",
         category_url: "",
         keywords: "",
-        sorted_type: 1,
+        sorted_type: 4,
         limit_num: "",
         rangedate: "",
         send_email: "",
@@ -237,6 +283,10 @@ export default {
         checkedActions: [],
       },
       sorted_typeOptions: [
+        {
+          id: 4,
+          label: "综合",
+        },
         {
           id: 1,
           label: "销量",
@@ -304,11 +354,11 @@ export default {
       rules: {
         project_name: { required: true, message: "请输入计划名称" },
         skus: { required: true, message: "请输入SKU（多个SKU用英文逗号隔开）" },
-        shops: { required: true, message: "请输入店铺名称" },
+        shops: { required: true, validator: validShops },
         category_url: { required: true, message: "请输入三级类目列表页链接" },
         keywords: {
           required: true,
-          message: "请输入关键词（品类或品牌的名称）",
+          validator: validKeywords,
         },
         sorted_type: { required: true, message: "请选择排序条件" },
         limit_num: { required: true, message: "请输入数量" },
@@ -453,7 +503,7 @@ export default {
         "category_url",
         "keywords",
         "limit_num",
-        "sorted_type"
+        "sorted_type",
       ]);
     },
     //多选框--全选
@@ -479,8 +529,11 @@ export default {
 }
 .dateitem {
   position: absolute;
-  top: 37%;
+  top: 50%;
   transform: translateY(-50%);
-  left: -100px;
+  left: -120px;
+  &.dateitem2 {
+    top: 19px;
+  }
 }
 </style>

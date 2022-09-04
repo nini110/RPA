@@ -10,7 +10,7 @@
     :close-on-click-modal="false"
   >
     <el-form ref="form" :model="form" class="formObj" :rules="rules">
-      <el-row :gutter="4">
+      <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="选择竞标" prop="bidId">
             <el-select
@@ -106,7 +106,7 @@
             >
           </el-form-item>
         </el-col>
-        <el-col :span="18">
+        <el-col :span="20">
           <el-form-item label="生成预算" prop="rangeDate">
             <el-date-picker
               v-model="form.rangeDate"
@@ -131,7 +131,7 @@
             >生成</el-button
           >
         </el-col>
-        <el-col class="flexCol">
+        <el-col class="flexCol" :span="24">
           <!-- <el-scrollbar style="height: 100%"> -->
           <el-form-item
             v-for="(item, idx) in form.budgetJson"

@@ -422,12 +422,6 @@ export default {
 
 <style lang="less" scoped>
 @import "@/views/index";
-
-.temInfoSpan {
-  cursor: pointer;
-  color: #287bb5;
-}
-
 .el-divider {
   margin-top: 0;
 }

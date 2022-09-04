@@ -88,16 +88,16 @@
               fixed="left"
             ></vxe-column>
             <vxe-column
-              field="brandName"
-              title="项目名称"
-              width="20%"
+              field="biddingId"
+              title="项目编号"
+              width="10%"
               fixed="left"
               show-overflow="tooltip"
             ></vxe-column>
             <vxe-column
-              field="biddingId"
-              title="ID"
-              width="10%"
+              field="brandName"
+              title="项目名称"
+              width="20%"
               fixed="left"
               show-overflow="tooltip"
             ></vxe-column>
