@@ -649,9 +649,16 @@
 	.el-dialog__body {
 		padding: 0;
 	}
-	.el-dialog__header,
+	.el-dialog__header {
+		padding: 1.5px 0;
+		.el-dialog__title {
+			display: none;
+		}
+	}
 	.el-dialog__footer {
-		display: none;
+		// display: none;
+		padding: 1.5px 0;
+
 	}
 }
 .mytable-scrollbar ::-webkit-scrollbar {

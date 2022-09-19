@@ -55,6 +55,7 @@ export default {
             path: toinfo ? toinfo.slice(1) : "layout/beijingMustPass/DMP",
           });
         } else {
+          localStorage.removeItem("adTag");
           localStorage.removeItem("wx_code");
           localStorage.removeItem("wx_userid");
           localStorage.removeItem("user_name");

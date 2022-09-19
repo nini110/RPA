@@ -99,19 +99,6 @@ service.interceptors.request.use(config => {
 service.interceptors.response.use(
     response => {
         if (response.data.code === 99998) {
-            // MessageBox.alert('登录失效，请重新登录', '注意', {
-            //     confirmButtonText: '确定',
-            //     showClose: false,
-            //     closeOnPressEscape: false,
-            //     closeOnClickModal: false,
-            //     callback: action => {
-            //         localStorage.removeItem("wx_code");
-            //         localStorage.removeItem("wx_userid");
-            //         localStorage.removeItem("user_name");
-            //         localStorage.removeItem("thumb_avatar");
-            //         window.location.replace('/#/login')
-            //     }
-            // });
             $msg({
                 type: "warning",
                 msg: "登录失效，请进行扫码登入"

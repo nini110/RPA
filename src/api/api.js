@@ -18,6 +18,23 @@ if (process.env.NODE_ENV === 'production') {
     BASEPATH3 = 'http://114.67.229.243:8002'
     BASEPATH5 = 'http://114.67.229.243:8101'
 }
+// 公告
+export const adInfo = request({
+    url:`${BASEPATH}/apps/mail_list/`,
+    method:'get'
+})
+// 公告-已读
+export const readAllInfo = request({
+    url:`${BASEPATH}/apps/read_mail/`,
+    method:'post'
+})
+// 公告-新建
+export const addAdInfo = request({
+    url:`${BASEPATH}/apps/station_mail/`,
+    method:'post',
+    responseType: 'form'
+})
+
 
 // 数据应用--竞标监控--竞标搜索  ok
 export const BiddingSearch = request({

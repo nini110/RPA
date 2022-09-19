@@ -1,28 +1,47 @@
 .adInoDialog {
-    padding: 0 0 60px 180px;
+    // padding: 0 0 60px 150px;
+    // padding: 40px 20px 60px 20px;
     // background-color: red;
     background: url(../../assets/images/adbg.png) no-repeat 0 100%;
     background-size: cover;
     height: auto!important;
+    display: flex;
+    justify-content: space-between;
     img {
         position: absolute;
         left: 0;
         bottom: 0;
-        width: 230px;
+        width: 200px;
     }
 
+    &_left {
+        width: 200px;
+        padding: 30px 0;
+        background-color: #3b8eff5c;
+        .el-menu {
+            border: none;
+            &-vertical {
+                background-color: transparent;
 
+            }
+            &-item {
+                &.is-active {
+                    background-color: #e4f2ff;
+                }
+            }
+        }
+    }
     &_right {
-        background-color: #ffffffe0;
-        padding: 45px 60px 10px 60px;
-        border-radius: 0 0 0 50px;
+        width: calc(100% - 150px);
+        background-color: #ffffffcf;
+        padding: 30px 40px;
     }
 
     &_header {
         margin-bottom: 20px;
 
         h1 {
-            font-size: 24px;
+            font-size: 22px;
             text-align: center;
             margin-bottom: 10px;
         }
@@ -36,28 +55,36 @@
     }
 
     &_body {
-        margin-bottom: 60px;
+        margin-bottom: 40px;
+        height: 280px;
+        overflow: auto;
         .desc {
             font-size: 16px;
             margin-bottom: 10px;
-            line-height: 24px;
+            line-height: 22px;
             text-indent: 2em;
             color: #606266;
+            &.desc2 {
+                text-indent: 2em;
+                margin-bottom: 20px;
+            }
         }
         .part {
             margin-bottom: 20px;
 
             p {
                 font-size: 16px;
-                line-height: 24px;
-                text-indent: 2em;
-                margin-bottom: 10px;
+                line-height: 18px;
+                margin-bottom: 8px;
+                padding-left: 30px;
                 color: #606266;
-
-                &:first-child {
-                    font-size: 16px;
+                .cnt {
+                    margin-right: 5px;
+                }
+                &:last-child {
+                    font-size: 14px;
                     color: #3b8eff;
-                    font-weight: bold;
+                    padding-top: 8px;
                 }
             }
             a {
@@ -73,7 +100,7 @@
         .cp {
             position: absolute;
             top: -30px;
-            right: 0;
+            right: 20px;
         }
     }
 
