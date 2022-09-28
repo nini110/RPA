@@ -22,6 +22,10 @@
 			margin-top: 0!important;
 			color: #606266!important;
 		}
+		&__closebtn {
+			top: 50%!important;
+			transform: translateY(-50%);
+		}
 	}
 	&-tag {
 		margin: 0 10px 0 0 !important;
@@ -31,7 +35,7 @@
 		background-color: #ffcea4;
 	}
 	&-tabs {
-		padding: 0!important;
+		padding: 0 0 7px 0!important;
 		&--border-card {
 			background: transparent;
 		}
@@ -645,20 +649,22 @@
 	}
 }
 .noticeDialog {
-    min-height: 500px;
 	.el-dialog__body {
 		padding: 0;
 	}
-	.el-dialog__header {
-		padding: 1.5px 0;
-		.el-dialog__title {
-			display: none;
-		}
-	}
-	.el-dialog__footer {
-		// display: none;
-		padding: 1.5px 0;
 
+	&.noticeDialog2 {
+		.el-dialog__header {
+			padding: 4px 0;
+			.el-dialog__title {
+				display: none;
+			}
+		}
+		.el-dialog__footer {
+			// display: none;
+			padding: 4px 0;
+	
+		}
 	}
 }
 .mytable-scrollbar ::-webkit-scrollbar {

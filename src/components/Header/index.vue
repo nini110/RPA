@@ -43,6 +43,13 @@
             </div>
           </div>
         </el-popover>
+        <el-button
+            slot="reference"
+            size="mini"
+            class="poperBtn el-icon-message-solid"
+            @click="openMsgCenter"
+            >消息</el-button
+          >
       </div>
 
       <div v-if="$route.name !== 'login'" class="topTtle_login_user">
@@ -73,6 +80,7 @@
     </div>
     <EorLog :showLog="showLog" @close="closeLog"></EorLog>
     <AdInfoDialog></AdInfoDialog>
+    <MsgCenter v-if="showMsgCenter" @close="closeMsgCenter"></MsgCenter>
     <div ref="toolRef" class="hidedox" v-html="info"></div>
     <el-drawer
       title="工具下载"
@@ -130,6 +138,7 @@
 import message from "@/mixin/message";
 import EorLog from "@/components/errorLog/index.vue";
 import AdInfoDialog from "@/components/adInfoDialog/index.vue";
+import MsgCenter from "@/components/msgCenter/index.vue";
 import { mapGetters } from "vuex";
 import { createLinkToClick } from "@/utils/public.js";
 
@@ -137,12 +146,14 @@ export default {
   name: "Header",
   components: {
     EorLog,
-    AdInfoDialog
+    AdInfoDialog,
+    MsgCenter
   },
   mixins: [message],
   data() {
     return {
       downdrawer: false,
+      showMsgCenter: false,
       info: "",
       infoList: [],
       showLog: false,
@@ -292,6 +303,13 @@ export default {
     },
     closeLog() {
       this.showLog = false;
+    },
+    openMsgCenter() {
+      const vm = this;
+      vm.showMsgCenter = true
+    },
+    closeMsgCenter() {
+      this.showMsgCenter = false
     },
     toggleMode() {},
     // 退出登录

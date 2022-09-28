@@ -1,23 +1,16 @@
 <template>
-  <el-dialog
-    title="提示"
-    :visible.sync="dialogVisible"
-    width="30%"
-    @close="closeExcel"
-    fullscreen
-    custom-class="excelDialog"
-  >
-    <div id="luckysheet" ref="luckysheet"></div>
-    <span slot="footer" class="dialog-footer">
+  <div class="lucky">
+    <div id="luckysheet" class="lucky_sheet"></div>
+    <div class="lucky_footer">
       <el-button @click="closeExcel">取 消</el-button>
       <el-button type="primary" @click="submitExcel">确 定</el-button>
-    </span>
-  </el-dialog>
+    </div>
+  </div>
 </template>
 <script>
 export default {
   props: {
-    excelOptions: {
+    excelOpt: {
       type: Array,
       default: [],
     },
@@ -29,16 +22,86 @@ export default {
   },
   mounted() {
     const vm = this;
-    let dataOpt = vm.excelOptions;
-    this.$nextTick(() => {
-      $(function () {
-        luckysheet.create({
-          container: "luckysheet",
-          title: "",
-          lang: "zh",
-          data: dataOpt,
-        });
+    let dataOpt = vm.excelOpt;
+    // this.$nextTick(() => {
+    $(function () {
+      luckysheet.create({
+        container: "luckysheet",
+        title: "hahah",
+        lang: "zh",
+        data: dataOpt,
+        showinfobar: false,
+        sheetRightClick: true,
+        showstatisticBarConfig: {
+          count: true, // 计数栏
+          view: false, // 打印视图
+          zoom: true, // 缩放
+        },
+        showtoolbar: true,
+        showtoolbarConfig: {
+          undoRedo: true, //撤销重做，注意撤消重做是两个按钮，由这一个配置决定显示还是隐藏
+          paintFormat: false, //格式刷
+          currencyFormat: true, //货币格式
+          percentageFormat: true, //百分比格式
+          numberDecrease: false, // '减少小数位数'
+          numberIncrease: false, // '增加小数位数
+          moreFormats: true, // '更多格式'
+          font: false, // '字体'
+          fontSize: true, // '字号大小'
+          bold: true, // '粗体 (Ctrl+B)'
+          italic: false, // '斜体 (Ctrl+I)'
+          strikethrough: false, // '删除线 (Alt+Shift+5)'
+          underline: false, // '下划线 (Alt+Shift+6)'
+          textColor: true, // '文本颜色'
+          fillColor: true, // '单元格颜色'
+          border: true, // '边框'
+          mergeCell: true, // '合并单元格'
+          horizontalAlignMode: true, // '水平对齐方式'
+          verticalAlignMode: true, // '垂直对齐方式'
+          textWrapMode: true, // '换行方式'
+          textRotateMode: false, // '文本旋转方式'
+          image: false, // '插入图片'
+          link: false, // '插入链接'
+          chart: false, // '图表'（图标隐藏，但是如果配置了chart插件，右击仍然可以新建图表）
+          postil: true, //'批注'
+          pivotTable: false, //'数据透视表'
+          function: false, // '公式'
+          frozenMode: true, // '冻结方式'
+          sortAndFilter: false, // '排序和筛选'
+          conditionalFormat: true, // '条件格式'
+          dataVerification: false, // '数据验证'
+          splitColumn: false, // '分列'
+          screenshot: false, // '截图'
+          findAndReplace: false, // '查找替换'
+          protection: false, // '工作表保护'
+          print: false, // '打印'
+        },
+        cellRightClickConfig: {
+          copy: true, // 复制
+          copyAs: true, // 复制为
+          paste: true, // 粘贴
+          insertRow: true, // 插入行
+          insertColumn: true, // 插入列
+          deleteRow: true, // 删除选中行
+          deleteColumn: true, // 删除选中列
+          deleteCell: true, // 删除单元格
+          hideRow: true, // 隐藏选中行和显示选中行
+          hideColumn: true, // 隐藏选中列和显示选中列
+          rowHeight: true, // 行高
+          columnWidth: true, // 列宽
+          clear: true, // 清除内容
+          matrix: false, // 矩阵操作选区
+          sort: false, // 排序选区
+          filter: true, // 筛选选区
+          chart: false, // 图表生成
+          image: false, // 插入图片
+          link: false, // 插入链接
+          data: false, // 数据验证
+          cellFormat: true, // 设置单元格格式
+        },
+        enableAddRow: false,
       });
+      // });
     });
   },
   methods: {
@@ -50,22 +113,67 @@ export default {
       const vm = this;
       this.$nextTick(() => {
         $(function () {
-          console.log(window.luckysheet);
-          console.log(window.luckysheet.getcellvalue());
+          let results = window.luckysheet.getAllSheets();
+          let resultArr = [];
+          results.forEach((val, idx) => {
+            if (val.hide === 0) {
+              // 未隐藏
+              // val是sheet
+              let sheet = {
+                key: val.name,
+                value: [],
+              };
+              val.data.forEach((val1, idx1) => {
+                if (val1) {
+                  if (idx1 !== 0) {
+                    // val1是每一行
+                    let obj = {
+                      key: `第${idx1}行`,
+                      value: {},
+                    };
+                    val.data[0].forEach((val2, idx2) => {
+                      if (val2) {
+                        vm.$set(
+                          obj.value,
+                          val2.m,
+                          val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
+                        );
+                      }
+                    });
+                    sheet.value.push(obj);
+                  }
+                }
+              });
+              resultArr.push(sheet);
+            }
+          });
+          console.log(resultArr);
         });
       });
-      //   let resdata = luckysheet.getAllSheets();
-    //   console.log(window.luckysheet);
-    //   console.log(vm.$refs.luckysheet);
-
       //   vm.$emit("close");
     },
   },
 };
 </script>
 <style scoped lang="less">
-#luckysheet {
+.lucky {
+  background-color: #fff;
+  position: relative;
   width: 100%;
   height: 100%;
+  z-index: 10;
+  &_sheet {
+    position: absolute;
+    left: 40px;
+    right: 40px;
+    top: 80px;
+    bottom: 80px;
+    box-sizing: border-box;
+  }
+  &_footer {
+    position: fixed;
+    bottom: 20px;
+    right: 40px;
+  }
 }
 </style>

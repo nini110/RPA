@@ -1,119 +1,123 @@
 <template>
-  <div class="outerDiv">
+  <div class="outerDiv publicDiv">
     <div class="content">
-      <div class="ziyou">
-        <div class="ziyou_tab">
+      <div class="itemsComp">
+        <div class="tabs">
           <el-tabs v-model="activeName">
             <el-tab-pane label="看板" name="0"></el-tab-pane>
             <el-tab-pane label="列表" name="1"></el-tab-pane>
+            <el-tab-pane label="市场费" name="2"></el-tab-pane>
           </el-tabs>
-        </div>
-        <div v-show="activeName === '0'" class="ziyou_chart">
-          <el-alert
-            :description="description"
-            type="warning"
-            show-icon
-            :closable="false"
-          >
-          </el-alert>
-          <div class="chart ts2">
-            <div class="ts2_box">
-              <h2>年度总消耗</h2>
-              <div class="ziyou_chart_topleft ts">
-                <div id="barBox1" class="ts"></div>
-                <p>
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    :content="tooltipContent"
-                    placement="bottom"
-                  >
-                    <span class="el-icon-warning-outline infotip"
-                      >今年相较去年同比</span
-                    >
-                  </el-tooltip>
-                  <span
-                    :class="
-                      varietyPercent > 0
-                        ? 'el-icon-top top'
-                        : 'el-icon-bottom bot'
-                    "
-                    >{{ Math.abs(varietyPercent) }}%</span
-                  >
-                </p>
-              </div>
-            </div>
-            <div class="ts2_box2">
-              <h2>月度总消耗</h2>
-              <div class="ziyou_chart_topright ts">
-                <div id="lineBox1"></div>
-              </div>
-            </div>
-          </div>
-          <div class="selfBrand outerDiv_table content_tableBox">
-            <div
-              v-for="(table, index) in tableBox"
-              :key="index"
-              class="tables tables_two"
+          <div v-show="activeName === '0'" class="ziyou_chart">
+            <el-alert
+              :description="description"
+              type="warning"
+              show-icon
+              :closable="false"
             >
-              <h3 class="iconfont">{{ table.title }}</h3>
-              <div class="tableTab tableTab_two">
-                <vxe-table
-                  ref="table"
-                  :data="table.tableData"
-                  stripe
-                  round
-                  border="inner"
-                  :column-config="{ resizable: true }"
-                  class="mytable-scrollbar"
-                  auto-resize
-                >
+            </el-alert>
+            <div class="chart ts2">
+              <div class="ts2_box">
+                <h2>年度总消耗</h2>
+                <div class="ziyou_chart_topleft ts">
+                  <div id="barBox1" class="ts"></div>
+                  <p>
+                    <el-tooltip
+                      class="item"
+                      effect="dark"
+                      :content="tooltipContent"
+                      placement="bottom"
+                    >
+                      <span class="el-icon-warning-outline infotip"
+                        >今年相较去年同比</span
+                      >
+                    </el-tooltip>
+                    <span
+                      :class="
+                        varietyPercent > 0
+                          ? 'el-icon-top top'
+                          : 'el-icon-bottom bot'
+                      "
+                      >{{ Math.abs(varietyPercent) }}%</span
+                    >
+                  </p>
+                </div>
+              </div>
+              <div class="ts2_box2">
+                <h2>月度总消耗</h2>
+                <div class="ziyou_chart_topright ts">
+                  <div id="lineBox1"></div>
+                </div>
+              </div>
+            </div>
+            <div class="selfBrand outerDiv_table content_tableBox">
+              <div
+                v-for="(table, index) in tableBox"
+                :key="index"
+                class="tables tables_two"
+              >
+                <h3 class="iconfont">{{ table.title }}</h3>
+                <div class="tableTab tableTab_two">
+                  <vxe-table
+                    ref="table"
+                    :data="table.tableData"
+                    stripe
+                    round
+                    border="inner"
+                    :column-config="{ resizable: true }"
+                    class="mytable-scrollbar"
+                    auto-resize
                   >
-                  <template #empty>
-                    <img src="@/assets/images/noneData4.png" />
-                    <span>暂无数据</span>
-                  </template>
-                  <vxe-column
-                    field="icon"
-                    title="排名"
-                    width="10%"
-                    align="center"
-                  >
-                    <template #default="{ row }">
-                      <svg v-if="row.num === 1" aria-hidden="true">
-                        <use xlink:href="#icon-paihang1" />
-                      </svg>
-                      <svg v-else-if="row.num === 2" aria-hidden="true">
-                        <use xlink:href="#icon-paihang2" />
-                      </svg>
-                      <svg v-else-if="row.num === 3" aria-hidden="true">
-                        <use xlink:href="#icon-paihang" />
-                      </svg>
-                      <span v-else>{{ row.num }}</span>
+                    >
+                    <template #empty>
+                      <img src="@/assets/images/noneData4.png" />
+                      <span>暂无数据</span>
                     </template>
-                  </vxe-column>
-                  <vxe-column
-                    v-for="(item, idx) in table.topMenuList"
-                    :key="idx"
-                    :field="item.prop"
-                    :title="item.label"
-                    show-overflow="tooltip"
-                    :min-width="item.width"
-                  >
-                    <template #default="{ row }">
-                      <span v-if="item.prop === 'cost'">{{
-                        row[item.prop] | numberToCurrencyNo
-                      }}</span>
-                      <span v-else>{{ row[item.prop] }}</span>
-                    </template>
-                  </vxe-column>
-                </vxe-table>
+                    <vxe-column
+                      field="icon"
+                      title="排名"
+                      width="10%"
+                      align="center"
+                    >
+                      <template #default="{ row }">
+                        <svg v-if="row.num === 1" aria-hidden="true">
+                          <use xlink:href="#icon-paihang1" />
+                        </svg>
+                        <svg v-else-if="row.num === 2" aria-hidden="true">
+                          <use xlink:href="#icon-paihang2" />
+                        </svg>
+                        <svg v-else-if="row.num === 3" aria-hidden="true">
+                          <use xlink:href="#icon-paihang" />
+                        </svg>
+                        <span v-else>{{ row.num }}</span>
+                      </template>
+                    </vxe-column>
+                    <vxe-column
+                      v-for="(item, idx) in table.topMenuList"
+                      :key="idx"
+                      :field="item.prop"
+                      :title="item.label"
+                      show-overflow="tooltip"
+                      :min-width="item.width"
+                    >
+                      <template #default="{ row }">
+                        <span v-if="item.prop === 'cost'">{{
+                          row[item.prop] | numberToCurrencyNo
+                        }}</span>
+                        <span v-else>{{ row[item.prop] }}</span>
+                      </template>
+                    </vxe-column>
+                  </vxe-table>
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        <div v-show="activeName === '1'" class="ziyou_list">
-          <listPage></listPage>
+          <div v-show="activeName === '1'" class="tabs_cnt">
+            <listPage></listPage>
+          </div>
+          <div v-show="activeName === '2'" class="tabs_cnt">
+            <MarketPage></MarketPage>
+          </div>
         </div>
       </div>
     </div>
@@ -122,15 +126,17 @@
 <script>
 import { bidItemExpend } from "@/api/api";
 import listPage from "./list.vue";
+import MarketPage from "./market.vue";
 export default {
   name: "SeleBrand",
   components: {
     listPage,
+    MarketPage,
   },
   data() {
     const vm = this;
     return {
-      description: '',
+      description: "",
       tooltipContent: "",
       activeName: "0",
       tableBox: [
@@ -543,7 +549,6 @@ export default {
 };
 </script>
 <style scoped lang="less">
-@import "index";
 @import "../selfBrand/index";
 @import "@/views/index";
 /deep/.vxe-table {

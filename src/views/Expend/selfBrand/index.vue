@@ -1,119 +1,13 @@
 <template>
-  <div class="outerDiv">
+  <div class="outerDiv publicDiv">
     <div class="content">
-      <div class="ziyou">
-        <div class="ziyou_tab">
+      <div class="itemsComp">
+        <div class="tabs">
           <el-tabs v-model="activeName">
             <el-tab-pane label="看板" name="0"></el-tab-pane>
             <el-tab-pane label="列表" name="1"></el-tab-pane>
           </el-tabs>
-        </div>
-        <div v-show="activeName === '0'" class="ziyou_chart">
-          <el-alert
-            :description="description"
-            type="warning"
-            show-icon
-            :closable="false"
-          >
-          </el-alert>
-
-          <h2>年度总消耗</h2>
-          <div class="chart">
-            <div class="ziyou_chart_topleft">
-              <div id="barBox"></div>
-              <p>
-                <el-tooltip
-                  class="item"
-                  effect="dark"
-                  :content="tooltipContent"
-                  placement="bottom"
-                >
-                  <span class="el-icon-warning-outline infotip"
-                    >今年相较去年同比</span
-                  >
-                </el-tooltip>
-                <span
-                  :class="
-                    varietyPercent > 0
-                      ? 'el-icon-top top'
-                      : 'el-icon-bottom bot'
-                  "
-                  >{{ Math.abs(varietyPercent) }}%</span
-                >
-              </p>
-            </div>
-            <div class="ziyou_chart_topright">
-              <div id="pieBox"></div>
-            </div>
-          </div>
-          <h2>月度总消耗</h2>
-          <div class="chart ts">
-            <div id="lineBox"></div>
-          </div>
-          <div class="selfBrand outerDiv_table content_tableBox">
-            <div
-              v-for="(table, index) in tableBox"
-              :key="index"
-              class="tables tables_two"
-            >
-              <h3 class="iconfont">{{ table.title }}</h3>
-              <div class="tableTab_two">
-                <vxe-table
-                  ref="table"
-                  :data="table.tableData"
-                  stripe
-                  round
-                  border="inner"
-                  :column-config="{ resizable: true }"
-                  class="mytable-scrollbar"
-                  auto-resize
-                >
-                  >
-                  <template #empty>
-                    <img src="@/assets/images/noneData4.png" />
-                    <span>暂无数据</span>
-                  </template>
-                  <vxe-column
-                    field="icon"
-                    title="排名"
-                    width="10%"
-                    align="center"
-                  >
-                    <template #default="{ row }">
-                      <svg v-if="row.num === 1" aria-hidden="true">
-                        <use xlink:href="#icon-paihang1" />
-                      </svg>
-                      <svg v-else-if="row.num === 2" aria-hidden="true">
-                        <use xlink:href="#icon-paihang2" />
-                      </svg>
-                      <svg v-else-if="row.num === 3" aria-hidden="true">
-                        <use xlink:href="#icon-paihang" />
-                      </svg>
-                      <span v-else>{{ row.num }}</span>
-                    </template>
-                  </vxe-column>
-                  <vxe-column
-                    v-for="(item, idx) in topMenuList"
-                    :key="idx"
-                    :field="item.prop"
-                    :title="item.label"
-                    show-overflow="tooltip"
-                    min-width="14%"
-                  >
-                    <template #default="{ row }">
-                      <span v-if="item.prop === 'consume'">{{
-                        row[item.prop] | numberToCurrencyNo
-                      }}</span>
-                      <span v-else>{{ row[item.prop] }}</span>
-                    </template>
-                  </vxe-column>
-                </vxe-table>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div v-show="activeName === '1'" class="ziyou_list">
-          <div style="padding: 0 10rem">
+          <div v-show="activeName === '0'" class="ziyou_chart">
             <el-alert
               :description="description"
               type="warning"
@@ -121,9 +15,114 @@
               :closable="false"
             >
             </el-alert>
-          </div>
 
-          <listPage></listPage>
+            <h2>年度总消耗</h2>
+            <div class="chart">
+              <div class="ziyou_chart_topleft">
+                <div id="barBox"></div>
+                <p>
+                  <el-tooltip
+                    class="item"
+                    effect="dark"
+                    :content="tooltipContent"
+                    placement="bottom"
+                  >
+                    <span class="el-icon-warning-outline infotip"
+                      >今年相较去年同比</span
+                    >
+                  </el-tooltip>
+                  <span
+                    :class="
+                      varietyPercent > 0
+                        ? 'el-icon-top top'
+                        : 'el-icon-bottom bot'
+                    "
+                    >{{ Math.abs(varietyPercent) }}%</span
+                  >
+                </p>
+              </div>
+              <div class="ziyou_chart_topright">
+                <div id="pieBox"></div>
+              </div>
+            </div>
+            <h2>月度总消耗</h2>
+            <div class="chart ts">
+              <div id="lineBox"></div>
+            </div>
+            <div class="selfBrand outerDiv_table content_tableBox">
+              <div
+                v-for="(table, index) in tableBox"
+                :key="index"
+                class="tables tables_two"
+              >
+                <h3 class="iconfont">{{ table.title }}</h3>
+                <div class="tableTab_two">
+                  <vxe-table
+                    ref="table"
+                    :data="table.tableData"
+                    stripe
+                    round
+                    border="inner"
+                    :column-config="{ resizable: true }"
+                    class="mytable-scrollbar"
+                    auto-resize
+                  >
+                    >
+                    <template #empty>
+                      <img src="@/assets/images/noneData4.png" />
+                      <span>暂无数据</span>
+                    </template>
+                    <vxe-column
+                      field="icon"
+                      title="排名"
+                      width="10%"
+                      align="center"
+                    >
+                      <template #default="{ row }">
+                        <svg v-if="row.num === 1" aria-hidden="true">
+                          <use xlink:href="#icon-paihang1" />
+                        </svg>
+                        <svg v-else-if="row.num === 2" aria-hidden="true">
+                          <use xlink:href="#icon-paihang2" />
+                        </svg>
+                        <svg v-else-if="row.num === 3" aria-hidden="true">
+                          <use xlink:href="#icon-paihang" />
+                        </svg>
+                        <span v-else>{{ row.num }}</span>
+                      </template>
+                    </vxe-column>
+                    <vxe-column
+                      v-for="(item, idx) in topMenuList"
+                      :key="idx"
+                      :field="item.prop"
+                      :title="item.label"
+                      show-overflow="tooltip"
+                      min-width="14%"
+                    >
+                      <template #default="{ row }">
+                        <span v-if="item.prop === 'consume'">{{
+                          row[item.prop] | numberToCurrencyNo
+                        }}</span>
+                        <span v-else>{{ row[item.prop] }}</span>
+                      </template>
+                    </vxe-column>
+                  </vxe-table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-show="activeName === '1'" class="ziyou_list ts">
+            <div style="margin-bottom: 2rem">
+              <el-alert
+                :description="description"
+                type="warning"
+                show-icon
+                :closable="false"
+              >
+              </el-alert>
+            </div>
+            <listPage></listPage>
+          </div>
         </div>
       </div>
     </div>
@@ -486,7 +485,7 @@ export default {
             "1. 当前消耗数据均为现金消耗\xa0\xa0\xa0\xa0\xa0\xa0\xa02. 看板统计时间截至为当前日期-1";
         }
       },
-      immediate: true
+      immediate: true,
     },
   },
   mounted() {

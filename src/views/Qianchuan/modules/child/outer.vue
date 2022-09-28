@@ -2,36 +2,45 @@
   <div class="region strategyNormal">
     <div class="centers">
       <div class="PriceTops">
-        <div>
-          <el-button
-            v-waves
-            type="primary"
-            class="el-icon-plus btnnormal"
-            @click="editFn(1)"
-            size="medium"
-            >新建模板
-          </el-button>
-        </div>
-        <div class="search">
-          <div class="search_label">模板名称：</div>
-          <el-input
-            v-model="searchName"
-            placeholder="请输入模板名称"
-            class="inp"
-            size="medium"
-            clearable
-          ></el-input>
-          <div>
-            <el-button
-              v-waves
-              type="primary"
-              class="el-icon-search btnnormal"
-              size="medium"
-              style="margin-left: 10px"
-              >查询
-            </el-button>
-          </div>
-        </div>
+        <el-form>
+          <el-row>
+            <el-col :span="16">
+              <el-form-item>
+                <el-button
+                  v-waves
+                  type="primary"
+                  class="el-icon-plus btnnormal"
+                  @click="editFn(1)"
+                  size="medium"
+                  >新建模板
+                </el-button>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="模板名称">
+                <el-input
+                  v-model="searchName"
+                  placeholder="请输入模板名称"
+                  class="inp"
+                  size="medium"
+                  clearable
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <el-form-item>
+                <el-button
+                  v-waves
+                  type="primary"
+                  class="el-icon-search btnnormal"
+                  size="medium"
+                  style="margin-left: 10px"
+                  >查询
+                </el-button>
+              </el-form-item>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
       <div class="tabbles pricetable" ref="tabbles">
         <vxe-table

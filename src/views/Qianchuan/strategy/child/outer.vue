@@ -3,59 +3,67 @@
   <div class="strategyNormal">
     <div class="centers">
       <div class="PriceTops">
-        <div class="btn">
-          <el-button
-            v-waves
-            type="primary"
-            class="el-icon-plus btnnormal"
-            @click="editFn(1)"
-            size="medium"
-            >新建策略
-          </el-button>
-        </div>
-        <div class="search">
-          <div class="search_label">状态：</div>
-          <div class="selects">
-            <el-select
-              v-model="searchStatus"
-              placeholder="请选择状态"
-              size="medium"
-              clearable
-            >
-              <el-option
-                v-for="item in options"
-                :key="item.value"
-                :label="item.label"
-                :value="item.value"
-              >
-              </el-option>
-            </el-select>
-          </div>
-          <div class="search_label">策略名称：</div>
-          <el-input
-            v-model="searchName"
-            placeholder="请输入策略名称"
-            size="medium"
-            class="inp"
-            clearable
-          ></el-input>
-          <div>
-            <el-button
-              v-waves
-              style="margin-left: 10px"
-              class="el-icon-search btnnormal"
-              type="primary"
-              size="medium"
-              >查询
-            </el-button>
-          </div>
-        </div>
+        <el-form>
+          <el-row>
+            <el-col :span="10">
+              <el-button
+                v-waves
+                type="primary"
+                class="el-icon-plus btnnormal"
+                @click="editFn(1)"
+                size="medium"
+                >新建策略
+              </el-button>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="状态">
+                <el-select
+                  v-model="searchStatus"
+                  placeholder="请选择状态"
+                  size="medium"
+                  clearable
+                >
+                  <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="策略名称">
+                <el-input
+                  v-model="searchName"
+                  placeholder="请输入策略名称"
+                  size="medium"
+                  class="inp"
+                  clearable
+                ></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <div>
+                <el-button
+                  v-waves
+                  style="margin-left: 10px"
+                  class="el-icon-search btnnormal"
+                  type="primary"
+                  size="medium"
+                  >查询
+                </el-button>
+              </div>
+            </el-col>
+          </el-row>
+        </el-form>
       </div>
       <div class="tabbles pricetable" ref="tabbles">
         <vxe-table
           ref="multipleTable"
           :data="tableData"
-          stripe
+          stripeå
           round
           :column-config="{ resizable: true }"
           :row-config="{ isCurrent: true, isHover: true }"

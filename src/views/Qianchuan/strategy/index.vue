@@ -8,7 +8,9 @@
             <el-tab-pane label="预算调整" name="second"> </el-tab-pane>
             <el-tab-pane label="计划复制" name="third"> </el-tab-pane>
           </el-tabs>
-          <PriceAdjustment :activeTab="activeName"></PriceAdjustment>
+          <div class="tabs_cnt">
+            <PriceAdjustment :activeTab="activeName"></PriceAdjustment>
+          </div>
         </div>
       </div>
     </div>

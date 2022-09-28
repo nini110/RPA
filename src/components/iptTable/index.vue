@@ -59,7 +59,7 @@
           </div>
           <div class="formObj_upload">
             <el-form-item label="" :error="errorUpInfo">
-              <Upload @getFile="getFileEvent"></Upload>
+              <Upload @getFile="getFileEvent" @openEvent="openExcelAuto"></Upload>
             </el-form-item>
           </div>
         </el-form>
@@ -76,18 +76,9 @@
           <el-button
             v-waves
             type="primary"
-            class="el-icon-upload2 marginR"
-            @click="uploadFile"
-            >立即上传</el-button
-          >
-          <el-button
-            v-waves
-            type="primary"
-            class="el-icon-right marginR"
-            :disabled="!msg"
-            @click="going"
-            :loading="loadingbut"
-            >{{ loadingbuttext }}</el-button
+            class="el-icon-plus marginR"
+            @click="openExcel"
+            >添加</el-button
           >
         </div>
       </div>
@@ -191,7 +182,11 @@
       </el-dialog>
     </div>
     <!-- excel -->
-    <!-- <ExcelDialog v-if="showExcel" @close="closeEvent" :excelOptions="excelOptions"></ExcelDialog> -->
+    <ExcelDialog
+      v-if="showExcel"
+      @close="closeEvent"
+      :excelOpt="excelOpt"
+    ></ExcelDialog>
   </div>
 </template>
 
@@ -203,14 +198,14 @@ import {
   fxcjExamine,
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
-// import ExcelDialog from "@/components/excelDialog";
+import ExcelDialog from "@/components/excelDialog";
 import Upload from "@/components/upload";
 
 export default {
   name: "DMP",
   components: {
     VarifyDialog,
-    // ExcelDialog,
+    ExcelDialog,
     Upload,
   },
   props: {
@@ -221,7 +216,7 @@ export default {
     excelOptions: {
       type: Array,
       default: [],
-    },    
+    },
   },
   watch: {
     $route: {
@@ -333,6 +328,7 @@ export default {
   },
   data() {
     return {
+      excelOpt: [],
       showExcel: false,
       curInfo: {},
       errorUpInfo: "",
@@ -392,6 +388,10 @@ export default {
       log: "", //查看详情渲染的log
     };
   },
+  mounted() {
+    const vm = this;
+    vm.excelOpt = JSON.parse(JSON.stringify(vm.excelOptions));
+  },
   methods: {
     closeDialog() {
       this.showVarDia = false;
@@ -400,25 +400,19 @@ export default {
       this.fileList = val;
       this.errorUpInfo = "";
     },
+    beforeUpload(files) {},
+    openExcel() {
+      this.showExcel = true;
+    },
+    openExcelAuto(opt) {
+      this.excelOpt = opt;
+      this.showExcel = true;
+    },
+    exportExcel() {},
     //立即上传 并判断上传文件是否为空if () {
     uploadFile(data) {
       const vm = this;
-      // vm.showExcel = true
-      if (!vm.fileList || vm.fileList.length === 0) {
-        vm.errorUpInfo = "请上传文件";
-        return false;
-      }
-      fxcjupload({
-        trans_name: vm.username,
-        file: vm.fileList,
-      }).then((res) => {
-        if (res.data.code == 10000) {
-          vm.errorUpInfo = "";
-          vm.msg = res.data.code;
-          vm.fileList = [];
-          vm.$msg({ msg: "上传成功" });
-        }
-      });
+      vm.showExcel = true;
     },
     //查看列表
     getuserlist() {
@@ -467,45 +461,6 @@ export default {
           vm.dialogVisible = true;
         } else {
           vm.$msg({ type: "error", msg: "查看失败" });
-        }
-      });
-    },
-    //执行
-    going() {
-      //调用大数据工具请求
-      const vm = this;
-      vm.$refs.form.validate((valid) => {
-        if (valid) {
-          this.loadingbut = true;
-          this.loadingbuttext = "审核中...";
-          let data = {
-            ...vm.form,
-            trans_name: vm.username,
-            tool_type: vm.toolType,
-            choose:
-              vm.$route.fullPath.indexOf("beijingMustPass") !== -1
-                ? vm.form.choose
-                : "3",
-          };
-          fxcjtools(data).then((res) => {
-            if (res.data.code == "10000") {
-              vm.getuserlist();
-              vm.$msg({ msg: "执行成功" });
-              vm.loadingbuttext = "执行";
-              vm.loadingbut = false;
-            } else if (res.data.code == "10005") {
-              if (res.data.msg === "账号或密码错误") {
-                vm.$msg({ type: "error", msg: "请检查用户密码是否正确" });
-              } else {
-                vm.pageJumps = res.data.msg.substring(14);
-                vm.showVarDia = true;
-              }
-            } else {
-              vm.$msg({ type: "error", msg: res.data.msg });
-            }
-          });
-          vm.msg = "";
-          vm.fileList = [];
         }
       });
     },

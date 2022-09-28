@@ -2,7 +2,7 @@
   <div>
     <el-upload
       drag
-      :auto-upload="false"
+      :auto-upload="true"
       accept=".xlsx,.csv"
       :action="UploadUrl()"
       :on-remove="remfile"
@@ -15,13 +15,16 @@
     >
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
-      <div  v-if="showPros" class="el-upload__tip" slot="tip">
+      <div v-if="showPros" class="el-upload__tip" slot="tip">
         {{ txt }}
       </div>
     </el-upload>
   </div>
 </template>
 <script>
+  //  npm i -S exceljs file-saver luckyexcel
+import LuckyExcel from "luckyexcel";
+import { exportExcel } from "../excelDialog/export";
 export default {
   name: "varifyDialog",
   props: {
@@ -46,18 +49,38 @@ export default {
   methods: {
     // 上传文件之前的钩子, 参数为上传的文件,若返回 false 或者返回 Promise 且被 reject，则停止上传
     beforeUploadFile(file) {
+      const vm = this
       let extension = file.name.substring(file.name.lastIndexOf(".") + 1);
       let size = file.size / 1024 / 1024;
       if (extension !== "xlsx") {
-        this.$message.warning("只能上传后缀是.xlsx的文件");
+        vm.$message.warning("只能上传后缀是.xlsx的文件");
       }
       if (size > 50) {
-        this.$message.warning("文件大小不得超过50M");
+        vm.$message.warning("文件大小不得超过50M");
       }
+      let whiteList = ['创建人群', '更新合作方数据', '新增标签']
+      LuckyExcel.transformExcelToLucky(
+        file,
+        (exportJson, luckysheetfile) => {
+          if (exportJson.sheets === null || exportJson.sheets.length === 0) {
+            vm.$message.error("无法读取excel文件的内容，当前不支持xls文件！");
+            return;
+          }
+          exportJson.sheets.forEach((val, idx) => {
+            val.index = parseInt(val.index)
+            val.order = parseInt(val.order)
+            val.status = parseInt(val.status)
+            val.showGridLines = parseInt(val.showGridLines)
+            val.hide = whiteList.indexOf(val.name) === -1 ? 1 : 0
+          })
+          window.luckysheet.destroy();
+          vm.$emit('openEvent', exportJson.sheets)
+        }
+      );
     },
     // 文件状态改变时的钩子
     fileChange(file, fileList) {
-      this.fileList = []
+      this.fileList = [];
       this.fileList.push(file.raw);
       this.$emit("getFile", this.fileList);
     },

@@ -23,10 +23,22 @@ export const adInfo = request({
     url:`${BASEPATH}/apps/mail_list/`,
     method:'get'
 })
+// 所有站内信
+export const allAdInfo = request({
+    url:`${BASEPATH}/apps/history_mail/`,
+    method:'get'
+})
+
 // 公告-已读
 export const readAllInfo = request({
     url:`${BASEPATH}/apps/read_mail/`,
     method:'post'
+})
+// 公告-已读一条
+export const readOneInfo = request({
+    url:`${BASEPATH}/apps/read_one_mail/`,
+    method:'post',
+    responseType: 'form'
 })
 // 公告-新建
 export const addAdInfo = request({
@@ -405,6 +417,22 @@ export const bidItemList = request({
 export const bidItem = request({
     url:`${BASEPATH5}/report/jingbiao_lhhb_name`,
     method:'get'
+})
+
+// 市场费账号
+export const addMarketID = request({
+    url:`${BASEPATH5}/report/jingbiao_market_map`,
+    method:'post'
+})
+// 市场费账号列表
+export const marketIDList = request({
+    url:`${BASEPATH5}/report/jingbiao_market_map_list`,
+    method:'get'
+})
+// 删除市场费账号
+export const delMarketID = request({
+    url:`${BASEPATH5}/report/del_map_data`,
+    method:'post'
 })
 // 公域数据---------------------------------------------------------------------
 // 获取列表

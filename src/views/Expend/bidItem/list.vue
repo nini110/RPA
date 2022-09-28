@@ -1,43 +1,46 @@
 <template>
-  <div class="content tsts">
-    <div class="content_form" style="padding-top: 10px">
-      <el-form ref="form" :model="form" class="formObj">
-        <div class="formObj_ipt expend">
-          <el-row>
-            <el-col :span="12">
-              <el-form-item label="项目:">
-                <el-select
-                  v-model="form.brand"
-                  class="normalScroll"
-                  placeholder="请选择"
-                  clearable
-                  filterable
-                  :popper-append-to-body="false"
-                >
-                  <el-option
-                    v-for="item in pinOptions"
-                    :key="item.brand"
-                    :label="item.brand"
-                    :value="item.brand"
+  <div class="strategyNormal">
+    <div class="centers">
+      <div class="PriceTops">
+          <el-form>
+            <el-row>
+              <el-col :span="12">
+                <el-form-item label="项目:">
+                  <el-select
+                    v-model="form.brand"
+                    class="normalScroll"
+                    placeholder="请选择"
                     clearable
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-form-item class="tophasBtn" label="日期:">
-                <el-date-picker
-                  class="tophasBtn_data"
-                  v-model="form.search_date"
-                  format="yyyy-MM-dd"
-                  value-format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :picker-options="pickerOptionsStart"
-                ></el-date-picker>
-                <!-- <div class="tophasBtn_btn_div">
+                    filterable
+                    :popper-append-to-body="false"
+                  >
+                    <el-option
+                      v-for="item in pinOptions"
+                      :key="item.brand"
+                      :label="item.brand"
+                      :value="item.brand"
+                      clearable
+                    ></el-option>
+                  </el-select>
+                </el-form-item>
+              </el-col>
+              <el-col :span="10">
+                <el-form-item label="日期:">
+                  <el-date-picker
+                    class="tophasBtn_data"
+                    v-model="form.search_date"
+                    format="yyyy-MM-dd"
+                    value-format="yyyy-MM-dd"
+                    type="daterange"
+                    range-separator="至"
+                    start-placeholder="开始日期"
+                    end-placeholder="结束日期"
+                    :picker-options="pickerOptionsStart"
+                  ></el-date-picker>
+                </el-form-item>
+              </el-col>
+              <el-col :span="2">
+                <div>
                   <el-button
                     v-waves
                     type="primary"
@@ -45,100 +48,84 @@
                     @click="searchEvent(serchVal)"
                     >查询</el-button
                   >
-                </div> -->
-              </el-form-item>
-            </el-col>
-            <el-col :span="2">
-              <div class="tophasBtn_btn_div">
-                <el-button
-                  v-waves
-                  type="primary"
-                  class="el-icon-search marginL"
-                  @click="searchEvent(serchVal)"
-                  >查询</el-button
-                >
-              </div>
-            </el-col>
-          </el-row>
-        </div>
-      </el-form>
-    </div>
-    <div ref="tableBox" class="content_tableBox hasUp7">
-      <div class="tables">
-        <div class="tableTab" v-show="tableData">
-          <vxe-table
-            ref="table"
-            :data="tableData"
-            stripe
-            round
-            :column-config="{ resizable: true }"
-            :row-config="{ isCurrent: true, isHover: true }"
-            class="mytable-scrollbar normalScroll"
-            auto-resize
-            height="auto"
-          >
-            >
-            <template #empty>
-              <img src="@/assets/images/search.png" />
-            </template>
-            <vxe-column
-              type="seq"
-              title="序号"
-              width="5%"
-              fixed="left"
-            ></vxe-column>
-            <vxe-column
-              field="biddingId"
-              title="项目编号"
-              width="10%"
-              fixed="left"
-              show-overflow="tooltip"
-            ></vxe-column>
-            <vxe-column
-              field="brandName"
-              title="项目名称"
-              width="20%"
-              fixed="left"
-              show-overflow="tooltip"
-            ></vxe-column>
-            <vxe-column
-              field="category"
-              title="类目"
-              width="30%"
-              show-overflow="tooltip"
-            ></vxe-column>
-            <vxe-column
-              v-for="(item, idx) in topMenuList"
-              :key="idx"
-              :field="item.prop"
-              :title="item.label"
-              show-overflow="tooltip"
-              min-width="14%"
-            >
-              <template #default="{ row }">
-                <span v-if="item.type === 'num'">{{
-                  Math.abs(row[item.prop]) | numberToCurrencyNo
-                }}</span>
-                <span v-else-if="item.type === 'per'"
-                  >{{ Math.abs(row[item.prop]) | numberToCurrencyNo }}%</span
-                >
-                <span v-else>{{ row[item.prop] }}</span>
-              </template>
-            </vxe-column>
-          </vxe-table>
-        </div>
+                </div>
+              </el-col>
+            </el-row>
+          </el-form>
       </div>
-      <div class="block" v-if="total">
-        <el-pagination
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page.sync="currentPage"
-          :page-size="pagesize"
-          :page-sizes="[10, 20, 50, 100]"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        ></el-pagination>
+      <div ref="tableBox" class="tabbles pricetable">
+        <vxe-table
+          ref="table"
+          :data="tableData"
+          stripe
+          round
+          :column-config="{ resizable: true }"
+          :row-config="{ isCurrent: true, isHover: true }"
+          class="mytable-scrollbar normalScroll"
+          auto-resize
+          height="auto"
+        >
+          >
+          <template #empty>
+            <img src="@/assets/images/search.png" />
+          </template>
+          <vxe-column
+            type="seq"
+            title="序号"
+            width="5%"
+            fixed="left"
+          ></vxe-column>
+          <vxe-column
+            field="biddingId"
+            title="项目编号"
+            width="10%"
+            fixed="left"
+            show-overflow="tooltip"
+          ></vxe-column>
+          <vxe-column
+            field="brandName"
+            title="项目名称"
+            width="20%"
+            fixed="left"
+            show-overflow="tooltip"
+          ></vxe-column>
+          <vxe-column
+            field="category"
+            title="类目"
+            width="30%"
+            show-overflow="tooltip"
+          ></vxe-column>
+          <vxe-column
+            v-for="(item, idx) in topMenuList"
+            :key="idx"
+            :field="item.prop"
+            :title="item.label"
+            show-overflow="tooltip"
+            min-width="14%"
+          >
+            <template #default="{ row }">
+              <span v-if="item.type === 'num'">{{
+                Math.abs(row[item.prop]) | numberToCurrencyNo
+              }}</span>
+              <span v-else-if="item.type === 'per'"
+                >{{ Math.abs(row[item.prop]) | numberToCurrencyNo }}%</span
+              >
+              <span v-else>{{ row[item.prop] }}</span>
+            </template>
+          </vxe-column>
+        </vxe-table>
+        <div class="block" v-if="total">
+          <el-pagination
+            background
+            @size-change="handleSizeChange"
+            @current-change="handleCurrentChange"
+            :current-page.sync="currentPage"
+            :page-size="pagesize"
+            :page-sizes="[10, 20, 50, 100]"
+            layout="total, sizes, prev, pager, next, jumper"
+            :total="total"
+          ></el-pagination>
+        </div>
       </div>
     </div>
   </div>
@@ -288,7 +275,9 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "@/views/index";
+@import "@/views/index.less";
+@import "@/views/Qianchuan/strategy/index.less";
+@import "@/views/Qianchuan/items/index.less";
 
 .temInfoSpan {
   cursor: pointer;
