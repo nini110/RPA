@@ -237,7 +237,7 @@ export default {
   
   <style lang="less" scoped>
 @import "@/views/index.less";
-@import "@/views/Qianchuan/strategy/index.less";
-@import "@/views/Qianchuan/items/index.less";
+@import "../../Qianchuan/strategy/index.less";
+@import "../../Qianchuan/items/index.less";
 </style>
   

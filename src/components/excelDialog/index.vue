@@ -193,7 +193,7 @@ export default {
     box-sizing: border-box;
   }
   &_footer {
-    position: fixed;
+    position: fixed; 
     bottom: 20px;
     right: 40px;
   }

@@ -549,8 +549,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
-@import "../selfBrand/index";
-@import "@/views/index";
+@import "../selfBrand/index.less";
 /deep/.vxe-table {
   &.is--empty {
     .vxe-table--empty-placeholder {
