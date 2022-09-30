@@ -71,7 +71,7 @@ export default {
             val.order = parseInt(val.order)
             val.status = parseInt(val.status)
             val.showGridLines = parseInt(val.showGridLines)
-            val.hide = whiteList.indexOf(val.name) === -1 ? 1 : 0
+            // val.hide = whiteList.indexOf(val.name) === -1 ? 1 : 0
           })
           window.luckysheet.destroy();
           vm.$emit('openEvent', exportJson.sheets)

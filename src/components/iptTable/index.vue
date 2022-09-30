@@ -193,8 +193,6 @@
 <script>
 import {
   fxcjviewDetails,
-  fxcjupload,
-  fxcjtools,
   fxcjExamine,
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";

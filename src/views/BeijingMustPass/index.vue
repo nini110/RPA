@@ -22,6 +22,23 @@ export default {
     $route: {
       handler(newval, oldval) {
         const vm = this;
+        let arr = new Array(1000).fill(1);
+        let col2 = {};
+        arr.forEach((val, idx) => {
+          if (idx !== 0) {
+            vm.$set(col2, `${idx}_2`, {
+              type: "text_content",
+              type2: null,
+              value1: "合作方数据",
+              value2: "",
+              checked: false,
+              remote: false,
+              prohibitInput: false,
+              hintShow: true,
+              hintText: "只允许输入：合作方数据",
+            });
+          }
+        });
         switch (newval.name) {
           case "DMP":
             this.toolType = "0";
@@ -296,19 +313,7 @@ export default {
             isPivotTable: false, //是否数据透视表
             zoomRatio: 1, // 缩放比例
             showGridLines: 1, //是否显示网格线
-            dataVerification: {
-              "1_2": {
-                type: "dropdown",
-                type2: null,
-                value1: "合作方数据",
-                value2: "",
-                checked: false,
-                remote: false,
-                prohibitInput: false,
-                hintShow: false,
-                hintText: "",
-              },
-            },
+            dataVerification: col2,
           },
           {
             name: "新增标签", //工作表名称
@@ -454,6 +459,22 @@ export default {
             showGridLines: 1, //是否显示网格线
           },
         ];
+        arr.forEach((val, idx) => {
+          if (idx !== 0) {
+            vm.excelOptions[1].celldata.push({
+              r: idx,
+              c: 2,
+              v: {
+                ct: { fa: "@", t: "s" },
+                m: "合作方数据",
+                v: "合作方数据",
+                bg: "gold",
+                vt: 0,
+                ht: 0,
+              },
+            });
+          }
+        });
       },
       immediate: true,
       deep: true,

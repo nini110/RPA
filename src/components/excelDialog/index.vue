@@ -101,7 +101,6 @@ export default {
         },
         enableAddRow: false,
       });
-      // });
     });
   },
   methods: {
@@ -116,25 +115,43 @@ export default {
           let results = window.luckysheet.getAllSheets();
           let resultArr = [];
           results.forEach((val, idx) => {
-            if (val.hide === 0) {
+            // if (val.hide === 0) {
               // 未隐藏
               // val是sheet
               let sheet = {
                 key: val.name,
                 value: [],
               };
+              // val.data.forEach((val1, idx1) => {
+              //   if (val1) {
+              //     if (idx1 !== 0) {
+              //       // val1是每一行
+              //       let obj = {
+              //         key: `第${idx1}行`,
+              //         value: {},
+              //       };
+              //       val.data[0].forEach((val2, idx2) => {
+              //         if (val2) {
+              //           vm.$set(
+              //             obj.value,
+              //             val2.m,
+              //             val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
+              //           );
+              //         }
+              //       });
+              //       sheet.value.push(obj);
+              //     }
+              //   }
+              // });
               val.data.forEach((val1, idx1) => {
                 if (val1) {
                   if (idx1 !== 0) {
                     // val1是每一行
-                    let obj = {
-                      key: `第${idx1}行`,
-                      value: {},
-                    };
+                    let obj = {}
                     val.data[0].forEach((val2, idx2) => {
                       if (val2) {
                         vm.$set(
-                          obj.value,
+                          obj,
                           val2.m,
                           val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
                         );
@@ -145,7 +162,7 @@ export default {
                 }
               });
               resultArr.push(sheet);
-            }
+            // }
           });
           console.log(resultArr);
         });
@@ -159,9 +176,14 @@ export default {
 .lucky {
   background-color: #fff;
   position: relative;
-  width: 100%;
-  height: 100%;
+  // width: 100%;
+  // height: 100%;
   z-index: 10;
+  position: absolute;
+  left: 0;
+  top: 50px;
+  bottom:0;
+  right: 0;
   &_sheet {
     position: absolute;
     left: 40px;
