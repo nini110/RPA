@@ -71,11 +71,12 @@
 /deep/.marginR {
 	margin: 0 10px 0 0;
 }
+
 .temInfoSpan {
 	cursor: pointer;
 	color: @baseItemColor;
-  }
-  
+}
+
 .outerDiv {
 	// width: 1200px;
 	width: 100%;
@@ -109,6 +110,7 @@
 		width: 100%;
 		height: calc(100% - 60px);
 		padding-top: 60px;
+
 		&_form {
 			padding-top: 50px;
 			width: 100%;
@@ -121,18 +123,23 @@
 				width: 100%;
 				margin: 0 auto;
 				display: flex;
+
 				&_ipt {
 					flex-basis: 70%;
+
 					&.expend {
 						flex-basis: 100%;
 					}
+
 					&.ts {
 						.el-form-item {
 							margin-bottom: 0;
 						}
 					}
+
 					&.lable3 {
 						flex-basis: 100%;
+
 						.el-col:last-child {
 							padding-left: 100px;
 							text-align: center;
@@ -179,18 +186,46 @@
 				}
 
 				&_upload {
+					position: relative;
 					flex-basis: 30%;
+					display: flex;
+					flex-wrap: nowrap;
+					width: calc(100% - 120px);
+					margin-left: 120px !important;
+					height: 100px;
+					&.ts {
+					// flex-basis: 100%;
+						.el-form-item:first-child {
+							width: 100%;
+						}
+					}
 					/deep/.el {
 						&-form-item {
+							height: 100%;
+							&:nth-child(1) {
+								width: 30%;
+								button {
+									width: 100%;
+									height: 100%;
+									border-radius: 4px 0 0 4px;
+								}
+							}
+
+							&:nth-child(2) {
+								width: 70%;
+							}
+
 							&__content {
-								width: calc(100% - 120px);
-								margin-left: 120px !important;
+								width: 100%;
+								height: 100%;
+								line-height: 1;
 							}
 						}
 
 						&-upload-dragger {
 							width: 100%;
 							height: 100px;
+							border-radius: 0 4px 4px 0;
 						}
 
 						&-upload-list {
@@ -200,6 +235,29 @@
 							bottom: -15px;
 						}
 					}
+					.uptxt {
+						width: 100%;
+						position: absolute;
+						left: 0;
+						bottom: -30px;
+						color: #3b8eff;
+						cursor: pointer;
+						font-size: 12px;
+						&:before {
+							margin-right: 10px;
+						}
+						&:hover {
+							color: #005ad2;
+						}
+						&.black {
+							color: #606266;
+							cursor: auto;
+							span {
+								color: #e65c31;
+							}
+						}
+					}
+
 				}
 
 				&_button {
@@ -252,17 +310,21 @@
 				height: calc(100% - 120px) !important;
 				padding: 0 !important;
 			}
+
 			&.hasUp6 {
 				height: calc(100% - 110px) !important;
 			}
+
 			&.hasUp7 {
 				height: calc(100% - 80px) !important;
 			}
+
 			.tables {
 				box-sizing: border-box;
 				width: 100%;
 				height: calc(100% - 120px);
 				margin: 0 auto;
+
 				&_two {
 					flex-basis: 48%;
 					display: flex;
@@ -272,12 +334,14 @@
 					min-height: 390px;
 					text-align: center;
 					margin: 0;
+
 					h3 {
 						flex-basis: 100%;
 						font-size: 24px;
 						line-height: 30px;
 						color: #606266;
 						margin-bottom: 30px;
+
 						&:before {
 							margin-right: 10px;
 						}
@@ -291,6 +355,7 @@
 						width: 100%;
 						height: 100% !important;
 					}
+
 					&_two {
 						flex-basis: 100%;
 						display: flex;
@@ -298,6 +363,7 @@
 						min-height: 330px;
 						box-shadow: 0px 0px 10px rgb(240, 240, 240);
 						border-radius: 10px;
+
 						.vxe-table {
 							flex-basis: 97%;
 						}
@@ -334,6 +400,7 @@
 
 			&.teshu {
 				height: calc(100% - 260px) !important;
+
 				.tables {
 					height: calc(100% - 150px);
 
@@ -360,6 +427,7 @@
 				}
 			}
 		}
+
 		&.tsts {
 			height: 100%;
 		}
@@ -389,6 +457,7 @@
 			bottom: 0;
 			left: 0;
 			margin: 20px 20px 20px 30px;
+
 			h3 {
 				padding-left: 1.5em;
 				font-size: 14px;
@@ -452,6 +521,7 @@
 			background: url("../assets/images/noneData3.png") no-repeat center center;
 			background-size: 50% auto;
 		}
+
 		.noBudget {
 			background: url("../assets/images/budget.png") no-repeat center center;
 			background-size: 50% auto;
@@ -473,7 +543,8 @@
 
 		&-dragger {
 			width: 100%;
-			background-image: linear-gradient(to right, #7676765c , #a1a1a121);
+			background-image: linear-gradient(to right, #7676765c, #a1a1a121);
+
 			&:hover {
 				border-color: @baseItemColor;
 			}
@@ -481,7 +552,8 @@
 
 		&__text {
 			font-size: 12px !important;
-			color: #303133!important;
+			color: #303133 !important;
+			margin-top: 10px;
 			em {
 				color: @baseItemColor;
 			}

@@ -131,7 +131,7 @@ export default {
           prop: "biddingName",
         },
         {
-          label: "指标",
+          label: "PIN",
           prop: "account",
         },
         {
@@ -237,7 +237,8 @@ export default {
   
   <style lang="less" scoped>
 @import "@/views/index.less";
-@import "../../Qianchuan/strategy/index.less";
-@import "../../Qianchuan/items/index.less";
+@import "@/views/Qianchuan/index.less";
+@import "@/views/Qianchuan/strategy/index.less";
+@import "@/views/Qianchuan/items/index.less";
 </style>
   

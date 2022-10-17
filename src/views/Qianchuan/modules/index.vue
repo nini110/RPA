@@ -1,5 +1,5 @@
 <template>
-  <div class="outerDiv publicDiv">
+  <div class="outerDiv publicDiv" style="height: 100%">
     <div class="content">
       <div class="itemsComp">
         <div class="tabs">
@@ -30,8 +30,8 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" scoped>
 @import "@/views/index.less";
-@import "./index";
 @import "../index";
+@import "../items/index";
 </style>

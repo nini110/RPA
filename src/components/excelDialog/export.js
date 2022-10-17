@@ -88,7 +88,6 @@ var setStyleAndValue = function (cellArr, worksheet) {
       // console.log('1233', letter + (rowid + 1))
       for (const key in fill) {
           target.fill = fill
-          console.log(key)
         break
       }
       target.font = font

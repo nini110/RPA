@@ -91,22 +91,28 @@ export const biddingDelete = request({
     method:'post',
     responseType: 'form'
 })
+// --------------------------
+// 提效工具-直投-保存数据
+export const directiveList = request({
+    url: `${BASEPATH}/apps/log_list/`,
+    method:'get',
+})
+// 提效工具-直投-保存数据
+export const directiveSave = request({
+    url: `${BASEPATH}/apps/jdzt/`,
+    method:'post',
+    responseType: 'form'
+})
+// 提效工具-直投-实时日志
+export const directiveLog = request({
+    url: `${BASEPATH}/apps/read_log/`,
+    method:'get',
+})
+
 // 查看详情   ok
 export const fxcjviewDetails = request({
     url: `${BASEPATH}/apps/log_info/`,
     method:'get',
-})
-// 立即上传   ok
-export const fxcjupload = request({
-    url:`${BASEPATH}/apps/upload_file/`,
-    method:'post',
-    responseType: 'form-data'
-})
-// 调用工具接口   ok
-export const fxcjtools = request({
-    url: `${BASEPATH}/apps/tools/`,
-    method:'post',
-    responseType: 'form'
 })
 // 查看   ok
 export const fxcjExamine = request({

@@ -16,5 +16,8 @@ export default {
 };
 </script>
 
-<style lang="less">
+<style lang="less" >
+@import "@/views/index.less";
+@import "@/views/Qianchuan/index.less";
+@import "@/views/Qianchuan/items/index.less";
 </style>

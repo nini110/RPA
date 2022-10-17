@@ -77,9 +77,6 @@ class LoadingMask {
 	}
 	response(res) {
 		try {
-			if (this.options.whiteList.length > 0 && this.options.whiteList.indexOf(response.config.url) > -1) {
-				return false
-			}
 			this.requestArr.pop()
 			if (this.requestArr.length === 0) {
 				this.closeTimer = setTimeout(() => {

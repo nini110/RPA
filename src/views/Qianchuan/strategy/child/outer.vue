@@ -1,6 +1,6 @@
 <template>
   <!-- 出价 -->
-  <div class="strategyNormal">
+  <div class="region strategyNormal">
     <div class="centers">
       <div class="PriceTops">
         <el-form>

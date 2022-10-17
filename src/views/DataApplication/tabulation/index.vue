@@ -67,9 +67,10 @@
               </el-col>
             </el-row>
           </div>
-          <div v-if="checkedItem.file" class="formObj_upload">
+          <div v-if="checkedItem.file" class="formObj_upload ts">
             <el-form-item label="" :error="errorUploadInfo">
-              <Upload @getFile="getFileEvent"></Upload>
+              <Upload @getFile="getFileEvent" tag="word"></Upload>
+              <span class="uptxt">{{ excelName }}</span>
             </el-form-item>
           </div>
         </el-form>
@@ -248,6 +249,7 @@ export default {
   mixins: [message],
   data() {
     return {
+      excelName: '',
       pageHaseItem: 0, // 当前页有多少条数据
       errorStateInfo: "",
       errorUploadInfo: "",
@@ -302,6 +304,7 @@ export default {
   methods: {
     getFileEvent(val) {
       this.fileList = val;
+      this.excelName = val[0].name
     },
     // 下载
     downEvent(row) {

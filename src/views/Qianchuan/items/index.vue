@@ -238,7 +238,6 @@ export default {
 
 <style lang="less" scoped>
 @import "@/views/index.less";
+@import "@/views/DataApplication/monitor/bidding.less";
 @import "./index";
-// @import "../index";
-@import "../../DataApplication/monitor/bidding.less";
 </style>

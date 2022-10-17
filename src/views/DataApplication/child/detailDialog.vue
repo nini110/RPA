@@ -194,7 +194,6 @@ export default {
       const vm = this;
       vm.$refs.form.validate((valid) => {
         if (valid) {
-          console.log(vm.row);
           detailsToModify({
             bidding_id: vm.row.bidding_id,
             activity_id: vm.row.activity_id,

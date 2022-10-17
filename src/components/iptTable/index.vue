@@ -45,11 +45,11 @@
                 </el-form-item>
               </el-col>
               <el-col :span="12">
-                <el-form-item label="备注内容:">
+                <el-form-item label="PIN:" prop="pin">
                   <el-input
                     v-model.trim="form.pin"
                     size="medium"
-                    placeholder="请输入备注内容"
+                    placeholder="请输入PIN"
                     clearable
                   >
                   </el-input>
@@ -59,26 +59,60 @@
           </div>
           <div class="formObj_upload">
             <el-form-item label="" :error="errorUpInfo">
-              <Upload @getFile="getFileEvent" @openEvent="openExcelAuto"></Upload>
+              <el-popover
+                v-if="excelData"
+                placement="bottom"
+                width="180"
+                v-model="propVisable"
+              >
+                <p>创建空白Excel表格？</p>
+                <div class="popverButton">
+                  <el-button
+                    size="mini"
+                    type="text"
+                    @click="popverEvent(1)"
+                    >使用已有数据</el-button
+                  >
+                  <el-button type="text" size="mini" @click="popverEvent(2)"
+                    >确定</el-button
+                  >
+                </div>
+                <el-button type="info" class="el-icon-plus" slot="reference"
+                  >创建</el-button
+                >
+              </el-popover>
+              <el-button
+                v-else
+                v-waves
+                type="info"
+                class="el-icon-plus"
+                @click="openExcel"
+                >创建</el-button
+              >
             </el-form-item>
+            <el-form-item label="" :error="errorUpInfo">
+              <Upload
+                @getFile="getFileEvent"
+                @openEvent="openExcelAuto"
+              ></Upload>
+
+            </el-form-item>
+            <div
+                v-if="excelName"
+                class="uptxt el-icon-edit"
+                @click="popverEvent(1)"
+                >{{ excelName }}</div
+              >
+              <div v-else class="uptxt black">您可以<span>【创建】</span>空白excel 或者<span>【导入】</span>excel文件</div>
           </div>
         </el-form>
         <div class="formObj_button">
-          <div v-for="(item, idx) in btnBox" :key="idx">
-            <a
-              class="btnnormal_down marginR"
-              :href="item.url"
-              :download="item.downName"
-            >
-              <div class="el-icon-download btnSize">{{ item.btnTxt }}</div>
-            </a>
-          </div>
           <el-button
             v-waves
             type="primary"
-            class="el-icon-plus marginR"
-            @click="openExcel"
-            >添加</el-button
+            class="el-icon-right marginR"
+            @click="zhixingEvent"
+            >执行</el-button
           >
         </div>
       </div>
@@ -116,17 +150,44 @@
               ></vxe-column>
               <vxe-column
                 min-width="15%"
-                field="create_time_for"
-                title="日期"
+                field="serial"
+                title="编号"
                 show-overflow="tooltip"
               ></vxe-column>
               <vxe-column
                 min-width="15%"
-                field="title"
-                title="基本信息"
+                field="tool_type"
+                title="工具"
                 show-overflow="tooltip"
               ></vxe-column>
-              <vxe-column title="操作" fixed="right" width="8%">
+              <vxe-column
+                min-width="15%"
+                field="log_status"
+                title="状态"
+                show-overflow="tooltip"
+              >
+                <template slot-scope="scope">
+                  <div
+                    v-if="scope.row.log_status === '执行有误'"
+                    class="statusDiv fail"
+                  >
+                    {{ scope.row.log_status }}
+                  </div>
+                  <div
+                    v-if="scope.row.log_status === '执行完毕'"
+                    class="statusDiv suc"
+                  >
+                    {{ scope.row.log_status }}
+                  </div>
+                </template></vxe-column
+              >
+              <vxe-column
+                min-width="15%"
+                field="create_time"
+                title="日期"
+                show-overflow="tooltip"
+              ></vxe-column>
+              <vxe-column title="日志" fixed="right" width="8%">
                 <template slot-scope="scope">
                   <div
                     v-waves
@@ -165,36 +226,46 @@
         </div>
       </div>
     </div>
-    <!-- 查看详情弹出框 -->
-    <div class="dialog">
-      <el-dialog
-        title="查看详情"
-        :visible.sync="dialogVisible"
-        width="500px"
-        max-height="600px"
-        :close-on-click-modal="false"
-      >
-        <div class="dialogInfo">
-          <p><span>创建人：</span>{{ curInfo.title }}</p>
-          <p><span>创建时间：</span>{{ curInfo.create_time }}</p>
-          <p><span>信息：</span>{{ curInfo.log }}</p>
-        </div>
-      </el-dialog>
-    </div>
     <!-- excel -->
     <ExcelDialog
       v-if="showExcel"
       @close="closeEvent"
       :excelOpt="excelOpt"
     ></ExcelDialog>
+    <el-dialog
+      title="日志"
+      :close-on-click-modal="false"
+      :close-on-press-escape="false"
+      :visible.sync="showLogDialog"
+      @close="closeLogEvent"
+      width="34%"
+    >
+      <div class="infinite" style="overflow: auto">
+        <div class="infinite_content">
+          <div v-if="logContent" class="box" v-html="logContent"></div>
+          <div v-else class="box">
+            <img src="../../assets/images/loading.png" alt="" />
+          </div>
+        </div>
+        <div class="infinite_ing">
+          <p>
+            <span
+              v-if="endingCode === 10010"
+              class="suc el-icon-circle-check"
+            ></span
+            ><span v-else class="el-icon-loading"></span>{{ endingTxt }}
+          </p>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button type="primary" @click="closeLogEvent">关 闭</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import {
-  fxcjviewDetails,
-  fxcjExamine,
-} from "@/api/api.js";
+import { directiveList, directiveSave, directiveLog } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
 import Upload from "@/components/upload";
@@ -216,6 +287,11 @@ export default {
       default: [],
     },
   },
+  computed: {
+    requireCse() {
+      return this.form.choose;
+    },
+  },
   watch: {
     $route: {
       handler(newval, oldval) {
@@ -223,100 +299,19 @@ export default {
         vm.getuserlist();
         vm.username = localStorage.getItem("user_name");
         vm.people = localStorage.getItem("user_name");
-        switch (newval.name) {
-          case "DMP":
-            vm.btnBox = [
-              {
-                url: "http://tool.afocus.com.cn/file_download/DMP自动化人群包.xlsx",
-                downName: "DMP自动化人群包.xlsx",
-                btnTxt: "下载模板",
-              },
-            ];
+      },
+      immediate: true,
+      deep: true,
+    },
+    requireCse: {
+      handler(newval, oldval) {
+        const vm = this;
+        switch (newval) {
+          case 1:
+            vm.rules.pin[0].required = true;
             break;
-          case "Booth":
-            vm.btnBox = [
-              {
-                url: "http://tool.afocus.com.cn/file_download/京东展位.xlsx",
-                downName: "京东展位.xlsx",
-                btnTxt: "下载模板",
-              },
-            ];
-            break;
-          case "Direct":
-            vm.btnBox = [
-              {
-                url: "http://tool.afocus.com.cn/file_download/新版直投-单元创建工具配置.xlsx",
-                downName: "新版直投-单元创建工具配置.xlsx",
-                btnTxt: "单元创建工具配置下载",
-              },
-              {
-                url: "http://tool.afocus.com.cn/file_download/新版直投-计划创建工具配置.xlsx",
-                downName: "新版直投-计划创建工具配置.xlsx",
-                btnTxt: "计划创建工具配置下载",
-              },
-            ];
-            break;
-          case "Cube":
-            vm.btnBox = [
-              {
-                url: "http://tool.afocus.com.cn/file_download/京腾魔方人群.xlsx",
-                downName: "京腾魔方人群.xlsx",
-                btnTxt: "下载模板",
-              },
-            ];
-            break;
-          case "Number":
-            vm.btnBox = [
-              {
-                url: "http://tool.afocus.com.cn/file_download/数坊人群圈选.xlsx",
-                downName: "数坊人群圈选.xlsx",
-                btnTxt: "下载模板",
-              },
-            ];
-            break;
-          case "Activity":
-            vm.btnBox = [
-              {
-                url: "http://tool.afocus.com.cn/file_download/营销活动.xlsx",
-                downName: "营销活动.xlsx",
-                btnTxt: "下载模板",
-              },
-            ];
-            break;
-          case "Analysis":
-            vm.btnBox = [
-              {
-                url: "http://tool.afocus.com.cn/file_download/数坊自定义分析-分析配置项.xlsx",
-                downName: "数坊自定义分析-分析配置项.xlsx",
-                btnTxt: "分析配置项下载",
-              },
-              {
-                url: "http://tool.afocus.com.cn/file_download/数坊自定义分析-新建分析.xlsx",
-                downName: "数坊自定义分析-新建分析.xlsx",
-                btnTxt: "新建分析项下载",
-              },
-            ];
-            break;
-          case "Difference":
-            vm.btnBox = [
-              {
-                url: "http://tool.afocus.com.cn/file_download/数坊已有人群集合.xlsx",
-                downName: "数坊已有人群集合.xlsx",
-                btnTxt: "下载模板",
-              },
-            ];
-            break;
-          case "Population":
-            vm.btnBox = [
-              {
-                url: "http://tool.afocus.com.cn/file_download/数坊自动化报告.xlsx",
-                downName: "数坊自动化报告.xlsx",
-                btnTxt: "下载模板",
-              },
-            ];
-            break;
-          default:
-            vm.btnBox = null;
+          case 2:
+            vm.rules.pin[0].required = false;
             break;
         }
       },
@@ -325,12 +320,27 @@ export default {
     },
   },
   data() {
+    const vm = this;
+    let chechPin = (rule, value, callback) => {
+      if (!value && vm.form.choose === 1) {
+        callback(new Error("请输入pin"));
+      } else {
+        callback();
+      }
+    };
     return {
-      excelOpt: [],
+      excelData: null, // 提交的excel数据
+      excelName: "",
+      showLogDialog: false,
+      propVisable: false,
+      logContent: "",
+      endingTxt: "日志正在加载",
+      endingCode: "",
+      logInterval: null,
+      excelOpt: [], // 默认的excel数据
       showExcel: false,
       curInfo: {},
       errorUpInfo: "",
-      btnBox: null,
       rules: {
         username: [
           {
@@ -353,23 +363,30 @@ export default {
             trigger: "blur",
           },
         ],
+        pin: [
+          {
+            required: true,
+            validator: chechPin,
+            trigger: "blur",
+          },
+        ],
       },
       showVarDia: false,
       options: [
         {
-          label: "京牌代理",
-          value: 1,
-        },
-        {
           label: "京准通",
           value: 2,
+        },
+        {
+          label: "京牌代理",
+          value: 1,
         },
       ],
       form: {
         username: "",
         password: "",
         pin: "",
-        choose: 1,
+        choose: 2,
       },
       fileList: [], // excel文件列表
       loadingbut: false,
@@ -388,25 +405,85 @@ export default {
   },
   mounted() {
     const vm = this;
-    vm.excelOpt = JSON.parse(JSON.stringify(vm.excelOptions));
   },
   methods: {
     closeDialog() {
       this.showVarDia = false;
     },
+    closeLogEvent() {
+      this.showLogDialog = false;
+      this.logContent = "";
+      this.endingTxt = "日志正在加载";
+      this.endingCode = 0;
+      clearInterval(this.logInterval);
+      this.logInterval = null;
+      this.getuserlist();
+    },
     getFileEvent(val) {
       this.fileList = val;
+      this.excelName = val[0].name;
       this.errorUpInfo = "";
     },
-    beforeUpload(files) {},
+    // 打开空白excel
     openExcel() {
-      this.showExcel = true;
+      const vm = this;
+      vm.excelOpt = JSON.parse(JSON.stringify(vm.excelOptions));
+      vm.showExcel = true;
     },
+    // 导入并打开excel
     openExcelAuto(opt) {
-      this.excelOpt = opt;
-      this.showExcel = true;
+      const vm = this;
+      console.log('导入的数据', opt)
+      vm.excelOpt = opt;
+      vm.showExcel = true;
     },
-    exportExcel() {},
+    // 弹出框
+    popverEvent(tag) {
+      const vm = this;
+      vm.propVisable = false;
+      if (tag === 1) {
+        // 使用原有数据
+        vm.openExcelAuto(vm.excelOpt);
+      } else {
+        // 保存
+        vm.excelData = null;
+        vm.excelName = "";
+        vm.openExcel();
+      }
+    },
+    // 执行事件
+    zhixingEvent() {
+      const vm = this;
+      let submitdata = {
+        ...vm.form,
+        config_data: vm.excelData,
+        tool_type: "新版直投",
+      };
+      vm.$refs.form.validate((valid) => {
+        if (valid) {
+          if (!vm.excelData) {
+            vm.$msg({ type: "error", msg: "请先添加表格数据" });
+          } else {
+            directiveSave({
+              ...submitdata,
+            }).then((res) => {
+              if (res.data.code === 10000) {
+                vm.$msg({ msg: "保存成功" });
+                vm.excelData = null;
+                vm.excelName = "";
+                vm.logEvent(res.data.data);
+                vm.logInterval = setInterval(() => {
+                  vm.logEvent(res.data.data);
+                }, 3000);
+                vm.showLogDialog = true;
+              } else {
+                vm.$msg({ type: "error", msg: res.data.data || res.data.msg });
+              }
+            });
+          }
+        }
+      });
+    },
     //立即上传 并判断上传文件是否为空if () {
     uploadFile(data) {
       const vm = this;
@@ -415,14 +492,7 @@ export default {
     //查看列表
     getuserlist() {
       const vm = this;
-      function format(value) {
-        if (value < 10) {
-          return "0" + value;
-        } else {
-          return value;
-        }
-      }
-      fxcjExamine({
+      directiveList({
         tool_type: vm.toolType,
         limit: vm.pagesize,
         page: vm.currpage,
@@ -430,17 +500,6 @@ export default {
         if (res.data.code === 10000) {
           let result = res.data;
           vm.tableData = result.data;
-          result.data.forEach((val, idx) => {
-            let time = new Date(val.create_time);
-            let y = time.getFullYear();
-            let m = format(time.getMonth() + 1);
-            let d = format(time.getDate());
-            let h = format(time.getHours());
-            let mm = format(time.getMinutes());
-            let s = format(time.getSeconds());
-            let resTime = y + "-" + m + "-" + d + " " + h + ":" + mm + ":" + s;
-            vm.$set(val, "create_time_for", resTime);
-          });
           vm.total = result.count;
         } else {
           vm.$msg({ type: "error", msg: res.data.msg });
@@ -450,22 +509,46 @@ export default {
     // 查看详情按钮
     detailEvent(row) {
       const vm = this;
-      fxcjviewDetails({
-        id: row.id,
-      }).then((res) => {
-        if (res.data.code == 10000) {
-          vm.curInfo = res.data.data;
-          // vm.log = res.data.data.log;
-          vm.dialogVisible = true;
-        } else {
-          vm.$msg({ type: "error", msg: "查看失败" });
-        }
-      });
+      vm.logEvent(row.file_path);
+      vm.logInterval = setInterval(() => {
+        vm.logEvent(row.file_path);
+      }, 3000);
+      vm.showLogDialog = true;
     },
-    //
-    closeEvent() {
+    // 关闭excel
+    closeEvent(tag, val, opt) {
       const vm = this;
       vm.showExcel = false;
+      // 保存
+      if (tag === 1) {
+        vm.excelData = val;
+        vm.excelOpt = opt;
+      } else {
+        vm.excelName = "";
+        vm.excelData = null;
+      }
+    },
+    // 日志接口
+    logEvent(path) {
+      const vm = this;
+      directiveLog({
+        path,
+      }).then((res) => {
+        vm.endingCode = res.data.code;
+        if (res.data.code === 10000) {
+          vm.endingTxt = res.data.data ? "日志持续获取中" : "日志正在加载";
+          vm.logContent = res.data.data || "";
+        } else if (res.data.code === 10010) {
+          vm.endingTxt = "日志加载完毕";
+          vm.logContent = res.data.data || "";
+          clearInterval(vm.logInterval);
+          vm.logInterval = null;
+        } else {
+          // 错误  清除定时器
+          vm.closeLogEvent();
+          vm.$msg({ type: "error", msg: "日志获取失败" });
+        }
+      });
     },
     //分页器功能
     handleSizeChange(val) {
@@ -483,4 +566,35 @@ export default {
 
 <style lang="less" scoped>
 @import "@/views/index";
+.infinite {
+  background-color: #f1f8ff;
+  height: 320px;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: space-between;
+  &_content {
+    flex-basis: 100%;
+    height: 230px;
+    padding: 20px 20px 0 20px;
+    overflow: auto;
+    .box {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      img {
+        width: 50%;
+      }
+    }
+  }
+  &_ing {
+    flex-basis: 100%;
+    padding: 20px 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 16px;
+    .suc {
+      color: #67c23a;
+    }
+  }
+}
 </style>

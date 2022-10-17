@@ -22,11 +22,11 @@
           placeholder="请输入项目名称"
         ></el-input>
       </el-form-item>
-      <el-form-item label="指标:" prop="account">
+      <el-form-item label="PIN:" prop="account">
         <el-input
           v-model.trim="form.account"
           size="medium"
-          placeholder="请输入指标"
+          placeholder="请输入PIN"
         ></el-input>
       </el-form-item>
       <el-form-item label="日期:" prop="date">
@@ -87,7 +87,7 @@ export default {
     return {
       dialogVisible: false,
       needVarify: false,
-      alertInfo: '',
+      alertInfo: "",
       form: {
         bidding_id: "",
         bidding_name: "",
@@ -112,7 +112,7 @@ export default {
         account: [
           {
             required: true,
-            message: "请输入指标",
+            message: "请输入PIN",
             trigger: "blur",
           },
         ],
@@ -151,7 +151,7 @@ export default {
               vm.$msg({ msg: "市场费账号新增成功！" });
             } else if (res.data.code === 40000) {
               vm.needVarify = true;
-              vm.alertInfo = res.data.msg
+              vm.alertInfo = res.data.msg;
             } else {
               vm.needVarify = false;
               vm.$msg({ type: "error", msg: res.data.msg });

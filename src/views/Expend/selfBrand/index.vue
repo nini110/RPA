@@ -747,7 +747,6 @@ export default {
 };
 </script>
 <style scoped lang="less">
-@import "@/views/index";
 @import "index";
 /deep/.vxe-table {
   &.is--empty {

@@ -3,8 +3,8 @@
     <div class="centers">
       <div class="PriceTops">
           <el-form>
-            <el-row>
-              <el-col :span="12">
+            <el-row :gutter="20">
+              <el-col :span="11">
                 <el-form-item label="项目:">
                   <el-select
                     v-model="form.brand"
@@ -275,7 +275,6 @@ export default {
 </script>
 
 <style lang="less" scoped>
-@import "@/views/index.less";
 @import "../../Qianchuan/strategy/index.less";
 .temInfoSpan {
   cursor: pointer;

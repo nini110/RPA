@@ -38,12 +38,14 @@ const headers = {
     'form-data': 'multipart/form-data',
     'json': 'application/json'
 }
+LoadingMask.options.whiteList.push(`http://114.67.229.243:8001/apps/read_log/`);
+
 LoadingMask.init(service) // 全局遮罩
 service.interceptors.request.use(config => {
     if (config.method === 'get') {
         config.headers = {
-                'content-type': headers['form']
-            },
+            'content-type': headers['form']
+        },
             config.params = {
                 ...config.data
             }
@@ -71,7 +73,6 @@ service.interceptors.request.use(config => {
             config.data = Qs.stringify({
                 ...result
             })
-
         } else if (config.responseType === 'form-data') {
             // 上传文件类型
             config.headers = {

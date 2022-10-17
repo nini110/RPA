@@ -2,7 +2,7 @@
   <div class="lucky">
     <div id="luckysheet" class="lucky_sheet"></div>
     <div class="lucky_footer">
-      <el-button @click="closeExcel">取 消</el-button>
+      <el-button @click="closeExcel">返回并清空数据</el-button>
       <el-button type="primary" @click="submitExcel">确 定</el-button>
     </div>
   </div>
@@ -106,68 +106,53 @@ export default {
   methods: {
     closeExcel() {
       const vm = this;
-      vm.$emit("close");
+      window.luckysheet.destroy()
+      vm.$emit("close", 0);
     },
     submitExcel() {
       const vm = this;
       this.$nextTick(() => {
+        let resultObj = {}
+        // let resultArr = [];
         $(function () {
           let results = window.luckysheet.getAllSheets();
-          let resultArr = [];
           results.forEach((val, idx) => {
             // if (val.hide === 0) {
-              // 未隐藏
-              // val是sheet
-              let sheet = {
-                key: val.name,
-                value: [],
-              };
-              // val.data.forEach((val1, idx1) => {
-              //   if (val1) {
-              //     if (idx1 !== 0) {
-              //       // val1是每一行
-              //       let obj = {
-              //         key: `第${idx1}行`,
-              //         value: {},
-              //       };
-              //       val.data[0].forEach((val2, idx2) => {
-              //         if (val2) {
-              //           vm.$set(
-              //             obj.value,
-              //             val2.m,
-              //             val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
-              //           );
-              //         }
-              //       });
-              //       sheet.value.push(obj);
-              //     }
-              //   }
-              // });
-              val.data.forEach((val1, idx1) => {
-                if (val1) {
-                  if (idx1 !== 0) {
-                    // val1是每一行
-                    let obj = {}
-                    val.data[0].forEach((val2, idx2) => {
-                      if (val2) {
-                        vm.$set(
-                          obj,
-                          val2.m,
-                          val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
-                        );
-                      }
-                    });
-                    sheet.value.push(obj);
-                  }
+            // 未隐藏
+            // val是sheet
+            let sheet = {
+              key: val.name,
+              value: [],
+            };
+            val.data.forEach((val1, idx1) => {
+              if (val1) {
+                if (idx1 !== 0) {
+                  // val1是每一行
+                  let obj = {};
+                  val.data[0].forEach((val2, idx2) => {
+                    if (val2) {
+                      vm.$set(
+                        obj,
+                        val2.m,
+                        val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
+                      );
+                    }
+                  });
+                  sheet.value.push(obj);
                 }
-              });
-              resultArr.push(sheet);
+              }
+            });
+            resultObj[sheet.key] = sheet.value
+            // resultArr.push(sheet);
             // }
           });
-          console.log(resultArr);
+          // console.log(resultArr);
+          // 保存
+          // [resultObj]为提交的数据  results为excel的配置数据
+          vm.$emit("close", 1, [resultObj], results);
+          window.luckysheet.destroy()
         });
       });
-      //   vm.$emit("close");
     },
   },
 };
@@ -182,7 +167,7 @@ export default {
   position: absolute;
   left: 0;
   top: 50px;
-  bottom:0;
+  bottom: 0;
   right: 0;
   &_sheet {
     position: absolute;
@@ -193,7 +178,7 @@ export default {
     box-sizing: border-box;
   }
   &_footer {
-    position: fixed; 
+    position: fixed;
     bottom: 20px;
     right: 40px;
   }

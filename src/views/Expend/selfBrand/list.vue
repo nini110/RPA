@@ -4,8 +4,8 @@
     <div class="centers">
       <div class="PriceTops">
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
-          <el-row>
-            <el-col :span="12">
+          <el-row  :gutter="20">
+            <el-col :span="11">
               <el-form-item label="品牌:">
                 <el-select
                   v-model="form.brand"
