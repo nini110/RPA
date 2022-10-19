@@ -14,6 +14,14 @@ export default {
       type: Array,
       default: [],
     },
+    toolType: {
+      type: String,
+      default: "",
+    },
+    sheetName: {
+      type: String,
+      default: "Sheet1",
+    },
   },
   data() {
     return {
@@ -106,51 +114,91 @@ export default {
   methods: {
     closeExcel() {
       const vm = this;
-      window.luckysheet.destroy()
+      window.luckysheet.destroy();
       vm.$emit("close", 0);
     },
     submitExcel() {
       const vm = this;
       this.$nextTick(() => {
-        let resultObj = {}
-        // let resultArr = [];
+        let resultObj = {};
         $(function () {
           let results = window.luckysheet.getAllSheets();
-          results.forEach((val, idx) => {
-            // if (val.hide === 0) {
-            // 未隐藏
-            // val是sheet
-            let sheet = {
-              key: val.name,
-              value: [],
-            };
-            val.data.forEach((val1, idx1) => {
-              if (val1) {
-                if (idx1 !== 0) {
-                  // val1是每一行
-                  let obj = {};
-                  val.data[0].forEach((val2, idx2) => {
-                    if (val2) {
-                      vm.$set(
-                        obj,
-                        val2.m,
-                        val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
-                      );
+          //
+          if (vm.toolType === "京东展位") {
+            for (let val of results) {
+              if (val.name === vm.sheetName) {
+                let sheet = {
+                  key: val.name,
+                  value: [],
+                };
+                let publicObj = {};
+                val.data.forEach((val1, idx1) => {
+                  if (val1) {
+                    // 获取公共的内容
+                    if (idx1 <= 17 && val1[0] && val1[0].v) {
+                      vm.$set(publicObj, val1[0].v, val1[1]&&val1[1].v ? val1[1].v : "");
                     }
-                  });
-                  sheet.value.push(obj);
-                }
+                  }
+                });
+                val.data.forEach((val1, idx1) => {
+                  let obj = {};
+                  if (val1) {
+                    // 第20行是横向内容
+                    if (idx1 > 19) {
+                      val.data[19].forEach((val2, idx2) => {
+                        if (val2) {
+                          vm.$set(
+                            obj,
+                            val2.m,
+                            val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
+                          );
+                        }
+                      });
+                      sheet.value.push({
+                        ...publicObj,
+                        ...obj,
+                      });
+                    }
+                  }
+                });
+                resultObj[sheet.key] = sheet.value;
+                break;
               }
-            });
-            resultObj[sheet.key] = sheet.value
-            // resultArr.push(sheet);
-            // }
-          });
-          // console.log(resultArr);
+            }
+          } else {
+            for (let val of results) {
+              if (val.name === vm.sheetName) {
+                let sheet = {
+                  key: val.name,
+                  value: [],
+                };
+                val.data.forEach((val1, idx1) => {
+                  if (val1) {
+                    if (idx1 !== 0) {
+                      // val1是每一行
+                      let obj = {};
+                      val.data[0].forEach((val2, idx2) => {
+                        if (val2) {
+                          vm.$set(
+                            obj,
+                            val2.m,
+                            val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
+                          );
+                        }
+                      });
+                      sheet.value.push(obj);
+                    }
+                  }
+                });
+                resultObj[sheet.key] = sheet.value;
+                break;
+              }
+            }
+          }
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
           vm.$emit("close", 1, [resultObj], results);
-          window.luckysheet.destroy()
+          window.luckysheet.destroy();
         });
       });
     },

@@ -70,8 +70,8 @@
                   <el-button
                     size="mini"
                     type="text"
-                    @click="popverEvent(1)"
-                    >使用已有数据</el-button
+                    @click="propVisable = false"
+                    >取消</el-button
                   >
                   <el-button type="text" size="mini" @click="popverEvent(2)"
                     >确定</el-button
@@ -95,15 +95,15 @@
                 @getFile="getFileEvent"
                 @openEvent="openExcelAuto"
               ></Upload>
-
             </el-form-item>
-            <div
-                v-if="excelName"
-                class="uptxt el-icon-edit"
-                @click="popverEvent(1)"
-                >{{ excelName }}</div
-              >
-              <div v-else class="uptxt black">您可以<span>【创建】</span>空白excel 或者<span>【导入】</span>excel文件</div>
+            <div v-if="excelName" class="uptxt">
+              点击打开「 <span @click="popverEvent(1)">{{ excelName }}</span
+              >」
+            </div>
+            <div v-else class="uptxt black">
+              您可以<span>【创建】</span>空白excel
+              或者<span>【导入】</span>excel文件
+            </div>
           </div>
         </el-form>
         <div class="formObj_button">
@@ -231,6 +231,8 @@
       v-if="showExcel"
       @close="closeEvent"
       :excelOpt="excelOpt"
+      :toolType="toolType"
+      :sheetName="sheetName"
     ></ExcelDialog>
     <el-dialog
       title="日志"
@@ -282,6 +284,10 @@ export default {
       type: String,
       default: "",
     },
+    sheetName: {
+      type: String,
+      default: "Sheet1",
+    },
     excelOptions: {
       type: Array,
       default: [],
@@ -329,6 +335,7 @@ export default {
       }
     };
     return {
+      formSource: 1, // 点击来源 1 新建  2 导入
       excelData: null, // 提交的excel数据
       excelName: "",
       showLogDialog: false,
@@ -403,7 +410,7 @@ export default {
       log: "", //查看详情渲染的log
     };
   },
-  mounted() {
+  created() {
     const vm = this;
   },
   methods: {
@@ -429,21 +436,22 @@ export default {
       const vm = this;
       vm.excelOpt = JSON.parse(JSON.stringify(vm.excelOptions));
       vm.showExcel = true;
+      vm.formSource = 1;
     },
     // 导入并打开excel
     openExcelAuto(opt) {
       const vm = this;
-      console.log('导入的数据', opt)
       vm.excelOpt = opt;
       vm.showExcel = true;
+      vm.formSource = 2;
     },
     // 弹出框
     popverEvent(tag) {
       const vm = this;
       vm.propVisable = false;
       if (tag === 1) {
-        // 使用原有数据
-        vm.openExcelAuto(vm.excelOpt);
+        // 取消
+        vm.showExcel = true;
       } else {
         // 保存
         vm.excelData = null;
@@ -457,7 +465,7 @@ export default {
       let submitdata = {
         ...vm.form,
         config_data: vm.excelData,
-        tool_type: "新版直投",
+        tool_type: vm.toolType,
       };
       vm.$refs.form.validate((valid) => {
         if (valid) {
@@ -521,8 +529,10 @@ export default {
       vm.showExcel = false;
       // 保存
       if (tag === 1) {
+        console.log(val)
         vm.excelData = val;
         vm.excelOpt = opt;
+        vm.excelName = vm.formSource === 1 ? "已创建的Excel文件" : vm.excelName;
       } else {
         vm.excelName = "";
         vm.excelData = null;

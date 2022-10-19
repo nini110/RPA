@@ -240,17 +240,21 @@
 						position: absolute;
 						left: 0;
 						bottom: -30px;
-						color: #3b8eff;
-						cursor: pointer;
 						font-size: 12px;
+						color: #606266;
+
+						span {
+							color: #3b8eff;
+							cursor: pointer;
+							&:hover {
+								color: #005ad2;
+							}
+						}
 						&:before {
 							margin-right: 10px;
 						}
-						&:hover {
-							color: #005ad2;
-						}
+
 						&.black {
-							color: #606266;
 							cursor: auto;
 							span {
 								color: #e65c31;

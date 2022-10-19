@@ -135,6 +135,11 @@ export default {
           prop: "account",
         },
         {
+          label: "类目",
+          prop: "category",
+        },
+        
+        {
           label: "日期",
           prop: "date",
         },

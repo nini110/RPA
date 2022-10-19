@@ -1,7 +1,11 @@
 <template>
   <!-- 京准通工具 -->
   <div style="height: 100%">
-    <IptComp :toolType="toolType" :excelOptions="excelOptions"></IptComp>
+    <IptComp
+      :toolType="toolType"
+      :sheetName="sheetName"
+      :excelOptions="excelOptions"
+    ></IptComp>
   </div>
 </template>
 
@@ -15,6 +19,7 @@ export default {
   data() {
     return {
       toolType: "0",
+      sheetName: "",
       excelOptions: [],
     };
   },
@@ -42,6 +47,7 @@ export default {
         switch (newval.name) {
           case "DMP":
             vm.toolType = "0";
+            vm.sheetName = 'Sheet1'
             vm.excelOptions = [
               {
                 name: "创建人群", //工作表名称
@@ -456,8 +462,10 @@ export default {
               }
             });
             break;
+          // 直投 Sheet1
           case "Booth":
-            vm.toolType = "9";
+            vm.toolType = "京东展位";
+            vm.sheetName = 'Sheet1'
             vm.excelOptions = [
               {
                 name: "sheet1", //工作表名称
@@ -482,6 +490,13 @@ export default {
                       tb: 2,
                       vt: 0,
                       ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value: "寻找计划是会自动添加-无线首焦或-PC首焦", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
                     },
                   },
                   // 活动简称
@@ -499,7 +514,7 @@ export default {
                   },
                   // 投放目标
                   {
-                    r: 2,
+                    r: 3,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -512,7 +527,7 @@ export default {
                   },
                   // 出价方式
                   {
-                    r: 3,
+                    r: 4,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -525,7 +540,7 @@ export default {
                   },
                   // 统一目标日消耗
                   {
-                    r: 4,
+                    r: 6,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -538,7 +553,7 @@ export default {
                   },
                   // 调价偏好
                   {
-                    r: 5,
+                    r: 7,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -551,7 +566,7 @@ export default {
                   },
                   // 通投出价
                   {
-                    r: 6,
+                    r: 8,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -564,7 +579,7 @@ export default {
                   },
                   // 溢价系数
                   {
-                    r: 7,
+                    r: 9,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -577,7 +592,7 @@ export default {
                   },
                   // 成本上限
                   {
-                    r: 8,
+                    r: 10,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -590,7 +605,7 @@ export default {
                   },
                   // 是否开启对照实验
                   {
-                    r: 9,
+                    r: 11,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -603,7 +618,7 @@ export default {
                   },
                   // PC首焦
                   {
-                    r: 10,
+                    r: 12,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -616,7 +631,7 @@ export default {
                   },
                   // 无线首焦
                   {
-                    r: 11,
+                    r: 13,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -627,9 +642,22 @@ export default {
                       ht: 0,
                     },
                   },
+                  // 竖版首焦
+                  {
+                    r: 14,
+                    c: 0,
+                    v: {
+                      ct: { fa: "@", t: "s" },
+                      m: "竖版首焦",
+                      v: "竖版首焦",
+                      bl: 1,
+                      vt: 0,
+                      ht: 0,
+                    },
+                  },
                   // 店铺id
                   {
-                    r: 12,
+                    r: 15,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -642,7 +670,7 @@ export default {
                   },
                   // 创意优选
                   {
-                    r: 13,
+                    r: 16,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -655,7 +683,7 @@ export default {
                   },
                   // 智能定向人群
                   {
-                    r: 14,
+                    r: 17,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -668,7 +696,7 @@ export default {
                   },
                   // 人群名称
                   {
-                    r: 16,
+                    r: 19,
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -677,11 +705,18 @@ export default {
                       bl: 1,
                       vt: 0,
                       ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value: "多个人群名称之间用/隔开", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
                     },
                   },
                   // 创意名称
                   {
-                    r: 16,
+                    r: 19,
                     c: 1,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -694,7 +729,7 @@ export default {
                   },
                   // 单元名称
                   {
-                    r: 16,
+                    r: 19,
                     c: 2,
                     v: {
                       ct: { fa: "@", t: "s" },
@@ -712,8 +747,10 @@ export default {
               },
             ];
             break;
+          // 直投 Sheet1
           case "Direct":
             vm.toolType = "新版直投";
+            vm.sheetName = 'Sheet1'
             vm.excelOptions = [
               {
                 name: "sheet1", //工作表名称
@@ -726,6 +763,7 @@ export default {
                 defaultRowHeight: 40, //自定义行高
                 defaultColWidth: 150, //自定义列宽
                 celldata: [
+                  // 单元名称
                   {
                     r: 0,
                     c: 0,
@@ -739,6 +777,7 @@ export default {
                       ht: 0,
                     },
                   },
+                  // 单元备注
                   {
                     r: 0,
                     c: 1,
@@ -751,6 +790,7 @@ export default {
                       ht: 0,
                     },
                   },
+                  // 媒体类型
                   {
                     r: 0,
                     c: 2,
@@ -763,6 +803,7 @@ export default {
                       ht: 0,
                     },
                   },
+                  // 计划名称
                   {
                     r: 0,
                     c: 3,
@@ -782,6 +823,7 @@ export default {
                       },
                     },
                   },
+                  // 资源位
                   {
                     r: 0,
                     c: 4,
@@ -801,6 +843,7 @@ export default {
                       },
                     },
                   },
+                  // 智能定向人群
                   {
                     r: 0,
                     c: 5,
@@ -815,11 +858,12 @@ export default {
                         //批注
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
-                        value: "内容不能为空", //批准内容
+                        value: "是否开启智能定向人群：是/否", //批准内容
                         isshow: false, //批注框为显示状态
                       },
                     },
                   },
+                  // 人群名称
                   {
                     r: 0,
                     c: 6,
@@ -835,11 +879,12 @@ export default {
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
                         value:
-                          "1.目前只默认支持DMP自建人群 2. 多个人群的话需要使用‘｜’隔开", //批准内容
+                          "1.目前默认只支持DMP自建人群 2. 多个人群的话需要使用‘｜’隔开", //批准内容
                         isshow: false, //批注框为显示状态
                       },
                     },
                   },
+                  // 操作类型
                   {
                     r: 0,
                     c: 7,
@@ -855,11 +900,12 @@ export default {
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
                         value:
-                          "1.只替换创意时必填 2.默认为空，即为新增单元  3.当更新创意时单元名称、媒体类型、计划名称、创意名称必填，其他不填写", //批准内容
+                          "1.只替换创意时此项必填 2.默认为空，即为新增单元  3.当更新创意时单元名称、媒体类型、计划名称、创意名称必填，其他不填写", //批准内容
                         isshow: false, //批注框为显示状态
                       },
                     },
                   },
+                  // 创意名称
                   {
                     r: 0,
                     c: 8,
@@ -875,7 +921,7 @@ export default {
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
                         value:
-                          "1.不能为空 2.可填写多个，多个创意名称必须使用‘｜’隔开", //批准内容
+                          "1.不能为空 2.可填写多个，多个创意名称必须使用‘｜’隔开， 例如：创意1｜创意2", //批准内容
                         isshow: false, //批注框为显示状态
                       },
                     },
@@ -965,13 +1011,6 @@ export default {
                       bl: 1,
                       vt: 0,
                       ht: 0,
-                      ps: {
-                        //批注
-                        width: 91, //批注框宽度
-                        height: 48, //批注框高度
-                        value: "该列应该为文本格式，设置成功时，左上角带三角", //批准内容
-                        isshow: false, //批注框为显示状态
-                      },
                     },
                   },
                   // 出价策略
@@ -1002,7 +1041,7 @@ export default {
                         //批注
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
-                        value: "填写转化或引流", //批准内容
+                        value: "填写转化或引流或不填", //批准内容
                         isshow: false, //批注框为显示状态
                       },
                     },
@@ -1018,6 +1057,13 @@ export default {
                       bl: 1,
                       vt: 0,
                       ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value: "开启或不填", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
                     },
                   }, // 一键起量
                   {
@@ -1122,7 +1168,7 @@ export default {
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
                         value:
-                          "填写微信-朋友圈；抖音；京东联盟等， 如计划属于头条新京东定 向，这里填写今日头条（新）或 抖音（新）", //批准内容
+                          "填写微信-朋友圈；抖音；京东联盟等， 如计划属于头条新京东定向，这里填写今日头条（新）或 抖音（新）", //批准内容
                         isshow: false, //批注框为显示状态
                       },
                     },
@@ -1162,7 +1208,7 @@ export default {
                         //批注
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
-                        value: "填写到达;点击;展示；下单;成交", //批准内容
+                        value: "填写到达;点击;展示;下单;成交", //批准内容
                         isshow: false, //批注框为显示状态
                       },
                     },
@@ -1224,9 +1270,28 @@ export default {
                 showGridLines: 1, //是否显示网格线
               },
             ];
+            arr.forEach((val, idx) => {
+              if (idx !== 0) {
+                // 第十列： 出价 设置为文本格式
+                vm.excelOptions[0].celldata.push({
+                  r: idx,
+                  c: 9,
+                  v: {
+                    ct: { fa: "@", t: "s" },
+                    m: "",
+                    v: "",
+                    bg: "",
+                    vt: 0,
+                    ht: 0,
+                  },
+                });
+              }
+            });
             break;
+          // 人群 京腾魔方人群定向
           case "People":
             vm.toolType = "13";
+            vm.sheetName = "京腾魔方人群定向";
             vm.excelOptions = [
               {
                 name: "京腾魔方人群定向", //工作表名称
@@ -1286,9 +1351,10 @@ export default {
               },
             ];
             break;
-            // 魔方
+          // 魔方 Sheet1
           case "Cube":
             vm.toolType = "1";
+            vm.sheetName = 'Sheet1'
             vm.excelOptions = [
               {
                 name: "sheet1", //工作表名称
@@ -1421,12 +1487,10 @@ export default {
               },
             ];
             break;
-          case "Mail":
-            vm.toolType = "4";
-            break;
-          // 购物触点
+          // 购物触点 Sheet1
           case "GoShop":
             vm.toolType = "14";
+            vm.sheetName = 'Sheet1'
             vm.excelOptions = [
               {
                 name: "sheet1", //工作表名称
@@ -1637,35 +1701,8 @@ export default {
       deep: true,
     },
   },
-  // methods: {
-  //   async getTwo() {
-  //     return "你好年年";
-  //   },
-  //   async getThree() {
-  //     let v2 = await this.getTwo();
-  //     console.log(v2);
-  //   },
-
-  //   async getFour() {
-  //     console.log(1111);
-  //   },
-  //   async getFive() {
-  //     // console.log(2222);
-  //     return 3333;
-  //   },
-  //   async getOne() {
-  //     return Promise.resolve(444);
-  //   },
-  //   async getSix() {
-  //     return new Promise((resolve, reject) => {
-  //       resolve(666)
-  //     })
-  //   },
-  // },
-  // created() {
-  //   console.log("a", this.getTwo());
-  //   console.log("b", this.getThree());
-  // },
+  methods: {},
+  created() {},
 };
 </script>
 

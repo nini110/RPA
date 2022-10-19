@@ -13,6 +13,7 @@
           v-model.trim="form.bidding_id"
           size="medium"
           placeholder="请输入项目ID"
+          clearable
         ></el-input>
       </el-form-item>
       <el-form-item label="项目名称:" prop="bidding_name">
@@ -20,6 +21,7 @@
           v-model.trim="form.bidding_name"
           size="medium"
           placeholder="请输入项目名称"
+          clearable
         ></el-input>
       </el-form-item>
       <el-form-item label="PIN:" prop="account">
@@ -27,6 +29,15 @@
           v-model.trim="form.account"
           size="medium"
           placeholder="请输入PIN"
+          clearable
+        ></el-input>
+      </el-form-item>
+      <el-form-item label="类目:" prop="category">
+        <el-input
+          v-model.trim="form.category"
+          size="medium"
+          placeholder="请输入类目"
+          clearable
         ></el-input>
       </el-form-item>
       <el-form-item label="日期:" prop="date">
@@ -93,6 +104,7 @@ export default {
         bidding_name: "",
         account: "",
         date: [],
+        category: ''
       },
       rules: {
         bidding_id: [
@@ -120,6 +132,13 @@ export default {
           {
             required: true,
             message: "请选择日期",
+            trigger: "blur",
+          },
+        ],
+        category: [
+          {
+            required: true,
+            message: "请输入泪目",
             trigger: "blur",
           },
         ],
