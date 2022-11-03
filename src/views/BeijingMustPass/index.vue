@@ -2,6 +2,7 @@
   <!-- 京准通工具 -->
   <div style="height: 100%">
     <IptComp
+      ref="iptcomp"
       :toolType="toolType"
       :sheetName="sheetName"
       :excelOptions="excelOptions"
@@ -27,6 +28,7 @@ export default {
     $route: {
       handler(newval, oldval) {
         const vm = this;
+        console.log(vm.$refs);
         let arr = new Array(1000).fill(1);
         let col2 = {};
         arr.forEach((val, idx) => {
@@ -47,7 +49,7 @@ export default {
         switch (newval.name) {
           case "DMP":
             vm.toolType = "0";
-            vm.sheetName = 'Sheet1'
+            vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
                 name: "创建人群", //工作表名称
@@ -465,7 +467,7 @@ export default {
           // 直投 Sheet1
           case "Booth":
             vm.toolType = "京东展位";
-            vm.sheetName = 'Sheet1'
+            vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
                 name: "sheet1", //工作表名称
@@ -750,7 +752,7 @@ export default {
           // 直投 Sheet1
           case "Direct":
             vm.toolType = "新版直投";
-            vm.sheetName = 'Sheet1'
+            vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
                 name: "sheet1", //工作表名称
@@ -1354,7 +1356,7 @@ export default {
           // 魔方 Sheet1
           case "Cube":
             vm.toolType = "1";
-            vm.sheetName = 'Sheet1'
+            vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
                 name: "sheet1", //工作表名称
@@ -1490,7 +1492,7 @@ export default {
           // 购物触点 Sheet1
           case "GoShop":
             vm.toolType = "14";
-            vm.sheetName = 'Sheet1'
+            vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
                 name: "sheet1", //工作表名称

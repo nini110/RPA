@@ -119,6 +119,7 @@ export default {
     },
     submitExcel() {
       const vm = this;
+      window.luckysheet.exitEditMode()
       this.$nextTick(() => {
         let resultObj = {};
         $(function () {

@@ -174,6 +174,12 @@
                     {{ scope.row.log_status }}
                   </div>
                   <div
+                    v-if="scope.row.log_status === '执行中'"
+                    class="statusDiv ing"
+                  >
+                    {{ scope.row.log_status }}
+                  </div>
+                  <div
                     v-if="scope.row.log_status === '执行完毕'"
                     class="statusDiv suc"
                   >
@@ -245,7 +251,7 @@
       <div class="infinite" style="overflow: auto">
         <div class="infinite_content">
           <div v-if="logContent" class="box" v-html="logContent"></div>
-          <div v-else class="box">
+          <div v-else class="box img">
             <img src="../../assets/images/loading.png" alt="" />
           </div>
         </div>
@@ -305,6 +311,12 @@ export default {
         vm.getuserlist();
         vm.username = localStorage.getItem("user_name");
         vm.people = localStorage.getItem("user_name");
+        vm.$nextTick(() => {
+          vm.$refs.form.resetFields();
+          vm.fileList = [];
+          vm.excelName = "";
+          vm.excelData = null;
+        });
       },
       immediate: true,
       deep: true,
@@ -484,6 +496,9 @@ export default {
                   vm.logEvent(res.data.data);
                 }, 3000);
                 vm.showLogDialog = true;
+                vm.$refs.form.resetFields();
+              } else if (res.data.code === 10006) {
+                vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
               } else {
                 vm.$msg({ type: "error", msg: res.data.data || res.data.msg });
               }
@@ -529,7 +544,7 @@ export default {
       vm.showExcel = false;
       // 保存
       if (tag === 1) {
-        console.log(val)
+        console.log(val);
         vm.excelData = val;
         vm.excelOpt = opt;
         vm.excelName = vm.formSource === 1 ? "已创建的Excel文件" : vm.excelName;
@@ -588,11 +603,15 @@ export default {
     padding: 20px 20px 0 20px;
     overflow: auto;
     .box {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      img {
-        width: 50%;
+      text-align: center;
+      &.img {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        img {
+          height: 100%;
+        }
       }
     }
   }

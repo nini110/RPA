@@ -235,7 +235,17 @@ export default {
       const vm = this;
       bidItemList({ ...val }).then((res) => {
         if (res.data.count !== 0) {
-          vm.tableData = res.data.data;
+          let result = res.data.data
+          result.forEach((val, idx) => {
+            for(let i in val) {
+              if (i === 'clicks_csv') {
+                val[i] = Math.round(val[i]*10000)/100
+              } else {
+                val[i] = val[i]
+              }
+            }
+          })
+          vm.tableData = result;
           vm.total = res.data.count;
         } else {
           vm.$msg({

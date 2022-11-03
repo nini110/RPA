@@ -21,16 +21,9 @@
               <div class="ziyou_chart_topleft">
                 <div id="barBox"></div>
                 <p>
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    :content="tooltipContent"
-                    placement="bottom"
+                  <span class="infotip"
+                    >今年相较去年{{ tooltipContent }}同比</span
                   >
-                    <span class="el-icon-warning-outline infotip"
-                      >今年相较去年同比</span
-                    >
-                  </el-tooltip>
                   <span
                     :class="
                       varietyPercent > 0
@@ -166,92 +159,134 @@ export default {
         },
       ],
       piedata: null,
-      barOption: {
-        // backgroundColor: "#f4f5f6",
+      barOption2: {
+        // backgroundColor: '#a18dff',
         grid: {
-          left: "10%",
-          right: "12%",
-          bottom: "5%",
-          top: "10%",
-          containLabel: true,
+          left: "20%",
+          top: "30%",
+          right: "5%",
+          bottom: "10%",
+        },
+        tooltip: {
+          trigger: "axis",
+          axisPointer: {
+            type: "shadow",
+          },
+          formatter: function (item) {
+            let htm;
+            let zhi;
+            if (item.length > 1) {
+              zhi = Math.abs(
+                Math.round(
+                  ((item[0].data - item[1].data) / item[1].data) * 10000
+                ) / 100
+              );
+              let txt;
+              let iconclass;
+              if (item[0].value > item[1].value) {
+                iconclass = "red";
+                txt = `增长：${zhi}%`;
+              } else if (item[0].value === item[1].value) {
+              } else {
+                iconclass = "green";
+                txt = `下降：${zhi}%`;
+              }
+              htm = `
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                item[0].color
+              };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
+                item[0].data
+              )}</div>
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                item[1].color
+              };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
+                item[1].data
+              )}</div>
+              <div style="font-size: 12px; color: ${iconclass}"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${iconclass};"></span></span>${txt}</div>
+            `;
+            } else {
+              htm = `
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                item[0].color
+              };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
+                item[0].data
+              )}</div>
+            `;
+            }
+            return htm;
+          },
+        },
+        legend: {
+          data: ["今年", "去年"],
+          left: "center",
+          top: 20,
+          textStyle: {
+            //文字样式
+            color: "#606266",
+            fontSize: "12",
+          },
         },
         xAxis: {
-          show: false,
           type: "value",
+          show: false,
         },
-        yAxis: [
-          {
-            type: "category",
-            inverse: true,
-            axisLabel: {
-              show: true,
-              textStyle: {
-                color: "#333",
-              },
-              fontSize: 14,
-            },
-            splitLine: {
-              show: false,
-            },
-            axisTick: {
-              show: false,
-            },
-            axisLine: {
-              show: false,
-            },
-            data: ["今年", "去年"],
+        yAxis: {
+          type: "category",
+          splitLine: {
+            show: false,
           },
-          {
-            type: "category",
-            inverse: true,
-            axisTick: "none",
-            axisLine: "none",
-            show: true,
-            axisLabel: {
-              textStyle: {
-                color: "#333",
-                fontSize: "14",
-              },
-              formatter: function (value) {
-                return vm.numberToCurrencyNo(value) + " 元";
-              },
-            },
-            data: [],
+          axisTick: {
+            show: false,
           },
-        ],
+          data: ["全年", "到当前月"],
+          axisLabel: {
+            textStyle: {
+              color: "#606266",
+              // fontSize: 12,
+            },
+          },
+          axisLine: {
+            show: false,
+            lineStyle: {
+              color: "rgba(98, 162, 205, 0.2)",
+            },
+          },
+        },
         series: [
           {
-            name: "年度总消耗",
+            name: "今年",
             type: "pictorialBar",
-            zlevel: 1,
             itemStyle: {
               normal: {
                 barBorderRadius: 0,
-                // color: "#270dd8",
-                color: "#F72B07",
+                color: "#F47FAC",
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形
-            symbolMargin: "1", //图形垂直间隔
+            symbolMargin: "0.5", //图形垂直间隔
             symbolRepeat: true, //图形是否重复
-            symbolSize: [2, 20], //图形元素的尺寸
-            barWidth: 50,
-            data: [],
+            symbolSize: ["25%", "200%"], //图形元素的尺寸
+            data: []
           },
           {
-            name: "背景",
-            type: "bar",
-            barWidth: 30,
-            barGap: "-100%",
-            data: [],
+            name: "去年",
+            type: "pictorialBar",
+            barGap: "200%",
             itemStyle: {
               normal: {
-                color: "rgba(240,240,240, .8)",
+                barBorderRadius: 0,
+                color: "#3E8FF2",
               },
             },
-            selectedMode: false,
+            symbol: "rich", //图形类型，带圆角的矩形
+            symbolMargin: "0.5", //图形垂直间隔
+            symbolRepeat: true, //图形是否重复
+            // symbolSize: [2, 13], //图形元素的尺寸
+            symbolSize: ["25%", "200%"], //图形元素的尺寸
+            data: []
           },
         ],
+        barCategoryGap: "60%",
       },
       pieOption: {
         // backgroundColor: "#f4f5f6",
@@ -513,13 +548,17 @@ export default {
         let bardata = res[0].data.data;
         let linedata = res[1].data.data;
         let respie = res[2].data.data;
-        // 柱状图
-        vm.barOption.series[0].data = [bardata.now_year, bardata.last_year];
-        vm.barOption.series[1].data =
-          bardata.now_year > bardata.last_year
-            ? [bardata.now_year, bardata.now_year]
-            : [bardata.last_year, bardata.last_year];
-        vm.barOption.yAxis[1].data = [bardata.now_year, bardata.last_year];
+        // 柱状图 全年
+        let mth = new Date().getMonth();
+        vm.barOption2.yAxis.data = ["全年", `至${mth}月份`];
+        // 柱状图 今年
+        vm.barOption2.series[0].data = [bardata.now_year, bardata.now_year_tq];
+        // 柱状图 去年
+        vm.barOption2.series[1].data = [
+          bardata.last_year,
+          bardata.last_year_tq,
+        ];
+
         let currentMonth = new Date().getMonth();
         let totalConsum_now = 0;
         let totalConsum_last = 0;
@@ -529,7 +568,7 @@ export default {
             totalConsum_last += linedata[i].last;
           }
         }
-        vm.tooltipContent = `比较周期为【1月】 至 【${currentMonth}月】`;
+        vm.tooltipContent = `（1月至${currentMonth}月区间）`;
         vm.varietyPercent =
           Math.round(
             ((totalConsum_now - totalConsum_last) / totalConsum_last) * 10000
@@ -605,7 +644,7 @@ export default {
       const vm = this;
       vm.$nextTick(() => {
         let myChart = vm.$echarts.init(document.getElementById("barBox"));
-        myChart.setOption(vm.barOption, true);
+        myChart.setOption(vm.barOption2, true);
       });
     },
     getArrayValue(array, key2) {
