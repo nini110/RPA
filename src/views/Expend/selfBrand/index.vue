@@ -160,7 +160,16 @@ export default {
       ],
       piedata: null,
       barOption2: {
-        // backgroundColor: '#a18dff',
+        backgroundColor: new this.$echarts.graphic.LinearGradient(1, 0, 0, 1, [
+          {
+            offset: 0,
+            color: '#000'
+          },
+          {
+            offset: 1,
+            color: '#909399'
+          },
+        ]),
         grid: {
           left: "20%",
           top: "30%",
@@ -222,7 +231,8 @@ export default {
           top: 20,
           textStyle: {
             //文字样式
-            color: "#606266",
+            color: "#fff",
+            // color: "#606266",
             fontSize: "12",
           },
         },
@@ -241,7 +251,7 @@ export default {
           data: ["全年", "到当前月"],
           axisLabel: {
             textStyle: {
-              color: "#606266",
+              color: "#fff",
               // fontSize: 12,
             },
           },
@@ -259,13 +269,13 @@ export default {
             itemStyle: {
               normal: {
                 barBorderRadius: 0,
-                color: "#F47FAC",
+                color: "#FFAD33",
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形
             symbolMargin: "0.5", //图形垂直间隔
             symbolRepeat: true, //图形是否重复
-            symbolSize: ["25%", "200%"], //图形元素的尺寸
+            symbolSize: ["30%", "250%"], //图形元素的尺寸
             data: []
           },
           {
@@ -275,14 +285,14 @@ export default {
             itemStyle: {
               normal: {
                 barBorderRadius: 0,
-                color: "#3E8FF2",
+                color: "#4EE4C6",
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形
             symbolMargin: "0.5", //图形垂直间隔
             symbolRepeat: true, //图形是否重复
             // symbolSize: [2, 13], //图形元素的尺寸
-            symbolSize: ["25%", "200%"], //图形元素的尺寸
+            symbolSize: ["30%", "250%"], //图形元素的尺寸
             data: []
           },
         ],

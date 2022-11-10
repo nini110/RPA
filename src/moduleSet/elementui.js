@@ -51,7 +51,8 @@ import {
   Scrollbar,
   Drawer,
   Descriptions,
-  DescriptionsItem
+  DescriptionsItem,
+  Result
 } from 'element-ui'
 
 
@@ -104,7 +105,8 @@ const components = {
   Scrollbar,
   Drawer,
   Descriptions,
-  DescriptionsItem
+  DescriptionsItem,
+  Result
 };
 const Elementui = (Vue, config = {}) => {
   if (Elementui.installed) {

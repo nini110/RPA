@@ -325,22 +325,16 @@ export default {
           index: "8",
           children: [
             {
-              label: "图表",
-              icon2: "#icon-xiaoguofenxi",
-              value: "/layout/expend/chart",
-              index: "8-1",
-            },
-            {
               label: "自有看板",
               icon2: "#icon-xiaoguofenxi",
               value: "/layout/expend/selfBrand",
-              index: "8-2",
+              index: "8-1",
             },
             {
               label: "竞标看板",
               icon2: "#icon-xiaoguofenxi",
               value: "/layout/expend/bidItem",
-              index: "8-3",
+              index: "8-2",
             },
           ],
         });

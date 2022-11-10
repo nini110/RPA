@@ -5,8 +5,11 @@
       <div class="content_form ts">
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
           <div class="formObj_ipt">
+            <div class="formObj_ipt_abso">
+              <el-result :icon="dataIcon" :title="dataDesc"> </el-result>
+            </div>
             <el-row class="formObj_ipt_rt">
-              <el-col :span="12">
+              <el-col :span="24">
                 <el-form-item label="项目:" prop="project_name">
                   <el-cascader
                     v-model="form.project_name"
@@ -18,8 +21,8 @@
                   ></el-cascader>
                 </el-form-item>
               </el-col>
-              <el-col :span="12">
-                <el-form-item class="hasdate" label="数据日期:" prop="date">
+              <el-col :span="24">
+                <el-form-item class="hasdate" label="日期:" prop="date">
                   <el-select
                     v-model="form.type"
                     placeholder="请选择类型"
@@ -42,29 +45,6 @@
                   </el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col :span="24">
-                <el-form-item label="数据状态:" :error="errorStateInfo">
-                  <div class="state stateItem">
-                    <i
-                      v-show="
-                        (!dataState || dataState === '参数错误') &&
-                        dataState !== 0
-                      "
-                      class="info el-icon-minus"
-                      >选择项目和日期查询数据状态</i
-                    >
-                    <i v-show="dataState === 1" class="suc el-icon-check"
-                      >数据已准备</i
-                    >
-                    <i v-show="dataState === 0" class="warn el-icon-loading"
-                      >数据准备中</i
-                    >
-                    <i v-show="dataState === 2" class="dang el-icon-close"
-                      >数据未准备</i
-                    >
-                  </div>
-                </el-form-item>
-              </el-col>
             </el-row>
           </div>
           <div v-if="checkedItem.file" class="formObj_upload ts">
@@ -76,28 +56,28 @@
         </el-form>
         <div class="formObj_button">
           <!-- <el-col :span="24"> -->
-            <a class="btnnormal_down marginR inlineButton" @click="reset">
-              <div class="el-icon-refresh btnSize">重置</div>
-            </a>
-            <div v-if="checkedItem.file" class="inlineButton">
-              <el-button
-                v-waves
-                type="primary"
-                class="el-icon-right btnnormal"
-                @click="generate()"
-                >生成
-              </el-button>
-            </div>
-            <div v-else class="inlineButton">
-              <el-button
-                v-waves
-                type="primary"
-                class="el-icon-right btnnormal"
-                @click="generate()"
-              >
-                生成</el-button
-              >
-            </div>
+          <a class="btnnormal_down marginR inlineButton" @click="reset">
+            <div class="el-icon-refresh btnSize">重置</div>
+          </a>
+          <div v-if="checkedItem.file" class="inlineButton">
+            <el-button
+              v-waves
+              type="primary"
+              class="el-icon-right btnnormal"
+              @click="generate()"
+              >生成
+            </el-button>
+          </div>
+          <div v-else class="inlineButton">
+            <el-button
+              v-waves
+              type="primary"
+              class="el-icon-right btnnormal"
+              @click="generate()"
+            >
+              生成</el-button
+            >
+          </div>
           <!-- </el-col> -->
         </div>
       </div>
@@ -249,7 +229,7 @@ export default {
   mixins: [message],
   data() {
     return {
-      excelName: '',
+      excelName: "",
       pageHaseItem: 0, // 当前页有多少条数据
       errorStateInfo: "",
       errorUploadInfo: "",
@@ -261,6 +241,8 @@ export default {
         date: "",
       },
       dataState: "", // 数据状态
+      dataIcon: "",
+      dataDesc: "",
       checkedItem: {},
       tableData: [],
       fileList: [], // excel文件列表
@@ -298,13 +280,37 @@ export default {
       return this.form.project_name;
     },
   },
+  watch: {
+    dataState: {
+      handler(newval, oldval) {
+        switch (newval) {
+          case 0:
+            this.dataIcon = "warning";
+            this.dataDesc = "数据准备中";
+            break;
+          case 1:
+            this.dataIcon = "success";
+            this.dataDesc = "数据已准备";
+            break;
+          case 2:
+            this.dataIcon = "error";
+            this.dataDesc = "数据未准备";
+            break;
+          default:
+            this.dataIcon = "info";
+            this.dataDesc = "选择项目和日期查询数据状态";
+        }
+      },
+      immediate: true,
+    },
+  },
   created() {
     this.getSelectItem();
   },
   methods: {
     getFileEvent(val) {
       this.fileList = val;
-      this.excelName = val[0].name
+      this.excelName = val[0].name;
     },
     // 下载
     downEvent(row) {

@@ -180,7 +180,16 @@ export default {
       ],
       varietyPercent: 0,
       barOption2: {
-        // backgroundColor: '#a18dff',
+        backgroundColor: new this.$echarts.graphic.LinearGradient(1, 0, 0, 1, [
+          {
+            offset: 0,
+            color: '#000'
+          },
+          {
+            offset: 1,
+            color: '#909399'
+          },
+        ]),
         grid: {
           left: "20%",
           top: "30%",
@@ -243,7 +252,7 @@ export default {
           top: 20,
           textStyle: {
             //文字样式
-            color: "#606266",
+            color: "#fff",
             fontSize: "12",
           },
         },
@@ -262,7 +271,7 @@ export default {
           data: ["全年", "到当前月"],
           axisLabel: {
             textStyle: {
-              color: "#606266",
+              color: "#fff",
               // fontSize: 12,
             },
           },
@@ -280,7 +289,7 @@ export default {
             itemStyle: {
               normal: {
                 barBorderRadius: 0,
-                color: "#F47FAC",
+                color: "#FFAD33",
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形
@@ -296,7 +305,7 @@ export default {
             itemStyle: {
               normal: {
                 barBorderRadius: 0,
-                color: "#3E8FF2",
+                color: '#4EE4C6'
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形

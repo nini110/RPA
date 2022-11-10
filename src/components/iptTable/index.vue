@@ -12,7 +12,7 @@
                 stretch
                 @tab-click="tabClick"
               >
-                <el-tab-pane name="1" label="密码登陆">
+                <el-tab-pane name="1" label="密码登录">
                   <div class="formObj_ipt_rt" v-if="activeName === '1'">
                     <el-row>
                       <el-col :span="12">
@@ -33,6 +33,7 @@
                             size="large"
                             placeholder="请输入密码"
                             clearable
+                            show-password
                           >
                           </el-input>
                         </el-form-item>
@@ -72,7 +73,7 @@
                     </el-row>
                   </div>
                 </el-tab-pane>
-                <el-tab-pane name="2" label="Cookie登陆">
+                <el-tab-pane name="2" label="Cookie登录">
                   <div class="formObj_ipt_rt" v-if="activeName === '2'">
                     <el-row>
                       <el-col :span="24">
@@ -80,7 +81,7 @@
                           <el-input
                             v-model.trim="form.username"
                             size="large"
-                            placeholder="请输入账号"
+                            placeholder="京准通登录请输入账号，京牌代理登录请输入pin"
                             clearable
                           >
                           </el-input>
@@ -90,7 +91,6 @@
                         <el-form-item label="Cookie:" prop="cookie">
                           <el-input
                             v-model.trim="form.cookie"
-                         
                             placeholder="请输入Cookie"
                             clearable
                           >
@@ -140,6 +140,7 @@
               <Upload
                 @getFile="getFileEvent"
                 @openEvent="openExcelAuto"
+                :sheetName="sheetName"
               ></Upload>
             </el-form-item>
             <div v-if="excelName" class="uptxt">
@@ -356,6 +357,12 @@ export default {
     },
   },
   watch: {
+    activeName(newval, oldval) {
+      this.rules.username[0].message =
+        newval === "1"
+          ? "请输入账号"
+          : "京准通登录请输入账号，京牌代理登录请输入pin";
+    },
     $route: {
       handler(newval, oldval) {
         const vm = this;

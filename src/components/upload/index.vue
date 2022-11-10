@@ -14,7 +14,7 @@
       :multiple="multiple"
     >
       <i class="el-icon-upload"></i>
-      <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
+      <div class="el-upload__text">将文件拖到此处，或<em>点击导入</em></div>
       <div v-if="showPros" class="el-upload__tip" slot="tip">
         {{ txt }}
       </div>
@@ -44,6 +44,10 @@ export default {
       default: "excel",
       type: String,
     },
+    sheetName: {
+      default: "Sheet1",
+      type: String,
+    },
   },
   data() {
     return {
@@ -63,7 +67,7 @@ export default {
         vm.$message.warning("文件大小不得超过50M");
       }
       if (vm.tag === "excel") {
-        let whiteList = ["创建人群", "更新合作方数据", "新增标签"];
+        let whiteList = ["Sheet1", "京腾魔方人群定向"];
         LuckyExcel.transformExcelToLucky(file, (exportJson, luckysheetfile) => {
           if (exportJson.sheets === null || exportJson.sheets.length === 0) {
             vm.$message.error("无法读取excel文件的内容，当前不支持xls文件！");
@@ -74,7 +78,8 @@ export default {
             val.order = parseInt(val.order);
             val.status = parseInt(val.status);
             val.showGridLines = parseInt(val.showGridLines);
-            // val.hide = whiteList.indexOf(val.name) === -1 ? 1 : 0
+            // 隐藏无用的sheet
+            val.hide = val.name=== vm.sheetName ? 0 : 1
           });
           window.luckysheet.destroy();
           vm.$emit("openEvent", exportJson.sheets);

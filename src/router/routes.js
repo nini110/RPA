@@ -396,16 +396,7 @@ const routes = [{
 					deep: 2
 				},
 				component: () => import("@/views/Expend"),
-				children: [{
-						path: 'chart',
-						name: 'chart',
-						meta: {
-							title: '消耗图表',
-							deep: 3,
-							filePath: 'Expend/chart'
-						},
-						component: () => import( /* webpackChunkName: "R_Expend"*/ "@/views/Expend/chart"),
-					},
+				children: [
 					{
 						path: 'selfBrand',
 						name: 'selfBrand',
