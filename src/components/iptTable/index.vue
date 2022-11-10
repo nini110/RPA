@@ -1,61 +1,107 @@
 <template>
   <div class="outerDiv">
     <div class="content">
-      <div class="content_form">
+      <div class="content_form ts">
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
           <div class="formObj_ipt">
-            <el-row>
-              <el-col :span="12">
-                <el-form-item label="账号:" prop="username">
-                  <el-input
-                    v-model.trim="form.username"
-                    size="medium"
-                    placeholder="请输入账号"
-                    clearable
-                  >
-                  </el-input>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="密码:" prop="password">
-                  <el-input
-                    v-model.trim="form.password"
-                    size="medium"
-                    placeholder="请输入密码"
-                    clearable
-                  >
-                  </el-input>
-                </el-form-item>
-              </el-col>
-              <el-col
-                :span="12"
-                v-if="$route.fullPath.indexOf('beijingMustPass') !== -1"
+            <div class="formObj_ipt_lf">
+              <el-tabs
+                tab-position="left"
+                v-model="activeName"
+                type="border-card"
+                stretch
+                @tab-click="tabClick"
               >
-                <!-- 只有京准通里有类型选择 -->
-                <el-form-item label="类型:" prop="choose">
-                  <el-select v-model="form.choose" placeholder="请选择类型">
-                    <el-option
-                      v-for="item in options"
-                      :key="item.value"
-                      :label="item.label"
-                      :value="item.value"
-                    >
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="12">
-                <el-form-item label="PIN:" prop="pin">
-                  <el-input
-                    v-model.trim="form.pin"
-                    size="medium"
-                    placeholder="请输入PIN"
-                    clearable
-                  >
-                  </el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
+                <el-tab-pane name="1" label="密码登陆">
+                  <div class="formObj_ipt_rt" v-if="activeName === '1'">
+                    <el-row>
+                      <el-col :span="12">
+                        <el-form-item label="账号:" prop="username">
+                          <el-input
+                            v-model.trim="form.username"
+                            size="large"
+                            placeholder="请输入账号"
+                            clearable
+                          >
+                          </el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item label="密码:" prop="password">
+                          <el-input
+                            v-model.trim="form.password"
+                            size="large"
+                            placeholder="请输入密码"
+                            clearable
+                          >
+                          </el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col
+                        :span="12"
+                        v-if="$route.fullPath.indexOf('beijingMustPass') !== -1"
+                      >
+                        <!-- 只有京准通里有类型选择 -->
+                        <el-form-item label="类型:" prop="choose">
+                          <el-select
+                            v-model="form.choose"
+                            placeholder="请选择类型"
+                            size="large"
+                          >
+                            <el-option
+                              v-for="item in options"
+                              :key="item.value"
+                              :label="item.label"
+                              :value="item.value"
+                            >
+                            </el-option>
+                          </el-select>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="12">
+                        <el-form-item label="PIN:" prop="pin">
+                          <el-input
+                            v-model.trim="form.pin"
+                            size="large"
+                            placeholder="请输入PIN"
+                            clearable
+                          >
+                          </el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                  </div>
+                </el-tab-pane>
+                <el-tab-pane name="2" label="Cookie登陆">
+                  <div class="formObj_ipt_rt" v-if="activeName === '2'">
+                    <el-row>
+                      <el-col :span="24">
+                        <el-form-item label="账号:" prop="username">
+                          <el-input
+                            v-model.trim="form.username"
+                            size="large"
+                            placeholder="请输入账号"
+                            clearable
+                          >
+                          </el-input>
+                        </el-form-item>
+                      </el-col>
+                      <el-col :span="24">
+                        <el-form-item label="Cookie:" prop="cookie">
+                          <el-input
+                            v-model.trim="form.cookie"
+                         
+                            placeholder="请输入Cookie"
+                            clearable
+                          >
+                          </el-input>
+                        </el-form-item>
+                      </el-col>
+                    </el-row>
+                  </div>
+                </el-tab-pane>
+              </el-tabs>
+            </div>
           </div>
           <div class="formObj_upload">
             <el-form-item label="" :error="errorUpInfo">
@@ -107,6 +153,9 @@
           </div>
         </el-form>
         <div class="formObj_button">
+          <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
+            <div class="el-icon-refresh btnSize">重置</div>
+          </a>
           <el-button
             v-waves
             type="primary"
@@ -266,7 +315,9 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button type="primary" @click="closeLogEvent">关 闭</el-button>
+        <el-button type="primary" @click="showLogDialog = false"
+          >关 闭</el-button
+        >
       </span>
     </el-dialog>
   </div>
@@ -308,6 +359,7 @@ export default {
     $route: {
       handler(newval, oldval) {
         const vm = this;
+        vm.activeName = "1";
         vm.getuserlist();
         vm.username = localStorage.getItem("user_name");
         vm.people = localStorage.getItem("user_name");
@@ -347,6 +399,7 @@ export default {
       }
     };
     return {
+      activeName: "1",
       formSource: 1, // 点击来源 1 新建  2 导入
       excelData: null, // 提交的excel数据
       excelName: "",
@@ -372,6 +425,13 @@ export default {
           {
             required: true,
             message: "请输入密码",
+            trigger: "blur",
+          },
+        ],
+        cookie: [
+          {
+            required: true,
+            message: "请输入Cookie",
             trigger: "blur",
           },
         ],
@@ -404,6 +464,7 @@ export default {
       form: {
         username: "",
         password: "",
+        cookie: "",
         pin: "",
         choose: 2,
       },
@@ -426,11 +487,21 @@ export default {
     const vm = this;
   },
   methods: {
+    resetEvent() {
+      const vm = this;
+      vm.excelData = null;
+      vm.excelName = "";
+      vm.$refs.form.resetFields();
+    },
+    tabClick() {
+      const vm = this;
+      vm.$refs.form.resetFields();
+    },
     closeDialog() {
       this.showVarDia = false;
     },
     closeLogEvent() {
-      this.showLogDialog = false;
+      // this.showLogDialog = false;
       this.logContent = "";
       this.endingTxt = "日志正在加载";
       this.endingCode = 0;

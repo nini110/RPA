@@ -2,10 +2,10 @@
   <!-- 灵鲨制表 -->
   <div class="outerDiv">
     <div class="content">
-      <div class="content_form">
+      <div class="content_form ts">
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
           <div class="formObj_ipt">
-            <el-row>
+            <el-row class="formObj_ipt_rt">
               <el-col :span="12">
                 <el-form-item label="项目:" prop="project_name">
                   <el-cascader
@@ -75,7 +75,7 @@
           </div>
         </el-form>
         <div class="formObj_button">
-          <el-col :span="24">
+          <!-- <el-col :span="24"> -->
             <a class="btnnormal_down marginR inlineButton" @click="reset">
               <div class="el-icon-refresh btnSize">重置</div>
             </a>
@@ -98,7 +98,7 @@
                 生成</el-button
               >
             </div>
-          </el-col>
+          <!-- </el-col> -->
         </div>
       </div>
       <div ref="tableBox" class="content_tableBox teshu">

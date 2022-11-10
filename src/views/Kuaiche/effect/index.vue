@@ -1,7 +1,7 @@
 <template>
   <div class="DMP outerDiv">
     <div class="content">
-      <div class="content_form">
+      <div class="content_form ts">
         <el-form
           ref="form"
           :model="form"
@@ -10,7 +10,7 @@
           :disabled="fromChart"
         >
           <div class="formObj_ipt lable3">
-            <el-row type="flex">
+            <el-row type="flex" class="formObj_ipt_rt">
               <el-col :span="8">
                 <el-form-item label="PIN:" prop="pin">
                   <el-select v-model="form.pin" placeholder="请选择" clearable>
@@ -59,18 +59,21 @@
                   ></el-input>
                 </el-form-item>
               </el-col>
-              <el-col :span="24">
-                <el-button
-                  v-waves
-                  type="primary"
-                  class="el-icon-search marginL"
-                  @click="searchEvent"
-                  >查询
-                </el-button>
-              </el-col>
             </el-row>
           </div>
         </el-form>
+        <div class="formObj_button">
+          <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
+            <div class="el-icon-refresh btnSize">重置</div>
+          </a>
+          <el-button
+            v-waves
+            type="primary"
+            class="el-icon-search marginL"
+            @click="searchEvent"
+            >查询
+          </el-button>
+        </div>
       </div>
       <div ref="tableBox" class="content_tableBox hasUp4">
         <Chart
@@ -104,7 +107,6 @@
               <template #empty>
                 <img src="@/assets/images/search.png" />
                 <span>空空如也</span>
-
               </template>
               <vxe-column
                 type="seq"
@@ -405,6 +407,11 @@ export default {
           vm.$msg({ type: "error", msg: res.data.data });
         }
       });
+    },
+    resetEvent() {
+      const vm = this;
+      vm.$refs.form.resetFields();
+      // vm.getTable(vm.searchVal);
     },
     //分页器功能
     handleSizeChange(val) {

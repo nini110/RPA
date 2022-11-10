@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="upbox">
     <el-upload
       drag
       :auto-upload="true"
@@ -111,4 +111,11 @@ export default {
 </script>
 <style lang="less" scoped>
 @import "@/views/index";
+.upbox {
+  height: 100%;
+  div:first-child {
+    height: 100%;
+
+  }
+}
 </style>

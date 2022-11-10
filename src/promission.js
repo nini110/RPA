@@ -49,7 +49,7 @@ function handleRoutes(menuList) {
     if (!target || target.length <= 0) {
         return
     }
-    let whitelist = ['19261', '19302', '20306', '1020108', '21400', '14026', '15443', '18179', '15056', '18327', '21129', '21027', '1020076', '1022002', '1022020', '10001', '10005']
+    let whitelist = ['20001', '19261', '19302', '20306', '1020108', '21400', '14026', '15443', '18179', '15056', '18327', '21129', '21027', '1020076', '1022002', '1022020', '10001', '10005']
     let userid = localStorage.getItem('wx_userid')
     if (userid && whitelist.indexOf(userid) === -1) {
         target[2].children.pop()

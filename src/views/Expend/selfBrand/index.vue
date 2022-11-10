@@ -105,7 +105,7 @@
             </div>
           </div>
           <div v-show="activeName === '1'" class="ziyou_list ts">
-            <div style="margin-bottom: 2rem">
+            <div>
               <el-alert
                 :description="description"
                 type="warning"

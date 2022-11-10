@@ -300,6 +300,9 @@ export default {
 
 <style lang="less" scoped>
 @import "../../Qianchuan/strategy/index.less";
+.PriceTops {
+    margin-top: 22px;
+}
 .rise {
   color: red;
 }

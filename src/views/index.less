@@ -112,20 +112,34 @@
 		padding-top: 60px;
 
 		&_form {
-			padding-top: 50px;
 			width: 100%;
-			// background-color: #fff;
-			padding-right: 120px;
+			padding: 50px 120px 0 120px;
+			margin-bottom: 20px;
+			&.ts {
+				margin-bottom: 40px;
+			}
 			box-sizing: border-box;
-
 			.formObj {
-				// width:500px;
+				box-sizing: border-box;
 				width: 100%;
-				margin: 0 auto;
+				padding-right: 10px;
+				// margin: 0 auto;
+				margin-bottom: 20px;
 				display: flex;
-
+				justify-content: space-between;
+				box-shadow: 0px -35px 30px 10px #eae9e987;
 				&_ipt {
-					flex-basis: 70%;
+					flex-basis: 68%;
+					display: flex;
+					justify-content: space-between;
+					&_lf {
+						flex-basis: 100%;
+					}
+
+					&_rt {
+						flex: 1;
+						padding: 22px 60px 0 0;
+					}
 
 					&.expend {
 						flex-basis: 100%;
@@ -140,11 +154,11 @@
 					&.lable3 {
 						flex-basis: 100%;
 
-						.el-col:last-child {
-							padding-left: 100px;
-							text-align: center;
-							margin-bottom: 30px;
-						}
+						// .el-col:last-child {
+						// 	padding-left: 100px;
+						// 	text-align: center;
+						// 	margin-bottom: 30px;
+						// }
 					}
 
 					/deep/.el-form-item {
@@ -187,23 +201,27 @@
 
 				&_upload {
 					position: relative;
-					flex-basis: 30%;
+					flex-basis: 28%;
 					display: flex;
 					flex-wrap: nowrap;
-					width: calc(100% - 120px);
-					margin-left: 120px !important;
-					height: 100px;
+					margin: 22px 0;
+
 					&.ts {
-					// flex-basis: 100%;
+
+						// flex-basis: 100%;
 						.el-form-item:first-child {
 							width: 100%;
 						}
 					}
+
 					/deep/.el {
 						&-form-item {
 							height: 100%;
+							margin: 0;
+
 							&:nth-child(1) {
 								width: 30%;
+
 								button {
 									width: 100%;
 									height: 100%;
@@ -224,7 +242,7 @@
 
 						&-upload-dragger {
 							width: 100%;
-							height: 100px;
+							height: 100%;
 							border-radius: 0 4px 4px 0;
 						}
 
@@ -235,6 +253,7 @@
 							bottom: -15px;
 						}
 					}
+
 					.uptxt {
 						width: 100%;
 						position: absolute;
@@ -246,16 +265,19 @@
 						span {
 							color: #3b8eff;
 							cursor: pointer;
+
 							&:hover {
 								color: #005ad2;
 							}
 						}
+
 						&:before {
 							margin-right: 10px;
 						}
 
 						&.black {
 							cursor: auto;
+
 							span {
 								color: #e65c31;
 							}
@@ -267,9 +289,7 @@
 				&_button {
 					display: flex;
 					flex-direction: row;
-					padding-left: 120px;
-					margin-bottom: 24px;
-
+					justify-content: center;
 					/deep/.el {
 						&-form-item {
 							&__content {
@@ -295,7 +315,7 @@
 			// background-color: #fff;
 
 			&.hasUp {
-				height: calc(100% - 240px) !important;
+				height: calc(100% - 280px) !important;
 			}
 
 			&.hasUp2 {
@@ -369,6 +389,7 @@
 						box-shadow: 0px 0px 10px rgb(240, 240, 240);
 						border-radius: 10px;
 						height: calc(100% - 55px);
+
 						.vxe-table {
 							flex-basis: 97%;
 						}
@@ -404,7 +425,7 @@
 			}
 
 			&.teshu {
-				height: calc(100% - 260px) !important;
+				height: calc(100% - 280px) !important;
 
 				.tables {
 					height: calc(100% - 150px);
@@ -451,7 +472,7 @@
 		height: calc(100% - 100px);
 		flex-wrap: wrap;
 		position: relative;
-		box-shadow: -20px 0 30px #f0f0f0;
+		box-shadow: -20px 0 20px #eae9e987;
 		padding: 40px 20px 20px 20px;
 		margin: 50px 0 50px 120px;
 		box-sizing: border-box;
@@ -536,53 +557,6 @@
 			position: absolute;
 			bottom: 20px;
 			right: 20px;
-		}
-
-	}
-}
-
-/deep/.el {
-	&-upload {
-		width: 100%;
-		user-select: none;
-
-		&-dragger {
-			width: 100%;
-			background-image: linear-gradient(to right, #7676765c, #a1a1a121);
-
-			&:hover {
-				border-color: @baseItemColor;
-			}
-		}
-
-		&__text {
-			font-size: 12px !important;
-			color: #303133 !important;
-			margin-top: 10px;
-			em {
-				color: @baseItemColor;
-			}
-		}
-
-		&-dragger {
-			height: 120px;
-
-			.el-icon-upload {
-				margin: 0;
-				display: block;
-				padding-top: 4px;
-				font-size: 44px;
-				color: #90b5ff;
-			}
-		}
-
-		&-list {
-			&__item {
-				margin: 0 !important;
-				font-size: 12px;
-
-			}
-
 		}
 
 	}
