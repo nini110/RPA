@@ -69,7 +69,6 @@ export default {
   data() {
     return {
       hasMenu: true,
-      detailIcon: "",
       currentMenu: "1-1",
       menuList: [
         {
@@ -164,12 +163,6 @@ export default {
               value: "/layout/dataApplication/snake",
               index: "3-2",
             },
-            // {
-            //   label: "分时段监控报表",
-            //   icon2: "#icon-sangjitu1",
-            //   value: "/layout/dataApplication/xiaomi",
-            //   index: "3-3",
-            // },
           ],
         },
         {
@@ -199,31 +192,6 @@ export default {
             },
           ],
         },
-        // {
-        // 	label: "视频工具",
-        // 	deep: 2,
-        // 	icon: "iconfont icon-charutupian",
-        // 	value: "",
-        // 	index: "4",
-        // 	children: [{
-        // 			label: "图片处理",
-        // 			icon2: '#icon-015-file',
-        // 			value: "/layout/videoTools/pictureProcessing",
-        // 			index: "4-1",
-        // 		},
-        // 		{
-        // 			label: "截取",
-        // 			icon2: '#icon-caijiandan',
-        // 			value: "/layout/videoTools/cutOut",
-        // 			index: "4-2",
-        // 		},
-        // 		{
-        // 			label: "拼合",
-        // 			value: "/layout/videoTools/piece",
-        // 			index: "4-3",
-        // 		},
-        // 	],
-        // },
         {
           label: "提质工具",
           deep: 3,
@@ -238,19 +206,16 @@ export default {
               children: [
                 {
                   label: "项目",
-                  icon2: "#icon-shangpincanshumoban",
                   value: "/layout/qianchuan/items",
                   index: "5-1",
                 },
                 {
                   label: "策略",
-                  icon2: "#icon-celveshishi",
                   value: "/layout/qianchuan/strategy",
                   index: "5-2",
                 },
                 {
                   label: "模板",
-                  icon2: "#icon-daochumoban",
                   value: "/layout/qianchuan/modules",
                   index: "5-3",
                 },
@@ -307,6 +272,13 @@ export default {
       return global.antRouter;
     },
   },
+  watch: {
+    $route: {
+      handler(newval, oldval) {},
+      immediate: true,
+      deep: true,
+    },
+  },
   created() {
     const vm = this;
     if (vm.$route.query.roi_type || vm.$route.name === "RealTime") {
@@ -326,13 +298,11 @@ export default {
           children: [
             {
               label: "自有看板",
-              icon2: "#icon-xiaoguofenxi",
               value: "/layout/expend/selfBrand",
               index: "8-1",
             },
             {
               label: "竞标看板",
-              icon2: "#icon-xiaoguofenxi",
               value: "/layout/expend/bidItem",
               index: "8-2",
             },
@@ -344,14 +314,12 @@ export default {
           if (i.deep === 2) {
             if (vm.$route.fullPath === j.value) {
               vm.currentMenu = j.index;
-              vm.detailIcon = j.icon2;
               break;
             }
           } else if (i.deep === 3) {
             for (let k of j.children) {
               if (vm.$route.fullPath === k.value) {
                 vm.currentMenu = k.index;
-                vm.detailIcon = k.icon2;
                 break;
               }
             }
@@ -360,11 +328,37 @@ export default {
       }
     }
   },
+  mounted() {
+    const vm = this;
+    window.addEventListener("hashchange", function (target) {
+      let idx = target.newURL.search("#");
+      let path = target.newURL.slice(idx + 1);
+      // console.log(path)
+      for (let i of vm.menuList) {
+        for (let j of i.children) {
+          if (i.deep === 2) {
+            if (j.value === path) {
+              vm.currentMenu = j.index;
+              break;
+            }
+          } else if (i.deep === 3) {
+            for (let k of j.children) {
+              if (k.value === path) {
+                vm.currentMenu = k.index;
+                break;
+              }
+            }
+          }
+        }
+      }
+    });
+  },
+  deatroyed() {
+    window.removeEventListener("hashchange");
+  },
   methods: {
     selectEvent(item) {
-      const vm = this;
-      vm.detailIcon = item.icon2;
-      vm.$router.push(item.value);
+      this.$router.push(item.value);
     },
   },
 };

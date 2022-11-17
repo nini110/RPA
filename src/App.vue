@@ -3,6 +3,7 @@
 		<transition name="el-fade-in-linear">
 			<router-view/>
 		</transition>
+
 	</div>
 </template>
 <script>
@@ -13,12 +14,12 @@
 		},
 		created() {
 			// 线上发布时created中所有都注释
-			// this.$route.query.wx_code = "rWbp78cZoH2oQuhO1oP3oIXDvSPXSSNURQsbt75O0pc";
-			// this.$route.query.wx_userid = "1020108";
-			// this.$route.query.user_name = "方涛";
-			// localStorage.setItem("wx_code", this.$route.query.wx_code);
-			// localStorage.setItem("wx_userid", this.$route.query.wx_userid);
-			// localStorage.setItem("user_name", this.$route.query.user_name);
+			this.$route.query.wx_code = "9mzshu4Zuj_q-4AELt5NO6snPoa5kKyjfpE_W-kRhvk";
+			this.$route.query.wx_userid = "1020108";
+			this.$route.query.user_name = "方涛";
+			localStorage.setItem("wx_code", this.$route.query.wx_code);
+			localStorage.setItem("wx_userid", this.$route.query.wx_userid);
+			localStorage.setItem("user_name", this.$route.query.user_name);
 		},
 	};
 </script>

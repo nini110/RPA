@@ -127,6 +127,38 @@ module.exports = {
 			config.devtool = 'source-map'
 		}
 	},
-
-
+	devServer: {
+		open: true, // 编译完成打开网页
+		host: '0.0.0.0', // 使用本地默认地址
+		port: 8001,
+		https: false, // 编译失败刷新页面
+		hotOnly: true,  // 开启热加载
+		// change 设置跨域代理
+		proxy: {
+			'/host8001': {// 拦截地址中有/8001
+				target: 'http://114.67.229.243:8001', // 8001端口
+				changeOrigin: true,
+				secure: false,
+				pathRewrite: {
+					'^/host8001': ''
+				}
+			},
+			'/host8002': {
+				target: 'http://114.67.229.243:8002', // 8002端口
+				changeOrigin: true,
+				secure: false,
+				pathRewrite: {
+					'^/host8002': ''
+				}
+			},
+			'/host8101': {
+				target: 'http://114.67.229.243:8101', // 8101端口
+				changeOrigin: true,
+				secure: false,
+				pathRewrite: {
+					'^/host8101': ''
+				}
+			},
+		},
+	},
 }

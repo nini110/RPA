@@ -4,103 +4,102 @@
       <div class="content_form ts">
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
           <div class="formObj_ipt">
-            <div class="formObj_ipt_lf">
-              <el-tabs
-                tab-position="left"
-                v-model="activeName"
-                type="border-card"
-                stretch
-                @tab-click="tabClick"
-              >
-                <el-tab-pane name="1" label="密码登录">
-                  <div class="formObj_ipt_rt" v-if="activeName === '1'">
-                    <el-row>
-                      <el-col :span="12">
-                        <el-form-item label="账号:" prop="username">
-                          <el-input
-                            v-model.trim="form.username"
-                            size="large"
-                            placeholder="请输入账号"
-                            clearable
-                          >
-                          </el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="12">
-                        <el-form-item label="密码:" prop="password">
-                          <el-input
-                            v-model.trim="form.password"
-                            size="large"
-                            placeholder="请输入密码"
-                            clearable
-                            show-password
-                          >
-                          </el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col
-                        :span="12"
-                        v-if="$route.fullPath.indexOf('beijingMustPass') !== -1"
+            <div class="formObj_ipt_abso">
+              <el-result>
+                <template slot="icon">
+                  <span class="selficon iconfont icon-qiehuan"></span>
+                </template>
+                <template slot="extra">
+                  <el-radio-group v-model="activeName">
+                    <el-radio label="1">密码登录</el-radio>
+                    <el-radio label="2">Cookie登录</el-radio>
+                  </el-radio-group>
+                </template>
+              </el-result>
+            </div>
+            <div class="formObj_ipt_rt" v-if="activeName === '1'">
+              <el-row>
+                <el-col :span="12">
+                  <el-form-item label="账号:" prop="username">
+                    <el-input
+                      v-model.trim="form.username"
+                      size="large"
+                      placeholder="请输入账号"
+                      clearable
+                    >
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="密码:" prop="password">
+                    <el-input
+                      v-model.trim="form.password"
+                      size="large"
+                      placeholder="请输入密码"
+                      clearable
+                      show-password
+                    >
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col
+                  :span="12"
+                  v-if="$route.fullPath.indexOf('beijingMustPass') !== -1"
+                >
+                  <!-- 只有京准通里有类型选择 -->
+                  <el-form-item label="类型:" prop="choose">
+                    <el-select
+                      v-model="form.choose"
+                      placeholder="请选择类型"
+                      size="large"
+                    >
+                      <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
                       >
-                        <!-- 只有京准通里有类型选择 -->
-                        <el-form-item label="类型:" prop="choose">
-                          <el-select
-                            v-model="form.choose"
-                            placeholder="请选择类型"
-                            size="large"
-                          >
-                            <el-option
-                              v-for="item in options"
-                              :key="item.value"
-                              :label="item.label"
-                              :value="item.value"
-                            >
-                            </el-option>
-                          </el-select>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="12">
-                        <el-form-item label="PIN:" prop="pin">
-                          <el-input
-                            v-model.trim="form.pin"
-                            size="large"
-                            placeholder="请输入PIN"
-                            clearable
-                          >
-                          </el-input>
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                  </div>
-                </el-tab-pane>
-                <el-tab-pane name="2" label="Cookie登录">
-                  <div class="formObj_ipt_rt" v-if="activeName === '2'">
-                    <el-row>
-                      <el-col :span="24">
-                        <el-form-item label="账号:" prop="username">
-                          <el-input
-                            v-model.trim="form.username"
-                            size="large"
-                            placeholder="京准通登录请输入账号，京牌代理登录请输入pin"
-                            clearable
-                          >
-                          </el-input>
-                        </el-form-item>
-                      </el-col>
-                      <el-col :span="24">
-                        <el-form-item label="Cookie:" prop="cookie">
-                          <el-input
-                            v-model.trim="form.cookie"
-                            placeholder="请输入Cookie"
-                            clearable
-                          >
-                          </el-input>
-                        </el-form-item>
-                      </el-col>
-                    </el-row>
-                  </div>
-                </el-tab-pane>
-              </el-tabs>
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="12">
+                  <el-form-item label="PIN:" prop="pin">
+                    <el-input
+                      v-model.trim="form.pin"
+                      size="large"
+                      placeholder="请输入PIN"
+                      clearable
+                    >
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
+            <div class="formObj_ipt_rt" v-if="activeName === '2'">
+              <el-row>
+                <el-col :span="24">
+                  <el-form-item label="账号:" prop="username">
+                    <el-input
+                      v-model.trim="form.username"
+                      size="large"
+                      placeholder="京准通登录请输入账号，京牌代理登录请输入pin"
+                      clearable
+                    >
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item label="Cookie:" prop="cookie">
+                    <el-input
+                      v-model.trim="form.cookie"
+                      placeholder="请输入Cookie"
+                      clearable
+                    >
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
             </div>
           </div>
           <div class="formObj_upload">
@@ -329,6 +328,7 @@ import { directiveList, directiveSave, directiveLog } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
 import Upload from "@/components/upload";
+import dayjs from "dayjs";
 
 export default {
   name: "DMP",
@@ -418,7 +418,6 @@ export default {
       logInterval: null,
       excelOpt: [], // 默认的excel数据
       showExcel: false,
-      curInfo: {},
       errorUpInfo: "",
       rules: {
         username: [
@@ -469,8 +468,8 @@ export default {
         },
       ],
       form: {
-        username: "",
-        password: "",
+        username: "小米灵狐代投1",
+        password: "afocusxiaomi2022",
         cookie: "",
         pin: "",
         choose: 2,
@@ -512,8 +511,8 @@ export default {
       this.logContent = "";
       this.endingTxt = "日志正在加载";
       this.endingCode = 0;
-      clearInterval(this.logInterval);
-      this.logInterval = null;
+      // clearInterval(this.logInterval);
+      // this.logInterval = null;
       this.getuserlist();
     },
     getFileEvent(val) {
@@ -569,9 +568,9 @@ export default {
                 vm.$msg({ msg: "保存成功" });
                 vm.excelData = null;
                 vm.excelName = "";
-                vm.logEvent(res.data.data);
+                vm.logEvent(res.data.data, 1);
                 vm.logInterval = setInterval(() => {
-                  vm.logEvent(res.data.data);
+                  vm.logEvent(res.data.data, 5);
                 }, 3000);
                 vm.showLogDialog = true;
                 vm.$refs.form.resetFields();
@@ -610,11 +609,15 @@ export default {
     // 查看详情按钮
     detailEvent(row) {
       const vm = this;
-      vm.logEvent(row.file_path);
-      vm.logInterval = setInterval(() => {
+      clearInterval(vm.logInterval);
+      vm.logInterval = null;
+      vm.$nextTick(() => {
         vm.logEvent(row.file_path);
-      }, 3000);
-      vm.showLogDialog = true;
+        vm.logInterval = setInterval(() => {
+          vm.logEvent(row.file_path);
+        }, 3000);
+        vm.showLogDialog = true;
+      });
     },
     // 关闭excel
     closeEvent(tag, val, opt) {
@@ -622,7 +625,6 @@ export default {
       vm.showExcel = false;
       // 保存
       if (tag === 1) {
-        console.log(val);
         vm.excelData = val;
         vm.excelOpt = opt;
         vm.excelName = vm.formSource === 1 ? "已创建的Excel文件" : vm.excelName;
@@ -632,10 +634,10 @@ export default {
       }
     },
     // 日志接口
-    logEvent(path) {
+    logEvent(path, tag) {
       const vm = this;
       directiveLog({
-        path,
+        path
       }).then((res) => {
         vm.endingCode = res.data.code;
         if (res.data.code === 10000) {
@@ -646,10 +648,17 @@ export default {
           vm.logContent = res.data.data || "";
           clearInterval(vm.logInterval);
           vm.logInterval = null;
+          if (!vm.showLogDialog) {
+            vm.getuserlist();
+          }
         } else {
           // 错误  清除定时器
-          vm.closeLogEvent();
+          clearInterval(vm.logInterval);
+          vm.logInterval = null;
           vm.$msg({ type: "error", msg: "日志获取失败" });
+          if (!vm.showLogDialog) {
+            vm.getuserlist();
+          }
         }
       });
     },

@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8802669",
+      "name": "切换",
+      "font_class": "qiehuan",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
       "icon_id": "3896489",
       "name": "52-鼠标",
       "font_class": "-shubiao",

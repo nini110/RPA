@@ -67,15 +67,14 @@
             <div style="text-align: center">{{ user.id }}</div>
           </el-popover>
           <span class="logout iconfont icon-tcdl" @click="close"></span>
-          <span
+          <!-- <span
             v-if="errorLogs.length > 0"
             :class="{ active: errorLogs.length > 0 }"
             class="bugSpan iconfont icon-bug-report"
             @click="showError"
             >错误</span
-          >
+          > -->
         </div>
-        <!-- <div id ="togleCol" class="phone iconfont icon-shouji" @click="toggleMode()">移动版</div> -->
       </div>
     </div>
     <EorLog :showLog="showLog" @close="closeLog"></EorLog>

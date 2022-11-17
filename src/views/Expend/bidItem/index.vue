@@ -21,19 +21,6 @@
                 <h2>年度总消耗</h2>
                 <div class="ziyou_chart_topleft ts">
                   <div id="barBox1" class="ts"></div>
-                  <p>
-                    <span class="infotip"
-                      >今年相较去年{{ tooltipContent }}同比</span
-                    >
-                    <span
-                      :class="
-                        varietyPercent > 0
-                          ? 'el-icon-top top'
-                          : 'el-icon-bottom bot'
-                      "
-                      >{{ Math.abs(varietyPercent) }}%</span
-                    >
-                  </p>
                 </div>
               </div>
               <div class="ts2_box2">
@@ -130,7 +117,6 @@ export default {
     const vm = this;
     return {
       description: "",
-      tooltipContent: "",
       activeName: "0",
       tableBox: [
         {
@@ -180,20 +166,20 @@ export default {
       ],
       varietyPercent: 0,
       barOption2: {
-        backgroundColor: new this.$echarts.graphic.LinearGradient(1, 0, 0, 1, [
-          {
-            offset: 0,
-            color: '#000'
-          },
-          {
-            offset: 1,
-            color: '#909399'
-          },
-        ]),
+        // backgroundColor: new this.$echarts.graphic.LinearGradient(1, 0, 0, 1, [
+        //   {
+        //     offset: 0,
+        //     color: "#000",
+        //   },
+        //   {
+        //     offset: 1,
+        //     color: "#909399",
+        //   },
+        // ]),
         grid: {
-          left: "20%",
+          left: "15%",
           top: "30%",
-          right: "5%",
+          right: "22%",
           bottom: "10%",
         },
         tooltip: {
@@ -249,10 +235,10 @@ export default {
         legend: {
           data: ["今年", "去年"],
           left: "center",
-          top: 20,
+          top: 30,
           textStyle: {
             //文字样式
-            color: "#fff",
+            color: "#303133",
             fontSize: "12",
           },
         },
@@ -260,28 +246,77 @@ export default {
           type: "value",
           show: false,
         },
-        yAxis: {
-          type: "category",
-          splitLine: {
-            show: false,
-          },
-          axisTick: {
-            show: false,
-          },
-          data: ["全年", "到当前月"],
-          axisLabel: {
-            textStyle: {
-              color: "#fff",
-              // fontSize: 12,
+        yAxis: [
+          {
+            type: "category",
+            splitLine: {
+              show: true,
+            },
+            axisTick: {
+              show: false,
+            },
+            data: ["全年", "到当前月"],
+            axisLabel: {
+              textStyle: {
+                color: "#303133",
+                // fontSize: 12,
+              },
+            },
+            axisLine: {
+              show: false,
+              lineStyle: {
+                color: "rgba(98, 162, 205, 0.2)",
+              },
             },
           },
-          axisLine: {
-            show: false,
-            lineStyle: {
-              color: "rgba(98, 162, 205, 0.2)",
+          {
+            type: "category",
+            inverse: true,
+            offset: 0,
+            axisTick: "none",
+            axisLine: "none",
+            show: true,
+            axisLabel: {
+              textStyle: {
+                color: function(value, index) {
+                  return value > 0 ? "#ff7777" : '#387d2c'
+                },
+                fontWeight: 'bold',
+                padding: [6, 10, 6, 10],
+                backgroundColor: '#f5f5f5',
+                fontSize: "12",
+              },
+              formatter: (param) => {
+                let index;
+                if (param) {
+                  index = param > 0 ? 1 : 2;
+                  return `{img${index}|}{value|${param}%}`;
+                } else {
+                  return "";
+                }
+              },
+              rich: {
+                // 上升
+                img1: {
+                  height: 25,
+                  backgroundColor: {
+                    image:
+                      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAexJREFUWEftlj9IG1Ecx7+/y1FBxcEjCQqC3t3kYGkuIDqIDh2cGhBxEsFFcNDN1XZ0KJRCl0JBnKRDN1F00EWKmD9QsVC400GJ3AMXB8Wo+ZVCFAm55L0LNIO59b6/7/fzvu8e7wgNfqjefLbtFnLd27A+dQEIxzoFYBDzx2j25EMYiNAApfDex1BmnohnT36oQoQCEI75HaDJ52EE5ItcHI9nT3+pQCgD+I75hUDzlUKIcQjWU9Hcn7wshBKASJqzYPpWzZzB24VXhVTPz/MbGQhpAP9N32to2g4BUQnjtVjGm5HQQQpA9Pe3o7WwAeYRGdOSZjGW8T7X0ssBONYqAKkVPQu80QlvO9PefjWImgB+wnxPRMu1VhLwPhfR8M449M6C5qsCiIQ1BcJ6yPDSGO3c4zrVnclfVzw5QeZ+om9AI22Tge76AAAmfI2nvTklAOFYuwBG6w1/nI/o1GMcuOflfoFbIBx7ksCfQjawVxZ0FMt4C0oNVBJfJO3RCPMWgJagZh6IxrrSbjlAYJE1T0H5pHAsD4DZSICq38b/aKAJ0Gyg2UCzgRfegJ+wVoiw1LC7wE/a08S8FnC1Hms6DRsH7pXsf4TybXg5aHfc32EI4AGA256CSBN6EXtGzv0tG/5PpwygYi6j/QuNY80hJ6JoYwAAAABJRU5ErkJggg==",
+                  },
+                },
+                // 下降
+                img2: {
+                  height: 25,
+                  backgroundColor: {
+                    image:
+                      "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAetJREFUWEftlTFo1GAUx/8vtLVFWkdHLRaUJgfCgZe2OLSgFAqCooKbLi7ieg4mdxe+tNCOIoKTjqUFETt0EKHQwS/oIDSpS4dOdq443ND7nuTKLcddLl/uzjpc1rz3//++f973Qjjjh3T954pXx0/ODS0R07Xm3mFVe7u78vNIR1MbwHat7wDyrU34vRTRk34DcHsDPpQimjxDAECKUCtVreL4ZLZrJSQwABgkMEhgkMB/kMCo8Wdsxzuspl3HWpuwUJ6aIDV6nCTOBpuBF+33BcB2px8DxrtkcVqTYu9F1wAFx9wgogdphRLrGBXph16rmrafwHatAwBXegHAzJuBHz3UApgpWXeZ8aEnAOBHgYjWtQBOf725VYCL3UAQ6PlXsfe6nUbiLcg/zQ+PXKx+YdDNTBAMT/phJam34zWcLU9fV8r4COCSJsSWFOGdTj0dAWKBG465YBDFEOOdBE/f0y821K00+yAVQCxZcMz7RLSZBoAThq65PzVAfShLlg/Gy8RNCH4WiOhNGtB6VmkLG3W2m9sGeLFlH8ORfriso6kNMOPmcgz1CaDLTUafpQhv65hnSiBumnXMBUW0DWCkYchG9ULgHfz+JwD1eXCseyC8YuC8qqn5byv7P3TNMyeQxSjTJuylUTutv8R3siHwOq4+AAAAAElFTkSuQmCC",
+                  },
+                },
+              },
             },
+            data: [],
           },
-        },
+        ],
         series: [
           {
             name: "今年",
@@ -289,30 +324,30 @@ export default {
             itemStyle: {
               normal: {
                 barBorderRadius: 0,
-                color: "#FFAD33",
+                color: "#F47FAC",
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形
-            symbolMargin: "1", //图形垂直间隔
+            symbolMargin: "0.5", //图形垂直间隔
             symbolRepeat: true, //图形是否重复
-            symbolSize: ["25%", "200%"], //图形元素的尺寸
+            symbolSize: ["20%", "220%"], //图形元素的尺寸
             data: [],
           },
           {
             name: "去年",
             type: "pictorialBar",
-            barGap: "150%",
+            barGap: "220%",
             itemStyle: {
               normal: {
                 barBorderRadius: 0,
-                color: '#4EE4C6'
+                color: "#3E8FF2",
               },
             },
             symbol: "rich", //图形类型，带圆角的矩形
-            symbolMargin: "1", //图形垂直间隔
+            symbolMargin: "0.5", //图形垂直间隔
             symbolRepeat: true, //图形是否重复
             // symbolSize: [2, 13], //图形元素的尺寸
-            symbolSize: ["25%", "200%"], //图形元素的尺寸
+            symbolSize: ["20%", "220%"], //图形元素的尺寸
             data: [],
           },
         ],
@@ -325,7 +360,7 @@ export default {
           data: ["今年", "去年"],
         },
         grid: {
-          left: "15%",
+          left: "20%",
           right: "3%",
           bottom: "15%",
           top: "18%",
@@ -537,11 +572,11 @@ export default {
             totalConsum_last += linedata.last_year[i].cost;
           }
         }
-        vm.tooltipContent = `（1月至${currentMonth}月区间）`;
         vm.varietyPercent =
           Math.round(
             ((totalConsum_now - totalConsum_last) / totalConsum_last) * 10000
           ) / 100;
+          vm.barOption2.yAxis[1].data = [vm.varietyPercent, ""];
 
         // 折线图
         linedata.this_year.forEach((val, idx) => {

@@ -146,10 +146,18 @@
 					}
 
 					&_abso {
-						flex-basis: 30%;
+						flex-basis: 25%;
 						display: flex;
 						align-items: center;
 						justify-content: center;
+						.el-radio-group {
+							display: flex;
+							align-items: center;
+							justify-content: space-around;
+							label {
+								margin: 10px;
+							}
+						}
 					}
 
 					&.expend {
@@ -164,12 +172,6 @@
 
 					&.lable3 {
 						flex-basis: 100%;
-
-						// .el-col:last-child {
-						// 	padding-left: 100px;
-						// 	text-align: center;
-						// 	margin-bottom: 30px;
-						// }
 					}
 
 					/deep/.el-form-item {

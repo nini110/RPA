@@ -1,0 +1,107 @@
+.slide {
+    position: fixed;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    user-select: none;
+
+    &_top {
+        width: 500px;
+        height: 300px;
+        border: 1px solid red;
+        margin-bottom: 20px;
+        position: relative;
+    }
+    &_img {
+        &_bg {
+            img {
+                vertical-align: middle;
+            }
+        }
+        &_small {
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    }
+    &_btm {
+        position: relative;
+        margin-bottom: 20px;
+    }
+    &_mask {
+        display: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #bfbfbfd1;
+        text-align: center;
+        line-height: 300px;
+        color: #fff;
+        z-index: 999;
+        align-items: center;
+        justify-content: center;
+    }
+
+    &_rtBtn {
+        position: absolute;
+        left: 300px;
+        top: 50px;
+        width: 60px;
+        height: 60px;
+        background-color: rgba(0, 0, 0, 0.236);
+        z-index: 10;
+    }
+
+    &_lfBtn {
+        position: absolute;
+        left: 0;
+        top: 50px;
+        width: 60px;
+        height: 60px;
+        background-color: rgba(0, 0, 0, 0.601);
+        z-index: 10;
+    }
+
+    &_btn,
+    &_blue {
+        position: absolute;
+        left: 0;
+        bottom: -60px;
+        z-index: 10;
+    }
+
+    &_btn {
+        width: 60px;
+        height: 60px;
+        z-index: 40;
+        background: #fff url(../../../assets/images/rpa-slide-btn.png) no-repeat 0 0;
+        box-shadow: inset 0 0 30px #c0861773;
+
+        background-size: 100% 100%;
+        border-radius: 50%;
+        left: 0;
+        top: 50%;
+        transform: translate(0, -50%);
+    }
+
+    &_line {
+        width: 100%;
+        height: 30px;
+        border-radius: 30px;
+        line-height: 60px;
+        text-align: center;
+        color: #10b2fa;
+        box-shadow: inset 0 0 30px rgba(19, 129, 178, 0.505);
+    }
+
+    &_blue {
+        height: 30px;
+        border-radius: 30px;
+        background-color: #1381b2;
+        top: 0;
+        color: #fff;
+        z-index: 30;
+    }
+}
