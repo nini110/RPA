@@ -7,12 +7,18 @@
             <div class="formObj_ipt_abso">
               <el-result>
                 <template slot="icon">
-                  <span class="selficon iconfont icon-qiehuan"></span>
+                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-qiehuan2"></use>
+                    </svg>
                 </template>
                 <template slot="extra">
                   <el-radio-group v-model="activeName">
-                    <el-radio label="1">密码登录</el-radio>
-                    <el-radio label="2">Cookie登录</el-radio>
+                    <el-radio
+                      v-for="(item, idx) in radioOpt"
+                      :label="item.code"
+                      :key="idx"
+                      >{{ item.txt }}</el-radio
+                    >
                   </el-radio-group>
                 </template>
               </el-result>
@@ -324,11 +330,15 @@
 </template>
 
 <script>
-import { directiveList, directiveSave, directiveLog } from "@/api/api.js";
+import {
+  directiveList,
+  directiveSave,
+  directiveLog,
+  sfToolsSave,
+} from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
 import Upload from "@/components/upload";
-import dayjs from "dayjs";
 
 export default {
   name: "DMP",
@@ -350,6 +360,9 @@ export default {
       type: Array,
       default: [],
     },
+    formMenu: {
+      type: Number,
+    },
   },
   computed: {
     requireCse() {
@@ -357,6 +370,36 @@ export default {
     },
   },
   watch: {
+    formMenu: {
+      handler(newval, oldval) {
+        const vm = this;
+        switch (newval) {
+          case 1:
+            vm.activeName = "1";
+            vm.radioOpt = [
+              {
+                code: "1",
+                txt: "密码登陆",
+              },
+              {
+                code: "2",
+                txt: "Cookie登录",
+              },
+            ];
+            break;
+          case 2:
+            vm.activeName = "2";
+            vm.radioOpt = [
+              {
+                code: "2",
+                txt: "Cookie登录",
+              },
+            ];
+            break;
+        }
+      },
+      immediate: true,
+    },
     activeName(newval, oldval) {
       this.rules.username[0].message =
         newval === "1"
@@ -366,7 +409,7 @@ export default {
     $route: {
       handler(newval, oldval) {
         const vm = this;
-        vm.activeName = "1";
+        vm.activeName = vm.formMenu === 1 ? "1" : "2";
         vm.getuserlist();
         vm.username = localStorage.getItem("user_name");
         vm.people = localStorage.getItem("user_name");
@@ -407,6 +450,7 @@ export default {
     };
     return {
       activeName: "1",
+      radioOpt: [],
       formSource: 1, // 点击来源 1 新建  2 导入
       excelData: null, // 提交的excel数据
       excelName: "",
@@ -507,12 +551,9 @@ export default {
       this.showVarDia = false;
     },
     closeLogEvent() {
-      // this.showLogDialog = false;
       this.logContent = "";
       this.endingTxt = "日志正在加载";
       this.endingCode = 0;
-      // clearInterval(this.logInterval);
-      // this.logInterval = null;
       this.getuserlist();
     },
     getFileEvent(val) {
@@ -561,25 +602,51 @@ export default {
           if (!vm.excelData) {
             vm.$msg({ type: "error", msg: "请先添加表格数据" });
           } else {
-            directiveSave({
-              ...submitdata,
-            }).then((res) => {
-              if (res.data.code === 10000) {
-                vm.$msg({ msg: "保存成功" });
-                vm.excelData = null;
-                vm.excelName = "";
-                vm.logEvent(res.data.data, 1);
-                vm.logInterval = setInterval(() => {
-                  vm.logEvent(res.data.data, 5);
-                }, 3000);
-                vm.showLogDialog = true;
-                vm.$refs.form.resetFields();
-              } else if (res.data.code === 10006) {
-                vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
-              } else {
-                vm.$msg({ type: "error", msg: res.data.data || res.data.msg });
-              }
-            });
+            if (vm.formMenu === 1) {
+              directiveSave({
+                ...submitdata,
+              }).then((res) => {
+                if (res.data.code === 10000) {
+                  vm.$msg({ msg: "保存成功" });
+                  vm.excelData = null;
+                  vm.excelName = "";
+                  vm.logEvent(res.data.data);
+                  vm.logInterval = setInterval(() => {
+                    vm.logEvent(res.data.data);
+                  }, 3000);
+                  vm.showLogDialog = true;
+                  vm.$refs.form.resetFields();
+                } else if (res.data.code === 10006) {
+                  vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
+                } else {
+                  vm.$msg({
+                    type: "error",
+                    msg: res.data.data || res.data.msg,
+                  });
+                }
+              });
+            } else {
+              sfToolsSave({ ...submitdata }).then((res) => {
+                if (res.data.code === 10000) {
+                  vm.$msg({ msg: "保存成功" });
+                  vm.excelData = null;
+                  vm.excelName = "";
+                  vm.logEvent(res.data.data);
+                  vm.logInterval = setInterval(() => {
+                    vm.logEvent(res.data.data);
+                  }, 3000);
+                  vm.showLogDialog = true;
+                  vm.$refs.form.resetFields();
+                } else if (res.data.code === 10006) {
+                  vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
+                } else {
+                  vm.$msg({
+                    type: "error",
+                    msg: res.data.data || res.data.msg,
+                  });
+                }
+              });
+            }
           }
         }
       });
@@ -634,10 +701,10 @@ export default {
       }
     },
     // 日志接口
-    logEvent(path, tag) {
+    logEvent(path) {
       const vm = this;
       directiveLog({
-        path
+        path,
       }).then((res) => {
         vm.endingCode = res.data.code;
         if (res.data.code === 10000) {

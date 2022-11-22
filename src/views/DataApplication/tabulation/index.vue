@@ -6,7 +6,14 @@
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
           <div class="formObj_ipt">
             <div class="formObj_ipt_abso">
-              <el-result :icon="dataIcon" :title="dataDesc"> </el-result>
+              <!--  :icon="dataIcon" -->
+              <el-result :title="dataDesc">
+                <template slot="icon">
+                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <use :xlink:href="dataIcon"></use>
+                  </svg>
+                </template>
+              </el-result>
             </div>
             <el-row class="formObj_ipt_rt">
               <el-col :span="24">
@@ -48,9 +55,13 @@
             </el-row>
           </div>
           <div v-if="checkedItem.file" class="formObj_upload ts">
-            <el-form-item label="" :error="errorUploadInfo">
-              <Upload @getFile="getFileEvent" tag="word"></Upload>
-              <span class="uptxt">{{ excelName }}</span>
+            <el-form-item label="" prop="file">
+              <Upload
+                @getFile="getFileEvent"
+                tag="word"
+                showFileList
+                upTxt="点击上传"
+              ></Upload>
             </el-form-item>
           </div>
         </el-form>
@@ -228,11 +239,18 @@ export default {
   },
   mixins: [message],
   data() {
+    const vm = this;
+    let validFile = (rule, value, callback) => {
+      if (vm.checkedItem.file) {
+        callback(vm.fileList && vm.fileList.length === 0 ? "请上传文件" : "");
+      } else {
+        callback();
+      }
+    };
     return {
       excelName: "",
       pageHaseItem: 0, // 当前页有多少条数据
       errorStateInfo: "",
-      errorUploadInfo: "",
       dateDis: true,
       itemOptions: null,
       form: {
@@ -266,6 +284,7 @@ export default {
             trigger: "change",
           },
         ],
+        file: [{ required: true, validator: validFile, trigger: "blur" }],
       },
       multipleSelection: "",
       multipleSelectionLength: 0,
@@ -281,23 +300,28 @@ export default {
     },
   },
   watch: {
+    fileList(newval, oldval) {
+      if (newval) {
+        this.$refs.form.validateField("file");
+      }
+    },
     dataState: {
       handler(newval, oldval) {
         switch (newval) {
           case 0:
-            this.dataIcon = "warning";
+            this.dataIcon = "#icon-jinggao1";
             this.dataDesc = "数据准备中";
             break;
           case 1:
-            this.dataIcon = "success";
+            this.dataIcon = "#icon-chenggong";
             this.dataDesc = "数据已准备";
             break;
           case 2:
-            this.dataIcon = "error";
+            this.dataIcon = "#icon-cuowu";
             this.dataDesc = "数据未准备";
             break;
           default:
-            this.dataIcon = "info";
+            this.dataIcon = "#icon-xinxi1";
             this.dataDesc = "选择项目和日期查询数据状态";
         }
       },
@@ -448,16 +472,8 @@ export default {
       vm.loading = true;
       vm.$refs.form.validate((valid) => {
         if (valid) {
-          if (vm.checkedItem.file) {
-            vm.errorUploadInfo =
-              vm.fileList && vm.fileList.length !== 0 ? "" : "请上传文件";
-            if (!vm.errorUploadInfo && vm.dataState === 1) {
-              vm.createRepo();
-            }
-          } else {
-            if (vm.dataState === 1) {
-              vm.createRepo();
-            }
+          if (vm.dataState === 1) {
+            vm.createRepo();
           }
         }
       });

@@ -1,12 +1,14 @@
 <template>
   <div class="upbox">
+    <!--   accept=".xlsx,.xls,.csv"-->
     <el-upload
       drag
-      :auto-upload="true"
-      accept=".xlsx,.csv"
+      accept=".xlsx,.xls,.csv"
+      :auto-upload="false"
+      :show-file-list="showFileList"
       :action="UploadUrl()"
       :on-remove="remfile"
-      :before-upload="beforeUploadFile"
+      :on-preview="handlePreview"
       :on-change="fileChange"
       :on-success="handleSuccess"
       :on-error="handleError"
@@ -14,7 +16,9 @@
       :multiple="multiple"
     >
       <i class="el-icon-upload"></i>
-      <div class="el-upload__text">将文件拖到此处，或<em>点击导入</em></div>
+      <div class="el-upload__text">
+        将文件拖到此处，或<em>{{ upTxt }}</em>
+      </div>
       <div v-if="showPros" class="el-upload__tip" slot="tip">
         {{ txt }}
       </div>
@@ -24,10 +28,13 @@
 <script>
 //  npm i -S exceljs file-saver luckyexcel
 import LuckyExcel from "luckyexcel";
-import { exportExcel } from "../excelDialog/export";
 export default {
   name: "varifyDialog",
   props: {
+    upTxt: {
+      default: "点击导入",
+      type: String,
+    },
     txt: {
       default: "请先上传xlsx文件后，再进行执行操作",
       type: String,
@@ -48,6 +55,10 @@ export default {
       default: "Sheet1",
       type: String,
     },
+    showFileList: {
+      default: false,
+      type: Boolean,
+    },
   },
   data() {
     return {
@@ -55,56 +66,56 @@ export default {
     };
   },
   methods: {
-    // 上传文件之前的钩子, 参数为上传的文件,若返回 false 或者返回 Promise 且被 reject，则停止上传
-    beforeUploadFile(file) {
+    // 文件状态改变时的钩子
+    fileChange(file, fileList) {
       const vm = this;
+      vm.fileList = [];
       let extension = file.name.substring(file.name.lastIndexOf(".") + 1);
       let size = file.size / 1024 / 1024;
-      if (extension !== "xlsx") {
-        vm.$message.warning("只能上传后缀是.xlsx的文件");
+      if (extension !== "xlsx" && extension !== "xls" && extension !== "csv") {
+        vm.$msg({ type: "error", msg: "只能上传excel文件" });
+        return;
       }
       if (size > 50) {
-        vm.$message.warning("文件大小不得超过50M");
+        vm.$msg({ type: "warning", msg: "文件大小不得超过50M" });
+        return;
       }
       if (vm.tag === "excel") {
-        let whiteList = ["Sheet1", "京腾魔方人群定向"];
-        LuckyExcel.transformExcelToLucky(file, (exportJson, luckysheetfile) => {
-          if (exportJson.sheets === null || exportJson.sheets.length === 0) {
-            vm.$message.error("无法读取excel文件的内容，当前不支持xls文件！");
-            return;
-          }
+        LuckyExcel.transformExcelToLucky(file.raw, (exportJson, luckysheetfile) => {
           exportJson.sheets.forEach((val, idx) => {
             val.index = parseInt(val.index);
             val.order = parseInt(val.order);
             val.status = parseInt(val.status);
             val.showGridLines = parseInt(val.showGridLines);
             // 隐藏无用的sheet
-            val.hide = val.name=== vm.sheetName ? 0 : 1
+            val.hide = val.name === vm.sheetName ? 0 : 1;
           });
           window.luckysheet.destroy();
           vm.$emit("openEvent", exportJson.sheets);
         });
       }
+      vm.fileList.push(file.raw);
+      vm.$emit("getFile", vm.fileList);
     },
-    // 文件状态改变时的钩子
-    fileChange(file, fileList) {
-      this.fileList = [];
-      this.fileList.push(file.raw);
-      this.$emit("getFile", this.fileList);
+    // 点击文件列表文件名的时候
+    handlePreview(file) {
+      const vm = this;
     },
     //文件列表移除时的钩子
     remfile(file, fileList) {
       this.fileList.pop("file");
       this.$emit("getFile", this.fileList);
     },
-    // 文件上传成功时的钩子
+    // 自动上传开启 -- 文件上传成功时的钩子
     handleSuccess(res, file, fileList) {
+      console.log("上传成功");
       this.$message.success("文件上传成功");
       this.fileList = [];
       this.$emit("getFile", this.fileList);
     },
-    // 文件上传失败时的钩子
+    // 自动上传开启 --  文件上传失败时的钩子
     handleError(err, file, fileList) {
+      console.log("上传失败");
       this.$message.error("文件上传失败");
     },
     UploadUrl: function () {
@@ -118,9 +129,9 @@ export default {
 @import "@/views/index";
 .upbox {
   height: 100%;
+  line-height: 1;
   div:first-child {
     height: 100%;
-
   }
 }
 </style>

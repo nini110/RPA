@@ -107,6 +107,11 @@ export const directiveLog = request({
     url: `${BASEPATH}/apps/read_log/`,
     method:'get',
 })
+// 提质工具--数方
+export const sfToolsSave = request({
+    url: `${BASEPATH}/apps/sf_online_tool/`,
+    method:'post',
+})
 
 // 查看详情   ok
 export const fxcjviewDetails = request({

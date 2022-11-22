@@ -118,29 +118,24 @@ export default {
           index: "2",
           children: [
             {
-              label: "数坊人群圈选",
-              value: "/layout/bigData/Number",
+              label: "数坊人群计算",
+              value: "/layout/bigData/Caculate",
               index: "2-1",
             },
             {
-              label: "营销活动人群",
-              value: "/layout/bigData/Activity",
+              label: "数坊人群圈选",
+              value: "/layout/bigData/Select",
               index: "2-2",
             },
             {
-              label: "自定义分析创建",
+              label: "数坊洞察分析",
               value: "/layout/bigData/Analysis",
               index: "2-3",
             },
             {
-              label: "数坊人群交并差集",
-              value: "/layout/bigData/Difference",
+              label: "数坊人群透视分析",
+              value: "/layout/bigData/Insight",
               index: "2-4",
-            },
-            {
-              label: "营销人群追踪",
-              value: "/layout/bigData/Population",
-              index: "2-5",
             },
           ],
         },

@@ -3,6 +3,7 @@
   <div style="height: 100%">
     <IptComp
       ref="iptcomp"
+      :formMenu="1"
       :toolType="toolType"
       :sheetName="sheetName"
       :excelOptions="excelOptions"

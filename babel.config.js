@@ -17,7 +17,7 @@ module.exports = {
       "component",
       {
         libraryName: "element-ui",
-        styleLibraryName: "~element-#287BB5",
+        styleLibraryName: "~element-#3B8EFF",
       }
     ],
     // echarts的按需加载  npm install babel-plugin-equire -D

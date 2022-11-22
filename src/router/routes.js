@@ -102,20 +102,20 @@ const routes = [{
 			},
 			component: () => import(/* webpackChunkName: "R_bigData"*/"../views/BigData"),
 			children: [{
-				path: 'number',
-				name: 'Number',
+				path: 'caculate',
+				name: 'Caculate',
 				meta: {
-					title: '数坊人群圈选',
+					title: '数坊人群计算',
 					deep: 3,
-					filePath: 'BeijingMustPass'
+					filePath: 'BigData'
 				},
 				component: () => import(/* webpackChunkName: "R_Number"*/"@/views/BigData"),
 			},
 			{
-				path: 'activity',
-				name: 'Activity',
+				path: 'select',
+				name: 'Select',
 				meta: {
-					title: '营销活动人群',
+					title: '数坊人群圈选',
 					deep: 3,
 					filePath: 'BigData'
 				},
@@ -125,31 +125,21 @@ const routes = [{
 				path: 'analysis',
 				name: 'Analysis',
 				meta: {
-					title: '自定义分析创建',
+					title: '数坊洞察分析',
 					deep: 3,
 					filePath: 'BigData'
 				},
 				component: () => import(/* webpackChunkName: "R_Analysis"*/"@/views/BigData"),
 			},
 			{
-				path: 'difference',
-				name: 'Difference',
+				path: 'insight',
+				name: 'Insight',
 				meta: {
-					title: '数坊人群交并差集',
+					title: '数坊人群透视分析',
 					deep: 3,
 					filePath: 'BigData'
 				},
 				component: () => import(/* webpackChunkName: "R_Difference"*/"@/views/BigData"),
-			},
-			{
-				path: 'population',
-				name: 'Population',
-				meta: {
-					title: '营销人群追踪',
-					deep: 3,
-					filePath: 'BigData'
-				},
-				component: () => import(/* webpackChunkName: "R_Population"*/"@/views/BigData"),
 			},
 			]
 		},

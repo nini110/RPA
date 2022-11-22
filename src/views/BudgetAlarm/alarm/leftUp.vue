@@ -44,11 +44,12 @@
           ></el-input>
         </el-form-item>
       </el-col>
-      <el-col>
+      <el-col style="margin-bottom: 20px">
         <el-form-item label="添加文件:" prop="file">
           <Upload
             :showPros="false"
             :multiple="false"
+            :showFileList="true"
             @getFile="getFileEvent"
           ></Upload>
         </el-form-item>
@@ -172,7 +173,9 @@ export default {
 };
 </script>
 <style scoped lang="less">
+@import "@/views/index";
 .footer_btn {
+  margin-top: 30px;
   text-align: right;
 }
 </style>

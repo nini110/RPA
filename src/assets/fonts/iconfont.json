@@ -6,32 +6,32 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8289020",
+      "name": "信息",
+      "font_class": "xinxi1",
+      "unicode": "e86f",
+      "unicode_decimal": 59503
+    },
+    {
+      "icon_id": "23949463",
+      "name": "切换",
+      "font_class": "qiehuan1",
+      "unicode": "ec56",
+      "unicode_decimal": 60502
+    },
+    {
+      "icon_id": "24732541",
+      "name": "切换",
+      "font_class": "qiehuan2",
+      "unicode": "ecac",
+      "unicode_decimal": 60588
+    },
+    {
       "icon_id": "8802669",
       "name": "切换",
       "font_class": "qiehuan",
       "unicode": "e656",
       "unicode_decimal": 58966
-    },
-    {
-      "icon_id": "3896489",
-      "name": "52-鼠标",
-      "font_class": "-shubiao",
-      "unicode": "e86a",
-      "unicode_decimal": 59498
-    },
-    {
-      "icon_id": "6918086",
-      "name": "滚轮键",
-      "font_class": "gunlunjian",
-      "unicode": "e7ca",
-      "unicode_decimal": 59338
-    },
-    {
-      "icon_id": "16404446",
-      "name": "线性上下滑动",
-      "font_class": "xianxingshangxiahuadong",
-      "unicode": "e68a",
-      "unicode_decimal": 59018
     },
     {
       "icon_id": "10986483",
