@@ -111,6 +111,13 @@ export const directiveLog = request({
 export const sfToolsSave = request({
     url: `${BASEPATH}/apps/sf_online_tool/`,
     method:'post',
+    responseType: 'form'
+})
+// 提质工具--数方 -- 下载
+export const sfToolsDown = request({
+    url: `${BASEPATH}/apps/sf_online_tool_download/`,
+    method:'get',
+    responseType: 'blob'
 })
 
 // 查看详情   ok

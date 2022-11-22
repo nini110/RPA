@@ -321,6 +321,8 @@ export default {
           }
         }
       }
+      console.log(1, vm.currentMenu);
+
     }
   },
   mounted() {
@@ -346,6 +348,7 @@ export default {
           }
         }
       }
+      console.log(vm.currentMenu);
     });
   },
   deatroyed() {

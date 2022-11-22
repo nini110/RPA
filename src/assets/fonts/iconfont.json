@@ -6,6 +6,20 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "8744262",
+      "name": "学习记录-01",
+      "font_class": "xuexijilu-",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "25073868",
+      "name": "垃圾桶",
+      "font_class": "lajitong1",
+      "unicode": "e724",
+      "unicode_decimal": 59172
+    },
+    {
       "icon_id": "8289020",
       "name": "信息",
       "font_class": "xinxi1",
@@ -193,13 +207,6 @@
       "font_class": "08check",
       "unicode": "e62c",
       "unicode_decimal": 58924
-    },
-    {
-      "icon_id": "6716814",
-      "name": "操作日志",
-      "font_class": "caozuorizhi",
-      "unicode": "e66e",
-      "unicode_decimal": 58990
     },
     {
       "icon_id": "9864871",

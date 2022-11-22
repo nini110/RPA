@@ -8,8 +8,8 @@
               <el-result>
                 <template slot="icon">
                   <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-qiehuan2"></use>
-                    </svg>
+                    <use xlink:href="#icon-qiehuan2"></use>
+                  </svg>
                 </template>
                 <template slot="extra">
                   <el-radio-group v-model="activeName">
@@ -248,7 +248,7 @@
                 title="日期"
                 show-overflow="tooltip"
               ></vxe-column>
-              <vxe-column title="日志" fixed="right" width="8%">
+              <vxe-column title="操作" fixed="right" width="8%">
                 <template slot-scope="scope">
                   <div
                     v-waves
@@ -258,11 +258,28 @@
                     <el-tooltip
                       class="item"
                       effect="dark"
-                      content="详情"
+                      content="日志"
                       placement="top"
                     >
                       <svg class="icon svg-icon titleicon" aria-hidden="true">
-                        <use xlink:href="#icon-xinxi"></use>
+                        <use xlink:href="#icon-xuexijilu-"></use>
+                      </svg>
+                    </el-tooltip>
+                  </div>
+                  <div
+                    v-if="formMenu === 2 && scope.row.log_status === '执行完毕'"
+                    v-waves
+                    class="btn btn_info"
+                    @click="downEvent(scope.row)"
+                  >
+                    <el-tooltip
+                      class="item"
+                      effect="dark"
+                      content="下载"
+                      placement="top"
+                    >
+                      <svg class="icon svg-icon titleicon" aria-hidden="true">
+                        <use xlink:href="#icon-download"></use>
                       </svg>
                     </el-tooltip>
                   </div>
@@ -301,7 +318,7 @@
       :close-on-press-escape="false"
       :visible.sync="showLogDialog"
       @close="closeLogEvent"
-      width="34%"
+      width="40%"
     >
       <div class="infinite" style="overflow: auto">
         <div class="infinite_content">
@@ -335,10 +352,12 @@ import {
   directiveSave,
   directiveLog,
   sfToolsSave,
+  sfToolsDown,
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
 import Upload from "@/components/upload";
+import dayjs from "dayjs";
 
 export default {
   name: "DMP",
@@ -512,8 +531,8 @@ export default {
         },
       ],
       form: {
-        username: "小米灵狐代投1",
-        password: "afocusxiaomi2022",
+        username: "13530531565",
+        password: "",
         cookie: "",
         pin: "",
         choose: 2,
@@ -686,6 +705,24 @@ export default {
         vm.showLogDialog = true;
       });
     },
+    // 下载文件
+    downEvent(row) {
+      const vm = this;
+      sfToolsDown({
+        log_id: row.id,
+      }).then((res) => {
+        let data = res.data;
+        let url = window.URL.createObjectURL(new Blob([data]));
+        let link = document.createElement("a");
+        link.style.display = "none";
+        link.href = url;
+        let fileName = `${localStorage.getItem('wx_userid')}-${dayjs().format("YYYY/MM/DD HH:mm:ss")}`
+        console.log(fileName)
+        link.setAttribute("download", `${fileName}.zip`);
+        document.body.appendChild(link);
+        link.click();
+      });
+    },
     // 关闭excel
     closeEvent(tag, val, opt) {
       const vm = this;
@@ -747,17 +784,18 @@ export default {
 @import "@/views/index";
 .infinite {
   background-color: #f1f8ff;
-  height: 320px;
+  height: 400px;
   display: flex;
   flex-wrap: wrap;
   align-content: space-between;
   &_content {
     flex-basis: 100%;
-    height: 230px;
+    height: 300px;
     padding: 20px 20px 0 20px;
     overflow: auto;
     .box {
       text-align: center;
+      line-height: 34px;
       &.img {
         display: flex;
         justify-content: center;
@@ -775,6 +813,7 @@ export default {
     text-align: center;
     font-weight: bold;
     font-size: 16px;
+    background-color: #e8f0f7;
     .suc {
       color: #67c23a;
     }

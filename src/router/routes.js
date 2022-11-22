@@ -102,7 +102,7 @@ const routes = [{
 			},
 			component: () => import(/* webpackChunkName: "R_bigData"*/"../views/BigData"),
 			children: [{
-				path: 'caculate',
+				path: 'Caculate',
 				name: 'Caculate',
 				meta: {
 					title: '数坊人群计算',
@@ -112,7 +112,7 @@ const routes = [{
 				component: () => import(/* webpackChunkName: "R_Number"*/"@/views/BigData"),
 			},
 			{
-				path: 'select',
+				path: 'Select',
 				name: 'Select',
 				meta: {
 					title: '数坊人群圈选',
@@ -122,7 +122,7 @@ const routes = [{
 				component: () => import(/* webpackChunkName: "R_Activity"*/"@/views/BigData"),
 			},
 			{
-				path: 'analysis',
+				path: 'Analysis',
 				name: 'Analysis',
 				meta: {
 					title: '数坊洞察分析',
@@ -132,7 +132,7 @@ const routes = [{
 				component: () => import(/* webpackChunkName: "R_Analysis"*/"@/views/BigData"),
 			},
 			{
-				path: 'insight',
+				path: 'Insight',
 				name: 'Insight',
 				meta: {
 					title: '数坊人群透视分析',
