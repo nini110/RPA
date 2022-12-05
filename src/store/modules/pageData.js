@@ -1,5 +1,6 @@
 const state = {
   pinList: [],
+  pinListAuthor: [],
   clearLeftTag: false,
   btnState: {
     inputFlag: false,
@@ -22,6 +23,10 @@ const mutations = {
   // 获得的数据--本期
   UPDATE_PINLIST: (state, view) => {
     state.pinList = view
+  },
+  // 获得的数据--已授权
+  UPDATE_PINLISTAUTHOR: (state, view) => {
+    state.pinListAuthor = view
   },
   UPDATE_ClRLEFT: (state, view) => {
     state.clearLeftTag = view

@@ -12,10 +12,14 @@ if (process.env.NODE_ENV === 'production') {
     // 生产环境
 } else {
     // 开发环境
-    BASEPATH = '/host8001'
+    // BASEPATH = '/host8001'
+    // BASEPATH2 = 'http://tool.afocus.com.cn'
+    // BASEPATH3 = '/host8002'
+    // BASEPATH5 = '/host8101'
+    BASEPATH = 'http://114.67.229.243:8001'
     BASEPATH2 = 'http://tool.afocus.com.cn'
-    BASEPATH3 = '/host8002'
-    BASEPATH5 = '/host8101'
+    BASEPATH3 = 'http://114.67.229.243:8002'
+    BASEPATH5 = 'http://114.67.229.243:8101'
 }
 // 公告
 export const adInfo = request({
@@ -360,6 +364,11 @@ export const alarmUser = request({
     url:`${BASEPATH5}/tools/get_all_user`,
     method:'get',
 })
+// 预算预警-获取所有已授权的用户
+export const alarmUserAuthor = request({
+    url:`${BASEPATH5}/tools/get_all_user_authorization`,
+    method:'get',
+})
 // 预算预警-获取所有推广计划
 export const alarmPlan = request({
     url:`${BASEPATH5}/tools/get_all_plan_id`,
@@ -450,6 +459,24 @@ export const marketIDList = request({
 export const delMarketID = request({
     url:`${BASEPATH5}/report/del_map_data`,
     method:'post'
+})
+// 大盘--类目对比
+export const dapanLeimu = request({
+    url:`${BASEPATH}/zhaobiao/industry_diff/`,
+    method:'post',
+    responseType: 'form'
+})
+// 大盘--竞品项目对比
+export const dapanJingpin = request({
+    url:`${BASEPATH}/zhaobiao/competitors_diff/`,
+    method:'post',
+    responseType: 'form'
+})
+// 大盘--灵狐趋势
+export const dapanQushi = request({
+    url:`${BASEPATH}/zhaobiao/trend/`,
+    method:'post',
+    responseType: 'form'
 })
 // 公域数据---------------------------------------------------------------------
 // 获取列表

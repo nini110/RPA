@@ -21,7 +21,7 @@
 </template>
 
 <script>
-import { alarmUser } from "@/api/api";
+import { alarmUser, alarmUserAuthor } from "@/api/api";
 import message from "@/mixin/message";
 import Upload from "@/components/upload";
 import Left from "./left.vue";
@@ -42,6 +42,7 @@ export default {
       btnTxt: "修改",
       multipleUp: false,
       pinList: [],
+      pinListAuthor: [],
       tipInfo: [],
     };
   },
@@ -83,9 +84,9 @@ export default {
     // 获取所有PIN
     getUser() {
       const vm = this;
-      alarmUser().then((res) => {
-        if (res.data.code === 10000) {
-          res.data.data.forEach((item, idx) => {
+      Promise.all([alarmUser(), alarmUserAuthor()]).then(res => {
+        if (res[0].data.code === 10000) {
+          res[0].data.data.forEach((item, idx) => {
             vm.pinList.push({
               name: item,
               code: item,
@@ -93,9 +94,20 @@ export default {
           });
           vm.$store.commit("pageData/UPDATE_PINLIST", vm.pinList);
         } else {
-          vm.$msg({ type: "error", msg: res.data.msg });
+          vm.$msg({ type: "error", msg: res[0].data.msg });
         }
-      });
+        if (res[1].data.code === 10000) {
+          res[1].data.data.forEach((item, idx) => {
+            vm.pinListAuthor.push({
+              name: item,
+              code: item,
+            });
+          });
+          vm.$store.commit("pageData/UPDATE_PINLISTAUTHOR", vm.pinListAuthor);
+        } else {
+          vm.$msg({ type: "error", msg: res[1].data.msg });
+        }
+      })
     },
     upList() {
       this.multipleUp = !this.multipleUp;

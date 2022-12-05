@@ -278,12 +278,12 @@ export default {
             show: true,
             axisLabel: {
               textStyle: {
-                color: function(value, index) {
-                  return value > 0 ? "#ff7777" : '#387d2c'
+                color: function (value, index) {
+                  return value > 0 ? "#ff7777" : "#387d2c";
                 },
-                fontWeight: 'bold',
+                fontWeight: "bold",
                 padding: [6, 10, 6, 10],
-                backgroundColor: '#f5f5f5',
+                backgroundColor: "#f5f5f5",
                 fontSize: "12",
               },
               formatter: (param) => {
@@ -576,7 +576,7 @@ export default {
           Math.round(
             ((totalConsum_now - totalConsum_last) / totalConsum_last) * 10000
           ) / 100;
-          vm.barOption2.yAxis[1].data = [vm.varietyPercent, ""];
+        vm.barOption2.yAxis[1].data = [vm.varietyPercent, ""];
 
         // 折线图
         linedata.this_year.forEach((val, idx) => {

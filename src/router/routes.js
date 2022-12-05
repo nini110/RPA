@@ -417,6 +417,16 @@ const routes = [{
 						filePath: 'Expend/bidItem'
 					},
 					component: () => import( /* webpackChunkName: "R_Expend"*/ "@/views/Expend/bidItem"),
+				},
+				{
+					path: 'dapan',
+					name: 'dapan',
+					meta: {
+						title: '大盘',
+						deep: 3,
+						filePath: 'Expend/dapan'
+					},
+					component: () => import( /* webpackChunkName: "R_Dapan"*/ "@/views/Expend/dapan"),
 				}
 			]
 		},

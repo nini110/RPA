@@ -301,6 +301,11 @@ export default {
               value: "/layout/expend/bidItem",
               index: "8-2",
             },
+            {
+              label: "大盘",
+              value: "/layout/expend/dapan",
+              index: "8-3",
+            },
           ],
         });
       }

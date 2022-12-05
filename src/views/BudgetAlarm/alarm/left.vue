@@ -1,5 +1,22 @@
 <template>
   <el-form ref="form1" :model="form">
+    <div class="dropdown">
+      <el-dropdown class="dropdown" type="primary" @command="commandEvent">
+        <el-button type="primary">
+          <i class="el-icon-thumb"></i> 登录方式: {{ loginTXT
+          }}<i class="el-icon-arrow-down el-icon--right"></i>
+        </el-button>
+        <!-- 登录方式 -->
+        <el-dropdown-menu slot="dropdown">
+          <el-dropdown-item
+            v-for="(item, idx) in radioOpt"
+            :command="item.code"
+            :key="idx"
+            >{{ item.txt }}</el-dropdown-item
+          >
+        </el-dropdown-menu>
+      </el-dropdown>
+    </div>
     <el-row>
       <el-col v-for="(item, idx) in boxDataLeft" :key="idx" :span="24">
         <el-form-item
@@ -64,115 +81,191 @@ export default {
   mixins: [message],
   data() {
     return {
-      form: {},
-      currentInfo: {}, // 当前用户 查询类目等信息集合
-      boxDataLeft: [
+      activeName: 0,
+      loginTXT: "帐密登陆",
+      radioOpt: [
         {
-          type: "select",
-          model: "",
-          prop: "user_name",
-          label: "PIN:",
-          placeholder: "请选择PIN",
-          options: [],
-          rules: {
-            required: true,
-            validator: validPercent.bind(this, "boxDataLeft", this, 0),
-            trigger: "change blur",
-          },
-          disabled: false,
+          code: 0,
+          txt: "帐密登陆",
         },
         {
-          type: "input",
-          model: "",
-          prop: "password",
-          label: "密码:",
-          placeholder: "请输入密码",
-          rules: {
-            required: true,
-            validator: validPercent.bind(this, "boxDataLeft", this, 1),
-            trigger: "change blur",
-          },
-          disabled: true,
-        },
-        {
-          type: "select",
-          model: "",
-          prop: "product_line",
-          label: "产品线:",
-          placeholder: "请选择产品线",
-          rules: {
-            required: true,
-            validator: validPercent.bind(this, "boxDataLeft", this, 2),
-            trigger: "change blur",
-          },
-          options: [
-            {
-              name: "京东快车",
-              code: "kuaiche",
-            },
-            {
-              name: "京东展位",
-              code: "zhanwei",
-            },
-            {
-              name: "京东直投",
-              code: "zhitou",
-            },
-            {
-              name: "购物触点",
-              code: "touchPoint",
-            },
-          ],
-          disabled: true,
-        },
-        {
-          type: "input",
-          model: "",
-          prop: "plan_id",
-          label: "推广计划:",
-          rules: {
-            required: true,
-            validator: validTrue,
-            trigger: "change",
-          },
-          placeholder: "请输入推广计划",
-          options: [
-            {
-              name: "example",
-              code: "575097395",
-            },
-          ],
-          disabled: true,
-        },
-        {
-          type: "upload",
-          model: "",
-          prop: "plan_id",
-          label: "推广计划:",
-          rules: {
-            required: true,
-            validator: validTrue,
-            trigger: "change",
-          },
-          placeholder: "请输入推广计划",
-          options: [
-            {
-              name: "example",
-              code: "575097395",
-            },
-          ],
-          disabled: true,
+          code: 1,
+          txt: "授权登录",
         },
       ],
+      form: {},
+      currentInfo: {}, // 当前用户 查询类目等信息集合
+      boxDataLeft: [],
     };
   },
   computed: {
-    ...mapGetters(["clearLeftTag", "pinList", "btnState", "checkRight"]),
+    ...mapGetters([
+      "clearLeftTag",
+      "pinList",
+      "pinListAuthor",
+      "btnState",
+      "checkRight",
+    ]),
   },
   watch: {
-    pinList: {
+    activeName: {
       handler(newval, oldval) {
-        this.boxDataLeft[0].options = JSON.parse(JSON.stringify(newval));
+        const vm = this;
+        vm.loginTXT = vm.activeName === 1 ? "授权登录" : "帐密登陆";
+        vm.$set(vm.currentInfo, "type", newval);
+        vm.$nextTick(() => {
+          switch (newval) {
+            case 0:
+              vm.boxDataLeft = [
+                {
+                  type: "select",
+                  model: "",
+                  prop: "user_name",
+                  label: "PIN:",
+                  placeholder: "请选择PIN",
+                  options: JSON.parse(JSON.stringify(vm.pinList)),
+                  rules: {
+                    required: true,
+                    validator: validPercent.bind(this, "boxDataLeft", this, 0),
+                    trigger: "change blur",
+                  },
+                  disabled: false,
+                },
+                {
+                  type: "input",
+                  model: "",
+                  prop: "password",
+                  label: "密码:",
+                  placeholder: "请输入密码",
+                  rules: {
+                    required: true,
+                    validator: validPercent.bind(this, "boxDataLeft", this, 1),
+                    trigger: "change blur",
+                  },
+                  disabled: true,
+                },
+                {
+                  type: "select",
+                  model: "",
+                  prop: "product_line",
+                  label: "产品线:",
+                  placeholder: "请选择产品线",
+                  rules: {
+                    required: true,
+                    validator: validPercent.bind(this, "boxDataLeft", this, 2),
+                    trigger: "change blur",
+                  },
+                  options: [
+                    {
+                      name: "京东快车",
+                      code: "kuaiche",
+                    },
+                    {
+                      name: "京东展位",
+                      code: "zhanwei",
+                    },
+                    {
+                      name: "京东直投",
+                      code: "zhitou",
+                    },
+                    {
+                      name: "购物触点",
+                      code: "touchPoint",
+                    },
+                  ],
+                  disabled: true,
+                },
+                {
+                  type: "input",
+                  model: "",
+                  prop: "plan_id",
+                  label: "推广计划:",
+                  rules: {
+                    required: true,
+                    validator: validTrue,
+                    trigger: "change",
+                  },
+                  placeholder: "请输入推广计划",
+                  options: [
+                    {
+                      name: "example",
+                      code: "575097395",
+                    },
+                  ],
+                  disabled: true,
+                },
+              ];
+              break;
+            case 1:
+              vm.boxDataLeft = [
+                {
+                  type: "select",
+                  model: "",
+                  prop: "user_name",
+                  label: "PIN:",
+                  placeholder: "请选择PIN",
+                  options: JSON.parse(JSON.stringify(vm.pinListAuthor)),
+                  rules: {
+                    required: true,
+                    validator: validPercent.bind(this, "boxDataLeft", this, 0),
+                    trigger: "change blur",
+                  },
+                  disabled: false,
+                },
+                {
+                  type: "select",
+                  model: "",
+                  prop: "product_line",
+                  label: "产品线:",
+                  placeholder: "请选择产品线",
+                  rules: {
+                    required: true,
+                    validator: validPercent.bind(this, "boxDataLeft", this, 2),
+                    trigger: "change blur",
+                  },
+                  options: [
+                    {
+                      name: "京东快车",
+                      code: "kuaiche",
+                    },
+                    {
+                      name: "京东展位",
+                      code: "zhanwei",
+                    },
+                    {
+                      name: "京东直投",
+                      code: "zhitou",
+                    },
+                    {
+                      name: "购物触点",
+                      code: "touchPoint",
+                    },
+                  ],
+                  disabled: true,
+                },
+                {
+                  type: "input",
+                  model: "",
+                  prop: "plan_id",
+                  label: "推广计划:",
+                  rules: {
+                    required: true,
+                    validator: validTrue,
+                    trigger: "change",
+                  },
+                  placeholder: "请输入推广计划",
+                  options: [
+                    {
+                      name: "example",
+                      code: "575097395",
+                    },
+                  ],
+                  disabled: true,
+                },
+              ];
+              break;
+          }
+        });
       },
       immediate: true,
       deep: true,
@@ -180,6 +273,7 @@ export default {
     clearLeftTag(newval, oldval) {
       // 清空左侧所有信息
       if (newval) {
+        this.activeName = 0;
         for (let i of this.boxDataLeft) {
           this.$set(i, "model", "");
           for (let i of this.boxDataLeft) {
@@ -213,13 +307,20 @@ export default {
               i.model = "";
             }
           } else {
-            if (i.prop === "password") {
-              i.disabled = false;
-              i.model = "";
-            }
-            if (i.prop === "product_line") {
-              i.disabled = true;
-              i.model = "";
+            if (vm.activeName === 0) {
+              if (i.prop === "password") {
+                i.disabled = false;
+                i.model = "";
+              }
+              if (i.prop === "product_line") {
+                i.disabled = true;
+                i.model = "";
+              }
+            } else {
+              if (i.prop === "product_line") {
+                i.disabled = false;
+                i.model = "";
+              }
             }
           }
         }
@@ -300,6 +401,14 @@ export default {
         vm.$store.commit("pageData/UPDATE_SEARCHRES", res.data);
       });
     },
+    commandEvent(val) {
+      this.activeName = val;
+    },
   },
 };
 </script>
+<style lang="less" scoped>
+.dropdown {
+  margin: 15px 0 15px 50px;
+}
+</style>

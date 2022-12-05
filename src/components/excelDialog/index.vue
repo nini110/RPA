@@ -119,7 +119,7 @@ export default {
     },
     submitExcel() {
       const vm = this;
-      window.luckysheet.exitEditMode()
+      window.luckysheet.exitEditMode();
       this.$nextTick(() => {
         let resultObj = {};
         $(function () {
@@ -137,7 +137,11 @@ export default {
                   if (val1) {
                     // 获取公共的内容
                     if (idx1 <= 17 && val1[0] && val1[0].v) {
-                      vm.$set(publicObj, val1[0].v, val1[1]&&val1[1].v ? val1[1].v : "");
+                      vm.$set(
+                        publicObj,
+                        val1[0].v,
+                        val1[1] && val1[1].v ? val1[1].v : ""
+                      );
                     }
                   }
                 });
@@ -157,6 +161,43 @@ export default {
                       });
                       sheet.value.push({
                         ...publicObj,
+                        ...obj,
+                      });
+                    }
+                  }
+                });
+                resultObj[sheet.key] = sheet.value;
+                break;
+              }
+            }
+          } else if (
+            vm.toolType === "数坊人群计算" ||
+            vm.toolType === "数坊人群圈选"
+          ) {
+            for (let val of results) {
+              if (val.name === vm.sheetName) {
+                let sheet = {
+                  key: val.name,
+                  value: [],
+                };
+                let mid = {}
+                vm.$set(mid, val.data[1][1].m, val.data[1][1].m);
+                sheet.value.push(mid);
+                // 第一行的数据
+                val.data.forEach((val1, idx1) => {
+                  let obj = {};
+                  if (val1) {
+                    if (idx1 > 2) {
+                      val.data[2].forEach((val2, idx2) => {
+                        if (val2) {
+                          vm.$set(
+                            obj,
+                            val2.m,
+                            val.data[idx1][idx2] && val.data[idx1][idx2].m? val.data[idx1][idx2].m : ""
+                          );
+                        }
+                      });
+                      sheet.value.push({
                         ...obj,
                       });
                     }
@@ -199,6 +240,7 @@ export default {
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
           vm.$emit("close", 1, [resultObj], results);
+          console.log(resultObj);
           window.luckysheet.destroy();
         });
       });

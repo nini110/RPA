@@ -15,20 +15,24 @@
               :closable="false"
             >
             </el-alert>
+            <!-- <div class="chartOuter"> -->
+              <h2>年度总消耗</h2>
+              <div class="chart">
+                <div class="ziyou_chart_topleft">
+                  <div id="barBox"></div>
+                </div>
+                <div class="ziyou_chart_topright">
+                  <div id="pieBox"></div>
+                </div>
+              </div>
+            <!-- </div> -->
+            <!-- <div class="chartOuter"> -->
+              <h2>月度总消耗</h2>
+              <div class="chart ts">
+                <div id="lineBox"></div>
+              </div>
+            <!-- </div> -->
 
-            <h2>年度总消耗</h2>
-            <div class="chart">
-              <div class="ziyou_chart_topleft">
-                <div id="barBox"></div>
-              </div>
-              <div class="ziyou_chart_topright">
-                <div id="pieBox"></div>
-              </div>
-            </div>
-            <h2>月度总消耗</h2>
-            <div class="chart ts">
-              <div id="lineBox"></div>
-            </div>
             <div class="selfBrand outerDiv_table content_tableBox">
               <div
                 v-for="(table, index) in tableBox"
@@ -248,12 +252,12 @@ export default {
             axisLabel: {
               textStyle: {
                 // color: "#303133",
-                color: function(value, index) {
-                  return value > 0 ? "#ff7777" : '#387d2c'
+                color: function (value, index) {
+                  return value > 0 ? "#ff7777" : "#387d2c";
                 },
-                fontWeight: 'bold',
+                fontWeight: "bold",
                 padding: [6, 10, 6, 10],
-                backgroundColor: '#f5f5f5',
+                backgroundColor: "#f5f5f5",
                 fontSize: "12",
               },
               formatter: (param) => {
@@ -822,6 +826,12 @@ export default {
 </script>
 <style scoped lang="less">
 @import "index";
+.chartOuter {
+  margin: 0 0 40px 20px;
+  padding: 30px;
+  background-color: #fff;
+  box-shadow: 0px 0px 30px rgb(240, 240, 240);
+}
 /deep/.vxe-table {
   &.is--empty {
     .vxe-table--empty-placeholder {

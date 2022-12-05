@@ -14,12 +14,12 @@
 		},
 		created() {
 			// 线上发布时created中所有都注释
-			// this.$route.query.wx_code = "fkI6U3R8RjnFHdrZmS2bVd_ZzUmsVXmR-UNv8j7M_Ko";
-			// this.$route.query.wx_userid = "1020108";
-			// this.$route.query.user_name = "方涛";
-			// localStorage.setItem("wx_code", this.$route.query.wx_code);
-			// localStorage.setItem("wx_userid", this.$route.query.wx_userid);
-			// localStorage.setItem("user_name", this.$route.query.user_name);
+			this.$route.query.wx_code = "MoliRKrllCOM0hnFtxJZ3LDHLmFtl-L4-J-VDXaZWWU";
+			this.$route.query.wx_userid = "1020108";
+			this.$route.query.user_name = "方涛";
+			localStorage.setItem("wx_code", this.$route.query.wx_code);
+			localStorage.setItem("wx_userid", this.$route.query.wx_userid);
+			localStorage.setItem("user_name", this.$route.query.user_name);
 		},
 	};
 </script>

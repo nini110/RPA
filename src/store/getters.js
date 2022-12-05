@@ -1,5 +1,6 @@
 const getters = {
   pinList: state => state.pageData.pinList,  //预警 pin下拉框
+  pinListAuthor: state => state.pageData.pinListAuthor,  //预警 pin下拉框
   clearLeftTag: state => state.pageData.clearLeftTag,  //是否清空左侧内容标识
   btnState: state => state.pageData.btnState,  //页面按钮状态
   hasInfo: state => state.pageData.hasInfo,  // 控制页面右侧无数据状态
