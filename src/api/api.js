@@ -123,6 +123,12 @@ export const sfToolsDown = request({
     method:'get',
     responseType: 'blob'
 })
+// 提质工具--数方 -- 模板下载
+export const sfToolsModelDown = request({
+    url: `${BASEPATH}/apps/sf_online_tool_modle_download/`,
+    method:'get',
+    responseType: 'blob'
+})
 
 // 查看详情   ok
 export const fxcjviewDetails = request({

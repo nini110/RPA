@@ -3,7 +3,7 @@
     <!--   accept=".xlsx,.xls,.csv"-->
     <el-upload
       drag
-      accept=".xlsx,.xls,.csv"
+      accept=".xlsx,.csv"
       :auto-upload="false"
       :show-file-list="showFileList"
       :action="UploadUrl()"

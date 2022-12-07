@@ -59,12 +59,8 @@
                 </el-col>
                 <el-col :span="12" class="fr">
                   <el-radio-group v-model="radio2" @input="radio2Event">
-                    <el-radio-button label="company"
-                      >公司</el-radio-button
-                    >
-                    <el-radio-button label="category"
-                      >类目</el-radio-button
-                    >
+                    <el-radio-button label="company">公司</el-radio-button>
+                    <el-radio-button label="category">类目</el-radio-button>
                   </el-radio-group>
                 </el-col>
               </el-row>
@@ -168,6 +164,9 @@ export default {
               color: "rgba(210,219,238,0.2)",
             },
           },
+          textStyle: {
+            color: '#303133',
+          },
           formatter: (params) => {
             let htmlStr = "";
             if (params[0].seriesIndex !== 1) {
@@ -175,11 +174,11 @@ export default {
               params.forEach((val, idx) => {
                 let str = "";
                 if (val.data !== 0) {
-                  str = `<div style="display:flex;justify-content: space-bettwen"><span style="color: #606266;"><i style="display: inline-block;border-radius: 50%; width: 10px;height: 10px;margin-right: 5px;background-color: ${
+                  str = `<div style="display:flex;justify-content: space-between"><span style="color: #606266;"><i style="display: inline-block;border-radius: 50%; width: 10px;height: 10px;margin-right: 5px;background-color: ${
                     val.color
                   };"></i>${
                     val.seriesName
-                  }</span> <span> ${vm.numberToCurrencyNo(
+                  }</span><span style="margin-left: 10px">${vm.numberToCurrencyNo(
                     val.data
                   )}元</span></div>`;
                 }
@@ -191,6 +190,22 @@ export default {
             }
           },
         },
+        dataZoom: [
+          {
+            show: true,
+            maxValueSpan: 5, //显示数据的条数(默认显示10个)
+            type: "slider",
+            filterMode: "filter",
+            width: 30,
+            brushSelect: false, // 不让他框选
+            borderColor: "#dcdcdc66",
+            showDetail: false,
+            yAxisIndex: [0, 1, 2],
+            zoomLock: true,
+            throttle: 50,
+            right: 0,
+          },
+        ],
         xAxis: [
           {
             gridIndex: 0,
@@ -247,6 +262,7 @@ export default {
           {
             gridIndex: 2,
             type: "category",
+            inverse: true,
             data: [],
             axisLine: {
               show: false,
@@ -264,7 +280,7 @@ export default {
           {
             show: false,
             left: "0",
-            width: "42.5%",
+            width: "40%",
             bottom: 0,
             top: "4%",
             containLabel: true,
@@ -272,17 +288,17 @@ export default {
           // 中间数据
           {
             show: false,
-            left: "48%",
+            left: "45%",
             width: 0,
-            bottom: 0,
+            bottom: '6%',
             top: "4%",
             containLabel: true,
           },
           // 右侧数据
           {
             show: false,
-            right: "0",
-            width: "42.5%",
+            right: "5%",
+            width: "40%",
             bottom: 0,
             top: "4%",
             containLabel: true,
@@ -296,6 +312,22 @@ export default {
           confine: true,
           // formatter: "{b}：<br>{a0} {c0} 个<br>{a1} {c1} 个",
         },
+        dataZoom: [
+          {
+            show: true,
+            maxValueSpan: 5, //显示数据的条数(默认显示10个)
+            type: "slider",
+            filterMode: "filter",
+            width: 30,
+            brushSelect: false, // 不让他框选
+            borderColor: "#dcdcdc66",
+            showDetail: false,
+            yAxisIndex: 0,
+            zoomLock: true,
+            throttle: 50,
+            right: 0,
+          },
+        ],
         legend: {
           icon: "rect",
           orient: "horizontal",
@@ -306,7 +338,7 @@ export default {
         },
         grid: {
           left: "30%",
-          right: "0",
+          right: "10%",
           bottom: "0",
           top: "20%",
         },
@@ -323,6 +355,7 @@ export default {
         },
         yAxis: {
           type: "category",
+          inverse: true,
           axisTick: {
             show: false,
           },
@@ -343,6 +376,7 @@ export default {
             name: "其他行业",
             type: "bar",
             stack: "total",
+            barMaxWidth: 24,
             label: {
               normal: {
                 show: false,
@@ -367,6 +401,7 @@ export default {
             name: "灵狐承接",
             type: "bar",
             stack: "total",
+            barMaxWidth: 24,
             label: {
               show: true,
             },
@@ -550,9 +585,9 @@ export default {
       dapanLeimu(obj).then((res) => {
         if (res.data.code === 10000) {
           let result = res.data.data;
-          if (result.length > 7) {
-            result = result.slice(0, 7);
-          }
+          // if (result.length > 7) {
+          //   result = result.slice(0, 7);
+          // }
           vm.barOption.yAxis.data = result.map((val) => {
             return val.category;
           });
@@ -584,9 +619,10 @@ export default {
               type: "bar",
               yAxisIndex: 0,
               xAxisIndex: 0,
+              barMaxWidth: 24,
               itemStyle: {
                 normal: {
-                  color: "#909399",
+                  color: "#3b8eff",
                   opacity: 1,
                 },
                 emphasis: {
@@ -604,6 +640,7 @@ export default {
               type: "bar",
               yAxisIndex: 1,
               xAxisIndex: 1,
+              // barMaxWidth: 24,
               label: {
                 normal: {
                   show: false,
@@ -615,11 +652,14 @@ export default {
           let result = res.data.data;
           let arr = [];
           for (let i in result) {
+            // debugger
+            // i: 云逸传媒
             vm.midOption.yAxis[0].data.unshift(i);
             vm.midOption.yAxis[1].data.unshift(i);
-            vm.midOption.yAxis[2].data.push(i);
+            vm.midOption.yAxis[2].data.unshift(i);
             let num = 0;
             for (let j in result[i]) {
+              // j: 3C家电零售事业群-电脑数码事业部-POP业务部
               num += result[i][j];
               if (arr.indexOf(j) === -1) {
                 arr.push(j);
@@ -629,6 +669,7 @@ export default {
                   stack: "总量",
                   yAxisIndex: 2,
                   xAxisIndex: 2,
+                  barMaxWidth: 24,
                   data: [],
                   showBackground: true,
                   backgroundStyle: {
@@ -639,19 +680,23 @@ export default {
             }
             vm.midOption.series[0].data.unshift(num);
           }
+          // console.log(vm.midOption.yAxis[0].data)
+          // console.log(vm.midOption.yAxis[1].data)
+          // console.log(vm.midOption.yAxis[2].data)
           for (let i in result) {
             // 印橙科技
             vm.midOption.series.forEach((val, idx) => {
-              if (idx !== 0) {
+              if (idx >= 2) {
                 // ’3C家电零售事业群-家电事业部-小家电POP‘
                 if (Object.keys(result[i]).indexOf(val.name) !== -1) {
-                  val.data.push(result[i][val.name]);
+                  val.data.unshift(result[i][val.name]);
                 } else {
-                  val.data.push(0);
+                  val.data.unshift(0);
                 }
               }
             });
           }
+          // console.log(vm.midOption.series)
           vm.handleMid();
         }
       });
@@ -755,9 +800,9 @@ export default {
     // 竞品项目对比--radio事件
     radio2Event(val) {
       const vm = this;
-      vm.midOption.grid[0].width = val === "company" ? "42.%" : "32%";
-      vm.midOption.grid[1].left = val === "company" ? "48%" : "37%";
-      vm.midOption.grid[2].width = val === "company" ? "42.%" : "32%";
+      vm.midOption.grid[0].width = val === "company" ? "40%" : "28%";
+      vm.midOption.grid[1].left = val === "company" ? "45%" : "32%";
+      vm.midOption.grid[2].width = val === "company" ? "40%" : "28%";
       this.getMidData();
     },
     // 趋势图--日期事件

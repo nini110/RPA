@@ -302,7 +302,7 @@ export default {
               index: "8-2",
             },
             {
-              label: "大盘",
+              label: "大盘看版",
               value: "/layout/expend/dapan",
               index: "8-3",
             },
@@ -326,8 +326,6 @@ export default {
           }
         }
       }
-      console.log(1, vm.currentMenu);
-
     }
   },
   mounted() {
@@ -335,7 +333,6 @@ export default {
     window.addEventListener("hashchange", function (target) {
       let idx = target.newURL.search("#");
       let path = target.newURL.slice(idx + 1);
-      // console.log(path)
       for (let i of vm.menuList) {
         for (let j of i.children) {
           if (i.deep === 2) {

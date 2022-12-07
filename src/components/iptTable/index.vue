@@ -162,6 +162,16 @@
           <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
             <div class="el-icon-refresh btnSize">重置</div>
           </a>
+          <a class="btnnormal_down marginR inlineButton" @click="modelEvent">
+            <div class="el-icon-download btnSize">模板</div>
+          </a>
+          <!-- <el-button
+            v-waves
+            type="primary"
+            class="el-icon-right marginR"
+            @click="modelEvent"
+            >模板下载</el-button
+          > -->
           <el-button
             v-waves
             type="primary"
@@ -353,6 +363,7 @@ import {
   directiveLog,
   sfToolsSave,
   sfToolsDown,
+  sfToolsModelDown
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
@@ -716,12 +727,26 @@ export default {
         let link = document.createElement("a");
         link.style.display = "none";
         link.href = url;
-        let fileName = `${localStorage.getItem('wx_userid')}-${dayjs().format("YYYY/MM/DD HH:mm:ss")}`
-        console.log(fileName)
-        link.setAttribute("download", `${fileName}.zip`);
+        link.setAttribute("download", `日志-${vm.toolType}.zip`);
         document.body.appendChild(link);
         link.click();
       });
+    },
+    // 下载模板
+    modelEvent() {
+      const vm = this
+      sfToolsModelDown({
+        name: vm.toolType
+      }).then(res => {
+        let data = res.data;
+        let url = window.URL.createObjectURL(new Blob([data]));
+        let link = document.createElement("a");
+        link.style.display = "none";
+        link.href = url;
+        link.setAttribute("download", `模板-${vm.toolType}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+      })
     },
     // 关闭excel
     closeEvent(tag, val, opt) {
