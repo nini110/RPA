@@ -484,6 +484,17 @@ export const dapanQushi = request({
     method:'post',
     responseType: 'form'
 })
+// 大盘--列表
+export const dapanList = request({
+    url:`${BASEPATH}/zhaobiao/union_bidding/`,
+    method:'post',
+})
+// 大盘--列表--编辑
+export const dapanEdit = request({
+    url:`${BASEPATH}/zhaobiao/change_real_money/`,
+    method:'post',
+    responseType: 'form'
+})
 // 公域数据---------------------------------------------------------------------
 // 获取列表
 export const pbulicList = request({

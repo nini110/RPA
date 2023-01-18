@@ -9,7 +9,10 @@ import XEUtils from 'xe-utils'
 import {
     // 核心组件
     VXETable,
+    Input,
     Header,
+    // 功能组件
+    Edit,
     // 可选组件
     Toolbar,
     Column,
@@ -18,4 +21,4 @@ import {
     Table,
     Tooltip
 } from 'vxe-table'
-Vue.use(Toolbar).use(Colgroup).use(Button).use(Header).use(Column).use(Tooltip).use(Table)
+Vue.use(Edit).use(Toolbar).use(Colgroup).use(Button).use(Header).use(Column).use(Tooltip).use(Input) .use(Table)

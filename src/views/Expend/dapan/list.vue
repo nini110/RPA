@@ -3,8 +3,8 @@
   <div class="strategyNormal">
     <div class="centers">
       <div class="PriceTops">
-        <el-form ref="form" :model="form" class="formObj" :rules="rules">
-          <el-row  :gutter="20">
+        <!-- <el-form ref="form" :model="form" class="formObj" :rules="rules">
+          <el-row :gutter="20">
             <el-col :span="11">
               <el-form-item label="品牌:">
                 <el-select
@@ -53,20 +53,18 @@
               </div>
             </el-col>
           </el-row>
-        </el-form>
+        </el-form> -->
       </div>
       <div ref="tableBox" class="tabbles pricetable">
         <vxe-table
           :data="tableData"
           stripe
           round
+          ref="xTable"
           :column-config="{ resizable: true }"
           :row-config="{ isCurrent: true, isHover: true }"
-          :tooltip-config="{
-            showAll: true,
-            enterable: true,
-            contentMethod: showTooltipMethod,
-          }"
+          :edit-config="{ trigger: 'manual', mode: 'row', autoClear: false }"
+          keep-source
           class="mytable-scrollbar normalScroll"
           auto-resize
           height="auto"
@@ -82,78 +80,53 @@
             fixed="left"
           ></vxe-column>
           <vxe-column
-            title="品牌"
-            width="12%"
-            field="brand"
+            min-width="6%"
+            field="pro_num"
+            title="项目编号"
             fixed="left"
-          ></vxe-column>
-          <vxe-column
-            min-width="12%"
-            field="jd_consume"
-            title="京牌代理消耗"
-            :title-help="{
-              icon: 'el-icon-question',
-              message: '包含站内数据：快车、触点、展位，站外数据：直投',
-            }"
           >
-            <template #default="{ row }">
-              <span v-if="!row.jd_consume">--</span>
-              <span v-else>{{ row.jd_consume | numberToCurrencyNo }}</span>
-            </template>
           </vxe-column>
           <vxe-column
-            min-width="12%"
-            field="pin_consume"
-            title="子账号明细消耗"
-            :title-help="{
-              icon: 'el-icon-question',
-              message: '各个自有账号下数据，包含数据：海投、京速推、直投',
-            }"
+            min-width="14%"
+            field="pro_name"
+            title="项目名称"
+            show-overflow="tooltip"
+            fixed="left"
           >
+          </vxe-column>
+          <vxe-column
+            min-width="6%"
+            field="real_money"
+            title="中标金额"
+            :edit-render="{ autofocus: '.vxe-input--inner', enabled: true }"
+          >
+            <template #edit="{ row }">
+              <vxe-input v-model="row.real_money" type="text"></vxe-input>
+            </template>
             <template #default="{ row }">
-              <span v-if="!row.pin_consume">--</span>
-              <span v-else>{{ row.pin_consume | numberToCurrencyNo }}</span>
+              <span>{{ row.real_money | numberToCurrencyNo }}</span>
             </template>
           </vxe-column>
-          <vxe-column min-width="12%" field="consume" title="总消耗">
+          <vxe-column
+            min-width="24%"
+            field="bid_proxy"
+            title="中标公司"
+            show-overflow="tooltip"
+          >
+          </vxe-column>
+          <vxe-column min-width="12%" field="create_date" title="中标日期">
+          </vxe-column>
+          <vxe-column title="操作" width="160">
             <template #default="{ row }">
-              <span v-if="!row.total_consume">--</span>
-              <span v-else>{{ row.total_consume | numberToCurrencyNo }}</span>
+              <template v-if="$refs.xTable.isActiveByRow(row)">
+                <vxe-button @click="saveRowEvent(row)">保存</vxe-button>
+                <vxe-button @click="cancelRowEvent(row)">取消</vxe-button>
+              </template>
+              <template v-else>
+                <vxe-button @click="editRowEvent(row)">编辑</vxe-button>
+              </template>
             </template>
           </vxe-column>
-          <vxe-column min-width="12%" field="tb_consume" title="同比">
-            <template #default="{ row }">
-              <span v-if="!row.tb_consume">--</span>
-              <span v-else>{{ row.tb_consume | numberToCurrencyNo }}</span>
-            </template>
-          </vxe-column>
-          <vxe-column min-width="12%" field="hb_consume" title="同比变化比例">
-            <template #default="{ row }">
-              <span v-if="!row.tb_consume">--</span>
-              <div v-else>
-                <span :class="row.tb_icon">{{ row.percent_tb }}</span>
-              </div>
-            </template>
-          </vxe-column>
-          <vxe-column min-width="12%" field="consume" title="站内返点消耗">
-            <template #default="{ row }">
-              <span v-if="!row.zn_fd">--</span>
-              <span v-else>{{ row.zn_fd | numberToCurrencyNo }}</span>
-            </template>
-          </vxe-column>
-          <vxe-column min-width="12%" field="consume" title="站外返点消耗">
-            <template #default="{ row }">
-              <span v-if="!row.zw_fd">--</span>
-              <span v-else>{{ row.zw_fd | numberToCurrencyNo }}</span>
-            </template>
-          </vxe-column>
-          <vxe-column min-width="12%" field="consume" title="其他非返点消耗">
-            <template #default="{ row }">
-              <span v-if="!row.zw_nfd">--</span>
-              <span v-else>{{ row.zw_nfd | numberToCurrencyNo }}</span>
-            </template>
-          </vxe-column>
-          <!--  -->
         </vxe-table>
         <!-- 分页器 -->
         <div class="block" v-if="total">
@@ -174,7 +147,7 @@
   <!-- </div> -->
 </template>
 <script>
-import { selfBrand, selfExpendList } from "@/api/api";
+import { dapanList, dapanEdit } from "@/api/api";
 import dayjs from "dayjs";
 export default {
   name: "ListPage",
@@ -210,79 +183,49 @@ export default {
   },
   mounted() {
     const vm = this;
-    vm.getBrand();
-    let myday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
-    let oldday = dayjs().subtract(8, "day").format("YYYY-MM-DD");
-    vm.form.search_date = [oldday, myday];
-    vm.searchEvent();
+    vm.getListData();
   },
   methods: {
-    showTooltipMethod({ type, column, row, items, _columnIndex }) {
-      const { property } = column;
-      // 重写默认的提示内容
-      if (property === "jd_consume" || property === "pin_consume") {
-        if (type === "header") {
-          return column.titleHelp.message;
-        }
-        return "";
-      } else {
-        // 返回空字符串，控制单元格不显示提示内容
-        return "";
-      }
-      // 其余的单元格使用默认行为
-      // return null;
-    },
-    // 获取品牌列表
-    getBrand() {
-      const vm = this;
-      selfBrand({
-        a: "",
-      }).then((res) => {
-        vm.pinOptions = res.data.data;
-      });
-    },
     // 获取列表
     getListData(val) {
       const vm = this;
-      selfExpendList({ ...val }).then((res) => {
+      dapanList().then((res) => {
         let result = res.data.data;
-        result.forEach((item, index) => {
-          vm.$set(
-            item,
-            "percent_tb",
-            Math.abs(item.tb_proportion * 100).toFixed(2) + "%"
-          );
-          vm.$set(
-            item,
-            "percent_hb",
-            Math.abs(item.hb_proportion * 100).toFixed(2) + "%"
-          );
-
-          vm.$set(
-            item,
-            "tb_icon",
-            item.tb_consume < item.total_consume
-              ? "el-icon-top rise"
-              : "el-icon-bottom down"
-          );
-        });
         vm.tableData = result;
         vm.total = res.data.count;
       });
     },
-    searchEvent() {
+    // 编辑按钮
+    editRowEvent(row) {
+      const $table = this.$refs.xTable;
+      $table.setActiveRow(row);
+    },
+    // 保存
+    saveRowEvent(row) {
       const vm = this;
-      let data = {
-        start_date: vm.form.search_date[0],
-        end_date: vm.form.search_date[1],
-      };
-      vm.serchVal = {
-        ...data,
-        brand: vm.form.brand,
-        limit: vm.pagesize,
-        page: vm.currentPage,
-      };
-      vm.getListData(vm.serchVal);
+      const $table = this.$refs.xTable;
+      dapanEdit({
+        pro_num: row.pro_num,
+        real_money: vm.numberToNo(row.real_money),
+      }).then((res) => {
+        if (res.data.code === 10000) {
+          $table.clearActived().then(() => {
+            vm.$msg({ msg: "金额修改成功！" });
+          });
+        } else {
+          vm.$msg({ type: "error", msg: res.data.data });
+        }
+      });
+    },
+    // 取消
+    cancelRowEvent(row) {
+      const vm = this;
+      const $table = this.$refs.xTable;
+      $table.clearActived().then(() => {
+        // 还原行数据
+        $table.revertData(row);
+        // vm.getListData()
+      });
     },
     //分页器功能
     handleSizeChange(val) {
@@ -294,6 +237,25 @@ export default {
       this.currentPage = page;
       this.searchEvent();
     },
+    numberToNo(value) {
+      if (!value) return 0;
+      // 获取整数部分
+      const intPart = Math.trunc(value);
+      // 整数部分处理，增加,
+      const intPartFormat = intPart
+        .toString()
+        .replace(/(\d)(?=(?:\d{3})+$)/g, "$1,");
+      // 预定义小数部分
+      let floatPart = "";
+      // 将数值截取为小数部分和整数部分
+      const valueArray = value.toString().split(".");
+      if (valueArray.length === 2) {
+        // 有小数部分
+        floatPart = valueArray[1].toString(); // 取得小数部分
+        return intPartFormat + "." + floatPart;
+      }
+      return intPartFormat + floatPart;
+    },
   },
 };
 </script>
@@ -301,7 +263,7 @@ export default {
 <style lang="less" scoped>
 @import "../../Qianchuan/strategy/index.less";
 .PriceTops {
-    margin-top: 22px;
+  margin-top: 22px;
 }
 .rise {
   color: red;

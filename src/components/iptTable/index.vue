@@ -89,7 +89,7 @@
                     <el-input
                       v-model.trim="form.username"
                       size="large"
-                      placeholder="京准通登录请输入账号，京牌代理登录请输入pin"
+                      placeholder="请输入账号"
                       clearable
                     >
                     </el-input>
@@ -159,19 +159,27 @@
           </div>
         </el-form>
         <div class="formObj_button">
-          <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
-            <div class="el-icon-refresh btnSize">重置</div>
-          </a>
-          <a class="btnnormal_down marginR inlineButton" @click="modelEvent">
-            <div class="el-icon-download btnSize">模板</div>
-          </a>
-          <!-- <el-button
-            v-waves
-            type="primary"
-            class="el-icon-right marginR"
-            @click="modelEvent"
-            >模板下载</el-button
-          > -->
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="清空输入框和导入数据"
+            placement="top"
+          >
+            <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
+              <div class="el-icon-refresh btnSize">重置</div>
+            </a>
+          </el-tooltip>
+          <el-tooltip
+            class="item"
+            effect="dark"
+            content="提供可参考的导入数据案例"
+            placement="top"
+          >
+            <a class="btnnormal_down marginR inlineButton" @click="modelEvent">
+              <div class="el-icon-download btnSize">模板</div>
+            </a>
+          </el-tooltip>
+
           <el-button
             v-waves
             type="primary"
@@ -363,7 +371,7 @@ import {
   directiveLog,
   sfToolsSave,
   sfToolsDown,
-  sfToolsModelDown
+  sfToolsModelDown,
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
@@ -542,7 +550,7 @@ export default {
         },
       ],
       form: {
-        username: "13530531565",
+        username: "",
         password: "",
         cookie: "",
         pin: "",
@@ -734,10 +742,10 @@ export default {
     },
     // 下载模板
     modelEvent() {
-      const vm = this
+      const vm = this;
       sfToolsModelDown({
-        name: vm.toolType
-      }).then(res => {
+        name: vm.toolType,
+      }).then((res) => {
         let data = res.data;
         let url = window.URL.createObjectURL(new Blob([data]));
         let link = document.createElement("a");
@@ -746,7 +754,7 @@ export default {
         link.setAttribute("download", `模板-${vm.toolType}.xlsx`);
         document.body.appendChild(link);
         link.click();
-      })
+      });
     },
     // 关闭excel
     closeEvent(tag, val, opt) {

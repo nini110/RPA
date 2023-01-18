@@ -28,7 +28,7 @@
   </div>
 </template>
 <script>
-import { snakeData } from "./Snake.js";
+import { snakeData } from "./Snake1.js";
 export default {
   name: "sankey",
   data() {
@@ -81,6 +81,7 @@ export default {
             type: "sankey",
             data: [],
             links: [],
+            // nodeAlign: 'right',
             emphasis: {
               focus: "adjacency",
             },

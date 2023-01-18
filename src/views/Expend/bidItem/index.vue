@@ -542,41 +542,49 @@ export default {
         let mth = new Date().getMonth();
         let total_this = 0;
         let total_last = 0;
-        for (let i in linedata.this_year) {
-          if (parseInt(i) < mth) {
-            total_this += linedata.this_year[i].cost;
+        if (mth === 0) {
+          vm.barOption2.yAxis[0].data = ["全年"];
+          // 柱状图 今年
+          vm.barOption2.series[0].data = [bardata.this_year];
+          // 柱状图 去年
+          vm.barOption2.series[1].data = [bardata.last_year];
+        } else {
+          vm.barOption2.yAxis[0].data = ["全年", "到当前月"];
+          // 柱状图 今年
+          vm.barOption2.series[0].data = [bardata.this_year, total_this];
+          // 柱状图 去年
+          vm.barOption2.series[1].data = [bardata.last_year, total_last];
+          for (let i in linedata.this_year) {
+            if (parseInt(i) < mth) {
+              total_this += linedata.this_year[i].cost;
+            }
           }
-        }
-        for (let i in linedata.last_year) {
-          if (parseInt(i) < mth) {
-            total_last += linedata.last_year[i].cost;
+          for (let i in linedata.last_year) {
+            if (parseInt(i) < mth) {
+              total_last += linedata.last_year[i].cost;
+            }
           }
-        }
 
-        vm.barOption2.yAxis.data = ["全年", `至${mth}月份`];
-        // 柱状图 今年
-        vm.barOption2.series[0].data = [bardata.this_year, total_this];
-        // 柱状图 去年
-        vm.barOption2.series[1].data = [bardata.last_year, total_last];
-        // 计算比例
-        let currentMonth = new Date().getMonth();
-        let totalConsum_now = 0;
-        let totalConsum_last = 0;
-        for (let i = 0; i < linedata.this_year.length; i++) {
-          if (i < currentMonth) {
-            totalConsum_now += linedata.this_year[i].cost;
+          // 计算比例
+          let currentMonth = new Date().getMonth();
+          let totalConsum_now = 0;
+          let totalConsum_last = 0;
+          for (let i = 0; i < linedata.this_year.length; i++) {
+            if (i < currentMonth) {
+              totalConsum_now += linedata.this_year[i].cost;
+            }
           }
-        }
-        for (let i = 0; i < linedata.last_year.length; i++) {
-          if (i < currentMonth) {
-            totalConsum_last += linedata.last_year[i].cost;
+          for (let i = 0; i < linedata.last_year.length; i++) {
+            if (i < currentMonth) {
+              totalConsum_last += linedata.last_year[i].cost;
+            }
           }
+          vm.varietyPercent =
+            Math.round(
+              ((totalConsum_now - totalConsum_last) / totalConsum_last) * 10000
+            ) / 100;
+          vm.barOption2.yAxis[1].data = [vm.varietyPercent, ""];
         }
-        vm.varietyPercent =
-          Math.round(
-            ((totalConsum_now - totalConsum_last) / totalConsum_last) * 10000
-          ) / 100;
-        vm.barOption2.yAxis[1].data = [vm.varietyPercent, ""];
 
         // 折线图
         linedata.this_year.forEach((val, idx) => {

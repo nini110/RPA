@@ -16,21 +16,21 @@
             >
             </el-alert>
             <!-- <div class="chartOuter"> -->
-              <h2>年度总消耗</h2>
-              <div class="chart">
-                <div class="ziyou_chart_topleft">
-                  <div id="barBox"></div>
-                </div>
-                <div class="ziyou_chart_topright">
-                  <div id="pieBox"></div>
-                </div>
+            <h2>年度总消耗</h2>
+            <div class="chart">
+              <div class="ziyou_chart_topleft">
+                <div id="barBox"></div>
               </div>
+              <div class="ziyou_chart_topright">
+                <div id="pieBox"></div>
+              </div>
+            </div>
             <!-- </div> -->
             <!-- <div class="chartOuter"> -->
-              <h2>月度总消耗</h2>
-              <div class="chart ts">
-                <div id="lineBox"></div>
-              </div>
+            <h2>月度总消耗</h2>
+            <div class="chart ts">
+              <div id="lineBox"></div>
+            </div>
             <!-- </div> -->
 
             <div class="selfBrand outerDiv_table content_tableBox">
@@ -228,7 +228,7 @@ export default {
             axisTick: {
               show: false,
             },
-            data: ["全年", "到当前月"],
+            data: [],
             axisLabel: {
               textStyle: {
                 color: "#303133",
@@ -588,30 +588,44 @@ export default {
         let linedata = res[1].data.data;
         let respie = res[2].data.data;
         // 柱状图 全年
-        let mth = new Date().getMonth();
-        vm.barOption2.yAxis.data = ["全年", `至${mth}月份`];
-        // 柱状图 今年
-        vm.barOption2.series[0].data = [bardata.now_year, bardata.now_year_tq];
-        // 柱状图 去年
-        vm.barOption2.series[1].data = [
-          bardata.last_year,
-          bardata.last_year_tq,
-        ];
+        // let mth = new Date().getMonth();
+        // vm.barOption2.yAxis.data = ["全年", `至${mth}月份`];
 
         let currentMonth = new Date().getMonth();
         let totalConsum_now = 0;
         let totalConsum_last = 0;
-        for (let i = 0; i < linedata.length; i++) {
-          if (i < currentMonth) {
-            totalConsum_now += linedata[i].now;
-            totalConsum_last += linedata[i].last;
+        if (currentMonth === 0) {
+          vm.barOption2.yAxis[0].data = ["全年"];
+          // 柱状图 今年  全年-到当前月
+          vm.barOption2.series[0].data = [bardata.now_year];
+          // 柱状图 去年  全年-到当前月
+          vm.barOption2.series[1].data = [bardata.last_year];
+          // vm.barOption2.yAxis[1].data = [""]; 
+        } else {
+          vm.barOption2.yAxis[0].data = ["全年", "到当前月"];
+          // 柱状图 今年  全年-到当前月
+          vm.barOption2.series[0].data = [
+            bardata.now_year,
+            bardata.now_year_tq,
+          ];
+          // 柱状图 去年  全年-到当前月
+          vm.barOption2.series[1].data = [
+            bardata.last_year,
+            bardata.last_year_tq,
+          ];
+          for (let i = 0; i < linedata.length; i++) {
+            if (i < currentMonth) {
+              totalConsum_now += linedata[i].now;
+              totalConsum_last += linedata[i].last;
+            }
           }
+          vm.varietyPercent =
+            Math.round(
+              ((totalConsum_now - totalConsum_last) / totalConsum_last) * 10000
+            ) / 100;
+          vm.barOption2.yAxis[1].data = [vm.varietyPercent, ""]; 
         }
-        vm.varietyPercent =
-          Math.round(
-            ((totalConsum_now - totalConsum_last) / totalConsum_last) * 10000
-          ) / 100;
-        vm.barOption2.yAxis[1].data = [vm.varietyPercent, ""];
+
         // 饼图
         vm.piedata = [
           {
