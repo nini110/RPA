@@ -113,14 +113,13 @@
 
 		&_form {
 			width: 100%;
-			padding: 50px 120px 0 120px;
+			padding: 40px 80px 0 80px;
 			margin-bottom: 20px;
+			box-sizing: border-box;
 
 			&.ts {
-				margin-bottom: 40px;
+				margin-bottom: 20px;
 			}
-
-			box-sizing: border-box;
 
 			.formObj {
 				box-sizing: border-box;
@@ -146,7 +145,7 @@
 					}
 
 					&_abso {
-						flex-basis: 25%;
+						flex-basis: 20%;
 						display: flex;
 						align-items: center;
 						justify-content: center;
@@ -187,6 +186,8 @@
 							display: inline-block;
 							font-size: 12px;
 							vertical-align: middle;
+							background-color: #fbfbfb;
+							border: 1px solid #e3e3e3;
 						}
 
 						&__content {
@@ -194,9 +195,17 @@
 							display: inline-block;
 							vertical-align: middle;
 							font-size: 12px;
-
+							border: 1px solid #e3e3e3;
+							border-left: 0;
+							box-sizing: border-box;
 							.el-select {
 								width: 100%;
+							}
+							.el-input__inner {
+								font-size: 12px;
+								height: auto;
+								border-radius: 0 4px 4px 0;
+								border: none;
 							}
 						}
 
@@ -325,12 +334,12 @@
 
 		&_tableBox {
 			width: 100%;
-			padding: 0 120px;
+			padding: 0 80px;
 			box-sizing: border-box;
 			// background-color: #fff;
 
 			&.hasUp {
-				height: calc(100% - 280px) !important;
+				height: calc(100% - 310px) !important;
 			}
 
 			&.hasUp2 {
@@ -440,7 +449,7 @@
 			}
 
 			&.teshu {
-				height: calc(100% - 280px) !important;
+				height: calc(100% - 310px) !important;
 
 				.tables {
 					height: calc(100% - 170px);
@@ -459,7 +468,7 @@
 				height: calc(100% - 180px);
 
 				.tables {
-					height: calc(100% - 30px);
+					height: calc(100% - 20px);
 
 					.tableBox {
 						height: 100% !important;
@@ -489,7 +498,7 @@
 		position: relative;
 		box-shadow: -20px 0 20px #eae9e987;
 		padding: 40px 20px 20px 20px;
-		margin: 50px 0 50px 120px;
+		margin: 40px 0 40px 80px;
 		box-sizing: border-box;
 
 		&_info {
@@ -541,7 +550,7 @@
 		height: calc(100% - 100px);
 		box-sizing: border-box;
 		padding: 40px 20px 20px 20px;
-		margin: 50px 120px 50px 0;
+		margin: 40px 80px 40px 0;
 		position: relative;
 
 		.el {
@@ -580,7 +589,7 @@
 .block {
 	display: flex;
 	flex-direction: row-reverse;
-	margin: 20px 0 20px 0;
+	margin: 20px 0 0 0;
 }
 
 .stateItem {

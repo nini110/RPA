@@ -72,7 +72,7 @@ export default {
       currentMenu: "1-1",
       menuList: [
         {
-          label: "提效工具",
+          label: "投放提效",
           deep: 2,
           icon: "#icon-xiaoshuai",
           value: "",
@@ -82,6 +82,11 @@ export default {
               label: "DMP",
               value: "/layout/beijingMustPass/DMP",
               index: "1-1",
+            },
+            {
+              label: "购物触点",
+              value: "/layout/beijingMustPass/GoShop",
+              index: "1-6",
             },
             {
               label: "京东展位",
@@ -94,48 +99,53 @@ export default {
               index: "1-3",
             },
             {
-              label: "京腾魔方",
+              label: "京腾魔方人群",
               value: "/layout/beijingMustPass/Cube",
               index: "1-4",
             },
             {
-              label: "京腾人群方向",
+              label: "京腾人群定向",
               value: "/layout/beijingMustPass/People",
               index: "1-5",
-            },
-            {
-              label: "购物触点",
-              value: "/layout/beijingMustPass/GoShop",
-              index: "1-6",
             },
           ],
         },
         {
-          label: "大数据工具",
+          label: "数坊提效",
           deep: 2,
           icon: "#icon-gengduoyingyong",
           value: "",
           index: "2",
           children: [
             {
-              label: "数坊人群计算",
+              label: "人群计算",
               value: "/layout/bigData/Caculate",
               index: "2-1",
             },
             {
-              label: "数坊人群圈选",
+              label: "人群圈选",
               value: "/layout/bigData/Select",
               index: "2-2",
             },
             {
-              label: "数坊洞察分析",
+              label: "洞察分析",
               value: "/layout/bigData/Analysis",
               index: "2-3",
             },
             {
-              label: "数坊人群透视分析",
+              label: "人群透视分析",
               value: "/layout/bigData/Insight",
               index: "2-4",
+            },
+            {
+              label: "营销人群追踪",
+              value: "/layout/bigData/Track",
+              index: "2-5",
+            },
+            {
+              label: "营销人群报告",
+              value: "/layout/bigData/Report",
+              index: "2-6",
             },
           ],
         },

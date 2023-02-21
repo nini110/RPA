@@ -1,32 +1,31 @@
 <template>
-	<div id="app">
-		<transition name="el-fade-in-linear">
-			<router-view/>
-		</transition>
-
-	</div>
+  <div id="app">
+    <transition name="el-fade-in-linear">
+      <router-view />
+    </transition>
+  </div>
 </template>
 <script>
-	export default {
-		name: "App",
-		data() {
-			return {};
-		},
-		created() {
-			// 线上发布时created中所有都注释
-			// this.$route.query.wx_code = "QloMvBf9kopYFf-Z5CN56Ko-KQS0twAfCrqQk8mHnL0";
-			// this.$route.query.wx_userid = "1020108";
-			// this.$route.query.user_name = "方涛";
-			// localStorage.setItem("wx_code", this.$route.query.wx_code);
-			// localStorage.setItem("wx_userid", this.$route.query.wx_userid);
-			// localStorage.setItem("user_name", this.$route.query.user_name);
-		},
-	};
+export default {
+  name: "App",
+  data() {
+    return {};
+  },
+  created() {
+    // 线上发布时created中所有都注释
+    this.$route.query.wx_code = "R3DFjwsZUiPpI_8h-Y8xD7WcFtWhaKEMq2qO7bINRio";
+    this.$route.query.wx_userid = "1020108";
+    this.$route.query.user_name = "方涛";
+    localStorage.setItem("wx_code", this.$route.query.wx_code);
+    localStorage.setItem("wx_userid", this.$route.query.wx_userid);
+    localStorage.setItem("user_name", this.$route.query.user_name);
+  },
+};
 </script>
 <style lang="less">
-	#app {
-		width: 100%;
-		height: 100%;
-		position: relative;
-	}	
+#app {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 </style>

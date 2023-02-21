@@ -12,21 +12,22 @@
                   </svg>
                 </template>
                 <template slot="extra">
-                  <el-radio-group v-model="activeName">
-                    <el-radio
-                      v-for="(item, idx) in radioOpt"
-                      :label="item.code"
-                      :key="idx"
-                      >{{ item.txt }}</el-radio
-                    >
-                  </el-radio-group>
+                  <span>{{ $route.meta.title }}</span>
                 </template>
               </el-result>
             </div>
-            <div class="formObj_ipt_rt" v-if="activeName === '1'">
-              <el-row>
-                <el-col :span="12">
-                  <el-form-item label="账号:" prop="username">
+            <div class="formObj_ipt_rt">
+              <el-tabs v-model="activeName">
+                <el-tab-pane
+                  v-for="(item, idx) in radioOpt"
+                  :label="item.txt"
+                  :key="idx"
+                  :name="item.code"
+                ></el-tab-pane>
+              </el-tabs>
+              <el-row v-if="activeName === '1'" :gutter="20">
+                <el-col :span="showPwd ? 12 : 24">
+                  <el-form-item label="账号" prop="username">
                     <el-input
                       v-model.trim="form.username"
                       size="large"
@@ -36,8 +37,8 @@
                     </el-input>
                   </el-form-item>
                 </el-col>
-                <el-col :span="12">
-                  <el-form-item label="密码:" prop="password">
+                <el-col :span="12" v-if="showPwd">
+                  <el-form-item label="密码" prop="password">
                     <el-input
                       v-model.trim="form.password"
                       size="large"
@@ -53,7 +54,7 @@
                   v-if="$route.fullPath.indexOf('beijingMustPass') !== -1"
                 >
                   <!-- 只有京准通里有类型选择 -->
-                  <el-form-item label="类型:" prop="choose">
+                  <el-form-item label="类型" prop="choose">
                     <el-select
                       v-model="form.choose"
                       placeholder="请选择类型"
@@ -70,7 +71,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="12">
-                  <el-form-item label="PIN:" prop="pin">
+                  <el-form-item label="PIN" prop="pin">
                     <el-input
                       v-model.trim="form.pin"
                       size="large"
@@ -81,11 +82,9 @@
                   </el-form-item>
                 </el-col>
               </el-row>
-            </div>
-            <div class="formObj_ipt_rt" v-if="activeName === '2'">
-              <el-row>
+              <el-row v-else>
                 <el-col :span="24">
-                  <el-form-item label="账号:" prop="username">
+                  <el-form-item label="账号" prop="username">
                     <el-input
                       v-model.trim="form.username"
                       size="large"
@@ -96,7 +95,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                  <el-form-item label="Cookie:" prop="cookie">
+                  <el-form-item label="Cookie" prop="cookie">
                     <el-input
                       v-model.trim="form.cookie"
                       placeholder="请输入Cookie"
@@ -285,7 +284,7 @@
                     </el-tooltip>
                   </div>
                   <div
-                    v-if="formMenu === 2 && scope.row.log_status === '执行完毕'"
+                    v-if="ifDown && scope.row.log_status === '执行完毕'"
                     v-waves
                     class="btn btn_info"
                     @click="downEvent(scope.row)"
@@ -372,11 +371,12 @@ import {
   sfToolsSave,
   sfToolsDown,
   sfToolsModelDown,
+  DMPSave,
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
 import Upload from "@/components/upload";
-import dayjs from "dayjs";
+import message from "@/mixin/message";
 
 export default {
   name: "DMP",
@@ -401,43 +401,17 @@ export default {
     formMenu: {
       type: Number,
     },
+    ifDown: {
+      type: Boolean,
+    },
   },
   computed: {
     requireCse() {
       return this.form.choose;
     },
   },
+  mixins: [message],
   watch: {
-    formMenu: {
-      handler(newval, oldval) {
-        const vm = this;
-        switch (newval) {
-          case 1:
-            vm.activeName = "1";
-            vm.radioOpt = [
-              {
-                code: "1",
-                txt: "密码登陆",
-              },
-              {
-                code: "2",
-                txt: "Cookie登录",
-              },
-            ];
-            break;
-          case 2:
-            vm.activeName = "2";
-            vm.radioOpt = [
-              {
-                code: "2",
-                txt: "Cookie登录",
-              },
-            ];
-            break;
-        }
-      },
-      immediate: true,
-    },
     activeName(newval, oldval) {
       this.rules.username[0].message =
         newval === "1"
@@ -447,7 +421,37 @@ export default {
     $route: {
       handler(newval, oldval) {
         const vm = this;
-        vm.activeName = vm.formMenu === 1 ? "1" : "2";
+        vm.showPwd = newval.fullPath.indexOf("DMP") === -1;
+        if (vm.formMenu === 1) {
+          vm.activeName = "1";
+          if (newval.fullPath.indexOf("DMP") !== -1) {
+            vm.radioOpt = [
+              {
+                code: "1",
+                txt: "登录",
+              },
+            ];
+          } else {
+            vm.radioOpt = [
+              {
+                code: "1",
+                txt: "密码登录",
+              },
+              {
+                code: "2",
+                txt: "Cookie登录",
+              },
+            ];
+          }
+        } else {
+          vm.activeName = "2";
+          vm.radioOpt = [
+            {
+              code: "2",
+              txt: "Cookie登录",
+            },
+          ];
+        }
         vm.getuserlist();
         vm.username = localStorage.getItem("user_name");
         vm.people = localStorage.getItem("user_name");
@@ -487,6 +491,7 @@ export default {
       }
     };
     return {
+      showPwd: true,
       activeName: "1",
       radioOpt: [],
       formSource: 1, // 点击来源 1 新建  2 导入
@@ -571,7 +576,7 @@ export default {
       log: "", //查看详情渲染的log
     };
   },
-  created() {
+  mounted() {
     const vm = this;
   },
   methods: {
@@ -641,28 +646,69 @@ export default {
             vm.$msg({ type: "error", msg: "请先添加表格数据" });
           } else {
             if (vm.formMenu === 1) {
-              directiveSave({
-                ...submitdata,
-              }).then((res) => {
-                if (res.data.code === 10000) {
-                  vm.$msg({ msg: "保存成功" });
-                  vm.excelData = null;
-                  vm.excelName = "";
-                  vm.logEvent(res.data.data);
-                  vm.logInterval = setInterval(() => {
+              if (vm.$route.fullPath.indexOf("DMP") !== -1) {
+                DMPSave({ ...submitdata }).then((res) => {
+                  if (res.data.code === 10000) {
+                    vm.$msg({ msg: "保存成功" });
+                    vm.excelData = null;
+                    vm.excelName = "";
                     vm.logEvent(res.data.data);
-                  }, 3000);
-                  vm.showLogDialog = true;
-                  vm.$refs.form.resetFields();
-                } else if (res.data.code === 10006) {
-                  vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
-                } else {
-                  vm.$msg({
-                    type: "error",
-                    msg: res.data.data || res.data.msg,
-                  });
-                }
-              });
+                    vm.logInterval = setInterval(() => {
+                      vm.logEvent(res.data.data);
+                    }, 3000);
+                    vm.showLogDialog = true;
+                    vm.$refs.form.resetFields();
+                  } else if (res.data.code === 10003) {
+                    vm.openMessageBox({
+                      type: "warning",
+                      showClose: true,
+                      tipTitle: `账号未授权或授权失效`,
+                      tipContent:
+                        "授权地址: http://tool.afocus.com.cn/jos/oauth2",
+                      showCancelButton: false,
+                      confirmButtonFn: () => {},
+                    });
+                  } else {
+                    vm.$msg({
+                      type: "error",
+                      msg: res.data.data || res.data.msg,
+                    });
+                  }
+                });
+              } else {
+                directiveSave({
+                  ...submitdata,
+                }).then((res) => {
+                  if (res.data.code === 10000) {
+                    vm.$msg({ msg: "保存成功" });
+                    vm.excelData = null;
+                    vm.excelName = "";
+                    vm.logEvent(res.data.data);
+                    vm.logInterval = setInterval(() => {
+                      vm.logEvent(res.data.data);
+                    }, 3000);
+                    vm.showLogDialog = true;
+                    vm.$refs.form.resetFields();
+                  } else if (res.data.code === 10006) {
+                    vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
+                  } else if (res.data.code === 10003) {
+                    vm.openMessageBox({
+                      type: "warning",
+                      showClose: true,
+                      tipTitle: `账号未授权或授权失效`,
+                      tipContent:
+                        "授权地址: http://tool.afocus.com.cn/jos/oauth2",
+                      showCancelButton: false,
+                      confirmButtonFn: () => {},
+                    });
+                  }  else {
+                    vm.$msg({
+                      type: "error",
+                      msg: res.data.data || res.data.msg,
+                    });
+                  }
+                });
+              }
             } else {
               sfToolsSave({ ...submitdata }).then((res) => {
                 if (res.data.code === 10000) {

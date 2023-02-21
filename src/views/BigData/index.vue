@@ -4,6 +4,7 @@
     <IptComp
       ref="iptcomp"
       :formMenu="2"
+      :ifDown="ifDown"
       :toolType="toolType"
       :sheetName="sheetName"
       :excelOptions="excelOptions"
@@ -21,6 +22,7 @@ export default {
   data() {
     return {
       toolType: "0",
+      ifDown: true
     };
   },
   watch: {
@@ -1783,7 +1785,7 @@ export default {
                 ht: 0,
               },
             });
-          } else if (idx ===58) {
+          } else if (idx === 58) {
             opt[0].celldata.push({
               r: 1,
               c: idx,
@@ -1834,12 +1836,14 @@ export default {
           // 计算
           case "Caculate":
             vm.toolType = "数坊人群计算";
+            vm.ifDown = true
             vm.sheetName = "Sheet1";
             vm.excelOptions = opt;
             break;
           // 圈选
           case "Select":
             vm.toolType = "数坊人群圈选";
+            vm.ifDown = false
             vm.sheetName = "Sheet1";
             vm.excelOptions = opt;
             break;
@@ -1847,6 +1851,7 @@ export default {
           case "Analysis":
             vm.toolType = "数坊洞察分析";
             vm.sheetName = "Sheet1";
+            vm.ifDown = true
             vm.excelOptions = [
               {
                 name: "Sheet1", //工作表名称
@@ -1883,6 +1888,7 @@ export default {
           case "Insight":
             vm.toolType = "数坊人群透视分析";
             vm.sheetName = "Sheet1";
+            vm.ifDown = true
             vm.excelOptions = [
               {
                 name: "Sheet1", //工作表名称
@@ -1902,6 +1908,306 @@ export default {
                       ct: { fa: "@", t: "s" }, // 格式类型
                       m: "人群名", // 显示值
                       v: "人群名", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                    },
+                  },
+                ], //初始化使用的单元格数据
+                isPivotTable: false, //是否数据透视表
+                zoomRatio: 1, // 缩放比例
+                showGridLines: 1, //是否显示网格线
+              },
+            ];
+            break;
+          // 人群追踪
+          case "Track":
+            vm.toolType = "数坊营销人群追踪";
+            vm.sheetName = "Sheet1";
+            vm.ifDown = false
+            vm.excelOptions = [
+              {
+                name: "Sheet1", //工作表名称
+                color: "", //工作表颜色
+                index: "renqun", //工作表索引
+                status: 1, //激活状态
+                hide: 0, //是否隐藏
+                row: 1000, //行数
+                column: 15, //列数
+                defaultRowHeight: 40, //自定义行高
+                defaultColWidth: 150, //自定义列宽
+                celldata: [
+                  // 报告名称
+                  {
+                    r: 0,
+                    c: 0,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "报告名称", // 显示值
+                      v: "报告名称", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                    },
+                  },
+                  // 投放/监测账号
+                  {
+                    r: 0,
+                    c: 1,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "投放/监测账号", // 显示值
+                      v: "投放/监测账号", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                    },
+                  },
+                  // 投放/检测平台
+                  {
+                    r: 0,
+                    c: 2,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "投放/检测平台", // 显示值
+                      v: "投放/检测平台", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value: "目前只支持京准通", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
+                    },
+                  },
+                  // 活动类型
+                  {
+                    r: 0,
+                    c: 3,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "活动类型", // 显示值
+                      v: "活动类型", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value:
+                          "支持的活动类型有:京东快车, 京东展位, 京东直投, 联合活动, 购物触点, 京东海投, 品牌广告", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
+                    },
+                  },
+                  // 活动范围
+                  {
+                    r: 0,
+                    c: 4,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "活动范围", // 显示值
+                      v: "活动范围", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value:
+                          "计划：1, 订单：1, 单元：2, 广告：2, 活动：3, 排期：4", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
+                    },
+                  },
+                  // 活动范围名称
+                  {
+                    r: 0,
+                    c: 5,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "活动范围名称", // 显示值
+                      v: "活动范围名称", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value:
+                          "单元、广告、排期时活动范围名称有两个，需要以‘/’来进行分隔", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
+                    },
+                  },
+                  // 广告行为
+                  {
+                    r: 0,
+                    c: 6,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "广告行为", // 显示值
+                      v: "广告行为", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value: "曝光:1, 广告:2", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
+                    },
+                  },
+                  // 开始时间
+                  {
+                    r: 0,
+                    c: 7,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "开始时间", // 显示值
+                      v: "开始时间", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                    },
+                  },
+                  // 结束时间
+                  {
+                    r: 0,
+                    c: 8,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "结束时间", // 显示值
+                      v: "结束时间", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                    },
+                  },
+                  // 品牌
+                  {
+                    r: 0,
+                    c: 9,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "品牌", // 显示值
+                      v: "品牌", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                    },
+                  },
+                  // 分类
+                  {
+                    r: 0,
+                    c: 10,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "分类", // 显示值
+                      v: "分类", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value: "没有备注可以不用填写", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
+                    },
+                  },
+                  // 报告终止时间
+                  {
+                    r: 0,
+                    c: 11,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "报告终止时间", // 显示值
+                      v: "报告终止时间", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                    },
+                  },
+                ], //初始化使用的单元格数据
+                isPivotTable: false, //是否数据透视表
+                zoomRatio: 1, // 缩放比例
+                showGridLines: 1, //是否显示网格线
+              },
+            ];
+            break;
+          // 人群报告
+          case "Report":
+            vm.toolType = "营销人群报告数据表";
+            vm.sheetName = "Sheet1";
+            vm.ifDown = true
+            vm.excelOptions = [
+              {
+                name: "Sheet1", //工作表名称
+                color: "", //工作表颜色
+                index: "renqun", //工作表索引
+                status: 1, //激活状态
+                hide: 0, //是否隐藏
+                row: 1000, //行数
+                column: 15, //列数
+                defaultRowHeight: 40, //自定义行高
+                defaultColWidth: 150, //自定义列宽
+                celldata: [
+                  {
+                    r: 0,
+                    c: 0,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "报告名称", // 显示值
+                      v: "报告名称", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                    },
+                  },
+                  {
+                    r: 0,
+                    c: 1,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "报告结束时间", // 显示值
+                      v: "报告结束时间", // 原始值
+                      bl: 1,
+                      tb: 2,
+                      vt: 0,
+                      ht: 0,
+                    },
+                  },
+                  {
+                    r: 0,
+                    c: 2,
+                    v: {
+                      ct: { fa: "@", t: "s" }, // 格式类型
+                      m: "新老客口径", // 显示值
+                      v: "新老客口径", // 原始值
                       bl: 1,
                       tb: 2,
                       vt: 0,

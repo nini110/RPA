@@ -4,10 +4,12 @@
     <IptComp
       ref="iptcomp"
       :formMenu="1"
+      :ifDown="false"
       :toolType="toolType"
       :sheetName="sheetName"
       :excelOptions="excelOptions"
-    ></IptComp>
+    >
+    </IptComp>
   </div>
 </template>
 
@@ -49,8 +51,8 @@ export default {
         });
         switch (newval.name) {
           case "DMP":
-            vm.toolType = "0";
-            vm.sheetName = "Sheet1";
+            vm.toolType = "DMP";
+            vm.sheetName = "创建人群";
             vm.excelOptions = [
               {
                 name: "创建人群", //工作表名称
@@ -68,34 +70,10 @@ export default {
                     c: 0,
                     v: {
                       ct: { fa: "@", t: "s" }, // 格式类型
-                      m: "一级分类", // 显示值
-                      v: "一级分类", // 原始值
+                      m: "三级分类", // 显示值
+                      v: "三级分类", // 原始值
                       bl: 1,
                       tb: 2,
-                      vt: 0,
-                      ht: 0,
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 1,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "二级分类",
-                      v: "二级分类",
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 2,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "三级分类",
-                      v: "三级分类",
-                      bl: 1,
                       vt: 0,
                       ht: 0,
                       ps: {
@@ -103,14 +81,14 @@ export default {
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
                         value:
-                          "三级分类现支持5种：1、类目 2、品牌商品 3、店铺内商品 4、自定义商品 5、合作方数据", //批准内容
+                          "温馨提示，三级分类现支持有4种：,1. 类目, 2. 品牌, 3. 店铺, 4. 商品（只有商品行为）", //批准内容
                         isshow: false, //批注框为显示状态
                       },
                     },
                   },
                   {
                     r: 0,
-                    c: 3,
+                    c: 1,
                     v: {
                       ct: { fa: "@", t: "s" },
                       m: "标签名称",
@@ -122,19 +100,27 @@ export default {
                   },
                   {
                     r: 0,
-                    c: 4,
+                    c: 2,
                     v: {
                       ct: { fa: "@", t: "s" },
-                      m: "分类级别",
-                      v: "分类级别",
+                      m: "筛选项",
+                      v: "筛选项",
                       bl: 1,
                       vt: 0,
                       ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value:
+                          "三级分类：行为类型-时间范围-类目场景, 非三级分类:行为类型-时间范围", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
                     },
                   },
                   {
                     r: 0,
-                    c: 5,
+                    c: 3,
                     v: {
                       ct: { fa: "@", t: "s" },
                       m: "sku",
@@ -142,95 +128,12 @@ export default {
                       bl: 1,
                       vt: 0,
                       ht: 0,
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 6,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "人群包名称",
-                      v: "人群包名称",
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                    },
-                  },
-                ], //初始化使用的单元格数据
-                isPivotTable: false, //是否数据透视表
-                zoomRatio: 1, // 缩放比例
-                showGridLines: 1, //是否显示网格线
-              },
-              {
-                name: "更新合作方数据", //工作表名称
-                color: "hezuofang", //工作表颜色
-                index: 1, //工作表索引
-                status: 0, //激活状态
-                hide: 0, //是否隐藏
-                row: 1000, //行数
-                column: 18, //列数
-                defaultRowHeight: 40, //自定义行高
-                defaultColWidth: 150, //自定义列宽
-                celldata: [
-                  {
-                    r: 0,
-                    c: 0,
-                    v: {
-                      ct: { fa: "@", t: "s" }, // 格式类型
-                      m: "一级分类", // 显示值
-                      v: "一级分类", // 原始值
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 1,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "二级分类",
-                      v: "二级分类",
-                      vt: 0,
-                      ht: 0,
-                      bl: 1,
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 2,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "三级分类",
-                      v: "三级分类",
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
                       ps: {
                         //批注
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
                         value:
-                          "在更新合作方数据sheet中，三级分类现只支持合作方数据", //批准内容
-                        isshow: false, //批注框为显示状态
-                      },
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 3,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "标签名称",
-                      v: "标签名称",
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                      ps: {
-                        //批注
-                        width: 91, //批注框宽度
-                        height: 48, //批注框高度
-                        value: "此处填写的是人群包原有的标签名称", //批准内容
+                          "注：多个SKU时必须先把单元格式设置为文本，同时SKU之间的逗号需要是英文状态下的逗号", //批准内容
                         isshow: false, //批注框为显示状态
                       },
                     },
@@ -240,8 +143,8 @@ export default {
                     c: 4,
                     v: {
                       ct: { fa: "@", t: "s" },
-                      m: "人群包名称",
-                      v: "人群包名称",
+                      m: "用户属性三级分类",
+                      v: "用户属性三级分类",
                       bl: 1,
                       vt: 0,
                       ht: 0,
@@ -252,152 +155,8 @@ export default {
                     c: 5,
                     v: {
                       ct: { fa: "@", t: "s" },
-                      m: "更新标签名称",
-                      v: "更新标签名称",
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                      ps: {
-                        //批注
-                        width: 91, //批注框宽度
-                        height: 48, //批注框高度
-                        value: "此处填写的是人群包需要更新的标签名称", //批准内容
-                        isshow: false, //批注框为显示状态
-                      },
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 6,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "更新人群包名称",
-                      v: "更新人群包名称",
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                      ps: {
-                        //批注
-                        width: 91, //批注框宽度
-                        height: 48, //批注框高度
-                        value:
-                          "此处填写的是更新的人群包名称，不填写默认为原人群包名称", //批准内容
-                        isshow: false, //批注框为显示状态
-                      },
-                    },
-                  },
-                  {
-                    r: 1,
-                    c: 2,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "合作方数据",
-                      v: "合作方数据",
-                      bg: "gold",
-                      vt: 0,
-                      ht: 0,
-                    },
-                  },
-                ], //初始化使用的单元格数据
-                isPivotTable: false, //是否数据透视表
-                zoomRatio: 1, // 缩放比例
-                showGridLines: 1, //是否显示网格线
-                dataVerification: col2,
-              },
-              {
-                name: "新增标签", //工作表名称
-                color: "biaoqian", //工作表颜色
-                index: 2, //工作表索引
-                status: 0, //激活状态
-                hide: 0, //是否隐藏
-                row: 1000, //行数
-                column: 18, //列数
-                defaultRowHeight: 40, //自定义行高
-                defaultColWidth: 150, //自定义列宽
-                celldata: [
-                  {
-                    r: 0,
-                    c: 0,
-                    v: {
-                      ct: { fa: "@", t: "s" }, // 格式类型
-                      m: "一级分类", // 显示值
-                      v: "一级分类", // 原始值
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 1,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "二级分类",
-                      v: "二级分类",
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 2,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "三级分类",
-                      v: "三级分类",
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                      ps: {
-                        //批注
-                        width: 91, //批注框宽度
-                        height: 48, //批注框高度
-                        value:
-                          "三级分类现支持4种：1类目 2品牌商品 3店铺内商品 4自定义商品", //批准内容
-                        isshow: false, //批注框为显示状态
-                      },
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 3,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "新增标签名称",
-                      v: "新增标签名称",
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                      ps: {
-                        //批注
-                        width: 91, //批注框宽度
-                        height: 48, //批注框高度
-                        value:
-                          "填写已存在人群需要新增的标签名，该标签在人群包中必须是未存在的", //批准内容
-                        isshow: false, //批注框为显示状态
-                      },
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 4,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "分类级别",
-                      v: "分类级别",
-                      bl: 1,
-                      vt: 0,
-                      ht: 0,
-                    },
-                  },
-                  {
-                    r: 0,
-                    c: 5,
-                    v: {
-                      ct: { fa: "@", t: "s" },
-                      m: "SKU",
-                      v: "SKU",
+                      m: "用户属性标签名称",
+                      v: "用户属性标签名称",
                       bl: 1,
                       vt: 0,
                       ht: 0,
@@ -408,8 +167,8 @@ export default {
                     c: 6,
                     v: {
                       ct: { fa: "@", t: "s" },
-                      m: "人群包名称",
-                      v: "人群包名称",
+                      m: "用户属性筛选项",
+                      v: "用户属性筛选项",
                       bl: 1,
                       vt: 0,
                       ht: 0,
@@ -417,7 +176,7 @@ export default {
                         //批注
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
-                        value: "在DMP中存在的人群包名称", //批准内容
+                        value: "YY:多个筛选项之间用英文逗号隔开", //批准内容
                         isshow: false, //批注框为显示状态
                       },
                     },
@@ -427,8 +186,8 @@ export default {
                     c: 7,
                     v: {
                       ct: { fa: "@", t: "s" },
-                      m: "更新人群包名称",
-                      v: "更新人群包名称",
+                      m: "交并差组合",
+                      v: "交并差组合",
                       bl: 1,
                       vt: 0,
                       ht: 0,
@@ -437,9 +196,97 @@ export default {
                         width: 91, //批注框宽度
                         height: 48, //批注框高度
                         value:
-                          "添加完标签后，需要更新的人群包名称，不填写默认为原名称", //批准内容
+                          "不填写默认全交集,填写时则自动选择交并差，存在三个可选项：组合1、组合2、排除组合", //批准内容
                         isshow: false, //批注框为显示状态
                       },
+                    },
+                  },
+                  {
+                    r: 0,
+                    c: 8,
+                    v: {
+                      ct: { fa: "@", t: "s" },
+                      m: "组合1方式",
+                      v: "组合1方式",
+                      bl: 1,
+                      vt: 0,
+                      ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
+                    },
+                  },
+                  {
+                    r: 0,
+                    c: 9,
+                    v: {
+                      ct: { fa: "@", t: "s" },
+                      m: "组合2方式",
+                      v: "组合2方式",
+                      bl: 1,
+                      vt: 0,
+                      ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
+                    },
+                  },
+                  {
+                    r: 0,
+                    c: 10,
+                    v: {
+                      ct: { fa: "@", t: "s" },
+                      m: "组合1和2方式",
+                      v: "组合1和2方式",
+                      bl: 1,
+                      vt: 0,
+                      ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
+                    },
+                  },
+                  {
+                    r: 0,
+                    c: 10,
+                    v: {
+                      ct: { fa: "@", t: "s" },
+                      m: "排除组合方式",
+                      v: "排除组合方式",
+                      bl: 1,
+                      vt: 0,
+                      ht: 0,
+                      ps: {
+                        //批注
+                        width: 91, //批注框宽度
+                        height: 48, //批注框高度
+                        value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
+                        isshow: false, //批注框为显示状态
+                      },
+                    },
+                  },
+                  {
+                    r: 0,
+                    c: 11,
+                    v: {
+                      ct: { fa: "@", t: "s" },
+                      m: "人群包名称",
+                      v: "人群包名称",
+                      bl: 1,
+                      vt: 0,
+                      ht: 0,
                     },
                   },
                 ], //初始化使用的单元格数据
@@ -448,22 +295,6 @@ export default {
                 showGridLines: 1, //是否显示网格线
               },
             ];
-            arr.forEach((val, idx) => {
-              if (idx !== 0) {
-                vm.excelOptions[1].celldata.push({
-                  r: idx,
-                  c: 2,
-                  v: {
-                    ct: { fa: "@", t: "s" },
-                    m: "合作方数据",
-                    v: "合作方数据",
-                    bg: "gold",
-                    vt: 0,
-                    ht: 0,
-                  },
-                });
-              }
-            });
             break;
           // 直投 Sheet1
           case "Booth":
@@ -1293,7 +1124,7 @@ export default {
             break;
           // 人群 京腾魔方人群定向
           case "People":
-            vm.toolType = "13";
+            vm.toolType = "京腾魔方人群定向";
             vm.sheetName = "京腾魔方人群定向";
             vm.excelOptions = [
               {
@@ -1356,7 +1187,7 @@ export default {
             break;
           // 魔方 Sheet1
           case "Cube":
-            vm.toolType = "1";
+            vm.toolType = "京腾魔方";
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
@@ -1492,7 +1323,7 @@ export default {
             break;
           // 购物触点 Sheet1
           case "GoShop":
-            vm.toolType = "14";
+            vm.toolType = "购物触点";
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {

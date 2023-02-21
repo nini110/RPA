@@ -155,7 +155,7 @@ export default {
                           vm.$set(
                             obj,
                             val2.m,
-                            val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
+                            val.data[idx1][idx2] && val.data[idx1][idx2].m? val.data[idx1][idx2].m : ""
                           );
                         }
                       });
@@ -215,16 +215,18 @@ export default {
                   value: [],
                 };
                 val.data.forEach((val1, idx1) => {
+                  // debugger
                   if (val1) {
                     if (idx1 !== 0) {
                       // val1是每一行
                       let obj = {};
                       val.data[0].forEach((val2, idx2) => {
+                        // debugger
                         if (val2) {
                           vm.$set(
                             obj,
                             val2.m,
-                            val.data[idx1][idx2] ? val.data[idx1][idx2].m : ""
+                            val.data[idx1][idx2] && val.data[idx1][idx2].m? val.data[idx1][idx2].m : ""
                           );
                         }
                       });
@@ -240,7 +242,7 @@ export default {
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
           vm.$emit("close", 1, [resultObj], results);
-          console.log(resultObj);
+          console.log('resultObj', resultObj);
           window.luckysheet.destroy();
         });
       });

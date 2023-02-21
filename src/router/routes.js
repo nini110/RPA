@@ -61,7 +61,7 @@ const routes = [{
 				path: 'Cube',
 				name: 'Cube',
 				meta: {
-					title: '京腾魔方',
+					title: '京腾魔方人群',
 					deep: 3,
 					filePath: 'BeijingMustPass'
 				},
@@ -105,7 +105,7 @@ const routes = [{
 				path: 'Caculate',
 				name: 'Caculate',
 				meta: {
-					title: '数坊人群计算',
+					title: '人群计算',
 					deep: 3,
 					filePath: 'BigData'
 				},
@@ -115,7 +115,7 @@ const routes = [{
 				path: 'Select',
 				name: 'Select',
 				meta: {
-					title: '数坊人群圈选',
+					title: '人群圈选',
 					deep: 3,
 					filePath: 'BigData'
 				},
@@ -125,7 +125,7 @@ const routes = [{
 				path: 'Analysis',
 				name: 'Analysis',
 				meta: {
-					title: '数坊洞察分析',
+					title: '洞察分析',
 					deep: 3,
 					filePath: 'BigData'
 				},
@@ -135,7 +135,27 @@ const routes = [{
 				path: 'Insight',
 				name: 'Insight',
 				meta: {
-					title: '数坊人群透视分析',
+					title: '人群透视分析',
+					deep: 3,
+					filePath: 'BigData'
+				},
+				component: () => import(/* webpackChunkName: "R_Difference"*/"@/views/BigData"),
+			},
+			{
+				path: 'Track',
+				name: 'Track',
+				meta: {
+					title: '营销人群追踪',
+					deep: 3,
+					filePath: 'BigData'
+				},
+				component: () => import(/* webpackChunkName: "R_track"*/"@/views/BigData"),
+			},
+			{
+				path: 'Report',
+				name: 'Report',
+				meta: {
+					title: '营销人群报告',
 					deep: 3,
 					filePath: 'BigData'
 				},

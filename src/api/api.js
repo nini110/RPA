@@ -95,6 +95,12 @@ export const biddingDelete = request({
     responseType: 'form'
 })
 // --------------------------
+// 提效工具- DMP -保存数据
+export const DMPSave = request({
+    url: `${BASEPATH}/apps/dmp/`,
+    method:'post',
+    responseType: 'form'
+})
 // 提效工具-直投-保存数据
 export const directiveList = request({
     url: `${BASEPATH}/apps/log_list/`,

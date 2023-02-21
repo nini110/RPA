@@ -549,11 +549,6 @@ export default {
           // 柱状图 去年
           vm.barOption2.series[1].data = [bardata.last_year];
         } else {
-          vm.barOption2.yAxis[0].data = ["全年", "到当前月"];
-          // 柱状图 今年
-          vm.barOption2.series[0].data = [bardata.this_year, total_this];
-          // 柱状图 去年
-          vm.barOption2.series[1].data = [bardata.last_year, total_last];
           for (let i in linedata.this_year) {
             if (parseInt(i) < mth) {
               total_this += linedata.this_year[i].cost;
@@ -564,6 +559,11 @@ export default {
               total_last += linedata.last_year[i].cost;
             }
           }
+          vm.barOption2.yAxis[0].data = ["全年", "到当前月"];
+          // 柱状图 今年
+          vm.barOption2.series[0].data = [bardata.this_year, total_this];
+          // 柱状图 去年
+          vm.barOption2.series[1].data = [bardata.last_year, total_last];
 
           // 计算比例
           let currentMonth = new Date().getMonth();

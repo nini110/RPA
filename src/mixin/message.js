@@ -16,7 +16,7 @@ export default {
 				showCancelButton: options.showCancelButton || false,
 				message: 
 				`<div class='tips-box'>
-					<div>
+					<div class='tips-box-tit'>
 						<i class="el-message-box__icon el-icon-${options.type || 'warning'}"></i>
 						<span class='tips-box-title'>${options.tipTitle || ''}<span style="color:#f56c6c">${options.curItem || ''}</span></span>
 					</div>

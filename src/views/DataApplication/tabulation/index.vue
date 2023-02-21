@@ -15,9 +15,16 @@
                 </template>
               </el-result>
             </div>
-            <el-row class="formObj_ipt_rt">
+            <div class="formObj_ipt_rt">
+              <el-tabs v-model="activeName">
+                <el-tab-pane
+                  label="查询"
+                  :name="1"
+                ></el-tab-pane>
+              </el-tabs>
+              <el-row>
               <el-col :span="24">
-                <el-form-item label="项目:" prop="project_name">
+                <el-form-item label="项目" prop="project_name">
                   <el-cascader
                     v-model="form.project_name"
                     placeholder="请选择项目"
@@ -29,7 +36,7 @@
                 </el-form-item>
               </el-col>
               <el-col :span="24">
-                <el-form-item class="hasdate" label="日期:" prop="date">
+                <el-form-item class="hasdate" label="日期" prop="date">
                   <el-select
                     v-model="form.type"
                     placeholder="请选择类型"
@@ -53,6 +60,7 @@
                 </el-form-item>
               </el-col>
             </el-row>
+            </div>
           </div>
           <div v-if="checkedItem.file" class="formObj_upload ts">
             <el-form-item label="" prop="file">
@@ -248,6 +256,7 @@ export default {
       }
     };
     return {
+      activeName: 1,
       excelName: "",
       pageHaseItem: 0, // 当前页有多少条数据
       errorStateInfo: "",
@@ -322,7 +331,7 @@ export default {
             break;
           default:
             this.dataIcon = "#icon-xinxi1";
-            this.dataDesc = "选择项目和日期查询数据状态";
+            this.dataDesc = "数据状态";
         }
       },
       immediate: true,
