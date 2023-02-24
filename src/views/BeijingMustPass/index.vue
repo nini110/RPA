@@ -4,6 +4,7 @@
     <IptComp
       ref="iptcomp"
       :formMenu="1"
+      :picSrc="picSrc"
       :ifDown="false"
       :toolType="toolType"
       :sheetName="sheetName"
@@ -25,13 +26,13 @@ export default {
       toolType: "0",
       sheetName: "",
       excelOptions: [],
+      picSrc: "",
     };
   },
   watch: {
     $route: {
       handler(newval, oldval) {
         const vm = this;
-        console.log(vm.$refs);
         let arr = new Array(1000).fill(1);
         let col2 = {};
         arr.forEach((val, idx) => {
@@ -53,6 +54,7 @@ export default {
           case "DMP":
             vm.toolType = "DMP";
             vm.sheetName = "创建人群";
+            vm.picSrc = require("../../assets/images/DMP.png");
             vm.excelOptions = [
               {
                 name: "创建人群", //工作表名称
@@ -299,6 +301,7 @@ export default {
           // 直投 Sheet1
           case "Booth":
             vm.toolType = "京东展位";
+            vm.picSrc = require("../../assets/images/Booth.png");
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
@@ -583,7 +586,8 @@ export default {
             break;
           // 直投 Sheet1
           case "Direct":
-            vm.toolType = "新版直投";
+            vm.picSrc = require("../../assets/images/Direct.png");
+            vm.toolType = "京东直投";
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
@@ -1124,6 +1128,7 @@ export default {
             break;
           // 人群 京腾魔方人群定向
           case "People":
+            vm.picSrc = require("../../assets/images/Cube.png");
             vm.toolType = "京腾魔方人群定向";
             vm.sheetName = "京腾魔方人群定向";
             vm.excelOptions = [
@@ -1187,7 +1192,8 @@ export default {
             break;
           // 魔方 Sheet1
           case "Cube":
-            vm.toolType = "京腾魔方";
+            vm.picSrc = require("../../assets/images/Cube.png");
+            vm.toolType = "京腾魔方人群";
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
@@ -1323,6 +1329,7 @@ export default {
             break;
           // 购物触点 Sheet1
           case "GoShop":
+            vm.picSrc = require("../../assets/images/GoShop.png");
             vm.toolType = "购物触点";
             vm.sheetName = "Sheet1";
             vm.excelOptions = [

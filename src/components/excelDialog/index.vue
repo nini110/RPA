@@ -124,7 +124,6 @@ export default {
         let resultObj = {};
         $(function () {
           let results = window.luckysheet.getAllSheets();
-          //
           if (vm.toolType === "京东展位") {
             for (let val of results) {
               if (val.name === vm.sheetName) {

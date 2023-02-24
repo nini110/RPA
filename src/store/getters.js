@@ -14,7 +14,13 @@ const getters = {
   user_name: state => state.pageData.user_name,  // 是否需要校验右侧信息
   thumb_avatar: state => state.pageData.thumb_avatar,  // 是否需要校验右侧信息
 
-  errorLogs: state => state.errorLog.logs
+  errorLogs: state => state.errorLog.logs,
 
+  intervalArr_dmp: state => state.errorLog.intervalArr_dmp,
+  intervalArr_booth: state => state.errorLog.intervalArr_booth,
+  intervalArr_direct: state => state.errorLog.intervalArr_direct,
+  intervalArr_people: state => state.errorLog.intervalArr_people,
+  intervalArr_cube: state => state.errorLog.intervalArr_cube,
+  intervalArr_goshop: state => state.errorLog.intervalArr_goshop,
 }
 export default getters

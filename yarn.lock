@@ -1683,6 +1683,13 @@
   "resolved" "https://registry.npm.taobao.org/address/download/address-1.1.2.tgz"
   "version" "1.1.2"
 
+"aes-decrypter@1.0.3":
+  "integrity" "sha512-rsx8pfx7wJsn+ziYbpJ8XA5c93hKAtBCrfydxJqJCMT+qfjipd/B5wC2xHtBcoxyvlqJcpeAo3K55t0lXOn9yQ=="
+  "resolved" "https://registry.npmjs.org/aes-decrypter/-/aes-decrypter-1.0.3.tgz"
+  "version" "1.0.3"
+  dependencies:
+    "pkcs7" "^0.2.3"
+
 "ajv-errors@^1.0.0":
   "integrity" "sha1-81mGrOuRr63sQQL72FAUlQzvpk0="
   "resolved" "https://registry.nlark.com/ajv-errors/download/ajv-errors-1.0.1.tgz"
@@ -2144,7 +2151,7 @@
   dependencies:
     "@babel/helper-define-polyfill-provider" "^0.2.2"
 
-"babel-runtime@6.x":
+"babel-runtime@^6.9.2", "babel-runtime@6.x":
   "integrity" "sha1-llxwWGaOgrVde/4E/yM3vItWR/4="
   "resolved" "https://registry.npmjs.org/babel-runtime/-/babel-runtime-6.26.0.tgz"
   "version" "6.26.0"
@@ -4029,6 +4036,11 @@
     "domelementtype" "^2.0.1"
     "entities" "^2.0.0"
 
+"dom-walk@^0.1.0":
+  "integrity" "sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w=="
+  "resolved" "https://registry.npmjs.org/dom-walk/-/dom-walk-0.1.2.tgz"
+  "version" "0.1.2"
+
 "domain-browser@^1.1.1":
   "integrity" "sha1-PTH1AZGmdJ3RN1p/Ui6CPULlTto="
   "resolved" "https://registry.nlark.com/domain-browser/download/domain-browser-1.2.0.tgz"
@@ -4363,6 +4375,11 @@
     "is-callable" "^1.1.4"
     "is-date-object" "^1.0.1"
     "is-symbol" "^1.0.2"
+
+"es5-shim@^4.5.1":
+  "integrity" "sha512-jg21/dmlrNQI7JyyA2w7n+yifSxBng0ZralnSfVZjoCawgNTCnS+yBCyVM9DL5itm7SUnDGgv7hcq2XCZX4iRQ=="
+  "resolved" "https://registry.npmjs.org/es5-shim/-/es5-shim-4.6.7.tgz"
+  "version" "4.6.7"
 
 "escalade@^3.1.1":
   "integrity" "sha1-2M/ccACWXFoBdLSoLqpcBVJ0LkA="
@@ -5216,6 +5233,22 @@
   dependencies:
     "ini" "^1.3.4"
 
+"global@^4.3.0", "global@^4.3.1", "global@~4.3.0", "global@4.3.2":
+  "integrity" "sha512-/4AybdwIDU4HkCUbJkZdWpe4P6vuw/CUtu+0I1YlLIPe7OlUO7KNJ+q/rO70CW2/NW6Jc6I62++Hzsf5Alu6rQ=="
+  "resolved" "https://registry.npmjs.org/global/-/global-4.3.2.tgz"
+  "version" "4.3.2"
+  dependencies:
+    "min-document" "^2.19.0"
+    "process" "~0.5.1"
+
+"global@^4.4.0":
+  "integrity" "sha512-wv/LAoHdRE3BeTGz53FAamhGlPLhlssK45usmGFThIi4XqnBmjKQ16u+RNbP7WvigRZDxUsM0J3gcQ5yicaL0w=="
+  "resolved" "https://registry.npmjs.org/global/-/global-4.4.0.tgz"
+  "version" "4.4.0"
+  dependencies:
+    "min-document" "^2.19.0"
+    "process" "^0.11.10"
+
 "globals@^11.1.0":
   "integrity" "sha1-q4eVM4hooLq9hSV1gBjCp+uVxC4="
   "resolved" "https://registry.nlark.com/globals/download/globals-11.12.0.tgz"
@@ -5913,6 +5946,11 @@
   "resolved" "https://registry.npm.taobao.org/indexes-of/download/indexes-of-1.0.1.tgz"
   "version" "1.0.1"
 
+"individual@^2.0.0":
+  "integrity" "sha512-pWt8hBCqJsUWI/HtcfWod7+N9SgAqyPEaF7JQjwzjn5vGrpg6aQ5qeAFQ7dx//UH4J1O+7xqew+gCeeFt6xN/g=="
+  "resolved" "https://registry.npmjs.org/individual/-/individual-2.0.0.tgz"
+  "version" "2.0.0"
+
 "infer-owner@^1.0.3":
   "integrity" "sha1-xM78qo5RBRwqQLos6KPScpWvlGc="
   "resolved" "https://registry.npm.taobao.org/infer-owner/download/infer-owner-1.0.4.tgz"
@@ -6210,6 +6248,11 @@
   "integrity" "sha1-8Rb4Bk/pCz94RKOJl8C3UFEmnx0="
   "resolved" "https://registry.npm.taobao.org/is-fullwidth-code-point/download/is-fullwidth-code-point-3.0.0.tgz"
   "version" "3.0.0"
+
+"is-function@^1.0.1":
+  "integrity" "sha512-lw7DUp0aWXYg+CBCN+JKkcE0Q2RayZnSvnZBlwgxHBQhqt5pZNVy4Ri7H9GmmXkdu7LUthszM+Tor1u/2iBcpQ=="
+  "resolved" "https://registry.npmjs.org/is-function/-/is-function-1.0.2.tgz"
+  "version" "1.0.2"
 
 "is-gif@^3.0.0":
   "integrity" "sha512-IqJ/jlbw5WJSNfwQ/lHEDXF8rxhRgF6ythk2oiEvhpG29F704eX9NO6TvPfMiq9DrbwgcEDnETYNcZDPewQoVw=="
@@ -7116,6 +7159,11 @@
   dependencies:
     "jszip" "^3.5.0"
 
+"m3u8-parser@2.1.0":
+  "integrity" "sha512-WbEpQ2FUaNGbJ0YanSeyj9D9ruu4FUvz+ZvebIzI2bSME+PUwcPXO1kKXZkjcPUAFruDikoOI5fWQNIA6JCCOQ=="
+  "resolved" "https://registry.npmjs.org/m3u8-parser/-/m3u8-parser-2.1.0.tgz"
+  "version" "2.1.0"
+
 "make-dir@^1.0.0":
   "integrity" "sha1-ecEDO4BRW9bSTsmTPoYMp17ifww="
   "resolved" "https://registry.npm.taobao.org/make-dir/download/make-dir-1.3.0.tgz"
@@ -7342,6 +7390,13 @@
   "resolved" "https://registry.npmmirror.com/mimic-response/-/mimic-response-1.0.1.tgz"
   "version" "1.0.1"
 
+"min-document@^2.19.0":
+  "integrity" "sha512-9Wy1B3m3f66bPPmU5hdA4DR4PB2OfDU/+GS3yAB7IQozE3tqXaVv2zOjgla7MEGSRv95+ILmOuvhLkOK6wJtCQ=="
+  "resolved" "https://registry.npmjs.org/min-document/-/min-document-2.19.0.tgz"
+  "version" "2.19.0"
+  dependencies:
+    "dom-walk" "^0.1.0"
+
 "mini-css-extract-plugin@^0.9.0":
   "integrity" "sha1-R/LPB6oWWrNXM7H8l9TEbAVkM54="
   "resolved" "https://registry.npmmirror.com/mini-css-extract-plugin/download/mini-css-extract-plugin-0.9.0.tgz"
@@ -7507,6 +7562,11 @@
   "integrity" "sha1-MHXOk7whuPq0PhvE2n6BFe0ee6s="
   "resolved" "https://registry.npm.taobao.org/mute-stream/download/mute-stream-0.0.7.tgz"
   "version" "0.0.7"
+
+"mux.js@4.3.2":
+  "integrity" "sha512-g0q6DPdvb3yYcoK7ElBGobdSSrhY/RjPt19U7uUc733aqvc5bCS/aCvL9z+448y+IoCZnYDwyZfQBBXMSmGOaQ=="
+  "resolved" "https://registry.npmjs.org/mux.js/-/mux.js-4.3.2.tgz"
+  "version" "4.3.2"
 
 "mz@^2.4.0":
   "integrity" "sha1-lQCAV6Vsr63CvGPd5/n/aVWUjjI="
@@ -8177,6 +8237,11 @@
     "pbkdf2" "^3.0.3"
     "safe-buffer" "^5.1.1"
 
+"parse-headers@^2.0.0":
+  "integrity" "sha512-ft3iAoLOB/MlwbNXgzy43SWGP6sQki2jQvAyBg/zDFAgr9bfNWZIUj42Kw2eJIl8kEi4PbgE6U1Zau/HwI75HA=="
+  "resolved" "https://registry.npmjs.org/parse-headers/-/parse-headers-2.0.5.tgz"
+  "version" "2.0.5"
+
 "parse-json@^4.0.0":
   "integrity" "sha1-vjX1Qlvh9/bHRxhPmKeIy5lHfuA="
   "resolved" "https://registry.npmmirror.com/parse-json/download/parse-json-4.0.0.tgz?cache=0&sync_timestamp=1637475636838&other_urls=https%3A%2F%2Fregistry.npmmirror.com%2Fparse-json%2Fdownload%2Fparse-json-4.0.0.tgz"
@@ -8366,6 +8431,11 @@
   "integrity" "sha1-clVrgM+g1IqXToDnckjoDtT3+HA="
   "resolved" "https://registry.npm.taobao.org/pinkie/download/pinkie-2.0.4.tgz"
   "version" "2.0.4"
+
+"pkcs7@^0.2.3":
+  "integrity" "sha512-kJRwmADEQUg+qJyRgWLtpEL9q9cFjZschejTEK3GRjKvnsU9G5WWoe/wKqRgbBoqWdVSeTUKP6vIA3Y72M3rWA=="
+  "resolved" "https://registry.npmjs.org/pkcs7/-/pkcs7-0.2.3.tgz"
+  "version" "0.2.3"
 
 "pkg-dir@^2.0.0":
   "integrity" "sha1-9tXREJ4Z1j7fQo4L1X4Sd3YVM0s="
@@ -8874,6 +8944,11 @@
   "integrity" "sha1-czIwDoQBYb2j5podHZGn1LwW8YI="
   "resolved" "https://registry.npm.taobao.org/process/download/process-0.11.10.tgz"
   "version" "0.11.10"
+
+"process@~0.5.1":
+  "integrity" "sha512-oNpcutj+nYX2FjdEW7PGltWhXulAnFlM0My/k48L90hARCOJtvBbQXc/6itV2jDvU5xAAtonP+r6wmQgCcbAUA=="
+  "resolved" "https://registry.npmjs.org/process/-/process-0.5.2.tgz"
+  "version" "0.5.2"
 
 "promise-inflight@^1.0.1":
   "integrity" "sha1-mEcocL8igTL8vdhoEputEsPAKeM="
@@ -9470,6 +9545,13 @@
   dependencies:
     "aproba" "^1.1.1"
 
+"rust-result@^1.0.0":
+  "integrity" "sha512-6cJzSBU+J/RJCF063onnQf0cDUOHs9uZI1oroSGnHOph+CQTIJ5Pp2hK5kEQq1+7yE/EEWfulSNXAQ2jikPthA=="
+  "resolved" "https://registry.npmjs.org/rust-result/-/rust-result-1.0.0.tgz"
+  "version" "1.0.0"
+  dependencies:
+    "individual" "^2.0.0"
+
 "rx-lite-aggregates@^4.0.8":
   "integrity" "sha1-dTuHqJoRyVRnxKwWJsTvxOBcZ74="
   "resolved" "https://registry.npm.taobao.org/rx-lite-aggregates/download/rx-lite-aggregates-4.0.8.tgz"
@@ -9505,6 +9587,13 @@
   "integrity" "sha1-Hq+fqb2x/dTsdfWPnNtOa3gn7sY="
   "resolved" "https://registry.npm.taobao.org/safe-buffer/download/safe-buffer-5.2.1.tgz"
   "version" "5.2.1"
+
+"safe-json-parse@4.0.0":
+  "integrity" "sha512-RjZPPHugjK0TOzFrLZ8inw44s9bKox99/0AZW9o/BEQVrJfhI+fIHMErnPyRa89/yRXUUr93q+tiN6zhoVV4wQ=="
+  "resolved" "https://registry.npmjs.org/safe-json-parse/-/safe-json-parse-4.0.0.tgz"
+  "version" "4.0.0"
+  dependencies:
+    "rust-result" "^1.0.0"
 
 "safe-regex@^1.1.0":
   "integrity" "sha1-QKNmnzsHfR6UPURinhV91IAjvy4="
@@ -10660,6 +10749,11 @@
   "resolved" "https://registry.npmjs.org/tslib/-/tslib-2.0.3.tgz"
   "version" "2.0.3"
 
+"tsml@1.0.1":
+  "integrity" "sha512-3KmepnH9SUsoOVtg013CRrL7c+AK7ECaquAsJdvu4288EDJuraqBlP4PDXT/rLEJ9YDn4jqLAzRJsnFPx+V6lg=="
+  "resolved" "https://registry.npmjs.org/tsml/-/tsml-1.0.1.tgz"
+  "version" "1.0.1"
+
 "tty-browserify@0.0.0":
   "integrity" "sha1-oVe6QC2iTpv5V/mqadUk7tQpAaY="
   "resolved" "https://registry.npm.taobao.org/tty-browserify/download/tty-browserify-0.0.0.tgz"
@@ -10908,6 +11002,11 @@
   "resolved" "https://registry.npmmirror.com/url-to-options/-/url-to-options-1.0.1.tgz"
   "version" "1.0.1"
 
+"url-toolkit@^2.1.3":
+  "integrity" "sha512-mtN6xk+Nac+oyJ/PrI7tzfmomRVNFIWKUbG8jdYFt52hxbiReFAXIjYskvu64/dvuW71IcB7lV8l0HvZMac6Jg=="
+  "resolved" "https://registry.npmjs.org/url-toolkit/-/url-toolkit-2.2.5.tgz"
+  "version" "2.2.5"
+
 "url@^0.11.0":
   "integrity" "sha1-ODjpfPxgUh63PFJajlW/3Z4uKPE="
   "resolved" "https://registry.npm.taobao.org/url/download/url-0.11.0.tgz"
@@ -11005,6 +11104,82 @@
     "core-util-is" "1.0.2"
     "extsprintf" "^1.2.0"
 
+"video.js@^5.17.0 || ^6.2.0", "video.js@^5.19.1 || ^6.2.0", "video.js@^6 || ^7", "video.js@^6.6.0":
+  "integrity" "sha512-36/JR/GhPQSZj0o+GNbhcEYv/b0SkV9SQsjlodAnzMQYN0TA7VhmqrKPYMCi1NGRYu7S9W3OaFCFoUxkYfSVlg=="
+  "resolved" "https://registry.npmjs.org/video.js/-/video.js-6.13.0.tgz"
+  "version" "6.13.0"
+  dependencies:
+    "babel-runtime" "^6.9.2"
+    "global" "4.3.2"
+    "safe-json-parse" "4.0.0"
+    "tsml" "1.0.1"
+    "videojs-font" "2.1.0"
+    "videojs-ie8" "1.1.2"
+    "videojs-vtt.js" "0.12.6"
+    "xhr" "2.4.0"
+
+"videojs-contrib-hls@^5.12.2":
+  "integrity" "sha512-18zbMYZ0XRBKTPEayA9bFTWWrqhT9b4G8+zf0czJLD7Epe5PcK1I/3dflTHQeQ5rwlWir+/XnFU3sMg/B2MMcw=="
+  "resolved" "https://registry.npmjs.org/videojs-contrib-hls/-/videojs-contrib-hls-5.15.0.tgz"
+  "version" "5.15.0"
+  dependencies:
+    "aes-decrypter" "1.0.3"
+    "global" "^4.3.0"
+    "m3u8-parser" "2.1.0"
+    "mux.js" "4.3.2"
+    "url-toolkit" "^2.1.3"
+    "video.js" "^5.19.1 || ^6.2.0"
+    "videojs-contrib-media-sources" "4.7.2"
+    "webwackify" "0.1.6"
+
+"videojs-contrib-media-sources@4.7.2":
+  "integrity" "sha512-e6iCHWBFuV05EGo7v+pS9iepObXnJ9joms467gzi8ZjpKVb3ifha9M0Ja24Rd8JfvYpzjltsgDVtGFDvIg4hQQ=="
+  "resolved" "https://registry.npmjs.org/videojs-contrib-media-sources/-/videojs-contrib-media-sources-4.7.2.tgz"
+  "version" "4.7.2"
+  dependencies:
+    "global" "^4.3.0"
+    "mux.js" "4.3.2"
+    "video.js" "^5.17.0 || ^6.2.0"
+    "webwackify" "0.1.6"
+
+"videojs-flash@^2.1.0":
+  "integrity" "sha512-mHu6TD12EKkxMvr8tg4AcfV/DuVLff427nneoZom3N9Dd2bv0sJOWwdLPQH1v5BCuAuXAVuAOba56ovTl+G3tQ=="
+  "resolved" "https://registry.npmjs.org/videojs-flash/-/videojs-flash-2.2.1.tgz"
+  "version" "2.2.1"
+  dependencies:
+    "global" "^4.4.0"
+    "video.js" "^6 || ^7"
+    "videojs-swf" "5.4.2"
+
+"videojs-font@2.1.0":
+  "integrity" "sha512-zFqWpLrXf1q8NtYx5qtZhMC6SLUFScDmR6j+UGPogobxR21lvXShhnzcNNMdOxJUuFLiToJ/BPpFUQwX4xhpvA=="
+  "resolved" "https://registry.npmjs.org/videojs-font/-/videojs-font-2.1.0.tgz"
+  "version" "2.1.0"
+
+"videojs-hotkeys@^0.2.20":
+  "integrity" "sha512-M8rlD5OSB3EDRdbS4MRNlGKFpA2sSIStmUPvy5zfl/NigzWaN6r4wnb32rEN0v97GiQwmUfXSmqrPNrXhiFQmQ=="
+  "resolved" "https://registry.npmjs.org/videojs-hotkeys/-/videojs-hotkeys-0.2.28.tgz"
+  "version" "0.2.28"
+
+"videojs-ie8@1.1.2":
+  "integrity" "sha512-0Zb2T4MLkpfZbeGMK/Z93b8Lrepr+rLFoHgQV1CoDeFqXvH7b+Vsd/VHoILGxQrgCSHFQ7mAODR6oyMjuiD4/g=="
+  "resolved" "https://registry.npmjs.org/videojs-ie8/-/videojs-ie8-1.1.2.tgz"
+  "version" "1.1.2"
+  dependencies:
+    "es5-shim" "^4.5.1"
+
+"videojs-swf@5.4.2":
+  "integrity" "sha512-FGg+Csioa8/A/EacvFefBdb9Z0rSiMlheHDunZnN3xXfUF43jvjawcWFQnZvrv1Cs1nE1LBrHyUZjF7j2mKOLw=="
+  "resolved" "https://registry.npmjs.org/videojs-swf/-/videojs-swf-5.4.2.tgz"
+  "version" "5.4.2"
+
+"videojs-vtt.js@0.12.6":
+  "integrity" "sha512-XFXeGBQiljnElMhwCcZst0RDbZn2n8LU7ZScXryd3a00OaZsHAjdZu/7/RdSr7Z1jHphd45FnOvOQkGK4YrWCQ=="
+  "resolved" "https://registry.npmjs.org/videojs-vtt.js/-/videojs-vtt.js-0.12.6.tgz"
+  "version" "0.12.6"
+  dependencies:
+    "global" "^4.3.1"
+
 "vm-browserify@^1.0.1":
   "integrity" "sha1-eGQcSIuObKkadfUR56OzKobl3aA="
   "resolved" "https://registry.npm.taobao.org/vm-browserify/download/vm-browserify-1.1.2.tgz"
@@ -11067,6 +11242,17 @@
   "integrity" "sha1-HuO8mhbsv1EYvjNLsV+cRvgvWCU="
   "resolved" "https://registry.npm.taobao.org/vue-template-es2015-compiler/download/vue-template-es2015-compiler-1.9.1.tgz"
   "version" "1.9.1"
+
+"vue-video-player@^5.0.2":
+  "integrity" "sha512-IZXeRGGSX4YIp54G0Q5cB7iqh6Ok6Dpa2jRkjdyvMWw7MShJuh54/d5QNb1CZ+CvZUzX/TH7osnpir7mBNcFvQ=="
+  "resolved" "https://registry.npmjs.org/vue-video-player/-/vue-video-player-5.0.2.tgz"
+  "version" "5.0.2"
+  dependencies:
+    "object-assign" "^4.1.1"
+    "video.js" "^6.6.0"
+    "videojs-contrib-hls" "^5.12.2"
+    "videojs-flash" "^2.1.0"
+    "videojs-hotkeys" "^0.2.20"
 
 "vue@^2.6.11":
   "integrity" "sha1-5RqlJQJQ1Wmj+606ilpofWA24jU="
@@ -11283,6 +11469,11 @@
   "resolved" "https://registry.npm.taobao.org/websocket-extensions/download/websocket-extensions-0.1.4.tgz"
   "version" "0.1.4"
 
+"webwackify@0.1.6":
+  "integrity" "sha512-pGcw1T3HpNnM/UTRQqqRkkkzythSLts05mB+7Gr00B+0VbL0m39dFL5g20rSIEUt9Wrpw+/8k+snxRlUFHhcqA=="
+  "resolved" "https://registry.npmjs.org/webwackify/-/webwackify-0.1.6.tgz"
+  "version" "0.1.6"
+
 "which-boxed-primitive@^1.0.2":
   "integrity" "sha1-E3V7yJsgmwSf5dhkMOIc9AqJqOY="
   "resolved" "https://registry.npm.taobao.org/which-boxed-primitive/download/which-boxed-primitive-1.0.2.tgz"
@@ -11389,6 +11580,16 @@
   "integrity" "sha512-TIQct9Ed43O5J0YYRMmD15KHKUzGIW+Hetv9/diEMHT5YQVr0csC0FCFOfSgsIcuamziPVAWNFLl1QKYJE2oxA=="
   "resolved" "https://registry.npmmirror.com/xe-utils/download/xe-utils-3.5.2.tgz"
   "version" "3.5.2"
+
+"xhr@2.4.0":
+  "integrity" "sha512-TUbBsdAuJbX8olk9hsDwGK8P1ri1XlV+PdEWkYw+HQQbpkiBR8PLgD1F3kQDPBs9l4Px34hP9rCYAZOCCAENbw=="
+  "resolved" "https://registry.npmjs.org/xhr/-/xhr-2.4.0.tgz"
+  "version" "2.4.0"
+  dependencies:
+    "global" "~4.3.0"
+    "is-function" "^1.0.1"
+    "parse-headers" "^2.0.0"
+    "xtend" "^4.0.0"
 
 "xmlchars@^2.2.0":
   "integrity" "sha512-JZnDKK8B0RCDw84FNdDAIpZK+JuJw+s7Lz8nksI7SIuU3UXJJslUthsi+uWBUYOwPFwW7W7PRLRfUKpxjtjFCw=="

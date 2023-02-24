@@ -81,18 +81,30 @@ export default {
         return;
       }
       if (vm.tag === "excel") {
-        LuckyExcel.transformExcelToLucky(file.raw, (exportJson, luckysheetfile) => {
-          exportJson.sheets.forEach((val, idx) => {
-            val.index = parseInt(val.index);
-            val.order = parseInt(val.order);
-            val.status = parseInt(val.status);
-            val.showGridLines = parseInt(val.showGridLines);
-            // 隐藏无用的sheet
-            val.hide = val.name === vm.sheetName ? 0 : 1;
-          });
-          window.luckysheet.destroy();
-          vm.$emit("openEvent", exportJson.sheets);
-        });
+        let target_sheets = [];
+        LuckyExcel.transformExcelToLucky(
+          file.raw,
+          (exportJson, luckysheetfile) => {
+            exportJson.sheets.forEach((val, idx) => {
+              if (val.name === vm.sheetName) {
+                val.index = parseInt(val.index);
+                val.order = parseInt(val.order);
+                val.status = parseInt(val.status);
+                val.showGridLines = parseInt(val.showGridLines);
+                target_sheets.push(val)
+              }
+              // val.index = parseInt(val.index);
+              // val.order = parseInt(val.order);
+              // val.status = parseInt(val.status);
+              // val.showGridLines = parseInt(val.showGridLines);
+              // // 隐藏无用的sheet
+              // val.hide = val.name === vm.sheetName ? 0 : 1;
+            });
+            window.luckysheet.destroy();
+            // vm.$emit("openEvent", exportJson.sheets);
+            vm.$emit("openEvent", target_sheets);
+          }
+        );
       }
       vm.fileList.push(file.raw);
       vm.$emit("getFile", vm.fileList);

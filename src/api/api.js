@@ -95,6 +95,18 @@ export const biddingDelete = request({
     responseType: 'form'
 })
 // --------------------------
+
+// 视频下载
+export const optMovie = request({
+    url: `http://114.67.229.243:8001/apps/video/`,
+    method:'get',
+    responseType: 'blob'
+})
+// PIN下拉
+export const pinSelect = request({
+    url: `${BASEPATH}/apps/pin_list/`,
+    method:'post',
+})
 // 提效工具- DMP -保存数据
 export const DMPSave = request({
     url: `${BASEPATH}/apps/dmp/`,

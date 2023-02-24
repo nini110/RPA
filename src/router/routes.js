@@ -71,7 +71,7 @@ const routes = [{
 				path: 'People',
 				name: 'People',
 				meta: {
-					title: '京腾人群方向',
+					title: '京腾人群定向',
 					deep: 3,
 					filePath: 'BeijingMustPass'
 				},

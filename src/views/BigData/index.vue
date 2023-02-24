@@ -4,6 +4,7 @@
     <IptComp
       ref="iptcomp"
       :formMenu="2"
+      :picSrc="picSrc"
       :ifDown="ifDown"
       :toolType="toolType"
       :sheetName="sheetName"
@@ -1832,6 +1833,7 @@ export default {
             });
           }
         });
+        vm.picSrc = require("../../assets/images/shufang.png");
         switch (newval.name) {
           // 计算
           case "Caculate":

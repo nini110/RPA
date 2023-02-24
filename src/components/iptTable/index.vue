@@ -7,9 +7,10 @@
             <div class="formObj_ipt_abso">
               <el-result>
                 <template slot="icon">
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                  <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-qiehuan2"></use>
-                  </svg>
+                  </svg> -->
+                  <img :src="picSrc" alt="" />
                 </template>
                 <template slot="extra">
                   <span>{{ $route.meta.title }}</span>
@@ -17,48 +18,22 @@
               </el-result>
             </div>
             <div class="formObj_ipt_rt">
-              <el-tabs v-model="activeName">
+              <!-- <el-tabs v-model="activeName">
                 <el-tab-pane
                   v-for="(item, idx) in radioOpt"
                   :label="item.txt"
                   :key="idx"
                   :name="item.code"
                 ></el-tab-pane>
-              </el-tabs>
-              <el-row v-if="activeName === '1'" :gutter="20">
-                <el-col :span="showPwd ? 12 : 24">
-                  <el-form-item label="账号" prop="username">
-                    <el-input
-                      v-model.trim="form.username"
-                      size="large"
-                      placeholder="请输入账号"
-                      clearable
-                    >
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col :span="12" v-if="showPwd">
-                  <el-form-item label="密码" prop="password">
-                    <el-input
-                      v-model.trim="form.password"
-                      size="large"
-                      placeholder="请输入密码"
-                      clearable
-                      show-password
-                    >
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col
-                  :span="12"
-                  v-if="$route.fullPath.indexOf('beijingMustPass') !== -1"
-                >
-                  <!-- 只有京准通里有类型选择 -->
+              </el-tabs> -->
+              <el-row :gutter="20">
+                <el-col v-if="formMenu === 1" :span="showCookie ? 12 : 24">
                   <el-form-item label="类型" prop="choose">
                     <el-select
                       v-model="form.choose"
                       placeholder="请选择类型"
                       size="large"
+                      @change="chooseEvent"
                     >
                       <el-option
                         v-for="item in options"
@@ -70,20 +45,27 @@
                     </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col :span="12">
+
+                <el-col v-if="form.choose === 1" :span="showCookie ? 12 : 24">
                   <el-form-item label="PIN" prop="pin">
-                    <el-input
-                      v-model.trim="form.pin"
-                      size="large"
-                      placeholder="请输入PIN"
+                    <el-select
+                      v-model="form.pin"
+                      placeholder="请选择PIN"
+                      size="medium"
+                      filterable
                       clearable
                     >
-                    </el-input>
+                      <el-option
+                        v-for="item in pinOptions"
+                        :key="item"
+                        :label="item"
+                        :value="item"
+                      >
+                      </el-option>
+                    </el-select>
                   </el-form-item>
                 </el-col>
-              </el-row>
-              <el-row v-else>
-                <el-col :span="24">
+                <el-col v-else :span="showCookie ? 12 : 24">
                   <el-form-item label="账号" prop="username">
                     <el-input
                       v-model.trim="form.username"
@@ -94,7 +76,7 @@
                     </el-input>
                   </el-form-item>
                 </el-col>
-                <el-col :span="24">
+                <el-col v-if="showCookie || formMenu === 2" :span="24">
                   <el-form-item label="Cookie" prop="cookie">
                     <el-input
                       v-model.trim="form.cookie"
@@ -166,6 +148,20 @@
           >
             <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
               <div class="el-icon-refresh btnSize">重置</div>
+            </a>
+          </el-tooltip>
+          <el-tooltip
+            v-if="toolType !== 'DMP'"
+            class="item"
+            effect="dark"
+            content="Cookie获取视频教学"
+            placement="top"
+          >
+            <a
+              class="btnnormal_down marginR inlineButton"
+              @click="movieDownEvent(1)"
+            >
+              <div class="el-icon-video-play btnSize">视频教学</div>
             </a>
           </el-tooltip>
           <el-tooltip
@@ -360,6 +356,17 @@
         >
       </span>
     </el-dialog>
+    <div class="myplayer" :class="{ absolute: showPlaer }">
+      <div class="myplayer_btn">
+        <span class="iconFont el-icon-close" @click="movieDownEvent(2)"></span>
+      </div>
+      <video-player
+        ref="myPlayer"
+        class="video-player"
+        :options="playerOptions"
+        :playsinline="true"
+      ></video-player>
+    </div>
   </div>
 </template>
 
@@ -372,6 +379,8 @@ import {
   sfToolsDown,
   sfToolsModelDown,
   DMPSave,
+  pinSelect,
+  optMovie,
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
@@ -386,6 +395,10 @@ export default {
     Upload,
   },
   props: {
+    picSrc: {
+      type: String,
+      default: "",
+    },
     toolType: {
       type: String,
       default: "",
@@ -405,12 +418,12 @@ export default {
       type: Boolean,
     },
   },
+  mixins: [message],
   computed: {
-    requireCse() {
-      return this.form.choose;
+    player() {
+      return this.$refs.myPlayer.player;
     },
   },
-  mixins: [message],
   watch: {
     activeName(newval, oldval) {
       this.rules.username[0].message =
@@ -421,37 +434,8 @@ export default {
     $route: {
       handler(newval, oldval) {
         const vm = this;
-        vm.showPwd = newval.fullPath.indexOf("DMP") === -1;
-        if (vm.formMenu === 1) {
-          vm.activeName = "1";
-          if (newval.fullPath.indexOf("DMP") !== -1) {
-            vm.radioOpt = [
-              {
-                code: "1",
-                txt: "登录",
-              },
-            ];
-          } else {
-            vm.radioOpt = [
-              {
-                code: "1",
-                txt: "密码登录",
-              },
-              {
-                code: "2",
-                txt: "Cookie登录",
-              },
-            ];
-          }
-        } else {
-          vm.activeName = "2";
-          vm.radioOpt = [
-            {
-              code: "2",
-              txt: "Cookie登录",
-            },
-          ];
-        }
+        vm.showCookie =
+          vm.formMenu === 1 && newval.fullPath.indexOf("DMP") === -1;
         vm.getuserlist();
         vm.username = localStorage.getItem("user_name");
         vm.people = localStorage.getItem("user_name");
@@ -461,21 +445,6 @@ export default {
           vm.excelName = "";
           vm.excelData = null;
         });
-      },
-      immediate: true,
-      deep: true,
-    },
-    requireCse: {
-      handler(newval, oldval) {
-        const vm = this;
-        switch (newval) {
-          case 1:
-            vm.rules.pin[0].required = true;
-            break;
-          case 2:
-            vm.rules.pin[0].required = false;
-            break;
-        }
       },
       immediate: true,
       deep: true,
@@ -491,9 +460,34 @@ export default {
       }
     };
     return {
-      showPwd: true,
-      activeName: "1",
-      radioOpt: [],
+      showPlaer: false,
+      playerOptions: {
+        // videojs options
+        muted: false, // false为默认打开声音
+        preload: 'auto', 
+        language: "zh-CN",
+        playbackRates: [0.5, 1.0, 1.5, 2.0],
+        sources: [
+          {
+            type: "video/mp4",
+            src: require("../../assets/images/movie.mp4"),
+          },
+        ],
+        poster: "",
+        notSupportedMessage: "此视频暂无法播放，请稍后再试",
+        fluid: true,
+        controlBar: {
+          timeDivider: true, // 当前时间和持续时间的分隔符
+          durationDisplay: true, // 显示持续时间
+          remainingTimeDisplay: true, // 是否显示剩余时间功能
+          currentTimeDisplay: true, // 当前时间
+          volumeControl: false, // 声音控制键
+          playToggle: true, // 暂停和播放键
+          progressControl: true, // 进度条
+          fullscreenToggle: true, // 是否显示全屏按钮
+        },
+      },
+      showCookie: true,
       formSource: 1, // 点击来源 1 新建  2 导入
       excelData: null, // 提交的excel数据
       excelName: "",
@@ -555,9 +549,9 @@ export default {
         },
       ],
       form: {
-        username: "",
+        username: "拜耳对外投放账号",
         password: "",
-        cookie: "",
+        cookie: "__jdu=16622939436621705406294; shshshfpb=wQTDFd64amkPsy_unwm1jGg; shshshfpa=e4d2d84f-2e60-8a90-e101-6ce8fb396561-1664521203; unpl=JF8EALRnNSttXEhWUB0FHkAXQggBWwoITR5TbmQHVVtYSAAFTAoaQRR7XlVdXxRKFB9sZRRUWFNPVA4YCysSEXteU11bD00VB2xXVgQFDQ8WUUtBSUt-SVxRWFULSx4Ba2AFZG1bS2QFGjIbFRdIXlxcVQ1JEARsZwNVWV1KUwYTBysTIExtZG5VCUgSA21XBGRcaAkAWRIGHhMVQxBUWVoLSB8BZ2IHU1pbS1IEHwcaFRNDWGRfbQs; areaId=1; ipLoc-djd=1-2800-0-0; PCSYCityID=CN_110000_110100_0; shshshfp=85c4b61927c057ce26ff69a6db66663c; shshshfpx=e4d2d84f-2e60-8a90-e101-6ce8fb396561-1664521203; __jdv=146207855|baidu|-|organic|notset|1677135109586; language=zh_CN; cn_language=zh_CN; ceshi3.com=000; logining=1; pinId=8QLRh2dBwy4hRO0oqI8I0ZKZQlJc-P50tX37H5_fCPs; pin=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; unick=jd_HGcygOlkrWVq; _tp=Xqgcf4eDOzMlfX2uS6Ryd1siw6qm7ljL%2F8JYB3q24aVfaAP8TJNrdoNG8pd3ATTgXAjbT5Nd78uZZBqCONsupdKMo236RTN9%2BbG6iOE2yEw%3D; _pst=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; 3AB9D23F7A4B3C9B=DOD6TSJOD3N5LFZQG34CCU76CZXAY3VK2BIPFPIZGZXIHVZPAHFWCZBZBS2EMIRGDGBGMWCON4RH5T2JZE7IGI7ZOI; TrackID=1a8GQVm2XiEEa3aQAMLxytCLQKS55ZbbIQ4R62cgSmIYI0--IQ4rxP5NUlWjVrTz_IX9ydIzV-HDnZfzXEK1Yu2RSTFotd100N5UqQqUwUl7q1nudrak6Kv2Fw2GqJ0AuPanf7QXLmb0UnwDwBMSfoA; thor=62773A26D5E916B8B493B1B84C66F43BCF58665C26A858F3AEF00F9D6E1E90273B476692316ECE370F31FB766EE7FC6439D56F96E65917C46D4975A0AE6E60E3577851C62FA8DAE9BB9C5BF0630D0E661894A10F1ACEBDCEBF3FE9D09E4CAD1BB5F955D1A9406A068C056000131177EEBA0AFE40B8F9EF43F33B8F29F147BD4ECEAC48C51149EAD04586F69A049F6C8A; __jda=146207855.16622939436621705406294.1662293943.1677135110.1677209462.25; __jdc=146207855; __jdb=146207855.6.16622939436621705406294|25.1677209462",
         pin: "",
         choose: 2,
       },
@@ -574,12 +568,53 @@ export default {
       pagesize: 10, //每页的数据条数
       currpage: 1, //默认开始页面
       log: "", //查看详情渲染的log
+
+      intervalData_dmp: [],
+      intervalData_booth: [],
+      intervalData_direct: [],
+      intervalData_people: [],
+      intervalData_cube: [],
+      intervalData_goshop: [],
     };
   },
   mounted() {
     const vm = this;
+    vm.getPin();
   },
   methods: {
+    movieEvent() {
+      this.showPlaer = true;
+    },
+    // 视频教学处理
+    movieDownEvent(val) {
+      const vm = this;
+      vm.showPlaer = val === 1;
+      if (val === 1) {
+        // 在线获取视频方式
+        // optMovie({
+        //   path: "cookie获取方法.mp4",
+        // }).then((res) => {
+        //   let bloburl = window.URL.createObjectURL(
+        //     new Blob([res.data], { type: "video/mpeg4" })
+        //   );
+        //   vm.$set(vm.playerOptions.sources[0], "src", bloburl);
+        //   // 视频下载
+        //   // vm.playerOptions.sources[0].src = bloburl;
+        //   // vm.showPlaer = true
+        //   // let link = document.createElement("a");
+        //   // document.body.appendChild(link);
+        //   // link.style.display = "none";
+        //   // link.href = bloburl;
+        //   // link.setAttribute("download", "xiazai" + Date.now() + ".mp4");
+        //   // link.click();
+        //   // document.body.removeChild(link);
+        //   // window.URL.revokeObjectURL(bloburl);
+        // });
+      } else {
+        vm.player.pause(); //暂停
+        vm.player.src(require("../../assets/images/movie.mp4")); //进度条归零
+      }
+    },
     resetEvent() {
       const vm = this;
       vm.excelData = null;
@@ -632,6 +667,15 @@ export default {
         vm.openExcel();
       }
     },
+    // 获取pin下拉
+    getPin() {
+      const vm = this;
+      pinSelect().then((res) => {
+        if (res.data.code === 10000) {
+          vm.pinOptions = res.data.data;
+        }
+      });
+    },
     // 执行事件
     zhixingEvent() {
       const vm = this;
@@ -663,9 +707,9 @@ export default {
                       type: "warning",
                       showClose: true,
                       tipTitle: `账号未授权或授权失效`,
-                      tipContent:
-                        "授权地址: http://tool.afocus.com.cn/jos/oauth2",
-                      showCancelButton: false,
+                      tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
+                      auth: true,
+                      dangerouslyUseHTMLString: true,
                       confirmButtonFn: () => {},
                     });
                   } else {
@@ -696,12 +740,12 @@ export default {
                       type: "warning",
                       showClose: true,
                       tipTitle: `账号未授权或授权失效`,
-                      tipContent:
-                        "授权地址: http://tool.afocus.com.cn/jos/oauth2",
-                      showCancelButton: false,
+                      tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
+                      auth: true,
+                      dangerouslyUseHTMLString: true,
                       confirmButtonFn: () => {},
                     });
-                  }  else {
+                  } else {
                     vm.$msg({
                       type: "error",
                       msg: res.data.data || res.data.msg,
@@ -845,6 +889,12 @@ export default {
         }
       });
     },
+    //
+    chooseEvent() {
+      this.form.pin = "";
+      this.form.username = "";
+      this.$refs.form.clearValidate(["pin", "username"]);
+    },
     //分页器功能
     handleSizeChange(val) {
       this.pagesize = val;
@@ -861,41 +911,5 @@ export default {
 
 <style lang="less" scoped>
 @import "@/views/index";
-.infinite {
-  background-color: #f1f8ff;
-  height: 400px;
-  display: flex;
-  flex-wrap: wrap;
-  align-content: space-between;
-  &_content {
-    flex-basis: 100%;
-    height: 300px;
-    padding: 20px 20px 0 20px;
-    overflow: auto;
-    .box {
-      text-align: center;
-      line-height: 34px;
-      &.img {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: 100%;
-        img {
-          height: 100%;
-        }
-      }
-    }
-  }
-  &_ing {
-    flex-basis: 100%;
-    padding: 20px 0;
-    text-align: center;
-    font-weight: bold;
-    font-size: 16px;
-    background-color: #e8f0f7;
-    .suc {
-      color: #67c23a;
-    }
-  }
-}
+@import "index";
 </style>

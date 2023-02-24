@@ -16,6 +16,9 @@ import '@/moduleSet/vxetable.js';
 // echarts按需引入
 import '@/moduleSet/echarts.js'
 import './utils/global'// 全局
+// 视频
+import VueVideoPlayer from 'vue-video-player'
+import 'video.js/dist/video-js.css'
 // 自定义指令文件
 import directives from '@/directive'
 // 格式化文件、
@@ -36,6 +39,7 @@ import './components/errorLog/index.js'
 Vue.prototype.check = check
 Vue.prototype.$axios = axios
 Vue.prototype.qs = qs
+Vue.use(VueVideoPlayer)
 // Vue.use(VueFullPage )
 
 // Vue.prototype.DomainName = 'http://192.168.90.209:5000';
