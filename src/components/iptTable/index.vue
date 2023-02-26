@@ -431,6 +431,13 @@ export default {
           ? "请输入账号"
           : "京准通登录请输入账号，京牌代理登录请输入pin";
     },
+    // intervalObj: {
+    //   handler(newval, oldval) {
+
+    //   },
+    //   immediate: true,
+    //   deep: true,
+    // },
     $route: {
       handler(newval, oldval) {
         const vm = this;
@@ -464,7 +471,7 @@ export default {
       playerOptions: {
         // videojs options
         muted: false, // false为默认打开声音
-        preload: 'auto', 
+        preload: "auto",
         language: "zh-CN",
         playbackRates: [0.5, 1.0, 1.5, 2.0],
         sources: [
@@ -551,7 +558,8 @@ export default {
       form: {
         username: "拜耳对外投放账号",
         password: "",
-        cookie: "__jdu=16622939436621705406294; shshshfpb=wQTDFd64amkPsy_unwm1jGg; shshshfpa=e4d2d84f-2e60-8a90-e101-6ce8fb396561-1664521203; unpl=JF8EALRnNSttXEhWUB0FHkAXQggBWwoITR5TbmQHVVtYSAAFTAoaQRR7XlVdXxRKFB9sZRRUWFNPVA4YCysSEXteU11bD00VB2xXVgQFDQ8WUUtBSUt-SVxRWFULSx4Ba2AFZG1bS2QFGjIbFRdIXlxcVQ1JEARsZwNVWV1KUwYTBysTIExtZG5VCUgSA21XBGRcaAkAWRIGHhMVQxBUWVoLSB8BZ2IHU1pbS1IEHwcaFRNDWGRfbQs; areaId=1; ipLoc-djd=1-2800-0-0; PCSYCityID=CN_110000_110100_0; shshshfp=85c4b61927c057ce26ff69a6db66663c; shshshfpx=e4d2d84f-2e60-8a90-e101-6ce8fb396561-1664521203; __jdv=146207855|baidu|-|organic|notset|1677135109586; language=zh_CN; cn_language=zh_CN; ceshi3.com=000; logining=1; pinId=8QLRh2dBwy4hRO0oqI8I0ZKZQlJc-P50tX37H5_fCPs; pin=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; unick=jd_HGcygOlkrWVq; _tp=Xqgcf4eDOzMlfX2uS6Ryd1siw6qm7ljL%2F8JYB3q24aVfaAP8TJNrdoNG8pd3ATTgXAjbT5Nd78uZZBqCONsupdKMo236RTN9%2BbG6iOE2yEw%3D; _pst=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; 3AB9D23F7A4B3C9B=DOD6TSJOD3N5LFZQG34CCU76CZXAY3VK2BIPFPIZGZXIHVZPAHFWCZBZBS2EMIRGDGBGMWCON4RH5T2JZE7IGI7ZOI; TrackID=1a8GQVm2XiEEa3aQAMLxytCLQKS55ZbbIQ4R62cgSmIYI0--IQ4rxP5NUlWjVrTz_IX9ydIzV-HDnZfzXEK1Yu2RSTFotd100N5UqQqUwUl7q1nudrak6Kv2Fw2GqJ0AuPanf7QXLmb0UnwDwBMSfoA; thor=62773A26D5E916B8B493B1B84C66F43BCF58665C26A858F3AEF00F9D6E1E90273B476692316ECE370F31FB766EE7FC6439D56F96E65917C46D4975A0AE6E60E3577851C62FA8DAE9BB9C5BF0630D0E661894A10F1ACEBDCEBF3FE9D09E4CAD1BB5F955D1A9406A068C056000131177EEBA0AFE40B8F9EF43F33B8F29F147BD4ECEAC48C51149EAD04586F69A049F6C8A; __jda=146207855.16622939436621705406294.1662293943.1677135110.1677209462.25; __jdc=146207855; __jdb=146207855.6.16622939436621705406294|25.1677209462",
+        cookie:
+          "__jdu=16622939436621705406294; shshshfpb=wQTDFd64amkPsy_unwm1jGg; shshshfpa=e4d2d84f-2e60-8a90-e101-6ce8fb396561-1664521203; unpl=JF8EALRnNSttXEhWUB0FHkAXQggBWwoITR5TbmQHVVtYSAAFTAoaQRR7XlVdXxRKFB9sZRRUWFNPVA4YCysSEXteU11bD00VB2xXVgQFDQ8WUUtBSUt-SVxRWFULSx4Ba2AFZG1bS2QFGjIbFRdIXlxcVQ1JEARsZwNVWV1KUwYTBysTIExtZG5VCUgSA21XBGRcaAkAWRIGHhMVQxBUWVoLSB8BZ2IHU1pbS1IEHwcaFRNDWGRfbQs; areaId=1; ipLoc-djd=1-2800-0-0; PCSYCityID=CN_110000_110100_0; shshshfp=85c4b61927c057ce26ff69a6db66663c; shshshfpx=e4d2d84f-2e60-8a90-e101-6ce8fb396561-1664521203; __jdv=146207855|baidu|-|organic|notset|1677135109586; language=zh_CN; cn_language=zh_CN; ceshi3.com=000; logining=1; pinId=8QLRh2dBwy4hRO0oqI8I0ZKZQlJc-P50tX37H5_fCPs; pin=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; unick=jd_HGcygOlkrWVq; _tp=Xqgcf4eDOzMlfX2uS6Ryd1siw6qm7ljL%2F8JYB3q24aVfaAP8TJNrdoNG8pd3ATTgXAjbT5Nd78uZZBqCONsupdKMo236RTN9%2BbG6iOE2yEw%3D; _pst=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; 3AB9D23F7A4B3C9B=DOD6TSJOD3N5LFZQG34CCU76CZXAY3VK2BIPFPIZGZXIHVZPAHFWCZBZBS2EMIRGDGBGMWCON4RH5T2JZE7IGI7ZOI; TrackID=1xB1FMrIaaDHbry5SRGWJ4z9aXv8TKOCdon4OmEnrixCvNyjVGajFphEz7YU-cGz0aKCoGd5bXMm2zK6tMHLMbAW6HitIEHyZgVStzfBVGTERrsN4XS9_lQy2lz4PToHOi_rmd8--MpWc4_z-rswJ3Q; thor=62773A26D5E916B8B493B1B84C66F43BFD7551814A280BA5B5EB89010E0B57C176FD706B4D038C0DD3CABD6684DB8B8A8D8F77166513EB109723902046F8FCA4D183516B400EE06971762721C6E08CA479630A9118068B258F423658C295BB1DD9ECA6073FD2E5BF2FFCA7FF1450655560E7115B202A4E7A78B6B13D03DC4D768DC10041134C0FE97CEFC5812C59DFD5; __jda=146207855.16622939436621705406294.1662293943.1677209462.1677230831.26; __jdc=146207855; __jdb=146207855.6.16622939436621705406294|26.1677230831",
         pin: "",
         choose: 2,
       },
@@ -569,12 +577,9 @@ export default {
       currpage: 1, //默认开始页面
       log: "", //查看详情渲染的log
 
-      intervalData_dmp: [],
-      intervalData_booth: [],
-      intervalData_direct: [],
-      intervalData_people: [],
-      intervalData_cube: [],
-      intervalData_goshop: [],
+      intervalObj: [],
+      targetItem: null,
+      intervalDia: null,
     };
   },
   mounted() {
@@ -627,12 +632,6 @@ export default {
     },
     closeDialog() {
       this.showVarDia = false;
-    },
-    closeLogEvent() {
-      this.logContent = "";
-      this.endingTxt = "日志正在加载";
-      this.endingCode = 0;
-      this.getuserlist();
     },
     getFileEvent(val) {
       this.fileList = val;
@@ -727,12 +726,13 @@ export default {
                     vm.$msg({ msg: "保存成功" });
                     vm.excelData = null;
                     vm.excelName = "";
-                    vm.logEvent(res.data.data);
-                    vm.logInterval = setInterval(() => {
-                      vm.logEvent(res.data.data);
-                    }, 3000);
-                    vm.showLogDialog = true;
+                    // vm.logEvent(res.data.data);
+                    // vm.logInterval = setInterval(() => {
+                    //   vm.logEvent(res.data.data);
+                    // }, 3000);
+                    // vm.showLogDialog = true;
                     vm.$refs.form.resetFields();
+                    vm.getuserlist();
                   } else if (res.data.code === 10006) {
                     vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
                   } else if (res.data.code === 10003) {
@@ -796,23 +796,108 @@ export default {
           let result = res.data;
           vm.tableData = result.data;
           vm.total = result.count;
+          // 执行中的数据需要有定时器去调最新状态
+          for (let i of result.data) {
+            if (i.log_status === "执行中") {
+              let obj = {};
+              vm.$set(obj, "intervalName", `interval_${i.serial}`);
+              vm.$set(
+                obj,
+                "intervalValue",
+                setInterval(() => {
+                  directiveLog({
+                    path: i.file_path,
+                  }).then((resu) => {
+                    for (let j in result.data) {
+                      if (vm.tableData[j].serial === i.serial) {
+                        if (resu.data.code === 10000) {
+                          vm.$set(vm.tableData[j], "log_status", "执行中");
+                          vm.$set(obj, "html", resu.data.data);
+                          vm.$set(
+                            obj,
+                            "txt",
+                            resu.data.data ? "日志持续获取中" : "日志正在加载"
+                          );
+                        } else if (resu.data.code === 10010) {
+                          vm.$set(vm.tableData[j], "log_status", "执行完毕");
+                          vm.$set(obj, "html", resu.data.data || "");
+                          vm.$set(obj, "txt", "日志加载完毕");
+                          for (let k in vm.intervalObj) {
+                            if (
+                              vm.intervalObj[k].intervalName.indexOf(
+                                i.serial
+                              ) !== -1
+                            ) {
+                              clearInterval(vm.intervalObj[k].intervalValue);
+                              vm.$set(vm.intervalObj[k], "intervalValue", "");
+                              break;
+                            }
+                          }
+                        } else {
+                          vm.$set(vm.tableData[j], "log_status", "执行有误");
+                          for (let k in vm.intervalObj) {
+                            if (
+                              vm.intervalObj[k].intervalName.indexOf(
+                                i.serial
+                              ) !== -1
+                            ) {
+                              clearInterval(vm.intervalObj[k].intervalValue);
+                              vm.$set(vm.intervalObj[k], "intervalValue", "");
+                              break;
+                            }
+                          }
+                        }
+                        break;
+                      }
+                    }
+                  });
+                }, 3000)
+              );
+              vm.intervalObj.push(obj);
+            }
+          }
+          console.log(vm.intervalObj);
         } else {
           vm.$msg({ type: "error", msg: res.data.msg });
         }
       });
     },
     // 查看详情按钮
+    // detailEvent(row) {
+    //   const vm = this;
+    //   clearInterval(vm.logInterval);
+    //   vm.logInterval = null;
+    //   vm.$nextTick(() => {
+    //     vm.logEvent(row.file_path);
+    //     vm.logInterval = setInterval(() => {
+    //       vm.logEvent(row.file_path);
+    //     }, 3000);
+    //     vm.showLogDialog = true;
+    //   });
+    // },
+    //打开日志弹层
     detailEvent(row) {
       const vm = this;
-      clearInterval(vm.logInterval);
-      vm.logInterval = null;
-      vm.$nextTick(() => {
-        vm.logEvent(row.file_path);
-        vm.logInterval = setInterval(() => {
-          vm.logEvent(row.file_path);
-        }, 3000);
-        vm.showLogDialog = true;
-      });
+      vm.showLogDialog = true;
+      clearInterval(vm.intervalDia);
+      vm.intervalDia = null;
+      vm.intervalDia = setInterval(() => {
+        for (let i of vm.intervalObj) {
+          if (i.intervalName.indexOf(row.serial) !== -1) {
+            vm.endingTxt = i.txt;
+            vm.logContent = i.html;
+          }
+        }
+      }, 3000);
+    },
+    // 关闭日志弹层
+    closeLogEvent() {
+      this.logContent = "";
+      this.endingTxt = "日志正在加载";
+      this.endingCode = 0;
+      // this.getuserlist();
+      clearInterval(vm.intervalDia);
+      vm.intervalDia = null;
     },
     // 下载文件
     downEvent(row) {
@@ -889,7 +974,6 @@ export default {
         }
       });
     },
-    //
     chooseEvent() {
       this.form.pin = "";
       this.form.username = "";
