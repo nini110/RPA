@@ -65,6 +65,10 @@ export default {
       fileList: [],
     };
   },
+  mounted() {
+    console.log(Window.LuckyExcel)
+
+  },
   methods: {
     // 文件状态改变时的钩子
     fileChange(file, fileList) {
@@ -76,38 +80,39 @@ export default {
         vm.$msg({ type: "error", msg: "只能上传excel文件" });
         return;
       }
-      if (size > 50) {
-        vm.$msg({ type: "warning", msg: "文件大小不得超过50M" });
+      if (size > 3) {
+        vm.$msg({ type: "warning", msg: "文件大小不得超过3M" });
         return;
       }
       if (vm.tag === "excel") {
         let target_sheets = [];
+        let sheetArr = []
         LuckyExcel.transformExcelToLucky(
           file.raw,
           (exportJson, luckysheetfile) => {
-            exportJson.sheets.forEach((val, idx) => {
+            for (let val of exportJson.sheets ) {
               if (val.name === vm.sheetName) {
+                sheetArr.push(val.name)
                 val.index = parseInt(val.index);
                 val.order = parseInt(val.order);
                 val.status = parseInt(val.status);
                 val.showGridLines = parseInt(val.showGridLines);
                 target_sheets.push(val)
+                break
               }
-              // val.index = parseInt(val.index);
-              // val.order = parseInt(val.order);
-              // val.status = parseInt(val.status);
-              // val.showGridLines = parseInt(val.showGridLines);
-              // // 隐藏无用的sheet
-              // val.hide = val.name === vm.sheetName ? 0 : 1;
-            });
+            }
             window.luckysheet.destroy();
-            // vm.$emit("openEvent", exportJson.sheets);
+            if (sheetArr.length === 0) {
+              vm.$msg({ type: "warning", msg: " 无适配sheet" });
+              return
+            }
             vm.$emit("openEvent", target_sheets);
+            vm.fileList.push(file.raw);
+            vm.$emit("getFile", vm.fileList);
           }
         );
       }
-      vm.fileList.push(file.raw);
-      vm.$emit("getFile", vm.fileList);
+
     },
     // 点击文件列表文件名的时候
     handlePreview(file) {
@@ -120,14 +125,12 @@ export default {
     },
     // 自动上传开启 -- 文件上传成功时的钩子
     handleSuccess(res, file, fileList) {
-      console.log("上传成功");
       this.$message.success("文件上传成功");
       this.fileList = [];
       this.$emit("getFile", this.fileList);
     },
     // 自动上传开启 --  文件上传失败时的钩子
     handleError(err, file, fileList) {
-      console.log("上传失败");
       this.$message.error("文件上传失败");
     },
     UploadUrl: function () {

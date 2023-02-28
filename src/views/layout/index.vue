@@ -360,7 +360,6 @@ export default {
           }
         }
       }
-      console.log(vm.currentMenu);
     });
   },
   deatroyed() {

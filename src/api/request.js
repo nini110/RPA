@@ -55,6 +55,7 @@ service.interceptors.request.use(config => {
             config.headers = {
                 'content-type': headers['form']
             }
+            config.responseType = ''
             let data = config.data;
             let result = {}
             for (let i in data) {
@@ -91,6 +92,8 @@ service.interceptors.request.use(config => {
                 }
             }
             config.data = formData
+        } else {
+            
         }
     }
     config.headers.uid = localStorage.getItem("wx_userid");

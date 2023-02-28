@@ -214,13 +214,11 @@ export default {
                   value: [],
                 };
                 val.data.forEach((val1, idx1) => {
-                  // debugger
                   if (val1) {
                     if (idx1 !== 0) {
                       // val1是每一行
                       let obj = {};
                       val.data[0].forEach((val2, idx2) => {
-                        // debugger
                         if (val2) {
                           vm.$set(
                             obj,
@@ -238,10 +236,21 @@ export default {
               }
             }
           }
+          if (vm.toolType === "DMP") {
+            let some  = resultObj.创建人群.some((val) => {
+              return !val.人群包名称
+            })
+            if (some) {
+              vm.$msg({
+                type: "error",
+                msg: '人群包名称格式有误，请检查导入文件人群格式'
+              });
+            }
+            return
+          }
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
           vm.$emit("close", 1, [resultObj], results);
-          console.log('resultObj', resultObj);
           window.luckysheet.destroy();
         });
       });

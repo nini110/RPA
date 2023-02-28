@@ -13,37 +13,37 @@ export default {
   },
   created() {
     // 线上发布时created中所有都注释
-    this.$route.query.wx_code = "p6wXZAqHNGGsD6FPeQ2HiZ8qLIVmIaz9SHsUWfsdsJg";
-    this.$route.query.wx_userid = "1020108";
-    this.$route.query.user_name = "方涛";
-    localStorage.setItem("wx_code", this.$route.query.wx_code);
-    localStorage.setItem("wx_userid", this.$route.query.wx_userid);
-    localStorage.setItem("user_name", this.$route.query.user_name);
+    // this.$route.query.wx_code = "qrh0cKueLAXxHZ-BiLitoXq3p8qVSCQKp5Dh_bBe7OE";
+    // this.$route.query.wx_userid = "1020108";
+    // this.$route.query.user_name = "方涛";
+    // localStorage.setItem("wx_code", this.$route.query.wx_code);
+    // localStorage.setItem("wx_userid", this.$route.query.wx_userid);
+    // localStorage.setItem("user_name", this.$route.query.user_name);
     // this.debounce(consoleeve, 5000)
   },
-  consoleeve() {
-    const qq = document.getElementsByClassName('qq')
-    if(qq.value) {
-      console.log('haha')
-    }
-  },
-  // 防抖
-  debounce(fn, interval) {
-    let timer = null
-    return () => {
-      clearTimeout(timer)
-      timer = setTimeout(fn, interval)
-    }
-  },
-  throotol(fn, interval) {
-    let timer
-    if (timer) return
-    timer = setTimeout(() => {
-      clearTimeout(timer)
-      timer = null
-      fn()
-    }, interval)
-  }
+  // consoleeve() {
+  //   const qq = document.getElementsByClassName('qq')
+  //   if(qq.value) {
+  //     console.log('haha')
+  //   }
+  // },
+  // // 防抖
+  // debounce(fn, interval) {
+  //   let timer = null
+  //   return () => {
+  //     clearTimeout(timer)
+  //     timer = setTimeout(fn, interval)
+  //   }
+  // },
+  // throotol(fn, interval) {
+  //   let timer
+  //   if (timer) return
+  //   timer = setTimeout(() => {
+  //     clearTimeout(timer)
+  //     timer = null
+  //     fn()
+  //   }, interval)
+  // }
 };
 </script>
 <style lang="less">

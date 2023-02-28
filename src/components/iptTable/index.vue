@@ -431,21 +431,19 @@ export default {
           ? "请输入账号"
           : "京准通登录请输入账号，京牌代理登录请输入pin";
     },
-    // intervalObj: {
-    //   handler(newval, oldval) {
-
-    //   },
-    //   immediate: true,
-    //   deep: true,
-    // },
     $route: {
       handler(newval, oldval) {
         const vm = this;
+        // 离开当前路由清空定时器
+        vm.intervalObj.forEach((val, idx) => {
+          clearInterval(val.intervalValue);
+          vm.$set(val, "intervalValue", null);
+        })
+        clearInterval(vm.intervalDia);
+        vm.intervalDia = null;
         vm.showCookie =
-          vm.formMenu === 1 && newval.fullPath.indexOf("DMP") === -1;
+          vm.formMenu === 1 && vm.toolType !== 'DMP';
         vm.getuserlist();
-        vm.username = localStorage.getItem("user_name");
-        vm.people = localStorage.getItem("user_name");
         vm.$nextTick(() => {
           vm.$refs.form.resetFields();
           vm.fileList = [];
@@ -467,6 +465,7 @@ export default {
       }
     };
     return {
+      saveCode: null,
       showPlaer: false,
       playerOptions: {
         // videojs options
@@ -503,7 +502,6 @@ export default {
       logContent: "",
       endingTxt: "日志正在加载",
       endingCode: "",
-      logInterval: null,
       excelOpt: [], // 默认的excel数据
       showExcel: false,
       errorUpInfo: "",
@@ -558,8 +556,8 @@ export default {
       form: {
         username: "拜耳对外投放账号",
         password: "",
-        cookie:
-          "__jdu=16622939436621705406294; shshshfpb=wQTDFd64amkPsy_unwm1jGg; shshshfpa=e4d2d84f-2e60-8a90-e101-6ce8fb396561-1664521203; unpl=JF8EALRnNSttXEhWUB0FHkAXQggBWwoITR5TbmQHVVtYSAAFTAoaQRR7XlVdXxRKFB9sZRRUWFNPVA4YCysSEXteU11bD00VB2xXVgQFDQ8WUUtBSUt-SVxRWFULSx4Ba2AFZG1bS2QFGjIbFRdIXlxcVQ1JEARsZwNVWV1KUwYTBysTIExtZG5VCUgSA21XBGRcaAkAWRIGHhMVQxBUWVoLSB8BZ2IHU1pbS1IEHwcaFRNDWGRfbQs; areaId=1; ipLoc-djd=1-2800-0-0; PCSYCityID=CN_110000_110100_0; shshshfp=85c4b61927c057ce26ff69a6db66663c; shshshfpx=e4d2d84f-2e60-8a90-e101-6ce8fb396561-1664521203; __jdv=146207855|baidu|-|organic|notset|1677135109586; language=zh_CN; cn_language=zh_CN; ceshi3.com=000; logining=1; pinId=8QLRh2dBwy4hRO0oqI8I0ZKZQlJc-P50tX37H5_fCPs; pin=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; unick=jd_HGcygOlkrWVq; _tp=Xqgcf4eDOzMlfX2uS6Ryd1siw6qm7ljL%2F8JYB3q24aVfaAP8TJNrdoNG8pd3ATTgXAjbT5Nd78uZZBqCONsupdKMo236RTN9%2BbG6iOE2yEw%3D; _pst=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; 3AB9D23F7A4B3C9B=DOD6TSJOD3N5LFZQG34CCU76CZXAY3VK2BIPFPIZGZXIHVZPAHFWCZBZBS2EMIRGDGBGMWCON4RH5T2JZE7IGI7ZOI; TrackID=1xB1FMrIaaDHbry5SRGWJ4z9aXv8TKOCdon4OmEnrixCvNyjVGajFphEz7YU-cGz0aKCoGd5bXMm2zK6tMHLMbAW6HitIEHyZgVStzfBVGTERrsN4XS9_lQy2lz4PToHOi_rmd8--MpWc4_z-rswJ3Q; thor=62773A26D5E916B8B493B1B84C66F43BFD7551814A280BA5B5EB89010E0B57C176FD706B4D038C0DD3CABD6684DB8B8A8D8F77166513EB109723902046F8FCA4D183516B400EE06971762721C6E08CA479630A9118068B258F423658C295BB1DD9ECA6073FD2E5BF2FFCA7FF1450655560E7115B202A4E7A78B6B13D03DC4D768DC10041134C0FE97CEFC5812C59DFD5; __jda=146207855.16622939436621705406294.1662293943.1677209462.1677230831.26; __jdc=146207855; __jdb=146207855.6.16622939436621705406294|26.1677230831",
+        // cookie: '',
+        cookie:'language=zh_CN; cn_language=zh_CN; __jdv=146207855|baidu|-|organic|notset|1677467721868; __jdu=16774677218671515249824; logining=1; wlfstk_smdl=rdekjfoh63e5iglpezkp86jdrwokgu68; passport_pin=6ZmI6ZyWMjMz; pin_account=6ZmI6ZyWMjMz; press_pin=6ZmI6ZyWMjMz; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1PVS0Fz22jdeMbZ5_PV_EEl1B6l6mZwmzWLXWk1ykeVA9mH8Gzijw6qSpLNwP46e9RLAsueb9QSr78RVk9V2ZM6hnx7-dNFl7AQYg_d7G6dN4CeH3gTkmpevkQ3o7WxXc; thor=62773A26D5E916B8B493B1B84C66F43B784B8C9BCD85436D37B6473AD70041AE942FCE7C37272032C5A212BA7608BC79EC47C4CF9265C5FA563B143FC09FDD8EF518D3BD7FB884938125F643DB86472001383483E0030610A567DBE58EA5E3ED7FA7EF7445138C9F42E9F33C039D8807820A4F94DCC55AA3D27654D73094F6A9D26F3A2EE6224B52EDD52C937A290254; pinId=8QLRh2dBwy4hRO0oqI8I0ZKZQlJc-P50tX37H5_fCPs; pin=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; unick=jd_HGcygOlkrWVq; ceshi3.com=000; _tp=Xqgcf4eDOzMlfX2uS6Ryd1siw6qm7ljL%2F8JYB3q24aVfaAP8TJNrdoNG8pd3ATTgXAjbT5Nd78uZZBqCONsupdKMo236RTN9%2BbG6iOE2yEw%3D; _pst=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; __jda=146207855.16774677218671515249824.1677467722.1677563522.1677575280.6; __jdc=146207855; __jdb=146207855.9.16774677218671515249824|6.1677575280',
         pin: "",
         choose: 2,
       },
@@ -567,7 +565,6 @@ export default {
       loadingbut: false,
       loadingbuttext: "执行",
       tableData: [],
-      username: "", //用户名
       msg: "", //根据上传判断执行条件
       dialogVisible: false,
       //分页器状态
@@ -689,18 +686,14 @@ export default {
             vm.$msg({ type: "error", msg: "请先添加表格数据" });
           } else {
             if (vm.formMenu === 1) {
-              if (vm.$route.fullPath.indexOf("DMP") !== -1) {
+              if (vm.toolType === 'DMP') {
                 DMPSave({ ...submitdata }).then((res) => {
                   if (res.data.code === 10000) {
                     vm.$msg({ msg: "保存成功" });
                     vm.excelData = null;
                     vm.excelName = "";
-                    vm.logEvent(res.data.data);
-                    vm.logInterval = setInterval(() => {
-                      vm.logEvent(res.data.data);
-                    }, 3000);
-                    vm.showLogDialog = true;
                     vm.$refs.form.resetFields();
+                    window.location.reload()
                   } else if (res.data.code === 10003) {
                     vm.openMessageBox({
                       type: "warning",
@@ -721,18 +714,14 @@ export default {
               } else {
                 directiveSave({
                   ...submitdata,
-                }).then((res) => {
+                }).then(res => {
                   if (res.data.code === 10000) {
                     vm.$msg({ msg: "保存成功" });
                     vm.excelData = null;
                     vm.excelName = "";
-                    // vm.logEvent(res.data.data);
-                    // vm.logInterval = setInterval(() => {
-                    //   vm.logEvent(res.data.data);
-                    // }, 3000);
-                    // vm.showLogDialog = true;
                     vm.$refs.form.resetFields();
-                    vm.getuserlist();
+                    // vm.getuserlist()
+                    window.location.reload()
                   } else if (res.data.code === 10006) {
                     vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
                   } else if (res.data.code === 10003) {
@@ -751,7 +740,7 @@ export default {
                       msg: res.data.data || res.data.msg,
                     });
                   }
-                });
+                })
               }
             } else {
               sfToolsSave({ ...submitdata }).then((res) => {
@@ -759,12 +748,8 @@ export default {
                   vm.$msg({ msg: "保存成功" });
                   vm.excelData = null;
                   vm.excelName = "";
-                  vm.logEvent(res.data.data);
-                  vm.logInterval = setInterval(() => {
-                    vm.logEvent(res.data.data);
-                  }, 3000);
-                  vm.showLogDialog = true;
                   vm.$refs.form.resetFields();
+                  window.location.reload()
                 } else if (res.data.code === 10006) {
                   vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
                 } else {
@@ -779,27 +764,24 @@ export default {
         }
       });
     },
-    //立即上传 并判断上传文件是否为空if () {
-    uploadFile(data) {
-      const vm = this;
-      vm.showExcel = true;
-    },
     //查看列表
     getuserlist() {
       const vm = this;
       directiveList({
         tool_type: vm.toolType,
         limit: vm.pagesize,
-        page: vm.currpage,
+        page: vm.currpage
       }).then((res) => {
         if (res.data.code === 10000) {
           let result = res.data;
           vm.tableData = result.data;
           vm.total = result.count;
-          // 执行中的数据需要有定时器去调最新状态
           for (let i of result.data) {
             if (i.log_status === "执行中") {
               let obj = {};
+              vm.intervalObj = vm.intervalObj.filter((val) => {
+                return val.intervalName !== `interval_${i.serial}`
+              })
               vm.$set(obj, "intervalName", `interval_${i.serial}`);
               vm.$set(
                 obj,
@@ -811,7 +793,8 @@ export default {
                     for (let j in result.data) {
                       if (vm.tableData[j].serial === i.serial) {
                         if (resu.data.code === 10000) {
-                          vm.$set(vm.tableData[j], "log_status", "执行中");
+                          vm.$set(vm.tableData[j], "log_status",resu.data.log_status);
+                          vm.$set(obj, "code", resu.data.code);
                           vm.$set(obj, "html", resu.data.data);
                           vm.$set(
                             obj,
@@ -819,7 +802,8 @@ export default {
                             resu.data.data ? "日志持续获取中" : "日志正在加载"
                           );
                         } else if (resu.data.code === 10010) {
-                          vm.$set(vm.tableData[j], "log_status", "执行完毕");
+                          vm.$set(vm.tableData[j], "log_status", resu.data.log_status);
+                          vm.$set(obj, "code", resu.data.code);
                           vm.$set(obj, "html", resu.data.data || "");
                           vm.$set(obj, "txt", "日志加载完毕");
                           for (let k in vm.intervalObj) {
@@ -829,23 +813,20 @@ export default {
                               ) !== -1
                             ) {
                               clearInterval(vm.intervalObj[k].intervalValue);
-                              vm.$set(vm.intervalObj[k], "intervalValue", "");
+                              vm.$set(vm.intervalObj[k], "intervalValue", null);
                               break;
                             }
                           }
                         } else {
-                          vm.$set(vm.tableData[j], "log_status", "执行有误");
-                          for (let k in vm.intervalObj) {
-                            if (
-                              vm.intervalObj[k].intervalName.indexOf(
-                                i.serial
-                              ) !== -1
-                            ) {
-                              clearInterval(vm.intervalObj[k].intervalValue);
-                              vm.$set(vm.intervalObj[k], "intervalValue", "");
-                              break;
-                            }
-                          }
+                          vm.$msg({ type: "error", msg: resu.data.msg });
+                          vm.$set(vm.tableData[j], "log_status", '错误');
+                          vm.$set(obj, "code", '错误');
+                          vm.$set(obj, "html", '错误');
+                          vm.$set(
+                            obj,
+                            "txt",
+                            '错误'
+                          );
                         }
                         break;
                       }
@@ -856,29 +837,18 @@ export default {
               vm.intervalObj.push(obj);
             }
           }
-          console.log(vm.intervalObj);
         } else {
           vm.$msg({ type: "error", msg: res.data.msg });
         }
       });
     },
-    // 查看详情按钮
-    // detailEvent(row) {
-    //   const vm = this;
-    //   clearInterval(vm.logInterval);
-    //   vm.logInterval = null;
-    //   vm.$nextTick(() => {
-    //     vm.logEvent(row.file_path);
-    //     vm.logInterval = setInterval(() => {
-    //       vm.logEvent(row.file_path);
-    //     }, 3000);
-    //     vm.showLogDialog = true;
-    //   });
-    // },
-    //打开日志弹层
+    //no - 打开日志弹层
     detailEvent(row) {
       const vm = this;
       vm.showLogDialog = true;
+      if (row.log_status === '执行完毕' || row.log_status === '执行有误') {
+        vm.logEvent(row.file_path);
+      } else {
       clearInterval(vm.intervalDia);
       vm.intervalDia = null;
       vm.intervalDia = setInterval(() => {
@@ -886,12 +856,17 @@ export default {
           if (i.intervalName.indexOf(row.serial) !== -1) {
             vm.endingTxt = i.txt;
             vm.logContent = i.html;
+            vm.endingCode = i.code
+            break
           }
         }
-      }, 3000);
+      }, 300);
+    }
+
     },
-    // 关闭日志弹层
+    //  no -关闭日志弹层
     closeLogEvent() {
+      const vm = this
       this.logContent = "";
       this.endingTxt = "日志正在加载";
       this.endingCode = 0;
@@ -899,7 +874,7 @@ export default {
       clearInterval(vm.intervalDia);
       vm.intervalDia = null;
     },
-    // 下载文件
+    // no -下载文件
     downEvent(row) {
       const vm = this;
       sfToolsDown({
@@ -915,7 +890,7 @@ export default {
         link.click();
       });
     },
-    // 下载模板
+    //  no -下载模板
     modelEvent() {
       const vm = this;
       sfToolsModelDown({
@@ -926,12 +901,12 @@ export default {
         let link = document.createElement("a");
         link.style.display = "none";
         link.href = url;
-        link.setAttribute("download", `模板-${vm.toolType}.xlsx`);
+        link.setAttribute("download", `模板-${vm.toolType}${vm.toolType=== 'DMP' ? '.zip' : '.xlsx'}`);
         document.body.appendChild(link);
         link.click();
       });
     },
-    // 关闭excel
+    //  no -关闭excel
     closeEvent(tag, val, opt) {
       const vm = this;
       vm.showExcel = false;
@@ -945,7 +920,7 @@ export default {
         vm.excelData = null;
       }
     },
-    // 日志接口
+    //  no - 日志接口
     logEvent(path) {
       const vm = this;
       directiveLog({
@@ -958,22 +933,13 @@ export default {
         } else if (res.data.code === 10010) {
           vm.endingTxt = "日志加载完毕";
           vm.logContent = res.data.data || "";
-          clearInterval(vm.logInterval);
-          vm.logInterval = null;
-          if (!vm.showLogDialog) {
-            vm.getuserlist();
-          }
         } else {
           // 错误  清除定时器
-          clearInterval(vm.logInterval);
-          vm.logInterval = null;
           vm.$msg({ type: "error", msg: "日志获取失败" });
-          if (!vm.showLogDialog) {
-            vm.getuserlist();
-          }
         }
       });
     },
+    //  no -
     chooseEvent() {
       this.form.pin = "";
       this.form.username = "";

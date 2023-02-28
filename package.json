@@ -17,7 +17,6 @@
     "ex-table-column": "^1.1.2",
     "exceljs": "^4.3.0",
     "file-saver": "^2.0.5",
-    "image-webpack-loader": "^8.1.0",
     "less": "^4.1.1",
     "less-loader": "^6.0.0",
     "lodash": "^4.17.21",
