@@ -19,7 +19,7 @@
               <el-tabs v-model="activeName">
                 <el-tab-pane
                   label="查询"
-                  :name="1"
+                  name="1"
                 ></el-tab-pane>
               </el-tabs>
               <el-row>

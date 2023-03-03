@@ -11118,7 +11118,7 @@
     "videojs-vtt.js" "0.12.6"
     "xhr" "2.4.0"
 
-"videojs-contrib-hls@^5.12.2":
+"videojs-contrib-hls@^5.12.2", "videojs-contrib-hls@^5.15.0":
   "integrity" "sha512-18zbMYZ0XRBKTPEayA9bFTWWrqhT9b4G8+zf0czJLD7Epe5PcK1I/3dflTHQeQ5rwlWir+/XnFU3sMg/B2MMcw=="
   "resolved" "https://registry.npmjs.org/videojs-contrib-hls/-/videojs-contrib-hls-5.15.0.tgz"
   "version" "5.15.0"

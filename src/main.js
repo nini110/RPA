@@ -19,6 +19,8 @@ import './utils/global'// 全局
 // 视频
 import VueVideoPlayer from 'vue-video-player'
 import 'video.js/dist/video-js.css'
+// 引入hls （video js  m3u8)
+import 'videojs-contrib-hls'
 // 自定义指令文件
 import directives from '@/directive'
 // 格式化文件、
@@ -36,11 +38,12 @@ import './styles/index.less'
 import check from '@/utils/loginCheck.js';
 // error log
 import './components/errorLog/index.js'
+// const hls = require('videojs-contrib-hls')
 Vue.prototype.check = check
 Vue.prototype.$axios = axios
 Vue.prototype.qs = qs
 Vue.use(VueVideoPlayer)
-// Vue.use(VueFullPage )
+// Vue.use(hls)
 
 // Vue.prototype.DomainName = 'http://192.168.90.209:5000';
 Vue.prototype.DomainName = 'http://tool.afocus.com.cn';

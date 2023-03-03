@@ -179,6 +179,7 @@
             v-waves
             type="primary"
             class="el-icon-right marginR"
+            :disabled="disBtn"
             @click="zhixingEvent"
             >执行</el-button
           >
@@ -382,6 +383,7 @@ import {
   pinSelect,
   optMovie,
 } from "@/api/api.js";
+// import { TcPlayer } from './tcplayer.js'
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
 import Upload from "@/components/upload";
@@ -439,6 +441,7 @@ export default {
           clearInterval(val.intervalValue);
           vm.$set(val, "intervalValue", null);
         })
+        vm.intervalObj = []
         clearInterval(vm.intervalDia);
         vm.intervalDia = null;
         vm.showCookie =
@@ -473,13 +476,21 @@ export default {
         preload: "auto",
         language: "zh-CN",
         playbackRates: [0.5, 1.0, 1.5, 2.0],
+        // sources: [
+        //   {
+        //     type: "video/mp4",
+        //     src: require("../../assets/images/movie.mp4"),
+        //   },
+        // ],
         sources: [
           {
-            type: "video/mp4",
-            src: require("../../assets/images/movie.mp4"),
+            withCredentials: true,
+            type: "application/x-mpegURL",
+            src: "http://tool.afocus.com.cn/file_download/movie/demo.m3u8",
           },
         ],
         poster: "",
+        hls: true,
         notSupportedMessage: "此视频暂无法播放，请稍后再试",
         fluid: true,
         controlBar: {
@@ -554,10 +565,10 @@ export default {
         },
       ],
       form: {
-        username: "拜耳对外投放账号",
+        username: "",
         password: "",
-        // cookie: '',
-        cookie:'language=zh_CN; cn_language=zh_CN; __jdv=146207855|baidu|-|organic|notset|1677467721868; __jdu=16774677218671515249824; logining=1; wlfstk_smdl=rdekjfoh63e5iglpezkp86jdrwokgu68; passport_pin=6ZmI6ZyWMjMz; pin_account=6ZmI6ZyWMjMz; press_pin=6ZmI6ZyWMjMz; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1PVS0Fz22jdeMbZ5_PV_EEl1B6l6mZwmzWLXWk1ykeVA9mH8Gzijw6qSpLNwP46e9RLAsueb9QSr78RVk9V2ZM6hnx7-dNFl7AQYg_d7G6dN4CeH3gTkmpevkQ3o7WxXc; thor=62773A26D5E916B8B493B1B84C66F43B784B8C9BCD85436D37B6473AD70041AE942FCE7C37272032C5A212BA7608BC79EC47C4CF9265C5FA563B143FC09FDD8EF518D3BD7FB884938125F643DB86472001383483E0030610A567DBE58EA5E3ED7FA7EF7445138C9F42E9F33C039D8807820A4F94DCC55AA3D27654D73094F6A9D26F3A2EE6224B52EDD52C937A290254; pinId=8QLRh2dBwy4hRO0oqI8I0ZKZQlJc-P50tX37H5_fCPs; pin=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; unick=jd_HGcygOlkrWVq; ceshi3.com=000; _tp=Xqgcf4eDOzMlfX2uS6Ryd1siw6qm7ljL%2F8JYB3q24aVfaAP8TJNrdoNG8pd3ATTgXAjbT5Nd78uZZBqCONsupdKMo236RTN9%2BbG6iOE2yEw%3D; _pst=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; __jda=146207855.16774677218671515249824.1677467722.1677563522.1677575280.6; __jdc=146207855; __jdb=146207855.9.16774677218671515249824|6.1677575280',
+        cookie: '',
+        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdv=146207855|baidu|-|organic|notset|1677467721868; __jdu=16774677218671515249824; pinId=8QLRh2dBwy4hRO0oqI8I0ZKZQlJc-P50tX37H5_fCPs; pin=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; unick=jd_HGcygOlkrWVq; _tp=Xqgcf4eDOzMlfX2uS6Ryd1siw6qm7ljL%2F8JYB3q24aVfaAP8TJNrdoNG8pd3ATTgXAjbT5Nd78uZZBqCONsupdKMo236RTN9%2BbG6iOE2yEw%3D; _pst=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; ceshi3.com=000; logining=1; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1QG5cJsgr632zlGgkNDB8yHrHt4T9XvqH1LcQmNdwHjwRQHlStEbVe9RmKc0lwU2chDD7Xm2fhlLFdsJUaWRZ2yDVVhQXE0PQNBTYPW05qHbEyttk9PCEsTyKPG0xQg24; thor=62773A26D5E916B8B493B1B84C66F43B20670A0C7E951E2CD3DBB1E0D571F9E64296172207807F9CCBD302C4E5CAAAC4CA0EC2791173F4852E71F62EB4DCF84D8F1F42066EDAD4EC4154B4A378FC65E516063CE5370F2A561156200DA291B64A8338123F89BABA004FE1934A9101C6F760F85B6A6809E59199C2CD492437469C4884F9BA795F2AEE4B2AD8547346C648; __jda=146207855.16774677218671515249824.1677467722.1677736957.1677811508.9; __jdc=146207855; __jdb=146207855.12.16774677218671515249824|9.1677811508',
         pin: "",
         choose: 2,
       },
@@ -577,6 +588,8 @@ export default {
       intervalObj: [],
       targetItem: null,
       intervalDia: null,
+      OPENTAG: false,
+      disBtn: false
     };
   },
   mounted() {
@@ -614,7 +627,7 @@ export default {
         // });
       } else {
         vm.player.pause(); //暂停
-        vm.player.src(require("../../assets/images/movie.mp4")); //进度条归零
+        vm.player.src('http://tool.afocus.com.cn/file_download/movie/demo.m3u8'); //进度条归零
       }
     },
     resetEvent() {
@@ -675,12 +688,21 @@ export default {
     // 执行事件
     zhixingEvent() {
       const vm = this;
+      vm.disBtn = true
+      let ingArr = vm.tableData.filter(item => {
+        return item.log_status === '执行中'
+      })
+      if(ingArr.length >= 2) {
+        vm.$msg({ type: "error", msg: "最多同时执行两条任务，请稍后" });
+        vm.disBtn = false
+        return false
+      }
       let submitdata = {
         ...vm.form,
         config_data: vm.excelData,
         tool_type: vm.toolType,
       };
-      vm.$refs.form.validate((valid) => {
+      vm.$refs.form.validate( (valid) => {
         if (valid) {
           if (!vm.excelData) {
             vm.$msg({ type: "error", msg: "请先添加表格数据" });
@@ -688,12 +710,14 @@ export default {
             if (vm.formMenu === 1) {
               if (vm.toolType === 'DMP') {
                 DMPSave({ ...submitdata }).then((res) => {
+                  vm.disBtn = false
                   if (res.data.code === 10000) {
                     vm.$msg({ msg: "保存成功" });
                     vm.excelData = null;
                     vm.excelName = "";
+                    vm.OPENTAG = true
                     vm.$refs.form.resetFields();
-                    window.location.reload()
+                    vm.getuserlist()
                   } else if (res.data.code === 10003) {
                     vm.openMessageBox({
                       type: "warning",
@@ -715,13 +739,14 @@ export default {
                 directiveSave({
                   ...submitdata,
                 }).then(res => {
+                  vm.disBtn = false
                   if (res.data.code === 10000) {
                     vm.$msg({ msg: "保存成功" });
                     vm.excelData = null;
                     vm.excelName = "";
+                    vm.OPENTAG = true
                     vm.$refs.form.resetFields();
-                    // vm.getuserlist()
-                    window.location.reload()
+                    vm.getuserlist()
                   } else if (res.data.code === 10006) {
                     vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
                   } else if (res.data.code === 10003) {
@@ -744,12 +769,14 @@ export default {
               }
             } else {
               sfToolsSave({ ...submitdata }).then((res) => {
+                vm.disBtn = false
                 if (res.data.code === 10000) {
                   vm.$msg({ msg: "保存成功" });
                   vm.excelData = null;
                   vm.excelName = "";
+                  vm.OPENTAG = true
                   vm.$refs.form.resetFields();
-                  window.location.reload()
+                  vm.getuserlist()
                 } else if (res.data.code === 10006) {
                   vm.$msg({ type: "error", msg: "请添加正确的Excel文件" });
                 } else {
@@ -776,12 +803,29 @@ export default {
           let result = res.data;
           vm.tableData = result.data;
           vm.total = result.count;
+          vm.endingTxt = '日志正在加载';
+          vm.logContent = '';
+          vm.endingCode = 10000
+          // 每次新执行完
+          // 所有要先清空再删除掉
+          if (vm.OPENTAG) {
+            vm.detailEvent(vm.tableData[0])
+            for(let i of result.data) {
+              if (i.log_status === "执行中") {
+                for (let k of vm.intervalObj) {
+                  if(k.intervalName === `interval_${i.serial}`) {
+                    clearInterval(k.intervalValue);
+                    vm.$set(k, "intervalValue", null);
+                    break
+                  }
+                }
+              }
+            }
+            vm.intervalObj = []
+          }
           for (let i of result.data) {
             if (i.log_status === "执行中") {
               let obj = {};
-              vm.intervalObj = vm.intervalObj.filter((val) => {
-                return val.intervalName !== `interval_${i.serial}`
-              })
               vm.$set(obj, "intervalName", `interval_${i.serial}`);
               vm.$set(
                 obj,
@@ -832,7 +876,7 @@ export default {
                       }
                     }
                   });
-                }, 3000)
+                }, 6000)
               );
               vm.intervalObj.push(obj);
             }
@@ -840,6 +884,7 @@ export default {
         } else {
           vm.$msg({ type: "error", msg: res.data.msg });
         }
+        // console.log('interval', vm.intervalObj)
       });
     },
     //no - 打开日志弹层
@@ -849,17 +894,17 @@ export default {
       if (row.log_status === '执行完毕' || row.log_status === '执行有误') {
         vm.logEvent(row.file_path);
       } else {
-      clearInterval(vm.intervalDia);
-      vm.intervalDia = null;
-      vm.intervalDia = setInterval(() => {
-        for (let i of vm.intervalObj) {
-          if (i.intervalName.indexOf(row.serial) !== -1) {
-            vm.endingTxt = i.txt;
-            vm.logContent = i.html;
-            vm.endingCode = i.code
-            break
+        clearInterval(vm.intervalDia);
+        vm.intervalDia = null;
+        vm.intervalDia = setInterval(() => {
+          for (let i of vm.intervalObj) {
+            if (i.intervalName.indexOf(row.serial) !== -1) {
+              vm.endingTxt = i.txt;
+              vm.logContent = i.html;
+              vm.endingCode = i.code
+              break
+            }
           }
-        }
       }, 300);
     }
 
@@ -867,10 +912,10 @@ export default {
     //  no -关闭日志弹层
     closeLogEvent() {
       const vm = this
+      vm.OPENTAG = false
       this.logContent = "";
       this.endingTxt = "日志正在加载";
       this.endingCode = 0;
-      // this.getuserlist();
       clearInterval(vm.intervalDia);
       vm.intervalDia = null;
     },

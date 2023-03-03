@@ -13,7 +13,7 @@ export default {
   },
   created() {
     // 线上发布时created中所有都注释
-    // this.$route.query.wx_code = "qrh0cKueLAXxHZ-BiLitoXq3p8qVSCQKp5Dh_bBe7OE";
+    // this.$route.query.wx_code = "hvg-BgrzoWxSKZWEea5wyfNfJiKg6NyptNUtq777A4o";
     // this.$route.query.wx_userid = "1020108";
     // this.$route.query.user_name = "方涛";
     // localStorage.setItem("wx_code", this.$route.query.wx_code);

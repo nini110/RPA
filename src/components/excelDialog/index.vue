@@ -1,12 +1,13 @@
 <template>
-  <div class="lucky">
-    <div id="luckysheet" class="lucky_sheet"></div>
-    <div class="lucky_footer">
-      <el-button @click="closeExcel">返回并清空数据</el-button>
-      <el-button type="primary" @click="submitExcel">确 定</el-button>
-    </div>
+<div class="lucky">
+  <div id="luckysheet" class="lucky_sheet"></div>
+  <div class="lucky_footer">
+    <el-button @click="closeExcel">返回并清空数据</el-button>
+    <el-button type="primary" @click="submitExcel">确 定</el-button>
   </div>
+</div>
 </template>
+
 <script>
 export default {
   props: {
@@ -131,8 +132,16 @@ export default {
                   key: val.name,
                   value: [],
                 };
+                // 去除null
+                let outData = []
+                val.data.forEach((item, index) => {
+                  let hasData = item.every((item1) => {
+                    return !item1
+                  })
+                  if (!hasData) outData.push(item)
+                })
                 let publicObj = {};
-                val.data.forEach((val1, idx1) => {
+                outData.forEach((val1, idx1) => {
                   if (val1) {
                     // 获取公共的内容
                     if (idx1 <= 17 && val1[0] && val1[0].v) {
@@ -144,17 +153,17 @@ export default {
                     }
                   }
                 });
-                val.data.forEach((val1, idx1) => {
+                outData.forEach((val1, idx1) => {
                   let obj = {};
                   if (val1) {
                     // 第20行是横向内容
                     if (idx1 > 19) {
-                      val.data[19].forEach((val2, idx2) => {
+                      outData[19].forEach((val2, idx2) => {
                         if (val2) {
                           vm.$set(
                             obj,
-                            val2.m,
-                            val.data[idx1][idx2] && val.data[idx1][idx2].m? val.data[idx1][idx2].m : ""
+                            val2.v,
+                            outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
                           );
                         }
                       });
@@ -179,20 +188,29 @@ export default {
                   key: val.name,
                   value: [],
                 };
+                // 去除null
+                let outData = []
+                val.data.forEach((item, index) => {
+                  let hasData = item.every((item1) => {
+                    return !item1
+                  })
+                  if (!hasData) outData.push(item)
+                })
+                // 处理
                 let mid = {}
-                vm.$set(mid, val.data[1][1].m, val.data[1][1].m);
+                vm.$set(mid, outData[1][1].v, outData[1][1].v);
                 sheet.value.push(mid);
                 // 第一行的数据
-                val.data.forEach((val1, idx1) => {
+                outData.forEach((val1, idx1) => {
                   let obj = {};
                   if (val1) {
                     if (idx1 > 2) {
-                      val.data[2].forEach((val2, idx2) => {
+                      outData[2].foroutDataEach((val2, idx2) => {
                         if (val2) {
                           vm.$set(
                             obj,
-                            val2.m,
-                            val.data[idx1][idx2] && val.data[idx1][idx2].m? val.data[idx1][idx2].m : ""
+                            val2.v,
+                            outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
                           );
                         }
                       });
@@ -213,18 +231,38 @@ export default {
                   key: val.name,
                   value: [],
                 };
-                val.data.forEach((val1, idx1) => {
+                // 去除null
+                let outData = []
+                val.data.forEach((item, index) => {
+                  let hasData = item.every((item1) => {
+                    return !item1
+                  })
+                  if (!hasData) outData.push(item)
+                })
+                // 处理数据
+                outData.forEach((val1, idx1) => {
                   if (val1) {
                     if (idx1 !== 0) {
                       // val1是每一行
                       let obj = {};
-                      val.data[0].forEach((val2, idx2) => {
+                      outData[0].forEach((val2, idx2) => {
                         if (val2) {
                           vm.$set(
                             obj,
-                            val2.m,
-                            val.data[idx1][idx2] && val.data[idx1][idx2].m? val.data[idx1][idx2].m : ""
+                            val2.v,
+                            outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
                           );
+                          if (outData[idx1][idx2] && !outData[idx1][idx2].v && outData[idx1][idx2].ct && outData[idx1][idx2].ct.s) {
+                            let zhi = ''
+                            outData[idx1][idx2].ct.s.forEach((item, index) => {
+                              zhi += item.v
+                            })
+                            vm.$set(
+                              obj,
+                              val2.v,
+                              zhi
+                            )
+                          }
                         }
                       });
                       sheet.value.push(obj);
@@ -236,18 +274,6 @@ export default {
               }
             }
           }
-          if (vm.toolType === "DMP") {
-            let some  = resultObj.创建人群.some((val) => {
-              return !val.人群包名称
-            })
-            if (some) {
-              vm.$msg({
-                type: "error",
-                msg: '人群包名称格式有误，请检查导入文件人群格式'
-              });
-            }
-            return
-          }
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
           vm.$emit("close", 1, [resultObj], results);
@@ -258,7 +284,8 @@ export default {
   },
 };
 </script>
-<style scoped lang="less">
+
+<style lang="less" scoped>
 .lucky {
   background-color: #fff;
   position: relative;
@@ -270,6 +297,7 @@ export default {
   top: 50px;
   bottom: 0;
   right: 0;
+
   &_sheet {
     position: absolute;
     left: 40px;
@@ -278,6 +306,7 @@ export default {
     bottom: 80px;
     box-sizing: border-box;
   }
+
   &_footer {
     position: fixed;
     bottom: 20px;

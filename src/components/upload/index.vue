@@ -80,9 +80,12 @@ export default {
         vm.$msg({ type: "error", msg: "只能上传excel文件" });
         return;
       }
-      if (size > 3) {
+      if (vm.tag === "excel" && size > 3) {
         vm.$msg({ type: "warning", msg: "文件大小不得超过3M" });
         return;
+      } else if (size > 50) {
+        vm.$msg({ type: "warning", msg: "文件大小不得超过50M" });
+        return
       }
       if (vm.tag === "excel") {
         let target_sheets = [];
@@ -111,8 +114,10 @@ export default {
             vm.$emit("getFile", vm.fileList);
           }
         );
+      } else {
+        vm.fileList.push(file.raw);
+        vm.$emit("getFile", vm.fileList);
       }
-
     },
     // 点击文件列表文件名的时候
     handlePreview(file) {

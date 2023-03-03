@@ -49,10 +49,12 @@
     &_right {
         width: calc(100% - 200px);
         background-color: #ffffffcf;
-        padding: 30px 40px;
-
+        padding: 20px 40px 0 40px;
+        .el-divider {
+            margin: 10px 0;
+        }
         &.msgDialog_right {
-            overflow: auto;
+            overflow: hidden;
         }
     }
 
@@ -74,20 +76,19 @@
     }
 
     &_body {
-        margin-bottom: 40px;
-        height: 260px;
+        margin-bottom: 25px;
+        height: 315px;
         overflow: auto;
-
         .desc {
             font-size: 16px;
             margin-bottom: 10px;
-            line-height: 22px;
+            line-height: 28px;
             text-indent: 2em;
             color: #606266;
 
             &.desc2 {
                 text-indent: 2em;
-                margin-bottom: 20px;
+                margin-bottom: 10px;
             }
         }
 
@@ -96,11 +97,18 @@
 
             p {
                 font-size: 16px;
-                line-height: 18px;
-                margin-bottom: 8px;
+                line-height: 30px;
+                // margin-bottom: 8px;
                 padding-left: 30px;
                 color: #606266;
-
+                padding: 5px 0;
+                // background-color: aliceblue;
+                margin-bottom: 10px;
+                &:first-child,
+                &:last-child {
+                    border: none;
+                }
+                border-bottom: 1px dashed #f56c6c;
                 .cnt {
                     margin-right: 5px;
                 }
@@ -125,7 +133,7 @@
 
         .cp {
             position: absolute;
-            top: -30px;
+            top: -10px;
             right: 20px;
         }
     }

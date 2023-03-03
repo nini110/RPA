@@ -39,6 +39,7 @@ const headers = {
     'json': 'application/json'
 }
 LoadingMask.options.whiteList.push(`http://114.67.229.243:8001/apps/read_log/`);
+// LoadingMask.options.whiteList.push(`http://114.67.229.243:8001/apps/log_list/`);
 
 LoadingMask.init(service) // 全局遮罩
 service.interceptors.request.use(config => {
