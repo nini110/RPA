@@ -51,7 +51,6 @@
                     <el-select
                       v-model="form.pin"
                       placeholder="请选择PIN"
-                      size="medium"
                       filterable
                       clearable
                     >
@@ -69,7 +68,6 @@
                   <el-form-item label="账号" prop="username">
                     <el-input
                       v-model.trim="form.username"
-                      size="large"
                       placeholder="请输入账号"
                       clearable
                     >
@@ -476,12 +474,14 @@ export default {
         preload: "auto",
         language: "zh-CN",
         playbackRates: [0.5, 1.0, 1.5, 2.0],
+        // mp4格式
         // sources: [
         //   {
         //     type: "video/mp4",
         //     src: require("../../assets/images/movie.mp4"),
         //   },
         // ],
+        // m3u8格式
         sources: [
           {
             withCredentials: true,
@@ -568,7 +568,7 @@ export default {
         username: "",
         password: "",
         cookie: '',
-        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdv=146207855|baidu|-|organic|notset|1677467721868; __jdu=16774677218671515249824; pinId=8QLRh2dBwy4hRO0oqI8I0ZKZQlJc-P50tX37H5_fCPs; pin=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; unick=jd_HGcygOlkrWVq; _tp=Xqgcf4eDOzMlfX2uS6Ryd1siw6qm7ljL%2F8JYB3q24aVfaAP8TJNrdoNG8pd3ATTgXAjbT5Nd78uZZBqCONsupdKMo236RTN9%2BbG6iOE2yEw%3D; _pst=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; ceshi3.com=000; logining=1; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1QG5cJsgr632zlGgkNDB8yHrHt4T9XvqH1LcQmNdwHjwRQHlStEbVe9RmKc0lwU2chDD7Xm2fhlLFdsJUaWRZ2yDVVhQXE0PQNBTYPW05qHbEyttk9PCEsTyKPG0xQg24; thor=62773A26D5E916B8B493B1B84C66F43B20670A0C7E951E2CD3DBB1E0D571F9E64296172207807F9CCBD302C4E5CAAAC4CA0EC2791173F4852E71F62EB4DCF84D8F1F42066EDAD4EC4154B4A378FC65E516063CE5370F2A561156200DA291B64A8338123F89BABA004FE1934A9101C6F760F85B6A6809E59199C2CD492437469C4884F9BA795F2AEE4B2AD8547346C648; __jda=146207855.16774677218671515249824.1677467722.1677736957.1677811508.9; __jdc=146207855; __jdb=146207855.12.16774677218671515249824|9.1677811508',
+        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdv=146207855|baidu|-|organic|notset|1677467721868; __jdu=16774677218671515249824; pinId=8QLRh2dBwy4hRO0oqI8I0ZKZQlJc-P50tX37H5_fCPs; pin=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; unick=jd_HGcygOlkrWVq; _tp=Xqgcf4eDOzMlfX2uS6Ryd1siw6qm7ljL%2F8JYB3q24aVfaAP8TJNrdoNG8pd3ATTgXAjbT5Nd78uZZBqCONsupdKMo236RTN9%2BbG6iOE2yEw%3D; _pst=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; retina=1; cid=9; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; PPRD_P=UUID.16774677218671515249824; sc_width=1708; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; equipmentId=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; fingerprint=ed92b19585a94899e8d8014533371d2e; deviceVersion=110.0.0.0; deviceOS=; deviceOSVersion=; deviceName=Chrome; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1r7Gfptk_scdn_pSeM00TYviGYY7G0LOK0EsR_40jvm8ZROfX-ByCMGLbRMonabA7YjU-5T3Ur1NH8npGdXzRoq5rWrKNMKXnkQLau2SNrOgzhSPFDoXdVniZqm5eiygd; thor=62773A26D5E916B8B493B1B84C66F43B0C9D32A92599C34F57FF9E0BF82013B1700CE538DA6BE331EBFCA17C6C79360629F93440E78014DD2EE33AB3620E90220CB65A39D57C9F68CF665308B3AA091AA1D64BD6667462E779405419181DD486E747464EF31F5E594E632BF5C4ED6CF2CD88A6D98A5C8C5E7AE86D8037E7054F0C37B6C8203966FD6585AA65B6F77267; ceshi3.com=000; logining=1; __jda=146207855.16774677218671515249824.1677467722.1677832317.1678083137.11; __jdc=146207855; __jdb=146207855.6.16774677218671515249824|11.1678083137',
         pin: "",
         choose: 2,
       },
@@ -689,14 +689,14 @@ export default {
     zhixingEvent() {
       const vm = this;
       vm.disBtn = true
-      let ingArr = vm.tableData.filter(item => {
-        return item.log_status === '执行中'
-      })
-      if(ingArr.length >= 2) {
-        vm.$msg({ type: "error", msg: "最多同时执行两条任务，请稍后" });
-        vm.disBtn = false
-        return false
-      }
+      // let ingArr = vm.tableData.filter(item => {
+      //   return item.log_status === '执行中'
+      // })
+      // if(ingArr.length >= 2) {
+      //   vm.$msg({ type: "error", msg: "最多同时执行两条任务，请稍后" });
+      //   vm.disBtn = false
+      //   return false
+      // }
       let submitdata = {
         ...vm.form,
         config_data: vm.excelData,
@@ -706,6 +706,7 @@ export default {
         if (valid) {
           if (!vm.excelData) {
             vm.$msg({ type: "error", msg: "请先添加表格数据" });
+            vm.disBtn = false
           } else {
             if (vm.formMenu === 1) {
               if (vm.toolType === 'DMP') {
@@ -788,6 +789,8 @@ export default {
               });
             }
           }
+        } else {
+          vm.disBtn = false
         }
       });
     },

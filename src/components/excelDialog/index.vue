@@ -133,13 +133,7 @@ export default {
                   value: [],
                 };
                 // 去除null
-                let outData = []
-                val.data.forEach((item, index) => {
-                  let hasData = item.every((item1) => {
-                    return !item1
-                  })
-                  if (!hasData) outData.push(item)
-                })
+                let outData = vm.deleteNull(val.data)
                 let publicObj = {};
                 outData.forEach((val1, idx1) => {
                   if (val1) {
@@ -189,13 +183,7 @@ export default {
                   value: [],
                 };
                 // 去除null
-                let outData = []
-                val.data.forEach((item, index) => {
-                  let hasData = item.every((item1) => {
-                    return !item1
-                  })
-                  if (!hasData) outData.push(item)
-                })
+                let outData = vm.deleteNull(val.data)
                 // 处理
                 let mid = {}
                 vm.$set(mid, outData[1][1].v, outData[1][1].v);
@@ -205,7 +193,7 @@ export default {
                   let obj = {};
                   if (val1) {
                     if (idx1 > 2) {
-                      outData[2].foroutDataEach((val2, idx2) => {
+                      outData[2].forEach((val2, idx2) => {
                         if (val2) {
                           vm.$set(
                             obj,
@@ -232,13 +220,7 @@ export default {
                   value: [],
                 };
                 // 去除null
-                let outData = []
-                val.data.forEach((item, index) => {
-                  let hasData = item.every((item1) => {
-                    return !item1
-                  })
-                  if (!hasData) outData.push(item)
-                })
+                let outData = vm.deleteNull(val.data)
                 // 处理数据
                 outData.forEach((val1, idx1) => {
                   if (val1) {
@@ -274,6 +256,7 @@ export default {
               }
             }
           }
+          debugger
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
           vm.$emit("close", 1, [resultObj], results);
@@ -281,6 +264,25 @@ export default {
         });
       });
     },
+    // 去除空数据
+    deleteNull(zhi) {
+      const vm = this
+      let arr = []
+      zhi.forEach((item, index) => {
+        item.forEach((item1, index1) => {
+          if (item1 && !item1.v && item1.ct && !item1.ct.s) {
+            vm.$set(item1, 'v', '')
+          }
+        })
+      })
+      zhi.forEach((item, index) => {
+        let hasData = item.every((item1) => {
+          return !item1 || !(item1 && item1.v)
+        })
+        if (!hasData) arr.push(item)
+      })
+      return arr
+    }
   },
 };
 </script>

@@ -305,7 +305,7 @@ export default {
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
-                name: "sheet1", //工作表名称
+                name: "Sheet1", //工作表名称
                 color: "", //工作表颜色
                 index: "renqun", //工作表索引
                 status: 1, //激活状态
@@ -591,7 +591,7 @@ export default {
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
-                name: "sheet1", //工作表名称
+                name: "Sheet1", //工作表名称
                 color: "", //工作表颜色
                 index: "renqun", //工作表索引
                 status: 1, //激活状态
@@ -1197,7 +1197,7 @@ export default {
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
-                name: "sheet1", //工作表名称
+                name: "Sheet1", //工作表名称
                 color: "", //工作表颜色
                 index: "renqun", //工作表索引
                 status: 1, //激活状态
