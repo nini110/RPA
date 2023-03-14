@@ -29,7 +29,6 @@
                     v-model="form.project_name"
                     placeholder="请选择项目"
                     :options="itemOptions"
-                    size="medium"
                     :props="{ expandTrigger: 'hover', emitPath: false }"
                     @change="selectChang"
                   ></el-cascader>
@@ -41,7 +40,6 @@
                     v-model="form.type"
                     placeholder="请选择类型"
                     style="width: 130px"
-                    size="medium"
                   >
                     <el-option label="日报" value="1"></el-option>
                   </el-select>
@@ -183,7 +181,7 @@
                       placement="top"
                     >
                       <svg class="icon svg-icon titleicon" aria-hidden="true">
-                        <use xlink:href="#icon-download"></use>
+                        <use xlink:href="#icon-xiazaizhong"></use>
                       </svg>
                     </el-tooltip>
                   </div>
@@ -200,7 +198,7 @@
                       placement="top"
                     >
                       <svg class="icon svg-icon titleicon" aria-hidden="true">
-                        <use xlink:href="#icon-lajitong"></use>
+                        <use xlink:href="#icon-shanchu1"></use>
                       </svg>
                     </el-tooltip>
                   </div>
@@ -256,7 +254,7 @@ export default {
       }
     };
     return {
-      activeName: 1,
+      activeName: '1',
       excelName: "",
       pageHaseItem: 0, // 当前页有多少条数据
       errorStateInfo: "",

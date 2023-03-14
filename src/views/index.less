@@ -23,6 +23,28 @@
     color: @baseItemColor;
     text-align: center;
 
+    &.ts {
+      color: #000;
+      font-weight: bold;
+
+      &:before,
+      &:after {
+        background-color: #b09c9c;
+
+      }
+
+      &:hover {
+        background-color: #b09c9c;
+
+        &:before,
+        &:after {
+          color: #b09c9c;
+
+        }
+      }
+
+    }
+
     &:hover {
       background-color: @baseItemColor;
       color: #fff;

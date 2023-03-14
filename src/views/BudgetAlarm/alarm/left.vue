@@ -1,81 +1,57 @@
 <template>
-  <el-form ref="form1" :model="form">
-    <div class="dropdown">
-      <el-dropdown class="dropdown" type="primary" @command="commandEvent">
-        <el-button type="primary">
-          <i class="el-icon-thumb"></i> 登录方式: {{ loginTXT
+<el-form ref="form1" :model="form">
+  <div class="dropdown">
+    <el-dropdown class="dropdown" type="primary" @command="commandEvent">
+      <el-button type="primary">
+        <i class="el-icon-thumb"></i> 登录方式: {{ loginTXT
           }}<i class="el-icon-arrow-down el-icon--right"></i>
-        </el-button>
-        <!-- 登录方式 -->
-        <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item
-            v-for="(item, idx) in radioOpt"
-            :command="item.code"
-            :key="idx"
-            >{{ item.txt }}</el-dropdown-item
-          >
-        </el-dropdown-menu>
-      </el-dropdown>
-    </div>
-    <el-row>
-      <el-col v-for="(item, idx) in boxDataLeft" :key="idx" :span="24">
-        <el-form-item
-          v-if="item.type === 'select'"
-          :label="item.label"
-          :prop="item.prop"
-          :rules="item.rules"
-        >
-          <el-select
-            v-model="item.model"
-            :placeholder="item.placeholder"
-            size="medium"
-            filterable
-            :disabled="item.disabled"
-            @change="
+      </el-button>
+      <!-- 登录方式 -->
+      <el-dropdown-menu slot="dropdown">
+        <el-dropdown-item v-for="(item, idx) in radioOpt" :command="item.code" :key="idx">{{ item.txt }}</el-dropdown-item>
+      </el-dropdown-menu>
+    </el-dropdown>
+  </div>
+  <el-row>
+    <el-col v-for="(item, idx) in boxDataLeft" :key="idx" :span="24">
+      <el-form-item v-if="item.type === 'select'" :label="item.label" :prop="item.prop" :rules="item.rules">
+        <el-select v-model="item.model" :placeholder="item.placeholder" size="medium" filterable :disabled="item.disabled" @change="
               (val) => {
                 selectChangeLeft(val, item);
               }
-            "
-            clearable
-          >
-            <el-option
-              v-for="val in item.options"
-              :key="val.code + Math.random()"
-              :label="val.name"
-              :value="val.code"
-            >
-            </el-option>
-          </el-select>
-        </el-form-item>
-        <el-form-item
-          v-if="item.type === 'input'"
-          :label="item.label"
-          :prop="item.prop"
-          :rules="item.rules"
-        >
-          <el-input
-            v-model.trim="item.model"
-            size="medium"
-            :show-password="item.prop === 'password'"
-            :placeholder="item.placeholder"
-            @input="
+            " clearable>
+          <el-option v-for="val in item.options" :key="val.code + Math.random()" :label="val.name" :value="val.code">
+          </el-option>
+        </el-select>
+      </el-form-item>
+      <el-form-item v-if="item.type === 'input'" :label="item.label" :prop="item.prop" :rules="item.rules">
+        <el-input v-model.trim="item.model" size="medium" :show-password="item.prop === 'password'" :placeholder="item.placeholder" @input="
               (val) => {
                 inputChangeLeft(val, item);
               }
-            "
-            clearable
-            :disabled="item.disabled"
-          ></el-input>
-        </el-form-item>
-      </el-col>
-    </el-row>
-  </el-form>
+            " clearable :disabled="item.disabled"></el-input>
+      </el-form-item>
+    </el-col>
+  </el-row>
+</el-form>
 </template>
+
 <script>
-import { validPercent, validPercent2, validTrue } from "@/validator/validator";
+import {
+  validPercent,
+  validPercent2,
+  validTrue
+} from "@/validator/validator";
 import message from "@/mixin/message";
-import { alarmPlan, alarmDetail } from "@/api/api";
-import { mapGetters } from "vuex";
+import {
+  alarmPlan,
+  alarmDetail,
+  alarmUser,
+  alarmUserAuthor
+} from "@/api/api";
+import {
+  mapGetters
+} from "vuex";
 export default {
   name: "Left",
   mixins: [message],
@@ -83,8 +59,7 @@ export default {
     return {
       activeName: 0,
       loginTXT: "帐密登陆",
-      radioOpt: [
-        {
+      radioOpt: [{
           code: 0,
           txt: "帐密登陆",
         },
@@ -108,22 +83,35 @@ export default {
     ]),
   },
   watch: {
+    pinList: {
+      handler(newval, oldval) {
+        if (this.activeName === 0) {
+          this.boxDataLeft[0].options = JSON.parse(JSON.stringify(newval));
+        }
+      },
+    },
+    pinListAuthor: {
+      handler(newval, oldval) {
+        if (this.activeName === 1) {
+          this.boxDataLeft[0].options = JSON.parse(JSON.stringify(newval));
+        }
+      },
+    },
     activeName: {
       handler(newval, oldval) {
         const vm = this;
-        vm.loginTXT = vm.activeName === 1 ? "授权登录" : "帐密登陆";
+        vm.loginTXT = newval === 1 ? "授权登录" : "帐密登陆";
         vm.$set(vm.currentInfo, "type", newval);
         vm.$nextTick(() => {
           switch (newval) {
             case 0:
-              vm.boxDataLeft = [
-                {
+              vm.boxDataLeft = [{
                   type: "select",
                   model: "",
                   prop: "user_name",
                   label: "PIN:",
                   placeholder: "请选择PIN",
-                  options: JSON.parse(JSON.stringify(vm.pinList)),
+                  options: [],
                   rules: {
                     required: true,
                     validator: validPercent.bind(this, "boxDataLeft", this, 0),
@@ -155,8 +143,7 @@ export default {
                     validator: validPercent.bind(this, "boxDataLeft", this, 2),
                     trigger: "change blur",
                   },
-                  options: [
-                    {
+                  options: [{
                       name: "京东快车",
                       code: "kuaiche",
                     },
@@ -186,25 +173,22 @@ export default {
                     trigger: "change",
                   },
                   placeholder: "请输入推广计划",
-                  options: [
-                    {
-                      name: "example",
-                      code: "575097395",
-                    },
-                  ],
+                  options: [{
+                    name: "example",
+                    code: "575097395",
+                  }, ],
                   disabled: true,
                 },
               ];
               break;
             case 1:
-              vm.boxDataLeft = [
-                {
+              vm.boxDataLeft = [{
                   type: "select",
                   model: "",
                   prop: "user_name",
                   label: "PIN:",
                   placeholder: "请选择PIN",
-                  options: JSON.parse(JSON.stringify(vm.pinListAuthor)),
+                  options: [],
                   rules: {
                     required: true,
                     validator: validPercent.bind(this, "boxDataLeft", this, 0),
@@ -223,8 +207,7 @@ export default {
                     validator: validPercent.bind(this, "boxDataLeft", this, 2),
                     trigger: "change blur",
                   },
-                  options: [
-                    {
+                  options: [{
                       name: "京东快车",
                       code: "kuaiche",
                     },
@@ -254,12 +237,10 @@ export default {
                     trigger: "change",
                   },
                   placeholder: "请输入推广计划",
-                  options: [
-                    {
-                      name: "example",
-                      code: "575097395",
-                    },
-                  ],
+                  options: [{
+                    name: "example",
+                    code: "575097395",
+                  }, ],
                   disabled: true,
                 },
               ];
@@ -289,9 +270,45 @@ export default {
     },
   },
   created() {
+    // this.getUser()
     this.$store.commit("pageData/UPDATE_ClRLEFT", false); // 清空左侧输入框
   },
   methods: {
+    // 获取所有PIN
+    getUser() {
+      const vm = this;
+      Promise.all([alarmUser(), alarmUserAuthor()]).then(res => {
+        if (res[0].data.code === 10000) {
+          console.log(1111)
+          res[0].data.data.forEach((item, idx) => {
+            vm.pinList.push({
+              name: item,
+              code: item,
+            });
+          });
+          vm.$store.commit("pageData/UPDATE_PINLIST", vm.pinList);
+        } else {
+          vm.$msg({
+            type: "error",
+            msg: res[0].data.msg
+          });
+        }
+        if (res[1].data.code === 10000) {
+          res[1].data.data.forEach((item, idx) => {
+            vm.pinListAuthor.push({
+              name: item,
+              code: item,
+            });
+          });
+          vm.$store.commit("pageData/UPDATE_PINLISTAUTHOR", vm.pinListAuthor);
+        } else {
+          vm.$msg({
+            type: "error",
+            msg: res[1].data.msg
+          });
+        }
+      })
+    },
     // 左侧
     selectChangeLeft(val, item) {
       const vm = this;
@@ -380,7 +397,10 @@ export default {
             saveFlag: false,
           };
         } else if (res.data.code === 10002) {
-          vm.$msg({ type: "warning", msg: "暂无账户预警信息" });
+          vm.$msg({
+            type: "warning",
+            msg: "暂无账户预警信息"
+          });
           midHasinfo = true;
           midBtnstate = {
             inputFlag: true,
@@ -388,7 +408,10 @@ export default {
             saveFlag: false,
           };
         } else {
-          vm.$msg({ type: "error", msg: res.data.msg });
+          vm.$msg({
+            type: "error",
+            msg: res.data.msg
+          });
           midHasinfo = false;
           midBtnstate = {
             inputFlag: false,
@@ -407,6 +430,7 @@ export default {
   },
 };
 </script>
+
 <style lang="less" scoped>
 .dropdown {
   margin: 15px 0 15px 50px;

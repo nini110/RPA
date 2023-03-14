@@ -67,7 +67,7 @@
                       placement="top"
                     >
                       <svg class="icon svg-icon titleicon" aria-hidden="true">
-                        <use xlink:href="#icon-13edit"></use>
+                        <use xlink:href="#icon-bianjiICON"></use>
                       </svg>
                     </el-tooltip>
                   </div>
@@ -83,7 +83,7 @@
                       placement="top"
                     >
                       <svg class="icon svg-icon titleicon" aria-hidden="true">
-                        <use xlink:href="#icon-lajitong"></use>
+                        <use xlink:href="#icon-shanchu1"></use>
                       </svg>
                     </el-tooltip>
                   </div> </template

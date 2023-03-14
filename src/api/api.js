@@ -221,6 +221,24 @@ export const ReportStatus = request({
   url: `${BASEPATH2}/tabulation/report_status/get`,
   method: "get",
 })
+// 数据应用--行业大盘--行业范围
+export const dapanRange = request({
+  url: `${BASEPATH}/apps/hang_ye_da_pan_list/`,
+  method: "post",
+  responseType: 'form'
+})
+// 数据应用--行业大盘--报表生成
+export const dapanOnline = request({
+  url: `${BASEPATH}/apps/sjzx_online_tool/`,
+  method: "post",
+  responseType: 'form'
+})
+// 数据应用--行业大盘--列表
+export const dapanonLineList = request({
+  url: `${BASEPATH}/apps/sjzx_online_log_list/`,
+  method: "get",
+})
+
 // 巨量千川，音果desk api---------------------------------------------------------
 // 获取出价策略列表
 export const strategyList = request({

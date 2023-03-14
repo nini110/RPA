@@ -1,161 +1,256 @@
-
-
 /deep/.send {
-    display: flex;
-    overflow: hidden;
+  display: flex;
+  overflow: hidden;
 }
 
-// /deep/.upobtn {
-//     // padding-left: 120px;
-//     margin-bottom: 24px;
-// }
+/deep/.upobtn {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: nowrap;
+
+  .el {
+    &-row {}
+
+    &-col {}
+
+    &-button {}
+
+    &-form {
+      flex: 1;
+    }
+  }
+
+}
+
 /deep/.btnSizeBig {
-    padding: 5px 5px;
-    height: 38px;
-    border: 1px solid #0051b3;
-    color: #2066bd;
-    text-align: center;
-    cursor: pointer;
-    line-height: 38px;
+  padding: 5px 5px;
+  height: 38px;
+  border: 1px solid #0051b3;
+  color: #2066bd;
+  text-align: center;
+  cursor: pointer;
+  line-height: 38px;
 }
 
 /deep/.detail {
-    &_btn {
-        margin: 20px 0;
-        text-align: right;
-    }
+  &_btn {
+    margin: 20px 0;
+    text-align: right;
+  }
 }
 
 /deep/.el {
-    &-collapse-item__content {
-        padding-bottom: 10px;
-    }
+  &-collapse-item__content {
+    padding-bottom: 10px;
+  }
 
-    &-scrollbar__wrap {
-        overflow-y: scroll !important;
-        overflow-x: hidden !important;
-    }
+  &-scrollbar__wrap {
+    overflow-y: scroll !important;
+    overflow-x: hidden !important;
+  }
 
-    &-divider--horizontal {
-        margin-top: 0;
-        margin-bottom: 20px;
-    }
+  &-divider--horizontal {
+    margin-top: 0;
+    margin-bottom: 20px;
+  }
 }
 
 /deep/.el {
-    &-form-item {
-        &.action {
-            .el-form-item__content {
-                width: 100%!important;
-            }
+  &-form-item {
+    &.ts {
+      .el-form-item__content {
+        display: flex;
+
+        .el-select {
+          width: 130px !important;
         }
+
+        .el-date-editor {
+          flex: 1;
+        }
+      }
     }
-    &-checkbox {
+
+    &.action {
+      .el-form-item__content {
+        width: 100% !important;
+      }
+    }
+  }
+
+  &-checkbox {
+    &__label {
+      font-size: 12px;
+      // margin-bottom: 12px;
+    }
+
+    &-group {
+      display: flex;
+      flex-wrap: wrap;
+      width: 100%;
+
+      // padding: 0 30px;
+      .el-checkbox {
+        width: 49%;
+        font-size: 12px;
+        box-sizing: border-box;
+        padding: 0 20px;
+        margin: 1% 1% 2% 0;
+        background-color: #b3b3b31c;
+        border-radius: 5px;
+
         &__label {
-            font-size: 12px;
-            // margin-bottom: 12px;
+          font-size: 12px;
         }
+      }
 
-        &-group {
-            display: flex;
-            flex-wrap: wrap;
-            width: 100%;
-            // padding: 0 30px;
-            .el-checkbox {
-                width: 49%;
-                font-size: 12px;
-                box-sizing: border-box;
-                padding: 0 20px;
-                margin: 1% 1% 2% 0;
-                background-color: #d7dadb6e;
-                border-radius: 5px;
-                &__label {
-                    font-size: 12px;
-                }
-            }
-            &.w3 {
-                .el-checkbox {
-                    width: 32%;
-                }
-            }
+      &.w3 {
+        .el-checkbox {
+          width: 32%;
         }
-
+      }
     }
 
+  }
+
+}
+
+/deep/.vxe {
+
+  &-pulldown,
+  &-input {
+    width: 100%;
+  }
+
+  &-input {
+    height: 100%;
+
+    &--inner {
+      height: auto !important;
+    }
+  }
+}
+
+.dropdownbox {
+  padding: 20px 40px;
+  box-shadow: 0 1px 15px #3333331a;
+  border-radius: 4px;
+}
+
+.ckBoxLine {
+  .el-checkbox-group {}
+
+  &_label {
+    font-size: 12px;
+    line-height: 26px;
+    color: #bebebe;
+  }
+
+  &_cnt {
+    display: flex;
+    flex-wrap: wrap;
+
+    label {
+      width: 32% !important;
+    }
+  }
+}
+
+.radioLine {
+  margin-bottom: 10px;
+
+  &_label {
+    font-size: 12px;
+    color: #bebebe;
+  }
+
+  &_cnt {
+    display: flex;
+    flex-wrap: nowrap;
+
+    label {
+      margin-right: 20px;
+    }
+
+    /deep/.el-radio__label {
+      font-size: 16px;
+
+    }
+  }
 }
 
 .budgetDiv {
-    display: flex;
-    margin-bottom: 20px;
-    position: relative;
+  display: flex;
+  margin-bottom: 20px;
+  position: relative;
 
-    .el-date-editor {
-        flex-basis: 43%;
-        margin-right: 3%;
-    }
+  .el-date-editor {
+    flex-basis: 43%;
+    margin-right: 3%;
+  }
 
-    .el-input {
-        flex-basis: 43%;
+  .el-input {
+    flex-basis: 43%;
 
-    }
+  }
 }
 
 .addicon {
-    position: absolute;
-    top: 14px;
-    right: 30px;
-    cursor: pointer;
+  position: absolute;
+  top: 14px;
+  right: 30px;
+  cursor: pointer;
 }
 
 .delicon {
-    display: none;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    right: -30px;
-    cursor: pointer;
+  display: none;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: -30px;
+  cursor: pointer;
 }
 
 .flexCol {
-    display: flex;
-    flex-wrap: wrap;
-    max-height: 300px;
-    overflow: auto;
-    padding-left: 108px !important;
+  display: flex;
+  flex-wrap: wrap;
+  max-height: 300px;
+  overflow: auto;
+  padding-left: 108px !important;
 
-    /deep/.el-scrollbar {
-        flex-basis: 100%;
+  /deep/.el-scrollbar {
+    flex-basis: 100%;
 
-        &__view {
-            display: flex;
-            flex-wrap: wrap;
-        }
+    &__view {
+      display: flex;
+      flex-wrap: wrap;
     }
+  }
 
-    /deep/.el-form-item {
-        flex-basis: 42%;
-        position: relative;
-        padding-right: 7%;
+  /deep/.el-form-item {
+    flex-basis: 42%;
+    position: relative;
+    padding-right: 7%;
+
+    &:hover {
+      .delicon {
+        display: block;
 
         &:hover {
-            .delicon {
-                display: block;
-
-                &:hover {
-                    color: red;
-                }
-            }
+          color: red;
         }
-
-        &__content {
-            width: 100% !important;
-            display: flex;
-            flex-wrap: wrap;
-            box-sizing: border-box;
-        }
+      }
     }
 
-    /deep/.el-input-group__prepend {
-        padding: 0 10px;
+    &__content {
+      width: 100% !important;
+      display: flex;
+      flex-wrap: wrap;
+      box-sizing: border-box;
     }
+  }
+
+  /deep/.el-input-group__prepend {
+    padding: 0 10px;
+  }
 }

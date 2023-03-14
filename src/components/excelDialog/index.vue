@@ -195,11 +195,19 @@ export default {
                     if (idx1 > 2) {
                       outData[2].forEach((val2, idx2) => {
                         if (val2) {
-                          vm.$set(
-                            obj,
-                            val2.v,
-                            outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
-                          );
+                          if (val2.v.indexOf('时间') !== -1 || val2.v.indexOf('时期') !== -1 || val2.v.indexOf('日期') !== -1) {
+                            vm.$set(
+                              obj,
+                              val2.v,
+                              outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
+                            );
+                          } else {
+                            vm.$set(
+                              obj,
+                              val2.v,
+                              outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
+                            );
+                          }
                         }
                       });
                       sheet.value.push({
@@ -229,11 +237,19 @@ export default {
                       let obj = {};
                       outData[0].forEach((val2, idx2) => {
                         if (val2) {
-                          vm.$set(
-                            obj,
-                            val2.v,
-                            outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
-                          );
+                          if (val2.v.indexOf('时间') !== -1 || val2.v.indexOf('时期') !== -1 || val2.v.indexOf('日期') !== -1) {
+                            vm.$set(
+                              obj,
+                              val2.v,
+                              outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
+                            );
+                          } else {
+                            vm.$set(
+                              obj,
+                              val2.v,
+                              outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
+                            );
+                          }
                           if (outData[idx1][idx2] && !outData[idx1][idx2].v && outData[idx1][idx2].ct && outData[idx1][idx2].ct.s) {
                             let zhi = ''
                             outData[idx1][idx2].ct.s.forEach((item, index) => {
@@ -256,7 +272,6 @@ export default {
               }
             }
           }
-          debugger
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
           vm.$emit("close", 1, [resultObj], results);

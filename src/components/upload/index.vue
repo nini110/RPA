@@ -96,6 +96,11 @@ export default {
             for (let val of exportJson.sheets ) {
               if (val.name === vm.sheetName) {
                 sheetArr.push(val.name)
+                val.celldata.forEach((item, index) => {
+                  if (item.v && item.v.ct && item.v.ct.fa === 'm/d/yy') {
+                    item.v.ct.fa = 'yyyy-MM-dd'
+                  }
+                })
                 val.index = parseInt(val.index);
                 val.order = parseInt(val.order);
                 val.status = parseInt(val.status);

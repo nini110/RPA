@@ -84,25 +84,29 @@ export default {
     // 获取所有PIN
     getUser() {
       const vm = this;
+      let data1 = []
+      let data2 = []
       Promise.all([alarmUser(), alarmUserAuthor()]).then(res => {
         if (res[0].data.code === 10000) {
           res[0].data.data.forEach((item, idx) => {
-            vm.pinList.push({
+            data1.push({
               name: item,
               code: item,
             });
           });
+          vm.pinList = JSON.parse(JSON.stringify(data1))
           vm.$store.commit("pageData/UPDATE_PINLIST", vm.pinList);
         } else {
           vm.$msg({ type: "error", msg: res[0].data.msg });
         }
         if (res[1].data.code === 10000) {
           res[1].data.data.forEach((item, idx) => {
-            vm.pinListAuthor.push({
+            data2.push({
               name: item,
               code: item,
             });
           });
+          vm.pinListAuthor = JSON.parse(JSON.stringify(data2))
           vm.$store.commit("pageData/UPDATE_PINLISTAUTHOR", vm.pinListAuthor);
         } else {
           vm.$msg({ type: "error", msg: res[1].data.msg });
