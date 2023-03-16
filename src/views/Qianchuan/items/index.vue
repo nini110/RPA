@@ -57,7 +57,7 @@
                 <div>{{ scope.row.castTime[1] }}</div>
               </template></vxe-column
             >
-            <vxe-column title="操作" fixed="right" width="12%">
+            <vxe-column title="操作" fixed="right" width="16%">
               <template slot-scope="scope">
                 <div
                   v-waves
@@ -70,9 +70,10 @@
                     content="编辑"
                     placement="top"
                   >
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-bianjiICON"></use>
-                    </svg>
+                    </svg> -->
+                    <i class="el-icon-edit"></i>
                   </el-tooltip>
                 </div>
                 <div
@@ -86,9 +87,10 @@
                     content="看板"
                     placement="top"
                   >
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-shujukanban"></use>
-                    </svg>
+                    </svg> -->
+                    <i class="el-icon-data-line"></i>
                   </el-tooltip>
                 </div>
                 <div
@@ -102,9 +104,10 @@
                     content="删除"
                     placement="top"
                   >
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-shanchu1"></use>
-                    </svg>
+                    </svg> -->
+                    <i class="el-icon-circle-close"></i>
                   </el-tooltip>
                 </div>
               </template>

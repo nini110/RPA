@@ -38,14 +38,12 @@
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col v-if="showCookie || formMenu === 2" :span="24">
-                <el-form-item label="Cookie" prop="cookie" class="hasAppend">
+              <el-col v-if="showCookie || formMenu === 2" :span="24"  class="hasAppend">
+                <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学" placement="top">
+                  <div class="el-icon-video-play" @click="movieDownEvent(1)"></div>
+                </el-tooltip>
+                <el-form-item label="Cookie" prop="cookie" class="w110">
                   <el-input v-model.trim="form.cookie" placeholder="请输入Cookie" clearable>
-                    <template slot="prepend">
-                      <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学" placement="top">
-                        <div class="el-icon-video-play" @click="movieDownEvent(1)"></div>
-                      </el-tooltip>
-                    </template>
                   </el-input>
                 </el-form-item>
               </el-col>
@@ -129,16 +127,19 @@
               <template slot-scope="scope">
                 <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
                   <el-tooltip class="item" effect="dark" content="日志" placement="top">
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-lishirizhi"></use>
-                    </svg>
+                    </svg> -->
+                    <i class="el-icon-document"></i>
                   </el-tooltip>
                 </div>
                 <div v-if="ifDown && scope.row.log_status === '执行完毕'" v-waves class="btn btn_info" @click="downEvent(scope.row)">
                   <el-tooltip class="item" effect="dark" content="下载" placement="top">
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <i class="el-icon-document"></i>
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-xiazaizhong"></use>
-                    </svg>
+                    </svg> -->
+                    <i class="el-icon-download"></i>
                   </el-tooltip>
                 </div>
               </template>

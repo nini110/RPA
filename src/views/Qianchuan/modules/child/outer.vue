@@ -85,9 +85,10 @@
                   content="编辑"
                   placement="top"
                 >
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                  <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-bianjiICON"></use>
-                  </svg>
+                  </svg> -->
+                <i class="el-icon-edit"></i>
                 </el-tooltip>
               </div>
               <div
@@ -102,9 +103,10 @@
                   content="删除"
                   placement="top"
                 >
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                  <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-shanchu1"></use>
-                  </svg>
+                  </svg> -->
+                <i class="el-icon-circle-close"></i>
                 </el-tooltip>
               </div>
             </template>

@@ -180,9 +180,10 @@
                       content="下载"
                       placement="top"
                     >
-                      <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                         <use xlink:href="#icon-xiazaizhong"></use>
-                      </svg>
+                      </svg> -->
+                    <i class="el-icon-download"></i>
                     </el-tooltip>
                   </div>
                   <div
@@ -197,9 +198,10 @@
                       content="删除"
                       placement="top"
                     >
-                      <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                         <use xlink:href="#icon-shanchu1"></use>
-                      </svg>
+                      </svg> -->
+                    <i class="el-icon-circle-close"></i>
                     </el-tooltip>
                   </div>
                 </template>

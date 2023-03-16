@@ -138,7 +138,7 @@ export default {
                 outData.forEach((val1, idx1) => {
                   if (val1) {
                     // 获取公共的内容
-                    if (idx1 <= 17 && val1[0] && val1[0].v) {
+                    if (idx1 <= 15 && val1[0] && val1[0].v) {
                       vm.$set(
                         publicObj,
                         val1[0].v,
@@ -151,8 +151,8 @@ export default {
                   let obj = {};
                   if (val1) {
                     // 第20行是横向内容
-                    if (idx1 > 19) {
-                      outData[19].forEach((val2, idx2) => {
+                    if (idx1 > 16) {
+                      outData[16].forEach((val2, idx2) => {
                         if (val2) {
                           vm.$set(
                             obj,

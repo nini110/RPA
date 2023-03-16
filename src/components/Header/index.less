@@ -10,7 +10,7 @@
   z-index: 99;
 
   &_logo {
-    width: 200px;
+    width: 220px;
     display: flex;
     text-align: center;
     align-items: center;
@@ -25,7 +25,7 @@
   }
 
   &_login {
-    width: calc(100% - 200px);
+    width: calc(100% - 220px);
     display: flex;
     flex-direction: row-reverse;
     position: relative;
@@ -87,17 +87,20 @@
         display: flex;
         align-items: center;
         user-select: none;
+
         &_img,
         &_name {
           cursor: pointer;
           display: inline-block;
           vertical-align: middle;
         }
+
         &_img {
           width: 30px;
           height: 30px;
           border-radius: 50%;
         }
+
         &_name {
           padding-left: 10px;
         }
@@ -105,16 +108,19 @@
 
       .logout {
         padding-left: 50px;
+
         &:before {
           cursor: pointer;
         }
       }
+
       .bugSpan {
         padding-left: 50px;
         transition: all 1s linear;
         color: #fff;
         font-size: 18px;
         cursor: pointer;
+
         &.active {
           animation: Cinfinity 1s infinite linear;
           color: #f56c6c;
@@ -132,6 +138,7 @@
     }
   }
 }
+
 .el-badge__content.is-fixed {
-  right: 0!important;
+  right: 0 !important;
 }

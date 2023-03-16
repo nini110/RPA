@@ -169,13 +169,13 @@ export default {
               index: "3-2",
             },
             {
-              label: "行业大盘",
+              label: "数据中心-行业大盘",
               icon2: "#icon-jianzhibiaoge",
               value: "/layout/dataApplication/field",
               index: "3-3",
             },
             {
-              label: "竞争分析",
+              label: "数据中心-竞争分析",
               icon2: "#icon-jianzhibiaoge",
               value: "/layout/dataApplication/compete",
               index: "3-4",

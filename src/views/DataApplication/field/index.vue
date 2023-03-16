@@ -18,8 +18,8 @@
             <span>空空如也</span>
           </template>
           <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
-          <vxe-column min-width="15%" field="account_Pin" title="账号" show-overflow="tooltip"></vxe-column>
-          <vxe-column min-width="15%" field="account_type" title="类型" show-overflow="tooltip"></vxe-column>
+          <vxe-column min-width="18%" field="username" title="账号 / PIN" show-overflow="tooltip"></vxe-column>
+          <vxe-column min-width="15%" field="user_type" title="类型" show-overflow="tooltip"></vxe-column>
           <vxe-column min-width="15%" field="log_status" title="状态" show-overflow="tooltip">
             <template slot-scope="scope">
               <div v-if="scope.row.log_status === '执行有误'" class="statusDiv fail">
@@ -38,16 +38,18 @@
             <template slot-scope="scope">
               <div v-waves class="btn btn_info" @click="seeEvent(scope.row)">
                 <el-tooltip class="item" effect="dark" content="查看" placement="top">
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                  <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-chakan"></use>
-                  </svg>
+                  </svg> -->
+                  <i class="el-icon-view"></i>
                 </el-tooltip>
               </div>
               <div v-waves class="btn btn_info" @click="downEvent(scope.row)">
                 <el-tooltip class="item" effect="dark" content="下载" placement="top">
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
+                  <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-xiazaizhong"></use>
-                  </svg>
+                  </svg> -->
+                  <i class="el-icon-download"></i>
                 </el-tooltip>
               </div>
             </template>
@@ -96,6 +98,7 @@ export default {
   },
   created() {},
   mounted() {
+    // 2 4 3 1 5 6 x1 x2 7 8  x3 x4 x5
     this.getlist()
   },
   methods: {
@@ -129,7 +132,9 @@ export default {
     closeEvent(tag) {
       const vm = this;
       if (tag) {
-        vm.getlist()
+        setTimeout(() => {
+          vm.getlist()
+        }, 1000)
       }
       vm.fromTag = 1
       vm.upDialogFlag = false

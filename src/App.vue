@@ -1,19 +1,20 @@
 <template>
-  <div id="app">
-    <transition name="el-fade-in-linear">
-      <router-view />
-    </transition>
-  </div>
+<div id="app">
+  <transition name="el-fade-in-linear">
+    <router-view />
+  </transition>
+</div>
 </template>
+
 <script>
 export default {
   name: "App",
-  data () {
+  data() {
     return {};
   },
-  created () {
+  created() {
     // 线上发布时created中所有都注释
-    // this.$route.query.wx_code = "6qqIyhEfVWJc7CX_-kq61rp0UDikHcqvCbXgMCQaxN8";
+    // this.$route.query.wx_code = "VOT1ejrDuAmccqdHWytERl29JQQQ7pnqUpYLbs0Jbfs";
     // this.$route.query.wx_userid = "1020108";
     // this.$route.query.user_name = "方涛";
     // localStorage.setItem("wx_code", this.$route.query.wx_code);
@@ -21,35 +22,12 @@ export default {
     // localStorage.setItem("user_name", this.$route.query.user_name);
     // this.debounce(consoleeve, 5000)
   },
-  mounted () {
-
+  mounted() {
 
   }
-  // consoleeve() {
-  //   const qq = document.getElementsByClassName('qq')
-  //   if(qq.value) {
-  //     console.log('haha')
-  //   }
-  // },
-  // // 防抖
-  // debounce(fn, interval) {
-  //   let timer = null
-  //   return () => {
-  //     clearTimeout(timer)
-  //     timer = setTimeout(fn, interval)
-  //   }
-  // },
-  // throotol(fn, interval) {
-  //   let timer
-  //   if (timer) return
-  //   timer = setTimeout(() => {
-  //     clearTimeout(timer)
-  //     timer = null
-  //     fn()
-  //   }, interval)
-  // }
 };
 </script>
+
 <style lang="less">
 #app {
   width: 100%;

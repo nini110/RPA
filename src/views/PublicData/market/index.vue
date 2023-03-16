@@ -1,111 +1,73 @@
 <template>
-  <!-- 京东招标 -->
-  <div class="biddingForMonitoring outerDiv">
-    <div class="content">
-      <div class="content_form">
-        <div class="upobtn">
-          <el-button
-            v-waves
-            class="el-icon-circle-plus-outline"
-            type="primary"
-            @click="watchEvent(1)"
-            >新增计划
-          </el-button>
-        </div>        
+<!-- 京东招标 -->
+<div class="biddingForMonitoring outerDiv">
+  <div class="content">
+    <div class="content_form">
+      <div class="upobtn">
+        <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="watchEvent(1)">新增计划
+        </el-button>
       </div>
-      <div ref="tableBox" class="content_tableBox jiankong">
-        <el-divider>列表</el-divider>
-        <div class="tables">
-          <div class="tableTab" v-show="tableData">
-            <vxe-table
-              ref="table"
-              :data="tableData"
-              stripe
-              round
-              class="mytable-scrollbar"
-              auto-resize
-              height="auto"
+    </div>
+    <div ref="tableBox" class="content_tableBox jiankong">
+      <el-divider>列表</el-divider>
+      <div class="tables">
+        <div class="tableTab" v-show="tableData">
+          <vxe-table ref="table" :data="tableData" stripe round class="mytable-scrollbar" auto-resize height="auto">
             >
-              >
-              <template #empty>
-                <img src="@/assets/images/search.png" />
-                <span>空空如也</span>
-              </template>
-              <vxe-column
-                type="seq"
-                title="序号"
-                width="5%"
-                fixed="left"
-              ></vxe-column>
-              <vxe-column fixed="left" title="计划名称" show-overflow="tooltip">
-                <template slot-scope="scope">
-                  <span class="temInfoSpan" @click="watchEvent(3, scope.row)">{{
+            <template #empty>
+              <img src="@/assets/images/search.png" />
+              <span>空空如也</span>
+            </template>
+            <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+            <vxe-column fixed="left" title="计划名称" show-overflow="tooltip">
+              <template slot-scope="scope">
+                <span class="temInfoSpan" @click="watchEvent(3, scope.row)">{{
                     scope.row.project_name
                   }}</span>
-                </template></vxe-column
-              >
-              <vxe-column field="status" title="状态">
-                <template slot-scope="scope">
-                  <div class="statusDiv" :class="scope.row.class">
-                    {{ scope.row.status }}
-                  </div>
-                </template></vxe-column
-              >
-              <vxe-column field="create_date" title="创建时间"> </vxe-column>
-              <vxe-column field="" title="操作" fixed="right" width="8%">
-                <template slot-scope="scope">
-                  <div
-                    v-waves
-                    class="btn btn_info"
-                    :class="{ dis: scope.row.status==='已结束' }"
-                    @click="watchEvent(2, scope.row)"
-                  >
-                    <el-tooltip
-                      class="item"
-                      effect="dark"
-                      content="编辑"
-                      placement="top"
-                    >
-                      <svg class="icon svg-icon titleicon" aria-hidden="true">
+              </template></vxe-column>
+            <vxe-column field="status" title="状态">
+              <template slot-scope="scope">
+                <div class="statusDiv" :class="scope.row.class">
+                  {{ scope.row.status }}
+                </div>
+              </template></vxe-column>
+            <vxe-column field="create_date" title="创建时间"> </vxe-column>
+            <vxe-column field="" title="操作" fixed="right" width="16%">
+              <template slot-scope="scope">
+                <div v-waves class="btn btn_info" :class="{ dis: scope.row.status==='已结束' }" @click="watchEvent(2, scope.row)">
+                  <el-tooltip class="item" effect="dark" content="编辑" placement="top">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                         <use xlink:href="#icon-bianjiICON"></use>
-                      </svg>
-                    </el-tooltip>
-                  </div>
-                  <div
-                    v-waves
-                    class="btn btn_info"
-                    @click="watchEvent(4, scope.row)"
-                  >
-                    <el-tooltip
-                      class="item"
-                      effect="dark"
-                      content="删除"
-                      placement="top"
-                    >
-                      <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      </svg> -->
+                    <i class="el-icon-edit"></i>
+                  </el-tooltip>
+                </div>
+                <div v-waves class="btn btn_info" @click="watchEvent(4, scope.row)">
+                  <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                         <use xlink:href="#icon-shanchu1"></use>
-                      </svg>
-                    </el-tooltip>
-                  </div> </template
-              ></vxe-column>
-            </vxe-table>
-          </div>
+                      </svg> -->
+                    <i class="el-icon-circle-close"></i>
+                  </el-tooltip>
+                </div>
+              </template></vxe-column>
+          </vxe-table>
         </div>
       </div>
     </div>
-    <addPage
-      v-if="showAddPage"
-      @close="closeEvent"
-      :pageTag="pageTag"
-      :rowInfo="rowInfo"
-    ></addPage>
   </div>
+  <addPage v-if="showAddPage" @close="closeEvent" :pageTag="pageTag" :rowInfo="rowInfo"></addPage>
+</div>
 </template>
 
 <script>
 import addPage from "./addDialog.vue";
 import message from "@/mixin/message";
-import { pbulicList, pbulicDelPlan, pbulicSeePlan } from "@/api/api.js";
+import {
+  pbulicList,
+  pbulicDelPlan,
+  pbulicSeePlan
+} from "@/api/api.js";
 export default {
   name: "jdBidding",
   components: {
@@ -156,7 +118,10 @@ export default {
           });
           vm.tableData = result;
         } else {
-          vm.$msg({ type: "warning", msg: res.data.data });
+          vm.$msg({
+            type: "warning",
+            msg: res.data.data
+          });
         }
       });
     },
@@ -207,10 +172,15 @@ export default {
             }).then((res) => {
               if (res.data.code == 10000) {
                 vm.getList();
-                vm.$msg({ msg: "删除成功" });
+                vm.$msg({
+                  msg: "删除成功"
+                });
                 vm.showAddPage = false;
               } else {
-                vm.$msg({ type: "warning", msg: res.data.data });
+                vm.$msg({
+                  type: "warning",
+                  msg: res.data.data
+                });
               }
             });
           },

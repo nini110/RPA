@@ -46,7 +46,7 @@
               :title="item.label"
               show-overflow="tooltip"
             ></vxe-column>
-            <vxe-column title="操作" fixed="right" width="16%">
+            <vxe-column title="操作" fixed="right" width="22%">
               <template slot-scope="scope">
                 <div
                   v-waves
@@ -59,9 +59,10 @@
                     content="预算"
                     placement="top"
                   >
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-bianjiICON"></use>
-                    </svg>
+                    </svg> -->
+                    <i class="el-icon-edit"></i>
                   </el-tooltip>
                 </div>
                 <div v-waves class="btn btn_info" @click="editEvent(scope.row)">
@@ -71,9 +72,10 @@
                     content="人员"
                     placement="top"
                   >
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-renyuan"></use>
-                    </svg>
+                    </svg> -->
+                    <i class="el-icon-user"></i>
                   </el-tooltip>
                 </div>
                 <div
@@ -87,9 +89,10 @@
                     content="活动"
                     placement="top"
                   >
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-huodong"></use>
-                    </svg>
+                    </svg> -->
+                    <i class="el-icon-star-off"></i>
                   </el-tooltip>
                 </div>
                 <div
@@ -103,9 +106,10 @@
                     content="删除"
                     placement="top"
                   >
-                    <svg class="icon svg-icon titleicon" aria-hidden="true">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-shanchu1"></use>
-                    </svg>
+                    </svg> -->
+                    <i class="el-icon-circle-close"></i>
                   </el-tooltip>
                 </div>
               </template>

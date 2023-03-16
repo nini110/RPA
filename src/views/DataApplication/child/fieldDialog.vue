@@ -4,10 +4,28 @@
   <el-form v-if="ifFirst" ref="account" :model="account" class="formObj dapan" :rules="rules">
     <el-row :gutter="20">
       <el-col :span="24">
-        <el-form-item label="账号" prop="username">
+        <el-form-item label="账号类型" prop="user_type">
+          <el-radio-group v-model="account.user_type" @input="readioEvent">
+            <el-radio label="京准通" border></el-radio>
+            <el-radio label="京牌代理" border></el-radio>
+          </el-radio-group>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <!-- <el-form-item v-if="account.user_type==='京牌代理'" label="账号">
+          <span style="color: #909399">灵狐科技股份有限公司</span>
+        </el-form-item> -->
+        <el-form-item v-if="account.user_type==='京牌代理'" label="PIN" prop="username">
+          <el-select v-model="account.username" placeholder="请选择PIN" filterable clearable>
+            <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item v-else label="账号" prop="username">
           <el-input v-model.trim="account.username" placeholder="请输入账号" clearable>
           </el-input>
         </el-form-item>
+
       </el-col>
       <el-col :span="24">
         <el-form-item label="Cookie" prop="cookie">
@@ -21,12 +39,12 @@
     <el-row :gutter="20">
       <el-col :span="24">
         <el-form-item label="日期" prop="rangeDate" class="ts">
-          <el-select v-model="form.dataType" placeholder="请选择类型" style="width: 130px" @change="dateChange">
+          <el-select v-model="form.dataType" placeholder="请选择类型" @change="dateChange">
             <el-option label="周期" :value="0"></el-option>
             <el-option label="分日" :value="1"></el-option>
             <el-option label="分月" :value="2"></el-option>
           </el-select>
-          <el-date-picker v-model="form.rangeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" :clearable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptionsStart">
+          <el-date-picker v-model="form.rangeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" clearable @blur="dateBlurEvent" :picker-options="pickerOptionsStart">
           </el-date-picker>
         </el-form-item>
       </el-col>
@@ -92,7 +110,7 @@
       <el-col :span="24">
         <el-form-item label="行业范围" prop="cid3">
           <el-input v-if="fromTag===2 " v-model="form.cid3_name"></el-input>
-          <el-cascader v-else ref="casder" v-model="form.cid3" :options="options" :props="{expandTrigger: 'hover', value: 'id', label: 'name',}" @change="casaderEvent"></el-cascader>
+          <el-cascader v-else ref="casder" v-model="form.cid3" :options="options" :show-all-levels="false" :props="{expandTrigger: 'hover', value: 'id', label: 'name', multiple: true, emitPath: false}" @change="casaderEvent"></el-cascader>
         </el-form-item>
       </el-col>
       <el-col :span="24">
@@ -125,7 +143,8 @@
 <script>
 import {
   dapanRange,
-  dapanOnline
+  dapanOnline,
+  pinSelect
 } from "@/api/api.js";
 import Upload from "@/components/upload";
 import dayjs from "dayjs";
@@ -153,6 +172,7 @@ export default {
       callback();
     };
     return {
+      pinOptions: null,
       ifStep: true,
       ifFirst: true,
       pickerOptionsStart: {
@@ -165,6 +185,8 @@ export default {
           //当第一时间选中才设置禁用
           if (time.minDate && !time.maxDate) {
             vm.selectDay = time.minDate;
+          } else {
+            vm.selectDay = null
           }
         },
       },
@@ -172,8 +194,11 @@ export default {
       show: false,
       rangeDate: [],
       account: {
+        user_type: '京准通',
         username: '',
         cookie: ''
+        // username: 'Samsung-BF',
+        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; retina=1; cid=9; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; sc_width=1708; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; equipmentId=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; fingerprint=ed92b19585a94899e8d8014533371d2e; deviceVersion=110.0.0.0; deviceOS=; deviceOSVersion=; deviceName=Chrome; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; _tp=PHCuVjMa4QlP%2FBgMMf0RDA%3D%3D; _pst=Samsung-BF; __jdv=146207855|baidu|-|organic|notset|1678775377049; ceshi3.com=000; logining=1; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=15DCGYlBa5VMP2cSiNopq1vZHWP9X38p1mSmUBtoWbEaxa9MPFafNE3RJgBlndmoLgFgjnkTEDcaZpRi-dS7ay1Cb15NzLfczcDEJs3XjRFg; thor=D721CB7F333FD47AAEC0097C1F3D549C7240BE3C89A1C354A629539DC530AAB5293FB8D4C03285885D985DE0D627547E0399E48C69E4983D352707A2467391842F02040FA9810002AFC327AA56055A60A7391B56B9CFE54C41A937C4FE4E595D275AE9CF48A70DEB7DE203CC9A2B9CE09F14B00878BA92F1837822DA4F7237084C3A8CF6F7FD031B5BFC8FA6E0C3A8DB; __jda=146207855.16774677218671515249824.1677467722.1678946869.1678953686.24; __jdb=146207855.6.16774677218671515249824|24.1678953686; __jdc=146207855'
       },
       cid3_name_arr: [],
       form: {
@@ -189,7 +214,6 @@ export default {
         model: []
       },
       Data1: '',
-      Data2: '',
       visible1: true,
       visible2: false,
       opt_zhouqi: [{
@@ -267,6 +291,16 @@ export default {
         },
       ],
       rules: {
+        user_type: [{
+          required: true,
+          message: "请选择账号类型",
+          trigger: "blur",
+        }],
+        rangeDate: [{
+          required: true,
+          message: "请选择日期",
+          trigger: "blur",
+        }],
         username: [{
           required: true,
           message: "请输入账号",
@@ -307,8 +341,8 @@ export default {
     };
   },
   computed: {
-    busType() {
-      return this.form.businessType
+    Data2() {
+      return this.form.businessType.join(' -- ')
     },
     formData() {
       return this.form
@@ -336,20 +370,9 @@ export default {
         let ckOD = this.opt_order.filter(val => {
           return val.code === newval.orderStatusCategory
         })[0].label
-        this.Data1 = `${ckZQ} - ${ckKJ} - ${ckGF} - ${ckOD}`
+        this.Data1 = `${ckZQ} -- ${ckKJ} -- ${ckGF} -- ${ckOD}`
       },
       immediate: true,
-      deep: true
-    },
-    busType: {
-      handler(newval, oldval) {
-        this.Data2 = ''
-        newval.forEach((val, idx) => {
-          this.Data2 += val + ' - '
-        })
-        this.Data2 = this.Data2.slice(0, -2)
-      },
-      // immediate: true,
       deep: true
     },
     fromTag: {
@@ -360,6 +383,7 @@ export default {
           vm.ifFirst = false
           vm.ifStep = false
           vm.formDisable = true
+          vm.form.user_type = vm.row.user_type
           vm.form.cid3 = JSON.parse(vm.row.cid3)
           vm.form.cid3_name = vm.row.cid3_name
           vm.form.isGift = Number(vm.row.isGift)
@@ -383,28 +407,34 @@ export default {
         let fn;
         let day = dayjs()
         let year1 = dayjs().subtract(1, 'year')
-        switch (vm.form.dataType) {
-          case 0:
-            fn = function (time) {
-              return time.getTime() <= year1 || time.getTime() >= day
-            }
-            break;
-          case 1:
-            fn = function (time) {
-              return time.getTime() <= year1 ||
-                time.getTime() >= day ||
-                time.getTime() <= dayjs(newval).subtract(7, 'day') ||
-                time.getTime() >= dayjs(newval).add(7, 'day')
-            }
-            break;
-          case 2:
-            fn = function (time) {
-              return time.getTime() <= year1 ||
-                time.getTime() >= day ||
-                time.getTime() <= dayjs(newval).subtract(5, 'month') ||
-                time.getTime() >= dayjs(newval).add(5, 'month')
-            }
-            break;
+        if (newval) {
+          switch (vm.form.dataType) {
+            case 0:
+              fn = function (time) {
+                return time.getTime() <= year1 || time.getTime() >= day
+              }
+              break;
+            case 1:
+              fn = function (time) {
+                return time.getTime() <= year1 ||
+                  time.getTime() >= day ||
+                  time.getTime() <= dayjs(newval).subtract(7, 'day') ||
+                  time.getTime() >= dayjs(newval).add(7, 'day')
+              }
+              break;
+            case 2:
+              fn = function (time) {
+                return time.getTime() <= year1 ||
+                  time.getTime() >= day ||
+                  time.getTime() <= dayjs(newval).subtract(5, 'month') ||
+                  time.getTime() >= dayjs(newval).add(5, 'month')
+              }
+              break;
+          }
+        } else {
+          fn = function (time) {
+            return time.getTime() <= year1 || time.getTime() >= day
+          }
         }
         vm.pickerOptionsStart.disabledDate = fn
       },
@@ -415,8 +445,19 @@ export default {
     const vm = this
     // 查看
   },
-  mounted() {},
+  mounted() {
+    this.getPin()
+  },
   methods: {
+    // 获取pin下拉
+    getPin() {
+      const vm = this;
+      pinSelect().then((res) => {
+        if (res.data.code === 10000) {
+          vm.pinOptions = res.data.data;
+        }
+      });
+    },
     // 获取范围
     getRange(acc) {
       const vm = this
@@ -424,7 +465,12 @@ export default {
         ...acc
       }).then(res => {
         if (res.data.code === 10000) {
-          vm.options = res.data.data
+          let result = res.data.data
+          // 
+          result.forEach((val, idx) => {
+            this.$set(val, 'disabled', false)
+          })
+          vm.options = result
           vm.ifFirst = false
           vm.ifStep = false
         } else {
@@ -470,8 +516,9 @@ export default {
       const vm = this
       vm.$emit('close', tag)
       // vm.$refs.account.resetFields()
-      vm.$refs.form.resetFields()
+      // vm.$refs.form.resetFields()
       vm.account = {
+        user_type: '京准通',
         username: '',
         cookie: ''
       }
@@ -490,7 +537,6 @@ export default {
       }
       vm.cid3_name_arr = []
       vm.Data1 = ''
-      vm.Data2 = ''
       vm.visible1 = ''
       vm.visible2 = ''
       vm.checkAll = false
@@ -543,19 +589,51 @@ export default {
         }
       })
     },
+    readioEvent() {
+      this.account.username = ''
+      this.account.cookie = ''
+    },
+    dateBlurEvent() {
+      const vm = this
+      // 日期失焦需要重新调整禁选日期
+      let day = dayjs()
+      let year1 = dayjs().subtract(1, 'year')
+      if (vm.selectDay) {
+        let fn = function (time) {
+          return time.getTime() <= year1 || time.getTime() >= day
+        }
+        vm.pickerOptionsStart.disabledDate = fn
+      }
+    },
     casaderEvent(cheked) {
       const vm = this
-      let cknodes = vm.$refs.casder.getCheckedNodes()[0]
-      vm.repeat(cknodes)
-    },
-    repeat(target) {
-      this.cid3_name_arr.unshift(target.label)
-      if (target.parent) {
-        this.repeat(target.parent)
-      } else {
-        this.form.cid3_name = this.cid3_name_arr.join('/')
+      let str = ''
+      let cknodes = vm.$refs.casder.getCheckedNodes(true)
+      let parentCode;
+      let fn = function (item) {
+        if (item.parent) {
+          fn(item.parent)
+        } else {
+          parentCode = item.value
+        }
       }
-    }
+      if (cknodes.length > 0) {
+        fn(cknodes[0])
+        vm.options.forEach((val, idx) => {
+          if (val.id !== parentCode) {
+            val.disabled = 'disabled'
+          }
+        })
+      } else {
+        vm.options.forEach((val, idx) => {
+          this.$set(val, 'disabled', false)
+        })
+      }
+      for (let i of cknodes) {
+        str += i.label + ' -- '
+      }
+      vm.form.cid3_name = str.slice(0, -3)
+    },
   },
 };
 </script>
@@ -564,11 +642,29 @@ export default {
 @import "../monitor/bidding.less";
 
 /deep/.dapan {
+  .el-cascader__tags {
+    left: 4px;
+  }
+
+  .el-radio {
+
+    &.is-bordered {
+      margin-right: 10px;
+    }
+  }
+
   .is-disabled {
 
     input,
+    .el-radio__label,
     .el-checkbox__label {
       color: #909399 !important;
+    }
+
+    &.is-checked .el-radio__inner {
+      border-color: #7596cc;
+      background-color: #0664ff;
+
     }
 
     .el-checkbox__inner {
