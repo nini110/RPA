@@ -1,6 +1,6 @@
 <template>
 <!-- 上传竞标 -->
-<el-dialog title="新增计划" :visible.sync="show" width="35%" max-height="800px" custom-class="dialogJb" :close-on-click-modal="false" @close="closeEvent(0)">
+<el-dialog :title="fromTag===1 ? '新增计划' : '查看计划'" :visible.sync="show" width="35%" max-height="800px" custom-class="dialogJb" :close-on-click-modal="false" @close="closeEvent(0)">
   <el-form v-if="ifFirst" ref="account" :model="account" class="formObj dapan" :rules="rules">
     <el-row :gutter="20">
       <el-col :span="24">
@@ -12,9 +12,6 @@
         </el-form-item>
       </el-col>
       <el-col :span="24">
-        <!-- <el-form-item v-if="account.user_type==='京牌代理'" label="账号">
-          <span style="color: #909399">灵狐科技股份有限公司</span>
-        </el-form-item> -->
         <el-form-item v-if="account.user_type==='京牌代理'" label="PIN" prop="username">
           <el-select v-model="account.username" placeholder="请选择PIN" filterable clearable>
             <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
@@ -25,11 +22,13 @@
           <el-input v-model.trim="account.username" placeholder="请输入账号" clearable>
           </el-input>
         </el-form-item>
-
       </el-col>
-      <el-col :span="24">
+      <el-col :span="24" style="position: relative;">
+        <el-tooltip placement="bottom-start" content="Cookie获取视频教学">
+          <span class="absoIcon2 absoIcon el-icon-video-play" @click="movieDownEvent(1)"></span>
+        </el-tooltip>
         <el-form-item label="Cookie" prop="cookie">
-          <el-input v-model.trim="account.cookie" type="textarea" :autosize="{ minRows: 10, maxRows: 14}" placeholder="请输入Cookie" clearable>
+          <el-input v-model.trim="account.cookie" type="textarea" :autosize="{ minRows: 14, maxRows: 14}" placeholder="请输入Cookie" clearable>
           </el-input>
         </el-form-item>
       </el-col>
@@ -37,14 +36,28 @@
   </el-form>
   <el-form v-else ref="form" :model="form" class="formObj dapan" :rules="rules" :disabled="formDisable">
     <el-row :gutter="20">
-      <el-col :span="24">
+      <el-col :span="24" style="position: relative;">
+        <el-tooltip placement="bottom-start">
+          <div slot="content">
+            <p class="ts"> * 周期：</p>
+            <p>选择一个固定周期，例如：2023-01-01至2023-03-01，时间上限为一年</p>
+            <p class="ts"> * 分月：</p>
+            <p>选择一个固定周期，例如：2023-01-01至2023-03-01，时间上限为一年，<br />当选择周期大于一个月/时间范围跨月时，底层处理会自动按月拆分</p>
+            <p class="ts"> * 分日：</p>
+            <p>选择一个固定周期，例如：2023-03-01至2023-03-07，时间上限为7天，<br />选择后底层处理会自动按天拆分（当所选模块包含图表时可查看到小时数据）</p>
+          </div>
+          <span class="absoIcon el-icon-question"></span>
+        </el-tooltip>
         <el-form-item label="日期" prop="rangeDate" class="ts">
           <el-select v-model="form.dataType" placeholder="请选择类型" @change="dateChange">
             <el-option label="周期" :value="0"></el-option>
-            <el-option label="分日" :value="1"></el-option>
             <el-option label="分月" :value="2"></el-option>
+            <el-option label="分日" :value="1"></el-option>
           </el-select>
-          <el-date-picker v-model="form.rangeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" clearable @blur="dateBlurEvent" :picker-options="pickerOptionsStart">
+          <!-- 一个控件  快捷日期不能动态变化 -->
+          <el-date-picker v-if="form.dataType===1" v-model="form.rangeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" clearable @blur="dateBlurEvent" :picker-options="pickerOptionsStart1">
+          </el-date-picker>
+          <el-date-picker v-else v-model="form.rangeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" clearable @blur="dateBlurEvent" :picker-options="pickerOptionsStart2">
           </el-date-picker>
         </el-form-item>
       </el-col>
@@ -86,21 +99,42 @@
           </vxe-pulldown>
         </el-form-item>
       </el-col>
-      <el-col :span="24">
-        <el-form-item label="产品线" prop="businessType">
+      <el-col :span="24" style="position: relative;">
+        <el-tooltip placement="bottom-start">
+          <div slot="content">
+            <p>当勾选分渠道后，底层会将所选渠道进行拆分单独取数，未选择则统一取数</p>
+            <p class="ts">示例如下：</p>
+            <p>选择渠道：京东展位、京东快车、京速推</p>
+            <p> * 勾选分渠道：</p>
+            <p>京东展位数据一份、京东快车数据一份、京速推数据一份、三个渠道汇总一份</p>
+            <p> * 未勾选分渠道：</p>
+            <p>三个渠道汇总一份</p>
+          </div>
+          <span class="absoIcon el-icon-question"></span>
+        </el-tooltip>
+        <el-form-item label="渠道" prop="businessType">
           <vxe-pulldown ref="refQudao" v-model="visible2">
             <template #default>
-              <el-input v-model="Data2" readonly placeholder="请选择产品线" @focus="focusEvent2">
+              <el-input v-model="Data2" readonly placeholder="请选择渠道" @focus="focusEvent2">
               </el-input>
             </template>
             <template #dropdown>
-              <div class="dropdownbox">
+              <div class="dropdownbox ts">
                 <div class="ckBoxLine">
-                  <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
-                  <el-checkbox-group class="ckBoxLine_cnt" v-model="form.businessType" @change="handleCheckChange">
-                    <el-checkbox v-for="(item, idx) in opt_qudao" :key="idx" :label="item">{{item }}</el-checkbox>
-                  </el-checkbox-group>
-                  <span class="ckBoxLine_label el-icon-warning-outline">海投数据可在京速推下的全店海投场景/活动促销场景/商品成长-测款计划中查看</span>
+                  <el-form-item label="分渠道">
+                    <el-radio-group v-model="form.isbusinessType">
+                      <el-radio :label="0">否</el-radio>
+                      <el-radio :label="1">是</el-radio>
+                    </el-radio-group>
+                  </el-form-item>
+                </div>
+                <div class="ckBoxLine">
+                  <el-form-item label="渠道选择">
+                    <el-checkbox :indeterminate="isIndeterminate" v-model="checkAll" @change="handleCheckAllChange">全选</el-checkbox>
+                    <el-checkbox-group class="ckBoxLine_cnt" v-model="form.businessType" @change="handleCheckChange">
+                      <el-checkbox v-for="(item, idx) in opt_qudao" :key="idx" :label="item">{{item }}</el-checkbox>
+                    </el-checkbox-group>
+                  </el-form-item>
                 </div>
               </div>
             </template>
@@ -117,7 +151,15 @@
         <el-form-item label="模块需求" prop="model">
           <el-checkbox :indeterminate="isIndeterminate2" v-model="checkAll2" @change="handleCheckAllChange2">全选</el-checkbox>
           <el-checkbox-group v-model="form.model" @change="handleCheckChange2">
-            <el-checkbox v-for="(item, idx) in opt_model" :key="idx" :label="item.code">{{item.label }}</el-checkbox>
+            <el-checkbox v-for="(item, idx) in opt_model" :key="idx" :label="item.code" class="flex">
+              <span>{{item.label }}</span>
+              <el-tooltip placement="top" effect="light">
+                <div slot="content">
+                  <img class="viewImg" :src="item.srcList[0]" alt="">
+                </div>
+                <span class="iconImg el-icon-picture-outline"></span>
+              </el-tooltip>
+            </el-checkbox>
           </el-checkbox-group>
         </el-form-item>
       </el-col>
@@ -133,10 +175,16 @@
       <a v-if="fromTag=== 1" class="btnnormal btnnormal_down marginR" @click="closeEvent(0)">
         <div class="el-icon-close btnSize">取消</div>
       </a>
-      <el-button v-if="fromTag=== 1" v-waves class="el-icon-finished" type="primary" @click="saveEvent">保存</el-button>
+      <el-button v-if="fromTag=== 1" v-waves class="el-icon-check" type="primary" @click="saveEvent">保存</el-button>
       <el-button v-else v-waves class="el-icon-close" type="primary" @click="closeEvent(0)">关闭</el-button>
     </div>
   </span>
+  <div class="myplayer" :class="{ absolute: showPlaer }">
+    <div class="myplayer_btn">
+      <span class="iconFont el-icon-close" @click="movieDownEvent(2)"></span>
+    </div>
+    <video-player ref="myPlayer" class="video-player" :options="playerOptions" :playsinline="true"></video-player>
+  </div>
 </el-dialog>
 </template>
 
@@ -172,14 +220,42 @@ export default {
       callback();
     };
     return {
+      showPlaer: false,
+      playerOptions: {
+        muted: false, // false为默认打开声音
+        preload: "auto",
+        language: "zh-CN",
+        playbackRates: [0.5, 1.0, 1.5, 2.0],
+        // m3u8格式
+        sources: [{
+          withCredentials: true,
+          type: "application/x-mpegURL",
+          src: 'http://tool.afocus.com.cn/file_download/movie/jzt/jzt.m3u8'
+        }],
+        poster: "",
+        hls: true,
+        notSupportedMessage: "此视频暂无法播放，请稍后再试",
+        fluid: true,
+        controlBar: {
+          timeDivider: true, // 当前时间和持续时间的分隔符
+          durationDisplay: true, // 显示持续时间
+          remainingTimeDisplay: true, // 是否显示剩余时间功能
+          currentTimeDisplay: true, // 当前时间
+          volumeControl: false, // 声音控制键
+          playToggle: true, // 暂停和播放键
+          progressControl: true, // 进度条
+          fullscreenToggle: true, // 是否显示全屏按钮
+        },
+      },
+      url: require('../../../assets/images/view.png'),
       pinOptions: null,
       ifStep: true,
       ifFirst: true,
       pickerOptionsStart: {
         disabledDate: (time) => {
-          let day = dayjs()
-          let year1 = dayjs().subtract(1, 'year')
-          return time.getTime() <= year1 || time.getTime() >= day
+          let day = dayjs().valueOf()
+          let daySta = dayjs('2021-06-01').valueOf()
+          return time.getTime() < daySta || time.getTime() >= day
         },
         onPick(time) {
           //当第一时间选中才设置禁用
@@ -190,15 +266,16 @@ export default {
           }
         },
       },
+      pickerOptionsStart1: null,
+      pickerOptionsStart2: null,
       selectDay: null,
       show: false,
-      rangeDate: [],
       account: {
         user_type: '京准通',
         username: '',
         cookie: ''
         // username: 'Samsung-BF',
-        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; retina=1; cid=9; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; sc_width=1708; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; equipmentId=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; fingerprint=ed92b19585a94899e8d8014533371d2e; deviceVersion=110.0.0.0; deviceOS=; deviceOSVersion=; deviceName=Chrome; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; _tp=PHCuVjMa4QlP%2FBgMMf0RDA%3D%3D; _pst=Samsung-BF; __jdv=146207855|baidu|-|organic|notset|1678775377049; ceshi3.com=000; logining=1; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=15DCGYlBa5VMP2cSiNopq1vZHWP9X38p1mSmUBtoWbEaxa9MPFafNE3RJgBlndmoLgFgjnkTEDcaZpRi-dS7ay1Cb15NzLfczcDEJs3XjRFg; thor=D721CB7F333FD47AAEC0097C1F3D549C7240BE3C89A1C354A629539DC530AAB5293FB8D4C03285885D985DE0D627547E0399E48C69E4983D352707A2467391842F02040FA9810002AFC327AA56055A60A7391B56B9CFE54C41A937C4FE4E595D275AE9CF48A70DEB7DE203CC9A2B9CE09F14B00878BA92F1837822DA4F7237084C3A8CF6F7FD031B5BFC8FA6E0C3A8DB; __jda=146207855.16774677218671515249824.1677467722.1678946869.1678953686.24; __jdb=146207855.6.16774677218671515249824|24.1678953686; __jdc=146207855'
+        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; retina=1; cid=9; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; sc_width=1708; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; equipmentId=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; fingerprint=ed92b19585a94899e8d8014533371d2e; deviceVersion=110.0.0.0; deviceOS=; deviceOSVersion=; deviceName=Chrome; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; _tp=PHCuVjMa4QlP%2FBgMMf0RDA%3D%3D; _pst=Samsung-BF; __jdv=146207855|baidu|-|organic|notset|1678775377049; mba_sid=16794513541952640670819491120.2; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1j3Fuz0OWLFxofChWNcSuD4m1-m8nhiR05tvi51VGtIfISo3prjbKSt9iNrKhMDbUsevNJoB5n659FtLsFtfccAPtVwXGZttFsZNuE2BARQo; thor=D721CB7F333FD47AAEC0097C1F3D549C19E7759C06E25A089C589434421D52B2EB3AB2765332EE08A5BF46A299CAA98E0F7E11E78761123202D1C15538C61BA21C62EB5BF6D4EAD07808BF26657A93D72EBDC1F0D04983BDBF76E9EB58A58E72127E4EF62044EEBBF8A19CF000D896267567DAB2BBAA5CE063BA6C8A2C873D0464F6AADC69197B74B92AC002BC26D6F0; ceshi3.com=000; logining=1; __jda=146207855.16774677218671515249824.1677467722.1679390805.1679451347.34; __jdb=146207855.10.16774677218671515249824|34.1679451347; __jdc=146207855'
       },
       cid3_name_arr: [],
       form: {
@@ -210,6 +287,7 @@ export default {
         clickOrOrderCaliber: 0,
         orderStatusCategory: 0,
         businessType: [],
+        isbusinessType: 0,
         dataType: 0,
         model: []
       },
@@ -271,23 +349,28 @@ export default {
       opt_qudao: ['京东展位', '京东快车', '京速推', '购物触点', '京东直投'],
       opt_model: [{
           code: 0,
-          label: '行业整体看板-卡片'
+          label: '行业整体看板-卡片',
+          srcList: [require('../../../assets/404_images/行业整体看板-卡片.png')]
         },
         {
           code: 1,
-          label: '行业整体看板-趋势图'
+          label: '行业整体看板-趋势图',
+          srcList: [require('../../../assets/404_images/行业整体看板-趋势图.png')]
         },
         {
           code: 2,
-          label: '流量看板-趋势图'
+          label: '流量看板-趋势图',
+          srcList: [require('../../../assets/404_images/流量看板-趋势图.png')]
         },
         {
           code: 3,
-          label: '流量看板-品牌流量排行榜'
+          label: '流量看板-品牌流量排行榜',
+          srcList: [require('../../../assets/404_images/流量看板-品牌流量排行榜.png')]
         },
         {
           code: 4,
-          label: '花费看板-趋势图'
+          label: '花费看板-趋势图',
+          srcList: [require('../../../assets/404_images/花费看板-趋势图.png')]
         },
       ],
       rules: {
@@ -323,7 +406,7 @@ export default {
         }],
         businessType: [{
           required: true,
-          message: "请选择产品线",
+          message: "请选择渠道",
           trigger: ["blur", "change"],
         }],
         model: [{
@@ -341,8 +424,13 @@ export default {
     };
   },
   computed: {
+    player() {
+      return this.$refs.myPlayer.player;
+    },
     Data2() {
-      return this.form.businessType.join(' -- ')
+      let he = this.form.isbusinessType === 0 ? '( 不分渠道 )' : '( 分渠道 )'
+      let qu = this.form.businessType.join(' -- ')
+      return he + qu
     },
     formData() {
       return this.form
@@ -391,6 +479,7 @@ export default {
           vm.form.clickOrOrderCaliber = Number(vm.row.clickOrOrderCaliber)
           vm.form.orderStatusCategory = Number(vm.row.orderStatusCategory)
           vm.form.businessType = JSON.parse(vm.row.businessType)
+          vm.form.isbusinessType = Number(vm.row.isbusinessType)
           vm.form.dataType = Number(vm.row.dataType)
           vm.form.model = JSON.parse(vm.row.model)
           vm.form.rangeDate = [vm.row.startDate, vm.row.endDate]
@@ -406,44 +495,93 @@ export default {
         const vm = this
         let fn;
         let day = dayjs()
-        let year1 = dayjs().subtract(1, 'year')
+        let daySta = dayjs('2021-06-01')
         if (newval) {
           switch (vm.form.dataType) {
             case 0:
-              fn = function (time) {
-                return time.getTime() <= year1 || time.getTime() >= day
+            case 2:
+              fn = time => {
+                return time.getTime() < daySta || time.getTime() > day ||
+                  time.getTime() < dayjs(newval).subtract(1, 'year') ||
+                  time.getTime() > dayjs(newval).add(1, 'year')
               }
+              vm.pickerOptionsStart2.disabledDate = fn
               break;
             case 1:
               fn = function (time) {
-                return time.getTime() <= year1 ||
-                  time.getTime() >= day ||
-                  time.getTime() <= dayjs(newval).subtract(7, 'day') ||
-                  time.getTime() >= dayjs(newval).add(7, 'day')
+                return time.getTime() < daySta || time.getTime() > day ||
+                  time.getTime() < dayjs(newval).subtract(6, 'day') ||
+                  time.getTime() > dayjs(newval).add(6, 'day')
               }
-              break;
-            case 2:
-              fn = function (time) {
-                return time.getTime() <= year1 ||
-                  time.getTime() >= day ||
-                  time.getTime() <= dayjs(newval).subtract(5, 'month') ||
-                  time.getTime() >= dayjs(newval).add(5, 'month')
-              }
+              vm.pickerOptionsStart1.disabledDate = fn
               break;
           }
         } else {
           fn = function (time) {
-            return time.getTime() <= year1 || time.getTime() >= day
+            return time.getTime() < daySta || time.getTime() > day
           }
+          vm.pickerOptionsStart1.disabledDate = fn
+          vm.pickerOptionsStart2.disabledDate = fn
         }
-        vm.pickerOptionsStart.disabledDate = fn
       },
-      immediate: true
     }
   },
   created() {
     const vm = this
     // 查看
+    let day1 = dayjs().subtract(1, 'day')
+    let day7 = dayjs().subtract(7, 'day')
+    let dayMonth = dayjs().subtract(1, 'month')
+    let dayHalf = dayjs().subtract(6, 'month')
+    let dayYear = dayjs().subtract(1, 'year')
+    let shortcuts = [{
+        text: '昨天',
+        onClick(picker) {
+          let startT = new Date(day1);
+          picker.$emit('pick', [startT, startT]);
+        }
+      }, {
+        text: '近7天',
+        onClick(picker) {
+          let startT = new Date(day7)
+          let endT = new Date(day1)
+          picker.$emit('pick', [startT, endT]);
+        }
+      },
+      {
+        text: '近一个月',
+        onClick(picker) {
+          let startT = new Date(dayMonth)
+          let endT = new Date(day1)
+          picker.$emit('pick', [startT, endT]);
+        }
+      },
+      {
+        text: '近半年',
+        onClick(picker) {
+          let startT = new Date(dayHalf)
+          let endT = new Date(day1)
+          picker.$emit('pick', [startT, endT]);
+        }
+      },
+      {
+        text: '近一年',
+        onClick(picker) {
+          let startT = new Date(dayYear)
+          let endT = new Date(day1)
+          picker.$emit('pick', [startT, endT]);
+        }
+      }
+    ]
+    let target = shortcuts.slice(0, 2)
+    vm.pickerOptionsStart1 = {
+      ...vm.pickerOptionsStart,
+      shortcuts: target
+    }
+    vm.pickerOptionsStart2 = {
+      ...vm.pickerOptionsStart,
+      shortcuts
+    }
   },
   mounted() {
     this.getPin()
@@ -515,16 +653,15 @@ export default {
     closeEvent(tag) {
       const vm = this
       vm.$emit('close', tag)
-      // vm.$refs.account.resetFields()
-      // vm.$refs.form.resetFields()
+      if (vm.$refs.account) vm.$refs.account.resetFields()
+      if (vm.$refs.form) vm.$refs.form.resetFields()
       vm.account = {
         user_type: '京准通',
         username: '',
         cookie: ''
       }
       vm.form = {
-        startDate: "",
-        endDate: '',
+        rangeDate: [],
         cid3: [],
         cid3_name: '',
         isGift: 0,
@@ -532,6 +669,7 @@ export default {
         clickOrOrderCaliber: 0,
         orderStatusCategory: 0,
         businessType: [],
+        isbusinessType: 0,
         dataType: 0,
         model: []
       }
@@ -597,12 +735,23 @@ export default {
       const vm = this
       // 日期失焦需要重新调整禁选日期
       let day = dayjs()
-      let year1 = dayjs().subtract(1, 'year')
+      let daySta = dayjs('2021-06-01')
       if (vm.selectDay) {
         let fn = function (time) {
-          return time.getTime() <= year1 || time.getTime() >= day
+          return time.getTime() < daySta || time.getTime() >= day
         }
-        vm.pickerOptionsStart.disabledDate = fn
+        vm.pickerOptionsStart1.disabledDate = fn
+        vm.pickerOptionsStart2.disabledDate = fn
+      }
+    },
+    movieDownEvent(val) {
+      const vm = this;
+      vm.showPlaer = val === 1;
+      if (val === 1) {
+
+      } else {
+        vm.player.pause(); //暂停
+        vm.player.src('http://tool.afocus.com.cn/file_download/movie/jzt/jzt.m3u8'); //进度条归零
       }
     },
     casaderEvent(cheked) {
@@ -640,8 +789,30 @@ export default {
 
 <style lang="less" scoped>
 @import "../monitor/bidding.less";
+@import "../../../components/iptTable/index.less";
 
 /deep/.dapan {
+  .absoIcon {
+    position: absolute;
+    left: 15px;
+    top: 30%;
+    transform: translateY(-50%);
+
+    &:before {
+      font-size: 22px;
+      cursor: pointer;
+    }
+
+    &2 {
+      top: 6%;
+
+      &:before {
+        font-weight: bold;
+        color: red;
+      }
+    }
+  }
+
   .el-cascader__tags {
     left: 4px;
   }

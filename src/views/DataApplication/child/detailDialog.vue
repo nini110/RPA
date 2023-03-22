@@ -67,7 +67,7 @@
       </a>
       <el-button
         v-waves
-        class="el-icon-finished"
+        class="el-icon-check"
         type="primary"
         @click="sendlist"
         >保存</el-button

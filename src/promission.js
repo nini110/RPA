@@ -50,10 +50,10 @@ function handleRoutes (menuList) {
     return
   }
   let userid = localStorage.getItem('wx_userid')
-  let whitelist1 = ['1020108', '21400', '19302']
-  if (userid && whitelist1.indexOf(userid) === -1) {
-    target[2].children[2].children.splice(1, 3)
-  }
+  // let whitelist1 = ['1020108', '21400', '19302']
+  // if (userid && whitelist1.indexOf(userid) === -1) {
+  //   target[2].children[2].children.splice(1, 3)
+  // }
 
   let whitelist = ['1022042', '22254', '20001', '19261', '19302', '20306', '1020108', '21400', '14026', '15443', '18179', '15056', '18327', '21129', '21027', '1020076', '1022002', '1022020', '10001', '10005']
   if (userid && whitelist.indexOf(userid) === -1) {

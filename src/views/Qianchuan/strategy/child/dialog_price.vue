@@ -113,7 +113,7 @@
       <a class="btnnormal btnnormal_down marginR" @click="closeEvent">
         <div class="el-icon-close btnSize">取消</div>
       </a>
-      <el-button v-waves class="el-icon-finished" type="primary" @click="saveEvent()" size="medium"
+      <el-button v-waves class="el-icon-check" type="primary" @click="saveEvent()" size="medium"
         >{{ btnTxt }}
       </el-button>
     </span>

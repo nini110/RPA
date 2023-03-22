@@ -88,7 +88,7 @@
       </a>
       <el-button
         v-waves
-        class="el-icon-finished"
+        class="el-icon-check"
         type="primary"
         @click="isModification()"
         :disabled="editNum === 2 && (!actionList || actionList.length === 0)"

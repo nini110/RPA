@@ -61,7 +61,7 @@
       </a>
       <el-button
         v-waves
-        class="el-icon-finished marginL"
+        class="el-icon-check marginL"
         type="primary"
         @click="submitEvent"
         >提交</el-button

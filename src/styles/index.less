@@ -20,6 +20,31 @@
 }
 
 .el {
+  &-tooltip {
+    &__popper {
+      p {
+        line-height: 22px;
+
+        &.ts {
+          color: #fdd27e;
+        }
+      }
+
+      .viewImg {
+        width: 1300px;
+        object-fit: contain;
+      }
+    }
+
+    &.iconImg {
+      margin-left: 16px;
+
+      &:before {
+        font-size: 20px;
+      }
+    }
+  }
+
   &-textarea__inner {
     font-family: "Helvetica Neue", Helvetica, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "微软雅黑", Arial, sans-serif;
   }
@@ -209,6 +234,7 @@
         line-height: 14px !important;
       }
     }
+
   }
 
   &-divider {
@@ -737,9 +763,12 @@
     }
 
     .btn {
+      position: relative;
       cursor: pointer;
       color: #606266;
-      padding: 8px !important;
+      width: 40px;
+      height: 40px;
+      padding: 0px !important;
       border-radius: 4px;
       vertical-align: middle;
       transition: all 200ms linear;
@@ -770,11 +799,26 @@
 
         }
 
-        &:hover {
-          // background-color: #c4c4c7;
-          // color: #fff;
+        i {
+          position: absolute;
+          left: 50%;
+          top: 50%;
+          transform: translate(-50%, -50%);
 
+          &:before {
+            transition: all 0.3s linear;
+            font-weight: bold;
+            font-size: 26px;
+            color: #909399;
+          }
+        }
+
+        &:hover {
           i {
+            &:before {
+              font-size: 34px;
+            }
+
             &.el-icon-document {
               &:before {
                 color: purple;
@@ -824,15 +868,6 @@
             }
           }
         }
-
-        i {
-          &:before {
-            font-weight: bold;
-            font-size: 28px;
-            color: #909399;
-          }
-        }
-
 
         // svg,
         // button {

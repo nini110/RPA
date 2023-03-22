@@ -5,7 +5,7 @@
       ref="iptcomp"
       :formMenu="1"
       :picSrc="picSrc"
-      :ifDown="false"
+      :ifDown="ifDown"
       :toolType="toolType"
       :sheetName="sheetName"
       :excelOptions="excelOptions"
@@ -27,6 +27,7 @@ export default {
       sheetName: "",
       excelOptions: [],
       picSrc: "",
+      ifDown: false
     };
   },
   watch: {
@@ -54,6 +55,7 @@ export default {
           case "DMP":
             vm.toolType = "DMP";
             vm.sheetName = "创建人群";
+            vm.ifDown = true
             vm.picSrc = require("../../assets/images/DMP.png");
             vm.excelOptions = [
               {
@@ -302,6 +304,7 @@ export default {
           case "Booth":
             vm.toolType = "京东展位";
             vm.picSrc = require("../../assets/images/Booth.png");
+            vm.ifDown = false
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
@@ -588,6 +591,7 @@ export default {
           case "Direct":
             vm.picSrc = require("../../assets/images/Direct.png");
             vm.toolType = "京东直投";
+            vm.ifDown = false
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {
@@ -1131,6 +1135,7 @@ export default {
             vm.picSrc = require("../../assets/images/Cube.png");
             vm.toolType = "京腾魔方人群定向";
             vm.sheetName = "京腾魔方人群定向";
+            vm.ifDown = false
             vm.excelOptions = [
               {
                 name: "京腾魔方人群定向", //工作表名称
@@ -1195,6 +1200,7 @@ export default {
             vm.picSrc = require("../../assets/images/Cube.png");
             vm.toolType = "京腾魔方人群";
             vm.sheetName = "Sheet1";
+            vm.ifDown = false
             vm.excelOptions = [
               {
                 name: "Sheet1", //工作表名称
@@ -1331,6 +1337,7 @@ export default {
           case "GoShop":
             vm.picSrc = require("../../assets/images/GoShop.png");
             vm.toolType = "购物触点";
+            vm.ifDown = false
             vm.sheetName = "Sheet1";
             vm.excelOptions = [
               {

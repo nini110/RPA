@@ -38,7 +38,7 @@
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col v-if="showCookie || formMenu === 2" :span="24"  class="hasAppend">
+              <el-col v-if="showCookie || formMenu === 2" :span="24" class="hasAppend">
                 <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学" placement="top">
                   <div class="el-icon-video-play" @click="movieDownEvent(1)"></div>
                 </el-tooltip>
@@ -75,11 +75,6 @@
         </div>
       </el-form>
       <div class="formObj_button">
-        <!-- <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学" placement="top">
-          <a class="btnnormal_down marginR inlineButton ts" @click="movieDownEvent(1)">
-            <div class="el-icon-video-play btnSize">视频教学</div>
-          </a>
-        </el-tooltip> -->
         <el-tooltip class="item" effect="dark" content="清空输入框和导入数据" placement="top">
           <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
             <div class="el-icon-refresh btnSize">重置</div>
@@ -771,18 +766,33 @@ export default {
     // no -下载文件
     downEvent(row) {
       const vm = this;
-      sfToolsDown({
-        log_id: row.id,
-      }).then((res) => {
-        let data = res.data;
-        let url = window.URL.createObjectURL(new Blob([data]));
-        let link = document.createElement("a");
-        link.style.display = "none";
-        link.href = url;
-        link.setAttribute("download", `日志-${vm.toolType}.zip`);
-        document.body.appendChild(link);
-        link.click();
-      });
+      if (row.tool_type === 'dmp') {
+        sfToolsModelDown({
+          name: row.crowd_path
+        }).then(res => {
+          let data = res.data;
+          let url = window.URL.createObjectURL(new Blob([data]));
+          let link = document.createElement("a");
+          link.style.display = "none";
+          link.href = url;
+          link.setAttribute("download", `日志-${vm.toolType}.xlsx`);
+          document.body.appendChild(link);
+          link.click();
+        })
+      } else {
+        sfToolsDown({
+          log_id: row.id,
+        }).then((res) => {
+          let data = res.data;
+          let url = window.URL.createObjectURL(new Blob([data]));
+          let link = document.createElement("a");
+          link.style.display = "none";
+          link.href = url;
+          link.setAttribute("download", `日志-${vm.toolType}.zip`);
+          document.body.appendChild(link);
+          link.click();
+        });
+      }
     },
     //  no -下载模板
     modelEvent() {
