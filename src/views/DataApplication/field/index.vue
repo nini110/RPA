@@ -8,6 +8,10 @@
         </el-button>
       </div>
     </div>
+    <!-- <div class="outer">
+      <div class="one one1">A</div>
+      <div class="bbbb"></div>
+    </div> -->
     <div ref="tableBox" class="content_tableBox jiankong">
       <el-divider>列表</el-divider>
       <div class="tables" v-if="tableData">
@@ -186,4 +190,24 @@ export default {
 <style lang="less" scoped>
 @import "../../index";
 @import "../monitor/bidding.less";
+
+.outer {
+  width: 200px;
+  height: 200px;
+  background-color: aliceblue;
+  // margin-top: 50px;
+  // padding-top: 1px;
+  // overflow: hidden;
+  // 高度塌陷 + 边界塌陷
+
+  .one {
+    width: 100px;
+    height: 100px;
+    background-color: aquamarine;
+    margin-top: 40px;
+  }
+}
+.bbbb {
+  clear: both;
+}
 </style>

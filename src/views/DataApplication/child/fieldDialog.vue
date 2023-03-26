@@ -148,6 +148,22 @@
         </el-form-item>
       </el-col>
       <el-col :span="24">
+        <el-form-item label="自身品牌" prop="cid3">
+          <el-select v-model="form.selfBrand" placeholder="请选择">
+            <el-option v-for="item in opt_brand" :key="item.code" :label="item.label" :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
+        <el-form-item label="竞争品牌" prop="cid3">
+          <el-select v-model="form.otherBrand" placeholder="请选择">
+            <el-option v-for="item in opt_brand" :key="item.code" :label="item.label" :value="item.code">
+            </el-option>
+          </el-select>
+        </el-form-item>
+      </el-col>
+      <el-col :span="24">
         <el-form-item label="模块需求" prop="model">
           <el-checkbox :indeterminate="isIndeterminate2" v-model="checkAll2" @change="handleCheckAllChange2">全选</el-checkbox>
           <el-checkbox-group v-model="form.model" @change="handleCheckChange2">
@@ -272,10 +288,10 @@ export default {
       show: false,
       account: {
         user_type: '京准通',
-        username: '',
-        cookie: ''
-        // username: 'Samsung-BF',
-        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; retina=1; cid=9; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; sc_width=1708; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; equipmentId=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; fingerprint=ed92b19585a94899e8d8014533371d2e; deviceVersion=110.0.0.0; deviceOS=; deviceOSVersion=; deviceName=Chrome; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; _tp=PHCuVjMa4QlP%2FBgMMf0RDA%3D%3D; _pst=Samsung-BF; __jdv=146207855|baidu|-|organic|notset|1678775377049; mba_sid=16794513541952640670819491120.2; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1j3Fuz0OWLFxofChWNcSuD4m1-m8nhiR05tvi51VGtIfISo3prjbKSt9iNrKhMDbUsevNJoB5n659FtLsFtfccAPtVwXGZttFsZNuE2BARQo; thor=D721CB7F333FD47AAEC0097C1F3D549C19E7759C06E25A089C589434421D52B2EB3AB2765332EE08A5BF46A299CAA98E0F7E11E78761123202D1C15538C61BA21C62EB5BF6D4EAD07808BF26657A93D72EBDC1F0D04983BDBF76E9EB58A58E72127E4EF62044EEBBF8A19CF000D896267567DAB2BBAA5CE063BA6C8A2C873D0464F6AADC69197B74B92AC002BC26D6F0; ceshi3.com=000; logining=1; __jda=146207855.16774677218671515249824.1677467722.1679390805.1679451347.34; __jdb=146207855.10.16774677218671515249824|34.1679451347; __jdc=146207855'
+        // username: '',
+        // cookie: ''
+        username: 'Samsung-BF',
+        cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; retina=1; cid=9; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; sc_width=1708; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; equipmentId=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; fingerprint=ed92b19585a94899e8d8014533371d2e; deviceVersion=110.0.0.0; deviceOS=; deviceOSVersion=; deviceName=Chrome; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; __jdv=146207855|baidu|-|organic|notset|1678775377049; track=64cfcd5a-e042-8b3f-ca29-d2125e480e36; logining=1; wlfstk_smdl=rvqlo2la0njv8omawfz9kv1idf58lblc; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1W-05ZWURJPnON2aQ-Pa9gxlZKn8n8y301nbztuHdKv5sXTUWGSaEXMcK8w30Y96oqRoPYcCgupBEEz6oamryS7gbJz_pMNDuvz0Pk56GqPQ; thor=D721CB7F333FD47AAEC0097C1F3D549C19E7759C06E25A089C589434421D52B24461C1A299931CDC47DB632CD059A23FDDDFE6CB1C4E49F2C033A212CDF44E4738E193D94B98C226CCAA5D9360CA94FE1F08BE432D5B73DE97B159DD69E6E5234CC0D49BC0B0E5117195516357E45BC5293B3B6A58CD1622D0789C7A2B9981EC306247800878869BFD78999EF4720FED; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; ceshi3.com=000; _tp=PHCuVjMa4QlP%2FBgMMf0RDA%3D%3D; _pst=Samsung-BF; passport_pin=U2Ftc3VuZy1CRg==; pin_account=U2Ftc3VuZy1CRg==; press_pin=U2Ftc3VuZy1CRg==; dm_profile=false; __jda=146207855.16774677218671515249824.1677467722.1679551032.1679653194.38; __jdc=146207855; __jdb=146207855.28.16774677218671515249824|38.1679653194'
       },
       cid3_name_arr: [],
       form: {
@@ -289,11 +305,22 @@ export default {
         businessType: [],
         isbusinessType: 0,
         dataType: 0,
-        model: []
+        model: [],
+        otherBrand: '',
+        selfBrand: ''
       },
       Data1: '',
       visible1: true,
       visible2: false,
+      opt_brand: [{
+          code: 0,
+          label: '品牌一'
+        },
+        {
+          code: 1,
+          label: '品牌二'
+        },
+      ],
       opt_zhouqi: [{
           code: 0,
           label: '当天'
@@ -347,32 +374,7 @@ export default {
         },
       ],
       opt_qudao: ['京东展位', '京东快车', '京速推', '购物触点', '京东直投'],
-      opt_model: [{
-          code: 0,
-          label: '行业整体看板-卡片',
-          srcList: [require('../../../assets/404_images/行业整体看板-卡片.png')]
-        },
-        {
-          code: 1,
-          label: '行业整体看板-趋势图',
-          srcList: [require('../../../assets/404_images/行业整体看板-趋势图.png')]
-        },
-        {
-          code: 2,
-          label: '流量看板-趋势图',
-          srcList: [require('../../../assets/404_images/流量看板-趋势图.png')]
-        },
-        {
-          code: 3,
-          label: '流量看板-品牌流量排行榜',
-          srcList: [require('../../../assets/404_images/流量看板-品牌流量排行榜.png')]
-        },
-        {
-          code: 4,
-          label: '花费看板-趋势图',
-          srcList: [require('../../../assets/404_images/花费看板-趋势图.png')]
-        },
-      ],
+      opt_model: null,
       rules: {
         user_type: [{
           required: true,
@@ -524,6 +526,49 @@ export default {
           vm.pickerOptionsStart2.disabledDate = fn
         }
       },
+    },
+    $route: {
+      handler(newval, oldval) {
+        debugger
+        if (newval.name === 'Compete') {
+          // 竞品分析
+          this.opt_model = [{
+            code: 0,
+            label: '行业整体看板-卡片',
+            srcList: [require('../../../assets/404_images/行业竞争分析.jpg')]
+          }]
+        } else {
+          // 大盘
+          this.opt_model = [{
+              code: 0,
+              label: '行业整体看板-卡片',
+              srcList: [require('../../../assets/404_images/行业整体看板-卡片.png')]
+            },
+            {
+              code: 1,
+              label: '行业整体看板-趋势图',
+              srcList: [require('../../../assets/404_images/行业整体看板-趋势图.png')]
+            },
+            {
+              code: 2,
+              label: '流量看板-趋势图',
+              srcList: [require('../../../assets/404_images/流量看板-趋势图.png')]
+            },
+            {
+              code: 3,
+              label: '流量看板-品牌流量排行榜',
+              srcList: [require('../../../assets/404_images/流量看板-品牌流量排行榜.png')]
+            },
+            {
+              code: 4,
+              label: '花费看板-趋势图',
+              srcList: [require('../../../assets/404_images/花费看板-趋势图.png')]
+            },
+          ]
+        }
+      },
+      immediate: true,
+      deep: true
     }
   },
   created() {

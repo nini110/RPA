@@ -163,11 +163,11 @@
 
           &_rt {
             flex: 1;
-            padding: 22px 60px 0 0;
+            padding: 22px 0px 0 0;
           }
 
           &_abso {
-            flex-basis: 20%;
+            flex-basis: 15%;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -211,6 +211,10 @@
                 width: 80px !important;
                 border-left: none;
               }
+
+              .el-form-item__content {
+                width: calc(100% - 80px) !important;
+              }
             }
 
             &__label {
@@ -232,7 +236,8 @@
               box-sizing: border-box;
               line-height: 1;
 
-              .el-select {
+              .el-select,
+              .el-input-number {
                 width: 100%;
               }
 
@@ -258,6 +263,23 @@
             &.trPage {
               .el-input-number {
                 width: 50px !important;
+              }
+            }
+
+            &.flex {
+              .el-form-item__content {
+                border: none;
+                display: flex;
+                align-items: center;
+                height: 100%;
+              }
+
+              .el-switch {
+                margin: 0 20px;
+              }
+
+              .el-input-number {
+                border: 1px solid #dcdfe6;
               }
             }
           }

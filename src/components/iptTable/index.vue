@@ -16,7 +16,7 @@
           </div>
           <div class="formObj_ipt_rt">
             <el-row :gutter="20">
-              <el-col v-if="formMenu === 1" :span="showCookie ? 12 : 24">
+              <el-col v-if="formMenu === 1" :span="colWidth.choose">
                 <el-form-item label="类型" prop="choose">
                   <el-select v-model="form.choose" placeholder="请选择类型" size="large" @change="chooseEvent">
                     <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
@@ -24,7 +24,25 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col v-if="form.choose === 1" :span="showCookie ? 12 : 24">
+              <el-col v-if="formMenu === 1" :span="colWidth.eror" class="hasAppend">
+                <el-tooltip effect="dark" placement="bottom">
+                  <div slot="content">
+                    <p class="ts"> * 该条件默认关闭，填写区间为1 - 10</p>
+                    <p class="ts"> * 关闭时：</p>
+                    <p>程序执行中出现错误会继续向下执行，不会终止，直到执行完毕</p>
+                    <p class="ts"> * 开启时：</p>
+                    <p>根据填写的终止条件作为规则，例如填写：5，则会在出错第5次自动终止程序</p>
+                  </div>
+                  <div class="el-icon-question" @click="movieDownEvent(1)"></div>
+                </el-tooltip>
+                <el-form-item label="终止条件" prop="error_num" class="flex w110">
+                  <el-switch v-model="ifErrNum" active-color="#13ce66" inactive-color="#a5a5a5" @change="seitchEvent">
+                  </el-switch>
+                  <el-input-number v-if="ifErrNum" v-model="form.error_num" :min="1" :max="10" label="描述文字">
+                  </el-input-number>
+                </el-form-item>
+              </el-col>
+              <el-col v-if="form.choose === 1" :span="colWidth.pin">
                 <el-form-item label="PIN" prop="pin">
                   <el-select v-model="form.pin" placeholder="请选择PIN" filterable clearable>
                     <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
@@ -32,14 +50,14 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col v-else :span="showCookie ? 12 : 24">
+              <el-col v-else :span="colWidth.user">
                 <el-form-item label="账号" prop="username">
                   <el-input v-model.trim="form.username" placeholder="请输入账号" clearable>
                   </el-input>
                 </el-form-item>
               </el-col>
-              <el-col v-if="showCookie || formMenu === 2" :span="24" class="hasAppend">
-                <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学" placement="top">
+              <el-col v-if="showCookie || formMenu === 2" :span="colWidth.cookie" class="hasAppend">
+                <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学" placement="bottom">
                   <div class="el-icon-video-play" @click="movieDownEvent(1)"></div>
                 </el-tooltip>
                 <el-form-item label="Cookie" prop="cookie" class="w110">
@@ -122,18 +140,12 @@
               <template slot-scope="scope">
                 <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
                   <el-tooltip class="item" effect="dark" content="日志" placement="top">
-                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-lishirizhi"></use>
-                    </svg> -->
                     <i class="el-icon-document"></i>
                   </el-tooltip>
                 </div>
-                <div v-if="ifDown && scope.row.log_status === '执行完毕'" v-waves class="btn btn_info" @click="downEvent(scope.row)">
+                <div v-if="ifDown && scope.row.res_file_path && scope.row.log_status === '执行完毕'" v-waves class="btn btn_info" @click="downEvent(scope.row)">
                   <el-tooltip class="item" effect="dark" content="下载" placement="top">
                     <i class="el-icon-document"></i>
-                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-xiazaizhong"></use>
-                    </svg> -->
                     <i class="el-icon-download"></i>
                   </el-tooltip>
                 </div>
@@ -204,6 +216,17 @@ export default {
     Upload,
   },
   props: {
+    colWidth: {
+      type: Object,
+      // default: {
+      //   choose: 24,
+      //   eror: 24,
+      //   pin: 24,
+      //   cookie: 24,
+      //   user: 24,
+      //   shufang: 24
+      // }
+    },
     picSrc: {
       type: String,
       default: "",
@@ -273,6 +296,7 @@ export default {
           vm.fileList = [];
           vm.excelName = "";
           vm.excelData = null;
+          vm.ifErrNum = false
         });
       },
       immediate: true,
@@ -377,7 +401,7 @@ export default {
         username: "",
         password: "",
         cookie: '',
-        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdv=146207855|baidu|-|organic|notset|1677467721868; __jdu=16774677218671515249824; pinId=8QLRh2dBwy4hRO0oqI8I0ZKZQlJc-P50tX37H5_fCPs; pin=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; unick=jd_HGcygOlkrWVq; _tp=Xqgcf4eDOzMlfX2uS6Ryd1siw6qm7ljL%2F8JYB3q24aVfaAP8TJNrdoNG8pd3ATTgXAjbT5Nd78uZZBqCONsupdKMo236RTN9%2BbG6iOE2yEw%3D; _pst=%E6%8B%9C%E8%80%B3%E5%AF%B9%E5%A4%96%E6%8A%95%E6%94%BE%E8%B4%A6%E5%8F%B7; retina=1; cid=9; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; PPRD_P=UUID.16774677218671515249824; sc_width=1708; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; equipmentId=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; fingerprint=ed92b19585a94899e8d8014533371d2e; deviceVersion=110.0.0.0; deviceOS=; deviceOSVersion=; deviceName=Chrome; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1r7Gfptk_scdn_pSeM00TYviGYY7G0LOK0EsR_40jvm8ZROfX-ByCMGLbRMonabA7YjU-5T3Ur1NH8npGdXzRoq5rWrKNMKXnkQLau2SNrOgzhSPFDoXdVniZqm5eiygd; thor=62773A26D5E916B8B493B1B84C66F43B0C9D32A92599C34F57FF9E0BF82013B1700CE538DA6BE331EBFCA17C6C79360629F93440E78014DD2EE33AB3620E90220CB65A39D57C9F68CF665308B3AA091AA1D64BD6667462E779405419181DD486E747464EF31F5E594E632BF5C4ED6CF2CD88A6D98A5C8C5E7AE86D8037E7054F0C37B6C8203966FD6585AA65B6F77267; ceshi3.com=000; logining=1; __jda=146207855.16774677218671515249824.1677467722.1677832317.1678083137.11; __jdc=146207855; __jdb=146207855.6.16774677218671515249824|11.1678083137',
+        error_num: '',
         pin: "",
         choose: 2,
       },
@@ -398,7 +422,8 @@ export default {
       targetItem: null,
       intervalDia: null,
       OPENTAG: false,
-      disBtn: false
+      disBtn: false,
+      ifErrNum: false
     };
   },
   mounted() {
@@ -448,9 +473,10 @@ export default {
     },
     resetEvent() {
       const vm = this;
+      vm.$refs.form.resetFields();
       vm.excelData = null;
       vm.excelName = "";
-      vm.$refs.form.resetFields();
+      vm.ifErrNum = false
     },
     tabClick() {
       const vm = this;
@@ -537,10 +563,8 @@ export default {
                     vm.$msg({
                       msg: "保存成功"
                     });
-                    vm.excelData = null;
-                    vm.excelName = "";
                     vm.OPENTAG = true
-                    vm.$refs.form.resetFields();
+                    vm.resetEvent()
                     vm.getuserlist()
                   } else if (res.data.code === 10003) {
                     vm.openMessageBox({
@@ -568,10 +592,8 @@ export default {
                     vm.$msg({
                       msg: "保存成功"
                     });
-                    vm.excelData = null;
-                    vm.excelName = "";
                     vm.OPENTAG = true
-                    vm.$refs.form.resetFields();
+                    vm.resetEvent()
                     vm.getuserlist()
                   } else if (res.data.code === 10006) {
                     vm.$msg({
@@ -605,10 +627,8 @@ export default {
                   vm.$msg({
                     msg: "保存成功"
                   });
-                  vm.excelData = null;
-                  vm.excelName = "";
                   vm.OPENTAG = true
-                  vm.$refs.form.resetFields();
+                  vm.resetEvent()
                   vm.getuserlist()
                 } else if (res.data.code === 10006) {
                   vm.$msg({
@@ -676,6 +696,7 @@ export default {
                       if (vm.tableData[j].serial === i.serial) {
                         if (resu.data.code === 10000) {
                           vm.$set(vm.tableData[j], "log_status", resu.data.log_status);
+                          vm.$set(vm.tableData[j], "res_file_path", '');
                           vm.$set(obj, "code", resu.data.code);
                           vm.$set(obj, "html", resu.data.data);
                           vm.$set(
@@ -685,6 +706,7 @@ export default {
                           );
                         } else if (resu.data.code === 10010) {
                           vm.$set(vm.tableData[j], "log_status", resu.data.log_status);
+                          vm.$set(vm.tableData[j], "res_file_path", resu.data.res_file_path);
                           vm.$set(obj, "code", resu.data.code);
                           vm.$set(obj, "html", resu.data.data || "");
                           vm.$set(obj, "txt", "日志加载完毕");
@@ -768,7 +790,7 @@ export default {
       const vm = this;
       if (row.tool_type === 'dmp') {
         sfToolsModelDown({
-          name: row.crowd_path
+          name: row.res_file_path
         }).then(res => {
           let data = res.data;
           let url = window.URL.createObjectURL(new Blob([data]));
@@ -851,6 +873,12 @@ export default {
       this.form.pin = "";
       this.form.username = "";
       this.$refs.form.clearValidate(["pin", "username"]);
+    },
+    seitchEvent(val) {
+      const vm = this
+      if (!val) {
+        vm.form.error_num = ''
+      }
     },
     //分页器功能
     handleSizeChange(val) {

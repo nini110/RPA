@@ -237,11 +237,21 @@ export default {
                       let obj = {};
                       outData[0].forEach((val2, idx2) => {
                         if (val2) {
-                          if (val2.v.indexOf('时间') !== -1 || val2.v.indexOf('时期') !== -1 || val2.v.indexOf('日期') !== -1) {
+                          if (val2.v.indexOf('流量包设置') !== -1 || val2.v.indexOf('人群溢价系数') !== -1 ||
+                            val2.v.indexOf('基础出价') !== -1 || val2.v.indexOf('出价') !== -1 ||
+                            val2.v.indexOf('时期') !== -1 ||
+                            val2.v.indexOf('日期') !== -1 || val2.v.indexOf('时间') !== -1) {
                             vm.$set(
                               obj,
                               val2.v,
                               outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
+                            );
+                          } else if (val2.v.indexOf('跟单SKU') !== -1 || val2.v.indexOf('sku') !== -1
+                            ) {
+                            vm.$set(
+                              obj,
+                              val2.v,
+                              outData[idx1][idx2] && outData[idx1][idx2].v ? String(outData[idx1][idx2].v) : ""
                             );
                           } else {
                             vm.$set(
