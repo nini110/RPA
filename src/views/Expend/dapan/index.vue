@@ -103,6 +103,13 @@
             </div>
           </div>
           <div v-show="activeName === '1'" class="tabs_cnt">
+            <el-alert
+              description="该列表仅展示过去100天内灵狐联合中标的项目（方便商务校准数据）"
+              type="warning"
+              show-icon
+              :closable="false"
+            >
+            </el-alert>
             <listPage></listPage>
           </div>
         </div>

@@ -123,13 +123,13 @@ export default {
               index: "2-1",
             },
             {
-              label: "人群圈选",
-              value: "/layout/bigData/Select",
+              label: "洞察分析",
+              value: "/layout/bigData/Analysis",
               index: "2-2",
             },
             {
-              label: "洞察分析",
-              value: "/layout/bigData/Analysis",
+              label: "人群圈选",
+              value: "/layout/bigData/Select",
               index: "2-3",
             },
             {

@@ -73,9 +73,7 @@
                   content="删除"
                   placement="top"
                 >
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
-                    <use xlink:href="#icon-lajitong"></use>
-                  </svg>
+                  <i class="el-icon-circle-close "></i>
                 </el-tooltip>
               </div>
             </template>

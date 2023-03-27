@@ -38,7 +38,7 @@
                 <el-form-item label="终止条件" prop="error_num" class="flex w110">
                   <el-switch v-model="ifErrNum" active-color="#13ce66" inactive-color="#a5a5a5" @change="seitchEvent">
                   </el-switch>
-                  <el-input-number v-if="ifErrNum" v-model="form.error_num" :min="1" :max="10" label="描述文字">
+                  <el-input-number v-if="ifErrNum" v-model="form.error_num"  :min="1" :max="10" label="描述文字">
                   </el-input-number>
                 </el-form-item>
               </el-col>
@@ -401,7 +401,7 @@ export default {
         username: "",
         password: "",
         cookie: '',
-        error_num: '',
+        error_num: null,
         pin: "",
         choose: 2,
       },
@@ -619,33 +619,53 @@ export default {
                 })
               }
             } else {
-              sfToolsSave({
-                ...submitdata
-              }).then((res) => {
-                vm.disBtn = false
-                if (res.data.code === 10000) {
-                  vm.$msg({
-                    msg: "保存成功"
-                  });
-                  vm.OPENTAG = true
-                  vm.resetEvent()
-                  vm.getuserlist()
-                } else if (res.data.code === 10006) {
-                  vm.$msg({
-                    type: "error",
-                    msg: "请添加正确的Excel文件"
-                  });
-                } else {
-                  vm.$msg({
-                    type: "error",
-                    msg: res.data.data || res.data.msg,
-                  });
-                }
-              });
+              if (vm.toolType === '数坊人群圈选') {
+                vm.openMessageBox({
+                  type: "warning",
+                  showClose: true,
+                  tipTitle: `当前执行程序为<b>人群圈选</b>，继续执行可能会消耗资源，请知晓!`,
+                  showCancelButton: true,
+                  confirmButtonFn: () => {
+                    vm.api_shufang(submitdata)
+                  },
+                  cancelButtonFn: () => {
+                    vm.disBtn = false
+                  }
+                });
+              } else {
+                vm.api_shufang(submitdata)
+              }
             }
           }
         } else {
           vm.disBtn = false
+        }
+      });
+    },
+    // 数坊保存接口
+    api_shufang(obj) {
+      const vm = this
+      sfToolsSave({
+        ...obj
+      }).then((res) => {
+        vm.disBtn = false
+        if (res.data.code === 10000) {
+          vm.$msg({
+            msg: "保存成功"
+          });
+          vm.OPENTAG = true
+          vm.resetEvent()
+          vm.getuserlist()
+        } else if (res.data.code === 10006) {
+          vm.$msg({
+            type: "error",
+            msg: "请添加正确的Excel文件"
+          });
+        } else {
+          vm.$msg({
+            type: "error",
+            msg: res.data.data || res.data.msg,
+          });
         }
       });
     },
@@ -876,9 +896,7 @@ export default {
     },
     seitchEvent(val) {
       const vm = this
-      if (!val) {
-        vm.form.error_num = ''
-      }
+      vm.form.error_num = val ? 1 : null
     },
     //分页器功能
     handleSizeChange(val) {

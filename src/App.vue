@@ -14,13 +14,12 @@ export default {
   },
   created() {
     // 线上发布时created中所有都注释
-    // this.$route.query.wx_code = "hm20fzJq40eHFE_FCTltlJuc83zAsnUnD6mKwGrTyrQ";
+    // this.$route.query.wx_code = "EG6kVz3quR9vnZAJKdg8EouKSQFk5XivZsVo96pF_-c";
     // this.$route.query.wx_userid = "1020108";
     // this.$route.query.user_name = "方涛";
     // localStorage.setItem("wx_code", this.$route.query.wx_code);
     // localStorage.setItem("wx_userid", this.$route.query.wx_userid);
     // localStorage.setItem("user_name", this.$route.query.user_name);
-    // this.debounce(consoleeve, 5000)
   },
   mounted() {
 

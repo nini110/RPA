@@ -138,7 +138,7 @@ export default {
         category: [
           {
             required: true,
-            message: "请输入泪目",
+            message: "请输入类目",
             trigger: "blur",
           },
         ],
@@ -151,6 +151,7 @@ export default {
     closeEvent() {
       const vm = this;
       vm.needVarify = false;
+      vm.$refs.form.resetFields()
       vm.$emit("close");
     },
     // 新增账号

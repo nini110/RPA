@@ -46,8 +46,6 @@ import message from "@/mixin/message";
 import {
   alarmPlan,
   alarmDetail,
-  alarmUser,
-  alarmUserAuthor
 } from "@/api/api";
 import {
   mapGetters
@@ -83,20 +81,6 @@ export default {
     ]),
   },
   watch: {
-    pinList: {
-      handler(newval, oldval) {
-        if (this.activeName === 0) {
-          this.boxDataLeft[0].options = JSON.parse(JSON.stringify(newval));
-        }
-      },
-    },
-    pinListAuthor: {
-      handler(newval, oldval) {
-        if (this.activeName === 1) {
-          this.boxDataLeft[0].options = JSON.parse(JSON.stringify(newval));
-        }
-      },
-    },
     activeName: {
       handler(newval, oldval) {
         const vm = this;
@@ -111,7 +95,7 @@ export default {
                   prop: "user_name",
                   label: "PIN:",
                   placeholder: "请选择PIN",
-                  options: [],
+                  options: JSON.parse(JSON.stringify(vm.pinList)),
                   rules: {
                     required: true,
                     validator: validPercent.bind(this, "boxDataLeft", this, 0),
@@ -188,7 +172,7 @@ export default {
                   prop: "user_name",
                   label: "PIN:",
                   placeholder: "请选择PIN",
-                  options: [],
+                  options: JSON.parse(JSON.stringify(vm.pinListAuthor)),
                   rules: {
                     required: true,
                     validator: validPercent.bind(this, "boxDataLeft", this, 0),
@@ -270,45 +254,9 @@ export default {
     },
   },
   created() {
-    // this.getUser()
     this.$store.commit("pageData/UPDATE_ClRLEFT", false); // 清空左侧输入框
   },
   methods: {
-    // 获取所有PIN
-    getUser() {
-      const vm = this;
-      Promise.all([alarmUser(), alarmUserAuthor()]).then(res => {
-        if (res[0].data.code === 10000) {
-          console.log(1111)
-          res[0].data.data.forEach((item, idx) => {
-            vm.pinList.push({
-              name: item,
-              code: item,
-            });
-          });
-          vm.$store.commit("pageData/UPDATE_PINLIST", vm.pinList);
-        } else {
-          vm.$msg({
-            type: "error",
-            msg: res[0].data.msg
-          });
-        }
-        if (res[1].data.code === 10000) {
-          res[1].data.data.forEach((item, idx) => {
-            vm.pinListAuthor.push({
-              name: item,
-              code: item,
-            });
-          });
-          vm.$store.commit("pageData/UPDATE_PINLISTAUTHOR", vm.pinListAuthor);
-        } else {
-          vm.$msg({
-            type: "error",
-            msg: res[1].data.msg
-          });
-        }
-      })
-    },
     // 左侧
     selectChangeLeft(val, item) {
       const vm = this;
