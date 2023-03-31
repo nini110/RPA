@@ -12,18 +12,42 @@
     justify-content: center;
   }
 
+  &_left {
+    height: 100%;
+    width: 260px;
+    display: flex;
+    align-content: space-between;
+    flex-wrap: wrap;
+    background-color: #303133;
+  }
+
+  // &_tip {
+  //   color: #fff;
+  //   line-height: 26px;
+  //   padding: 10px;
+
+  //   p {
+  //     margin-bottom: 20px;
+  //   }
+  // }
+
+  &_right {
+    width: calc(100% - 260px);
+    overflow: hidden;
+  }
+
   // padding-top: 80px;
   &_menu {
     position: absolute;
+    width: 100%;
     // box-shadow: 0px 5px 10px #343538;
     left: 0;
     top: 0;
     margin-top: 60px;
     padding-top: 50px;
-    height: 100%;
-    width: 220px;
     background-color: #303133;
     position: relative;
+    border: none;
 
     &:before {
       position: absolute;
@@ -33,11 +57,6 @@
       height: 40px;
       background: url('../../assets/images/meunHead.png') no-repeat 0 0;
       background-size: 100%;
-    }
-
-    &_right {
-      width: calc(100% - 220px);
-      overflow: hidden;
     }
 
     &_box {

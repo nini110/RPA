@@ -140,7 +140,69 @@
       box-sizing: border-box;
 
       &.ts {
+        // padding-top: 20px;
         margin-bottom: 20px;
+      }
+
+      .word {
+        padding-left: 50px;
+        color: #606266;
+        margin: 8px 0;
+        font-size: 16px;
+
+        .lab {
+          color: #303133;
+          font-weight: bold;
+        }
+
+        &.wordTip {
+          color: #909399;
+        }
+      }
+
+      /deep/.el {
+        &-divider {
+          background-color: #e3e3e3;
+
+          &__text {
+            background-color: #444;
+            color: #fff;
+          }
+        }
+
+        &-collapse {
+          border: none;
+          margin-bottom: 20px;
+          user-select: none;
+
+          &-item {
+            &__content {
+              padding-bottom: 0;
+            }
+
+            &__wrap {
+              border: none;
+            }
+
+            &__header {
+              font-size: 18px;
+              border: none;
+
+              i {
+                margin-right: 10px;
+                font-style: normal;
+              }
+
+              b {
+                cursor: pointer;
+
+                &:hover {
+                  color: #3B8EFF;
+                }
+              }
+            }
+          }
+        }
       }
 
       .formObj {
@@ -175,6 +237,11 @@
             img {
               width: 60px;
               height: 60px;
+
+              &.ts {
+                width: 48px;
+                height: 48px;
+              }
             }
 
             .el-result__extra {
@@ -197,7 +264,16 @@
             flex-basis: 100%;
           }
 
+          .vxe {
+            &-input {
+              height: 100% !important;
+              flex: 1;
+            }
+          }
+
           /deep/.el-form-item {
+            display: flex;
+
             &.w110 {
               .el-form-item__label {
                 width: 80px !important;
@@ -387,8 +463,14 @@
       box-sizing: border-box;
       // background-color: #fff;
 
+
+
       &.hasUp {
         height: calc(100% - 250px) !important;
+
+        &.hasUpTS {
+          height: calc(100% - 320px) !important;
+        }
       }
 
       &.hasUp2 {

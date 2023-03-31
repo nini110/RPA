@@ -155,34 +155,27 @@
           </el-select>
         </el-form-item>
       </el-col>
-      <el-col v-if="$route.name==='Compete'" :span="24">
-        <el-form-item label="竞争品牌" prop="otherBrand_name">
-          <!-- <el-input v-if="fromTag===2 " v-model="form.otherBrand_name"></el-input> -->
-          <vxe-pulldown ref="refBrand" v-model="visible3">
-            <template #default>
-              <el-input v-model="form.otherBrand_name" readonly placeholder="请选择竞争品牌" @focus="focusEvent3">
-              </el-input>
-            </template>
-            <template #dropdown>
-              <div class="dropdownbox">
-                <div class="flex">
-                  <div><span class="lb">自身品牌:</span>三星（SAMSUNG）</div>
-                  <div><span class="lb">当前排名:</span>3</div>
-                </div>
-                <p class="tips">当前行业品牌仅展现近三月内展现量Top100品牌，部分品牌由于被多个商家重复注册，可能存在名称重复或相近的问题；</p>
-                <vxe-toolbar>
-                  <template #buttons>
-                    <vxe-input v-model="tablefilterName" type="search" placeholder="搜一搜关键字" @keyup="searchEvent1"></vxe-input>
-                  </template>
-                </vxe-toolbar>
-                <vxe-table border ref="xTable1" :data="brandDataRes" :checkbox-config="{checkStrictly: true}" @checkbox-change="brandEvent">
-                  <vxe-column type="checkbox" width="60"></vxe-column>
-                  <vxe-column min-width="50%" field="name" title="品牌名"></vxe-column>
-                  <vxe-column min-width="15%" field="range" title="流量排名"></vxe-column>
-                </vxe-table>
-              </div>
-            </template>
-          </vxe-pulldown>
+      <el-col v-if="$route.name==='Compete'" :span="24" style="position: relative;">
+        <el-tooltip placement="bottom-start">
+          <div slot="content">
+            <p>1·当前行业品牌仅展现近三月内展现量Top100品牌</p>
+            <p>2·部分品牌由于被多个商家重复注册，可能存在名称重复或相近的问题；</p>
+          </div>
+          <span class="absoIcon el-icon-question"></span>
+        </el-tooltip>
+        <el-form-item label="竞争品牌" prop="otherBrand">
+          <el-select v-model="form.otherBrand" filterable multiple :multiple-limit="5" placeholder="请选择" @change="brandEvent">
+            <el-option-group label="" value="34567">
+              <el-option disabled value="34567">
+                <span class="lft">自身品牌： SAMSUNG</span>
+                <span class="rgt">品牌排名： 3</span>
+              </el-option>
+            </el-option-group>
+            <el-option v-for="item in brandData" :key="item.range" :label="item.name" :value="item.range">
+              <span class="lft">{{ item.name }}</span>
+              <span class="rgt"><i>排名：</i>{{ item.range }}</span>
+            </el-option>
+          </el-select>
         </el-form-item>
       </el-col>
       <el-col :span="24">
@@ -258,6 +251,8 @@ export default {
       callback();
     };
     return {
+      tableCkMethods: null,
+      noCkArr: [],
       showPlaer: false,
       playerOptions: {
         muted: false, // false为默认打开声音
@@ -313,7 +308,7 @@ export default {
         username: '',
         cookie: ''
         // username: 'Samsung-BF',
-        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; retina=1; cid=9; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; sc_width=1708; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; equipmentId=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; fingerprint=ed92b19585a94899e8d8014533371d2e; deviceVersion=110.0.0.0; deviceOS=; deviceOSVersion=; deviceName=Chrome; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; __jdv=146207855|baidu|-|organic|notset|1678775377049; track=64cfcd5a-e042-8b3f-ca29-d2125e480e36; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; _tp=PHCuVjMa4QlP%2FBgMMf0RDA%3D%3D; _pst=Samsung-BF; wlfstk_smdl=yz53wzk1g9m3m8lnd1vdme09ht6yj5pi; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1D8BX7IMVdIBRhJIwNMhHZ4CbYYhSBtahNQ4-XAjoUu3aMxDNn6A3gevhnctYPczN4h55m9vBY3yVogYThPojmtEoSVsDeTU6nCpWDC4ezIs; thor=D721CB7F333FD47AAEC0097C1F3D549C4452F4B100A1265057F47DED429B93D3C252088600C187BF50548EB87F695459ACA16DB15078ED8E19BF2472E5647B61AC16C9A32B8028FDDD85208007F083A514175EDF848FA70EE7D9CEE57B77AE6956A5D3B3F08A8D36211488F71AFBA4D985C3D129FAC3B9CBB119BDC30D3A58D05846DC80D40F88375D232369845BED3E; ceshi3.com=000; logining=1; __jda=146207855.16774677218671515249824.1677467722.1679883906.1679886994.41; __jdb=146207855.5.16774677218671515249824|41.1679886994; __jdc=146207855'
+        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; retina=1; cid=9; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; sc_width=1708; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; equipmentId=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; fingerprint=ed92b19585a94899e8d8014533371d2e; deviceVersion=110.0.0.0; deviceOS=; deviceOSVersion=; deviceName=Chrome; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; __jdv=146207855|baidu|-|organic|notset|1678775377049; track=64cfcd5a-e042-8b3f-ca29-d2125e480e36; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; _tp=PHCuVjMa4QlP%2FBgMMf0RDA%3D%3D; _pst=Samsung-BF; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1-Yo2TbYv0DYgCjNa3YiOWRVOGCH8ptkJDmx355D7ATcfYoMy4qkgs_yEZwt0_mxkhbM8WqzShz9bw4_mECVIYHUm0gqQCkEKg393KdI5lAM; thor=D721CB7F333FD47AAEC0097C1F3D549C0460706DEEF4C4F928A5C61105B8D572292C925808F5A0CC545036E866E0C52C261E0A00638100DE3707680D56DB64E27C1B52061E29451C7B7E410B82227BE337B8C2CBB845A489028DCC7CC33D59B57A6898F0B1A2429F083C38F3681067628137611F113F3164A9042CCA2E2B700E07FEF08A05A3C6BE44DE382D4CA97B1D; ceshi3.com=000; logining=1; __jda=146207855.16774677218671515249824.1677467722.1679999114.1680059297.48; __jdc=146207855; __jdb=146207855.9.16774677218671515249824|48.1680059297'
       },
       form: {
         rangeDate: [],
@@ -327,7 +322,7 @@ export default {
         isbusinessType: 0,
         dataType: 0,
         model: [],
-        otherBrand: '',
+        otherBrand: [],
         otherBrand_name: '',
         selfBrand: ''
       },
@@ -381,7 +376,6 @@ export default {
           range: 12
         },
       ],
-      brandDataRes: null,
       Data1: '',
       visible1: true,
       visible2: false,
@@ -495,7 +489,7 @@ export default {
           message: "请选择自身品牌",
           trigger: ["blur", "change"],
         }],
-        otherBrand_name: [{
+        otherBrand: [{
           required: true,
           message: "请选择竞争品牌",
           trigger: ["blur", "change"],
@@ -520,6 +514,9 @@ export default {
     },
     formData() {
       return this.form
+    },
+    ckBrand() {
+      return this.form.otherBrand
     }
   },
   watch: {
@@ -652,6 +649,24 @@ export default {
       },
       immediate: true,
       deep: true
+    },
+    ckBrand: {
+      handler(newval, oldval) {
+        // 动态设置禁选项目
+        this.tableCkMethods = function ({
+          row
+        }) {
+          if (newval.length >= 4) {
+            if (newval.indexOf(row.range) !== -1) {
+              return true
+            } else {
+              return false
+            }
+          } else {
+            return true
+          }
+        }
+      }
     }
   },
   created() {
@@ -713,26 +728,8 @@ export default {
   },
   mounted() {
     this.getPin()
-    this.searchEvent1()
   },
   methods: {
-    searchEvent1() {
-      const filterName = XEUtils.toValueString(this.tablefilterName).trim().toLowerCase()
-      if (filterName) {
-        const filterRE = new RegExp(filterName, 'gi')
-        const searchProps = ['name']
-        const rest = this.brandData.filter(item => searchProps.some(key => XEUtils.toValueString(item[key]).toLowerCase().indexOf(filterName) > -1))
-        this.brandDataRes = rest.map(row => {
-          const item = Object.assign({}, row)
-          searchProps.forEach(key => {
-            item[key] = XEUtils.toValueString(item[key]).replace(filterRE, match => `${match}`)
-          })
-          return item
-        })
-      } else {
-        this.brandDataRes = JSON.parse(JSON.stringify(this.brandData))
-      }
-    },
     // 获取pin下拉
     getPin() {
       const vm = this;
@@ -902,17 +899,20 @@ export default {
         vm.player.src('http://tool.afocus.com.cn/file_download/movie/jzt/jzt.m3u8'); //进度条归零
       }
     },
-    brandEvent(val) {
-      let str = ''
-      this.form.otherBrand = val.records.map((item, idx) => {
-        return item.range
+    brandEvent(ckBrad) {
+      const vm = this
+      // console.log(ckBrad)
+      let arr = []
+      ckBrad.forEach((val, idx) => {
+        let mid = vm.brandData.filter((item, idx) => {
+          return item.range === val
+        })
+        arr.push(mid[0].name)
       })
-      for (let i of val.records) {
-        str += i.name + ' -- '
-      }
-      this.form.otherBrand_name = str.slice(0, -3)
-      // console.log(this.form.otherBrand_name)
+      vm.otherBrand_name = arr.join(' -- ')
+      // console.log(vm.otherBrand_name)
     },
+
     casaderEvent(cheked) {
       const vm = this
       let str = ''

@@ -66,13 +66,14 @@ export default {
     };
   },
   mounted() {
-    console.log(Window.LuckyExcel)
+    // console.log(Window.LuckyExcel)
 
   },
   methods: {
     // 文件状态改变时的钩子
     fileChange(file, fileList) {
       const vm = this;
+      vm.$emit('beforeeve')
       vm.fileList = [];
       let extension = file.name.substring(file.name.lastIndexOf(".") + 1);
       let size = file.size / 1024 / 1024;

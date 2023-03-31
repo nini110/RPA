@@ -1,13 +1,9 @@
 <template>
-  <div class="layout">
-    <Header></Header>
-    <el-menu
-      v-if="hasMenu"
-      :default-active="currentMenu"
-      class="el-menu-vertical-demo layout_menu"
-      unique-opened
-      active-text-color="#2066BD"
-    >
+<div class="layout">
+  <Header></Header>
+  <div class="layout_left">
+
+    <el-menu v-if="hasMenu" :default-active="currentMenu" class="el-menu-vertical-demo layout_menu" unique-opened active-text-color="#2066BD">
       <div v-for="(item, idx) in menuList" :key="idx" class="layout_menu_box">
         <el-submenu v-if="item.children" :index="item.index">
           <template slot="title">
@@ -17,28 +13,14 @@
             <span>{{ item.label }}</span>
           </template>
           <div v-if="item.deep === 3">
-            <el-menu-item-group
-              v-for="(item1, idx1) in item.children"
-              :key="idx1"
-            >
+            <el-menu-item-group v-for="(item1, idx1) in item.children" :key="idx1">
               <template slot="title">{{ item1.label }}</template>
-              <el-menu-item
-                v-for="(item2, idx2) in item1.children"
-                :key="idx2"
-                :index="item2.index"
-                @click="selectEvent(item2)"
-                >{{ item2.label }}</el-menu-item
-              >
+              <el-menu-item v-for="(item2, idx2) in item1.children" :key="idx2" :index="item2.index" @click="selectEvent(item2)">{{ item2.label }}</el-menu-item>
             </el-menu-item-group>
           </div>
           <div v-else>
             <el-menu-item-group>
-              <el-menu-item
-                v-for="(item1, idx1) in item.children"
-                :key="idx1"
-                :index="item1.index"
-                @click="selectEvent(item1)"
-              >
+              <el-menu-item v-for="(item1, idx1) in item.children" :key="idx1" :index="item1.index" @click="selectEvent(item1)">
                 {{ item1.label }}
               </el-menu-item>
             </el-menu-item-group>
@@ -50,15 +32,17 @@
         </el-menu-item>
       </div>
     </el-menu>
-    <div class="layout_menu_right">
-      <div class="app-main" id="appMain">
-        <transition name="el-fade-in-linear">
-          <router-view class="app-router-view" />
-        </transition>
-      </div>
+  </div>
+  <div class="layout_right">
+    <div class="app-main" id="appMain">
+      <transition name="el-fade-in-linear">
+        <router-view class="app-router-view" />
+      </transition>
     </div>
   </div>
+</div>
 </template>
+
 <script>
 import Header from "@/components/Header";
 export default {
@@ -70,15 +54,13 @@ export default {
     return {
       hasMenu: true,
       currentMenu: "1-1",
-      menuList: [
-        {
+      menuList: [{
           label: "投放提效",
           deep: 2,
           icon: "#icon-xiaoshuai",
           value: "",
           index: "1",
-          children: [
-            {
+          children: [{
               label: "DMP",
               value: "/layout/beijingMustPass/DMP",
               index: "1-1",
@@ -116,8 +98,7 @@ export default {
           icon: "#icon-gengduoyingyong",
           value: "",
           index: "2",
-          children: [
-            {
+          children: [{
               label: "人群计算",
               value: "/layout/bigData/Caculate",
               index: "2-1",
@@ -155,8 +136,7 @@ export default {
           icon: "#icon-jiancedashujuyingyong",
           value: "",
           index: "3",
-          children: [
-            {
+          children: [{
               label: "灵鲨制表",
               icon2: "#icon-jianzhibiaoge",
               value: "/layout/dataApplication/tabulation",
@@ -188,8 +168,7 @@ export default {
           icon: "#icon-icon_zhongdashixiangyujing",
           value: "",
           index: "4",
-          children: [
-            {
+          children: [{
               label: "竞标监控",
               icon2: "#icon-monitor-tv-svgrepo-com",
               value: "/layout/dataApplication/monitor",
@@ -215,13 +194,11 @@ export default {
           icon: "#icon-zhugehuodonggongju",
           value: "",
           index: "5",
-          children: [
-            {
+          children: [{
               label: "巨量千川",
               value: "",
               // index: '5-1',
-              children: [
-                {
+              children: [{
                   label: "项目",
                   value: "/layout/qianchuan/items",
                   index: "5-1",
@@ -243,8 +220,7 @@ export default {
               icon: "#icon-gengduoyingyong",
               value: "",
               // index: '5-2',
-              children: [
-                {
+              children: [{
                   label: "效果变化",
                   icon2: "#icon-xiaoguofenxi",
                   value: "/layout/kuaiche/effect",
@@ -266,8 +242,7 @@ export default {
           icon: "#icon--wenjian",
           value: "",
           index: "7",
-          children: [
-            {
+          children: [{
               label: "京东招标",
               icon2: "#icon-yusuanzhaobiaoxiangmu",
               value: "/layout/publicData/bidding",
@@ -312,8 +287,7 @@ export default {
           icon: "#icon-shujushiti",
           value: "",
           index: "8",
-          children: [
-            {
+          children: [{
               label: "自有看板",
               value: "/layout/expend/selfBrand",
               index: "8-1",
@@ -384,6 +358,7 @@ export default {
   },
 };
 </script>
+
 <style lang="less" scoped>
 @import "index";
 

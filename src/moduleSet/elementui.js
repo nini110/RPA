@@ -4,6 +4,7 @@
 // ElementUI按需引入
 import Vue from 'vue'
 import {
+  Badge,
   Image,
   Timeline,
   TimelineItem,
@@ -55,11 +56,13 @@ import {
   Drawer,
   Descriptions,
   DescriptionsItem,
-  Result
+  Result,
+  Loading
 } from 'element-ui'
 
 
 const components = {
+  Badge,
   Image,
   Timeline,
   TimelineItem,
@@ -148,3 +151,4 @@ const Elementui = (Vue, config = {}) => {
 }
 
 Vue.use(Elementui);
+Vue.use(Loading.directive);

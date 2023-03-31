@@ -2094,14 +2094,14 @@ export default {
           case "Caculate":
             vm.toolType = "数坊人群计算";
             vm.ifDown = true
-            vm.picSrc = require("../../assets/images/shufang.png");
+            vm.picSrc = require("../../assets/images/人群计算.png");
             vm.sheetName = "Sheet1";
             vm.excelOptions = opt;
             break;
             // 圈选
           case "Select":
             vm.toolType = "数坊人群圈选";
-            vm.picSrc = require("../../assets/images/人群圈选.png");
+            vm.picSrc = require("../../assets/images/人群圈选3.png");
             vm.ifDown = false
             vm.sheetName = "Sheet1";
             vm.excelOptions = opt;
@@ -2109,7 +2109,7 @@ export default {
             // 洞察分析
           case "Analysis":
             vm.toolType = "数坊洞察分析";
-            vm.picSrc = require("../../assets/images/洞察分析.png");
+            vm.picSrc = require("../../assets/images/洞察分析2.png");
             vm.sheetName = "Sheet1";
             vm.ifDown = true
             vm.excelOptions = [{
@@ -2147,7 +2147,7 @@ export default {
           case "Insight":
             vm.toolType = "数坊人群透视分析";
             vm.sheetName = "Sheet1";
-            vm.picSrc = require("../../assets/images/透视分析.png");
+            vm.picSrc = require("../../assets/images/透视分析2.png");
             vm.ifDown = true
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
@@ -2183,7 +2183,7 @@ export default {
             // 人群追踪
           case "Track":
             vm.toolType = "数坊营销人群追踪";
-            vm.picSrc = require("../../assets/images/人群追踪.png");
+            vm.picSrc = require("../../assets/images/人群追踪3.png");
             vm.sheetName = "Sheet1";
             vm.ifDown = false
             vm.excelOptions = [{
@@ -2453,7 +2453,7 @@ export default {
           case "Report":
             vm.toolType = "营销人群报告数据表";
             vm.sheetName = "Sheet1";
-            vm.picSrc = require("../../assets/images/人群报告.png");
+            vm.picSrc = require("../../assets/images/人群报告2.png");
             vm.ifDown = true
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称

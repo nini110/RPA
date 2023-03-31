@@ -48,15 +48,15 @@ Vue.use(VueVideoPlayer)
 // Vue.prototype.DomainName = 'http://192.168.90.209:5000';
 Vue.prototype.DomainName = 'http://tool.afocus.com.cn';
 Object.keys(format).forEach(key => {
-	Vue.filter(key, format[key])
+  Vue.filter(key, format[key])
 })
 
 Object.keys(directives).forEach(key => {
-	Vue.directive(key, directives[key])
+  Vue.directive(key, directives[key])
 })
 Vue.config.productionTip = false
 new Vue({
-	router,
-	store,
-	render: h => h(App)
+  router,
+  store,
+  render: h => h(App)
 }).$mount('#app')

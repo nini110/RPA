@@ -1,13 +1,23 @@
 <template>
 <div class="outerDiv">
-  <div class="content">
+  <div class="content" v-loading.fullscreen.lock="showLoading" element-loading-text="文件导入中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(46, 46, 46, 0.8)">
     <div class="content_form ts">
+      <el-collapse v-if="formMenu===1" v-model="activeNames">
+        <el-collapse-item name="1">
+          <template slot="title">
+              <i class="el-icon-s-grid"></i>
+              <el-divider content-position="left">功能介绍</el-divider>
+          </template>
+          <div class="word" v-for="(item,idx) in wordList" :key="idx"><span class="lab">{{ item.lab }}</span>{{ item.word }}</div>
+          <div v-if="wordTip" class="word wordTip el-icon-warning-outline">{{wordTip}}</div>
+        </el-collapse-item>
+      </el-collapse>
       <el-form ref="form" :model="form" class="formObj" :rules="rules">
         <div class="formObj_ipt">
           <div class="formObj_ipt_abso">
             <el-result>
               <template slot="icon">
-                <img :src="picSrc" alt="" />
+                <img :src="picSrc" alt="" :class="{ts: formMenu===2}"/>
               </template>
               <template slot="extra">
                 <span>{{ $route.meta.title }}</span>
@@ -33,13 +43,12 @@
                     <p class="ts"> * 开启时：</p>
                     <p>根据填写的终止条件作为规则，例如填写：5，则会在出错第5次自动终止程序</p>
                   </div>
-                  <div class="el-icon-question" @click="movieDownEvent(1)"></div>
+                  <div class="el-icon-question"></div>
                 </el-tooltip>
                 <el-form-item label="终止条件" prop="error_num" class="flex w110">
                   <el-switch v-model="ifErrNum" active-color="#13ce66" inactive-color="#a5a5a5" @change="seitchEvent">
                   </el-switch>
-                  <el-input-number v-if="ifErrNum" v-model="form.error_num"  :min="1" :max="10" label="描述文字">
-                  </el-input-number>
+                  <vxe-input v-if="ifErrNum" v-model="form.error_num" placeholder="数值区间为1 - 10" type="number" step="1" min="1" max="10"></vxe-input>
                 </el-form-item>
               </el-col>
               <el-col v-if="form.choose === 1" :span="colWidth.pin">
@@ -81,7 +90,7 @@
             <el-button v-else v-waves type="info" class="el-icon-plus" @click="openExcel">创建</el-button>
           </el-form-item>
           <el-form-item label="" :error="errorUpInfo">
-            <Upload @getFile="getFileEvent" @openEvent="openExcelAuto" :sheetName="sheetName"></Upload>
+            <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" :sheetName="sheetName"></Upload>
           </el-form-item>
           <div v-if="excelName" class="uptxt">
             点击打开「 <span @click="popverEvent(1)">{{ excelName }}</span>」
@@ -107,7 +116,7 @@
         <el-button v-waves type="primary" class="el-icon-right marginR" :disabled="disBtn" @click="zhixingEvent">执行</el-button>
       </div>
     </div>
-    <div ref="tableBox" class="content_tableBox hasUp">
+    <div ref="tableBox" class="content_tableBox hasUp" :class="{hasUpTS: formMenu===1}">
       <el-divider>列表</el-divider>
       <div class="tables">
         <div v-if="showVarDia" class="dialog">
@@ -202,7 +211,6 @@ import {
   pinSelect,
   optMovie,
 } from "@/api/api.js";
-// import { TcPlayer } from './tcplayer.js'
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
 import Upload from "@/components/upload";
@@ -216,6 +224,12 @@ export default {
     Upload,
   },
   props: {
+    wordList: {
+      type: Array
+    },
+    wordTip: {
+      type: String
+    },
     colWidth: {
       type: Object,
       // default: {
@@ -297,6 +311,10 @@ export default {
           vm.excelName = "";
           vm.excelData = null;
           vm.ifErrNum = false
+          // 为了美观
+          setTimeout(() => {
+            vm.activeNames = '2'
+          }, 200);
         });
       },
       immediate: true,
@@ -313,6 +331,9 @@ export default {
       }
     };
     return {
+      activeNames: '2',
+      showLoading: false,
+      iptTimer: null,
       saveCode: null,
       showPlaer: false,
       playerOptions: {
@@ -431,6 +452,21 @@ export default {
     vm.getPin();
   },
   methods: {
+    iptClickEvent(newval, oldval) {
+      const vm = this
+      if (!vm.iptTimer) {
+        console.log('new', newval)
+        vm.iptTimer = setTimeout(() => {
+          vm.form.error_num = newval
+
+        }, 500)
+      } else {
+        console.log('old', oldval)
+        vm.form.error_num = oldval
+        clearTimeout(vm.iptTimer)
+        vm.iptTimer = null
+      }
+    },
     movieEvent() {
       this.showPlaer = true;
     },
@@ -486,6 +522,7 @@ export default {
       this.showVarDia = false;
     },
     getFileEvent(val) {
+      this.showLoading = false
       this.fileList = val;
       this.excelName = val[0].name;
       this.errorUpInfo = "";
@@ -496,6 +533,9 @@ export default {
       vm.excelOpt = JSON.parse(JSON.stringify(vm.excelOptions));
       vm.showExcel = true;
       vm.formSource = 1;
+    },
+    beforeeve() {
+      this.showLoading = true
     },
     // 导入并打开excel
     openExcelAuto(opt) {
