@@ -238,7 +238,24 @@ export const dapanonLineList = request({
   url: `${BASEPATH}/apps/sjzx_online_log_list/`,
   method: "get",
 })
-
+// 数据应用--自有品牌
+export const getBrandSelf = request({
+  url: `${BASEPATH}/apps/jzfx_get_self_brands/`,
+  method: "post",
+  responseType: 'form'
+})
+// 数据应用--竞争品牌
+export const getBrandOther = request({
+  url: `${BASEPATH}/apps/jzfx_get_industry_brands/`,
+  method: "post",
+  responseType: 'form'
+})
+// 数据应用--竞争分析--报表生成
+export const brandOnline = request({
+  url: `${BASEPATH}/apps/sjzx_jzfx_online_tool/`,
+  method: "post",
+  responseType: 'form'
+})
 // 巨量千川，音果desk api---------------------------------------------------------
 // 获取出价策略列表
 export const strategyList = request({

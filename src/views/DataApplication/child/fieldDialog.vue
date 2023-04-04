@@ -1,6 +1,6 @@
 <template>
 <!-- 上传竞标 -->
-<el-dialog :title="fromTag===1 ? '新增计划' : '查看计划'" :visible.sync="show" width="35%" max-height="800px" custom-class="dialogJb" :close-on-click-modal="false" @close="closeEvent(0)">
+<el-dialog :title="fromTag===1 ? '新增任务' : '查看任务'" :visible.sync="show" width="35%" max-height="800px" custom-class="dialogJb" :close-on-click-modal="false" @close="closeEvent(0)">
   <el-form v-if="ifFirst" ref="account" :model="account" class="formObj dapan" :rules="rules">
     <el-row :gutter="20">
       <el-col :span="24">
@@ -148,9 +148,10 @@
         </el-form-item>
       </el-col>
       <el-col v-if="$route.name==='Compete'" :span="24">
-        <el-form-item label="自身品牌" prop="selfBrand">
-          <el-select v-model="form.selfBrand" placeholder="请选择自身品牌">
-            <el-option v-for="item in opt_brand" :key="item.code" :label="item.label" :value="item.code">
+        <el-form-item label="自身品牌" prop="selfBrandId">
+          <el-input v-if="fromTag===2 " v-model="form.selfBrandName" ></el-input>
+          <el-select v-else v-model="form.selfBrandId" placeholder="请选择自身品牌" @change="brandEventSelf" :disabled="disBrand">
+            <el-option v-for="item in opt_brand" :key="item.code" :label="item.lable" :value="item.code">
             </el-option>
           </el-select>
         </el-form-item>
@@ -163,16 +164,17 @@
           </div>
           <span class="absoIcon el-icon-question"></span>
         </el-tooltip>
-        <el-form-item label="竞争品牌" prop="otherBrand">
-          <el-select v-model="form.otherBrand" filterable multiple :multiple-limit="5" placeholder="请选择" @change="brandEvent">
+        <el-form-item label="竞争品牌" prop="industryBrands">
+          <el-input v-if="fromTag===2 " v-model="form.industryBrands_name" type="textarea"></el-input>
+          <el-select v-else v-model="form.industryBrands" filterable multiple :multiple-limit="5" placeholder="请选择竞争品牌" :disabled="disBrand" @change="brandEventOther">
             <el-option-group label="" value="34567">
               <el-option disabled value="34567">
                 <span class="lft">自身品牌： SAMSUNG</span>
                 <span class="rgt">品牌排名： 3</span>
               </el-option>
             </el-option-group>
-            <el-option v-for="item in brandData" :key="item.range" :label="item.name" :value="item.range">
-              <span class="lft">{{ item.name }}</span>
+            <el-option v-for="item in brandData" :key="item.range" :label="item.lable" :value="item.code">
+              <span class="lft">{{ item.lable }}</span>
               <span class="rgt"><i>排名：</i>{{ item.range }}</span>
             </el-option>
           </el-select>
@@ -223,11 +225,14 @@
 import {
   dapanRange,
   dapanOnline,
-  pinSelect
+  pinSelect,
+  getBrandSelf,
+  getBrandOther,
+  brandOnline
 } from "@/api/api.js";
 import Upload from "@/components/upload";
 import dayjs from "dayjs";
-import XEUtils from 'xe-utils'
+// import XEUtils from 'xe-utils'
 export default {
   name: "UpDialog",
   components: {
@@ -247,9 +252,17 @@ export default {
   },
   data() {
     const vm = this;
+
     const validateData1 = (rule, value, callback) => {
       callback();
     };
+    const validatePin = (rule, value, callback) => {
+      if (!value) {
+        callback(vm.account.user_type === '京牌代理' ? new Error("请输入PIN") : new Error("请输入账号"));
+      } else {
+        callback()
+      }
+    }
     return {
       tableCkMethods: null,
       noCkArr: [],
@@ -308,7 +321,7 @@ export default {
         username: '',
         cookie: ''
         // username: 'Samsung-BF',
-        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; retina=1; cid=9; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; sc_width=1708; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; equipmentId=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; fingerprint=ed92b19585a94899e8d8014533371d2e; deviceVersion=110.0.0.0; deviceOS=; deviceOSVersion=; deviceName=Chrome; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; __jdv=146207855|baidu|-|organic|notset|1678775377049; track=64cfcd5a-e042-8b3f-ca29-d2125e480e36; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; _tp=PHCuVjMa4QlP%2FBgMMf0RDA%3D%3D; _pst=Samsung-BF; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1-Yo2TbYv0DYgCjNa3YiOWRVOGCH8ptkJDmx355D7ATcfYoMy4qkgs_yEZwt0_mxkhbM8WqzShz9bw4_mECVIYHUm0gqQCkEKg393KdI5lAM; thor=D721CB7F333FD47AAEC0097C1F3D549C0460706DEEF4C4F928A5C61105B8D572292C925808F5A0CC545036E866E0C52C261E0A00638100DE3707680D56DB64E27C1B52061E29451C7B7E410B82227BE337B8C2CBB845A489028DCC7CC33D59B57A6898F0B1A2429F083C38F3681067628137611F113F3164A9042CCA2E2B700E07FEF08A05A3C6BE44DE382D4CA97B1D; ceshi3.com=000; logining=1; __jda=146207855.16774677218671515249824.1677467722.1679999114.1680059297.48; __jdc=146207855; __jdb=146207855.9.16774677218671515249824|48.1680059297'
+        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; track=64cfcd5a-e042-8b3f-ca29-d2125e480e36; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; _tp=PHCuVjMa4QlP%2FBgMMf0RDA%3D%3D; _pst=Samsung-BF; __jdv=146207855|baidu|-|organic|notset|1680144104618; ceshi3.com=000; logining=1; TrackID=16XaJLjGVF4N5GCD__Qz6gOShCBf15xrCbHDh5-XCB0nP1fqKpIyOCHcMyDNoiFl5r7Quxb_AwIBjrXETOrovr7DP21OtlGoQHPP9mGAhpmE; thor=D721CB7F333FD47AAEC0097C1F3D549C7240BE3C89A1C354A629539DC530AAB5F888A97E2C651D13741EA14A7AB5FD7AB85D4B4ACE2D064B2E5141E70143CD22B6AC9DB5FEC92D03C1FA7EC0686D38B4ACB023AD5412267F556B0803E48B238312EEF9F76E70AFE1F34043F456BAC78B2A98E282B6E89B4C2D31EF28610BE0595245558FC45132ABDD9B2855792591C9; mba_sid=16805749171702306470143354795.1; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; __jda=146207855.16774677218671515249824.1677467722.1680493275.1680574889.55; __jdc=146207855; __jdb=146207855.9.16774677218671515249824|55.1680574889'
       },
       form: {
         rangeDate: [],
@@ -322,73 +335,19 @@ export default {
         isbusinessType: 0,
         dataType: 0,
         model: [],
-        otherBrand: [],
-        otherBrand_name: '',
-        selfBrand: ''
+        industryBrands: [],
+        industryBrands_name: '',
+        selfBrandId: '',
+        selfBrandName: ''
       },
       tablefilterName: '',
-      brandData: [{
-          name: '三星',
-          range: 1,
-        },
-        {
-          name: 'Huawei',
-          range: 2,
-        },
-        {
-          name: '小米',
-          range: 3
-        },
-        {
-          name: '努比亚',
-          range: 4
-        },
-        {
-          name: '摩托罗拉',
-          range: 5
-        },
-        {
-          name: 'OPPO',
-          range: 6
-        },
-        {
-          name: '红魔',
-          range: 7
-        },
-        {
-          name: 'VIVO',
-          range: 8
-        },
-        {
-          name: '海尔Haier',
-          range: 9
-        },
-        {
-          name: '魅族',
-          range: 10
-        },
-        {
-          name: '黑莓',
-          range: 11
-        },
-        {
-          name: '诺基亚',
-          range: 12
-        },
-      ],
+      disBrand: true,
+      brandData: [],
       Data1: '',
       visible1: true,
       visible2: false,
       visible3: false,
-      opt_brand: [{
-          code: 0,
-          label: '品牌一'
-        },
-        {
-          code: 1,
-          label: '品牌二'
-        },
-      ],
+      opt_brand: [],
       opt_zhouqi: [{
           code: 0,
           label: '当天'
@@ -447,22 +406,22 @@ export default {
         user_type: [{
           required: true,
           message: "请选择账号类型",
-          trigger: "blur",
+          trigger: ["blur", "change"],
         }],
         rangeDate: [{
           required: true,
           message: "请选择日期",
-          trigger: "blur",
+          trigger: ["blur", "change"],
         }],
         username: [{
           required: true,
-          message: "请输入账号",
-          trigger: "blur",
+          validator: validatePin,
+          trigger: ["blur", "change"],
         }],
         cookie: [{
           required: true,
           message: "请输入Cookie",
-          trigger: "blur",
+          trigger: ["blur", "change"],
         }],
         cid3: [{
           required: true,
@@ -484,12 +443,12 @@ export default {
           message: "请选择模块需求",
           trigger: ["blur", "change"],
         }],
-        selfBrand: [{
+        selfBrandId: [{
           required: true,
           message: "请选择自身品牌",
           trigger: ["blur", "change"],
         }],
-        otherBrand: [{
+        industryBrands: [{
           required: true,
           message: "请选择竞争品牌",
           trigger: ["blur", "change"],
@@ -516,7 +475,7 @@ export default {
       return this.form
     },
     ckBrand() {
-      return this.form.otherBrand
+      return this.form.industryBrands
     }
   },
   watch: {
@@ -566,7 +525,8 @@ export default {
           vm.form.dataType = Number(vm.row.dataType)
           vm.form.model = JSON.parse(vm.row.model)
           vm.form.rangeDate = [vm.row.startDate, vm.row.endDate]
-
+          vm.form.industryBrands_name = JSON.parse(vm.row.industryBrands_name).join(' -- '),
+          vm.form.selfBrandName = vm.row.selfBrandName
           vm.checkAll2 = vm.form.model.length === vm.opt_model.length;
           vm.isIndeterminate2 = vm.form.model.length > 0 && vm.form.model.length < vm.opt_model.length;
         }
@@ -775,21 +735,40 @@ export default {
       }
       vm.$refs.form.validate(valid => {
         if (valid) {
-          dapanOnline({
-            ...obj
-          }).then(res => {
-            if (res.data.code === 10000) {
-              vm.$msg({
-                msg: '保存成功'
-              });
-              vm.closeEvent(1)
-            } else {
-              vm.$msg({
-                type: "error",
-                msg: res.data.data || res.data.msg,
-              });
-            }
-          })
+          if (vm.$route.name === 'Compete') {
+            brandOnline({
+              ...obj,
+            }).then(res => {
+              if (res.data.code === 10000) {
+                vm.$msg({
+                  msg: '保存成功'
+                });
+                vm.closeEvent(1)
+              } else {
+                vm.$msg({
+                  type: "error",
+                  msg: res.data.data || res.data.msg,
+                });
+              }
+            })
+          } else {
+            dapanOnline({
+              ...obj
+            }).then(res => {
+              if (res.data.code === 10000) {
+                vm.$msg({
+                  msg: '保存成功'
+                });
+                vm.closeEvent(1)
+              } else {
+                vm.$msg({
+                  type: "error",
+                  msg: res.data.data || res.data.msg,
+                });
+              }
+            })
+          }
+
         }
       })
     },
@@ -814,8 +793,13 @@ export default {
         businessType: [],
         isbusinessType: 0,
         dataType: 0,
-        model: []
+        model: [],
+        industryBrands: [],
+        industryBrands_name: '',
+        selfBrandId: '',
+        selfBrandName: ''
       }
+      vm.disBrand = true
       vm.Data1 = ''
       vm.visible1 = ''
       vm.visible2 = ''
@@ -872,9 +856,12 @@ export default {
         }
       })
     },
-    readioEvent() {
-      this.account.username = ''
-      this.account.cookie = ''
+    readioEvent(val) {
+      this.$refs.account.resetFields()
+      this.account.user_type = val
+      // this.account.username = ''
+      // this.account.cookie = ''
+      // this.$refs.account.clearValidate()
     },
     dateBlurEvent() {
       const vm = this
@@ -899,21 +886,8 @@ export default {
         vm.player.src('http://tool.afocus.com.cn/file_download/movie/jzt/jzt.m3u8'); //进度条归零
       }
     },
-    brandEvent(ckBrad) {
-      const vm = this
-      // console.log(ckBrad)
-      let arr = []
-      ckBrad.forEach((val, idx) => {
-        let mid = vm.brandData.filter((item, idx) => {
-          return item.range === val
-        })
-        arr.push(mid[0].name)
-      })
-      vm.otherBrand_name = arr.join(' -- ')
-      // console.log(vm.otherBrand_name)
-    },
-
     casaderEvent(cheked) {
+      // 设置禁用项
       const vm = this
       let str = ''
       let cknodes = vm.$refs.casder.getCheckedNodes(true)
@@ -932,15 +906,72 @@ export default {
             val.disabled = 'disabled'
           }
         })
+        vm.getSelfList()
+        vm.getOtherList()
+        vm.disBrand = false
       } else {
+        vm.disBrand = true
         vm.options.forEach((val, idx) => {
           this.$set(val, 'disabled', false)
         })
       }
+      // 中文回显
       for (let i of cknodes) {
         str += i.label + ' -- '
       }
       vm.form.cid3_name = str.slice(0, -3)
+    },
+    brandEventSelf(ckBrad) {
+      this.form.selfBrandName = this.opt_brand[0].lable
+    },
+    brandEventOther(ckBrad) {
+      const vm = this
+      let arr = []
+      ckBrad.forEach((val, idx) => {
+        let mid = vm.brandData.filter((item, idx) => {
+          return item.code === val
+        })
+        arr.push(mid[0].lable)
+      })
+      vm.form.industryBrands_name = arr
+      // vm.form.industryBrands_name = arr.join(' -- ')
+    },
+    // 自有列表
+    getSelfList() {
+      const vm = this
+      getBrandSelf({
+        cid3: vm.form.cid3,
+        cookie: vm.account.cookie
+      }).then(res => {
+        if (res.data.code === 10000) {
+          vm.opt_brand = res.data.data
+        } else {
+          vm.$msg({
+            type: "error",
+            msg: res.data.data || res.data.msg,
+          })
+        }
+      })
+    },
+    // 竞争列表
+    getOtherList() {
+      const vm = this
+      getBrandOther({
+        cid3: vm.form.cid3,
+        cookie: vm.account.cookie
+      }).then(res => {
+        if (res.data.code === 10000) {
+          res.data.data.forEach((val, idx) => {
+            vm.$set(val, 'range', idx + 1)
+          })
+          vm.brandData = res.data.data
+        } else {
+          vm.$msg({
+            type: "error",
+            msg: res.data.data || res.data.msg,
+          })
+        }
+      })
     },
   },
 };
@@ -986,6 +1017,7 @@ export default {
   .is-disabled {
 
     input,
+    .el-textarea__inner,
     .el-radio__label,
     .el-checkbox__label {
       color: #909399 !important;

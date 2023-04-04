@@ -4,14 +4,10 @@
   <div class="content">
     <div class="content_form">
       <div class="upobtn">
-        <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="upList">新增计划
+        <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="upList">新增任务
         </el-button>
       </div>
     </div>
-    <!-- <div class="outer">
-      <div class="one one1">A</div>
-      <div class="bbbb"></div>
-    </div> -->
     <div ref="tableBox" class="content_tableBox jiankong">
       <el-divider>列表</el-divider>
       <div class="tables" v-if="tableData">
@@ -22,7 +18,6 @@
             <span>空空如也</span>
           </template>
           <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
-          
           <vxe-column min-width="14%" field="task_number" title="任务编号" show-overflow="tooltip"></vxe-column>
           <vxe-column min-width="18%" field="username" title="账号 / PIN" show-overflow="tooltip"></vxe-column>
           <vxe-column min-width="12%" field="user_type" title="类型" show-overflow="tooltip"></vxe-column>
@@ -111,7 +106,7 @@ export default {
     getlist() {
       const vm = this
       dapanonLineList({
-        tool_type: '行业大盘',
+        tool_type: vm.$route.meta.title,
         limit: vm.pagesize,
         page: vm.currpage,
       }).then(res => {

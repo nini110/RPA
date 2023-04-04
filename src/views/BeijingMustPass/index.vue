@@ -42,6 +42,7 @@ export default {
         vm.colWidth = {
           choose: 12,
           eror: 12,
+          pin: 12,
           user: 12,
           cookie: 12,
         }
@@ -73,16 +74,16 @@ export default {
               user: 24,
             }
             vm.wordList = [{
-                lab: '创建人群sheet：',
-                word: '支持用户行为（新版）、用户属性和合作方数据标签创建人群（具体可下载模板参考）;'
+                lab: '1· 创建人群sheet：',
+                word: '支持用户行为（新版）、用户属性和合作方数据标签创建人群（具体可下载模板参考）；'
               },
               {
-                lab: '更新合作方数据：',
-                word: '支持已有人群更新合作方数据;'
+                lab: '2· 更新合作方数据：',
+                word: '支持已有人群更新合作方数据；'
               },
               {
-                lab: '新增标签：',
-                word: '支持已有人群追加标签功能，范围为用户行为（新版）、用户属性和合作方数据;'
+                lab: '3· 新增标签：',
+                word: '支持已有人群追加标签功能，范围为用户行为（新版）、用户属性和合作方数据；'
               }
             ]
             vm.picSrc = require("../../assets/images/DMP.png");
@@ -368,7 +369,7 @@ export default {
             vm.ifDown = false
             vm.wordList = [{
               lab: '创建人群sheet：',
-              word: '支持批量化创建京东展位单元;'
+              word: '支持批量化创建京东展位单元；'
             }, ]
             vm.sheetName = "Sheet1";
             vm.excelOptions = [{
@@ -714,20 +715,14 @@ export default {
             vm.ifDown = false
             vm.sheetName = "Sheet1";
             vm.wordList = [{
-                lab: '',
-                word: '支持批量化创建所有媒体渠道单元并同时绑定创意（不同媒体渠道填写范围不同，具体可下载模板参考）'
+                lab: '1· ',
+                word: '支持批量化创建所有媒体渠道单元并同时绑定创意（不同媒体渠道填写范围不同，具体可下载模板参考）；'
               },
               {
-                lab: '',
+                lab: '2· ',
                 word: '支持单独绑定已有单元创意；'
               },
             ]
-            vm.colWidth = {
-              choose: 12,
-              eror: 12,
-              user: 12,
-              cookie: 12,
-            }
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
               color: "", //工作表颜色
@@ -1350,13 +1345,13 @@ export default {
             break;
             // 人群 京腾魔方人群定向
           case "People":
-            vm.picSrc = require("../../assets/images/Cube.png");
+            vm.picSrc = require("../../assets/images/Cube1.png");
             vm.toolType = "京腾魔方人群定向";
             vm.sheetName = "京腾魔方人群定向";
             vm.ifDown = false
             vm.wordList = [{
               lab: '',
-              word: '支持批量化创建腾讯渠道下京腾魔方人群定向'
+              word: '支持批量化创建腾讯渠道下京腾魔方人群定向；'
             }, ]
             vm.excelOptions = [{
               name: "京腾魔方人群定向", //工作表名称
@@ -1426,13 +1421,13 @@ export default {
             break;
             // 魔方 Sheet1
           case "Cube":
-            vm.picSrc = require("../../assets/images/Cube.png");
+            vm.picSrc = require("../../assets/images/Cube1.png");
             vm.toolType = "京腾魔方人群";
             vm.sheetName = "Sheet1";
             vm.ifDown = false
             vm.wordList = [{
               lab: '',
-              word: '支持批量化创建腾讯渠道下京腾魔方人群'
+              word: '支持批量化创建腾讯渠道下京腾魔方人群；'
             }, ]
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
@@ -1594,9 +1589,9 @@ export default {
             vm.ifDown = false
             vm.wordList = [{
               lab: '',
-              word: '支持批量化创建购物触点单元（支持范围为计划类型为活动）'
+              word: '支持批量化创建购物触点单元（支持范围：计划类型为活动），并同时绑定单元活动；'
             }, ]
-            vm.wordTip = '目前创建购物触点单元时活动无法绑定，该问题因京东改版正在适配中，具体恢复时间以本条公告下线为主'
+            vm.wordTip = '目前购物触点&展位正在逐步融合中，建议触点单元创建后进行检查，如遇无法创建等问题可及时联系产品部人员；'
             vm.sheetName = "Sheet1";
             vm.excelOptions = [{
               name: "sheet1", //工作表名称

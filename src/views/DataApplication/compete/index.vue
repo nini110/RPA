@@ -4,7 +4,7 @@
     <div class="content">
       <div class="content_form">
         <div class="upobtn">
-          <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="upList">新增计划
+          <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="upList">新增任务
           </el-button>
         </div>
       </div>
@@ -94,7 +94,6 @@
     },
     created() {},
     mounted() {
-      // 2 4 3 1 5 6 x1 x2 7 8  x3 x4 x5
       this.getlist()
     },
     beforeDestroy() {
@@ -107,7 +106,7 @@
       getlist() {
         const vm = this
         dapanonLineList({
-          tool_type: '竞争分析',
+          tool_type: vm.$route.meta.title,
           limit: vm.pagesize,
           page: vm.currpage,
         }).then(res => {

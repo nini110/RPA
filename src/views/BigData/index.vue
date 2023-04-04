@@ -2183,7 +2183,7 @@ export default {
             // 人群追踪
           case "Track":
             vm.toolType = "数坊营销人群追踪";
-            vm.picSrc = require("../../assets/images/人群追踪3.png");
+            vm.picSrc = require("../../assets/images/人群追踪2.png");
             vm.sheetName = "Sheet1";
             vm.ifDown = false
             vm.excelOptions = [{

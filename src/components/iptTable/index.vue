@@ -5,99 +5,100 @@
       <el-collapse v-if="formMenu===1" v-model="activeNames">
         <el-collapse-item name="1">
           <template slot="title">
-              <i class="el-icon-s-grid"></i>
-              <el-divider content-position="left">功能介绍</el-divider>
+            <i class="icon el-icon-info"></i>功能介绍
           </template>
           <div class="word" v-for="(item,idx) in wordList" :key="idx"><span class="lab">{{ item.lab }}</span>{{ item.word }}</div>
           <div v-if="wordTip" class="word wordTip el-icon-warning-outline">{{wordTip}}</div>
         </el-collapse-item>
       </el-collapse>
       <el-form ref="form" :model="form" class="formObj" :rules="rules">
-        <div class="formObj_ipt">
-          <div class="formObj_ipt_abso">
-            <el-result>
-              <template slot="icon">
-                <img :src="picSrc" alt="" :class="{ts: formMenu===2}"/>
-              </template>
-              <template slot="extra">
-                <span>{{ $route.meta.title }}</span>
-              </template>
-            </el-result>
+        <div class="formObj_div">
+          <div class="formObj_ipt">
+            <div class="formObj_ipt_abso">
+              <el-result>
+                <template slot="icon">
+                  <img :src="picSrc" alt="" :class="{ts: formMenu===2}" />
+                </template>
+                <template slot="extra">
+                  <span>{{ $route.meta.title }}</span>
+                </template>
+              </el-result>
+            </div>
+            <div class="formObj_ipt_rt">
+              <el-row :gutter="20">
+                <el-col v-if="formMenu === 1" :span="colWidth.choose">
+                  <el-form-item label="类型" prop="choose">
+                    <el-select v-model="form.choose" placeholder="请选择类型" size="large" @change="chooseEvent">
+                      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col v-if="formMenu === 1" :span="colWidth.eror" class="hasAppend">
+                  <el-tooltip effect="dark" placement="bottom">
+                    <div slot="content">
+                      <p class="ts"> * 该条件默认关闭，填写区间为1 - 10</p>
+                      <p class="ts"> * 关闭时：</p>
+                      <p>程序执行中出现错误会继续向下执行，不会终止，直到执行完毕</p>
+                      <p class="ts"> * 开启时：</p>
+                      <p>根据填写的终止条件作为规则，例如填写：5，则会在出错第5次自动终止程序</p>
+                    </div>
+                    <div class="el-icon-question"></div>
+                  </el-tooltip>
+                  <el-form-item label="终止条件" prop="error_num" class="flex w110">
+                    <el-switch v-model="ifErrNum" active-color="#13ce66" inactive-color="#a5a5a5" @change="seitchEvent">
+                    </el-switch>
+                    <vxe-input v-if="ifErrNum" v-model="form.error_num" placeholder="数值区间为1 - 10" type="number" step="1" min="1" max="10"></vxe-input>
+                  </el-form-item>
+                </el-col>
+                <el-col v-if="form.choose === 1" :span="colWidth.pin">
+                  <el-form-item label="PIN" prop="pin">
+                    <el-select v-model="form.pin" placeholder="请选择PIN" filterable clearable>
+                      <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
+                      </el-option>
+                    </el-select>
+                  </el-form-item>
+                </el-col>
+                <el-col v-else :span="colWidth.user">
+                  <el-form-item label="账号" prop="username">
+                    <el-input v-model.trim="form.username" placeholder="请输入账号" clearable>
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col v-if="showCookie || formMenu === 2" :span="colWidth.cookie" class="hasAppend">
+                  <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学" placement="bottom">
+                    <div class="el-icon-video-play" @click="movieDownEvent(1)"></div>
+                  </el-tooltip>
+                  <el-form-item label="Cookie" prop="cookie" class="w110">
+                    <el-input v-model.trim="form.cookie" placeholder="请输入Cookie" clearable>
+                    </el-input>
+                  </el-form-item>
+                </el-col>
+              </el-row>
+            </div>
           </div>
-          <div class="formObj_ipt_rt">
-            <el-row :gutter="20">
-              <el-col v-if="formMenu === 1" :span="colWidth.choose">
-                <el-form-item label="类型" prop="choose">
-                  <el-select v-model="form.choose" placeholder="请选择类型" size="large" @change="chooseEvent">
-                    <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col v-if="formMenu === 1" :span="colWidth.eror" class="hasAppend">
-                <el-tooltip effect="dark" placement="bottom">
-                  <div slot="content">
-                    <p class="ts"> * 该条件默认关闭，填写区间为1 - 10</p>
-                    <p class="ts"> * 关闭时：</p>
-                    <p>程序执行中出现错误会继续向下执行，不会终止，直到执行完毕</p>
-                    <p class="ts"> * 开启时：</p>
-                    <p>根据填写的终止条件作为规则，例如填写：5，则会在出错第5次自动终止程序</p>
-                  </div>
-                  <div class="el-icon-question"></div>
-                </el-tooltip>
-                <el-form-item label="终止条件" prop="error_num" class="flex w110">
-                  <el-switch v-model="ifErrNum" active-color="#13ce66" inactive-color="#a5a5a5" @change="seitchEvent">
-                  </el-switch>
-                  <vxe-input v-if="ifErrNum" v-model="form.error_num" placeholder="数值区间为1 - 10" type="number" step="1" min="1" max="10"></vxe-input>
-                </el-form-item>
-              </el-col>
-              <el-col v-if="form.choose === 1" :span="colWidth.pin">
-                <el-form-item label="PIN" prop="pin">
-                  <el-select v-model="form.pin" placeholder="请选择PIN" filterable clearable>
-                    <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
-                    </el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col v-else :span="colWidth.user">
-                <el-form-item label="账号" prop="username">
-                  <el-input v-model.trim="form.username" placeholder="请输入账号" clearable>
-                  </el-input>
-                </el-form-item>
-              </el-col>
-              <el-col v-if="showCookie || formMenu === 2" :span="colWidth.cookie" class="hasAppend">
-                <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学" placement="bottom">
-                  <div class="el-icon-video-play" @click="movieDownEvent(1)"></div>
-                </el-tooltip>
-                <el-form-item label="Cookie" prop="cookie" class="w110">
-                  <el-input v-model.trim="form.cookie" placeholder="请输入Cookie" clearable>
-                  </el-input>
-                </el-form-item>
-              </el-col>
-            </el-row>
-          </div>
-        </div>
-        <div class="formObj_upload">
-          <el-form-item label="" :error="errorUpInfo">
-            <el-popover v-if="excelData" placement="bottom" width="180" v-model="propVisable">
-              <p>创建空白Excel表格？</p>
-              <div class="popverButton">
-                <el-button size="mini" type="text" @click="propVisable = false">取消</el-button>
-                <el-button type="text" size="mini" @click="popverEvent(2)">确定</el-button>
-              </div>
-              <el-button type="info" class="el-icon-plus" slot="reference">创建</el-button>
-            </el-popover>
-            <el-button v-else v-waves type="info" class="el-icon-plus" @click="openExcel">创建</el-button>
-          </el-form-item>
-          <el-form-item label="" :error="errorUpInfo">
-            <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" :sheetName="sheetName"></Upload>
-          </el-form-item>
-          <div v-if="excelName" class="uptxt">
-            点击打开「 <span @click="popverEvent(1)">{{ excelName }}</span>」
-          </div>
-          <div v-else class="uptxt black">
-            您可以<span>【创建】</span>空白excel
-            或者<span>【导入】</span>excel文件
+          <div class="formObj_upload">
+            <el-form-item label="" :error="errorUpInfo">
+              <el-popover v-if="excelData" placement="bottom" width="180" v-model="propVisable">
+                <p>创建空白Excel表格？</p>
+                <div class="popverButton">
+                  <el-button size="mini" type="text" @click="propVisable = false">取消</el-button>
+                  <el-button type="text" size="mini" @click="popverEvent(2)">确定</el-button>
+                </div>
+                <el-button type="info" class="el-icon-plus" slot="reference">创建</el-button>
+              </el-popover>
+              <el-button v-else v-waves type="info" class="el-icon-plus" @click="openExcel">创建</el-button>
+            </el-form-item>
+            <el-form-item label="" :error="errorUpInfo">
+              <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" :sheetName="sheetName"></Upload>
+            </el-form-item>
+            <div v-if="excelName" class="uptxt">
+              点击打开「 <span @click="popverEvent(1)">{{ excelName }}</span>」
+            </div>
+            <div v-else class="uptxt black">
+              您可以<span>【创建】</span>空白excel
+              或者<span>【导入】</span>excel文件
+            </div>
           </div>
         </div>
       </el-form>
@@ -116,7 +117,7 @@
         <el-button v-waves type="primary" class="el-icon-right marginR" :disabled="disBtn" @click="zhixingEvent">执行</el-button>
       </div>
     </div>
-    <div ref="tableBox" class="content_tableBox hasUp" :class="{hasUpTS: formMenu===1}">
+    <div ref="tableBox" class="content_tableBox hasUp">
       <el-divider>列表</el-divider>
       <div class="tables">
         <div v-if="showVarDia" class="dialog">

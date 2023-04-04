@@ -50,8 +50,7 @@ function handleRoutes (menuList) {
     return
   }
   let userid = localStorage.getItem('wx_userid')
-  // let whitelist1 = ['1020108', '21400', '19302']
-  let whitelist1 = ['1020108']
+  let whitelist1 = ['1020108', '21400', '19302']
   if (userid && whitelist1.indexOf(userid) === -1) {
     target[2].children[2].children.splice(2, 1)
   }

@@ -4,6 +4,7 @@
     <div class="content">
       <div class="content_form ts">
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
+          <div class="formObj_div">
           <div class="formObj_ipt">
             <div class="formObj_ipt_abso">
               <!--  :icon="dataIcon" -->
@@ -70,6 +71,7 @@
               ></Upload>
             </el-form-item>
           </div>
+        </div>
         </el-form>
         <div class="formObj_button">
           <!-- <el-col :span="24"> -->
