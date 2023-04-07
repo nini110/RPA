@@ -1,233 +1,123 @@
 <template>
-  <!-- 灵鲨制表 -->
-  <div class="outerDiv">
-    <div class="content">
-      <div class="content_form ts">
-        <el-form ref="form" :model="form" class="formObj" :rules="rules">
-          <div class="formObj_div">
+<!-- 灵鲨制表 -->
+<div class="outerDiv">
+  <div class="content">
+    <div class="content_form ts">
+      <el-form ref="form" :model="form" class="formObj" :rules="rules">
+        <div class="formObj_div">
           <div class="formObj_ipt">
             <div class="formObj_ipt_abso">
-              <!--  :icon="dataIcon" -->
               <el-result :title="dataDesc">
                 <template slot="icon">
-                  <svg class="icon svg-icon titleicon" aria-hidden="true">
-                    <use :xlink:href="dataIcon"></use>
-                  </svg>
+                  <img :src="excelSrc" alt="" class="ts2" />
                 </template>
               </el-result>
             </div>
             <div class="formObj_ipt_rt">
-              <el-tabs v-model="activeName">
-                <el-tab-pane
-                  label="查询"
-                  name="1"
-                ></el-tab-pane>
-              </el-tabs>
               <el-row>
-              <el-col :span="24">
-                <el-form-item label="项目" prop="project_name">
-                  <el-cascader
-                    v-model="form.project_name"
-                    placeholder="请选择项目"
-                    :options="itemOptions"
-                    :props="{ expandTrigger: 'hover', emitPath: false }"
-                    @change="selectChang"
-                  ></el-cascader>
-                </el-form-item>
-              </el-col>
-              <el-col :span="24">
-                <el-form-item class="hasdate" label="日期" prop="date">
-                  <el-select
-                    v-model="form.type"
-                    placeholder="请选择类型"
-                    style="width: 130px"
-                  >
-                    <el-option label="日报" value="1"></el-option>
-                  </el-select>
-                  <el-date-picker
-                    v-model="form.date"
-                    type="date"
-                    size="medium"
-                    @change="dateChange"
-                    format="yyyy 年 MM 月 dd 日"
-                    value-format="yyyy-MM-dd"
-                    placeholder="选择日期"
-                    :disabled="dateDis"
-                    :picker-options="pickerOptionsStart"
-                  >
-                  </el-date-picker>
-                </el-form-item>
-              </el-col>
-            </el-row>
+                <el-col :span="24">
+                  <el-form-item label="项目" prop="project_name">
+                    <el-cascader v-model="form.project_name" placeholder="请选择项目" :options="itemOptions" :props="{ expandTrigger: 'hover', emitPath: false }" @change="selectChang"></el-cascader>
+                  </el-form-item>
+                </el-col>
+                <el-col :span="24">
+                  <el-form-item class="hasdate" label="日期" prop="date">
+                    <el-select v-model="form.type" placeholder="请选择类型" style="width: 130px">
+                      <el-option label="日报" value="1"></el-option>
+                    </el-select>
+                    <el-date-picker v-model="form.date" type="date" size="medium" @change="dateChange" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd" placeholder="选择日期" :disabled="dateDis" :picker-options="pickerOptionsStart">
+                    </el-date-picker>
+                  </el-form-item>
+                </el-col>
+              </el-row>
             </div>
           </div>
           <div v-if="checkedItem.file" class="formObj_upload ts">
             <el-form-item label="" prop="file">
-              <Upload
-                @getFile="getFileEvent"
-                tag="word"
-                showFileList
-                upTxt="点击上传"
-              ></Upload>
+              <Upload @getFile="getFileEvent" tag="word" showFileList upTxt="点击上传"></Upload>
             </el-form-item>
           </div>
         </div>
-        </el-form>
-        <div class="formObj_button">
-          <!-- <el-col :span="24"> -->
-          <a class="btnnormal_down marginR inlineButton" @click="reset">
-            <div class="el-icon-refresh btnSize">重置</div>
-          </a>
-          <div v-if="checkedItem.file" class="inlineButton">
-            <el-button
-              v-waves
-              type="primary"
-              class="el-icon-right btnnormal"
-              @click="generate()"
-              >生成
-            </el-button>
-          </div>
-          <div v-else class="inlineButton">
-            <el-button
-              v-waves
-              type="primary"
-              class="el-icon-right btnnormal"
-              @click="generate()"
-            >
-              生成</el-button
-            >
-          </div>
-          <!-- </el-col> -->
+      </el-form>
+      <div class="formObj_button">
+        <!-- <el-col :span="24"> -->
+        <a class="btnnormal_down marginR inlineButton" @click="reset">
+          <div class="el-icon-refresh btnSize">重置</div>
+        </a>
+        <div v-if="checkedItem.file" class="inlineButton">
+          <el-button v-waves type="primary" class="el-icon-right btnnormal" @click="generate()">生成
+          </el-button>
         </div>
+        <div v-else class="inlineButton">
+          <el-button v-waves type="primary" class="el-icon-right btnnormal" @click="generate()">
+            生成</el-button>
+        </div>
+        <!-- </el-col> -->
       </div>
-      <div ref="tableBox" class="content_tableBox teshu">
-        <el-divider>列表</el-divider>
-        <vxe-toolbar perfect>
-          <template #buttons>
-            <vxe-button
-              icon="el-icon-delete"
-              status="perfect"
-              content="批量删除"
-              @click="DeleteReportAll"
-            ></vxe-button>
-          </template>
-        </vxe-toolbar>
-        <div class="tables">
-          <div class="tableTab">
-            <vxe-table
-              ref="multipleTable"
-              :data="tableData"
-              stripe
-              round
-              :column-config="{ resizable: true }"
-              :row-config="{ isCurrent: true, isHover: true }"
-              class="mytable-scrollbar"
-              auto-resize
-              height="auto"
-              @checkbox-all="handleSelectionChange"
-              @checkbox-change="handleSelectionChange"
+    </div>
+    <div ref="tableBox" class="content_tableBox teshu">
+      <el-divider>列表</el-divider>
+      <vxe-toolbar perfect>
+        <template #buttons>
+          <vxe-button icon="el-icon-delete" status="perfect" content="批量删除" @click="DeleteReportAll"></vxe-button>
+        </template>
+      </vxe-toolbar>
+      <div class="tables">
+        <div class="tableTab">
+          <vxe-table ref="multipleTable" :data="tableData" stripe round :column-config="{ resizable: true }" :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto" @checkbox-all="handleSelectionChange" @checkbox-change="handleSelectionChange">
             >
-              >
-              <template #empty>
-                <img src="@/assets/images/search.png" />
-                <span>空空如也</span>
-              </template>
-              <vxe-column type="checkbox" width="3%" fixed="left"></vxe-column>
-              <vxe-column
-                type="seq"
-                title="序号"
-                width="5%"
-                fixed="left"
-              ></vxe-column>
-              <vxe-column
-                min-width="15%"
-                field="report_name"
-                title="报表名称"
-                show-overflow="tooltip"
-              ></vxe-column>
-              <vxe-column min-width="15%" field="status" title="状态">
-                <template slot-scope="scope">
-                  <div v-if="scope.row.status === 0" class="statusDiv ing">
-                    生成中
-                  </div>
-                  <div v-if="scope.row.status === 1" class="statusDiv suc">
-                    已生成
-                  </div>
-                  <div v-if="scope.row.status === 2" class="statusDiv fail">
-                    生成失败
-                  </div>
-                </template></vxe-column
-              >
-              <vxe-column
-                min-width="15%"
-                field="data_date"
-                title="数据日期"
-              ></vxe-column>
-              <vxe-column
-                min-width="15%"
-                field="create_time"
-                title="创建时间"
-              ></vxe-column>
-              <vxe-column title="操作" fixed="right" width="10%">
-                <template slot-scope="scope">
-                  <div
-                    v-waves
-                    class="btn btn_info"
-                    :class="{ dis: scope.row.status !== 1 }"
-                    @click="downEvent(scope.row)"
-                  >
-                    <el-tooltip
-                      class="item"
-                      effect="dark"
-                      content="下载"
-                      placement="top"
-                    >
-                      <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
+            <template #empty>
+              <img src="@/assets/images/search.png" />
+              <span>空空如也</span>
+            </template>
+            <vxe-column type="checkbox" width="3%" fixed="left"></vxe-column>
+            <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+            <vxe-column min-width="15%" field="report_name" title="报表名称" show-overflow="tooltip"></vxe-column>
+            <vxe-column min-width="15%" field="status" title="状态">
+              <template slot-scope="scope">
+                <div v-if="scope.row.status === 0" class="statusDiv ing">
+                  生成中
+                </div>
+                <div v-if="scope.row.status === 1" class="statusDiv suc">
+                  已生成
+                </div>
+                <div v-if="scope.row.status === 2" class="statusDiv fail">
+                  生成失败
+                </div>
+              </template></vxe-column>
+            <vxe-column min-width="15%" field="data_date" title="数据日期"></vxe-column>
+            <vxe-column min-width="15%" field="create_time" title="创建时间"></vxe-column>
+            <vxe-column title="操作" fixed="right" width="10%">
+              <template slot-scope="scope">
+                <div v-waves class="btn btn_info" :class="{ dis: scope.row.status !== 1 }" @click="downEvent(scope.row)">
+                  <el-tooltip class="item" effect="dark" content="下载" placement="top">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                         <use xlink:href="#icon-xiazaizhong"></use>
                       </svg> -->
                     <i class="el-icon-download"></i>
-                    </el-tooltip>
-                  </div>
-                  <div
-                    v-waves
-                    class="btn btn_info"
-                    :class="{ dis: scope.row.status === 0 }"
-                    @click="deleteEvent(scope.row)"
-                  >
-                    <el-tooltip
-                      class="item"
-                      effect="dark"
-                      content="删除"
-                      placement="top"
-                    >
-                      <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
+                  </el-tooltip>
+                </div>
+                <div v-waves class="btn btn_info" :class="{ dis: scope.row.status === 0 }" @click="deleteEvent(scope.row)">
+                  <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                         <use xlink:href="#icon-shanchu1"></use>
                       </svg> -->
                     <i class="el-icon-circle-close"></i>
-                    </el-tooltip>
-                  </div>
-                </template>
-              </vxe-column>
-            </vxe-table>
-          </div>
+                  </el-tooltip>
+                </div>
+              </template>
+            </vxe-column>
+          </vxe-table>
         </div>
-        <!-- 分页器 -->
-        <div class="block" v-if="total">
-          <el-pagination
-            @current-change="handleCurrentChange"
-            @size-change="handleSizeChange"
-            :current-page.sync="currpage"
-            :page-size="pagesize"
-            background
-            :page-sizes="[10, 20, 50, 100]"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-          >
-          </el-pagination>
-        </div>
+      </div>
+      <!-- 分页器 -->
+      <div class="block" v-if="total">
+        <el-pagination @current-change="handleCurrentChange" @size-change="handleSizeChange" :current-page.sync="currpage" :page-size="pagesize" background :page-sizes="[10, 20, 50, 100]" layout="total, sizes, prev, pager, next, jumper" :total="total">
+        </el-pagination>
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script>
@@ -269,6 +159,7 @@ export default {
         type: "1",
         date: "",
       },
+      excelSrc: '',
       dataState: "", // 数据状态
       dataIcon: "",
       dataDesc: "",
@@ -281,21 +172,21 @@ export default {
         },
       },
       rules: {
-        project_name: [
-          {
-            required: true,
-            message: "请选择项目",
-            trigger: "change",
-          },
-        ],
-        date: [
-          {
-            required: true,
-            message: "请选择日期",
-            trigger: "change",
-          },
-        ],
-        file: [{ required: true, validator: validFile, trigger: "blur" }],
+        project_name: [{
+          required: true,
+          message: "请选择项目",
+          trigger: "change",
+        }, ],
+        date: [{
+          required: true,
+          message: "请选择日期",
+          trigger: "change",
+        }, ],
+        file: [{
+          required: true,
+          validator: validFile,
+          trigger: "blur"
+        }],
       },
       multipleSelection: "",
       multipleSelectionLength: 0,
@@ -320,19 +211,19 @@ export default {
       handler(newval, oldval) {
         switch (newval) {
           case 0:
-            this.dataIcon = "#icon-jinggao1";
+            this.excelSrc = require('../../../assets/images/Excel4.png')
             this.dataDesc = "数据准备中";
             break;
           case 1:
-            this.dataIcon = "#icon-chenggong";
+            this.excelSrc = require('../../../assets/images/Excel.png')
             this.dataDesc = "数据已准备";
             break;
           case 2:
-            this.dataIcon = "#icon-cuowu";
+            this.excelSrc = require('../../../assets/images/Excel2.png')
             this.dataDesc = "数据未准备";
             break;
           default:
-            this.dataIcon = "#icon-xinxi1";
+            this.excelSrc = require('../../../assets/images/Excel3.png')
             this.dataDesc = "数据状态";
         }
       },
@@ -377,8 +268,7 @@ export default {
       const vm = this;
       selectItem().then((res) => {
         let arrData = res.data.data.data;
-        let arr = [
-          {
+        let arr = [{
             value: "BJ",
             label: "北京",
             children: [],
@@ -431,7 +321,10 @@ export default {
         } else {
           vm.tableData = [];
           vm.total = null;
-          vm.$msg({ type: "error", msg: res.data.msg });
+          vm.$msg({
+            type: "error",
+            msg: res.data.msg
+          });
         }
       });
     },
@@ -500,9 +393,15 @@ export default {
       }).then((res) => {
         vm.getTableData();
         if (res.data.msg === "success") {
-          vm.$msg({ type: "warning", msg: "生成中" });
+          vm.$msg({
+            type: "warning",
+            msg: "生成中"
+          });
         } else {
-          vm.$msg({ type: "error", msg: res.data.msg });
+          vm.$msg({
+            type: "error",
+            msg: res.data.msg
+          });
         }
         vm.timer = window.setInterval(() => {
           vm.ReportStatus(res.data.data.data);
@@ -532,11 +431,16 @@ export default {
         id: vm.multipleSelection,
       }).then((res) => {
         if (res.data.code === 200) {
-          vm.$msg({ msg: "删除成功！" });
+          vm.$msg({
+            msg: "删除成功！"
+          });
           vm.multipleSelection = "";
           vm.getTableData();
         } else {
-          vm.$msg({ type: "error", msg: res.data.msg });
+          vm.$msg({
+            type: "error",
+            msg: res.data.msg
+          });
         }
       });
     },
@@ -596,11 +500,17 @@ export default {
           },
         });
       } else {
-        vm.$msg({ type: "warning", msg: "没有可删除的项目！" });
+        vm.$msg({
+          type: "warning",
+          msg: "没有可删除的项目！"
+        });
       }
     },
     // table表格选择项变化时，改变multipleSelection
-    handleSelectionChange({ checked, records }) {
+    handleSelectionChange({
+      checked,
+      records
+    }) {
       this.multipleSelectionLength = records.length;
       this.multipleSelection = "";
       for (let i = 0; i < records.length; i++) {
@@ -637,6 +547,7 @@ export default {
 
 <style lang="less" scoped>
 @import "@/views/index";
+
 .deleteAllBtn {
   display: inline-block;
   color: #606266;

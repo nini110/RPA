@@ -4,6 +4,7 @@
   <div class="content">
     <div class="content_form">
       <div class="upobtn">
+        <div class="lficon"><span class="iconfont icon-weibiaoti-"></span><span>京东市场监控</span></div>
         <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="watchEvent(1)">新增计划
         </el-button>
       </div>

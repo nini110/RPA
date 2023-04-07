@@ -4,6 +4,7 @@
   <div class="content">
     <div class="content_form">
       <div class="upobtn">
+        <div class="lficon"><span class="iconfont icon-qushi"></span><span>行业大盘</span></div>
         <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="upList">新增任务
         </el-button>
       </div>

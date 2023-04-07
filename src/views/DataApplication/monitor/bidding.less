@@ -7,6 +7,28 @@
   display: flex;
   justify-content: space-between;
   flex-wrap: nowrap;
+  align-items: center;
+  // align-content: center;
+
+  .lficon {
+    display: flex;
+    align-items: center;
+
+    span {
+      &:last-child {
+        font-size: 18px;
+        margin-left: 10px;
+        font-weight: bold;
+        color: #606266;
+      }
+
+      &:before {
+        font-size: 40px;
+        color: #3b8eff;
+      }
+    }
+
+  }
 
   .el {
     &-row {}

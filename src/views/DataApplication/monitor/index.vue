@@ -1,152 +1,79 @@
 <template>
-  <!-- 竞标监控 -->
-  <div class="biddingForMonitoring outerDiv">
-    <div class="content">
-      <div class="content_form">
-        <div class="upobtn">
-          <el-button
-            v-waves
-            class="el-icon-circle-plus-outline"
-            type="primary"
-            @click="upList"
-            >新增计划
-          </el-button>
-        </div>
-      </div>
-      <div ref="tableBox" class="content_tableBox jiankong">
-        <el-divider>列表</el-divider>
-        <div class="tables" v-if="tableData">
-          <vxe-table
-            ref="singleTable"
-            :data="tableData"
-            stripe
-            round
-            :column-config="{ resizable: true }"
-            :row-config="{ isCurrent: true, isHover: true }"
-            class="mytable-scrollbar"
-            auto-resize
-            height="auto"
-          >
-            >
-            <template #empty>
-              <img src="@/assets/images/search.png" />
-                <span>空空如也</span>
-            </template>
-            <vxe-column
-              type="seq"
-              title="序号"
-              width="5%"
-              fixed="left"
-            ></vxe-column>
-            <vxe-column
-              v-for="(item, idx) in tabList"
-              :key="idx"
-              min-width="15%"
-              :field="item.prop"
-              :title="item.label"
-              show-overflow="tooltip"
-            ></vxe-column>
-            <vxe-column title="操作" fixed="right" width="22%">
-              <template slot-scope="scope">
-                <div
-                  v-waves
-                  class="btn btn_info"
-                  @click="detailEvent(scope.row)"
-                >
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    content="预算"
-                    placement="top"
-                  >
-                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-bianjiICON"></use>
-                    </svg> -->
-                    <i class="el-icon-edit"></i>
-                  </el-tooltip>
-                </div>
-                <div v-waves class="btn btn_info" @click="editEvent(scope.row)">
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    content="人员"
-                    placement="top"
-                  >
-                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-renyuan"></use>
-                    </svg> -->
-                    <i class="el-icon-user"></i>
-                  </el-tooltip>
-                </div>
-                <div
-                  v-waves
-                  class="btn btn_info"
-                  @click="editActiveEvent(scope.row)"
-                >
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    content="活动"
-                    placement="top"
-                  >
-                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-huodong"></use>
-                    </svg> -->
-                    <i class="el-icon-star-off"></i>
-                  </el-tooltip>
-                </div>
-                <div
-                  v-waves
-                  class="btn btn_info"
-                  @click="deleteEvent(scope.row)"
-                >
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    content="删除"
-                    placement="top"
-                  >
-                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
-                      <use xlink:href="#icon-shanchu1"></use>
-                    </svg> -->
-                    <i class="el-icon-circle-close"></i>
-                  </el-tooltip>
-                </div>
-              </template>
-            </vxe-column>
-          </vxe-table>
-        </div>
-        <div class="block" v-if="total">
-          <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page="currpage"
-            :page-size="pagesize"
-            :page-sizes="[10, 20, 50, 100]"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-          ></el-pagination>
-        </div>
+<!-- 竞标监控 -->
+<div class="biddingForMonitoring outerDiv">
+  <div class="content">
+    <div class="content_form">
+      <div class="upobtn">
+        <div class="lficon"><span class="iconfont icon-device-overview"></span><span>竞标监控</span></div>
+        <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="upList">新增计划
+        </el-button>
       </div>
     </div>
-    <UpDialog v-if="upDialogFlag" @close="closeUpEvent"></UpDialog>
-    <DetailDia
-      v-if="detailFlag"
-      :row="tablerow"
-      @close="closeDetailEvent"
-    ></DetailDia>
-    <EditDia
-      v-if="editFlag"
-      :row="tablerow"
-      @close="closeEditEvent"
-      :editNum="editNum"
-    ></EditDia>
+    <div ref="tableBox" class="content_tableBox jiankong">
+      <el-divider>列表</el-divider>
+      <div class="tables" v-if="tableData">
+        <vxe-table ref="singleTable" :data="tableData" stripe round :column-config="{ resizable: true }" :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
+          >
+          <template #empty>
+            <img src="@/assets/images/search.png" />
+            <span>空空如也</span>
+          </template>
+          <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+          <vxe-column v-for="(item, idx) in tabList" :key="idx" min-width="15%" :field="item.prop" :title="item.label" show-overflow="tooltip"></vxe-column>
+          <vxe-column title="操作" fixed="right" width="22%">
+            <template slot-scope="scope">
+              <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
+                <el-tooltip class="item" effect="dark" content="预算" placement="top">
+                  <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-bianjiICON"></use>
+                    </svg> -->
+                  <i class="el-icon-edit"></i>
+                </el-tooltip>
+              </div>
+              <div v-waves class="btn btn_info" @click="editEvent(scope.row)">
+                <el-tooltip class="item" effect="dark" content="人员" placement="top">
+                  <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-renyuan"></use>
+                    </svg> -->
+                  <i class="el-icon-user"></i>
+                </el-tooltip>
+              </div>
+              <div v-waves class="btn btn_info" @click="editActiveEvent(scope.row)">
+                <el-tooltip class="item" effect="dark" content="活动" placement="top">
+                  <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-huodong"></use>
+                    </svg> -->
+                  <i class="el-icon-star-off"></i>
+                </el-tooltip>
+              </div>
+              <div v-waves class="btn btn_info" @click="deleteEvent(scope.row)">
+                <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                  <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
+                      <use xlink:href="#icon-shanchu1"></use>
+                    </svg> -->
+                  <i class="el-icon-circle-close"></i>
+                </el-tooltip>
+              </div>
+            </template>
+          </vxe-column>
+        </vxe-table>
+      </div>
+      <div class="block" v-if="total">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currpage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
+      </div>
+    </div>
   </div>
+  <UpDialog v-if="upDialogFlag" @close="closeUpEvent"></UpDialog>
+  <DetailDia v-if="detailFlag" :row="tablerow" @close="closeDetailEvent"></DetailDia>
+  <EditDia v-if="editFlag" :row="tablerow" @close="closeEditEvent" :editNum="editNum"></EditDia>
+</div>
 </template>
 
 <script>
-import { BidList, biddingDelete } from "@/api/api.js";
+import {
+  BidList,
+  biddingDelete
+} from "@/api/api.js";
 import DetailDia from "../child/detailDialog.vue";
 import EditDia from "../child/editDialog.vue";
 import UpDialog from "../child/uploadDialog.vue";
@@ -168,8 +95,7 @@ export default {
       upDialogFlag: false,
       detailFlag: false,
       editFlag: false,
-      tabList: [
-        {
+      tabList: [{
           prop: "bidding_name",
           label: "竞标名称",
           width: 140,
@@ -220,9 +146,15 @@ export default {
           vm.total = res.data.count;
           vm.pageHaseItem = vm.tableData.length;
         } else if (res.data.code == 10001) {
-          vm.$msg({ type: "warning", msg: res.data.data });
+          vm.$msg({
+            type: "warning",
+            msg: res.data.data
+          });
         } else {
-          vm.$msg({ type: "error", msg: "出错了" });
+          vm.$msg({
+            type: "error",
+            msg: "出错了"
+          });
         }
       });
     },
@@ -280,16 +212,21 @@ export default {
           let haspageInt = parseInt(vm.total / vm.pagesize);
           if (vm.pageHaseItem === 1) {
             vm.currpage = haspageInt > 1 ? haspageInt : 1;
-          }          
+          }
           biddingDelete({
             bidding_id: row.bidding_id,
             activity_id: row.activity_id,
           }).then((res) => {
             if (res.data.code === 10000) {
-              vm.$msg({ msg: "删除成功" });
+              vm.$msg({
+                msg: "删除成功"
+              });
               vm.getlist();
             } else {
-              vm.$msg({ type: "error", msg: res.data.msg });
+              vm.$msg({
+                type: "error",
+                msg: res.data.msg
+              });
             }
           });
         },

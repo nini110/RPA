@@ -143,7 +143,7 @@
       </el-col>
       <el-col :span="24">
         <el-form-item label="行业范围" prop="cid3">
-          <el-input v-if="fromTag===2 " v-model="form.cid3_name"></el-input>
+          <el-input v-if="fromTag===2 " type="textarea" autosize v-model="form.cid3_name"></el-input>
           <el-cascader v-else ref="casder" v-model="form.cid3" :options="options" :show-all-levels="false" :props="{expandTrigger: 'hover', value: 'id', label: 'name', multiple: true, emitPath: false}" @change="casaderEvent"></el-cascader>
         </el-form-item>
       </el-col>
@@ -159,22 +159,22 @@
       <el-col v-if="$route.name==='Compete'" :span="24" style="position: relative;">
         <el-tooltip placement="bottom-start">
           <div slot="content">
-            <p>1·当前行业品牌仅展现近三月内展现量Top100品牌</p>
+            <p>1·当前行业品牌仅展现近三月内展现量Top100品牌；</p>
             <p>2·部分品牌由于被多个商家重复注册，可能存在名称重复或相近的问题；</p>
           </div>
           <span class="absoIcon el-icon-question"></span>
         </el-tooltip>
         <el-form-item label="竞争品牌" prop="industryBrands">
-          <el-input v-if="fromTag===2 " v-model="form.industryBrands_name" type="textarea"></el-input>
+          <el-input v-if="fromTag===2 " v-model="form.industryBrands_name" type="textarea" autosize></el-input>
           <el-select v-else v-model="form.industryBrands" filterable multiple :multiple-limit="5" placeholder="请选择竞争品牌" :disabled="disBrand" @change="brandEventOther">
-            <el-option-group label="" value="34567">
+            <el-option-group v-if="brandInfo" label="" value="34567">
               <el-option disabled value="34567">
-                <span class="lft">自身品牌： SAMSUNG</span>
-                <span class="rgt">品牌排名： 3</span>
+                <span class="lft">自身品牌：{{ brandInfo.lable }}</span>
+                <span class="rgt ts" @click="scrollEvent">品牌排名： {{ brandInfo.range }}</span>
               </el-option>
             </el-option-group>
             <el-option v-for="item in brandData" :key="item.range" :label="item.lable" :value="item.code">
-              <span class="lft">{{ item.lable }}</span>
+              <span class="lft" :id="'id' +item.code">{{ item.lable }}</span>
               <span class="rgt"><i>排名：</i>{{ item.range }}</span>
             </el-option>
           </el-select>
@@ -321,7 +321,7 @@ export default {
         username: '',
         cookie: ''
         // username: 'Samsung-BF',
-        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; track=64cfcd5a-e042-8b3f-ca29-d2125e480e36; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; _tp=PHCuVjMa4QlP%2FBgMMf0RDA%3D%3D; _pst=Samsung-BF; __jdv=146207855|baidu|-|organic|notset|1680144104618; ceshi3.com=000; logining=1; TrackID=16XaJLjGVF4N5GCD__Qz6gOShCBf15xrCbHDh5-XCB0nP1fqKpIyOCHcMyDNoiFl5r7Quxb_AwIBjrXETOrovr7DP21OtlGoQHPP9mGAhpmE; thor=D721CB7F333FD47AAEC0097C1F3D549C7240BE3C89A1C354A629539DC530AAB5F888A97E2C651D13741EA14A7AB5FD7AB85D4B4ACE2D064B2E5141E70143CD22B6AC9DB5FEC92D03C1FA7EC0686D38B4ACB023AD5412267F556B0803E48B238312EEF9F76E70AFE1F34043F456BAC78B2A98E282B6E89B4C2D31EF28610BE0595245558FC45132ABDD9B2855792591C9; mba_sid=16805749171702306470143354795.1; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; __jda=146207855.16774677218671515249824.1677467722.1680493275.1680574889.55; __jdc=146207855; __jdb=146207855.9.16774677218671515249824|55.1680574889'
+        // cookie: 'language=zh_CN; cn_language=zh_CN; __jdu=16774677218671515249824; webp=1; visitkey=8445909280438123745; mba_muid=16774677218671515249824; __wga=1677832318047.1677832318047.1677832318047.1677832318047.1.1; _gia_s_local_fingerprint=ed92b19585a94899e8d8014533371d2e; shshshfp=c5bddfd350cb7dc24a80bd423fcb2a33; shshshfpa=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; shshshfpx=81eae257-8598-e87e-2be1-b0ea9951b48e-1677832319; _gia_s_e_joint={"eid":"H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y","ma":"","im":"","os":"Windows 10","ip":"218.244.52.190","ia":"","uu":"","at":"5"}; shshshfpb=lTJD1Sug3sUleJdNirrygbA; track=64cfcd5a-e042-8b3f-ca29-d2125e480e36; pinId=1jCpN6r6DTyJFA3cGm3mwQ; pin=Samsung-BF; unick=Samsung-BF; _tp=PHCuVjMa4QlP/BgMMf0RDA==; _pst=Samsung-BF; __jdv=146207855|baidu|-|organic|notset|1680144104618; ceshi3.com=000; logining=1; __jd_ref_cls=Mnpm_ComponentApplied; 3AB9D23F7A4B3C9B=H5A323YXNVOVAM4P3XQQAGCT5AFKZLCGNUIQWORAMAMJTG6USMSFOFSE7MXCGEO5PCLZDKR7WAKANCD5IIQEOIWX7Y; TrackID=1bTXPDz6x0z3Rqv01xuvElws5FMvJPm75V8e_9pBwCsAtkk3UDbrKu7K_KX_r8uK8OIFb4dR2DdlwoioKiIKakDddBgn85T39MC1dmvA0qTY; thor=D721CB7F333FD47AAEC0097C1F3D549C125260D75FD4142E71BBDB484A5C5646908712CE21C1A55B97DC0DB315FD01D1A6EB84543CA69B95330F75E2E69633B56630A3A0EAFA603C28E795D1ABA826F2D40672827D82258480F5CBD236821D98054A849A49C9CAA5BFF025CAA0479E41E2336BD08138AE47D6F8A03DF18A60D8B9BB7F0CC4C4410F956581F5AF8540AB; __jda=146207855.16774677218671515249824.1677467722.1680749407.1680835146.58; __jdb=146207855.5.16774677218671515249824|58.1680835146; __jdc=146207855'
       },
       form: {
         rangeDate: [],
@@ -343,6 +343,7 @@ export default {
       tablefilterName: '',
       disBrand: true,
       brandData: [],
+      brandInfo: {},
       Data1: '',
       visible1: true,
       visible2: false,
@@ -906,9 +907,8 @@ export default {
             val.disabled = 'disabled'
           }
         })
-        vm.getSelfList()
-        vm.getOtherList()
-        vm.disBrand = false
+        vm.getBrandList()
+         vm.disBrand = false
       } else {
         vm.disBrand = true
         vm.options.forEach((val, idx) => {
@@ -936,41 +936,44 @@ export default {
       vm.form.industryBrands_name = arr
       // vm.form.industryBrands_name = arr.join(' -- ')
     },
-    // 自有列表
-    getSelfList() {
-      const vm = this
-      getBrandSelf({
+    // 跳转事件
+    scrollEvent() {
+      document.querySelector('#id' + this.brandInfo.code).scrollIntoView(true)
+    },
+    // 获取自有和竞争列表
+    getBrandList() {
+      const vm = this;
+      let obj = {
         cid3: vm.form.cid3,
         cookie: vm.account.cookie
-      }).then(res => {
-        if (res.data.code === 10000) {
-          vm.opt_brand = res.data.data
+      }
+      Promise.all([getBrandSelf(obj), getBrandOther(obj)]).then(res => {
+        // 自有
+        if (res[0].data.code === 10000) {
+          vm.opt_brand = res[0].data.data
         } else {
           vm.$msg({
             type: "error",
-            msg: res.data.data || res.data.msg,
+            msg: res[0].data.data || res[0].data.msg,
           })
         }
-      })
-    },
-    // 竞争列表
-    getOtherList() {
-      const vm = this
-      getBrandOther({
-        cid3: vm.form.cid3,
-        cookie: vm.account.cookie
-      }).then(res => {
-        if (res.data.code === 10000) {
-          res.data.data.forEach((val, idx) => {
+        // 竞争
+        if (res[1].data.code === 10000) {
+          res[1].data.data.forEach((val, idx) => {
             vm.$set(val, 'range', idx + 1)
           })
-          vm.brandData = res.data.data
+          vm.brandData = res[1].data.data
         } else {
           vm.$msg({
             type: "error",
-            msg: res.data.data || res.data.msg,
+            msg: res[1].data.data || res[1].data.msg,
           })
         }
+        let mid = vm.brandData.filter((item, idx) => {
+          debugger
+          return item.code === vm.opt_brand[0].code
+        })
+        vm.brandInfo = mid.length > 0 ? mid[0] : null
       })
     },
   },
@@ -984,8 +987,8 @@ export default {
 /deep/.dapan {
   .absoIcon {
     position: absolute;
-    left: 15px;
-    top: 30%;
+    left: 6px;
+    top: 20px;
     transform: translateY(-50%);
 
     &:before {
@@ -1022,7 +1025,6 @@ export default {
     .el-checkbox__label {
       color: #909399 !important;
     }
-
     &.is-checked .el-radio__inner {
       border-color: #7596cc;
       background-color: #0664ff;

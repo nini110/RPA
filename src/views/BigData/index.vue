@@ -2094,7 +2094,7 @@ export default {
           case "Caculate":
             vm.toolType = "数坊人群计算";
             vm.ifDown = true
-            vm.picSrc = require("../../assets/images/人群计算.png");
+            vm.picSrc = require("../../assets/images/人群计算3.png");
             vm.sheetName = "Sheet1";
             vm.excelOptions = opt;
             break;
