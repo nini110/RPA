@@ -40,7 +40,7 @@
           clearable
         ></el-input>
       </el-form-item>
-      <el-form-item label="日期:" prop="date">
+      <el-form-item label="日期:" prop="date" class="w100">
         <el-date-picker
           class="tophasBtn_data"
           v-model="form.date"

@@ -3,6 +3,17 @@
 <div class="biddingForMonitoring outerDiv">
   <div class="content">
     <div class="content_form">
+      <el-collapse v-model="activeNames">
+        <el-collapse-item name="1">
+          <template slot="title">
+            <span class="el-icon-warning-outline icon"></span> 功能介绍
+          </template>
+          <div class="word" v-for="(item,idx) in wordList" :key="idx"><span class="lab">{{ item.lab }}</span>{{ item.word }}</div>
+          <template v-if="wordTip">
+            <div v-for="(item,idx) in wordTip" :key="item.wordTip" class="word wordTip el-icon-warning-outline">{{item.wordTip}}</div>
+          </template>
+        </el-collapse-item>
+      </el-collapse>
       <div class="upobtn">
         <div class="lficon"><span class="iconfont icon-weibiaoti-"></span><span>京东市场监控</span></div>
         <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="watchEvent(1)">新增计划
@@ -37,17 +48,11 @@
               <template slot-scope="scope">
                 <div v-waves class="btn btn_info" :class="{ dis: scope.row.status==='已结束' }" @click="watchEvent(2, scope.row)">
                   <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
-                        <use xlink:href="#icon-bianjiICON"></use>
-                      </svg> -->
                     <i class="el-icon-edit"></i>
                   </el-tooltip>
                 </div>
                 <div v-waves class="btn btn_info" @click="watchEvent(4, scope.row)">
                   <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                    <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
-                        <use xlink:href="#icon-shanchu1"></use>
-                      </svg> -->
                     <i class="el-icon-circle-close"></i>
                   </el-tooltip>
                 </div>
@@ -77,6 +82,7 @@ export default {
   mixins: [message],
   data() {
     return {
+      activeNames: '2',
       pageTag: 1,
       pickerOptionsStart: {
         disabledDate: (time) => {
@@ -90,6 +96,29 @@ export default {
       total: null,
       currentPage: 1,
       pagesize: 10,
+      wordList: [{
+          lab: '1·',
+          word: '本服务抓取源数据位置在PC端的京东商城，可创建同时执行中的计划至多为5条，请知悉；'
+        },
+        {
+          lab: '2·',
+          word: '设置计划后不会立即执行，邮件会在每天上午10点左右发送至邮箱，如未收到可联系产品部相关伙伴；'
+        },
+        {
+          lab: '3·',
+          word: '目前提取维度内置百亿补贴和是否投放广告2个字段；'
+        },
+      ],
+      wordTip: [{
+          lab: '',
+          wordTip: '单个计划可同时配置多个关键词，用逗号隔开，上限10个，在底层取数时会将每个关键词单独拆开，每个关键词取数数量相互独立（SKU、店铺名称该规则同样适用）；'
+        },
+        {
+          lab: '',
+          wordTip: '如果需要某个品牌下某个三级类目下的精准SKU，可通过京东商城先进行筛选，然后复制链接，新建计划时选择三级类目填入即可；'
+        },
+      ],
+
     };
   },
   created() {

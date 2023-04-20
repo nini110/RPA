@@ -82,7 +82,7 @@
               form.task_type === 4
             "
           >
-            <el-form-item label="排序条件:" prop="sorted_type">
+            <el-form-item label="排序条件:" prop="sorted_type" class="w100">
               <el-select
                 v-model="form.sorted_type"
                 placeholder="请选择排序条件"
@@ -108,7 +108,7 @@
                 content="范围为1 - 300"
                 placement="bottom-start"
               >
-                <span class="el-icon-warning"></span>
+                <span class="el-icon-warning-outline"></span>
               </el-tooltip>
             </el-form-item>
           </div>
@@ -148,7 +148,7 @@
           </el-form-item>
         </el-col>
         <el-col class="flexCol">
-          <el-form-item label="监控周期:" prop="rangedate">
+          <el-form-item label="监控周期:" prop="rangedate" class="w100">
             <el-date-picker
               v-model="form.rangedate"
               format="yyyy-MM-dd"
@@ -178,7 +178,7 @@
               content="邮件发送时间为每天10点"
               placement="bottom-start"
             >
-              <span class="el-icon-warning"></span>
+              <span class="el-icon-warning-outline"></span>
             </el-tooltip>
           </el-form-item>
         </el-col>
@@ -531,7 +531,10 @@ export default {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  left: -120px;
+  left: -110px;
+  &:before {
+    font-size: 22px;
+  }
   &.dateitem2 {
     top: 19px;
   }

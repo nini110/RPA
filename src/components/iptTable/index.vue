@@ -1,11 +1,121 @@
 <template>
 <div class="outerDiv">
-  <div class="content" v-loading.fullscreen.lock="showLoading" element-loading-text="文件导入中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(46, 46, 46, 0.8)">
+  <div v-if="formMenu===3" class="content ts2">
+    <div class="outerDiv_left">
+      <el-form ref="form" :model="form" :rules="rules" v-loading.fullscreen.lock="showLoading">
+        <el-row>
+          <el-col :span="24">
+            <el-form-item label="类型" prop="choose" class="noborder">
+              <el-radio-group v-model="form.choose" @input="chooseEvent">
+                <el-radio v-for="item in options" :key="item.value" :label="item.value" border>{{ item.label }}</el-radio>
+              </el-radio-group>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="form.choose===2" :span="24">
+            <el-form-item label="账号" prop="username" class="noborder">
+              <el-input v-model.trim="form.username" placeholder="请输入账号" clearable>
+              </el-input>
+            </el-form-item>
+          </el-col>
+          <el-col v-else>
+            <el-form-item label="PIN" prop="pin" class="w100">
+              <el-select v-model="form.pin" placeholder="请选择PIN" filterable clearable>
+                <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col v-if="form.choose===2">
+            <el-form-item label="密码:" prop="password">
+              <el-input :show-password="true" v-model.trim="form.password" placeholder="请输入密码" clearable :disabled="!form.username"></el-input>
+            </el-form-item>
+          </el-col>
+          <el-col style="margin-bottom: 20px" class="flexcol">
+            <el-form-item label="添加文件" class="flexcol_lf">
+              <el-popover v-if="excelData" placement="bottom" width="180" v-model="propVisable">
+                <p>创建空白Excel表格？</p>
+                <div class="popverButton">
+                  <el-button size="mini" type="text" @click="propVisable = false">取消</el-button>
+                  <el-button type="text" size="mini" @click="popverEvent(2)">确定</el-button>
+                </div>
+                <el-button type="info" class="el-icon-plus" slot="reference">创建</el-button>
+              </el-popover>
+              <el-button v-else v-waves type="info" class="el-icon-plus" @click="openExcel">创建</el-button>
+            </el-form-item>
+            <el-form-item label="" class="flexcol_rt">
+              <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" :sheetName="sheetName"></Upload>
+            </el-form-item>
+            <div v-if="excelName" class="uptxt">
+              点击打开「 <span @click="popverEvent(1)">{{ excelName }}</span>」
+            </div>
+            <div v-else class="uptxt black">
+              您可以<span>【创建】</span>空白excel
+              或者<span>【导入】</span>excel文件
+            </div>
+          </el-col>
+        </el-row>
+        <!-- <ExcelDialog v-if="showExcel" @close="closeEvent" :excelOpt="excelOpt" :toolType="toolType" :sheetName="sheetName"></ExcelDialog> -->
+        <div class="footer_btn">
+          <a class="btnnormal btnnormal_down" @click="modelEvent">
+            <div class="btnSize el-icon-download">模板</div>
+          </a>
+          <el-button v-waves class="el-icon-check marginL" type="primary" @click="zhixingEvent">提交</el-button>
+        </div>
+      </el-form>
+      <div class="outerDiv_left_info">
+        <h3 class="el-icon-info">须知</h3>
+        <p v-for="(item, idx) in tipInfo" :key="idx">{{ item }}</p>
+      </div>
+    </div>
+    <div class="outerDiv_right">
+      <div style="height: 100%">
+        <div class="alarmRight">
+          <vxe-table ref="multipleTable" :data="tableData" stripe round :column-config="{ resizable: true }" :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
+            >
+            <template #empty>
+              <img src="@/assets/images/search.png" />
+              <span>空空如也</span>
+            </template>
+            <vxe-column type="seq" title="序号" width="10%" fixed="left"></vxe-column>
+            <vxe-column min-width="15%" field="serial" title="编号" show-overflow="tooltip"></vxe-column>
+            <vxe-column min-width="13%" field="tool_type" title="工具" show-overflow="tooltip"></vxe-column>
+            <vxe-column min-width="15%" field="log_status" title="状态" show-overflow="tooltip">
+              <template slot-scope="scope">
+                <div v-if="scope.row.log_status === '执行有误'" class="statusDiv fail">
+                  {{ scope.row.log_status }}
+                </div>
+                <div v-if="scope.row.log_status === '执行中'" class="statusDiv ing">
+                  {{ scope.row.log_status }}
+                </div>
+                <div v-if="scope.row.log_status === '执行完毕'" class="statusDiv suc">
+                  {{ scope.row.log_status }}
+                </div>
+              </template></vxe-column>
+            <vxe-column min-width="15%" field="create_time" title="日期" show-overflow="tooltip"></vxe-column>
+            <vxe-column title="操作" fixed="right" width="18%">
+              <template slot-scope="scope">
+                <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
+                  <el-tooltip class="item" effect="dark" content="日志" placement="top">
+                    <i class="el-icon-document"></i>
+                  </el-tooltip>
+                </div>
+              </template>
+            </vxe-column>
+          </vxe-table>
+          <div class="block" v-if="total">
+            <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currpage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]" layout="total, sizes, prev, pager, next, jumper" :total="total">
+            </el-pagination>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div v-else class="content" v-loading.fullscreen.lock="showLoading" element-loading-text="文件导入中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(46, 46, 46, 0.8)">
     <div class="content_form ts">
       <el-collapse v-if="formMenu===1" v-model="activeNames">
         <el-collapse-item name="1">
           <template slot="title">
-            <i class="icon el-icon-info"></i>功能介绍
+            <span class="el-icon-warning-outline icon"></span> 功能介绍
           </template>
           <div class="word" v-for="(item,idx) in wordList" :key="idx"><span class="lab">{{ item.lab }}</span>{{ item.word }}</div>
           <div v-if="wordTip" class="word wordTip el-icon-warning-outline">{{wordTip}}</div>
@@ -17,7 +127,7 @@
             <div class="formObj_ipt_abso">
               <el-result>
                 <template slot="icon">
-                  <img :src="picSrc" alt="" :class="{ts: formMenu===2}" />
+                  <img :src="picSrc" alt="" :class="picClass" />
                 </template>
                 <template slot="extra">
                   <span>{{ $route.meta.title }}</span>
@@ -26,33 +136,34 @@
             </div>
             <div class="formObj_ipt_rt">
               <el-row :gutter="20">
+                <div class=""></div>
                 <el-col v-if="formMenu === 1" :span="colWidth.choose">
-                  <el-form-item label="类型" prop="choose">
+                  <el-form-item label="类型" prop="choose" class="noborder">
                     <el-select v-model="form.choose" placeholder="请选择类型" size="large" @change="chooseEvent">
                       <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
                       </el-option>
                     </el-select>
                   </el-form-item>
                 </el-col>
-                <el-col v-if="formMenu === 1" :span="colWidth.eror" class="hasAppend">
+                <el-col v-if="showError" :span="colWidth.eror" class="hasAppend">
                   <el-tooltip effect="dark" placement="bottom">
                     <div slot="content">
-                      <p class="ts"> * 该条件默认关闭，填写区间为1 - 10</p>
-                      <p class="ts"> * 关闭时：</p>
-                      <p>程序执行中出现错误会继续向下执行，不会终止，直到执行完毕</p>
-                      <p class="ts"> * 开启时：</p>
+                      <p class="ts">🔔 该条件默认关闭，填写区间为1 - 10</p>
+                      <p class="ts">✅ 开启时：</p>
                       <p>根据填写的终止条件作为规则，例如填写：5，则会在出错第5次自动终止程序</p>
+                      <p class="ts">⛔ 关闭时：</p>
+                      <p>程序执行中出现错误会继续向下执行，不会终止，直到执行完毕</p>
                     </div>
                     <div class="el-icon-question"></div>
                   </el-tooltip>
-                  <el-form-item label="终止条件" prop="error_num" class="flex w110">
+                  <el-form-item label="终止条件" prop="error_num" class="flex w110 noborder">
                     <el-switch v-model="ifErrNum" active-color="#13ce66" inactive-color="#a5a5a5" @change="seitchEvent">
                     </el-switch>
                     <vxe-input v-if="ifErrNum" v-model="form.error_num" placeholder="数值区间为1 - 10" type="number" step="1" min="1" max="10"></vxe-input>
                   </el-form-item>
                 </el-col>
                 <el-col v-if="form.choose === 1" :span="colWidth.pin">
-                  <el-form-item label="PIN" prop="pin">
+                  <el-form-item label="PIN" prop="pin" class="noborder">
                     <el-select v-model="form.pin" placeholder="请选择PIN" filterable clearable>
                       <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
                       </el-option>
@@ -60,7 +171,7 @@
                   </el-form-item>
                 </el-col>
                 <el-col v-else :span="colWidth.user">
-                  <el-form-item label="账号" prop="username">
+                  <el-form-item label="账号" prop="username" class="noborder">
                     <el-input v-model.trim="form.username" placeholder="请输入账号" clearable>
                     </el-input>
                   </el-form-item>
@@ -69,16 +180,52 @@
                   <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学" placement="bottom">
                     <div class="el-icon-video-play" @click="movieDownEvent(1)"></div>
                   </el-tooltip>
-                  <el-form-item label="Cookie" prop="cookie" class="w110">
+                  <el-form-item label="Cookie" prop="cookie" class="w110 noborder">
                     <el-input v-model.trim="form.cookie" placeholder="请输入Cookie" clearable>
                     </el-input>
+                  </el-form-item>
+                </el-col>
+                <el-col v-if="toolType === '快车更新创意状态'" :span="24">
+                  <el-form-item label="库存条件" prop="tiaojian" class="">
+                    <vxe-pulldown ref="refKoujing" v-model="visible1">
+                      <template #default>
+                        <el-input v-model="form.tiaojian" readonly placeholder="请选择条件" @focus="focusEvent1" class="nbd">
+                        </el-input>
+                      </template>
+                      <template #dropdown>
+                        <div class="dropdownbox">
+                          <div class="flex">
+                            <el-form ref="pullRef" :model="pulldownForm" :rules="rulesPull" class="form">
+                              <el-form-item prop="tj_val" class="f100">
+                                <el-input placeholder="整数" v-model.trim="pulldownForm.tj_val" class="input-with-select" clearable>
+                                  <el-select v-model="tj_lf" slot="prepend" placeholder="请选择" :popper-append-to-body="false" @change="(val) =>tjEvent(1, val)">
+                                    <el-option label="大于" value=">"></el-option>
+                                    <el-option label="小于" value="<"></el-option>
+                                  </el-select>
+                                  <template slot="append"><span class="el-icon-video-play play">启动</span></template>
+                                </el-input>
+                              </el-form-item>
+                              <el-form-item prop="tj_val2" class="f100">
+                                <el-input placeholder="整数" v-model.trim="pulldownForm.tj_val2" class="input-with-select" clearable>
+                                  <el-select v-model="tj_lf2" slot="prepend" placeholder="请选择" :popper-append-to-body="false" @change="(val) =>tjEvent(2, val)">
+                                    <el-option label="大于" value=">"></el-option>
+                                    <el-option label="小于" value="<"></el-option>
+                                  </el-select>
+                                  <template slot="append"><span class="el-icon-video-pause pause">暂停</span></template>
+                                </el-input>
+                              </el-form-item>
+                            </el-form>
+                          </div>
+                        </div>
+                      </template>
+                    </vxe-pulldown>
                   </el-form-item>
                 </el-col>
               </el-row>
             </div>
           </div>
           <div class="formObj_upload">
-            <el-form-item label="" :error="errorUpInfo">
+            <el-form-item label="">
               <el-popover v-if="excelData" placement="bottom" width="180" v-model="propVisable">
                 <p>创建空白Excel表格？</p>
                 <div class="popverButton">
@@ -89,7 +236,7 @@
               </el-popover>
               <el-button v-else v-waves type="info" class="el-icon-plus" @click="openExcel">创建</el-button>
             </el-form-item>
-            <el-form-item label="" :error="errorUpInfo">
+            <el-form-item label="">
               <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" :sheetName="sheetName"></Upload>
             </el-form-item>
             <div v-if="excelName" class="uptxt">
@@ -103,18 +250,19 @@
         </div>
       </el-form>
       <div class="formObj_button">
-        <el-tooltip class="item" effect="dark" content="清空输入框和导入数据" placement="top">
+        <el-tooltip class="item" effect="light" content="清空输入框和导入数据" placement="bottom">
           <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
             <div class="el-icon-refresh btnSize">重置</div>
           </a>
         </el-tooltip>
-        <el-tooltip class="item" effect="dark" content="提供可参考的导入数据案例" placement="top">
+        <el-tooltip class="item" effect="light" content="提供可参考的导入数据案例" placement="bottom">
           <a class="btnnormal_down marginR inlineButton" @click="modelEvent">
             <div class="el-icon-download btnSize">模板</div>
           </a>
         </el-tooltip>
-
-        <el-button v-waves type="primary" class="el-icon-right marginR" :disabled="disBtn" @click="zhixingEvent">执行</el-button>
+        <el-tooltip class="item" effect="light" content="至多同时执行2条任务" placement="bottom">
+          <el-button v-waves type="primary" class="el-icon-right marginR" :disabled="disBtn" @click="zhixingEvent">执行</el-button>
+        </el-tooltip>
       </div>
     </div>
     <div ref="tableBox" class="content_tableBox hasUp">
@@ -148,7 +296,7 @@
             <vxe-column min-width="15%" field="create_time" title="日期" show-overflow="tooltip"></vxe-column>
             <vxe-column title="操作" fixed="right" width="12%">
               <template slot-scope="scope">
-                <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
+                <div v-waves class="btn btn_info" :class="{'one': !ifDown || !scope.row.res_file_path || scope.row.log_status !== '执行完毕'}" @click="detailEvent(scope.row)">
                   <el-tooltip class="item" effect="dark" content="日志" placement="top">
                     <i class="el-icon-document"></i>
                   </el-tooltip>
@@ -186,6 +334,19 @@
           <span v-if="endingCode === 10010" class="suc el-icon-circle-check"></span><span v-else class="el-icon-loading"></span>{{ endingTxt }}
         </p>
       </div>
+      <!-- <div class="infinite_content">
+        <vxe-table :data="logData" auto-resize height="auto" border="inner" align="center">
+          <vxe-column min-width="5%" field="row" title="行/列"></vxe-column>
+          <vxe-column min-width="15%" field="label" title="名称"></vxe-column>
+          <vxe-column field="error" title="错误"></vxe-column>
+        </vxe-table>
+      </div>
+      <div class="infinite_ing">
+        <p>
+          <span v-if="endingCode === 10010" class="suc el-icon-circle-check"></span>
+          <span v-else class="el-icon-loading"></span>{{ endingTxt }}
+        </p>
+      </div> -->
     </div>
     <span slot="footer" class="dialog-footer">
       <el-button type="primary" @click="showLogDialog = false">关 闭</el-button>
@@ -211,6 +372,9 @@ import {
   DMPSave,
   pinSelect,
   optMovie,
+  dapanonLineList,
+  newBudgetSubmit,
+  newBudgetDown
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog";
@@ -246,13 +410,17 @@ export default {
       type: String,
       default: "",
     },
+    picClass: {
+      type: String,
+      default: "",
+    },
     toolType: {
       type: String,
       default: "",
     },
     sheetName: {
-      type: String,
-      default: "Sheet1",
+      type: Array,
+      default: [],
     },
     excelOptions: {
       type: Array,
@@ -264,11 +432,20 @@ export default {
     ifDown: {
       type: Boolean,
     },
+    tipInfo: {
+      type: Array
+    }
   },
   mixins: [message],
   computed: {
     player() {
       return this.$refs.myPlayer.player;
+    },
+    tj_val() {
+      return this.pulldownForm.tj_val
+    },
+    tj_val2() {
+      return this.pulldownForm.tj_val2
     },
   },
   watch: {
@@ -288,6 +465,8 @@ export default {
           case 2:
             vm.playerOptions.sources[0].src = 'http://tool.afocus.com.cn/file_download/movie/sf/sf.m3u8'
             break
+          default:
+            vm.playerOptions.sources[0].src = 'http://tool.afocus.com.cn/file_download/movie/jzt/jzt.m3u8'
         }
       },
       immediate: true
@@ -303,8 +482,9 @@ export default {
         vm.intervalObj = []
         clearInterval(vm.intervalDia);
         vm.intervalDia = null;
+        vm.showError = vm.formMenu === 1 && vm.toolType !== '快车更新创意状态'
         vm.showCookie =
-          vm.formMenu === 1 && vm.toolType !== 'DMP';
+          vm.formMenu === 1 && vm.toolType !== 'DMP' && vm.toolType !== '快车更新创意状态';
         vm.getuserlist();
         vm.$nextTick(() => {
           vm.$refs.form.resetFields();
@@ -321,17 +501,176 @@ export default {
       immediate: true,
       deep: true,
     },
+    tj_val: {
+      handler(newval, oldval) {
+        let start = ''
+        let stop = ''
+        if (this.tj_val) start = `启动：${this.tj_lf}${this.tj_val}`
+        if (this.tj_val2) stop = `   暂停：${this.tj_lf2}${this.tj_val2}`
+        this.form.tiaojian = start + stop
+      },
+      immediate: true
+    },
+    tj_val2: {
+      handler(newval, oldval) {
+        let start = ''
+        let stop = ''
+        if (this.tj_val) start = `启动：${this.tj_lf}${this.tj_val}`
+        if (this.tj_val2) stop = `   暂停：${this.tj_lf2}${this.tj_val2}`
+        this.form.tiaojian = start + stop
+      },
+      immediate: true
+    },
+    tj_lf: {
+      handler(newval, oldval) {
+        let start = ''
+        let stop = ''
+        if (this.tj_val) start = `启动：${this.tj_lf}${this.tj_val}`
+        if (this.tj_val2) stop = `   暂停：${this.tj_lf2}${this.tj_val2}`
+        this.form.tiaojian = start + stop
+      },
+      immediate: true
+    },
+    tj_lf2: {
+      handler(newval, oldval) {
+        let start = ''
+        let stop = ''
+        if (this.tj_val) start = `启动：${this.tj_lf}${this.tj_val}`
+        if (this.tj_val2) stop = `   暂停：${this.tj_lf2}${this.tj_val2}`
+        this.form.tiaojian = start + stop
+      },
+      immediate: true
+    }
   },
   data() {
     const vm = this;
     let chechPin = (rule, value, callback) => {
       if (!value && vm.form.choose === 1) {
-        callback(new Error("请输入pin"));
+        callback(new Error("请选择PIN"));
       } else {
         callback();
       }
     };
+    let cktjVal = (rule, value, callback) => {
+      this.$refs.pullRef.clearValidate('tj_val2')
+      if (!value) {
+        callback()
+      } else {
+        const res = /^\d+$/.test(value)
+        if (!res) {
+          callback(new Error("请输入数字"));
+          this.form.tiaojian = ''
+        } else {
+          if (this.tj_val2) {
+            if (this.tj_lf === '<') {
+              // 启动为< 暂停为> 启动的数值需小于暂停的数值
+              if (Number(value) > Number(this.tj_val2)) {
+                callback(new Error("请检查启动暂停区间是否有效"));
+                this.form.tiaojian = ''
+              } else {
+                callback();
+              }
+            }
+            if (this.tj_lf === '>') {
+              if (Number(value) < Number(this.tj_val2)) {
+                callback(new Error("请检查启动暂停区间是否有效"));
+                this.form.tiaojian = ''
+              } else {
+                callback();
+              }
+            }
+          } else {
+            callback();
+          }
+        }
+
+      }
+    }
+    let cktjVal2 = (rule, value, callback) => {
+      this.$refs.pullRef.clearValidate('tj_val')
+      if (!value) {
+        callback();
+      } else {
+        const res = /^\d+$/.test(value)
+        if (!res) {
+          callback(new Error("请输入数字"));
+          this.form.tiaojian = ''
+        } else {
+          if (this.tj_val) {
+            if (this.tj_lf2 === '<') {
+              // 启动为> 暂停为< 启动的数值需大于暂停的数值
+              if (Number(value) > Number(this.tj_val)) {
+                callback(new Error("请检查启动暂停区间是否有效"));
+                this.form.tiaojian = ''
+              } else {
+                callback();
+              }
+            }
+            if (this.tj_lf2 === '>') {
+              if (Number(value) < Number(this.tj_val)) {
+                callback(new Error("请检查启动暂停区间是否有效"));
+                this.form.tiaojian = ''
+              } else {
+                callback();
+              }
+            }
+          } else {
+            callback();
+          }
+        }
+      }
+    }
     return {
+      logData: [{
+          row: 2,
+          label: 'SKU',
+          error: '数据格式错误'
+        },
+        {
+          row: 2,
+          label: '计划名称',
+          error: '该单元格数据重复'
+        },
+        {
+          row: 2,
+          label: '计划名称',
+          error: '该单元格数据重复'
+        },
+        {
+          row: 2,
+          label: '计划名称',
+          error: '该单元格数据重复'
+        },
+        {
+          row: 2,
+          label: '计划名称',
+          error: '该单元格数据重复'
+        },
+        {
+          row: 2,
+          label: '计划名称',
+          error: '该单元格数据重复'
+        },
+        {
+          row: 2,
+          label: '计划名称',
+          error: '该单元格数据重复'
+        },
+
+        {
+          row: 2,
+          label: '计划名称',
+          error: '该单元格数据重复'
+        }, {
+          row: 2,
+          label: '计划名称',
+          error: '该单元格数据重复'
+        }, {
+          row: 2,
+          label: '计划名称',
+          error: '该单元格数据重复'
+        },
+      ],
       activeNames: '2',
       showLoading: false,
       iptTimer: null,
@@ -368,8 +707,9 @@ export default {
           playToggle: true, // 暂停和播放键
           progressControl: true, // 进度条
           fullscreenToggle: true, // 是否显示全屏按钮
-        },
+        }
       },
+      showError: true,
       showCookie: true,
       formSource: 1, // 点击来源 1 新建  2 导入
       excelData: null, // 提交的excel数据
@@ -386,28 +726,33 @@ export default {
         username: [{
           required: true,
           message: "请输入账号",
-          trigger: "blur",
-        }, ],
+          trigger: ['change', "blur"]
+        }],
         password: [{
           required: true,
           message: "请输入密码",
-          trigger: "blur",
-        }, ],
+          trigger: ['change', "blur"]
+        }],
         cookie: [{
           required: true,
           message: "请输入Cookie",
-          trigger: "blur",
-        }, ],
+          trigger: ['change', "blur"]
+        }],
         choose: [{
           required: true,
           message: "请选择类型",
-          trigger: "blur",
-        }, ],
+          trigger: ['change', "blur"]
+        }],
         pin: [{
           required: true,
           validator: chechPin,
-          trigger: "blur",
-        }, ],
+          trigger: ['change', "blur"]
+        }],
+        tiaojian: [{
+          required: true,
+          message: "请选择条件",
+          trigger: ['change', "blur"]
+        }]
       },
       showVarDia: false,
       options: [{
@@ -426,7 +771,27 @@ export default {
         error_num: null,
         pin: "",
         choose: 2,
+        tiaojian: '',
       },
+      pulldownForm: {
+        tj_val: '',
+        tj_val2: '',
+      },
+      rulesPull: {
+        tj_val: [{
+          required: true,
+          validator: cktjVal,
+          trigger: ['change', "blur"],
+        }],
+        tj_val2: [{
+          required: true,
+          validator: cktjVal2,
+          trigger: ['change', "blur"],
+        }]
+      },
+      tj_lf: '>',
+      tj_lf2: '<',
+      visible1: false,
       fileList: [], // excel文件列表
       loadingbut: false,
       loadingbuttext: "执行",
@@ -439,7 +804,6 @@ export default {
       pagesize: 10, //每页的数据条数
       currpage: 1, //默认开始页面
       log: "", //查看详情渲染的log
-
       intervalObj: [],
       targetItem: null,
       intervalDia: null,
@@ -456,10 +820,8 @@ export default {
     iptClickEvent(newval, oldval) {
       const vm = this
       if (!vm.iptTimer) {
-        console.log('new', newval)
         vm.iptTimer = setTimeout(() => {
           vm.form.error_num = newval
-
         }, 500)
       } else {
         console.log('old', oldval)
@@ -583,8 +945,11 @@ export default {
       let submitdata = {
         ...vm.form,
         config_data: vm.excelData,
+        start: vm.tj_lf + vm.tj_val,
+        stop: vm.tj_lf2 + vm.tj_val2,
         tool_type: vm.toolType,
       };
+
       vm.$refs.form.validate((valid) => {
         if (valid) {
           if (!vm.excelData) {
@@ -594,72 +959,14 @@ export default {
             });
             vm.disBtn = false
           } else {
+            // 提效
             if (vm.formMenu === 1) {
               if (vm.toolType === 'DMP') {
-                DMPSave({
-                  ...submitdata
-                }).then((res) => {
-                  vm.disBtn = false
-                  if (res.data.code === 10000) {
-                    vm.$msg({
-                      msg: "保存成功"
-                    });
-                    vm.OPENTAG = true
-                    vm.resetEvent()
-                    vm.getuserlist()
-                  } else if (res.data.code === 10003) {
-                    vm.openMessageBox({
-                      type: "warning",
-                      showClose: true,
-                      tipTitle: `账号未授权或授权失效`,
-                      tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
-                      auth: true,
-                      dangerouslyUseHTMLString: true,
-                      confirmButtonFn: () => {},
-                    });
-                  } else {
-                    vm.$msg({
-                      type: "error",
-                      msg: res.data.data || res.data.msg,
-                    });
-                  }
-                });
+                vm.api_DMP(submitdata)
               } else {
-                directiveSave({
-                  ...submitdata,
-                }).then(res => {
-                  vm.disBtn = false
-                  if (res.data.code === 10000) {
-                    vm.$msg({
-                      msg: "保存成功"
-                    });
-                    vm.OPENTAG = true
-                    vm.resetEvent()
-                    vm.getuserlist()
-                  } else if (res.data.code === 10006) {
-                    vm.$msg({
-                      type: "error",
-                      msg: "请添加正确的Excel文件"
-                    });
-                  } else if (res.data.code === 10003) {
-                    vm.openMessageBox({
-                      type: "warning",
-                      showClose: true,
-                      tipTitle: `账号未授权或授权失效`,
-                      tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
-                      auth: true,
-                      dangerouslyUseHTMLString: true,
-                      confirmButtonFn: () => {},
-                    });
-                  } else {
-                    vm.$msg({
-                      type: "error",
-                      msg: res.data.data || res.data.msg,
-                    });
-                  }
-                })
+                vm.api_directive(submitdata)
               }
-            } else {
+            } else if (vm.formMenu === 2) {
               if (vm.toolType === '数坊人群圈选') {
                 vm.openMessageBox({
                   type: "warning",
@@ -676,12 +983,84 @@ export default {
               } else {
                 vm.api_shufang(submitdata)
               }
+            } else if (vm.formMenu === 3) {
+              // 一键预算
+              vm.api_budget(submitdata)
             }
           }
         } else {
           vm.disBtn = false
         }
       });
+    },
+    // DMP保存接口
+    api_DMP(obj) {
+      const vm = this
+      DMPSave({
+        ...obj
+      }).then((res) => {
+        vm.disBtn = false
+        if (res.data.code === 10000) {
+          vm.$msg({
+            msg: "保存成功"
+          });
+          vm.OPENTAG = true
+          vm.resetEvent()
+          vm.getuserlist()
+        } else if (res.data.code === 10003) {
+          vm.openMessageBox({
+            type: "warning",
+            showClose: true,
+            tipTitle: `账号未授权或授权失效`,
+            tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
+            auth: true,
+            dangerouslyUseHTMLString: true,
+            confirmButtonFn: () => {},
+          });
+        } else {
+          vm.$msg({
+            type: "error",
+            msg: res.data.data || res.data.msg,
+          });
+        }
+      });
+    },
+    // 直投保存接口
+    api_directive(obj) {
+      const vm = this
+      directiveSave({
+        ...obj,
+      }).then(res => {
+        vm.disBtn = false
+        if (res.data.code === 10000) {
+          vm.$msg({
+            msg: "保存成功"
+          });
+          vm.OPENTAG = true
+          vm.resetEvent()
+          vm.getuserlist()
+        } else if (res.data.code === 10006) {
+          vm.$msg({
+            type: "error",
+            msg: "请添加正确的Excel文件"
+          });
+        } else if (res.data.code === 10003) {
+          vm.openMessageBox({
+            type: "warning",
+            showClose: true,
+            tipTitle: `账号未授权或授权失效`,
+            tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
+            auth: true,
+            dangerouslyUseHTMLString: true,
+            confirmButtonFn: () => {},
+          });
+        } else {
+          vm.$msg({
+            type: "error",
+            msg: res.data.data || res.data.msg,
+          });
+        }
+      })
     },
     // 数坊保存接口
     api_shufang(obj) {
@@ -710,109 +1089,167 @@ export default {
         }
       });
     },
-    //查看列表
-    getuserlist() {
-      const vm = this;
-      directiveList({
-        tool_type: vm.toolType,
-        limit: vm.pagesize,
-        page: vm.currpage
+    // 一键预算保存接口
+    api_budget(obj) {
+      const vm = this
+      newBudgetSubmit({
+        ...obj
       }).then((res) => {
+        vm.disBtn = false
         if (res.data.code === 10000) {
-          let result = res.data;
-          vm.tableData = result.data;
-          vm.total = result.count;
-          vm.endingTxt = '日志正在加载';
-          vm.logContent = '';
-          vm.endingCode = 10000
-          // 每次新执行完
-          // 所有要先清空再删除掉
-          if (vm.OPENTAG) {
-            vm.detailEvent(vm.tableData[0])
-            for (let i of result.data) {
-              if (i.log_status === "执行中") {
-                for (let k of vm.intervalObj) {
-                  if (k.intervalName === `interval_${i.serial}`) {
-                    clearInterval(k.intervalValue);
-                    vm.$set(k, "intervalValue", null);
-                    break
-                  }
-                }
-              }
-            }
-            vm.intervalObj = []
-          }
-          for (let i of result.data) {
-            if (i.log_status === "执行中") {
-              let obj = {};
-              vm.$set(obj, "intervalName", `interval_${i.serial}`);
-              vm.$set(
-                obj,
-                "intervalValue",
-                setInterval(() => {
-                  directiveLog({
-                    path: i.file_path,
-                  }).then((resu) => {
-                    for (let j in result.data) {
-                      if (vm.tableData[j].serial === i.serial) {
-                        if (resu.data.code === 10000) {
-                          vm.$set(vm.tableData[j], "log_status", resu.data.log_status);
-                          vm.$set(vm.tableData[j], "res_file_path", '');
-                          vm.$set(obj, "code", resu.data.code);
-                          vm.$set(obj, "html", resu.data.data);
-                          vm.$set(
-                            obj,
-                            "txt",
-                            resu.data.data ? "日志持续获取中" : "日志正在加载"
-                          );
-                        } else if (resu.data.code === 10010) {
-                          vm.$set(vm.tableData[j], "log_status", resu.data.log_status);
-                          vm.$set(vm.tableData[j], "res_file_path", resu.data.res_file_path);
-                          vm.$set(obj, "code", resu.data.code);
-                          vm.$set(obj, "html", resu.data.data || "");
-                          vm.$set(obj, "txt", "日志加载完毕");
-                          for (let k in vm.intervalObj) {
-                            if (
-                              vm.intervalObj[k].intervalName.indexOf(
-                                i.serial
-                              ) !== -1
-                            ) {
-                              clearInterval(vm.intervalObj[k].intervalValue);
-                              vm.$set(vm.intervalObj[k], "intervalValue", null);
-                              break;
-                            }
-                          }
-                        } else {
-                          vm.$msg({
-                            type: "error",
-                            msg: resu.data.msg
-                          });
-                          vm.$set(vm.tableData[j], "log_status", '错误');
-                          vm.$set(obj, "code", '错误');
-                          vm.$set(obj, "html", '错误');
-                          vm.$set(
-                            obj,
-                            "txt",
-                            '错误'
-                          );
-                        }
-                        break;
-                      }
-                    }
-                  });
-                }, 6000)
-              );
-              vm.intervalObj.push(obj);
-            }
-          }
+          vm.$msg({
+            msg: "保存成功"
+          });
+          vm.OPENTAG = true
+          vm.resetEvent()
+          vm.getuserlist()
+        } else if (res.data.code === 10003) {
+          vm.openMessageBox({
+            type: "warning",
+            showClose: true,
+            tipTitle: `账号未授权或授权失效`,
+            tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
+            auth: true,
+            dangerouslyUseHTMLString: true,
+            confirmButtonFn: () => {},
+          });
         } else {
           vm.$msg({
             type: "error",
-            msg: res.data.msg
+            msg: res.data.data || res.data.msg,
           });
         }
-        // console.log('interval', vm.intervalObj)
       });
+    },
+    //查看列表
+    getuserlist() {
+      const vm = this;
+      if (vm.formMenu === 3) {
+        // 预算
+        dapanonLineList({
+          tool_type: vm.toolType,
+          limit: vm.pagesize,
+          page: vm.currpage
+        }).then((res) => {
+          if (res.data.code === 10000) {
+            let result = res.data;
+            vm.tableData = result.data;
+            vm.total = result.count;
+            vm.relateInterval(result)
+          } else {
+            vm.$msg({
+              type: "error",
+              msg: res.data.msg
+            });
+          }
+        });
+      } else {
+        // 其他
+        directiveList({
+          tool_type: vm.toolType,
+          limit: vm.pagesize,
+          page: vm.currpage
+        }).then((res) => {
+          if (res.data.code === 10000) {
+            let result = res.data;
+            vm.tableData = result.data;
+            vm.total = result.count;
+            vm.relateInterval(result)
+          } else {
+            vm.$msg({
+              type: "error",
+              msg: res.data.msg
+            });
+          }
+        });
+      }
+    },
+    // 定时器相关
+    relateInterval(result) {
+      const vm = this;
+      vm.endingTxt = '日志正在加载';
+      vm.logContent = '';
+      vm.endingCode = 10000
+      // 每次新执行完
+      // 所有要先清空再删除掉
+      if (vm.OPENTAG) {
+        vm.detailEvent(vm.tableData[0])
+        for (let i of result.data) {
+          if (i.log_status === "执行中") {
+            for (let k of vm.intervalObj) {
+              if (k.intervalName === `interval_${i.serial}`) {
+                clearInterval(k.intervalValue);
+                vm.$set(k, "intervalValue", null);
+                break
+              }
+            }
+          }
+        }
+        vm.intervalObj = []
+      }
+      for (let i of result.data) {
+        if (i.log_status === "执行中") {
+          let obj = {};
+          vm.$set(obj, "intervalName", `interval_${i.serial}`);
+          vm.$set(
+            obj,
+            "intervalValue",
+            setInterval(() => {
+              directiveLog({
+                path: i.file_path,
+              }).then((resu) => {
+                for (let j in result.data) {
+                  if (vm.tableData[j].serial === i.serial) {
+                    if (resu.data.code === 10000) {
+                      vm.$set(vm.tableData[j], "log_status", resu.data.log_status);
+                      vm.$set(vm.tableData[j], "res_file_path", '');
+                      vm.$set(obj, "code", resu.data.code);
+                      vm.$set(obj, "html", resu.data.data);
+                      vm.$set(
+                        obj,
+                        "txt",
+                        resu.data.data ? "日志持续获取中" : "日志正在加载"
+                      );
+                    } else if (resu.data.code === 10010) {
+                      vm.$set(vm.tableData[j], "log_status", resu.data.log_status);
+                      vm.$set(vm.tableData[j], "res_file_path", resu.data.res_file_path);
+                      vm.$set(obj, "code", resu.data.code);
+                      vm.$set(obj, "html", resu.data.data || "");
+                      vm.$set(obj, "txt", "日志加载完毕");
+                      for (let k in vm.intervalObj) {
+                        if (
+                          vm.intervalObj[k].intervalName.indexOf(
+                            i.serial
+                          ) !== -1
+                        ) {
+                          clearInterval(vm.intervalObj[k].intervalValue);
+                          vm.$set(vm.intervalObj[k], "intervalValue", null);
+                          break;
+                        }
+                      }
+                    } else {
+                      vm.$msg({
+                        type: "error",
+                        msg: resu.data.msg
+                      });
+                      vm.$set(vm.tableData[j], "log_status", '错误');
+                      vm.$set(obj, "code", '错误');
+                      vm.$set(obj, "html", '错误');
+                      vm.$set(
+                        obj,
+                        "txt",
+                        '错误'
+                      );
+                    }
+                    break;
+                  }
+                }
+              });
+            }, 6000)
+          );
+          vm.intervalObj.push(obj);
+        }
+      }
     },
     //no - 打开日志弹层
     detailEvent(row) {
@@ -949,6 +1386,14 @@ export default {
       this.currpage = page;
       this.getuserlist(this.currpage);
     },
+    focusEvent1() {
+      this.$refs.refKoujing.showPanel()
+    },
+    // 启动：大小于
+    tjEvent(tag, val) {
+      if (tag === 1) this.tj_lf2 = val === '>' ? '<' : '>'
+      if (tag === 2) this.tj_lf = val === '>' ? '<' : '>'
+    }
   },
 };
 </script>
@@ -956,4 +1401,5 @@ export default {
 <style lang="less" scoped>
 @import "@/views/index";
 @import "index";
+@import "../../views/BudgetAlarm/index.less";
 </style>

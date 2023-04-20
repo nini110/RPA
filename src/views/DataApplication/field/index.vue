@@ -38,7 +38,7 @@
           <!-- <vxe-column v-for="(item, idx) in tabList" :key="idx" min-width="15%" :field="item.prop" :title="item.label" show-overflow="tooltip"></vxe-column> -->
           <vxe-column title="操作" fixed="right" width="12%">
             <template slot-scope="scope">
-              <div v-waves class="btn btn_info" @click="seeEvent(scope.row)">
+              <div v-waves class="btn btn_info" :class="{'one': scope.row.log_status!=='执行完毕'}"  @click="seeEvent(scope.row)">
                 <el-tooltip class="item" effect="dark" content="查看" placement="top">
                   <i class="el-icon-view"></i>
                 </el-tooltip>

@@ -58,7 +58,7 @@
   &-tooltip {
     &__popper {
       p {
-        line-height: 22px;
+        line-height: 24px;
 
         &.ts {
           color: #fdd27e;
@@ -307,12 +307,7 @@
       &__content {
         width: calc(100% - 100px);
 
-        .el-autocomplete,
-        .el-date-editor,
-        .el-cascader,
-        .el-select {
-          width: 100% !important;
-        }
+
 
         .el-textarea__inner {
           resize: none;
@@ -329,6 +324,16 @@
 
         .el-button {
           padding: 15px 40px;
+        }
+      }
+
+      &.w100 {
+
+        .el-autocomplete,
+        .el-date-editor,
+        .el-cascader,
+        .el-select {
+          width: 100% !important;
         }
       }
 
@@ -362,6 +367,11 @@
 
 
   &-input {
+    &.nbd .el-input__inner {
+      border: none;
+      outline: 0;
+    }
+
     &-group__append {
       background-color: @baseItemColor;
       color: #666;
@@ -774,6 +784,20 @@
 }
 
 .vxe {
+
+  &-pulldown,
+  &-input {
+    width: 100%;
+  }
+
+  &-input {
+    height: 100%;
+
+    &--inner {
+      height: auto !important;
+    }
+  }
+
   &-body--column {
     height: 70px !important;
   }
@@ -806,17 +830,14 @@
       position: relative;
       cursor: pointer;
       color: #606266;
-      width: 40px;
+      width: 60px;
       height: 40px;
       padding: 0px !important;
-      border-radius: 4px;
       vertical-align: middle;
       transition: all 200ms linear;
       border-color: transparent;
       position: relative;
       display: inline-block;
-      margin-right: 14px;
-      border-radius: 50%;
 
       &.is-disabled {
         background-color: #aaafae;
@@ -830,13 +851,25 @@
       }
 
       &_info {
-        // background-color: #eeeeeeb3;
+        border: 1px solid #ebeaec;
+        background-color: #f8f8f9;
+
+        &:first-child {
+          border-radius: 4px 0 0 4px;
+
+          &.one {
+            background-color: transparent;
+            border: none;
+          }
+        }
+
+        &:last-child {
+          border-radius: 0 4px 4px 0;
+        }
 
         &.dis {
           background-color: #c4c4c745;
-
           cursor: not-allowed;
-
         }
 
         i {
@@ -846,17 +879,18 @@
           transform: translate(-50%, -50%);
 
           &:before {
-            transition: all 0.3s linear;
-            font-weight: bold;
-            font-size: 26px;
+            font-size: 28px;
             color: #909399;
+            transition: all 0.2s linear;
           }
         }
 
         &:hover {
+          background-color: #fff;
+
           i {
             &:before {
-              font-size: 34px;
+              font-size: 32px;
             }
 
             &.el-icon-document {
@@ -909,18 +943,6 @@
           }
         }
 
-        // svg,
-        // button {
-        //   width: 34px;
-        //   height: 34px;
-        //   position: absolute;
-        //   left: 50%;
-        //   top: 50%;
-        //   transform: translate(-50%, -50%);
-        //   transition: all 200ms linear;
-
-        // }
-
         button {
           width: 36px;
           height: 36px;
@@ -941,7 +963,7 @@
     }
 
     .statusDiv {
-      padding: 2px 10px;
+      padding: 6px 10px;
       border-radius: 4px;
       color: #fff;
       max-width: 80px;
@@ -964,6 +986,80 @@
       }
     }
   }
+}
+
+.dropdownbox {
+  padding: 20px 30px;
+  box-shadow: 0 0.166667rem 1rem 0 #dbdbdb;
+  border: 0.083333rem solid #E4E7ED;
+  border-radius: 4px;
+
+  &.ts {
+    padding-left: 0;
+  }
+
+  .flex {
+    display: flex;
+    justify-content: space-between;
+    color: #303133;
+
+    .lb {
+      margin-right: 15px;
+      color: #909399;
+    }
+
+    .form {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 30px;
+    }
+
+  }
+
+  .el-input-group {
+    &__prepend {
+      width: 50px;
+      background-color: #fff;
+    }
+
+    &__append {
+      width: 50px;
+      background-color: #f5f7fa;
+    }
+
+    .pause {
+      color: #f56c6c;
+
+      &:before {
+        margin-right: 4px;
+      }
+    }
+
+    .play {
+      color: #13CE66;
+
+      &:before {
+        margin-right: 4px;
+      }
+    }
+  }
+}
+
+.tips {
+  font-size: 12px;
+  line-height: 24px;
+  color: #909399;
+  margin-bottom: 20px;
+}
+
+/deep/.vxe-table--body-wrapper {
+  height: 300px;
+}
+
+/deep/.vxe-body--column {
+  height: 40px !important;
+  line-height: 20px !important;
 }
 
 svg,

@@ -52,8 +52,8 @@ export default {
       type: String,
     },
     sheetName: {
-      default: "Sheet1",
-      type: String,
+      type: Array,
+      default: [],
     },
     showFileList: {
       default: false,
@@ -95,7 +95,8 @@ export default {
           file.raw,
           (exportJson, luckysheetfile) => {
             for (let val of exportJson.sheets ) {
-              if (val.name === vm.sheetName) {
+              // if (val.name === vm.sheetName) {
+              if (vm.sheetName.indexOf(val.name) !== -1) {
                 sheetArr.push(val.name)
                 val.celldata.forEach((item, index) => {
                   if (item.v && item.v.ct && item.v.ct.fa === 'm/d/yy') {
@@ -107,7 +108,6 @@ export default {
                 val.status = parseInt(val.status);
                 val.showGridLines = parseInt(val.showGridLines);
                 target_sheets.push(val)
-                break
               }
             }
             window.luckysheet.destroy();

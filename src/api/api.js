@@ -256,6 +256,18 @@ export const brandOnline = request({
   method: "post",
   responseType: 'form'
 })
+// 新版 一键预算
+export const newBudgetSubmit = request({
+  url: `${BASEPATH5}/tools/set_budget_by_day`,
+  method: "post",
+  responseType: 'form'
+})
+// 新版 一键预算-模板下载
+export const newBudgetDown = request({
+  url: `${BASEPATH5}/tools/download_budget_model_by_day`,
+  method: "get",
+})
+// 
 // 巨量千川，音果desk api---------------------------------------------------------
 // 获取出价策略列表
 export const strategyList = request({

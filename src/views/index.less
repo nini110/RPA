@@ -145,7 +145,6 @@
       }
 
       .word {
-        padding-left: 50px;
         color: #7e7e7e;
         margin: 8px 0;
         font-size: 16px;
@@ -177,12 +176,14 @@
 
           &-item {
             &__content {
-              padding-bottom: 0;
+              padding: 20px 50px;
+              background-color: #f8f8f9;
             }
 
             &__wrap {
               border: none;
-              padding-bottom: 10px;
+              // padding-bottom: 10px;
+              margin-bottom: 10px;
             }
 
             &__header {
@@ -194,12 +195,10 @@
               top: 4px;
               padding: 0 10px;
               background-color: transparent;
-              color: #606266;
-              font-weight: bold;
+              color: #d16323;
 
               .icon {
-                font-weight: bold;
-                font-size: 18px;
+                font-size: 22px;
                 margin-right: 6px;
               }
 
@@ -221,6 +220,7 @@
         display: flex;
         flex-wrap: wrap;
         box-shadow: 0px -35px 30px 10px #eae9e987;
+        // border: 1px solid #f1f1f1;
 
         &_div {
           display: flex;
@@ -251,10 +251,12 @@
             img {
               width: 60px;
               height: 60px;
+              box-sizing: border-box;
 
               &.ts {
-                width: 48px;
-                height: 48px;
+                // width: 48px;
+                // height: 48px;
+                padding: 4px;
               }
 
               &.ts2 {
@@ -287,6 +289,10 @@
             &-input {
               height: 100% !important;
               flex: 1;
+
+              &--inner {
+                height: 100% !important;
+              }
             }
           }
 
@@ -322,6 +328,19 @@
               border-left: 0;
               box-sizing: border-box;
               line-height: 1;
+            }
+
+            &.f100 {
+              width: 48%;
+
+              .el-form-item {
+                &__content {
+                  width: 100% !important;
+                }
+              }
+            }
+
+            &.noborder {
 
               .el-select,
               .el-input-number {
@@ -354,6 +373,7 @@
             }
 
             &.flex {
+
               .el-form-item__content {
                 border: none;
                 display: flex;
@@ -626,107 +646,6 @@
     }
   }
 
-  &_left,
-  &_right {
-    display: inline-block;
-    vertical-align: top;
-    padding: 20px 0;
-    box-sizing: border-box;
-  }
-
-  &_left {
-    width: 32%;
-    height: calc(100% - 100px);
-    flex-wrap: wrap;
-    position: relative;
-    box-shadow: -20px 0 20px #eae9e987;
-    padding: 40px 20px 20px 20px;
-    margin: 40px 0 40px 80px;
-    box-sizing: border-box;
-
-    &_info {
-      position: absolute;
-      user-select: none;
-      bottom: 0;
-      left: 0;
-      margin: 20px 20px 20px 30px;
-
-      h3 {
-        padding-left: 1.5em;
-        font-size: 14px;
-        color: @baseItemColor;
-        font-weight: bold;
-
-        &:before {
-          font-size: 14px;
-          margin-right: 5px;
-          font-weight: normal;
-        }
-      }
-
-      p {
-        text-indent: 2em;
-        word-break: break-all;
-        font-size: 12px;
-        color: #909399;
-        line-height: 22px;
-        margin-top: 10px;
-      }
-    }
-
-    .tips {
-      color: #f56c6c;
-      text-align: center;
-      font-weight: bold;
-      font-size: 12px;
-      line-height: 48px;
-    }
-
-    .up {
-      text-align: right;
-      margin-bottom: 20px;
-    }
-  }
-
-  &_right {
-    width: calc(68% - 240px);
-    height: calc(100% - 100px);
-    box-sizing: border-box;
-    padding: 40px 20px 20px 20px;
-    margin: 40px 80px 40px 0;
-    position: relative;
-
-    .el {
-      &-form {
-        height: 100%;
-      }
-
-      &-card {
-        margin-bottom: 60px;
-      }
-    }
-
-    .detailSpan {
-      color: #606266;
-    }
-
-    .nodata {
-      background: url("../assets/images/noneData3.png") no-repeat center center;
-      background-size: 50% auto;
-    }
-
-    .noBudget {
-      background: url("../assets/images/budget.png") no-repeat center center;
-      background-size: 50% auto;
-    }
-
-    .bottomBtn {
-      position: absolute;
-      bottom: 20px;
-      right: 20px;
-    }
-
-  }
 }
 
 .block {

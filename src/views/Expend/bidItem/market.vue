@@ -63,7 +63,7 @@
             <template slot-scope="scope">
               <div
                 v-waves
-                class="btn btn_info"
+                class="btn btn_info one"
                 :class="{ dis: scope.row.status }"
                 @click="deleteFn(scope.row)"
               >

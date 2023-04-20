@@ -2,7 +2,6 @@
 <div class="layout">
   <Header></Header>
   <div class="layout_left">
-
     <el-menu v-if="hasMenu" :default-active="currentMenu" class="el-menu-vertical-demo layout_menu" unique-opened active-text-color="#2066BD">
       <div v-for="(item, idx) in menuList" :key="idx" class="layout_menu_box">
         <el-submenu v-if="item.children" :index="item.index">
@@ -89,6 +88,11 @@ export default {
               label: "京腾人群定向",
               value: "/layout/beijingMustPass/People",
               index: "1-5",
+            },
+            {
+              label: "创意优化助手",
+              value: "/layout/beijingMustPass/Help",
+              index: "1-7",
             },
           ],
         },

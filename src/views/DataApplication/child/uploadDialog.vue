@@ -12,7 +12,7 @@
     <el-form ref="form" :model="form" class="formObj" :rules="rules">
       <el-row :gutter="20">
         <el-col :span="24">
-          <el-form-item label="选择竞标" prop="bidId">
+          <el-form-item label="选择竞标" prop="bidId" class="w100">
             <el-select
               v-model="form.bidId"
               filterable
@@ -107,7 +107,7 @@
           </el-form-item>
         </el-col>
         <el-col :span="20">
-          <el-form-item label="生成预算" prop="rangeDate">
+          <el-form-item label="生成预算" prop="rangeDate" class="w100">
             <el-date-picker
               v-model="form.rangeDate"
               format="yyyy-MM-dd"

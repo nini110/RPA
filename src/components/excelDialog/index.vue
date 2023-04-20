@@ -20,8 +20,8 @@ export default {
       default: "",
     },
     sheetName: {
-      type: String,
-      default: "Sheet1",
+      type: Array,
+      default: [],
     },
   },
   data() {
@@ -126,161 +126,212 @@ export default {
         $(function () {
           let results = window.luckysheet.getAllSheets();
           if (vm.toolType === "京东展位") {
-            for (let val of results) {
-              if (val.name === vm.sheetName) {
-                let sheet = {
-                  key: val.name,
-                  value: [],
-                };
-                // 去除null
-                let outData = vm.deleteNull(val.data)
-                let publicObj = {};
-                outData.forEach((val1, idx1) => {
-                  if (val1) {
-                    // 获取公共的内容
-                    if (idx1 <= 15 && val1[0] && val1[0].v) {
-                      vm.$set(
-                        publicObj,
-                        val1[0].v,
-                        val1[1] && val1[1].v ? val1[1].v : ""
-                      );
-                    }
-                  }
-                });
-                outData.forEach((val1, idx1) => {
-                  let obj = {};
-                  if (val1) {
-                    // 第20行是横向内容
-                    if (idx1 > 16) {
-                      outData[16].forEach((val2, idx2) => {
-                        if (val2) {
+            vm.sheetName.forEach((curSheet, curIdx) => {
+              for (let val of results) {
+                if (val.name === curSheet) {
+                  let sheet = {
+                    key: val.name,
+                    value: [],
+                  };
+                  // 去除null
+                  let outData = vm.deleteNull(val.data)
+                  let publicObj = {};
+                  outData.forEach((val1, idx1) => {
+                    if (val1) {
+                      // 获取公共的内容
+                      if (idx1 <= 15 && val1[0] && val1[0].v) {
+                        if (val1[1] && val1[1].v) {
                           vm.$set(
-                            obj,
-                            val2.v,
-                            outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
+                            publicObj,
+                            val1[0].v,
+                            val1[1].v
+                          );
+                        } else if (val1[1] && !val1[1].v && val1[1].ct && val1[1].ct.s) {
+                          let zhi = ''
+                          val1[1].ct.s.forEach((item, index) => {
+                            zhi += item.v
+                          })
+                          vm.$set(
+                            publicObj,
+                            val1[0].v,
+                            zhi
+                          )
+                        } else {
+                          vm.$set(
+                            publicObj,
+                            val1[0].v,
+                            ''
                           );
                         }
-                      });
-                      sheet.value.push({
-                        ...publicObj,
-                        ...obj,
-                      });
+                      }
                     }
-                  }
-                });
-                resultObj[sheet.key] = sheet.value;
-                break;
+                  });
+                  outData.forEach((val1, idx1) => {
+                    let obj = {};
+                    if (val1) {
+                      // 第20行是横向内容
+                      if (idx1 > 16) {
+                        outData[16].forEach((val2, idx2) => {
+                          if (val2) {
+                            if (outData[idx1][idx2] && outData[idx1][idx2].v) {
+                              vm.$set(
+                                obj,
+                                val2.v,
+                                outData[idx1][idx2].v
+                              );
+                            } else if (outData[idx1][idx2] && !outData[idx1][idx2].v && outData[idx1][idx2].ct && outData[idx1][idx2].ct.s) {
+                              let zhi = ''
+                              outData[idx1][idx2].ct.s.forEach((item, index) => {
+                                zhi += item.v
+                              })
+                              vm.$set(
+                                obj,
+                                val2.v,
+                                zhi
+                              )
+                            } else {
+                              vm.$set(
+                                obj,
+                                val2.v,
+                                ''
+                              );
+                            }
+
+                          }
+                        });
+                        sheet.value.push({
+                          ...publicObj,
+                          ...obj,
+                        });
+                      }
+                    }
+                  });
+                  resultObj[sheet.key] = sheet.value;
+                  break;
+                }
               }
-            }
+            })
           } else if (
             vm.toolType === "数坊人群计算" ||
             vm.toolType === "数坊人群圈选"
           ) {
-            for (let val of results) {
-              if (val.name === vm.sheetName) {
-                let sheet = {
-                  key: val.name,
-                  value: [],
-                };
-                // 去除null
-                let outData = vm.deleteNull(val.data)
-                // 处理
-                let mid = {}
-                vm.$set(mid, outData[1][1].v, outData[1][1].v);
-                sheet.value.push(mid);
-                // 第一行的数据
-                outData.forEach((val1, idx1) => {
-                  let obj = {};
-                  if (val1) {
-                    if (idx1 > 2) {
-                      outData[2].forEach((val2, idx2) => {
-                        if (val2) {
-                          if (val2.v.indexOf('时间') !== -1 || val2.v.indexOf('时期') !== -1 || val2.v.indexOf('日期') !== -1) {
-                            vm.$set(
-                              obj,
-                              val2.v,
-                              outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
-                            );
-                          } else {
-                            vm.$set(
-                              obj,
-                              val2.v,
-                              outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
-                            );
+            vm.sheetName.forEach((curSheet, curIdx) => {
+              for (let val of results) {
+                if (val.name === curSheet) {
+                  let sheet = {
+                    key: val.name,
+                    value: [],
+                  };
+                  // 去除null
+                  let outData = vm.deleteNull(val.data)
+                  // 处理
+                  let mid = {}
+                  vm.$set(mid, outData[1][1].v, outData[1][1].v);
+                  sheet.value.push(mid);
+                  // 第一行的数据
+                  outData.forEach((val1, idx1) => {
+                    let obj = {};
+                    if (val1) {
+                      if (idx1 > 2) {
+                        outData[2].forEach((val2, idx2) => {
+                          if (val2) {
+                            if (val2.v.indexOf('时间') !== -1 || val2.v.indexOf('时期') !== -1 || val2.v.indexOf('日期') !== -1) {
+                              vm.$set(
+                                obj,
+                                val2.v,
+                                outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
+                              );
+                            } else {
+                              vm.$set(
+                                obj,
+                                val2.v,
+                                outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
+                              );
+                            }
                           }
-                        }
-                      });
-                      sheet.value.push({
-                        ...obj,
-                      });
+                        });
+                        sheet.value.push({
+                          ...obj,
+                        });
+                      }
                     }
-                  }
-                });
-                resultObj[sheet.key] = sheet.value;
-                break;
+                  });
+                  resultObj[sheet.key] = sheet.value;
+                  break;
+                }
               }
-            }
+            })
           } else {
-            for (let val of results) {
-              if (val.name === vm.sheetName) {
-                let sheet = {
-                  key: val.name,
-                  value: [],
-                };
-                // 去除null
-                let outData = vm.deleteNull(val.data)
-                // 处理数据
-                outData.forEach((val1, idx1) => {
-                  if (val1) {
-                    if (idx1 !== 0) {
-                      // val1是每一行
-                      let obj = {};
-                      outData[0].forEach((val2, idx2) => {
-                        if (val2) {
-                          if (val2.v.indexOf('流量包设置') !== -1 || val2.v.indexOf('人群溢价系数') !== -1 ||
-                            val2.v.indexOf('基础出价') !== -1 || val2.v.indexOf('出价') !== -1 ||
-                            val2.v.indexOf('时期') !== -1 ||
-                            val2.v.indexOf('日期') !== -1 || val2.v.indexOf('时间') !== -1) {
-                            vm.$set(
-                              obj,
-                              val2.v,
-                              outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
-                            );
-                          } else if (val2.v.indexOf('跟单SKU') !== -1 || val2.v.indexOf('sku') !== -1
-                            ) {
-                            vm.$set(
-                              obj,
-                              val2.v,
-                              outData[idx1][idx2] && outData[idx1][idx2].v ? String(outData[idx1][idx2].v) : ""
-                            );
-                          } else {
-                            vm.$set(
-                              obj,
-                              val2.v,
-                              outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
-                            );
+            vm.sheetName.forEach((curSheet, curIdx) => {
+              for (let val of results) {
+                // if (val.name === vm.sheetName) {
+                if (val.name === curSheet) {
+                  let sheet = {
+                    key: val.name,
+                    value: [],
+                  };
+                  // 去除null
+                  let outData = vm.deleteNull(val.data)
+                  // 处理数据
+                  outData.forEach((val1, idx1) => {
+                    if (val1) {
+                      if (idx1 !== 0) {
+                        // val1是每一行
+                        let obj = {};
+                        outData[0].forEach((val2, idx2) => {
+                          if (val2) {
+                            if (val2.v.indexOf('流量包设置') !== -1 || val2.v.indexOf('人群溢价系数') !== -1 ||
+                              val2.v.indexOf('基础出价') !== -1 || val2.v.indexOf('出价') !== -1 ||
+                              val2.v.indexOf('时期') !== -1 ||
+                              val2.v.indexOf('日期') !== -1 || val2.v.indexOf('时间') !== -1) {
+                              vm.$set(
+                                obj,
+                                val2.v,
+                                outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
+                              );
+                            } else if (val2.v.indexOf('跟单SKU') !== -1 || val2.v.indexOf('sku') !== -1) {
+                              vm.$set(
+                                obj,
+                                val2.v,
+                                outData[idx1][idx2] && outData[idx1][idx2].v ? String(outData[idx1][idx2].v) : ""
+                              );
+                            } else {
+                              if (outData[idx1][idx2] && outData[idx1][idx2].v) {
+                                vm.$set(
+                                  obj,
+                                  val2.v,
+                                  outData[idx1][idx2].v
+                                )
+                              } else if (outData[idx1][idx2] && !outData[idx1][idx2].v && outData[idx1][idx2].ct && outData[idx1][idx2].ct.s) {
+                                let zhi = ''
+                                outData[idx1][idx2].ct.s.forEach((item, index) => {
+                                  zhi += item.v
+                                })
+                                vm.$set(
+                                  obj,
+                                  val2.v,
+                                  zhi
+                                )
+                              } else {
+                                vm.$set(
+                                  obj,
+                                  val2.v,
+                                  ''
+                                )
+                              }
+                            }
+
                           }
-                          if (outData[idx1][idx2] && !outData[idx1][idx2].v && outData[idx1][idx2].ct && outData[idx1][idx2].ct.s) {
-                            let zhi = ''
-                            outData[idx1][idx2].ct.s.forEach((item, index) => {
-                              zhi += item.v
-                            })
-                            vm.$set(
-                              obj,
-                              val2.v,
-                              zhi
-                            )
-                          }
-                        }
-                      });
-                      sheet.value.push(obj);
+                        });
+                        sheet.value.push(obj);
+                      }
                     }
-                  }
-                });
-                resultObj[sheet.key] = sheet.value;
-                break;
+                  });
+                  resultObj[sheet.key] = sheet.value;
+                  break;
+                }
               }
-            }
+            })
           }
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
@@ -318,7 +369,7 @@ export default {
   position: relative;
   // width: 100%;
   // height: 100%;
-  z-index: 10;
+  z-index: 11;
   position: absolute;
   left: 0;
   top: 50px;

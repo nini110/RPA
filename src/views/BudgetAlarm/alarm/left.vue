@@ -1,20 +1,15 @@
 <template>
 <el-form ref="form1" :model="form">
-  <div class="dropdown">
-    <el-dropdown class="dropdown" type="primary" @command="commandEvent">
-      <el-button type="primary">
-        <i class="el-icon-thumb"></i> 登录方式: {{ loginTXT
-          }}<i class="el-icon-arrow-down el-icon--right"></i>
-      </el-button>
-      <!-- 登录方式 -->
-      <el-dropdown-menu slot="dropdown">
-        <el-dropdown-item v-for="(item, idx) in radioOpt" :command="item.code" :key="idx">{{ item.txt }}</el-dropdown-item>
-      </el-dropdown-menu>
-    </el-dropdown>
-  </div>
   <el-row>
+    <el-col :span="24">
+      <el-form-item label="登录方式" prop="choose" class="noborder">
+        <el-radio-group v-model="activeName" @input="commandEvent">
+          <el-radio v-for="item in radioOpt" :key="item.code" :label="item.code" border>{{ item.txt }}</el-radio>
+        </el-radio-group>
+      </el-form-item>
+    </el-col>
     <el-col v-for="(item, idx) in boxDataLeft" :key="idx" :span="24">
-      <el-form-item v-if="item.type === 'select'" :label="item.label" :prop="item.prop" :rules="item.rules">
+      <el-form-item v-if="item.type === 'select'" :label="item.label" :prop="item.prop" :rules="item.rules" class="w100">
         <el-select v-model="item.model" :placeholder="item.placeholder" size="medium" filterable :disabled="item.disabled" @change="
               (val) => {
                 selectChangeLeft(val, item);

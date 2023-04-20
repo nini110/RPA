@@ -4,6 +4,7 @@
   <IptComp ref="iptcomp" 
   :formMenu="1" 
   :picSrc="picSrc" 
+  :picClass="picClass"
   :ifDown="ifDown" 
   :colWidth="colWidth" 
   :toolType="toolType" 
@@ -28,6 +29,7 @@ export default {
       sheetName: "",
       excelOptions: [],
       picSrc: "",
+      picClass: '',
       ifDown: false,
       colWidth: {},
       wordList: [],
@@ -39,6 +41,7 @@ export default {
       handler(newval, oldval) {
         const vm = this;
         vm.wordTip = ''
+        vm.picClass = ''
         vm.colWidth = {
           choose: 12,
           eror: 12,
@@ -66,7 +69,7 @@ export default {
         switch (newval.name) {
           case "DMP":
             vm.toolType = "DMP";
-            vm.sheetName = "创建人群";
+            vm.sheetName = ["创建人群"];
             vm.ifDown = true
             vm.colWidth = {
               choose: 12,
@@ -371,7 +374,7 @@ export default {
               lab: '创建人群sheet：',
               word: '支持批量化创建京东展位单元；'
             }, ]
-            vm.sheetName = "Sheet1";
+            vm.sheetName = ["Sheet1"];
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
               color: "", //工作表颜色
@@ -713,7 +716,7 @@ export default {
             vm.picSrc = require("../../assets/images/Direct.png");
             vm.toolType = "京东直投";
             vm.ifDown = false
-            vm.sheetName = "Sheet1";
+            vm.sheetName = ["Sheet1"];
             vm.wordList = [{
                 lab: '1· ',
                 word: '支持批量化创建所有媒体渠道单元并同时绑定创意（不同媒体渠道填写范围不同，具体可下载模板参考）；'
@@ -1345,9 +1348,10 @@ export default {
             break;
             // 人群 京腾魔方人群定向
           case "People":
-            vm.picSrc = require("../../assets/images/Cube1.png");
+            vm.picSrc = require("../../assets/images/人群定向.png");
             vm.toolType = "京腾魔方人群定向";
-            vm.sheetName = "京腾魔方人群定向";
+            vm.picClass = 'ts'
+            vm.sheetName = ["京腾魔方人群定向"];
             vm.ifDown = false
             vm.wordList = [{
               lab: '',
@@ -1421,9 +1425,10 @@ export default {
             break;
             // 魔方 Sheet1
           case "Cube":
-            vm.picSrc = require("../../assets/images/Cube1.png");
+            vm.picSrc = require("../../assets/images/Cube.png");
             vm.toolType = "京腾魔方人群";
-            vm.sheetName = "Sheet1";
+            vm.picClass = 'ts'
+            vm.sheetName = ["Sheet1"];
             vm.ifDown = false
             vm.wordList = [{
               lab: '',
@@ -1592,9 +1597,9 @@ export default {
               word: '支持批量化创建购物触点单元（支持范围：计划类型为活动），并同时绑定单元活动；'
             }, ]
             vm.wordTip = '目前购物触点&展位正在逐步融合中，建议触点单元创建后进行检查，如遇无法创建等问题可及时联系产品部人员；'
-            vm.sheetName = "Sheet1";
+            vm.sheetName = ["Sheet1"];
             vm.excelOptions = [{
-              name: "sheet1", //工作表名称
+              name: "Sheet1", //工作表名称
               color: "", //工作表颜色
               index: "renqun", //工作表索引
               status: 1, //激活状态
@@ -1821,6 +1826,67 @@ export default {
                       value: "溢价系数之间用/隔开，和dmp人群一一对应", //批准内容
                       isshow: false, //批注框为显示状态
                     },
+                  },
+                },
+              ], //初始化使用的单元格数据
+              isPivotTable: false, //是否数据透视表
+              zoomRatio: 1, // 缩放比例
+              showGridLines: 1, //是否显示网格线
+            }, ];
+            break;
+            // 创意优化助手
+          case "Help":
+            vm.picSrc = require("../../assets/images/创意设计.png");
+            vm.toolType = "快车更新创意状态";
+            vm.picClass = 'ts'
+            vm.ifDown = false
+            vm.wordList = [{
+              lab: '',
+              word: '支持批量化创建购物触点单元（支持范围：计划类型为活动），并同时绑定单元活动；'
+            }, ]
+            vm.wordTip = '目前购物触点&展位正在逐步融合中，建议触点单元创建后进行检查，如遇无法创建等问题可及时联系产品部人员；'
+            vm.sheetName = ["Sheet1"];
+            vm.excelOptions = [{
+              name: "sheet1", //工作表名称
+              color: "", //工作表颜色
+              index: "renqun", //工作表索引
+              status: 1, //激活状态
+              hide: 0, //是否隐藏
+              row: 1000, //行数
+              column: 15, //列数
+              defaultRowHeight: 40, //自定义行高
+              defaultColWidth: 150, //自定义列宽
+              celldata: [
+                // DMP自建人群
+                {
+                  r: 0,
+                  c: 0,
+                  v: {
+                    ct: {
+                      fa: "@",
+                      t: "s"
+                    },
+                    m: "SKUID",
+                    v: "SKUID",
+                    bl: 1,
+                    vt: 0,
+                    ht: 0,
+                  },
+                },
+                // 人群溢价系数
+                {
+                  r: 0,
+                  c: 1,
+                  v: {
+                    ct: {
+                      fa: "@",
+                      t: "s"
+                    },
+                    m: "库存",
+                    v: "库存",
+                    bl: 1,
+                    vt: 0,
+                    ht: 0,
                   },
                 },
               ], //初始化使用的单元格数据

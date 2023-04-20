@@ -16,12 +16,12 @@
             <div class="formObj_ipt_rt">
               <el-row>
                 <el-col :span="24">
-                  <el-form-item label="项目" prop="project_name">
+                  <el-form-item label="项目" prop="project_name" class="noborder">
                     <el-cascader v-model="form.project_name" placeholder="请选择项目" :options="itemOptions" :props="{ expandTrigger: 'hover', emitPath: false }" @change="selectChang"></el-cascader>
                   </el-form-item>
                 </el-col>
                 <el-col :span="24">
-                  <el-form-item class="hasdate" label="日期" prop="date">
+                  <el-form-item class="hasdate noborder" label="日期" prop="date">
                     <el-select v-model="form.type" placeholder="请选择类型" style="width: 130px">
                       <el-option label="日报" value="1"></el-option>
                     </el-select>

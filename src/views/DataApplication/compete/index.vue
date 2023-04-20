@@ -38,7 +38,7 @@
           <!-- <vxe-column v-for="(item, idx) in tabList" :key="idx" min-width="15%" :field="item.prop" :title="item.label" show-overflow="tooltip"></vxe-column> -->
           <vxe-column title="操作" fixed="right" width="12%">
             <template slot-scope="scope">
-              <div v-waves class="btn btn_info" @click="seeEvent(scope.row)">
+              <div v-waves class="btn btn_info" :class="{'one': scope.row.log_status!=='执行完毕'}" @click="seeEvent(scope.row)">
                 <el-tooltip class="item" effect="dark" content="查看" placement="top">
                   <i class="el-icon-view"></i>
                 </el-tooltip>
@@ -60,8 +60,6 @@
   <fieldDia :upDialogFlag="upDialogFlag" :row="row" :fromTag="fromTag" @close="closeEvent"></fieldDia>
 </div>
 </template>
-
-  
 <script>
 import {
   dapanonLineList,
@@ -121,7 +119,7 @@ export default {
           if (hasing) {
             vm.timer = setInterval(() => {
               vm.getlist()
-            }, 5000)
+            }, 10000)
           }
           vm.tableData = result.data
           vm.total = result.count
@@ -187,24 +185,6 @@ export default {
 <style lang="less" scoped>
 @import "../../index";
 @import "../monitor/bidding.less";
-
-.outer {
-  width: 200px;
-  height: 200px;
-  background-color: aliceblue;
-  // margin-top: 50px;
-  // padding-top: 1px;
-  // overflow: hidden;
-  // 高度塌陷 + 边界塌陷
-
-  .one {
-    width: 100px;
-    height: 100px;
-    background-color: aquamarine;
-    margin-top: 40px;
-  }
-}
-
 .bbbb {
   clear: both;
 }

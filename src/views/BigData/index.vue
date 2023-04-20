@@ -1,7 +1,7 @@
 <template>
 <!-- 大数据工具 -->
 <div style="height: 100%">
-  <IptComp ref="iptcomp" :formMenu="2" :picSrc="picSrc" :ifDown="ifDown" :colWidth="colWidth" :toolType="toolType" :sheetName="sheetName" :excelOptions="excelOptions"></IptComp>
+  <IptComp ref="iptcomp" :formMenu="2" :picClass="picClass" :picSrc="picSrc" :ifDown="ifDown" :colWidth="colWidth" :toolType="toolType" :sheetName="sheetName" :excelOptions="excelOptions"></IptComp>
 </div>
 </template>
 
@@ -15,7 +15,8 @@ export default {
   data() {
     return {
       toolType: "0",
-      ifDown: true
+      ifDown: true,
+      picClass: 'ts'
     };
   },
   watch: {
@@ -2095,7 +2096,7 @@ export default {
             vm.toolType = "数坊人群计算";
             vm.ifDown = true
             vm.picSrc = require("../../assets/images/人群计算3.png");
-            vm.sheetName = "Sheet1";
+            vm.sheetName = ["Sheet1"];
             vm.excelOptions = opt;
             break;
             // 圈选
@@ -2103,14 +2104,14 @@ export default {
             vm.toolType = "数坊人群圈选";
             vm.picSrc = require("../../assets/images/人群圈选3.png");
             vm.ifDown = false
-            vm.sheetName = "Sheet1";
+            vm.sheetName = ["Sheet1"];
             vm.excelOptions = opt;
             break;
             // 洞察分析
           case "Analysis":
             vm.toolType = "数坊洞察分析";
             vm.picSrc = require("../../assets/images/洞察分析2.png");
-            vm.sheetName = "Sheet1";
+            vm.sheetName = ["Sheet1"];
             vm.ifDown = true
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
@@ -2146,7 +2147,7 @@ export default {
             // 透视分析
           case "Insight":
             vm.toolType = "数坊人群透视分析";
-            vm.sheetName = "Sheet1";
+            vm.sheetName = ["Sheet1"];
             vm.picSrc = require("../../assets/images/透视分析2.png");
             vm.ifDown = true
             vm.excelOptions = [{
@@ -2184,7 +2185,7 @@ export default {
           case "Track":
             vm.toolType = "数坊营销人群追踪";
             vm.picSrc = require("../../assets/images/人群追踪2.png");
-            vm.sheetName = "Sheet1";
+            vm.sheetName = ["Sheet1"];
             vm.ifDown = false
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
@@ -2452,7 +2453,7 @@ export default {
             // 人群报告
           case "Report":
             vm.toolType = "营销人群报告数据表";
-            vm.sheetName = "Sheet1";
+            vm.sheetName = ["Sheet1"];
             vm.picSrc = require("../../assets/images/人群报告2.png");
             vm.ifDown = true
             vm.excelOptions = [{
