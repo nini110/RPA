@@ -1203,31 +1203,12 @@ export default {
                       vm.$set(vm.tableData[j], "res_file_path", resu.data.code === 10000 ? '' : resu.data.res_file_path);
                       vm.$set(obj, "logVersion", resu.data.version);
                       vm.$set(obj, "code", resu.data.code)
+                      vm.$set(obj, "txt", resu.data.code === 10000 ? '日志持续获取中' : "日志加载完毕");
                       if (resu.data.version === 1) {
                         // 新版
                         vm.$set(obj, "logData", JSON.parse(JSON.stringify(vm.handleLogStr(resu.data.data))));
                       } else {
                         vm.$set(obj, "html", resu.data.data || "");
-                      }
-                    }
-                    if (resu.data.code === 10000) {
-                      vm.$set(
-                        obj,
-                        "txt",
-                        resu.data.data ? "日志持续获取中" : "日志正在加载"
-                      );
-                    } else if (resu.data.code === 10010) {
-                      vm.$set(obj, "txt", "日志加载完毕");
-                      for (let k in vm.intervalObj) {
-                        if (
-                          vm.intervalObj[k].intervalName.indexOf(
-                            i.serial
-                          ) !== -1
-                        ) {
-                          clearInterval(vm.intervalObj[k].intervalValue);
-                          vm.$set(vm.intervalObj[k], "intervalValue", null);
-                          break;
-                        }
                       }
                     } else {
                       vm.$msg({
@@ -1239,11 +1220,20 @@ export default {
                       vm.$set(obj, "html", '错误');
                       vm.$set(obj, "logVersion", 0);
                       vm.$set(obj, "logData", []);
-                      vm.$set(
-                        obj,
-                        "txt",
-                        '错误'
-                      );
+                      vm.$set(obj, "txt", '错误');
+                    }
+                    if (resu.data.code === 10010) {
+                      for (let k in vm.intervalObj) {
+                        if (
+                          vm.intervalObj[k].intervalName.indexOf(
+                            i.serial
+                          ) !== -1
+                        ) {
+                          clearInterval(vm.intervalObj[k].intervalValue);
+                          vm.$set(vm.intervalObj[k], "intervalValue", null);
+                          break;
+                        }
+                      }
                     }
                     break;
                   }
@@ -1288,11 +1278,8 @@ export default {
         vm.logVersion = res.data.version
         vm.endingCode = res.data.code;
         if (vm.logVersion) {
-          if (res.data.code === 10000) {
-            vm.endingTxt = res.data.data ? "日志持续获取中" : "日志正在加载";
-            vm.logData = JSON.parse(JSON.stringify(vm.handleLogStr(res.data.data)))
-          } else if (res.data.code === 10010) {
-            vm.endingTxt = "日志加载完毕";
+          if (res.data.code === 10000 || res.data.code === 10010) {
+            vm.endingTxt = res.data.code === 10000 ? "日志持续获取中" : "日志加载完毕";
             vm.logData = JSON.parse(JSON.stringify(vm.handleLogStr(res.data.data)))
           } else {
             // 错误  清除定时器
@@ -1302,11 +1289,8 @@ export default {
             });
           }
         } else {
-          if (res.data.code === 10000) {
-            vm.endingTxt = res.data.data ? "日志持续获取中" : "日志正在加载";
-            vm.logContent = res.data.data || "";
-          } else if (res.data.code === 10010) {
-            vm.endingTxt = "日志加载完毕";
+          if (res.data.code === 10000 || res.data.code === 10010) {
+            vm.endingTxt = res.data.code === 10000 ? "日志持续获取中" : "日志加载完毕";
             vm.logContent = res.data.data || "";
           } else {
             // 错误  清除定时器
