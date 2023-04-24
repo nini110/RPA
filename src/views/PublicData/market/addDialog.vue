@@ -175,7 +175,7 @@
             <el-tooltip
               class="dateitem dateitem2"
               effect="dark"
-              content="邮件发送时间为每天10点"
+              content="邮件发送时间为每天10点之前"
               placement="bottom-start"
             >
               <span class="el-icon-warning-outline"></span>

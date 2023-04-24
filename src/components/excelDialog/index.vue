@@ -264,7 +264,6 @@ export default {
           } else {
             vm.sheetName.forEach((curSheet, curIdx) => {
               for (let val of results) {
-                // if (val.name === vm.sheetName) {
                 if (val.name === curSheet) {
                   let sheet = {
                     key: val.name,
@@ -280,26 +279,27 @@ export default {
                         let obj = {};
                         outData[0].forEach((val2, idx2) => {
                           if (val2) {
-                            if (val2.v.indexOf('流量包设置') !== -1 || val2.v.indexOf('人群溢价系数') !== -1 ||
-                              val2.v.indexOf('基础出价') !== -1 || val2.v.indexOf('出价') !== -1 ||
-                              val2.v.indexOf('时期') !== -1 ||
-                              val2.v.indexOf('日期') !== -1 || val2.v.indexOf('时间') !== -1) {
+                            let tg = val2.ct.fa === 'yyyy-MM-dd' ? val2.m : val2.v
+                            if (tg.indexOf('流量包设置') !== -1 || tg.indexOf('人群溢价系数') !== -1 ||
+                              tg.indexOf('基础出价') !== -1 || tg.indexOf('出价') !== -1 ||
+                              tg.indexOf('时期') !== -1 ||
+                              tg.indexOf('日期') !== -1 || tg.indexOf('时间') !== -1) {
                               vm.$set(
                                 obj,
-                                val2.v,
+                                tg,
                                 outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
                               );
-                            } else if (val2.v.indexOf('跟单SKU') !== -1 || val2.v.indexOf('sku') !== -1) {
+                            } else if (tg.indexOf('跟单SKU') !== -1 || tg.toUpperCase().indexOf('SKU') !== -1) {
                               vm.$set(
                                 obj,
-                                val2.v,
+                                tg,
                                 outData[idx1][idx2] && outData[idx1][idx2].v ? String(outData[idx1][idx2].v) : ""
                               );
                             } else {
                               if (outData[idx1][idx2] && outData[idx1][idx2].v) {
                                 vm.$set(
                                   obj,
-                                  val2.v,
+                                  tg,
                                   outData[idx1][idx2].v
                                 )
                               } else if (outData[idx1][idx2] && !outData[idx1][idx2].v && outData[idx1][idx2].ct && outData[idx1][idx2].ct.s) {
@@ -309,13 +309,13 @@ export default {
                                 })
                                 vm.$set(
                                   obj,
-                                  val2.v,
+                                  tg,
                                   zhi
                                 )
                               } else {
                                 vm.$set(
                                   obj,
-                                  val2.v,
+                                  tg,
                                   ''
                                 )
                               }

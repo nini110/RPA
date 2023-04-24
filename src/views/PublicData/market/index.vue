@@ -6,11 +6,12 @@
       <el-collapse v-model="activeNames">
         <el-collapse-item name="1">
           <template slot="title">
-            <span class="el-icon-warning-outline icon"></span> 功能介绍
+            <span class="iconfont icon-xiangmu icon"></span> 功能介绍
           </template>
           <div class="word" v-for="(item,idx) in wordList" :key="idx"><span class="lab">{{ item.lab }}</span>{{ item.word }}</div>
           <template v-if="wordTip">
-            <div v-for="(item,idx) in wordTip" :key="item.wordTip" class="word wordTip el-icon-warning-outline">{{item.wordTip}}</div>
+            <div>tips：</div>
+            <div v-for="(item, idx) in wordTip" :key="item.wordTip" class="word wordTip el-icon-warning-outline">{{item.wordTip}}</div>
           </template>
         </el-collapse-item>
       </el-collapse>
@@ -102,7 +103,7 @@ export default {
         },
         {
           lab: '2·',
-          word: '设置计划后不会立即执行，邮件会在每天上午10点左右发送至邮箱，如未收到可联系产品部相关伙伴；'
+          word: '设置计划后不会立即执行，邮件会在每天上午10点之前发送至邮箱，如未收到可联系产品部相关伙伴；'
         },
         {
           lab: '3·',

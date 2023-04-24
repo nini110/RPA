@@ -10,6 +10,7 @@
   :toolType="toolType" 
   :wordList="wordList"
   :wordTip="wordTip" 
+  :wordErr="wordErr" 
   :sheetName="sheetName" 
   :excelOptions="excelOptions">
   </IptComp>
@@ -33,7 +34,8 @@ export default {
       ifDown: false,
       colWidth: {},
       wordList: [],
-      wordTip: ''
+      wordTip: '',
+      wordErr: ''
     };
   },
   watch: {
@@ -41,6 +43,7 @@ export default {
       handler(newval, oldval) {
         const vm = this;
         vm.wordTip = ''
+        vm.wordErr = ''
         vm.picClass = ''
         vm.colWidth = {
           choose: 12,
@@ -1842,12 +1845,13 @@ export default {
             vm.ifDown = false
             vm.wordList = [{
               lab: '',
-              word: '支持批量化创建购物触点单元（支持范围：计划类型为活动），并同时绑定单元活动；'
+              word: '该产品目前仅用来快车渠道根据SKU批量暂停/启动创意使用，具体填写规则可下载模板参考；'
             }, ]
-            vm.wordTip = '目前购物触点&展位正在逐步融合中，建议触点单元创建后进行检查，如遇无法创建等问题可及时联系产品部人员；'
+            vm.wordErr = '本产品并非快车触点创建创意工具'
+            vm.wordTip = '库存条件：目前仅有库存作为条件筛选（有更多需求可后期增加），条件一次至多可选择2个；'
             vm.sheetName = ["Sheet1"];
             vm.excelOptions = [{
-              name: "sheet1", //工作表名称
+              name: "Sheet1", //工作表名称
               color: "", //工作表颜色
               index: "renqun", //工作表索引
               status: 1, //激活状态

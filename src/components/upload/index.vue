@@ -113,6 +113,7 @@ export default {
             window.luckysheet.destroy();
             if (sheetArr.length === 0) {
               vm.$msg({ type: "warning", msg: " 无适配sheet" });
+              vm.$emit("getFile", 'wrong');
               return
             }
             vm.$emit("openEvent", target_sheets);

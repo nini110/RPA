@@ -10,7 +10,7 @@
     </el-col>
     <el-col v-for="(item, idx) in boxDataLeft" :key="idx" :span="24">
       <el-form-item v-if="item.type === 'select'" :label="item.label" :prop="item.prop" :rules="item.rules" class="w100">
-        <el-select v-model="item.model" :placeholder="item.placeholder" size="medium" filterable :disabled="item.disabled" @change="
+        <el-select v-model="item.model" :placeholder="item.placeholder" filterable :disabled="item.disabled" @change="
               (val) => {
                 selectChangeLeft(val, item);
               }
@@ -20,7 +20,7 @@
         </el-select>
       </el-form-item>
       <el-form-item v-if="item.type === 'input'" :label="item.label" :prop="item.prop" :rules="item.rules">
-        <el-input v-model.trim="item.model" size="medium" :show-password="item.prop === 'password'" :placeholder="item.placeholder" @input="
+        <el-input v-model.trim="item.model" :show-password="item.prop === 'password'" :placeholder="item.placeholder" @input="
               (val) => {
                 inputChangeLeft(val, item);
               }
