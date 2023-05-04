@@ -1,35 +1,26 @@
 <template>
-  <div class="upbox">
-    <!--   accept=".xlsx,.xls,.csv"-->
-    <el-upload
-      drag
-      accept=".xlsx,.csv"
-      :auto-upload="false"
-      :show-file-list="showFileList"
-      :action="UploadUrl()"
-      :on-remove="remfile"
-      :on-preview="handlePreview"
-      :on-change="fileChange"
-      :on-success="handleSuccess"
-      :on-error="handleError"
-      :file-list="fileList"
-      :multiple="multiple"
-    >
-      <i class="el-icon-upload"></i>
-      <div class="el-upload__text">
-        将文件拖到此处，或<em>{{ upTxt }}</em>
-      </div>
-      <div v-if="showPros" class="el-upload__tip" slot="tip">
-        {{ txt }}
-      </div>
-    </el-upload>
-  </div>
+<div class="upbox">
+  <!--   accept=".xlsx,.xls,.csv"-->
+  <el-upload drag accept=".xlsx,.csv" :auto-upload="false" :show-file-list="showFileList" :action="UploadUrl()" :on-remove="remfile" :on-preview="handlePreview" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" :multiple="multiple">
+    <i class="el-icon-upload"></i>
+    <div class="el-upload__text">
+      将文件拖到此处，或<em>{{ upTxt }}</em>
+    </div>
+    <div v-if="showPros" class="el-upload__tip" slot="tip">
+      {{ txt }}
+    </div>
+  </el-upload>
+</div>
 </template>
+
 <script>
 //  npm i -S exceljs file-saver luckyexcel
 import LuckyExcel from "luckyexcel";
+import message from "@/mixin/message";
+
 export default {
   name: "varifyDialog",
+  mixins: [message],
   props: {
     upTxt: {
       default: "点击导入",
@@ -55,6 +46,9 @@ export default {
       type: Array,
       default: [],
     },
+    toolType: {
+      type: String
+    },
     showFileList: {
       default: false,
       type: Boolean,
@@ -63,7 +57,39 @@ export default {
   data() {
     return {
       fileList: [],
+      maxRow: 1000
     };
+  },
+  watch: {
+    toolType: {
+      handler(newval, oldval) {
+        const vm = this
+        switch (newval) {
+          case 'DMP':
+          case '京东展位':
+          case '京东直投':
+          case '京腾魔方人群定向':
+          case '京腾魔方人群':
+          case '购物触点':
+            vm.maxRow = 1500
+            break
+          case '快车更新创意状态':
+            vm.maxRow = 5000
+            break
+          case '数坊人群计算':
+            vm.maxRow = 1000
+            break
+          case '数坊人群圈选':
+            vm.maxRow = 1000
+            break
+          default:
+            vm.maxRow = 3000
+            break
+        }
+      },
+      immediate: true,
+      deep: true
+    }
   },
   mounted() {
     // console.log(Window.LuckyExcel)
@@ -78,23 +104,33 @@ export default {
       let extension = file.name.substring(file.name.lastIndexOf(".") + 1);
       let size = file.size / 1024 / 1024;
       if (extension !== "xlsx" && extension !== "xls" && extension !== "csv") {
-        vm.$msg({ type: "error", msg: "只能上传excel文件" });
+        vm.$msg({
+          type: "error",
+          msg: "只能上传excel文件"
+        });
         return;
       }
       if (vm.tag === "excel" && size > 3) {
-        vm.$msg({ type: "warning", msg: "文件大小不得超过3M" });
+        vm.$msg({
+          type: "warning",
+          msg: "文件大小不得超过3M"
+        });
         return;
       } else if (size > 50) {
-        vm.$msg({ type: "warning", msg: "文件大小不得超过50M" });
+        vm.$msg({
+          type: "warning",
+          msg: "文件大小不得超过50M"
+        });
         return
       }
       if (vm.tag === "excel") {
         let target_sheets = [];
         let sheetArr = []
+        let maxIdx = 0
         LuckyExcel.transformExcelToLucky(
           file.raw,
           (exportJson, luckysheetfile) => {
-            for (let val of exportJson.sheets ) {
+            for (let val of exportJson.sheets) {
               // if (val.name === vm.sheetName) {
               if (vm.sheetName.indexOf(val.name) !== -1) {
                 sheetArr.push(val.name)
@@ -103,6 +139,17 @@ export default {
                     item.v.ct.fa = 'yyyy-MM-dd'
                   }
                 })
+                // 限制读取最大行数
+                maxIdx = val.celldata[val.celldata.length - 1].r
+                if (maxIdx > vm.maxRow) {
+                  let idxArr = []
+                  for (let i in val.celldata) {
+                    if (val.celldata[i].r === vm.maxRow) {
+                      idxArr.push(i)
+                    }
+                  }
+                  val.celldata = val.celldata.slice(0, idxArr[1] - 1)
+                }
                 val.index = parseInt(val.index);
                 val.order = parseInt(val.order);
                 val.status = parseInt(val.status);
@@ -112,13 +159,35 @@ export default {
             }
             window.luckysheet.destroy();
             if (sheetArr.length === 0) {
-              vm.$msg({ type: "warning", msg: " 无适配sheet" });
+              vm.$msg({
+                type: "warning",
+                msg: " 无适配sheet"
+              });
               vm.$emit("getFile", 'wrong');
               return
             }
-            vm.$emit("openEvent", target_sheets);
-            vm.fileList.push(file.raw);
-            vm.$emit("getFile", vm.fileList);
+            if (maxIdx > vm.maxRow) {
+              vm.openMessageBox({
+                type: "warning",
+                showClose: true,
+                tipTitle: `检测到数据过多!`,
+                tipContent: `【确定】将仅处理前${vm.maxRow}条数据，【取消】将取消操作!`,
+                showCancelButton: true,
+                confirmButtonFn: () => {
+                  vm.$emit("openEvent", target_sheets);
+                  vm.fileList.push(file.raw);
+                  vm.$emit("getFile", vm.fileList);
+                },
+                cancelButtonFn: () => {
+                  vm.$emit("close", 0);
+                }
+              });
+            } else {
+              vm.$emit("openEvent", target_sheets);
+              vm.fileList.push(file.raw);
+              vm.$emit("getFile", vm.fileList);
+            }
+
           }
         );
       } else {
@@ -152,11 +221,14 @@ export default {
   },
 };
 </script>
+
 <style lang="less" scoped>
 @import "@/views/index";
+
 .upbox {
   height: 100%;
   line-height: 1;
+
   div:first-child {
     height: 100%;
   }

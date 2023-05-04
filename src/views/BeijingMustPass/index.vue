@@ -376,7 +376,8 @@ export default {
             vm.wordList = [{
               lab: '创建人群sheet：',
               word: '支持批量化创建京东展位单元；'
-            }, ]
+            } ]
+            vm.wordTip = '展位资源位支持范围：竖版首页焦点图、无线焦点图、PC首页焦点图（如有新增需求可联系产品同学）；'
             vm.sheetName = ["Sheet1"];
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
@@ -1436,7 +1437,14 @@ export default {
             vm.wordList = [{
               lab: '',
               word: '支持批量化创建腾讯渠道下京腾魔方人群；'
-            }, ]
+            },
+            {
+              lab: '1· ',
+              word: '行为轨迹：品牌行为，类目行为'
+            },{
+              lab: '2· ',
+              word: '用户偏好：只有常用下单途径'
+            },  ]
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
               color: "", //工作表颜色
@@ -1846,7 +1854,7 @@ export default {
             vm.wordList = [{
               lab: '',
               word: '该产品目前仅用来快车渠道根据SKU批量暂停/启动创意使用，具体填写规则可下载模板参考；'
-            }, ]
+            },]
             vm.wordErr = '本产品并非快车触点创建创意工具'
             vm.wordTip = '库存条件：目前仅有库存作为条件筛选（有更多需求可后期增加），条件一次至多可选择2个；'
             vm.sheetName = ["Sheet1"];

@@ -5,7 +5,14 @@
       <Left></Left>
       <div class="outerDiv_left_info">
         <h3 class="el-icon-info">须知</h3>
-        <p v-for="(item, idx) in tipInfo" :key="idx">{{ item }}</p>
+        <div v-for="(item, idx) in tipInfo" :key="idx" class="box">
+          <p class="box_txt">{{ item.title }}</p>
+          <template v-if="item.children">
+            <p class="box_cnt" v-for="(item1, idx1) in item.children" :key="idx1">
+              {{ item1 }}
+            </p>
+          </template>
+        </div>
       </div>
     </div>
     <div class="outerDiv_right">
@@ -61,10 +68,16 @@ export default {
             "3、有任何使用问题请联系开发人员，企业微信工号：21400",
           ] :
           [
-            "1、每天有四次刷新推广计划ID，早上8点，中午12点，下午18点，晚上24点，刷新时刻点不是正在投放状态的ID，将不纳入本轮次监控，直到下次任务刷新。",
-            "2、临近设置阈值的5%内，每10分钟企业微信通知预警一次，直到通知次数耗尽。",
-            "3、如果有新上的计划ID，想立即被监控，可通过修改预警信息的方式手动刷新自己账号的监控列表。",
-          ];
+            {
+              title: "1、每天有四次刷新推广计划ID，早上8点，中午12点，下午18点，晚上24点，刷新时刻点不是正在投放状态的ID，将不纳入本轮次监控，直到下次任务刷新。"
+            },
+            {
+              title: "2、临近设置阈值的5%内，每10分钟企业微信通知预警一次，直到通知次数耗尽。",
+            },
+            {
+              title: "3、如果有新上的计划ID，想立即被监控，可通过修改预警信息的方式手动刷新自己账号的监控列表。",
+            },
+          ]
       },
       immediate: true,
       deep: true,

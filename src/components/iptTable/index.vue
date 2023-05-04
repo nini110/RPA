@@ -7,7 +7,7 @@
           <el-col :span="24">
             <el-form-item label="类型" prop="choose" class="noborder">
               <el-radio-group v-model="form.choose" @input="chooseEvent">
-                <el-radio v-for="item in options" :key="item.value" :label="item.value" border>{{ item.label }}</el-radio>
+                <el-radio v-for="item in options" :key="item.value" :label="item.value" border >{{ item.label }}</el-radio>
               </el-radio-group>
             </el-form-item>
           </el-col>
@@ -64,7 +64,14 @@
       </el-form>
       <div class="outerDiv_left_info">
         <h3 class="el-icon-info">须知</h3>
-        <p v-for="(item, idx) in tipInfo" :key="idx">{{ item }}</p>
+        <div v-for="(item, idx) in tipInfo" :key="idx" class="box">
+          <p class="box_txt">{{ item.title }}</p>
+          <template v-if="item.children">
+            <p class="box_cnt" v-for="(item1, idx1) in item.children" :key="idx1">
+              {{ item1 }}
+            </p>
+          </template>
+        </div>
       </div>
     </div>
     <div class="outerDiv_right">
@@ -240,7 +247,7 @@
               <el-button v-else v-waves type="info" class="el-icon-plus" @click="openExcel">创建</el-button>
             </el-form-item>
             <el-form-item label="">
-              <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" :sheetName="sheetName"></Upload>
+              <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" @close="closeEvent"  :toolType="toolType" :sheetName="sheetName"></Upload>
             </el-form-item>
             <div v-if="excelName" class="uptxt">
               点击打开「 <span @click="popverEvent(1)">{{ excelName }}</span>」
@@ -327,18 +334,30 @@
   <el-dialog title="日志" :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="showLogDialog" @close="closeLogEvent" width="40%">
     <div v-if="logVersion" class="infinite ts">
       <div class="infinite_content">
-        <vxe-table :data="logData" auto-resize height="auto" border="inner" align="center">
-          <template #empty>
-              <img src="@/assets/images/nolog.png" />
-              <span>空空如也</span>
-            </template>
-          <vxe-column 
-            v-for="(item, index) in logTablett"
-            :key="index"
-            :field="item.field"
-            :title="item.title"
-          ></vxe-column>
-        </vxe-table>
+        <div v-if="!logData" class="ept">
+          <div><img src="@/assets/images/nolog2.png" /></div>
+          <div>无需暂停或启动的创意</div>
+        </div>
+        <template v-else>
+          <div class="tpCnt">
+            <span v-for="(item, idx) in extraLogCnt.tpcnt" :key="idx">{{ item }}</span>
+          </div>
+          <div class="midTable">
+          <vxe-table ref="logTable" :scroll-y="{enabled: false}" :data="logData"  height="auto" border="inner" align="center">
+            <template #empty>
+                <img src="@/assets/images/nolog.png" />
+                <span>空空如也</span>
+              </template>
+            <vxe-column 
+              v-for="(item, index) in logTablett"
+              :key="index"
+              :field="item.field"
+              :title="item.title"
+            ></vxe-column>
+          </vxe-table>
+        </div>
+          <div class="btCnt"> {{ extraLogCnt.btcnt }} </div>
+        </template>
       </div>
       <div class="infinite_ing">
         <p>
@@ -362,6 +381,7 @@
       </div>
     </div>
     <span slot="footer" class="dialog-footer">
+      <!-- <el-button @click="logDownEvent">日志下载</el-button> -->
       <el-button type="primary" @click="showLogDialog = false">关 闭</el-button>
     </span>
   </el-dialog>
@@ -390,7 +410,7 @@ import {
   newBudgetDown
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
-import ExcelDialog from "@/components/excelDialog";
+import ExcelDialog from "@/components/excelDialog/index.vue";
 import Upload from "@/components/upload";
 import message from "@/mixin/message";
 
@@ -637,7 +657,6 @@ export default {
       }
     }
     return {
-      logData: [],
       activeNames: '2',
       showLoading: false,
       iptTimer: null,
@@ -683,8 +702,11 @@ export default {
       excelName: "",
       showLogDialog: false,
       propVisable: false,
-      logVersion: 0,
+      logVersion: null,
       logContent: "",
+      logTablett: [],
+      logData: [],
+      extraLogCnt: {},
       endingTxt: "日志正在加载",
       endingCode: "",
       excelOpt: [], // 默认的excel数据
@@ -928,7 +950,10 @@ export default {
         stop: vm.tj_val2 ? vm.tj_lf2 + vm.tj_val2 : '',
         tool_type: vm.toolType,
       };
-
+      // let sttt = encodeURIComponent(JSON.stringify(submitdata))
+      // console.log(sttt.length)
+      // let mb = (lth/(1024*1024)).toFixed(2) + 'MB'
+      // console.log(mb)
       vm.$refs.form.validate((valid) => {
         if (valid) {
           if (!vm.excelData) {
@@ -1199,17 +1224,25 @@ export default {
                   if (vm.tableData[j].serial === i.serial) {
                     if (resu.data.code === 10000 || resu.data.code === 10010) {
                       // 执行中或者执行完毕
+                      if(resu.data.version===1) {
+                        let result = JSON.parse(JSON.stringify(vm.handleLogStr(resu.data.data)))
+                      // 新版
+                        if (resu.data.code === 10010) {
+                          vm.$set(obj, "logData", 
+                          resu.data.data.indexOf('无需暂停或启动的创意') !== -1 ? null : result.tableRes);
+                        } else {
+                          vm.$set(obj, "logData", result.tableRes);
+                        }
+                        vm.$set(obj, "extraLogCnt", result.extraLogCnt);
+                      } else {
+                        vm.$set(obj, "html", resu.data.data || "");
+                        vm.$set(obj, "logData", []);
+                      }
                       vm.$set(vm.tableData[j], "log_status", resu.data.log_status);
                       vm.$set(vm.tableData[j], "res_file_path", resu.data.code === 10000 ? '' : resu.data.res_file_path);
                       vm.$set(obj, "logVersion", resu.data.version);
                       vm.$set(obj, "code", resu.data.code)
                       vm.$set(obj, "txt", resu.data.code === 10000 ? '日志持续获取中' : "日志加载完毕");
-                      if (resu.data.version === 1) {
-                        // 新版
-                        vm.$set(obj, "logData", JSON.parse(JSON.stringify(vm.handleLogStr(resu.data.data))));
-                      } else {
-                        vm.$set(obj, "html", resu.data.data || "");
-                      }
                     } else {
                       vm.$msg({
                         type: "error",
@@ -1223,6 +1256,10 @@ export default {
                       vm.$set(obj, "txt", '错误');
                     }
                     if (resu.data.code === 10010) {
+                      setTimeout(() => {
+                        clearInterval(vm.intervalDia);
+                        vm.intervalDia = null;
+                      }, 2000)
                       for (let k in vm.intervalObj) {
                         if (
                           vm.intervalObj[k].intervalName.indexOf(
@@ -1234,6 +1271,7 @@ export default {
                           break;
                         }
                       }
+
                     }
                     break;
                   }
@@ -1262,12 +1300,17 @@ export default {
               vm.endingCode = i.code
               vm.logVersion = i.logVersion
               vm.logData = i.logData
+              vm.extraLogCnt = i.extraLogCnt
+              setTimeout(() => {
+                vm.$nextTick(() => {
+                  if(vm.$refs.logTable) vm.$refs.logTable.scrollToRow(vm.$refs.logTable.getData(vm.logData.length-1))
+                })
+              },100)
               break
             }
           }
         }, 300);
       }
-
     },
     //  no - 日志接口
     logEvent(path) {
@@ -1278,9 +1321,16 @@ export default {
         vm.logVersion = res.data.version
         vm.endingCode = res.data.code;
         if (vm.logVersion) {
-          if (res.data.code === 10000 || res.data.code === 10010) {
-            vm.endingTxt = res.data.code === 10000 ? "日志持续获取中" : "日志加载完毕";
-            vm.logData = JSON.parse(JSON.stringify(vm.handleLogStr(res.data.data)))
+          if (vm.endingCode === 10000 || vm.endingCode === 10010) {
+            vm.endingTxt = vm.endingCode === 10000 ? "日志持续获取中" : "日志加载完毕";
+            if(res.data.data.indexOf('无需暂停或启动的创意') !== -1) {
+              // 无
+              vm.logData = null
+            } else {
+              let result = JSON.parse(JSON.stringify(vm.handleLogStr(res.data.data)))
+              vm.logData = result.tableRes
+              vm.extraLogCnt = result.extraLogCnt
+            }
           } else {
             // 错误  清除定时器
             vm.$msg({
@@ -1289,8 +1339,8 @@ export default {
             });
           }
         } else {
-          if (res.data.code === 10000 || res.data.code === 10010) {
-            vm.endingTxt = res.data.code === 10000 ? "日志持续获取中" : "日志加载完毕";
+          if (vm.endingCode === 10000 || vm.endingCode === 10010) {
+            vm.endingTxt = vm.endingCode === 10000 ? "日志持续获取中" : "日志加载完毕";
             vm.logContent = res.data.data || "";
           } else {
             // 错误  清除定时器
@@ -1302,43 +1352,75 @@ export default {
         }
       });
     },
+    // 日志下载
+    logDownEvent() {
+      const vm = this
+      sfToolsModelDown({
+          name: row.excel_path
+        }).then(res => {
+          let data = res.data;
+          let url = window.URL.createObjectURL(new Blob([data]));
+          let link = document.createElement("a");
+          link.style.display = "none";
+          link.href = url;
+          link.setAttribute("download", `日志-${vm.toolType}.xlsx`);
+          document.body.appendChild(link);
+          link.click();
+        })
+    },
     handleLogStr(targetStr) {
       const vm = this
-      // let str = '程序开始@@@姓名|年龄|班级\n张三|10|1\n李四|9|1@@@程序结束'
-      let midTab1 = targetStr.split('@@@')
-      let midData = midTab1[1].split('$').slice(0, -1)
+      let midTab1;
+      if (targetStr.startsWith('@')) {
+        midTab1 = targetStr.split('@@@').slice(1)
+      } else {
+        midTab1 = targetStr.split('@@@')
+      }
+      let extraLogCnt = {
+        tpcnt: midTab1[0].split('$'),
+        btcnt: midTab1[2] || ''
+      }
       let tableRes = []
-      midData.forEach((val, idx) => {
-        let arr = val.split('|')
-        
-        if (idx === 0) {
-          vm.logTablett = []
-          // 表头
-          arr.forEach((item, index) => {
-            vm.logTablett.push({
-              title: item,
-              field: 'label' + index
+      if (midTab1[1]) {
+        let midData = midTab1[1].split('$').slice(0, -1)
+        midData.forEach((val, idx) => {
+          let arr = val.split('|')
+          if (idx === 0) {
+            vm.logTablett = []
+            // 表头
+            arr.forEach((item, index) => {
+              vm.logTablett.push({
+                title: item,
+                field: 'label' + index
+              })
             })
-          })
-        }
-        if (idx > 0) {
-          let obj = {}
-          arr.forEach((item, index) => {
-            vm.$set(obj, 'row', idx)
-            vm.$set(obj, 'label' + index, item)
-          })
-          tableRes.unshift(obj)
-        }
-      })
-      return tableRes
+          }
+          if (idx > 0) {
+            let obj = {}
+            arr.forEach((item, index) => {
+              vm.$set(obj, 'row', idx)
+              vm.$set(obj, 'label' + index, item)
+           })
+            tableRes.push(obj)
+          }
+        })
+      }
+      let cntRes = {
+        tableRes: tableRes,
+        extraLogCnt
+      }
+      return cntRes
     },
     //  no -关闭日志弹层
     closeLogEvent() {
       const vm = this
       vm.OPENTAG = false
-      this.logContent = "";
-      this.endingTxt = "日志正在加载";
-      this.endingCode = 0;
+      vm.logContent = "";
+      vm.endingTxt = "日志正在加载";
+      vm.endingCode = 0;
+      vm.logVersion = 0
+      vm.logTablett = []
+      vm.logData = 0
       clearInterval(vm.intervalDia);
       vm.intervalDia = null;
     },
@@ -1401,6 +1483,7 @@ export default {
       } else {
         vm.excelName = "";
         vm.excelData = null;
+        vm.showLoading = false
       }
     },
     //  no -

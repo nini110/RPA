@@ -122,7 +122,7 @@ export default {
       const vm = this;
       window.luckysheet.exitEditMode();
       this.$nextTick(() => {
-        let resultObj = {};
+        let resultObj = [];
         $(function () {
           let results = window.luckysheet.getAllSheets();
           if (vm.toolType === "京东展位") {
@@ -215,48 +215,43 @@ export default {
             vm.toolType === "数坊人群计算" ||
             vm.toolType === "数坊人群圈选"
           ) {
+            debugger
             vm.sheetName.forEach((curSheet, curIdx) => {
               for (let val of results) {
                 if (val.name === curSheet) {
-                  let sheet = {
-                    key: val.name,
-                    value: [],
-                  };
                   // 去除null
                   let outData = vm.deleteNull(val.data)
-                  // 处理
-                  let mid = {}
-                  vm.$set(mid, outData[1][1].v, outData[1][1].v);
-                  sheet.value.push(mid);
-                  // 第一行的数据
+                  let rowKey = []
+                  let rowValue = []
                   outData.forEach((val1, idx1) => {
-                    let obj = {};
                     if (val1) {
+                      if (idx1 === 2) {
+                        // 处理key值
+                        val1.forEach((item, index) => {
+                          rowKey.push(item.m)
+                        })
+                      }
                       if (idx1 > 2) {
-                        outData[2].forEach((val2, idx2) => {
-                          if (val2) {
-                            if (val2.v.indexOf('时间') !== -1 || val2.v.indexOf('时期') !== -1 || val2.v.indexOf('日期') !== -1) {
-                              vm.$set(
-                                obj,
-                                val2.v,
-                                outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
-                              );
-                            } else {
-                              vm.$set(
-                                obj,
-                                val2.v,
-                                outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
-                              );
-                            }
+                        let dataRowValue = []
+                        val1.forEach((item, index) => {
+                          if (rowKey[index].indexOf('时间') !== -1 || rowKey[index].indexOf('时期') !== -1 || rowKey[index].indexOf('日期') !== -1) {
+                            dataRowValue.push('')
+                          } else {
+                            dataRowValue.push( item ? (item.m || item.v) : '')
                           }
-                        });
-                        sheet.value.push({
-                          ...obj,
-                        });
+                        })
+                        rowValue.push(dataRowValue)
                       }
                     }
                   });
-                  resultObj[sheet.key] = sheet.value;
+                  let sheet = {
+                    key: val.name,
+                    value: {
+                      rowKey,
+                      rowValue
+                    },
+                  };
+                  resultObj.push(sheet)
                   break;
                 }
               }
@@ -333,6 +328,7 @@ export default {
               }
             })
           }
+          debugger
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
           vm.$emit("close", 1, [resultObj], results);

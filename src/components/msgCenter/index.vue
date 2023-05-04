@@ -14,7 +14,7 @@
       </el-menu>
     </div>
     <div class="adInoDialog_right msgDialog_right">
-      <div v-if="outer">
+      <div v-if="outer" style="overflow: auto;height: 100%">
         <el-timeline>
           <el-timeline-item v-for="(item, idx) in partList" :key="idx" :timestamp="item.create_time" :color="item.color" :icon="item.icon" placement="top" size="large">
             <el-card>
@@ -86,12 +86,6 @@ export default {
     vm.getAllAdInfo();
   },
   methods: {
-    // addInfo(obj) {
-    //   const vm = this;
-    //   addAdInfo({
-    //     ...obj,
-    //   }).then((res) => {});
-    // },
     getAllAdInfo() {
       const vm = this;
       allAdInfo({
@@ -109,14 +103,6 @@ export default {
       });
     },
 
-    readAdInfo() {
-      const vm = this;
-      readAllInfo().then((res) => {
-        if (res.data.code === 10000) {
-          vm.dialogVisible = false;
-        }
-      });
-    },
     closeEvent(row) {
       const vm = this;
       if (row.mail_status === '0') {
