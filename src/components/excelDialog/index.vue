@@ -242,11 +242,29 @@ export default {
                                 outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
                               );
                             } else {
-                              vm.$set(
-                                obj,
-                                val2.v,
-                                outData[idx1][idx2] && outData[idx1][idx2].v ? outData[idx1][idx2].v : ""
-                              );
+                              if (outData[idx1][idx2] && outData[idx1][idx2].v) {
+                                vm.$set(
+                                  obj,
+                                  val2.v,
+                                  outData[idx1][idx2].v
+                                )
+                              } else if (outData[idx1][idx2] && !outData[idx1][idx2].v && outData[idx1][idx2].ct && outData[idx1][idx2].ct.s) {
+                                let zhi = ''
+                                outData[idx1][idx2].ct.s.forEach((item, index) => {
+                                  zhi += item.v
+                                })
+                                vm.$set(
+                                  obj,
+                                  val2.v,
+                                  zhi
+                                )
+                              } else {
+                                vm.$set(
+                                  obj,
+                                  val2.v,
+                                  ''
+                                )
+                              }
                             }
                           }
                         });
@@ -320,7 +338,6 @@ export default {
                                 )
                               }
                             }
-
                           }
                         });
                         sheet.value.push(obj);
@@ -352,10 +369,13 @@ export default {
         })
       })
       zhi.forEach((item, index) => {
-        let hasData = item.every((item1) => {
-          return !item1 || !(item1 && item1.v)
+        // let hasData = item.every((item1) => {
+        //   return !item1 || !(item1 && item1.v) || !(item1 && !item1.v && item1.ct && item1.s)
+        // })
+        let hasData = item.some((item1) => {
+          return (item1 && item1.v) || (item1 && !item1.v && item1.ct && item1.ct.s)
         })
-        if (!hasData) arr.push(item)
+        if (hasData) arr.push(item)
       })
       return arr
     }

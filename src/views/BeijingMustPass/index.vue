@@ -1,18 +1,7 @@
 <template>
 <!-- 京准通工具 -->
 <div style="height: 100%">
-  <IptComp ref="iptcomp" 
-  :formMenu="1" 
-  :picSrc="picSrc" 
-  :picClass="picClass"
-  :ifDown="ifDown" 
-  :colWidth="colWidth" 
-  :toolType="toolType" 
-  :wordList="wordList"
-  :wordTip="wordTip" 
-  :wordErr="wordErr" 
-  :sheetName="sheetName" 
-  :excelOptions="excelOptions">
+  <IptComp ref="iptcomp" :formMenu="1" :picSrc="picSrc" :picClass="picClass" :ifDown="ifDown" :colWidth="colWidth" :toolType="toolType" :wordList="wordList" :wordTip="wordTip" :wordErr="wordErr" :sheetName="sheetName" :excelOptions="excelOptions">
   </IptComp>
 </div>
 </template>
@@ -42,6 +31,7 @@ export default {
     $route: {
       handler(newval, oldval) {
         const vm = this;
+        vm.excelOptions = []
         vm.wordTip = ''
         vm.wordErr = ''
         vm.picClass = ''
@@ -376,7 +366,7 @@ export default {
             vm.wordList = [{
               lab: '创建人群sheet：',
               word: '支持批量化创建京东展位单元；'
-            } ]
+            }]
             vm.wordTip = '展位资源位支持范围：竖版首页焦点图、无线焦点图、PC首页焦点图（如有新增需求可联系产品同学）；'
             vm.sheetName = ["Sheet1"];
             vm.excelOptions = [{
@@ -1435,16 +1425,17 @@ export default {
             vm.sheetName = ["Sheet1"];
             vm.ifDown = false
             vm.wordList = [{
-              lab: '',
-              word: '支持批量化创建腾讯渠道下京腾魔方人群；'
-            },
-            {
-              lab: '1· ',
-              word: '行为轨迹：品牌行为，类目行为'
-            },{
-              lab: '2· ',
-              word: '用户偏好：只有常用下单途径'
-            },  ]
+                lab: '',
+                word: '支持批量化创建腾讯渠道下京腾魔方人群；'
+              },
+              {
+                lab: '1· ',
+                word: '行为轨迹：品牌行为，类目行为'
+              }, {
+                lab: '2· ',
+                word: '用户偏好：只有常用下单途径'
+              },
+            ]
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
               color: "", //工作表颜色
@@ -1854,58 +1845,61 @@ export default {
             vm.wordList = [{
               lab: '',
               word: '该产品目前仅用来快车渠道根据SKU批量暂停/启动创意使用，具体填写规则可下载模板参考；'
-            },]
+            }, ]
             vm.wordErr = '本产品并非快车触点创建创意工具'
             vm.wordTip = '库存条件：目前仅有库存作为条件筛选（有更多需求可后期增加），条件一次至多可选择2个；'
-            vm.sheetName = ["Sheet1"];
-            vm.excelOptions = [{
-              name: "Sheet1", //工作表名称
-              color: "", //工作表颜色
-              index: "renqun", //工作表索引
-              status: 1, //激活状态
-              hide: 0, //是否隐藏
-              row: 1000, //行数
-              column: 15, //列数
-              defaultRowHeight: 40, //自定义行高
-              defaultColWidth: 150, //自定义列宽
-              celldata: [
-                // DMP自建人群
-                {
-                  r: 0,
-                  c: 0,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
+            vm.sheetName = ["快车", '触点'];
+            vm.sheetName.forEach((val, idx) => {
+              let obj = {
+                name: val, //工作表名称
+                color: "", //工作表颜色
+                index: "renqun", //工作表索引
+                status: 1, //激活状态
+                hide: 0, //是否隐藏
+                row: 1000, //行数
+                column: 15, //列数
+                defaultRowHeight: 40, //自定义行高
+                defaultColWidth: 150, //自定义列宽
+                celldata: [
+                  // DMP自建人群
+                  {
+                    r: 0,
+                    c: 0,
+                    v: {
+                      ct: {
+                        fa: "@",
+                        t: "s"
+                      },
+                      m: "SKUID",
+                      v: "SKUID",
+                      bl: 1,
+                      vt: 0,
+                      ht: 0,
                     },
-                    m: "SKUID",
-                    v: "SKUID",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
                   },
-                },
-                // 人群溢价系数
-                {
-                  r: 0,
-                  c: 1,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
+                  // 人群溢价系数
+                  {
+                    r: 0,
+                    c: 1,
+                    v: {
+                      ct: {
+                        fa: "@",
+                        t: "s"
+                      },
+                      m: "库存",
+                      v: "库存",
+                      bl: 1,
+                      vt: 0,
+                      ht: 0,
                     },
-                    m: "库存",
-                    v: "库存",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
                   },
-                },
-              ], //初始化使用的单元格数据
-              isPivotTable: false, //是否数据透视表
-              zoomRatio: 1, // 缩放比例
-              showGridLines: 1, //是否显示网格线
-            }, ];
+                ], //初始化使用的单元格数据
+                isPivotTable: false, //是否数据透视表
+                zoomRatio: 1, // 缩放比例
+                showGridLines: 1, //是否显示网格线
+              }
+              vm.excelOptions.push(obj);
+            })
             break;
         }
       },

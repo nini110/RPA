@@ -915,9 +915,11 @@ export default {
               val.disabled = 'disabled'
             }
           })
-          vm.getBrandList()
-          vm.disBrandSelf = false
-          vm.disBrandOther = true
+          if (vm.$route.name==='Compete') {
+            vm.getBrandList()
+            vm.disBrandSelf = false
+            vm.disBrandOther = true
+          }
         } else {
           vm.disBrandSelf = true
           vm.disBrandOther = true

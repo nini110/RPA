@@ -4,11 +4,13 @@ let BASEPATH = '';
 let BASEPATH2 = '';
 let BASEPATH3 = '';
 let BASEPATH5 = '';
+let BASEPATH8 = '';
 if (process.env.NODE_ENV === 'production') {
   BASEPATH = 'http://114.67.229.243:8001'
   BASEPATH2 = 'http://tool.afocus.com.cn'
   BASEPATH3 = 'http://114.67.229.243:8002'
   BASEPATH5 = 'http://114.67.229.243:8101'
+  BASEPATH8 = 'https://ai.lovesi.tech'
   // 生产环境
 } else {
   // 开发环境
@@ -17,6 +19,7 @@ if (process.env.NODE_ENV === 'production') {
   BASEPATH2 = 'http://tool.afocus.com.cn'
   BASEPATH3 = 'http://114.67.229.243:8002'
   BASEPATH5 = 'http://114.67.229.243:8101'
+  BASEPATH8 = 'https://ai.lovesi.tech'
 }
 // 公告
 export const adInfo = request({

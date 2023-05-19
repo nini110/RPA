@@ -126,12 +126,11 @@ export default {
       if (vm.tag === "excel") {
         let target_sheets = [];
         let sheetArr = []
-        let maxIdx = 0
+        let sheetInfoBox = []
         LuckyExcel.transformExcelToLucky(
           file.raw,
           (exportJson, luckysheetfile) => {
             for (let val of exportJson.sheets) {
-              // if (val.name === vm.sheetName) {
               if (vm.sheetName.indexOf(val.name) !== -1) {
                 sheetArr.push(val.name)
                 val.celldata.forEach((item, index) => {
@@ -140,15 +139,19 @@ export default {
                   }
                 })
                 // 限制读取最大行数
-                maxIdx = val.celldata[val.celldata.length - 1].r
+                let maxIdx = val.celldata[val.celldata.length - 1].r
                 if (maxIdx > vm.maxRow) {
+                  sheetInfoBox.push({
+                    stName: val.name,
+                    stMax: maxIdx
+                  })
                   let idxArr = []
                   for (let i in val.celldata) {
                     if (val.celldata[i].r === vm.maxRow) {
-                      idxArr.push(i)
+                      idxArr.push(Number(i))
                     }
                   }
-                  val.celldata = val.celldata.slice(0, idxArr[1] - 1)
+                  val.celldata = val.celldata.slice(0, idxArr[idxArr.length - 1] + 1)
                 }
                 val.index = parseInt(val.index);
                 val.order = parseInt(val.order);
@@ -166,12 +169,13 @@ export default {
               vm.$emit("getFile", 'wrong');
               return
             }
-            if (maxIdx > vm.maxRow) {
+            if (sheetInfoBox.length > 0) {
+            // if (maxIdx > vm.maxRow) {
               vm.openMessageBox({
                 type: "warning",
                 showClose: true,
                 tipTitle: `检测到数据过多!`,
-                tipContent: `【确定】将仅处理前${vm.maxRow}条数据，【取消】将取消操作!`,
+                tipContent: `【确定】所有Sheet都将仅处理前${vm.maxRow}条数据，【取消】将取消操作!`,
                 showCancelButton: true,
                 confirmButtonFn: () => {
                   vm.$emit("openEvent", target_sheets);

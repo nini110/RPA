@@ -25,11 +25,6 @@
               </el-select>
             </el-form-item>
           </el-col>
-          <!-- <el-col v-if="form.choose===2">
-            <el-form-item label="密码:" prop="password">
-              <el-input :show-password="true" v-model.trim="form.password" placeholder="请输入密码" clearable :disabled="!form.username"></el-input>
-            </el-form-item>
-          </el-col> -->
           <el-col style="margin-bottom: 20px" class="flexcol">
             <el-form-item label="添加文件" class="flexcol_lf">
               <el-popover v-if="excelData" placement="bottom" width="180" v-model="propVisable">
@@ -381,7 +376,9 @@
       </div>
     </div>
     <span slot="footer" class="dialog-footer">
-      <!-- <el-button @click="logDownEvent">日志下载</el-button> -->
+      <el-button 
+      v-if="(logVersion && excel_path ) && (toolType==='快车更新创意状态'|| toolType==='京东直投')"
+      @click="logDownEvent">日志下载</el-button>
       <el-button type="primary" @click="showLogDialog = false">关 闭</el-button>
     </span>
   </el-dialog>
@@ -706,6 +703,7 @@ export default {
       logContent: "",
       logTablett: [],
       logData: [],
+      excel_path: '',
       extraLogCnt: {},
       endingTxt: "日志正在加载",
       endingCode: "",
@@ -807,9 +805,17 @@ export default {
   },
   mounted() {
     const vm = this;
+    console.log(vm.rules)
+
     vm.getPin();
   },
   methods: {
+    debounce(fn, inital) {
+      return () => {
+        clearTimeout(vm.timeraaa)
+        vm.timeraaa = setTimeout(fn, inital)
+      }
+    },
     iptClickEvent(newval, oldval) {
       const vm = this
       if (!vm.iptTimer) {
@@ -935,14 +941,6 @@ export default {
     zhixingEvent() {
       const vm = this;
       vm.disBtn = true
-      // let ingArr = vm.tableData.filter(item => {
-      //   return item.log_status === '执行中'
-      // })
-      // if(ingArr.length >= 2) {
-      //   vm.$msg({ type: "error", msg: "最多同时执行两条任务，请稍后" });
-      //   vm.disBtn = false
-      //   return false
-      // }
       let submitdata = {
         ...vm.form,
         config_data: vm.excelData,
@@ -1225,8 +1223,8 @@ export default {
                     if (resu.data.code === 10000 || resu.data.code === 10010) {
                       // 执行中或者执行完毕
                       if(resu.data.version===1) {
+                        // 新版
                         let result = JSON.parse(JSON.stringify(vm.handleLogStr(resu.data.data)))
-                      // 新版
                         if (resu.data.code === 10010) {
                           vm.$set(obj, "logData", 
                           resu.data.data.indexOf('无需暂停或启动的创意') !== -1 ? null : result.tableRes);
@@ -1239,6 +1237,7 @@ export default {
                         vm.$set(obj, "logData", []);
                       }
                       vm.$set(vm.tableData[j], "log_status", resu.data.log_status);
+                      vm.$set(obj, "excel_path", resu.data.code === 10000 ? '' : resu.data.excel_path);
                       vm.$set(vm.tableData[j], "res_file_path", resu.data.code === 10000 ? '' : resu.data.res_file_path);
                       vm.$set(obj, "logVersion", resu.data.version);
                       vm.$set(obj, "code", resu.data.code)
@@ -1300,6 +1299,7 @@ export default {
               vm.endingCode = i.code
               vm.logVersion = i.logVersion
               vm.logData = i.logData
+              vm.excel_path = i.excel_path
               vm.extraLogCnt = i.extraLogCnt
               setTimeout(() => {
                 vm.$nextTick(() => {
@@ -1322,6 +1322,7 @@ export default {
         vm.endingCode = res.data.code;
         if (vm.logVersion) {
           if (vm.endingCode === 10000 || vm.endingCode === 10010) {
+            vm.excel_path = res.data.excel_path
             vm.endingTxt = vm.endingCode === 10000 ? "日志持续获取中" : "日志加载完毕";
             if(res.data.data.indexOf('无需暂停或启动的创意') !== -1) {
               // 无
@@ -1352,18 +1353,26 @@ export default {
         }
       });
     },
-    // 日志下载
+    // 弹层--日志下载
     logDownEvent() {
       const vm = this
+      if(!vm.excel_path) {
+        vm.$msg({
+          type: "error",
+          msg: "日志路径获取失败"
+        });
+        return false
+      }
       sfToolsModelDown({
-          name: row.excel_path
+          name: vm.excel_path
         }).then(res => {
           let data = res.data;
           let url = window.URL.createObjectURL(new Blob([data]));
           let link = document.createElement("a");
           link.style.display = "none";
           link.href = url;
-          link.setAttribute("download", `日志-${vm.toolType}.xlsx`);
+          let celName = vm.excel_path.substring(vm.excel_path.lastIndexOf("/") + 1);
+          link.setAttribute("download", celName);
           document.body.appendChild(link);
           link.click();
         })
@@ -1415,6 +1424,7 @@ export default {
     closeLogEvent() {
       const vm = this
       vm.OPENTAG = false
+      vm.excel_path = ''
       vm.logContent = "";
       vm.endingTxt = "日志正在加载";
       vm.endingCode = 0;
@@ -1427,33 +1437,28 @@ export default {
     // no -下载文件
     downEvent(row) {
       const vm = this;
+      let asyn;
       if (row.tool_type === 'dmp') {
-        sfToolsModelDown({
-          name: row.res_file_path
-        }).then(res => {
-          let data = res.data;
-          let url = window.URL.createObjectURL(new Blob([data]));
-          let link = document.createElement("a");
-          link.style.display = "none";
-          link.href = url;
-          link.setAttribute("download", `日志-${vm.toolType}.xlsx`);
-          document.body.appendChild(link);
-          link.click();
-        })
+        asyn = Promise.all([
+          sfToolsModelDown({
+            name: row.res_file_path
+        })])
       } else {
-        sfToolsDown({
-          log_id: row.id,
-        }).then((res) => {
-          let data = res.data;
-          let url = window.URL.createObjectURL(new Blob([data]));
-          let link = document.createElement("a");
-          link.style.display = "none";
-          link.href = url;
-          link.setAttribute("download", `日志-${vm.toolType}.zip`);
-          document.body.appendChild(link);
-          link.click();
-        });
+        asyn = Promise.all([
+          sfToolsDown({
+            log_id: row.id
+        })])
       }
+      asyn.then(res => {
+        let data = res[0].data;
+        let url = window.URL.createObjectURL(new Blob([data]));
+        let link = document.createElement("a");
+        link.style.display = "none";
+        link.href = url;
+        link.setAttribute("download", `日志-${vm.toolType}.${vm.toolType==='数坊人群计算' ?'xlsx': 'zip'}`);
+        document.body.appendChild(link);
+        link.click();
+      })
     },
     //  no -下载模板
     modelEvent() {
