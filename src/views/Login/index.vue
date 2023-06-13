@@ -23,14 +23,14 @@
 <script>
 import dayjs from "dayjs";
 export default {
-  data() {
+  data () {
     return {
       time: dayjs().format("HH:mm:ss"),
       timeInterval: null,
     };
   },
-  beforeCreate() {},
-  created() {
+  beforeCreate () { },
+  created () {
     const vm = this;
     let wx_code = localStorage.getItem("wx_code");
     let wx_userid = localStorage.getItem("wx_userid");
@@ -65,17 +65,17 @@ export default {
       });
     }
   },
-  beforeDestroy() {
+  beforeDestroy () {
     clearInterval(this.timeInterval);
   },
-  mounted() {
+  mounted () {
     const vm = this;
     vm.timeInterval = setInterval(() => {
       vm.time = dayjs().format("HH:mm:ss");
     }, 1000);
   },
   methods: {
-    getWeChat() {
+    getWeChat () {
       // 动态引入企业微信js文件
       const vm = this;
       const s = document.createElement("script");
@@ -107,6 +107,7 @@ export default {
 </script>
 <style scoped lang="less">
 @import "index";
+
 // 背景
 .mainlogin_circles {
   position: absolute;
@@ -117,6 +118,7 @@ export default {
   overflow: hidden;
   margin: 0px;
   padding: 0px;
+
   li {
     position: absolute;
     display: block;
@@ -126,24 +128,28 @@ export default {
     background: #fff;
     animation: animate 25s linear infinite;
     bottom: -200px;
+
     @keyframes animate {
       0% {
         transform: translateY(0) rotate(0deg);
         opacity: 1;
         border-radius: 0;
       }
+
       100% {
         transform: translateY(-1000px) rotate(720deg);
         opacity: 0;
         border-radius: 50%;
       }
     }
+
     &:nth-child(1) {
       left: 15%;
       width: 80px;
       height: 80px;
       animation-delay: 0s;
     }
+
     &:nth-child(2) {
       left: 5%;
       width: 20px;
@@ -151,12 +157,14 @@ export default {
       animation-delay: 2s;
       animation-duration: 12s;
     }
+
     &:nth-child(3) {
       left: 70%;
       width: 20px;
       height: 20px;
       animation-delay: 4s;
     }
+
     &:nth-child(4) {
       left: 40%;
       width: 60px;
@@ -164,24 +172,28 @@ export default {
       animation-delay: 0s;
       animation-duration: 18s;
     }
+
     &:nth-child(5) {
       left: 65%;
       width: 20px;
       height: 20px;
       animation-delay: 0s;
     }
+
     &:nth-child(6) {
       left: 75%;
       width: 150px;
       height: 150px;
       animation-delay: 3s;
     }
+
     &:nth-child(7) {
       left: 35%;
       width: 200px;
       height: 200px;
       animation-delay: 7s;
     }
+
     &:nth-child(8) {
       left: 50%;
       width: 25px;
@@ -189,6 +201,7 @@ export default {
       animation-delay: 15s;
       animation-duration: 45s;
     }
+
     &:nth-child(9) {
       left: 20%;
       width: 15px;
@@ -196,6 +209,7 @@ export default {
       animation-delay: 2s;
       animation-duration: 35s;
     }
+
     &:nth-child(10) {
       left: 85%;
       width: 150px;
@@ -204,5 +218,4 @@ export default {
       animation-duration: 11s;
     }
   }
-}
-</style>
+}</style>

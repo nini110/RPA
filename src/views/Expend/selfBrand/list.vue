@@ -3,113 +3,50 @@
   <div class="strategyNormal">
     <div class="centers">
       <div class="PriceTops">
-        <el-form ref="form" :model="form" class="formObj" :rules="rules">
-          <el-row  :gutter="20">
-            <el-col :span="11">
-              <el-form-item label="品牌:">
-                <el-select
-                  v-model="form.brand"
-                  class="normalScroll"
-                  placeholder="请选择"
-                  clearable
-                  filterable
-                  :popper-append-to-body="false"
-                >
-                  <el-option
-                    v-for="item in pinOptions"
-                    :key="item.brand"
-                    :label="item.brand"
-                    :value="item.brand"
-                    clearable
-                  ></el-option>
-                </el-select>
-              </el-form-item>
-            </el-col>
-            <el-col :span="10">
-              <el-form-item class="tophasBtn" label="日期:" prop="search_date">
-                <el-date-picker
-                  class="tophasBtn_data"
-                  :clearable="false"
-                  v-model="form.search_date"
-                  format="yyyy-MM-dd"
-                  value-format="yyyy-MM-dd"
-                  type="daterange"
-                  range-separator="至"
-                  start-placeholder="开始日期"
-                  end-placeholder="结束日期"
-                  :picker-options="pickerOptionsStart"
-                ></el-date-picker>
-              </el-form-item>
-            </el-col>
-            <el-col :span="2">
-              <div class="">
-                <el-button
-                  v-waves
-                  type="primary"
-                  class="el-icon-search marginL"
-                  @click="searchEvent(serchVal)"
-                  >查询</el-button
-                >
-              </div>
-            </el-col>
-          </el-row>
+        <el-form ref="form" :model="form" class="formObj flexTopRow" :rules="rules">
+          <el-form-item label="品牌:">
+            <el-select v-model="form.brand" class="normalScroll" placeholder="请选择" clearable filterable
+              :popper-append-to-body="false">
+              <el-option v-for="item in pinOptions" :key="item.brand" :label="item.brand" :value="item.brand"
+                clearable></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item class="tophasBtn" label="日期:" prop="search_date">
+            <el-date-picker class="tophasBtn_data" :clearable="false" v-model="form.search_date" format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期"
+              end-placeholder="结束日期" :picker-options="pickerOptionsStart"></el-date-picker>
+          </el-form-item>
+          <el-form-item class="">
+            <el-button v-waves type="primary" class="el-icon-search marginL" @click="searchEvent(serchVal)">查询</el-button>
+          </el-form-item>
         </el-form>
       </div>
       <div ref="tableBox" class="tabbles pricetable">
-        <vxe-table
-          :data="tableData"
-          stripe
-          round
-          :column-config="{ resizable: true }"
-          :row-config="{ isCurrent: true, isHover: true }"
-          :tooltip-config="{
+        <vxe-table :data="tableData" stripe round :column-config="{ resizable: true }"
+          :row-config="{ isCurrent: true, isHover: true }" :tooltip-config="{
             showAll: true,
             enterable: true,
             contentMethod: showTooltipMethod,
-          }"
-          class="mytable-scrollbar normalScroll"
-          auto-resize
-          height="auto"
-        >
+          }" class="mytable-scrollbar normalScroll" auto-resize height="auto">
           >
           <template #empty>
             <img src="@/assets/images/search.png" />
           </template>
-          <vxe-column
-            type="seq"
-            title="序号"
-            width="5%"
-            fixed="left"
-          ></vxe-column>
-          <vxe-column
-            title="品牌"
-            width="12%"
-            field="brand"
-            fixed="left"
-          ></vxe-column>
-          <vxe-column
-            min-width="12%"
-            field="jd_consume"
-            title="京牌代理消耗"
-            :title-help="{
-              icon: 'el-icon-question',
-              message: '包含站内数据：快车、触点、展位，站外数据：直投',
-            }"
-          >
+          <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+          <vxe-column title="品牌" width="12%" field="brand" fixed="left"></vxe-column>
+          <vxe-column min-width="12%" field="jd_consume" title="京牌代理消耗" :title-help="{
+            icon: 'el-icon-question',
+            message: '包含站内数据：快车、触点、展位，站外数据：直投',
+          }">
             <template #default="{ row }">
               <span v-if="!row.jd_consume">--</span>
               <span v-else>{{ row.jd_consume | numberToCurrencyNo }}</span>
             </template>
           </vxe-column>
-          <vxe-column
-            min-width="12%"
-            field="pin_consume"
-            title="子账号明细消耗"
-            :title-help="{
-              icon: 'el-icon-question',
-              message: '各个自有账号下数据，包含数据：海投、京速推、直投',
-            }"
-          >
+          <vxe-column min-width="12%" field="pin_consume" title="子账号明细消耗" :title-help="{
+            icon: 'el-icon-question',
+            message: '各个自有账号下数据，包含数据：海投、京速推、直投',
+          }">
             <template #default="{ row }">
               <span v-if="!row.pin_consume">--</span>
               <span v-else>{{ row.pin_consume | numberToCurrencyNo }}</span>
@@ -157,16 +94,9 @@
         </vxe-table>
         <!-- 分页器 -->
         <div class="block" v-if="total">
-          <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-size="pagesize"
-            :page-sizes="[10, 20, 50, 100]"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-          ></el-pagination>
+          <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page.sync="currentPage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]"
+            layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
         </div>
       </div>
     </div>
@@ -178,7 +108,7 @@ import { selfBrand, selfExpendList } from "@/api/api";
 import dayjs from "dayjs";
 export default {
   name: "ListPage",
-  data() {
+  data () {
     return {
       pickerOptionsStart: {
         disabledDate: (time) => {
@@ -208,7 +138,7 @@ export default {
       pagesize: 10,
     };
   },
-  mounted() {
+  mounted () {
     const vm = this;
     vm.getBrand();
     let myday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
@@ -217,7 +147,7 @@ export default {
     vm.searchEvent();
   },
   methods: {
-    showTooltipMethod({ type, column, row, items, _columnIndex }) {
+    showTooltipMethod ({ type, column, row, items, _columnIndex }) {
       const { property } = column;
       // 重写默认的提示内容
       if (property === "jd_consume" || property === "pin_consume") {
@@ -233,7 +163,7 @@ export default {
       // return null;
     },
     // 获取品牌列表
-    getBrand() {
+    getBrand () {
       const vm = this;
       selfBrand({
         a: "",
@@ -242,7 +172,7 @@ export default {
       });
     },
     // 获取列表
-    getListData(val) {
+    getListData (val) {
       const vm = this;
       selfExpendList({ ...val }).then((res) => {
         let result = res.data.data;
@@ -270,7 +200,7 @@ export default {
         vm.total = res.data.count;
       });
     },
-    searchEvent() {
+    searchEvent () {
       const vm = this;
       let data = {
         start_date: vm.form.search_date[0],
@@ -285,12 +215,12 @@ export default {
       vm.getListData(vm.serchVal);
     },
     //分页器功能
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pagesize = val;
       this.searchEvent();
     },
     //有接口请求 每点击一页进行一次数据请求 参数页码为动态值：
-    handleCurrentChange(page) {
+    handleCurrentChange (page) {
       this.currentPage = page;
       this.searchEvent();
     },
@@ -300,12 +230,15 @@ export default {
 
 <style lang="less" scoped>
 @import "../../Qianchuan/strategy/index.less";
+
 .PriceTops {
-    margin-top: 22px;
+  margin-top: 22px;
 }
+
 .rise {
   color: red;
 }
+
 .down {
   color: green;
 }

@@ -2,129 +2,51 @@
   <div class="strategyNormal">
     <div class="centers">
       <div class="PriceTops">
-          <el-form>
-            <el-row :gutter="20">
-              <el-col :span="11">
-                <el-form-item label="项目:">
-                  <el-select
-                    v-model="form.brand"
-                    class="normalScroll"
-                    placeholder="请选择"
-                    clearable
-                    filterable
-                    :popper-append-to-body="false"
-                  >
-                    <el-option
-                      v-for="item in pinOptions"
-                      :key="item.brand"
-                      :label="item.brand"
-                      :value="item.brand"
-                      clearable
-                    ></el-option>
-                  </el-select>
-                </el-form-item>
-              </el-col>
-              <el-col :span="10">
-                <el-form-item label="日期:">
-                  <el-date-picker
-                    class="tophasBtn_data"
-                    v-model="form.search_date"
-                    format="yyyy-MM-dd"
-                    value-format="yyyy-MM-dd"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    :picker-options="pickerOptionsStart"
-                  ></el-date-picker>
-                </el-form-item>
-              </el-col>
-              <el-col :span="2">
-                <div>
-                  <el-button
-                    v-waves
-                    type="primary"
-                    class="el-icon-search marginL"
-                    @click="searchEvent(serchVal)"
-                    >查询</el-button
-                  >
-                </div>
-              </el-col>
-            </el-row>
-          </el-form>
+        <el-form class="flexTopRow">
+          <el-form-item label="项目:">
+            <el-select v-model="form.brand" class="normalScroll" placeholder="请选择" clearable filterable
+              :popper-append-to-body="false">
+              <el-option v-for="item in pinOptions" :key="item.brand" :label="item.brand" :value="item.brand"
+                clearable></el-option>
+            </el-select>
+          </el-form-item>
+          <el-form-item label="日期:">
+            <el-date-picker class="tophasBtn_data" v-model="form.search_date" format="yyyy-MM-dd"
+              value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期"
+              end-placeholder="结束日期" :picker-options="pickerOptionsStart"></el-date-picker>
+          </el-form-item>
+          <el-form-item>
+            <el-button v-waves type="primary" class="el-icon-search marginL" @click="searchEvent(serchVal)">查询</el-button>
+          </el-form-item>
+        </el-form>
       </div>
       <div ref="tableBox" class="tabbles pricetable">
-        <vxe-table
-          ref="table"
-          :data="tableData"
-          stripe
-          round
-          :column-config="{ resizable: true }"
-          :row-config="{ isCurrent: true, isHover: true }"
-          class="mytable-scrollbar normalScroll"
-          auto-resize
-          height="auto"
-        >
+        <vxe-table ref="table" :data="tableData" stripe round :column-config="{ resizable: true }"
+          :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar normalScroll" auto-resize
+          height="auto">
           >
           <template #empty>
             <img src="@/assets/images/search.png" />
           </template>
-          <vxe-column
-            type="seq"
-            title="序号"
-            width="5%"
-            fixed="left"
-          ></vxe-column>
-          <vxe-column
-            field="biddingId"
-            title="项目编号"
-            width="10%"
-            fixed="left"
-            show-overflow="tooltip"
-          ></vxe-column>
-          <vxe-column
-            field="brandName"
-            title="项目名称"
-            width="20%"
-            fixed="left"
-            show-overflow="tooltip"
-          ></vxe-column>
-          <vxe-column
-            field="category"
-            title="类目"
-            width="30%"
-            show-overflow="tooltip"
-          ></vxe-column>
-          <vxe-column
-            v-for="(item, idx) in topMenuList"
-            :key="idx"
-            :field="item.prop"
-            :title="item.label"
-            show-overflow="tooltip"
-            min-width="14%"
-          >
+          <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+          <vxe-column field="biddingId" title="项目编号" width="10%" fixed="left" show-overflow="tooltip"></vxe-column>
+          <vxe-column field="brandName" title="项目名称" width="20%" fixed="left" show-overflow="tooltip"></vxe-column>
+          <vxe-column field="category" title="类目" width="30%" show-overflow="tooltip"></vxe-column>
+          <vxe-column v-for="(item, idx) in topMenuList" :key="idx" :field="item.prop" :title="item.label"
+            show-overflow="tooltip" min-width="14%">
             <template #default="{ row }">
               <span v-if="item.type === 'num'">{{
                 Math.abs(row[item.prop]) | numberToCurrencyNo
               }}</span>
-              <span v-else-if="item.type === 'per'"
-                >{{ Math.abs(row[item.prop]) | numberToCurrencyNo }}%</span
-              >
+              <span v-else-if="item.type === 'per'">{{ Math.abs(row[item.prop]) | numberToCurrencyNo }}%</span>
               <span v-else>{{ row[item.prop] }}</span>
             </template>
           </vxe-column>
         </vxe-table>
         <div class="block" v-if="total">
-          <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-size="pagesize"
-            :page-sizes="[10, 20, 50, 100]"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-          ></el-pagination>
+          <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page.sync="currentPage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]"
+            layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
         </div>
       </div>
     </div>
@@ -136,7 +58,7 @@ import dayjs from "dayjs";
 export default {
   name: "BidItem",
   components: {},
-  data() {
+  data () {
     return {
       pickerOptionsStart: {
         disabledDate: (time) => {
@@ -214,7 +136,7 @@ export default {
       pagesize: 10,
     };
   },
-  mounted() {
+  mounted () {
     const vm = this;
     vm.getBrand();
     // let myday = dayjs().subtract(1, "day").format("YYYY-MM-DD");
@@ -224,22 +146,22 @@ export default {
   },
   methods: {
     // 获取品牌列表
-    getBrand() {
+    getBrand () {
       const vm = this;
       bidItem().then((res) => {
         vm.pinOptions = res.data.data;
       });
     },
     // 获取列表
-    getListData(val) {
+    getListData (val) {
       const vm = this;
       bidItemList({ ...val }).then((res) => {
         if (res.data.count !== 0) {
           let result = res.data.data
           result.forEach((val, idx) => {
-            for(let i in val) {
+            for (let i in val) {
               if (i === 'clicks_csv') {
-                val[i] = Math.round(val[i]*10000)/100
+                val[i] = Math.round(val[i] * 10000) / 100
               } else {
                 val[i] = val[i]
               }
@@ -255,7 +177,7 @@ export default {
         }
       });
     },
-    searchEvent() {
+    searchEvent () {
       const vm = this;
       let data = {
         start_data:
@@ -271,12 +193,12 @@ export default {
       vm.getListData(vm.serchVal);
     },
     //分页器功能
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pagesize = val;
       this.searchEvent();
     },
     //有接口请求 每点击一页进行一次数据请求 参数页码为动态值：
-    handleCurrentChange(page) {
+    handleCurrentChange (page) {
       this.currentPage = page;
       this.searchEvent();
     },
@@ -286,6 +208,7 @@ export default {
 
 <style lang="less" scoped>
 @import "../../Qianchuan/strategy/index.less";
+
 .temInfoSpan {
   cursor: pointer;
   color: #287bb5;

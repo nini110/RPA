@@ -4,8 +4,11 @@
     <div class="centers">
       <div class="PriceTops">
         <el-form class="flexTopRow one">
-          <el-form-item>
-            <el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="editFn">新增市场费账号
+          <el-form-item style="position: relative;">
+            <el-tooltip class="fixtool" effect="light" content="个人账号绑定上限数量为50个" placement="top">
+              <span class="el-icon-warning-outline"></span>
+            </el-tooltip>
+            <el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="editFn">新增账号
             </el-button>
           </el-form-item>
         </el-form>
@@ -23,14 +26,11 @@
           <vxe-column title="操作" fixed="right" width="10%">
             <template slot="header">
               操作
-              <el-tooltip class="item" effect="dark" content="当状态为使用中时,不可编辑和删除" placement="top">
-                <i class="el-icon-question"></i>
-              </el-tooltip>
             </template>
             <template slot-scope="scope">
-              <div v-waves class="btn btn_info one" :class="{ dis: scope.row.status }" @click="deleteFn(scope.row)">
-                <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                  <i class="el-icon-circle-close "></i>
+              <div v-waves class="btn btn_info one" @click="deleteFn(scope.row)">
+                <el-tooltip class="item" effect="dark" content="解绑" placement="top">
+                  <i class="iconfont icon-jiebang"></i>
                 </el-tooltip>
               </div>
             </template>
@@ -45,19 +45,19 @@
       </div>
       <!-- 出价调整策略弹窗 -->
       <div class="dialog">
-        <DialogMarket ref="markDia" :showFlag="showFlag" @close="closeEvent"></DialogMarket>
+        <AddDialog ref="markDia" :showFlag="showFlag" @close="closeEvent"></AddDialog>
       </div>
     </div>
   </div>
 </template>
   
 <script>
-import { marketIDList, delMarketID } from "@/api/api.js";
+import { multiAccList, multiAccDel } from "@/api/api.js";
 import message from "@/mixin/message";
-import DialogMarket from "./addMarket.vue";
+import AddDialog from "./addDialog.vue";
 export default {
   components: {
-    DialogMarket,
+    AddDialog,
   },
   props: {
     activeTab: {
@@ -71,25 +71,20 @@ export default {
       tableData: [],
       tabList: [
         {
-          label: "项目ID",
-          prop: "biddingId",
-        },
-        {
-          label: "项目名称",
-          prop: "biddingName",
-        },
-        {
-          label: "PIN",
+          label: "账号",
           prop: "account",
         },
         {
-          label: "类目",
-          prop: "category",
+          label: "账号类型",
+          prop: "account_typeCn",
         },
-
         {
-          label: "日期",
-          prop: "date",
+          label: "主账号",
+          prop: "primary_account",
+        },
+        {
+          label: "状态",
+          prop: "statusCn",
         },
       ],
       showFlag: false,
@@ -101,25 +96,19 @@ export default {
   watch: {
     activeTab: {
       handler (newval, oldval) {
-        const vm = this;
-        vm.getList();
+
       },
       immediate: true,
       deep: true,
     },
   },
   created () {
-    this.username = localStorage.getItem("user_name");
-    this.getList();
+    this.getList()
   },
   mounted () { },
   methods: {
     closeEvent (tag) {
       const vm = this;
-      vm.$refs.markDia.form.bidding_id = ''
-      vm.$refs.markDia.form.bidding_name = ''
-      vm.$refs.markDia.form.account = ''
-      vm.$refs.markDia.form.date = []
       vm.showFlag = false;
       vm.currentPage = 1;
       vm.pagesize = 10;
@@ -134,10 +123,10 @@ export default {
         type: "warning",
         showClose: true,
         showCancelButton: true,
-        tipTitle: "确定删除当前市场费账号：",
-        curItem: `${row.biddingName}？`,
+        tipTitle: "确定解绑当前账号：",
+        curItem: `${row.account}？`,
         confirmButtonFn: () => {
-          vm.delMarketID(row.id);
+          vm.api_del(row.id)
         },
       });
     },
@@ -146,35 +135,50 @@ export default {
       const vm = this;
       vm.showFlag = true;
     },
-    // 删除
-    delMarketID (id) {
-      const vm = this;
-      delMarketID({
-        id,
-      }).then((res) => {
+    // 
+    api_del (id) {
+      const vm = this
+      multiAccDel({
+        id
+      }).then(res => {
         if (res.data.code === 10000) {
-          vm.$msg({ msg: "删除成功！" });
+          vm.$msg({
+            type: 'success',
+            msg: "解绑成功"
+          });
           vm.getList();
         } else {
-          vm.$msg({ type: "error", msg: res.data.msg });
+          vm.$msg({
+            type: "error",
+            msg: res.data.data || res.data.msg,
+          });
         }
-      });
+      })
     },
     // 获取列表数据
     getList () {
       const vm = this;
       let params = {
         page: vm.currentPage,
-        limit: vm.pagesize,
+        page_size: vm.pagesize,
       };
-      marketIDList(params).then((res) => {
-        let result = res.data.data;
-        result.forEach((val, idx) => {
-          vm.$set(val, "date", `${val.start_time} 至 ${val.end_time}`);
-        });
-        vm.tableData = result;
-        vm.total = res.data.count;
-      });
+      multiAccList(params).then(res => {
+        if (res.data.code === 10000) {
+          vm.total = res.data.total
+          let result = res.data.data
+          result.forEach((val, idx) => {
+            vm.$set(val, 'account_typeCn', val.account_type === 1 ? '代理' : '京准通')
+            vm.$set(val, 'statusCn', val.status === 1 ? '正常' : '授权异常')
+          })
+          vm.tableData = result
+        } else {
+          vm.$msg({
+            type: "error",
+            msg: res.data.data || res.data.msg,
+          });
+        }
+      })
+
     },
     handleSizeChange (val) {
       this.pagesize = val;
@@ -193,5 +197,16 @@ export default {
 @import "@/views/Qianchuan/index.less";
 @import "@/views/Qianchuan/strategy/index.less";
 @import "@/views/Qianchuan/items/index.less";
+
+.fixtool {
+  position: absolute;
+  left: -30px;
+  top: 50%;
+  transform: translateY(-50%);
+
+  &:before {
+    font-size: 20px;
+  }
+}
 </style>
   

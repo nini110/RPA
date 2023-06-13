@@ -207,6 +207,26 @@ const routes = [{
         component: () => import(/* webpackChunkName: "R_compete"*/"@/views/DataApplication/compete"),
       },
       {
+        path: 'JDtoHome',
+        name: 'JDtoHome',
+        meta: {
+          title: '京东到家-安卓',
+          deep: 3,
+          filePath: 'DataApplication/JDtoHome'
+        },
+        component: () => import(/* webpackChunkName: "R_compete"*/"@/views/DataApplication/JDtoHome"),
+      },
+      {
+        path: 'JDtoHomeIOS',
+        name: 'JDtoHomeIOS',
+        meta: {
+          title: '京东到家-苹果',
+          deep: 3,
+          filePath: 'DataApplication/JDtoHomeIOS'
+        },
+        component: () => import(/* webpackChunkName: "R_compete"*/"@/views/DataApplication/JDtoHomeIOS"),
+      },
+      {
         path: 'monitor',
         name: 'Monitor',
         meta: {
@@ -449,7 +469,7 @@ const routes = [{
           meta: {
             title: '自有品牌',
             deep: 3,
-            filePath: 'Expend/selfBrand'
+            filePath: 'Expend/selfBrand',
           },
           component: () => import( /* webpackChunkName: "R_Expend"*/ "@/views/Expend/selfBrand"),
         },
@@ -459,7 +479,7 @@ const routes = [{
           meta: {
             title: '竞标项目',
             deep: 3,
-            filePath: 'Expend/bidItem'
+            filePath: 'Expend/bidItem',
           },
           component: () => import( /* webpackChunkName: "R_bidItem"*/ "@/views/Expend/bidItem"),
         },
@@ -469,22 +489,32 @@ const routes = [{
           meta: {
             title: '大盘',
             deep: 3,
-            filePath: 'Expend/dapan'
+            filePath: 'Expend/dapan',
           },
           component: () => import( /* webpackChunkName: "R_Dapan"*/ "@/views/Expend/dapan"),
+        },
+        {
+          path: 'manage',
+          name: 'manage',
+          meta: {
+            title: '多账号概况管理',
+            deep: 3,
+            filePath: 'Expend/manage'
+          },
+          component: () => import( /* webpackChunkName: "R_Dapan"*/ "@/views/Expend/manage"),
         }
       ]
     },
   ]
 },
-  // {
-  // 	path: '*',
-  // 	name: '404',
-  // 	meta: {
-  // 		deep: 1
-  // 	},
-  // 	component: () => import(/* webpackChunkName: "R_404"*/"@/views/404"),
-  // },
+{
+  path: '/403',
+  name: '403',
+  meta: {
+    deep: 1,
+  },
+  component: () => import(/* webpackChunkName: "R_404"*/"@/views/403"),
+},
 
 ]
 export default routes;

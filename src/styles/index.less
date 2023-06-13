@@ -293,6 +293,17 @@
     &-item {
       margin-bottom: 22px;
 
+      &.hasnolab {
+        .el-form-item__content {
+          width: 100%;
+
+          .el-date-editor {
+            width: 100%;
+
+          }
+        }
+      }
+
       &__label,
       &__content {
         display: inline-block;
@@ -306,8 +317,6 @@
 
       &__content {
         width: calc(100% - 100px);
-
-
 
         .el-textarea__inner {
           resize: none;
@@ -608,7 +617,7 @@
       flex-wrap: nowrap;
 
       .el-tooltip {
-        width: 40px;
+        width: 30px;
         background-color: #fbfbfb;
         border: 1px solid #e3e3e3;
         border-right: none;
@@ -788,6 +797,20 @@
   &-pulldown,
   &-input {
     width: 100%;
+  }
+
+  &-pulldown--panel {
+    z-index: 1001;
+    border: 0.083333rem solid #E4E7ED;
+    border-radius: 0.333333rem;
+    background-color: #FFF;
+    box-shadow: 0 0.166667rem 1rem 0 rgba(0, 0, 0, .1);
+
+    .my-dropdown1 {
+      padding: 20px;
+      max-height: 300px;
+      overflow: auto;
+    }
   }
 
   &-input {

@@ -30,6 +30,13 @@
 
   }
 
+  .rtForm {
+    flex-basis: 40%;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
   .el {
     &-row {}
 
@@ -149,60 +156,6 @@
 
 }
 
-// /deep/.vxe {
-
-//   &-pulldown,
-//   &-input {
-//     width: 100%;
-//   }
-
-//   &-input {
-//     height: 100%;
-
-//     &--inner {
-//       height: auto !important;
-//     }
-//   }
-// }
-
-// .dropdownbox {
-//   padding: 20px 30px;
-//   box-shadow: 0 0.166667rem 1rem 0 #dbdbdb;
-//   border: 0.083333rem solid #E4E7ED;
-//   border-radius: 4px;
-
-//   &.ts {
-//     padding-left: 0;
-//   }
-
-//   .flex {
-//     display: flex;
-//     justify-content: space-between;
-//     color: #303133;
-
-//     .lb {
-//       margin-right: 15px;
-//       color: #909399;
-//     }
-//   }
-
-//   .tips {
-//     font-size: 12px;
-//     line-height: 24px;
-//     color: #909399;
-//     margin-bottom: 20px;
-//   }
-
-//   /deep/.vxe-table--body-wrapper {
-//     height: 300px;
-//   }
-
-//   /deep/.vxe-body--column {
-//     height: 40px !important;
-//     line-height: 20px !important;
-//   }
-// }
-
 .ckBoxLine {
   .el-checkbox-group {}
 
@@ -224,6 +177,7 @@
 
 .radioLine {
   margin-bottom: 10px;
+  line-height: 40px;
 
   &_label {
     font-size: 12px;

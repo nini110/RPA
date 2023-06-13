@@ -2,10 +2,7 @@
   <div class="wscn-http404-container">
     <div class="wscn-http404">
       <div class="pic-404">
-        <img class="pic-404__parent" src="@/assets/404_images/404.png" alt="404" />
-        <img class="pic-404__child left" src="@/assets/404_images/404_cloud.png" alt="404" />
-        <img class="pic-404__child mid" src="@/assets/404_images/404_cloud.png" alt="404" />
-        <img class="pic-404__child right" src="@/assets/404_images/404_cloud.png" alt="404" />
+        <img :src="errGif" width="313" height="428" alt="Girl has dropped her ice cream." />
       </div>
       <div class="bullshit">
         <div class="bullshit__oops">错误!</div>
@@ -14,7 +11,7 @@
           <a style="color: #20a0ff" href="https://wallstreetcn.com" target="_blank">灵狐科技</a>
         </div>
         <div class="bullshit__headline">{{ message }}</div>
-        <div class="bullshit__info">请检查输入路径</div>
+        <div class="bullshit__info">请检查用户权限</div>
         <div class="bullshit__return-home" @click="backtohome">回到首页</div>
       </div>
     </div>
@@ -22,12 +19,19 @@
 </template>
 
 <script>
+import errGif from "@/assets/404_images/401.gif";
+
 export default {
-  name: "Page404",
+  name: "Page403",
   computed: {
     message () {
-      return "未找到相关页面";
+      return "无访问权限";
     },
+  },
+  data () {
+    return {
+      errGif: errGif + "?" + +new Date(),
+    };
   },
   created () {
     console.log(this.$route)

@@ -4,13 +4,11 @@ let BASEPATH = '';
 let BASEPATH2 = '';
 let BASEPATH3 = '';
 let BASEPATH5 = '';
-let BASEPATH8 = '';
 if (process.env.NODE_ENV === 'production') {
   BASEPATH = 'http://114.67.229.243:8001'
   BASEPATH2 = 'http://tool.afocus.com.cn'
   BASEPATH3 = 'http://114.67.229.243:8002'
   BASEPATH5 = 'http://114.67.229.243:8101'
-  BASEPATH8 = 'https://ai.lovesi.tech'
   // 生产环境
 } else {
   // 开发环境
@@ -19,7 +17,6 @@ if (process.env.NODE_ENV === 'production') {
   BASEPATH2 = 'http://tool.afocus.com.cn'
   BASEPATH3 = 'http://114.67.229.243:8002'
   BASEPATH5 = 'http://114.67.229.243:8101'
-  BASEPATH8 = 'https://ai.lovesi.tech'
 }
 // 公告
 export const adInfo = request({
@@ -50,7 +47,11 @@ export const addAdInfo = request({
   responseType: 'form'
 })
 
-
+// 数据应用--京东到家
+export const JDtoHomeList = request({
+  url: `${BASEPATH5}/report/daojia_account`,
+  method: 'post'
+})
 // 数据应用--竞标监控--竞标搜索  ok
 export const BiddingSearch = request({
   url: `${BASEPATH}/apps/bidding/`,
@@ -442,8 +443,8 @@ export const alarmUserAuthor = request({
 })
 // 预算预警-获取所有推广计划
 export const alarmPlan = request({
-  url: `${BASEPATH5}/tools/get_all_plan_id`,
-  method: 'get',
+  url: `${BASEPATH5}/tools/get_all_plan_name`,
+  method: 'post',
 })
 // 预算预警-获取详情
 export const alarmDetail = request({
@@ -559,6 +560,36 @@ export const dapanEdit = request({
   url: `${BASEPATH}/zhaobiao/change_real_money/`,
   method: 'post',
   responseType: 'form'
+})
+// 多账号-概况
+export const multiGailan = request({
+  url: `${BASEPATH5}/report/multi_account_display`,
+  method: 'post',
+})
+// 多账号-新增--京准通
+export const multiAccAdd1 = request({
+  url: `${BASEPATH5}/report/set_ziyou_account`,
+  method: 'post',
+})
+// 多账号-新增--代理
+export const multiAccAdd2 = request({
+  url: `${BASEPATH5}/report/set_proxy_account`,
+  method: 'post',
+})
+// 多账号-列表
+export const multiAccList = request({
+  url: `${BASEPATH5}/report/get_account_list`,
+  method: 'post',
+})
+// 多账号-下拉
+export const multiAccDown = request({
+  url: `${BASEPATH5}/report/get_all_authorization`,
+  method: 'post',
+})
+// 多账号-删除
+export const multiAccDel = request({
+  url: `${BASEPATH5}/report/del_account`,
+  method: 'post',
 })
 // 公域数据---------------------------------------------------------------------
 // 获取列表

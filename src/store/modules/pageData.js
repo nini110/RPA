@@ -12,7 +12,7 @@ const state = {
   serchRes: null,
   checkLeft: false,
   checkRight: false,
-
+  planOption: [],
   wx_code: '',
   wx_userid: '',
   user_name: '',
@@ -48,6 +48,9 @@ const mutations = {
   },
   UPDATE_CHECKRIGHT: (state, view) => {
     state.checkRight = view
+  },
+  UPDATE_PLANOPTION: (state, view) => {
+    state.planOption = JSON.parse(JSON.stringify(view))
   }
 }
 

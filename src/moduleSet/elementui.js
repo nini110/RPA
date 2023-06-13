@@ -57,7 +57,8 @@ import {
   Descriptions,
   DescriptionsItem,
   Result,
-  Loading
+  Loading,
+  Statistic
 } from 'element-ui'
 
 
@@ -115,7 +116,8 @@ const components = {
   Drawer,
   Descriptions,
   DescriptionsItem,
-  Result
+  Result,
+  Statistic
 };
 const Elementui = (Vue, config = {}) => {
   if (Elementui.installed) {

@@ -1,394 +1,413 @@
 <template>
-<div class="outerDiv">
-  <div v-if="formMenu===3" class="content ts2">
-    <div class="outerDiv_left">
-      <el-form ref="form" :model="form" :rules="rules" v-loading.fullscreen.lock="showLoading">
-        <el-row>
-          <el-col :span="24">
-            <el-form-item label="类型" prop="choose" class="noborder">
-              <el-radio-group v-model="form.choose" @input="chooseEvent">
-                <el-radio v-for="item in options" :key="item.value" :label="item.value" border >{{ item.label }}</el-radio>
-              </el-radio-group>
-            </el-form-item>
-          </el-col>
-          <el-col v-if="form.choose===2" :span="24">
-            <el-form-item label="账号" prop="username" class="noborder">
-              <el-input v-model.trim="form.username" placeholder="请输入账号" clearable>
-              </el-input>
-            </el-form-item>
-          </el-col>
-          <el-col v-else>
-            <el-form-item label="PIN" prop="pin" class="w100">
-              <el-select v-model="form.pin" placeholder="请选择PIN" filterable clearable>
-                <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col style="margin-bottom: 20px" class="flexcol">
-            <el-form-item label="添加文件" class="flexcol_lf">
-              <el-popover v-if="excelData" placement="bottom" width="180" v-model="propVisable">
-                <p>创建空白Excel表格？</p>
-                <div class="popverButton">
-                  <el-button size="mini" type="text" @click="propVisable = false">取消</el-button>
-                  <el-button type="text" size="mini" @click="popverEvent(2)">确定</el-button>
-                </div>
-                <el-button type="info" class="el-icon-plus" slot="reference">创建</el-button>
-              </el-popover>
-              <el-button v-else v-waves type="info" class="el-icon-plus" @click="openExcel">创建</el-button>
-            </el-form-item>
-            <el-form-item label="" class="flexcol_rt">
-              <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" :sheetName="sheetName"></Upload>
-            </el-form-item>
-            <div v-if="excelName" class="uptxt">
-              点击打开「 <span @click="popverEvent(1)">{{ excelName }}</span>」
-            </div>
-            <div v-else class="uptxt black">
-              您可以<span>【创建】</span>空白excel
-              或者<span>【导入】</span>excel文件
-            </div>
-          </el-col>
-        </el-row>
-        <!-- <ExcelDialog v-if="showExcel" @close="closeEvent" :excelOpt="excelOpt" :toolType="toolType" :sheetName="sheetName"></ExcelDialog> -->
-        <div class="footer_btn">
-          <a class="btnnormal btnnormal_down" @click="modelEvent">
-            <div class="btnSize el-icon-download">模板</div>
-          </a>
-          <el-button v-waves class="el-icon-check marginL" type="primary" @click="zhixingEvent">提交</el-button>
-        </div>
-      </el-form>
-      <div class="outerDiv_left_info">
-        <h3 class="el-icon-info">须知</h3>
-        <div v-for="(item, idx) in tipInfo" :key="idx" class="box">
-          <p class="box_txt">{{ item.title }}</p>
-          <template v-if="item.children">
-            <p class="box_cnt" v-for="(item1, idx1) in item.children" :key="idx1">
-              {{ item1 }}
-            </p>
-          </template>
-        </div>
-      </div>
-    </div>
-    <div class="outerDiv_right">
-      <div style="height: 100%">
-        <div class="alarmRight">
-          <vxe-table ref="multipleTable" :data="tableData" stripe round :column-config="{ resizable: true }" :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
-            >
-            <template #empty>
-              <img src="@/assets/images/search.png" />
-              <span>空空如也</span>
+  <div class="outerDiv">
+    <div v-if="formMenu === 3" class="content ts2">
+      <div class="outerDiv_left">
+        <el-form ref="form" :model="form" :rules="rules" v-loading.fullscreen.lock="showLoading">
+          <el-row>
+            <el-col :span="24">
+              <el-form-item label="类型" prop="choose" class="noborder">
+                <el-radio-group v-model="form.choose" @input="chooseEvent">
+                  <el-radio v-for="item in options" :key="item.value" :label="item.value" border>{{ item.label
+                  }}</el-radio>
+                </el-radio-group>
+              </el-form-item>
+            </el-col>
+            <el-col v-if="form.choose === 2" :span="24">
+              <el-form-item label="账号" prop="username" class="noborder">
+                <el-input v-model.trim="form.username" placeholder="请输入账号" clearable>
+                </el-input>
+              </el-form-item>
+            </el-col>
+            <el-col v-else>
+              <el-form-item label="PIN" prop="pin" class="w100">
+                <el-select v-model="form.pin" placeholder="请选择PIN" filterable clearable>
+                  <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col style="margin-bottom: 20px" class="flexcol">
+              <el-form-item label="添加文件" class="flexcol_lf">
+                <el-popover v-if="excelData" placement="bottom" width="180" v-model="propVisable">
+                  <p>创建空白Excel表格？</p>
+                  <div class="popverButton">
+                    <el-button size="mini" type="text" @click="propVisable = false">取消</el-button>
+                    <el-button type="text" size="mini" @click="popverEvent(2)">确定</el-button>
+                  </div>
+                  <el-button type="info" class="el-icon-plus" slot="reference">创建</el-button>
+                </el-popover>
+                <el-button v-else v-waves type="info" class="el-icon-plus" @click="openExcel">创建</el-button>
+              </el-form-item>
+              <el-form-item label="" class="flexcol_rt">
+                <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" :sheetName="sheetName">
+                </Upload>
+              </el-form-item>
+              <div v-if="excelName" class="uptxt">
+                点击打开「 <span @click="popverEvent(1)">{{ excelName }}</span>」
+              </div>
+              <div v-else class="uptxt black">
+                您可以<span>【创建】</span>空白excel
+                或者<span>【导入】</span>excel文件
+              </div>
+            </el-col>
+          </el-row>
+          <!-- <ExcelDialog v-if="showExcel" @close="closeEvent" :excelOpt="excelOpt" :toolType="toolType" :sheetName="sheetName"></ExcelDialog> -->
+          <div class="footer_btn">
+            <a class="btnnormal btnnormal_down" @click="modelEvent">
+              <div class="btnSize el-icon-download">模板</div>
+            </a>
+            <el-button v-waves class="el-icon-check marginL" type="primary" @click="zhixingEvent">提交</el-button>
+          </div>
+        </el-form>
+        <div class="outerDiv_left_info">
+          <h3 class="el-icon-info">须知</h3>
+          <div v-for="(item, idx) in tipInfo" :key="idx" class="box">
+            <p class="box_txt">{{ item.title }}</p>
+            <template v-if="item.children">
+              <p class="box_cnt" v-for="(item1, idx1) in item.children" :key="idx1">
+                {{ item1 }}
+              </p>
             </template>
-            <vxe-column type="seq" title="序号" width="10%" fixed="left"></vxe-column>
-            <vxe-column min-width="15%" field="serial" title="编号" show-overflow="tooltip"></vxe-column>
-            <vxe-column min-width="13%" field="tool_type" title="工具" show-overflow="tooltip"></vxe-column>
-            <vxe-column min-width="15%" field="log_status" title="状态" show-overflow="tooltip">
-              <template slot-scope="scope">
-                <div v-if="scope.row.log_status === '执行有误'" class="statusDiv fail">
-                  {{ scope.row.log_status }}
-                </div>
-                <div v-if="scope.row.log_status === '执行中'" class="statusDiv ing">
-                  {{ scope.row.log_status }}
-                </div>
-                <div v-if="scope.row.log_status === '执行完毕'" class="statusDiv suc">
-                  {{ scope.row.log_status }}
-                </div>
-              </template></vxe-column>
-            <vxe-column min-width="15%" field="create_time" title="日期" show-overflow="tooltip"></vxe-column>
-            <vxe-column title="操作" fixed="right" width="18%">
-              <template slot-scope="scope">
-                <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
-                  <el-tooltip class="item" effect="dark" content="日志" placement="top">
-                    <i class="el-icon-document"></i>
-                  </el-tooltip>
-                </div>
-              </template>
-            </vxe-column>
-          </vxe-table>
-          <div class="block" v-if="total">
-            <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currpage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]" layout="total, sizes, prev, pager, next, jumper" :total="total">
-            </el-pagination>
           </div>
         </div>
       </div>
-    </div>
-  </div>
-  <div v-else class="content" v-loading.fullscreen.lock="showLoading" element-loading-text="文件导入中" element-loading-spinner="el-icon-loading" element-loading-background="rgba(46, 46, 46, 0.8)">
-    <div class="content_form ts">
-      <el-collapse v-if="formMenu===1" v-model="activeNames">
-        <el-collapse-item name="1">
-          <template slot="title">
-            <span class="iconfont icon-xiangmu icon"></span> 功能介绍
-          </template>
-          <div class="word" v-for="(item,idx) in wordList" :key="idx"><span class="lab">{{ item.lab }}</span>{{ item.word }}</div>
-          <div v-if="wordTip" class="word wordTip el-icon-warning-outline">{{wordTip}}</div>
-          <div v-if="wordErr" class="word wordErr">
-            <p>注意: 本产品并非快车触点创建创意工具</p>
-          </div>
-        </el-collapse-item>
-      </el-collapse>
-      <el-form ref="form" :model="form" class="formObj" :rules="rules">
-        <div class="formObj_div">
-          <div class="formObj_ipt">
-            <div class="formObj_ipt_abso">
-              <el-result>
-                <template slot="icon">
-                  <img :src="picSrc" alt="" :class="picClass" />
-                </template>
-                <template slot="extra">
-                  <span>{{ $route.meta.title }}</span>
-                </template>
-              </el-result>
-            </div>
-            <div class="formObj_ipt_rt">
-              <el-row :gutter="20">
-                <div class=""></div>
-                <el-col v-if="formMenu === 1" :span="colWidth.choose">
-                  <el-form-item label="类型" prop="choose" class="noborder">
-                    <el-select v-model="form.choose" placeholder="请选择类型" size="large" @change="chooseEvent">
-                      <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col v-if="showError" :span="colWidth.eror" class="hasAppend">
-                  <el-tooltip effect="dark" placement="bottom">
-                    <div slot="content">
-                      <p class="ts">🔔 该条件默认关闭，填写区间为1 - 10</p>
-                      <p class="ts">✅ 开启时：</p>
-                      <p>根据填写的终止条件作为规则，例如填写：5，则会在出错第5次自动终止程序</p>
-                      <p class="ts">⛔ 关闭时：</p>
-                      <p>程序执行中出现错误会继续向下执行，不会终止，直到执行完毕</p>
-                    </div>
-                    <div class="el-icon-question"></div>
-                  </el-tooltip>
-                  <el-form-item label="终止条件" prop="error_num" class="flex w110 noborder">
-                    <el-switch v-model="ifErrNum" active-color="#13ce66" inactive-color="#a5a5a5" @change="seitchEvent">
-                    </el-switch>
-                    <vxe-input v-if="ifErrNum" v-model="form.error_num" placeholder="数值区间为1 - 10" type="number" step="1" min="1" max="10"></vxe-input>
-                  </el-form-item>
-                </el-col>
-                <el-col v-if="form.choose === 1" :span="colWidth.pin">
-                  <el-form-item label="PIN" prop="pin" class="noborder">
-                    <el-select v-model="form.pin" placeholder="请选择PIN" filterable clearable>
-                      <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
-                      </el-option>
-                    </el-select>
-                  </el-form-item>
-                </el-col>
-                <el-col v-else :span="colWidth.user">
-                  <el-form-item label="账号" prop="username" class="noborder">
-                    <el-input v-model.trim="form.username" placeholder="请输入账号" clearable>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col v-if="showCookie || formMenu === 2" :span="colWidth.cookie" class="hasAppend">
-                  <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学" placement="bottom">
-                    <div class="el-icon-video-play" @click="movieDownEvent(1)"></div>
-                  </el-tooltip>
-                  <el-form-item label="Cookie" prop="cookie" class="w110 noborder">
-                    <el-input v-model.trim="form.cookie" placeholder="请输入Cookie" clearable>
-                    </el-input>
-                  </el-form-item>
-                </el-col>
-                <el-col v-if="toolType === '快车更新创意状态'" :span="24">
-                  <el-form-item label="库存条件" prop="tiaojian" class="">
-                    <vxe-pulldown ref="refKoujing" v-model="visible1">
-                      <template #default>
-                        <el-input v-model="form.tiaojian" readonly placeholder="请选择条件" @focus="focusEvent1" class="nbd">
-                        </el-input>
-                      </template>
-                      <template #dropdown>
-                        <div class="dropdownbox">
-                          <div class="flex">
-                            <el-form ref="pullRef" :model="pulldownForm" :rules="rulesPull" class="form">
-                              <el-form-item prop="tj_val" class="f100">
-                                <el-input placeholder="整数" v-model.trim="pulldownForm.tj_val" class="input-with-select" clearable>
-                                  <el-select v-model="tj_lf" slot="prepend" placeholder="请选择" :popper-append-to-body="false" @change="(val) =>tjEvent(1, val)">
-                                    <el-option label="大于" value=">"></el-option>
-                                    <el-option label="小于" value="<"></el-option>
-                                  </el-select>
-                                  <template slot="append"><span class="el-icon-video-play play">启动</span></template>
-                                </el-input>
-                              </el-form-item>
-                              <el-form-item prop="tj_val2" class="f100">
-                                <el-input placeholder="整数" v-model.trim="pulldownForm.tj_val2" class="input-with-select" clearable>
-                                  <el-select v-model="tj_lf2" slot="prepend" placeholder="请选择" :popper-append-to-body="false" @change="(val) =>tjEvent(2, val)">
-                                    <el-option label="大于" value=">"></el-option>
-                                    <el-option label="小于" value="<"></el-option>
-                                  </el-select>
-                                  <template slot="append"><span class="el-icon-video-pause pause">暂停</span></template>
-                                </el-input>
-                              </el-form-item>
-                            </el-form>
-                          </div>
-                        </div>
-                      </template>
-                    </vxe-pulldown>
-                  </el-form-item>
-                </el-col>
-              </el-row>
-            </div>
-          </div>
-          <div class="formObj_upload">
-            <el-form-item label="">
-              <el-popover v-if="excelData" placement="bottom" width="180" v-model="propVisable">
-                <p>创建空白Excel表格？</p>
-                <div class="popverButton">
-                  <el-button size="mini" type="text" @click="propVisable = false">取消</el-button>
-                  <el-button type="text" size="mini" @click="popverEvent(2)">确定</el-button>
-                </div>
-                <el-button type="info" class="el-icon-plus" slot="reference">创建</el-button>
-              </el-popover>
-              <el-button v-else v-waves type="info" class="el-icon-plus" @click="openExcel">创建</el-button>
-            </el-form-item>
-            <el-form-item label="">
-              <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" @close="closeEvent"  :toolType="toolType" :sheetName="sheetName"></Upload>
-            </el-form-item>
-            <div v-if="excelName" class="uptxt">
-              点击打开「 <span @click="popverEvent(1)">{{ excelName }}</span>」
-            </div>
-            <div v-else class="uptxt black">
-              您可以<span>【创建】</span>空白excel
-              或者<span>【导入】</span>excel文件
-            </div>
-          </div>
-        </div>
-      </el-form>
-      <div class="formObj_button">
-        <el-tooltip class="item" effect="light" content="清空输入框和导入数据" placement="bottom">
-          <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
-            <div class="el-icon-refresh btnSize">重置</div>
-          </a>
-        </el-tooltip>
-        <el-tooltip class="item" effect="light" content="提供可参考的导入数据案例" placement="bottom">
-          <a class="btnnormal_down marginR inlineButton" @click="modelEvent">
-            <div class="el-icon-download btnSize">模板</div>
-          </a>
-        </el-tooltip>
-        <el-tooltip class="item" effect="light" content="至多同时执行2条任务" placement="bottom">
-          <el-button v-waves type="primary" class="el-icon-right marginR" :disabled="disBtn" @click="zhixingEvent">执行</el-button>
-        </el-tooltip>
-      </div>
-    </div>
-    <div ref="tableBox" class="content_tableBox hasUp">
-      <el-divider>列表</el-divider>
-      <div class="tables">
-        <div v-if="showVarDia" class="dialog">
-          <VarifyDialog :pageJumps="pageJumps" @close="closeDialog"></VarifyDialog>
-        </div>
-        <div class="tableTab">
-          <vxe-table ref="multipleTable" :data="tableData" stripe round :column-config="{ resizable: true }" :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
-            >
-            <template #empty>
-              <img src="@/assets/images/search.png" />
-              <span>空空如也</span>
-            </template>
-            <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
-            <vxe-column min-width="15%" field="serial" title="编号" show-overflow="tooltip"></vxe-column>
-            <vxe-column min-width="15%" field="tool_type" title="工具" show-overflow="tooltip"></vxe-column>
-            <vxe-column min-width="15%" field="log_status" title="状态" show-overflow="tooltip">
-              <template slot-scope="scope">
-                <div v-if="scope.row.log_status === '执行有误'" class="statusDiv fail">
-                  {{ scope.row.log_status }}
-                </div>
-                <div v-if="scope.row.log_status === '执行中'" class="statusDiv ing">
-                  {{ scope.row.log_status }}
-                </div>
-                <div v-if="scope.row.log_status === '执行完毕'" class="statusDiv suc">
-                  {{ scope.row.log_status }}
-                </div>
-              </template></vxe-column>
-            <vxe-column min-width="15%" field="create_time" title="日期" show-overflow="tooltip"></vxe-column>
-            <vxe-column title="操作" fixed="right" width="12%">
-              <template slot-scope="scope">
-                <div v-waves class="btn btn_info" :class="{'one': !ifDown || !scope.row.res_file_path || scope.row.log_status !== '执行完毕'}" @click="detailEvent(scope.row)">
-                  <el-tooltip class="item" effect="dark" content="日志" placement="top">
-                    <i class="el-icon-document"></i>
-                  </el-tooltip>
-                </div>
-                <div v-if="ifDown && scope.row.res_file_path && scope.row.log_status === '执行完毕'" v-waves class="btn btn_info" @click="downEvent(scope.row)">
-                  <el-tooltip class="item" effect="dark" content="下载" placement="top">
-                    <i class="el-icon-document"></i>
-                    <i class="el-icon-download"></i>
-                  </el-tooltip>
-                </div>
-              </template>
-            </vxe-column>
-          </vxe-table>
-        </div>
-      </div>
-      <!-- 分页器 -->
-      <div class="block" v-if="total">
-        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page.sync="currpage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]" layout="total, sizes, prev, pager, next, jumper" :total="total">
-        </el-pagination>
-      </div>
-    </div>
-  </div>
-  <!-- excel -->
-  <ExcelDialog v-if="showExcel" @close="closeEvent" :excelOpt="excelOpt" :toolType="toolType" :sheetName="sheetName"></ExcelDialog>
-  <el-dialog title="日志" :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="showLogDialog" @close="closeLogEvent" width="40%">
-    <div v-if="logVersion" class="infinite ts">
-      <div class="infinite_content">
-        <div v-if="!logData" class="ept">
-          <div><img src="@/assets/images/nolog2.png" /></div>
-          <div>无需暂停或启动的创意</div>
-        </div>
-        <template v-else>
-          <div class="tpCnt">
-            <span v-for="(item, idx) in extraLogCnt.tpcnt" :key="idx">{{ item }}</span>
-          </div>
-          <div class="midTable">
-          <vxe-table ref="logTable" :scroll-y="{enabled: false}" :data="logData"  height="auto" border="inner" align="center">
-            <template #empty>
-                <img src="@/assets/images/nolog.png" />
+      <div class="outerDiv_right">
+        <div style="height: 100%">
+          <div class="alarmRight">
+            <vxe-table ref="multipleTable" :data="tableData" stripe round :column-config="{ resizable: true }"
+              :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
+              >
+              <template #empty>
+                <img src="@/assets/images/search.png" />
                 <span>空空如也</span>
               </template>
-            <vxe-column 
-              v-for="(item, index) in logTablett"
-              :key="index"
-              :field="item.field"
-              :title="item.title"
-            ></vxe-column>
-          </vxe-table>
+              <vxe-column type="seq" title="序号" width="10%" fixed="left"></vxe-column>
+              <vxe-column min-width="15%" field="serial" title="编号" show-overflow="tooltip"></vxe-column>
+              <vxe-column min-width="13%" field="tool_type" title="工具" show-overflow="tooltip"></vxe-column>
+              <vxe-column min-width="15%" field="log_status" title="状态" show-overflow="tooltip">
+                <template slot-scope="scope">
+                  <div v-if="scope.row.log_status === '执行有误'" class="statusDiv fail">
+                    {{ scope.row.log_status }}
+                  </div>
+                  <div v-if="scope.row.log_status === '执行中'" class="statusDiv ing">
+                    {{ scope.row.log_status }}
+                  </div>
+                  <div v-if="scope.row.log_status === '执行完毕'" class="statusDiv suc">
+                    {{ scope.row.log_status }}
+                  </div>
+                </template></vxe-column>
+              <vxe-column min-width="15%" field="create_time" title="日期" show-overflow="tooltip"></vxe-column>
+              <vxe-column title="操作" fixed="right" width="18%">
+                <template slot-scope="scope">
+                  <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
+                    <el-tooltip class="item" effect="dark" content="日志" placement="top">
+                      <i class="el-icon-document"></i>
+                    </el-tooltip>
+                  </div>
+                </template>
+              </vxe-column>
+            </vxe-table>
+            <div class="block" v-if="total">
+              <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+                :current-page.sync="currpage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]"
+                layout="total, sizes, prev, pager, next, jumper" :total="total">
+              </el-pagination>
+            </div>
+          </div>
         </div>
-          <div class="btCnt"> {{ extraLogCnt.btcnt }} </div>
-        </template>
-      </div>
-      <div class="infinite_ing">
-        <p>
-          <span v-if="endingCode === 10010" class="suc el-icon-circle-check"></span>
-          <span v-else class="el-icon-loading"></span>{{ endingTxt }}
-        </p>
       </div>
     </div>
-    <div v-else class="infinite">
-      <div class="infinite_content">
-        <div v-if="logContent" class="box" v-html="logContent"></div>
-        <div v-else class="box img">
-          <img src="../../assets/images/loading.png" alt="" />
+    <div v-else class="content" v-loading.fullscreen.lock="showLoading" element-loading-text="文件导入中"
+      element-loading-spinner="el-icon-loading" element-loading-background="rgba(46, 46, 46, 0.8)">
+      <div class="content_form ts">
+        <el-collapse v-if="showIntro" v-model="activeNames">
+          <el-collapse-item name="1">
+            <template slot="title">
+              <span class="iconfont icon-xiangmu icon"></span> 功能介绍
+            </template>
+            <div class="word" v-for="(item, idx) in wordList" :key="idx"><span class="lab">{{ item.lab }}</span>{{
+              item.word }}</div>
+            <div v-if="wordTip" class="word wordTip el-icon-warning-outline">{{ wordTip }}</div>
+            <div v-if="wordErr" class="word wordErr">
+              <p>注意: 本产品并非快车触点创建创意工具</p>
+            </div>
+          </el-collapse-item>
+        </el-collapse>
+        <el-form ref="form" :model="form" class="formObj" :rules="rules">
+          <div class="formObj_div">
+            <div class="formObj_ipt">
+              <div class="formObj_ipt_abso">
+                <el-result>
+                  <template slot="icon">
+                    <img :src="picSrc" alt="" :class="picClass" />
+                  </template>
+                  <template slot="extra">
+                    <span>{{ $route.meta.title }}</span>
+                  </template>
+                </el-result>
+              </div>
+              <div class="formObj_ipt_rt">
+                <el-row :gutter="20">
+                  <div class=""></div>
+                  <el-col v-if="formMenu === 1" :span="colWidth.choose">
+                    <el-form-item label="类型" prop="choose" class="noborder">
+                      <el-select v-model="form.choose" placeholder="请选择类型" size="large" @change="chooseEvent">
+                        <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col v-if="showError" :span="colWidth.eror" class="hasAppend">
+                    <el-tooltip effect="dark" placement="bottom">
+                      <div slot="content">
+                        <p class="ts">🔔 该条件默认开启，填写区间为1 - 10</p>
+                        <p class="ts">✅ 开启时：</p>
+                        <p>根据填写的终止条件作为规则，例如填写：5，则会在出错第5次自动终止程序</p>
+                        <p class="ts">⛔ 关闭时：</p>
+                        <p>程序执行中出现错误会继续向下执行，不会终止，直到执行完毕</p>
+                      </div>
+                      <div class="el-icon-question"></div>
+                    </el-tooltip>
+                    <el-form-item label="终止条件" prop="error_num" class="flex w110 noborder">
+                      <el-switch v-model="ifErrNum" active-color="#13ce66" inactive-color="#a5a5a5" @change="seitchEvent">
+                      </el-switch>
+                      <vxe-input v-if="ifErrNum" v-model="form.error_num" placeholder="数值区间为1 - 10" type="number" step="1"
+                        min="1" max="10"></vxe-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col v-if="form.choose === 1" :span="colWidth.pin">
+                    <el-form-item label="PIN" prop="pin" class="noborder">
+                      <el-select v-model="form.pin" placeholder="请选择PIN" filterable clearable>
+                        <el-option v-for="item in pinOptions" :key="item" :label="item" :value="item">
+                        </el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                  <el-col v-else :span="colWidth.user">
+                    <el-form-item label="账号" prop="username" class="noborder">
+                      <el-input v-model.trim="form.username" placeholder="请输入账号" clearable>
+                      </el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col v-if="showCookie || formMenu === 2" :span="colWidth.cookie" class="hasAppend">
+                    <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学"
+                      placement="bottom">
+                      <div class="el-icon-video-play" @click="movieDownEvent(1)"></div>
+                    </el-tooltip>
+                    <el-form-item label="Cookie" prop="cookie" class="w110 noborder">
+                      <el-input v-model.trim="form.cookie" placeholder="请输入Cookie" clearable>
+                      </el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col v-if="toolType === '快车更新创意状态'" :span="24">
+                    <el-form-item label="库存条件" prop="tiaojian" class="">
+                      <vxe-pulldown ref="refKoujing" v-model="visible1">
+                        <template #default>
+                          <el-input v-model="form.tiaojian" readonly placeholder="请选择条件" @focus="focusEvent1" class="nbd">
+                          </el-input>
+                        </template>
+                        <template #dropdown>
+                          <div class="dropdownbox">
+                            <div class="flex">
+                              <el-form ref="pullRef" :model="pulldownForm" :rules="rulesPull" class="form">
+                                <el-form-item prop="tj_val" class="f100">
+                                  <el-input placeholder="整数" v-model.trim="pulldownForm.tj_val" class="input-with-select"
+                                    clearable>
+                                    <el-select v-model="tj_lf" slot="prepend" placeholder="请选择"
+                                      :popper-append-to-body="false" @change="(val) => tjEvent(1, val)">
+                                      <el-option label="大于" value=">"></el-option>
+                                      <el-option label="小于" value="<"></el-option>
+                                    </el-select>
+                                    <template slot="append"><span class="el-icon-video-play play">启动</span></template>
+                                  </el-input>
+                                </el-form-item>
+                                <el-form-item prop="tj_val2" class="f100">
+                                  <el-input placeholder="整数" v-model.trim="pulldownForm.tj_val2" class="input-with-select"
+                                    clearable>
+                                    <el-select v-model="tj_lf2" slot="prepend" placeholder="请选择"
+                                      :popper-append-to-body="false" @change="(val) => tjEvent(2, val)">
+                                      <el-option label="大于" value=">"></el-option>
+                                      <el-option label="小于" value="<"></el-option>
+                                    </el-select>
+                                    <template slot="append"><span class="el-icon-video-pause pause">暂停</span></template>
+                                  </el-input>
+                                </el-form-item>
+                              </el-form>
+                            </div>
+                          </div>
+                        </template>
+                      </vxe-pulldown>
+                    </el-form-item>
+                  </el-col>
+                </el-row>
+              </div>
+            </div>
+            <div class="formObj_upload">
+              <el-form-item label="">
+                <el-popover v-if="excelData" placement="bottom" width="180" v-model="propVisable">
+                  <p>创建空白Excel表格？</p>
+                  <div class="popverButton">
+                    <el-button size="mini" type="text" @click="propVisable = false">取消</el-button>
+                    <el-button type="text" size="mini" @click="popverEvent(2)">确定</el-button>
+                  </div>
+                  <el-button type="info" class="el-icon-plus" slot="reference">创建</el-button>
+                </el-popover>
+                <el-button v-else v-waves type="info" class="el-icon-plus" @click="openExcel">创建</el-button>
+              </el-form-item>
+              <el-form-item label="">
+                <Upload @getFile="getFileEvent" @beforeeve="beforeeve" @openEvent="openExcelAuto" @close="closeEvent"
+                  :toolType="toolType" :sheetName="sheetName"></Upload>
+              </el-form-item>
+              <div v-if="excelName" class="uptxt">
+                点击打开「 <span @click="popverEvent(1)">{{ excelName }}</span>」
+              </div>
+              <div v-else class="uptxt black">
+                您可以<span>【创建】</span>空白excel
+                或者<span>【导入】</span>excel文件
+              </div>
+            </div>
+          </div>
+        </el-form>
+        <div class="formObj_button">
+          <el-tooltip class="item" effect="light" content="清空输入框和导入数据" placement="bottom">
+            <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
+              <div class="el-icon-refresh btnSize">重置</div>
+            </a>
+          </el-tooltip>
+          <el-tooltip class="item" effect="light" content="提供可参考的导入数据案例" placement="bottom">
+            <a class="btnnormal_down marginR inlineButton" @click="modelEvent">
+              <div class="el-icon-download btnSize">模板</div>
+            </a>
+          </el-tooltip>
+          <el-tooltip class="item" effect="light" content="至多同时执行2条任务" placement="bottom">
+            <el-button v-waves type="primary" class="el-icon-right marginR" :disabled="disBtn"
+              @click="zhixingEvent">执行</el-button>
+          </el-tooltip>
         </div>
       </div>
-      <div class="infinite_ing">
-        <p>
-          <span v-if="endingCode === 10010" class="suc el-icon-circle-check"></span>
-          <span v-else class="el-icon-loading"></span>{{ endingTxt }}
-        </p>
+      <div ref="tableBox" class="content_tableBox hasUp">
+        <el-divider>列表</el-divider>
+        <div class="tables">
+          <div v-if="showVarDia" class="dialog">
+            <VarifyDialog :pageJumps="pageJumps" @close="closeDialog"></VarifyDialog>
+          </div>
+          <div class="tableTab">
+            <vxe-table ref="multipleTable" :data="tableData" stripe round :column-config="{ resizable: true }"
+              :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
+              >
+              <template #empty>
+                <img src="@/assets/images/search.png" />
+                <span>空空如也</span>
+              </template>
+              <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+              <vxe-column min-width="15%" field="serial" title="编号" show-overflow="tooltip"></vxe-column>
+              <vxe-column min-width="15%" field="tool_type" title="工具" show-overflow="tooltip"></vxe-column>
+              <vxe-column min-width="15%" field="log_status" title="状态" show-overflow="tooltip">
+                <template slot-scope="scope">
+                  <div v-if="scope.row.log_status === '执行有误'" class="statusDiv fail">
+                    {{ scope.row.log_status }}
+                  </div>
+                  <div v-if="scope.row.log_status === '执行中'" class="statusDiv ing">
+                    {{ scope.row.log_status }}
+                  </div>
+                  <div v-if="scope.row.log_status === '执行完毕'" class="statusDiv suc">
+                    {{ scope.row.log_status }}
+                  </div>
+                </template></vxe-column>
+              <vxe-column min-width="15%" field="create_time" title="日期" show-overflow="tooltip"></vxe-column>
+              <vxe-column title="操作" fixed="right" width="12%">
+                <template slot-scope="scope">
+                  <div v-waves class="btn btn_info"
+                    :class="{ 'one': !ifDown || !scope.row.res_file_path || scope.row.log_status !== '执行完毕' }"
+                    @click="detailEvent(scope.row)">
+                    <el-tooltip class="item" effect="dark" content="日志" placement="top">
+                      <i class="el-icon-document"></i>
+                    </el-tooltip>
+                  </div>
+                  <div v-if="ifDown && scope.row.res_file_path && scope.row.log_status === '执行完毕'" v-waves
+                    class="btn btn_info" @click="downEvent(scope.row)">
+                    <el-tooltip class="item" effect="dark" content="下载" placement="top">
+                      <i class="el-icon-document"></i>
+                      <i class="el-icon-download"></i>
+                    </el-tooltip>
+                  </div>
+                </template>
+              </vxe-column>
+            </vxe-table>
+          </div>
+        </div>
+        <!-- 分页器 -->
+        <div class="block" v-if="total">
+          <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page.sync="currpage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]"
+            layout="total, sizes, prev, pager, next, jumper" :total="total">
+          </el-pagination>
+        </div>
       </div>
     </div>
-    <span slot="footer" class="dialog-footer">
-      <el-button 
-      v-if="(logVersion && excel_path ) && (toolType==='快车更新创意状态'|| toolType==='京东直投')"
-      @click="logDownEvent">日志下载</el-button>
-      <el-button type="primary" @click="showLogDialog = false">关 闭</el-button>
-    </span>
-  </el-dialog>
-  <div class="myplayer" :class="{ absolute: showPlaer }">
-    <div class="myplayer_btn">
-      <span class="iconFont el-icon-close" @click="movieDownEvent(2)"></span>
+    <!-- excel -->
+    <ExcelDialog v-if="showExcel" @close="closeEvent" :excelOpt="excelOpt" :toolType="toolType" :sheetName="sheetName">
+    </ExcelDialog>
+    <el-dialog title="日志" :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="showLogDialog"
+      @close="closeLogEvent" width="40%">
+      <div v-if="logVersion" class="infinite ts">
+        <div class="infinite_content">
+          <div v-if="!logData" class="ept">
+            <div><img src="@/assets/images/nolog2.png" /></div>
+            <div>无需暂停或启动的创意</div>
+          </div>
+          <template v-else>
+            <div class="tpCnt">
+              <span v-for="(item, idx) in extraLogCnt.tpcnt" :key="idx">{{ item }}</span>
+            </div>
+            <div class="midTable">
+              <vxe-table ref="logTable" :scroll-y="{ enabled: false }" :data="logData" height="auto" border="inner"
+                align="center">
+                <template #empty>
+                  <img src="@/assets/images/nolog.png" />
+                  <span>空空如也</span>
+                </template>
+                <vxe-column v-for="(item, index) in logTablett" :key="index" :field="item.field"
+                  :title="item.title"></vxe-column>
+              </vxe-table>
+            </div>
+            <div class="btCnt"> {{ extraLogCnt.btcnt }} </div>
+          </template>
+        </div>
+        <div class="infinite_ing">
+          <p>
+            <span v-if="endingCode === 10010" class="suc el-icon-circle-check"></span>
+            <span v-else class="el-icon-loading"></span>{{ endingTxt }}
+          </p>
+        </div>
+      </div>
+      <div v-else class="infinite">
+        <div class="infinite_content">
+          <div v-if="logContent" class="box" v-html="logContent"></div>
+          <div v-else class="box img">
+            <img src="../../assets/images/loading.png" alt="" />
+          </div>
+        </div>
+        <div class="infinite_ing">
+          <p>
+            <span v-if="endingCode === 10010" class="suc el-icon-circle-check"></span>
+            <span v-else class="el-icon-loading"></span>{{ endingTxt }}
+          </p>
+        </div>
+      </div>
+      <span slot="footer" class="dialog-footer">
+        <el-button v-if="(logVersion && excel_path) && (toolType === '快车更新创意状态' || toolType === '京东直投')"
+          @click="logDownEvent">日志下载</el-button>
+        <el-button type="primary" @click="showLogDialog = false">关 闭</el-button>
+      </span>
+    </el-dialog>
+    <div class="myplayer" :class="{ absolute: showPlaer }">
+      <div class="myplayer_btn">
+        <span class="iconFont el-icon-close" @click="movieDownEvent(2)"></span>
+      </div>
+      <video-player ref="myPlayer" class="video-player" :options="playerOptions" :playsinline="true"></video-player>
     </div>
-    <video-player ref="myPlayer" class="video-player" :options="playerOptions" :playsinline="true"></video-player>
   </div>
-</div>
 </template>
 
 <script>
@@ -467,29 +486,32 @@ export default {
     },
     tipInfo: {
       type: Array
-    }
+    },
+    showIntro: {
+      type: Boolean,
+    },
   },
   mixins: [message],
   computed: {
-    player() {
+    player () {
       return this.$refs.myPlayer.player;
     },
-    tj_val() {
+    tj_val () {
       return this.pulldownForm.tj_val
     },
-    tj_val2() {
+    tj_val2 () {
       return this.pulldownForm.tj_val2
     },
   },
   watch: {
-    activeName(newval, oldval) {
+    activeName (newval, oldval) {
       this.rules.username[0].message =
         newval === "1" ?
-        "请输入账号" :
-        "京准通登录请输入账号，京牌代理登录请输入pin";
+          "请输入账号" :
+          "京准通登录请输入账号，京牌代理登录请输入pin";
     },
     formMenu: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         const vm = this;
         switch (newval) {
           case 1:
@@ -505,7 +527,7 @@ export default {
       immediate: true
     },
     $route: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         const vm = this;
         // 离开当前路由清空定时器
         vm.intervalObj.forEach((val, idx) => {
@@ -524,7 +546,7 @@ export default {
           vm.fileList = [];
           vm.excelName = "";
           vm.excelData = null;
-          vm.ifErrNum = false
+          vm.ifErrNum = true
           // 为了美观
           setTimeout(() => {
             vm.activeNames = '2'
@@ -535,7 +557,7 @@ export default {
       deep: true,
     },
     tj_val: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         let start = ''
         let stop = ''
         if (this.tj_val) start = `启动：${this.tj_lf}${this.tj_val}`
@@ -545,7 +567,7 @@ export default {
       immediate: true
     },
     tj_val2: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         let start = ''
         let stop = ''
         if (this.tj_val) start = `启动：${this.tj_lf}${this.tj_val}`
@@ -555,7 +577,7 @@ export default {
       immediate: true
     },
     tj_lf: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         let start = ''
         let stop = ''
         if (this.tj_val) start = `启动：${this.tj_lf}${this.tj_val}`
@@ -565,7 +587,7 @@ export default {
       immediate: true
     },
     tj_lf2: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         let start = ''
         let stop = ''
         if (this.tj_val) start = `启动：${this.tj_lf}${this.tj_val}`
@@ -575,7 +597,7 @@ export default {
       immediate: true
     }
   },
-  data() {
+  data () {
     const vm = this;
     let chechPin = (rule, value, callback) => {
       if (!value && vm.form.choose === 1) {
@@ -653,6 +675,13 @@ export default {
         }
       }
     }
+    let ckErrNum = (rule, value, callback) => {
+      if ((vm.ifErrNum && value) || !vm.ifErrNum) {
+        callback();
+      } else {
+        callback(new Error("请输入终止条件"));
+      }
+    }
     return {
       activeNames: '2',
       showLoading: false,
@@ -726,6 +755,11 @@ export default {
           message: "请输入Cookie",
           trigger: ['change', "blur"]
         }],
+        error_num: [{
+          required: true,
+          validator: ckErrNum,
+          trigger: ['change', "blur"]
+        }],
         choose: [{
           required: true,
           message: "请选择类型",
@@ -744,13 +778,13 @@ export default {
       },
       showVarDia: false,
       options: [{
-          label: "京准通",
-          value: 2,
-        },
-        {
-          label: "京牌代理",
-          value: 1,
-        },
+        label: "京准通",
+        value: 2,
+      },
+      {
+        label: "京牌代理",
+        value: 1,
+      },
       ],
       form: {
         username: "",
@@ -797,26 +831,26 @@ export default {
       intervalDia: null,
       OPENTAG: false,
       disBtn: false,
-      ifErrNum: false
+      ifErrNum: true
     };
   },
-  created() {
+  created () {
 
   },
-  mounted() {
+  mounted () {
     const vm = this;
     console.log(vm.rules)
 
     vm.getPin();
   },
   methods: {
-    debounce(fn, inital) {
+    debounce (fn, inital) {
       return () => {
         clearTimeout(vm.timeraaa)
         vm.timeraaa = setTimeout(fn, inital)
       }
     },
-    iptClickEvent(newval, oldval) {
+    iptClickEvent (newval, oldval) {
       const vm = this
       if (!vm.iptTimer) {
         vm.iptTimer = setTimeout(() => {
@@ -829,11 +863,11 @@ export default {
         vm.iptTimer = null
       }
     },
-    movieEvent() {
+    movieEvent () {
       this.showPlaer = true;
     },
     // 视频教学处理
-    movieDownEvent(val) {
+    movieDownEvent (val) {
       const vm = this;
       vm.showPlaer = val === 1;
       if (val === 1) {
@@ -869,7 +903,7 @@ export default {
         }
       }
     },
-    resetEvent() {
+    resetEvent () {
       const vm = this;
       vm.$refs.form.resetFields();
       vm.pulldownForm = {
@@ -880,16 +914,16 @@ export default {
       vm.tj_lf2 = '<'
       vm.excelData = null;
       vm.excelName = "";
-      vm.ifErrNum = false
+      vm.ifErrNum = true
     },
-    tabClick() {
+    tabClick () {
       const vm = this;
       vm.$refs.form.resetFields();
     },
-    closeDialog() {
+    closeDialog () {
       this.showVarDia = false;
     },
-    getFileEvent(val) {
+    getFileEvent (val) {
       this.showLoading = false
       if (val === 'wrong') return false
       this.showLoading = false
@@ -898,24 +932,24 @@ export default {
       this.errorUpInfo = "";
     },
     // 打开空白excel
-    openExcel() {
+    openExcel () {
       const vm = this;
       vm.excelOpt = JSON.parse(JSON.stringify(vm.excelOptions));
       vm.showExcel = true;
       vm.formSource = 1;
     },
-    beforeeve() {
+    beforeeve () {
       this.showLoading = true
     },
     // 导入并打开excel
-    openExcelAuto(opt) {
+    openExcelAuto (opt) {
       const vm = this;
       vm.excelOpt = opt;
       vm.showExcel = true;
       vm.formSource = 2;
     },
     // 弹出框
-    popverEvent(tag) {
+    popverEvent (tag) {
       const vm = this;
       vm.propVisable = false;
       if (tag === 1) {
@@ -929,7 +963,7 @@ export default {
       }
     },
     // 获取pin下拉
-    getPin() {
+    getPin () {
       const vm = this;
       pinSelect().then((res) => {
         if (res.data.code === 10000) {
@@ -938,7 +972,7 @@ export default {
       });
     },
     // 执行事件
-    zhixingEvent() {
+    zhixingEvent () {
       const vm = this;
       vm.disBtn = true
       let submitdata = {
@@ -1014,7 +1048,7 @@ export default {
       });
     },
     // DMP保存接口
-    api_DMP(obj) {
+    api_DMP (obj) {
       const vm = this
       DMPSave({
         ...obj
@@ -1035,7 +1069,7 @@ export default {
             tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
             auth: true,
             dangerouslyUseHTMLString: true,
-            confirmButtonFn: () => {},
+            confirmButtonFn: () => { },
           });
         } else {
           vm.$msg({
@@ -1046,7 +1080,7 @@ export default {
       });
     },
     // 直投保存接口
-    api_directive(obj) {
+    api_directive (obj) {
       const vm = this
       directiveSave({
         ...obj,
@@ -1072,7 +1106,7 @@ export default {
             tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
             auth: true,
             dangerouslyUseHTMLString: true,
-            confirmButtonFn: () => {},
+            confirmButtonFn: () => { },
           });
         } else {
           vm.$msg({
@@ -1083,7 +1117,7 @@ export default {
       })
     },
     // 数坊保存接口
-    api_shufang(obj) {
+    api_shufang (obj) {
       const vm = this
       sfToolsSave({
         ...obj
@@ -1110,7 +1144,7 @@ export default {
       });
     },
     // 一键预算保存接口
-    api_budget(obj) {
+    api_budget (obj) {
       const vm = this
       newBudgetSubmit({
         ...obj
@@ -1131,7 +1165,7 @@ export default {
             tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
             auth: true,
             dangerouslyUseHTMLString: true,
-            confirmButtonFn: () => {},
+            confirmButtonFn: () => { },
           });
         } else {
           vm.$msg({
@@ -1142,7 +1176,7 @@ export default {
       });
     },
     //查看列表
-    getuserlist() {
+    getuserlist () {
       const vm = this;
       if (vm.formMenu === 3) {
         // 预算
@@ -1185,7 +1219,7 @@ export default {
       }
     },
     // 定时器相关
-    relateInterval(result) {
+    relateInterval (result) {
       const vm = this;
       vm.endingTxt = '日志正在加载';
       vm.logContent = '';
@@ -1222,12 +1256,12 @@ export default {
                   if (vm.tableData[j].serial === i.serial) {
                     if (resu.data.code === 10000 || resu.data.code === 10010) {
                       // 执行中或者执行完毕
-                      if(resu.data.version===1) {
+                      if (resu.data.version === 1) {
                         // 新版
                         let result = JSON.parse(JSON.stringify(vm.handleLogStr(resu.data.data)))
                         if (resu.data.code === 10010) {
-                          vm.$set(obj, "logData", 
-                          resu.data.data.indexOf('无需暂停或启动的创意') !== -1 ? null : result.tableRes);
+                          vm.$set(obj, "logData",
+                            resu.data.data.indexOf('无需暂停或启动的创意') !== -1 ? null : result.tableRes);
                         } else {
                           vm.$set(obj, "logData", result.tableRes);
                         }
@@ -1283,7 +1317,7 @@ export default {
       }
     },
     //no - 打开日志弹层
-    detailEvent(row) {
+    detailEvent (row) {
       const vm = this;
       vm.showLogDialog = true;
       if (row.log_status === '执行完毕' || row.log_status === '执行有误') {
@@ -1303,9 +1337,9 @@ export default {
               vm.extraLogCnt = i.extraLogCnt
               setTimeout(() => {
                 vm.$nextTick(() => {
-                  if(vm.$refs.logTable) vm.$refs.logTable.scrollToRow(vm.$refs.logTable.getData(vm.logData.length-1))
+                  if (vm.$refs.logTable) vm.$refs.logTable.scrollToRow(vm.$refs.logTable.getData(vm.logData.length - 1))
                 })
-              },100)
+              }, 100)
               break
             }
           }
@@ -1313,7 +1347,7 @@ export default {
       }
     },
     //  no - 日志接口
-    logEvent(path) {
+    logEvent (path) {
       const vm = this;
       directiveLog({
         path,
@@ -1324,7 +1358,7 @@ export default {
           if (vm.endingCode === 10000 || vm.endingCode === 10010) {
             vm.excel_path = res.data.excel_path
             vm.endingTxt = vm.endingCode === 10000 ? "日志持续获取中" : "日志加载完毕";
-            if(res.data.data.indexOf('无需暂停或启动的创意') !== -1) {
+            if (res.data.data.indexOf('无需暂停或启动的创意') !== -1) {
               // 无
               vm.logData = null
             } else {
@@ -1354,9 +1388,9 @@ export default {
       });
     },
     // 弹层--日志下载
-    logDownEvent() {
+    logDownEvent () {
       const vm = this
-      if(!vm.excel_path) {
+      if (!vm.excel_path) {
         vm.$msg({
           type: "error",
           msg: "日志路径获取失败"
@@ -1364,20 +1398,20 @@ export default {
         return false
       }
       sfToolsModelDown({
-          name: vm.excel_path
-        }).then(res => {
-          let data = res.data;
-          let url = window.URL.createObjectURL(new Blob([data]));
-          let link = document.createElement("a");
-          link.style.display = "none";
-          link.href = url;
-          let celName = vm.excel_path.substring(vm.excel_path.lastIndexOf("/") + 1);
-          link.setAttribute("download", celName);
-          document.body.appendChild(link);
-          link.click();
-        })
+        name: vm.excel_path
+      }).then(res => {
+        let data = res.data;
+        let url = window.URL.createObjectURL(new Blob([data]));
+        let link = document.createElement("a");
+        link.style.display = "none";
+        link.href = url;
+        let celName = vm.excel_path.substring(vm.excel_path.lastIndexOf("/") + 1);
+        link.setAttribute("download", celName);
+        document.body.appendChild(link);
+        link.click();
+      })
     },
-    handleLogStr(targetStr) {
+    handleLogStr (targetStr) {
       const vm = this
       let midTab1;
       if (targetStr.startsWith('@')) {
@@ -1409,7 +1443,7 @@ export default {
             arr.forEach((item, index) => {
               vm.$set(obj, 'row', idx)
               vm.$set(obj, 'label' + index, item)
-           })
+            })
             tableRes.push(obj)
           }
         })
@@ -1421,7 +1455,7 @@ export default {
       return cntRes
     },
     //  no -关闭日志弹层
-    closeLogEvent() {
+    closeLogEvent () {
       const vm = this
       vm.OPENTAG = false
       vm.excel_path = ''
@@ -1435,19 +1469,19 @@ export default {
       vm.intervalDia = null;
     },
     // no -下载文件
-    downEvent(row) {
+    downEvent (row) {
       const vm = this;
       let asyn;
       if (row.tool_type === 'dmp') {
         asyn = Promise.all([
           sfToolsModelDown({
             name: row.res_file_path
-        })])
+          })])
       } else {
         asyn = Promise.all([
           sfToolsDown({
             log_id: row.id
-        })])
+          })])
       }
       asyn.then(res => {
         let data = res[0].data;
@@ -1455,13 +1489,13 @@ export default {
         let link = document.createElement("a");
         link.style.display = "none";
         link.href = url;
-        link.setAttribute("download", `日志-${vm.toolType}.${vm.toolType==='数坊人群计算' ?'xlsx': 'zip'}`);
+        link.setAttribute("download", `日志-${vm.toolType}.${vm.toolType === '数坊人群计算' ? 'xlsx' : 'zip'}`);
         document.body.appendChild(link);
         link.click();
       })
     },
     //  no -下载模板
-    modelEvent() {
+    modelEvent () {
       const vm = this;
       sfToolsModelDown({
         name: vm.toolType,
@@ -1471,13 +1505,13 @@ export default {
         let link = document.createElement("a");
         link.style.display = "none";
         link.href = url;
-        link.setAttribute("download", `模板-${vm.toolType}${vm.toolType=== 'DMP' ? '.zip' : '.xlsx'}`);
+        link.setAttribute("download", `模板-${vm.toolType}${vm.toolType === 'DMP' ? '.zip' : '.xlsx'}`);
         document.body.appendChild(link);
         link.click();
       });
     },
     //  no -关闭excel
-    closeEvent(tag, val, opt) {
+    closeEvent (tag, val, opt) {
       const vm = this;
       vm.showExcel = false;
       // 保存
@@ -1492,30 +1526,30 @@ export default {
       }
     },
     //  no -
-    chooseEvent() {
+    chooseEvent () {
       this.form.pin = "";
       this.form.username = "";
       this.$refs.form.clearValidate(["pin", "username"]);
     },
-    seitchEvent(val) {
+    seitchEvent (val) {
       const vm = this
       vm.form.error_num = val ? 1 : null
     },
     //分页器功能
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pagesize = val;
       this.getuserlist(this.pagesize);
     },
     //有接口请求 每点击一页进行一次数据请求 参数页码为动态值：
-    handleCurrentChange(page) {
+    handleCurrentChange (page) {
       this.currpage = page;
       this.getuserlist(this.currpage);
     },
-    focusEvent1() {
+    focusEvent1 () {
       this.$refs.refKoujing.showPanel()
     },
     // 启动：大小于
-    tjEvent(tag, val) {
+    tjEvent (tag, val) {
       if (tag === 1) this.tj_lf2 = val === '>' ? '<' : '>'
       if (tag === 2) this.tj_lf = val === '>' ? '<' : '>'
     }

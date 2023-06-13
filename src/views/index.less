@@ -99,6 +99,15 @@
   color: @baseItemColor;
 }
 
+.flexTopRow {
+  display: flex;
+  justify-content: space-between;
+
+  &.one {
+    flex-direction: row-reverse;
+  }
+}
+
 .outerDiv {
   // width: 1200px;
   width: 100%;
@@ -310,7 +319,7 @@
 
             &.w110 {
               .el-form-item__label {
-                width: 80px !important;
+                width: 90px !important;
                 border-left: none;
               }
 
@@ -621,7 +630,7 @@
       }
 
       &.teshu {
-        height: calc(100% - 260px) !important;
+        height: calc(100% - 370px) !important;
 
         .tables {
           height: calc(100% - 170px);

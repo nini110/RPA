@@ -6,11 +6,81 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "3686025",
-      "name": "在线监控",
-      "font_class": "jiankong",
-      "unicode": "e65e",
-      "unicode_decimal": 58974
+      "icon_id": "5131593",
+      "name": "账户余额",
+      "font_class": "zhanghuyue",
+      "unicode": "e63f",
+      "unicode_decimal": 58943
+    },
+    {
+      "icon_id": "5729762",
+      "name": "我的账户",
+      "font_class": "wodezhanghu",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "15644347",
+      "name": "解绑",
+      "font_class": "jiebang",
+      "unicode": "e6c2",
+      "unicode_decimal": 59074
+    },
+    {
+      "icon_id": "22160165",
+      "name": "账户",
+      "font_class": "zhanghu",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "26212962",
+      "name": "理财-金额-背包-余额",
+      "font_class": "licai-jine-beibao",
+      "unicode": "e615",
+      "unicode_decimal": 58901
+    },
+    {
+      "icon_id": "6460239",
+      "name": "京东到家",
+      "font_class": "jingdongdaojia",
+      "unicode": "e62b",
+      "unicode_decimal": 58923
+    },
+    {
+      "icon_id": "11179714",
+      "name": "预警次数",
+      "font_class": "yujingcishu",
+      "unicode": "e667",
+      "unicode_decimal": 58983
+    },
+    {
+      "icon_id": "19102808",
+      "name": "微信",
+      "font_class": "weixin",
+      "unicode": "e620",
+      "unicode_decimal": 58912
+    },
+    {
+      "icon_id": "3266623",
+      "name": "推广计划",
+      "font_class": "tuiguangjihua",
+      "unicode": "e6ce",
+      "unicode_decimal": 59086
+    },
+    {
+      "icon_id": "28893259",
+      "name": "操作类型",
+      "font_class": "caozuoleixing",
+      "unicode": "e714",
+      "unicode_decimal": 59156
+    },
+    {
+      "icon_id": "29188680",
+      "name": "预警类型",
+      "font_class": "yujingleixing",
+      "unicode": "e63c",
+      "unicode_decimal": 58940
     },
     {
       "icon_id": "5588802",
@@ -25,13 +95,6 @@
       "font_class": "EXCEL",
       "unicode": "e62e",
       "unicode_decimal": 58926
-    },
-    {
-      "icon_id": "10506903",
-      "name": "excel",
-      "font_class": "excel",
-      "unicode": "e60f",
-      "unicode_decimal": 58895
     },
     {
       "icon_id": "14772532",

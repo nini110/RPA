@@ -1,8 +1,8 @@
 @font-face {
   font-family: "iconfont"; /* Project id 2894766 */
-  src: url('iconfont.woff2?t=1680850549206') format('woff2'),
-       url('iconfont.woff?t=1680850549206') format('woff'),
-       url('iconfont.ttf?t=1680850549206') format('truetype');
+  src: url('iconfont.woff2?t=1686550971531') format('woff2'),
+       url('iconfont.woff?t=1686550971531') format('woff'),
+       url('iconfont.ttf?t=1686550971531') format('truetype');
 }
 
 .iconfont {
@@ -13,8 +13,48 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
-.icon-jiankong:before {
-  content: "\e65e";
+.icon-zhanghuyue:before {
+  content: "\e63f";
+}
+
+.icon-wodezhanghu:before {
+  content: "\e611";
+}
+
+.icon-jiebang:before {
+  content: "\e6c2";
+}
+
+.icon-zhanghu:before {
+  content: "\e60f";
+}
+
+.icon-licai-jine-beibao:before {
+  content: "\e615";
+}
+
+.icon-jingdongdaojia:before {
+  content: "\e62b";
+}
+
+.icon-yujingcishu:before {
+  content: "\e667";
+}
+
+.icon-weixin:before {
+  content: "\e620";
+}
+
+.icon-tuiguangjihua:before {
+  content: "\e6ce";
+}
+
+.icon-caozuoleixing:before {
+  content: "\e714";
+}
+
+.icon-yujingleixing:before {
+  content: "\e63c";
 }
 
 .icon-weibiaoti-:before {
@@ -23,10 +63,6 @@
 
 .icon-EXCEL:before {
   content: "\e62e";
-}
-
-.icon-excel:before {
-  content: "\e60f";
 }
 
 .icon-device-overview:before {

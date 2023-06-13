@@ -1,9 +1,11 @@
 <template>
-<!-- 京准通工具 -->
-<div style="height: 100%">
-  <IptComp ref="iptcomp" :formMenu="1" :picSrc="picSrc" :picClass="picClass" :ifDown="ifDown" :colWidth="colWidth" :toolType="toolType" :wordList="wordList" :wordTip="wordTip" :wordErr="wordErr" :sheetName="sheetName" :excelOptions="excelOptions">
-  </IptComp>
-</div>
+  <!-- 京准通工具 -->
+  <div style="height: 100%">
+    <IptComp ref="iptcomp" :formMenu="1" :picSrc="picSrc" :picClass="picClass" :ifDown="ifDown" :colWidth="colWidth"
+      :toolType="toolType" :wordList="wordList" :wordTip="wordTip" :wordErr="wordErr" :sheetName="sheetName"
+      :excelOptions="excelOptions" :showIntro="showIntro">
+    </IptComp>
+  </div>
 </template>
 
 <script>
@@ -13,7 +15,7 @@ export default {
   components: {
     IptComp,
   },
-  data() {
+  data () {
     return {
       toolType: "0",
       sheetName: "",
@@ -21,6 +23,7 @@ export default {
       picSrc: "",
       picClass: '',
       ifDown: false,
+      showIntro: true,
       colWidth: {},
       wordList: [],
       wordTip: '',
@@ -29,7 +32,7 @@ export default {
   },
   watch: {
     $route: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         const vm = this;
         vm.excelOptions = []
         vm.wordTip = ''
@@ -70,17 +73,17 @@ export default {
               user: 24,
             }
             vm.wordList = [{
-                lab: '1· 创建人群sheet：',
-                word: '支持用户行为（新版）、用户属性和合作方数据标签创建人群（具体可下载模板参考）；'
-              },
-              {
-                lab: '2· 更新合作方数据：',
-                word: '支持已有人群更新合作方数据；'
-              },
-              {
-                lab: '3· 新增标签：',
-                word: '支持已有人群追加标签功能，范围为用户行为（新版）、用户属性和合作方数据；'
-              }
+              lab: '1· 创建人群sheet：',
+              word: '支持用户行为（新版）、用户属性和合作方数据标签创建人群（具体可下载模板参考）；'
+            },
+            {
+              lab: '2· 更新合作方数据：',
+              word: '支持已有人群更新合作方数据；'
+            },
+            {
+              lab: '3· 新增标签：',
+              word: '支持已有人群追加标签功能，范围为用户行为（新版）、用户属性和合作方数据；'
+            }
             ]
             vm.picSrc = require("../../assets/images/DMP.png");
             vm.excelOptions = [{
@@ -94,271 +97,271 @@ export default {
               defaultRowHeight: 40, //自定义行高
               defaultColWidth: 150, //自定义列宽
               celldata: [{
-                  r: 0,
-                  c: 0,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    }, // 格式类型
-                    m: "三级分类", // 显示值
-                    v: "三级分类", // 原始值
-                    bl: 1,
-                    tb: 2,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "温馨提示，三级分类现支持有4种：,1. 类目, 2. 品牌, 3. 店铺, 4. 商品（只有商品行为）", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
+                r: 0,
+                c: 0,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  }, // 格式类型
+                  m: "三级分类", // 显示值
+                  v: "三级分类", // 原始值
+                  bl: 1,
+                  tb: 2,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "温馨提示，三级分类现支持有4种：,1. 类目, 2. 品牌, 3. 店铺, 4. 商品（只有商品行为）", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                {
-                  r: 0,
-                  c: 1,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "标签名称",
-                    v: "标签名称",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
+              },
+              {
+                r: 0,
+                c: 1,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "标签名称",
+                  v: "标签名称",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              {
+                r: 0,
+                c: 2,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "筛选项",
+                  v: "筛选项",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "三级分类：行为类型-时间范围-类目场景, 非三级分类:行为类型-时间范围", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                {
-                  r: 0,
-                  c: 2,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "筛选项",
-                    v: "筛选项",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "三级分类：行为类型-时间范围-类目场景, 非三级分类:行为类型-时间范围", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
+              },
+              {
+                r: 0,
+                c: 3,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "sku",
+                  v: "sku",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "注：多个SKU时必须先把单元格式设置为文本，同时SKU之间的逗号需要是英文状态下的逗号", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                {
-                  r: 0,
-                  c: 3,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "sku",
-                    v: "sku",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "注：多个SKU时必须先把单元格式设置为文本，同时SKU之间的逗号需要是英文状态下的逗号", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
+              },
+              {
+                r: 0,
+                c: 4,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "用户属性三级分类",
+                  v: "用户属性三级分类",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              {
+                r: 0,
+                c: 5,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "用户属性标签名称",
+                  v: "用户属性标签名称",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              {
+                r: 0,
+                c: 6,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "用户属性筛选项",
+                  v: "用户属性筛选项",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "YY:多个筛选项之间用英文逗号隔开", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                {
-                  r: 0,
-                  c: 4,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "用户属性三级分类",
-                    v: "用户属性三级分类",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
+              },
+              {
+                r: 0,
+                c: 7,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "交并差组合",
+                  v: "交并差组合",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "不填写默认全交集,填写时则自动选择交并差，存在三个可选项：组合1、组合2、排除组合", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                {
-                  r: 0,
-                  c: 5,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "用户属性标签名称",
-                    v: "用户属性标签名称",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
+              },
+              {
+                r: 0,
+                c: 8,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "组合1方式",
+                  v: "组合1方式",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                {
-                  r: 0,
-                  c: 6,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "用户属性筛选项",
-                    v: "用户属性筛选项",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "YY:多个筛选项之间用英文逗号隔开", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
+              },
+              {
+                r: 0,
+                c: 9,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "组合2方式",
+                  v: "组合2方式",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                {
-                  r: 0,
-                  c: 7,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "交并差组合",
-                    v: "交并差组合",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "不填写默认全交集,填写时则自动选择交并差，存在三个可选项：组合1、组合2、排除组合", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
+              },
+              {
+                r: 0,
+                c: 10,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "组合1和2方式",
+                  v: "组合1和2方式",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                {
-                  r: 0,
-                  c: 8,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "组合1方式",
-                    v: "组合1方式",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
+              },
+              {
+                r: 0,
+                c: 11,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "排除组合方式",
+                  v: "排除组合方式",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                {
-                  r: 0,
-                  c: 9,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "组合2方式",
-                    v: "组合2方式",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
+              },
+              {
+                r: 0,
+                c: 12,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
                   },
+                  m: "人群包名称",
+                  v: "人群包名称",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
                 },
-                {
-                  r: 0,
-                  c: 10,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "组合1和2方式",
-                    v: "组合1和2方式",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
-                  },
-                },
-                {
-                  r: 0,
-                  c: 11,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "排除组合方式",
-                    v: "排除组合方式",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "该列可不填，默认交集, 填写时可选择 交集、并集", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
-                  },
-                },
-                {
-                  r: 0,
-                  c: 12,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "人群包名称",
-                    v: "人群包名称",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                  },
-                },
+              },
               ], //初始化使用的单元格数据
               isPivotTable: false, //是否数据透视表
               zoomRatio: 1, // 缩放比例
               showGridLines: 1, //是否显示网格线
-            }, ];
+            },];
             break;
-            // 展位 Sheet1
+          // 展位 Sheet1
           case "Booth":
             vm.toolType = "京东展位";
             vm.picSrc = require("../../assets/images/Booth.png");
@@ -703,22 +706,22 @@ export default {
               isPivotTable: false, //是否数据透视表
               zoomRatio: 1, // 缩放比例
               showGridLines: 1, //是否显示网格线
-            }, ];
+            },];
             break;
-            // 直投 Sheet1
+          // 直投 Sheet1
           case "Direct":
             vm.picSrc = require("../../assets/images/Direct.png");
             vm.toolType = "京东直投";
             vm.ifDown = false
             vm.sheetName = ["Sheet1"];
             vm.wordList = [{
-                lab: '1· ',
-                word: '支持批量化创建所有媒体渠道单元并同时绑定创意（不同媒体渠道填写范围不同，具体可下载模板参考）；'
-              },
-              {
-                lab: '2· ',
-                word: '支持单独绑定已有单元创意；'
-              },
+              lab: '1· ',
+              word: '支持批量化创建所有媒体渠道单元并同时绑定创意（不同媒体渠道填写范围不同，具体可下载模板参考）；'
+            },
+            {
+              lab: '2· ',
+              word: '支持单独绑定已有单元创意；'
+            },
             ]
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
@@ -1318,7 +1321,7 @@ export default {
               isPivotTable: false, //是否数据透视表
               zoomRatio: 1, // 缩放比例
               showGridLines: 1, //是否显示网格线
-            }, ];
+            },];
             arr.forEach((val, idx) => {
               if (idx !== 0) {
                 // 第十列： 出价 设置为文本格式
@@ -1340,7 +1343,7 @@ export default {
               }
             });
             break;
-            // 人群 京腾魔方人群定向
+          // 人群 京腾魔方人群定向
           case "People":
             vm.picSrc = require("../../assets/images/人群定向.png");
             vm.toolType = "京腾魔方人群定向";
@@ -1350,7 +1353,7 @@ export default {
             vm.wordList = [{
               lab: '',
               word: '支持批量化创建腾讯渠道下京腾魔方人群定向；'
-            }, ]
+            },]
             vm.excelOptions = [{
               name: "京腾魔方人群定向", //工作表名称
               color: "", //工作表颜色
@@ -1415,9 +1418,9 @@ export default {
               isPivotTable: false, //是否数据透视表
               zoomRatio: 1, // 缩放比例
               showGridLines: 1, //是否显示网格线
-            }, ];
+            },];
             break;
-            // 魔方 Sheet1
+          // 魔方 Sheet1
           case "Cube":
             vm.picSrc = require("../../assets/images/Cube.png");
             vm.toolType = "京腾魔方人群";
@@ -1425,16 +1428,16 @@ export default {
             vm.sheetName = ["Sheet1"];
             vm.ifDown = false
             vm.wordList = [{
-                lab: '',
-                word: '支持批量化创建腾讯渠道下京腾魔方人群；'
-              },
-              {
-                lab: '1· ',
-                word: '行为轨迹：品牌行为，类目行为'
-              }, {
-                lab: '2· ',
-                word: '用户偏好：只有常用下单途径'
-              },
+              lab: '',
+              word: '支持批量化创建腾讯渠道下京腾魔方人群；'
+            },
+            {
+              lab: '1· ',
+              word: '行为轨迹：品牌行为，类目行为'
+            }, {
+              lab: '2· ',
+              word: '用户偏好：只有常用下单途径'
+            },
             ]
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称
@@ -1587,9 +1590,9 @@ export default {
               isPivotTable: false, //是否数据透视表
               zoomRatio: 1, // 缩放比例
               showGridLines: 1, //是否显示网格线
-            }, ];
+            },];
             break;
-            // 购物触点 Sheet1
+          // 购物触点 Sheet1
           case "GoShop":
             vm.picSrc = require("../../assets/images/GoShop.png");
             vm.toolType = "购物触点";
@@ -1597,7 +1600,7 @@ export default {
             vm.wordList = [{
               lab: '',
               word: '支持批量化创建购物触点单元（支持范围：计划类型为活动），并同时绑定单元活动；'
-            }, ]
+            },]
             vm.wordTip = '目前购物触点&展位正在逐步融合中，建议触点单元创建后进行检查，如遇无法创建等问题可及时联系产品部人员；'
             vm.sheetName = ["Sheet1"];
             vm.excelOptions = [{
@@ -1611,232 +1614,232 @@ export default {
               defaultRowHeight: 40, //自定义行高
               defaultColWidth: 150, //自定义列宽
               celldata: [{
-                  r: 0,
-                  c: 0,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    }, // 格式类型
-                    m: "计划名称", // 显示值
-                    v: "计划名称", // 原始值
-                    bl: 1,
-                    tb: 2,
-                    vt: 0,
-                    ht: 0,
+                r: 0,
+                c: 0,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  }, // 格式类型
+                  m: "计划名称", // 显示值
+                  v: "计划名称", // 原始值
+                  bl: 1,
+                  tb: 2,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              // 单元名称
+              {
+                r: 0,
+                c: 1,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "单元名称",
+                  v: "单元名称",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              // 活动链接
+              {
+                r: 0,
+                c: 2,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "活动链接",
+                  v: "活动链接",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              // 主活动标题
+              {
+                r: 0,
+                c: 3,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "主活动标题",
+                  v: "主活动标题",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              // 活动名称
+              {
+                r: 0,
+                c: 4,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "活动名称",
+                  v: "活动名称",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              // 引流SKU智能抓取
+              {
+                r: 0,
+                c: 5,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "引流SKU智能抓取",
+                  v: "引流SKU智能抓取",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              // 添加SKU
+              {
+                r: 0,
+                c: 6,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "添加SKU",
+                  v: "添加SKU",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "1.sku之间用/隔开 2.暂时废弃sku这一功能，需要手动去编辑添加", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                // 单元名称
-                {
-                  r: 0,
-                  c: 1,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "单元名称",
-                    v: "单元名称",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
+              },
+              // 地域设置
+              {
+                r: 0,
+                c: 7,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "地域设置",
+                  v: "地域设置",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              // 基础出价
+              {
+                r: 0,
+                c: 8,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "基础出价",
+                  v: "基础出价",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              // 流量包设置
+              {
+                r: 0,
+                c: 9,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "流量包设置",
+                  v: "流量包设置",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "用/隔开，前面为购物前，后面为购物后，20代表20%", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                // 活动链接
-                {
-                  r: 0,
-                  c: 2,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "活动链接",
-                    v: "活动链接",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
+              },
+              // DMP自建人群
+              {
+                r: 0,
+                c: 10,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "DMP自建人群",
+                  v: "DMP自建人群",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "不同人群之间用/隔开", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                // 主活动标题
-                {
-                  r: 0,
-                  c: 3,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "主活动标题",
-                    v: "主活动标题",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
+              },
+              // 人群溢价系数
+              {
+                r: 0,
+                c: 11,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "人群溢价系数",
+                  v: "人群溢价系数",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "溢价系数之间用/隔开，和dmp人群一一对应", //批准内容
+                    isshow: false, //批注框为显示状态
                   },
                 },
-                // 活动名称
-                {
-                  r: 0,
-                  c: 4,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "活动名称",
-                    v: "活动名称",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                  },
-                },
-                // 引流SKU智能抓取
-                {
-                  r: 0,
-                  c: 5,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "引流SKU智能抓取",
-                    v: "引流SKU智能抓取",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                  },
-                },
-                // 添加SKU
-                {
-                  r: 0,
-                  c: 6,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "添加SKU",
-                    v: "添加SKU",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "1.sku之间用/隔开 2.暂时废弃sku这一功能，需要手动去编辑添加", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
-                  },
-                },
-                // 地域设置
-                {
-                  r: 0,
-                  c: 7,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "地域设置",
-                    v: "地域设置",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                  },
-                },
-                // 基础出价
-                {
-                  r: 0,
-                  c: 8,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "基础出价",
-                    v: "基础出价",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                  },
-                },
-                // 流量包设置
-                {
-                  r: 0,
-                  c: 9,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "流量包设置",
-                    v: "流量包设置",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "用/隔开，前面为购物前，后面为购物后，20代表20%", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
-                  },
-                },
-                // DMP自建人群
-                {
-                  r: 0,
-                  c: 10,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "DMP自建人群",
-                    v: "DMP自建人群",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "不同人群之间用/隔开", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
-                  },
-                },
-                // 人群溢价系数
-                {
-                  r: 0,
-                  c: 11,
-                  v: {
-                    ct: {
-                      fa: "@",
-                      t: "s"
-                    },
-                    m: "人群溢价系数",
-                    v: "人群溢价系数",
-                    bl: 1,
-                    vt: 0,
-                    ht: 0,
-                    ps: {
-                      //批注
-                      width: 91, //批注框宽度
-                      height: 48, //批注框高度
-                      value: "溢价系数之间用/隔开，和dmp人群一一对应", //批准内容
-                      isshow: false, //批注框为显示状态
-                    },
-                  },
-                },
+              },
               ], //初始化使用的单元格数据
               isPivotTable: false, //是否数据透视表
               zoomRatio: 1, // 缩放比例
               showGridLines: 1, //是否显示网格线
-            }, ];
+            },];
             break;
-            // 创意优化助手
+          // 创意优化助手
           case "Help":
             vm.picSrc = require("../../assets/images/创意设计.png");
             vm.toolType = "快车更新创意状态";
@@ -1845,7 +1848,7 @@ export default {
             vm.wordList = [{
               lab: '',
               word: '该产品目前仅用来快车渠道根据SKU批量暂停/启动创意使用，具体填写规则可下载模板参考；'
-            }, ]
+            },]
             vm.wordErr = '本产品并非快车触点创建创意工具'
             vm.wordTip = '库存条件：目前仅有库存作为条件筛选（有更多需求可后期增加），条件一次至多可选择2个；'
             vm.sheetName = ["快车", '触点'];
@@ -1910,9 +1913,8 @@ export default {
   methods: {
 
   },
-  created() {},
+  created () { },
 };
 </script>
 
-<style lang="less" scoped>
-</style>
+<style lang="less" scoped></style>

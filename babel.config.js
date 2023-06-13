@@ -13,13 +13,13 @@ module.exports = {
       "@babel/plugin-syntax-dynamic-import" // 路由的动态加载需要
     ],
     // element的按需加载  npm install babel-plugin-component --save-dev
-    [
-      "component",
-      {
-        libraryName: "element-ui",
-        styleLibraryName: "~element-#3B8EFF",
-      }
-    ],
+    // [
+    //   "component",
+    //   {
+    //     libraryName: "element-ui",
+    //     styleLibraryName: "~element-#3B8EFF",
+    //   }
+    // ],
     // echarts的按需加载  npm install babel-plugin-equire -D
     "equire"
   ],

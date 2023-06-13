@@ -32,7 +32,13 @@ router.beforeEach((to, from, next) => {
         routerGo(to, next)
         NProgress.done()
       } else if (localStorage.getItem('wx_code') && !flag) {
-        next()
+        if (to.meta.hasLimit) {
+          next({
+            path: '/403'
+          })
+        } else {
+          next()
+        }
         NProgress.done()
       } else {
         next({
@@ -50,14 +56,24 @@ function handleRoutes (menuList) {
     return
   }
   let userid = localStorage.getItem('wx_userid')
-  // let whitelist1 = ['1020108', '21400', '19302', '20306']
-  // if (userid && whitelist1.indexOf(userid) === -1) {
-  //   target[2].children[4].children.splice(1)
-  // }
-
   let whitelist = ['1022042', '22254', '20001', '19261', '19302', '20306', '1020108', '21400', '14026', '15443', '18179', '15056', '18327', '21129', '21027', '1020076', '1022002', '1022020', '10001', '10005']
   if (userid && whitelist.indexOf(userid) === -1) {
-    target[2].children.pop()
+    target[2].children[7].children.map((val, idx) => {
+      if (idx !== 3) {
+        val.meta.hasLimit = true
+      }
+      return val
+    })
+  }
+  // 开发--临时
+  let whitelist2 = ['1020108', '19302', '21400']
+  if (userid && whitelist2.indexOf(userid) === -1) {
+    target[2].children[7].children.map((val, idx) => {
+      if (idx === 3) {
+        val.meta.hasLimit = true
+      }
+      return val
+    })
   }
   ret = [...target]
   return ret
