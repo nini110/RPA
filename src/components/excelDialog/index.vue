@@ -1,11 +1,11 @@
 <template>
-<div class="lucky">
-  <div id="luckysheet" class="lucky_sheet"></div>
-  <div class="lucky_footer">
-    <el-button @click="closeExcel">返回并清空数据</el-button>
-    <el-button type="primary" @click="submitExcel">确 定</el-button>
+  <div class="lucky">
+    <div id="luckysheet" class="lucky_sheet"></div>
+    <div class="lucky_footer">
+      <el-button @click="closeExcel">返回并清空数据</el-button>
+      <el-button type="primary" @click="submitExcel">确 定</el-button>
+    </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -24,12 +24,12 @@ export default {
       default: [],
     },
   },
-  data() {
+  data () {
     return {
       dialogVisible: true,
     };
   },
-  mounted() {
+  mounted () {
     const vm = this;
     let dataOpt = vm.excelOpt;
     // this.$nextTick(() => {
@@ -113,12 +113,12 @@ export default {
     });
   },
   methods: {
-    closeExcel() {
+    closeExcel () {
       const vm = this;
       window.luckysheet.destroy();
       vm.$emit("close", 0);
     },
-    submitExcel() {
+    submitExcel () {
       const vm = this;
       window.luckysheet.exitEditMode();
       this.$nextTick(() => {
@@ -302,11 +302,34 @@ export default {
                               tg.indexOf('基础出价') !== -1 || tg.indexOf('出价') !== -1 ||
                               tg.indexOf('时期') !== -1 ||
                               tg.indexOf('日期') !== -1 || tg.indexOf('时间') !== -1) {
-                              vm.$set(
-                                obj,
-                                tg,
-                                outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
-                              );
+                              if (outData[idx1][idx2] && outData[idx1][idx2].m) {
+                                vm.$set(
+                                  obj,
+                                  tg,
+                                  outData[idx1][idx2].m
+                                );
+                              } else if (outData[idx1][idx2] && !outData[idx1][idx2].m && outData[idx1][idx2].ct && outData[idx1][idx2].ct.s) {
+                                let zhi = ''
+                                outData[idx1][idx2].ct.s.forEach((item, index) => {
+                                  zhi += item.v
+                                })
+                                vm.$set(
+                                  obj,
+                                  tg,
+                                  zhi
+                                )
+                              } else {
+                                vm.$set(
+                                  obj,
+                                  tg,
+                                  ''
+                                )
+                              }
+                              // vm.$set(
+                              //   obj,
+                              //   tg,
+                              //   outData[idx1][idx2] && outData[idx1][idx2].m ? outData[idx1][idx2].m : ""
+                              // );
                             } else if (tg.indexOf('跟单SKU') !== -1 || tg.toUpperCase().indexOf('SKU') !== -1) {
                               vm.$set(
                                 obj,
@@ -350,6 +373,7 @@ export default {
               }
             })
           }
+          debugger
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
           vm.$emit("close", 1, [resultObj], results);
@@ -358,7 +382,7 @@ export default {
       });
     },
     // 去除空数据
-    deleteNull(zhi) {
+    deleteNull (zhi) {
       const vm = this
       let arr = []
       zhi.forEach((item, index) => {

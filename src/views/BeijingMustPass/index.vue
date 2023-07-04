@@ -65,7 +65,7 @@ export default {
         switch (newval.name) {
           case "DMP":
             vm.toolType = "DMP";
-            vm.sheetName = ["创建人群"];
+            vm.sheetName = ["创建人群", '更新合作方数据'];
             vm.ifDown = true
             vm.colWidth = {
               choose: 12,
@@ -359,7 +359,172 @@ export default {
               isPivotTable: false, //是否数据透视表
               zoomRatio: 1, // 缩放比例
               showGridLines: 1, //是否显示网格线
-            },];
+            },
+            {
+              name: "更新合作方数据", //工作表名称
+              color: "", //工作表颜色
+              index: "renqun", //工作表索引
+              status: 1, //激活状态
+              hide: 0, //是否隐藏
+              row: 1000, //行数
+              column: 15, //列数
+              defaultRowHeight: 40, //自定义行高
+              defaultColWidth: 150, //自定义列宽
+              celldata: [{
+                r: 0,
+                c: 0,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  }, // 格式类型
+                  m: "一级分类", // 显示值
+                  v: "一级分类", // 原始值
+                  bl: 1,
+                  tb: 2,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              {
+                r: 0,
+                c: 1,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "二级分类",
+                  v: "二级分类",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              {
+                r: 0,
+                c: 2,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "三级分类",
+                  v: "三级分类",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              {
+                r: 0,
+                c: 3,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "标签名称",
+                  v: "标签名称",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "标签名称只支持合作方数据", //批准内容
+                    isshow: false, //批注框为显示状态
+                  },
+                },
+              },
+              {
+                r: 0,
+                c: 4,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "筛选项",
+                  v: "筛选项",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "筛选项内填写数据包名称", //批准内容
+                    isshow: false, //批注框为显示状态
+                  },
+
+                },
+              },
+              {
+                r: 0,
+                c: 5,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "人群包名称",
+                  v: "人群包名称",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                },
+              },
+              {
+                r: 0,
+                c: 6,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "更新筛选项",
+                  v: "更新筛选项",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "此处填写需要更新的数据包名称", //批准内容
+                    isshow: false, //批注框为显示状态
+                  },
+                },
+              },
+              {
+                r: 0,
+                c: 7,
+                v: {
+                  ct: {
+                    fa: "@",
+                    t: "s"
+                  },
+                  m: "更新人群包名称",
+                  v: "更新人群包名称",
+                  bl: 1,
+                  vt: 0,
+                  ht: 0,
+                  ps: {
+                    //批注
+                    width: 91, //批注框宽度
+                    height: 48, //批注框高度
+                    value: "填写需要更新的人群包名称，不填写则不更改", //批准内容
+                    isshow: false, //批注框为显示状态
+                  },
+                },
+              },
+              ], //初始化使用的单元格数据
+              isPivotTable: false, //是否数据透视表
+              zoomRatio: 1, // 缩放比例
+              showGridLines: 1, //是否显示网格线
+            }];
             break;
           // 展位 Sheet1
           case "Booth":
@@ -1596,6 +1761,11 @@ export default {
           case "GoShop":
             vm.picSrc = require("../../assets/images/GoShop.png");
             vm.toolType = "购物触点";
+            vm.colWidth = {
+              choose: 12,
+              eror: 12,
+              user: 24,
+            }
             vm.ifDown = false
             vm.wordList = [{
               lab: '',

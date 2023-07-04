@@ -5,27 +5,11 @@
     </div>
     <div class="topTtle_login">
       <div class="topTtle_login_tip">
-        <!-- <img class="img" src="./assets/logo2Blue.png" alt=""> -->
-        <!-- <img class="img" src="../../assets/logo2.png" alt="" /> -->
-        <el-popover
-          placement="bottom-start"
-          title=""
-          trigger="hover"
-          popper-class="poperNotice"
-          content=""
-        >
-          <el-button
-            slot="reference"
-            size="mini"
-            class="poperBtn el-icon-menu"
-            >工具</el-button
-          >
+        <el-popover placement="bottom-start" title="" trigger="hover" popper-class="poperNotice" content="">
+          <el-button slot="reference" size="mini" class="poperBtn el-icon-menu">工具</el-button>
           <div class="poperNotice_cnt">
             <div class="down" v-for="(item, idx) in downList" :key="idx">
-              <svg
-                class="icon svg-icon poperNotice_cnt_icon"
-                aria-hidden="true"
-              >
+              <svg class="icon svg-icon poperNotice_cnt_icon" aria-hidden="true">
                 <use :xlink:href="item.icon"></use>
               </svg>
               <span>{{ item.label }}</span>
@@ -33,33 +17,23 @@
             </div>
             <el-divider></el-divider>
             <div class="down tool">
-              <svg
-                class="icon svg-icon poperNotice_cnt_icon"
-                aria-hidden="true"
-              >
+              <svg class="icon svg-icon poperNotice_cnt_icon" aria-hidden="true">
                 <use xlink:href="#icon-gongjuxiang"></use>
               </svg>
               <span @click="download">工具下载</span>
             </div>
           </div>
         </el-popover>
-        <el-button
-            slot="reference"
-            size="mini"
-            class="poperBtn el-icon-message-solid"
-            @click="openMsgCenter"
-            >消息</el-button
-          >
+        <el-link :underline="false" type="danger" icon="el-icon-message-solid" @click="openMsgCenter">消息</el-link>
+        <el-badge value="hot" class="item">
+          <el-link :underline="false" type="danger" icon="iconfont icon-chatgpt"
+            href="http://tool.afocus.com.cn/chatgpt/#/login" target="_blank">AI助手</el-link>
+        </el-badge>
       </div>
 
       <div v-if="$route.name !== 'login'" class="topTtle_login_user">
         <div class="user">
-          <el-popover
-            content=""
-            trigger="hover"
-            placement="bottom"
-            popper-class="poperNotice"
-          >
+          <el-popover content="" trigger="hover" placement="bottom" popper-class="poperNotice">
             <div slot="reference">
               <img class="user_img" :src="user.img" alt="" />
               <span class="user_name">{{ user.name }}</span>
@@ -81,54 +55,23 @@
     <AdInfoDialog></AdInfoDialog>
     <MsgCenter v-if="showMsgCenter" @close="closeMsgCenter"></MsgCenter>
     <div ref="toolRef" class="hidedox" v-html="info"></div>
-    <el-drawer
-      title="工具下载"
-      :visible.sync="downdrawer"
-      direction="rtl"
-      :before-close="handleClose"
-      size="35%"
-      append-to-body
-    >
-      <vxe-table
-        ref="multipleTable"
-        :data="infoList"
-        stripe
-        round
-        :column-config="{ resizable: true }"
-        :row-config="{ isCurrent: true, isHover: true }"
-        class="mytable-scrollbar"
-        auto-resize
-        height="auto"
-      >
+    <el-drawer title="工具下载" :visible.sync="downdrawer" direction="rtl" :before-close="handleClose" size="35%"
+      append-to-body>
+      <vxe-table ref="multipleTable" :data="infoList" stripe round :column-config="{ resizable: true }"
+        :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
         >
         <template #empty>
           <img src="@/assets/images/noneData3.png" />
         </template>
-        <vxe-column
-          type="seq"
-          title="序号"
-          width="10%"
-          fixed="left"
-        ></vxe-column>
+        <vxe-column type="seq" title="序号" width="10%" fixed="left"></vxe-column>
         <vxe-column min-width="25%" title="名称" show-overflow="tooltip">
           <template slot-scope="scope">
             <span class="downSpanSpan" @click="downloadEvent(scope.row)">{{
               scope.row.name
             }}</span>
-          </template></vxe-column
-        >
-        <vxe-column
-          min-width="10%"
-          field="size"
-          title="大小"
-          show-overflow="tooltip"
-        ></vxe-column>
-        <vxe-column
-          min-width="15%"
-          field="date"
-          title="更新日期"
-          show-overflow="tooltip"
-        ></vxe-column>
+          </template></vxe-column>
+        <vxe-column min-width="10%" field="size" title="大小" show-overflow="tooltip"></vxe-column>
+        <vxe-column min-width="15%" field="date" title="更新日期" show-overflow="tooltip"></vxe-column>
       </vxe-table>
     </el-drawer>
   </div>
@@ -149,7 +92,7 @@ export default {
     MsgCenter
   },
   mixins: [message],
-  data() {
+  data () {
     return {
       downdrawer: false,
       showMsgCenter: false,
@@ -202,7 +145,7 @@ export default {
   computed: {
     ...mapGetters(["errorLogs"]),
   },
-  created() {
+  created () {
     const vm = this;
     //如果本地存储为空，跳回登入页 单方面前端开发时 注销此项
     if (
@@ -238,7 +181,7 @@ export default {
       });
     }
   },
-  mounted() {
+  mounted () {
     const vm = this;
     vm.$axios({
       // 后端服务器端口路径
@@ -287,32 +230,32 @@ export default {
     });
   },
   methods: {
-    handleClose() {
+    handleClose () {
       this.downdrawer = false;
     },
-    download() {
+    download () {
       this.downdrawer = true;
       // createLinkToClick(`http://tool.afocus.com.cn/tool_set/${item.url}`);
     },
-    downloadEvent(item) {
+    downloadEvent (item) {
       createLinkToClick(`http://tool.afocus.com.cn/tool_set/${item.url}`);
     },
-    showError() {
+    showError () {
       this.showLog = true;
     },
-    closeLog() {
+    closeLog () {
       this.showLog = false;
     },
-    openMsgCenter() {
+    openMsgCenter () {
       const vm = this;
       vm.showMsgCenter = true
     },
-    closeMsgCenter() {
+    closeMsgCenter () {
       this.showMsgCenter = false
     },
-    toggleMode() {},
+    toggleMode () { },
     // 退出登录
-    close() {
+    close () {
       const vm = this;
       let userid = localStorage.getItem("wx_userid");
       let code = localStorage.getItem("wx_code");
@@ -349,11 +292,36 @@ export default {
   },
 };
 </script>
-<style lang="less">
+<style lang="less" scoped>
 @import "./index";
+
+/deep/.el {
+  &-link {
+    margin-left: 40px;
+    transition: all .3s linear;
+    font-size: 18px;
+
+    &:hover {
+      .el-link--inner {
+        color: #ffb7b7;
+      }
+    }
+
+    i {
+      color: #fff;
+      margin-right: 6px;
+    }
+
+    &--inner {
+      color: #fff;
+    }
+  }
+}
+
 .hidedox {
   display: none;
 }
+
 .downSpanSpan {
   color: #2779b4;
   cursor: pointer;

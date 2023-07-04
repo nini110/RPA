@@ -3,107 +3,48 @@
     <div class="content">
       <div class="content_form">
         <div class="upobtn">
-          <el-button
-            v-waves
-            type="primary"
-            class="el-icon-plus btnnormal"
-            @click="createEvent(1)"
-            >新建项目
+          <el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="createEvent(1)">新建项目
           </el-button>
         </div>
       </div>
       <div class="content_tableBox jiankong">
         <el-divider>列表</el-divider>
         <div class="tables" ref="tabbles">
-          <vxe-table
-            ref="xtable"
-            :data="tableData"
-            stripe
-            round
-            :column-config="{ resizable: true }"
-            :row-config="{ isCurrent: true, isHover: true }"
-            class="mytable-scrollbar"
-            auto-resize
-            height="auto"
-          >
+          <vxe-table ref="xtable" :data="tableData" stripe round :column-config="{ resizable: true }"
+            :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
             >
             <template #empty>
               <img src="@/assets/images/noneData3.png" />
             </template>
-            <vxe-column
-              type="seq"
-              title="序号"
-              width="5%"
-              fixed="left"
-            ></vxe-column>
-            <vxe-column
-              field="project_name"
-              title="项目名称"
-              fixed="left"
-              width="15%"
-              show-overflow="tooltip"
-            ></vxe-column>
-            <vxe-column
-              v-for="(item, idx) in tabList"
-              :key="idx"
-              width="18%"
-              :field="item.prop"
-              :title="item.label"
-              show-overflow="tooltip"
-            ></vxe-column>
+            <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+            <vxe-column field="project_name" title="项目名称" fixed="left" width="15%" show-overflow="tooltip"></vxe-column>
+            <vxe-column v-for="(item, idx) in tabList" :key="idx" width="18%" :field="item.prop" :title="item.label"
+              show-overflow="tooltip"></vxe-column>
             <vxe-column field="castTime" title="投放时间" width="20%">
               <template slot-scope="scope">
                 <div>{{ scope.row.castTime[0] }}</div>
                 <div>{{ scope.row.castTime[1] }}</div>
-              </template></vxe-column
-            >
+              </template></vxe-column>
             <vxe-column title="操作" fixed="right" width="16%">
               <template slot-scope="scope">
-                <div
-                  v-waves
-                  class="btn btn_info"
-                  @click="createEvent(2, scope.row.id)"
-                >
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    content="编辑"
-                    placement="top"
-                  >
+                <div v-waves class="btn btn_info" @click="createEvent(2, scope.row.id)">
+                  <el-tooltip class="item" effect="light" content="编辑" placement="top">
                     <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-bianjiICON"></use>
                     </svg> -->
                     <i class="el-icon-edit"></i>
                   </el-tooltip>
                 </div>
-                <div
-                  v-waves
-                  class="btn btn_info"
-                  @click="routerLink(scope.row.id, scope.row.project_name)"
-                >
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    content="看板"
-                    placement="top"
-                  >
+                <div v-waves class="btn btn_info" @click="routerLink(scope.row.id, scope.row.project_name)">
+                  <el-tooltip class="item" effect="light" content="看板" placement="top">
                     <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-shujukanban"></use>
                     </svg> -->
                     <i class="el-icon-data-line"></i>
                   </el-tooltip>
                 </div>
-                <div
-                  v-waves
-                  class="btn btn_info"
-                  @click="deleteEvent(scope.row)"
-                >
-                  <el-tooltip
-                    class="item"
-                    effect="dark"
-                    content="删除"
-                    placement="top"
-                  >
+                <div v-waves class="btn btn_info" @click="deleteEvent(scope.row)">
+                  <el-tooltip class="item" effect="light" content="删除" placement="top">
                     <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-shanchu1"></use>
                     </svg> -->
@@ -115,26 +56,14 @@
           </vxe-table>
         </div>
         <div class="block">
-          <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :page-size="pageSize"
-            :current-page="currentPage"
-            :pager-count="5"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-          >
+          <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :page-size="pageSize" :current-page="currentPage" :pager-count="5"
+            layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </div>
       </div>
     </div>
-    <DialodEdit
-      v-if="showDialog"
-      :dailogFlag="dailogFlag"
-      :rowID="rowID"
-      @close="dialogCloseEvent"
-    ></DialodEdit>
+    <DialodEdit v-if="showDialog" :dailogFlag="dailogFlag" :rowID="rowID" @close="dialogCloseEvent"></DialodEdit>
   </div>
 </template>
 
@@ -151,7 +80,7 @@ export default {
     DialodEdit,
   },
   mixins: [message],
-  data() {
+  data () {
     return {
       subTitle: "",
       subBtnTitle: "",
@@ -164,17 +93,17 @@ export default {
       dailogFlag: 1, // 新建/更新标识
     };
   },
-  created() {
+  created () {
     const vm = this;
     vm.getList();
   },
-  mounted() {
+  mounted () {
     const vm = this;
     vm.tabList = opt.tablist_items;
   },
   methods: {
     // 获取项目列表
-    getList() {
+    getList () {
       const vm = this;
       getProjectList({
         page: vm.currentPage,
@@ -189,17 +118,17 @@ export default {
         }
       });
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       const vm = this;
       vm.pageSize = val;
       vm.getList(val);
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       const vm = this;
       vm.currentPage = val;
       vm.getList(val);
     },
-    createEvent(val, id) {
+    createEvent (val, id) {
       const vm = this;
       // val 1为新建  2为更新
       vm.dailogFlag = val;
@@ -207,7 +136,7 @@ export default {
       vm.showDialog = true;
     },
     // 删除事件
-    deleteEvent(row) {
+    deleteEvent (row) {
       const vm = this;
       vm.openMessageBox({
         type: "warning",
@@ -220,12 +149,12 @@ export default {
         },
       });
     },
-    dialogCloseEvent() {
+    dialogCloseEvent () {
       const vm = this;
       vm.showDialog = false;
       vm.getList();
     },
-    routerLink(ids, names) {
+    routerLink (ids, names) {
       const { href } = this.$router.resolve({
         path: "/layout/qianchuan/realTime",
         query: {
@@ -241,6 +170,6 @@ export default {
 
 <style lang="less" scoped>
 @import "@/views/index.less";
-@import "@/views/DataApplication/monitor/bidding.less";
+@import "@/views/BudgetAlarm/monitor/bidding.less";
 @import "./index";
 </style>

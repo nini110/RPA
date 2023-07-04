@@ -23,13 +23,13 @@
           <vxe-column title="操作" fixed="right" width="10%">
             <template slot="header">
               操作
-              <el-tooltip class="item" effect="dark" content="当状态为使用中时,不可编辑和删除" placement="top">
+              <el-tooltip class="item" effect="light" content="当状态为使用中时,不可编辑和删除" placement="top">
                 <i class="el-icon-question"></i>
               </el-tooltip>
             </template>
             <template slot-scope="scope">
               <div v-waves class="btn btn_info one" :class="{ dis: scope.row.status }" @click="deleteFn(scope.row)">
-                <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                <el-tooltip class="item" effect="light" content="删除" placement="top">
                   <i class="el-icon-circle-close "></i>
                 </el-tooltip>
               </div>

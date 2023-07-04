@@ -36,7 +36,7 @@
           <vxe-column title="品牌" width="12%" field="brand" fixed="left"></vxe-column>
           <vxe-column min-width="12%" field="jd_consume" title="京牌代理消耗" :title-help="{
             icon: 'el-icon-question',
-            message: '包含站内数据：快车、触点、展位，站外数据：直投',
+            message: '包含站内数据：快车、触点、展位',
           }">
             <template #default="{ row }">
               <span v-if="!row.jd_consume">--</span>

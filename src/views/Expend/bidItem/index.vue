@@ -9,12 +9,7 @@
             <el-tab-pane label="市场费" name="2"></el-tab-pane>
           </el-tabs>
           <div v-show="activeName === '0'" class="ziyou_chart">
-            <el-alert
-              :description="description"
-              type="warning"
-              show-icon
-              :closable="false"
-            >
+            <el-alert :title='alertTitle' :description="description" type="error" show-icon :closable="false">
             </el-alert>
             <div class="chart ts2">
               <div class="ts2_box">
@@ -31,34 +26,17 @@
               </div>
             </div>
             <div class="selfBrand outerDiv_table content_tableBox">
-              <div
-                v-for="(table, index) in tableBox"
-                :key="index"
-                class="tables tables_two"
-              >
+              <div v-for="(table, index) in tableBox" :key="index" class="tables tables_two">
                 <h3 class="iconfont">{{ table.title }}</h3>
                 <div class="tableTab tableTab_two">
-                  <vxe-table
-                    ref="table"
-                    :data="table.tableData"
-                    stripe
-                    round
-                    border="inner"
-                    :column-config="{ resizable: true }"
-                    class="mytable-scrollbar"
-                    auto-resize
-                  >
+                  <vxe-table ref="table" :data="table.tableData" stripe round border="inner"
+                    :column-config="{ resizable: true }" class="mytable-scrollbar" auto-resize>
                     >
                     <template #empty>
                       <img src="@/assets/images/noneData4.png" />
                       <span>暂无数据</span>
                     </template>
-                    <vxe-column
-                      field="icon"
-                      title="排名"
-                      width="10%"
-                      align="center"
-                    >
+                    <vxe-column field="icon" title="排名" width="10%" align="center">
                       <template #default="{ row }">
                         <svg v-if="row.num === 1" aria-hidden="true">
                           <use xlink:href="#icon-paihang1" />
@@ -72,14 +50,8 @@
                         <span v-else>{{ row.num }}</span>
                       </template>
                     </vxe-column>
-                    <vxe-column
-                      v-for="(item, idx) in table.topMenuList"
-                      :key="idx"
-                      :field="item.prop"
-                      :title="item.label"
-                      show-overflow="tooltip"
-                      :min-width="item.width"
-                    >
+                    <vxe-column v-for="(item, idx) in table.topMenuList" :key="idx" :field="item.prop" :title="item.label"
+                      show-overflow="tooltip" :min-width="item.width">
                       <template #default="{ row }">
                         <span v-if="item.prop === 'cost'">{{
                           row[item.prop] | numberToCurrencyNo
@@ -113,7 +85,7 @@ export default {
     listPage,
     MarketPage,
   },
-  data() {
+  data () {
     const vm = this;
     return {
       description: "",
@@ -207,25 +179,22 @@ export default {
                 txt = `下降：${zhi}%`;
               }
               htm = `
-              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
-                item[0].color
-              };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
-                item[0].data
-              )}</div>
-              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
-                item[1].color
-              };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
-                item[1].data
-              )}</div>
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${item[0].color
+                };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
+                  item[0].data
+                )}</div>
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${item[1].color
+                };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
+                  item[1].data
+                )}</div>
               <div style="font-size: 12px; color: ${iconclass}"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${iconclass};"></span></span>${txt}</div>
             `;
             } else {
               htm = `
-              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
-                item[0].color
-              };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
-                item[0].data
-              )}</div>
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${item[0].color
+                };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
+                  item[0].data
+                )}</div>
             `;
             }
 
@@ -406,34 +375,30 @@ export default {
                 txt = `下降：${zhi}%`;
               }
               htm = `
-              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
-                item[0].color
-              };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
-                item[0].value
-              )}</div>
-              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
-                item[1].color
-              };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
-                item[1].value
-              )}</div>
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${item[0].color
+                };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
+                  item[0].value
+                )}</div>
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${item[1].color
+                };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
+                  item[1].value
+                )}</div>
               <div style="font-size: 12px; color: ${iconclass}"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${iconclass};"></span></span>${txt}</div>
             `;
             } else {
               if (item[0] && item[0].value) {
                 htm = `
-              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
-                item[0].color
-              };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
-                  item[0].value
-                )}</div>
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${item[0].color
+                  };"></span>${item[0].seriesName}：${vm.numberToCurrencyNo(
+                    item[0].value
+                  )}</div>
             `;
               } else if (item[0] && item[1].value) {
                 htm = `
-              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${
-                item[1].color
-              };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
-                  item[1].value
-                )}</div>
+              <div style="font-size: 12px"><span style="display: inline-block;border-radius: '50%'; width: 10px;height: 10px;margin-right: 5px;background-color: ${item[1].color
+                  };"></span>${item[1].seriesName}：${vm.numberToCurrencyNo(
+                    item[1].value
+                  )}</div>
             `;
               }
             }
@@ -513,27 +478,29 @@ export default {
           },
         ],
       },
+      alertTitle: ''
     };
   },
   watch: {
     activeName: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         if (newval === "1") {
           this.description = "";
         } else {
+          this.alertTitle = '请注意：因受限于京东接口限制，本模块功能暂无法正常使用。具体恢复时间以本条消息下线为主。'
           this.description =
-            "数据自动更新时间为每天10点，统计日期上限为当前日期-1";
+            "数据自动更新时间为每天10点，统计日期上限为当前日期-1"
         }
       },
       immediate: true,
     },
   },
-  mounted() {
+  mounted () {
     const vm = this;
     vm.getData();
   },
   methods: {
-    getData() {
+    getData () {
       const vm = this;
       bidItemExpend().then((res) => {
         let bardata = res.data.data.cost_by_year;
@@ -615,21 +582,21 @@ export default {
         vm.handleLine();
       });
     },
-    handleLine() {
+    handleLine () {
       const vm = this;
       vm.$nextTick(() => {
         let myChart = vm.$echarts.init(document.getElementById("lineBox1"));
         myChart.setOption(vm.lineOption, true);
       });
     },
-    handleBar(val) {
+    handleBar (val) {
       const vm = this;
       vm.$nextTick(() => {
         let myChart = vm.$echarts.init(document.getElementById("barBox1"));
         myChart.setOption(vm.barOption2, true);
       });
     },
-    numberToCurrencyNo(value) {
+    numberToCurrencyNo (value) {
       if (!value) return 0;
       // 获取整数部分
       const intPart = Math.trunc(value);
@@ -653,16 +620,19 @@ export default {
 </script>
 <style scoped lang="less">
 @import "../selfBrand/index.less";
+
 /deep/.vxe-table {
   &.is--empty {
     .vxe-table--empty-placeholder {
       height: 83% !important;
     }
+
     .vxe-table--empty-content {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
     }
+
     .vxe-table--empty-block {
       display: flex;
       justify-content: center;

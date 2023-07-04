@@ -1,29 +1,12 @@
 <template>
   <!-- 查看详情 -->
-  <el-dialog
-    :title="dialogTitle"
-    :visible.sync="show"
-    width="35%"
-    @close="closeDialog"
-    custom-class="dialogEdit tableDialog1"
-    :close-on-click-modal="false"
-  >
-    <el-form
-      ref="form"
-      :model="form"
-      class="formObj"
-      :rules="rules"
-      :disabled="pageTag === 3"
-    >
+  <el-dialog :title="dialogTitle" :visible.sync="show" width="35%" @close="closeDialog"
+    custom-class="dialogEdit tableDialog1" :close-on-click-modal="false">
+    <el-form ref="form" :model="form" class="formObj" :rules="rules" :disabled="pageTag === 3">
       <el-row>
         <el-col class="flexCol">
           <el-form-item label="计划名称:" prop="project_name">
-            <el-input
-              v-model.trim="form.project_name"
-              size="medium"
-              placeholder="请输入计划名称"
-              clearable
-            ></el-input>
+            <el-input v-model.trim="form.project_name" size="medium" placeholder="请输入计划名称" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col class="flexCol">
@@ -37,77 +20,37 @@
           </el-form-item>
           <div v-if="form.task_type === 1">
             <el-form-item label="三级类目:" prop="category_url">
-              <el-input
-                v-model.trim="form.category_url"
-                size="medium"
-                placeholder="请输入三级类目列表页链接"
-                clearable
-              ></el-input>
+              <el-input v-model.trim="form.category_url" size="medium" placeholder="请输入三级类目列表页链接" clearable></el-input>
             </el-form-item>
           </div>
           <div v-if="form.task_type === 2">
             <el-form-item label="关键词:" prop="keywords">
-              <el-input
-                v-model.trim="form.keywords"
-                size="medium"
-                placeholder="多个关键词用英文逗号隔开（至多十个）"
-                clearable
-              ></el-input>
+              <el-input v-model.trim="form.keywords" size="medium" placeholder="多个关键词用英文逗号隔开（至多十个）" clearable></el-input>
             </el-form-item>
           </div>
           <div v-if="form.task_type === 3">
             <el-form-item label="SKU:" prop="skus">
-              <el-input
-                v-model.trim="form.skus"
-                size="medium"
-                placeholder="多个SKU用英文逗号隔开"
-                clearable
-              ></el-input>
+              <el-input v-model.trim="form.skus" size="medium" placeholder="多个SKU用英文逗号隔开" clearable></el-input>
             </el-form-item>
           </div>
           <div v-if="form.task_type === 4">
             <el-form-item label="店铺名称:" prop="shops">
-              <el-input
-                v-model.trim="form.shops"
-                size="medium"
-                placeholder="多个店铺名称用英文逗号隔开（至多五个）"
-                clearable
-              ></el-input>
+              <el-input v-model.trim="form.shops" size="medium" placeholder="多个店铺名称用英文逗号隔开（至多五个）" clearable></el-input>
             </el-form-item>
           </div>
-          <div
-            v-if="
-              form.task_type === 1 ||
-              form.task_type === 2 ||
-              form.task_type === 4
-            "
-          >
+          <div v-if="form.task_type === 1 ||
+            form.task_type === 2 ||
+            form.task_type === 4
+            ">
             <el-form-item label="排序条件:" prop="sorted_type" class="w100">
-              <el-select
-                v-model="form.sorted_type"
-                placeholder="请选择排序条件"
-              >
-                <el-option
-                  v-for="item in sorted_typeOptions"
-                  :key="item.id"
-                  :label="item.label"
-                  :value="item.id"
-                >
+              <el-select v-model="form.sorted_type" placeholder="请选择排序条件">
+                <el-option v-for="item in sorted_typeOptions" :key="item.id" :label="item.label" :value="item.id">
                 </el-option>
               </el-select>
             </el-form-item>
             <el-form-item label="数量:" prop="limit_num">
-              <el-input-number
-                v-model="form.limit_num"
-                :min="1"
-                :max="300"
-              ></el-input-number>
-              <el-tooltip
-                class="dateitem"
-                effect="dark"
-                content="范围为1 - 300"
-                placement="bottom-start"
-              >
+              <el-input-number v-model="form.limit_num" :min="1" :max="300"></el-input-number>
+              <el-tooltip class="dateitem" effect="light" content="范围为1 - 300" placement="bottom-start">
                 <span class="el-icon-warning-outline"></span>
               </el-tooltip>
             </el-form-item>
@@ -115,30 +58,12 @@
         </el-col>
         <el-col class="flexCol">
           <el-form-item label="提取维度:" prop="checkedActions">
-            <el-checkbox
-              :indeterminate="form.isIndeterminate"
-              v-model="form.checkAll"
-              @change="actionEventAll"
-              >全选</el-checkbox
-            >
-            <el-checkbox-group
-              v-model="form.checkedActions"
-              @change="actionEvent"
-              class="w3"
-            >
-              <el-checkbox
-                v-for="item in actionOptions"
-                :label="item"
-                :key="item.id"
-              >
-                <el-tooltip
-                  v-if="item.id === 'activity'"
-                  effect="dark"
-                  content="包含京东秒杀、优惠券、活动"
-                  placement="bottom"
-                >
-                  <span
-                    >{{ item.activityName }}
+            <el-checkbox :indeterminate="form.isIndeterminate" v-model="form.checkAll"
+              @change="actionEventAll">全选</el-checkbox>
+            <el-checkbox-group v-model="form.checkedActions" @change="actionEvent" class="w3">
+              <el-checkbox v-for="item in actionOptions" :label="item" :key="item.id">
+                <el-tooltip v-if="item.id === 'activity'" effect="light" content="包含京东秒杀、优惠券、活动" placement="bottom">
+                  <span>{{ item.activityName }}
                     <i class="el-icon-warning-outline"></i>
                   </span>
                 </el-tooltip>
@@ -149,35 +74,16 @@
         </el-col>
         <el-col class="flexCol">
           <el-form-item label="监控周期:" prop="rangedate" class="w100">
-            <el-date-picker
-              v-model="form.rangedate"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              type="daterange"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              :picker-options="pickerOptionsStart"
-            >
+            <el-date-picker v-model="form.rangedate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange"
+              range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期" :picker-options="pickerOptionsStart">
             </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col class="flexCol">
           <el-form-item label="发送邮件:" prop="send_email">
-            <el-input
-              v-model.trim="form.send_email"
-              clearable
-              size="medium"
-              type="textarea"
-              autosize
-              placeholder="多个邮箱地址用英文逗号隔开"
-            ></el-input>
-            <el-tooltip
-              class="dateitem dateitem2"
-              effect="dark"
-              content="邮件发送时间为每天10点之前"
-              placement="bottom-start"
-            >
+            <el-input v-model.trim="form.send_email" clearable size="medium" type="textarea" autosize
+              placeholder="多个邮箱地址用英文逗号隔开"></el-input>
+            <el-tooltip class="dateitem dateitem2" effect="light" content="邮件发送时间为每天10点之前" placement="bottom-start">
               <span class="el-icon-warning-outline"></span>
             </el-tooltip>
           </el-form-item>
@@ -189,13 +95,7 @@
       <a class="btnnormal btnnormal_down marginR" @click="closeDialog">
         <div class="el-icon-close btnSize">取消</div>
       </a>
-      <el-button
-        v-waves
-        class="el-icon-check"
-        type="primary"
-        @click="saveEvent"
-        >保存</el-button
-      >
+      <el-button v-waves class="el-icon-check" type="primary" @click="saveEvent">保存</el-button>
     </span>
   </el-dialog>
 </template>
@@ -211,7 +111,7 @@ export default {
       type: Object,
     },
   },
-  data() {
+  data () {
     const vm = this;
     const validActions = function (rule, value, callback) {
       if (
@@ -372,13 +272,13 @@ export default {
     };
   },
   computed: {
-    checkedAction() {
+    checkedAction () {
       return this.form.checkedActions;
     },
   },
   watch: {
     pageTag: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         switch (newval) {
           case 1:
             this.dialogTitle = "新增";
@@ -394,7 +294,7 @@ export default {
       immediate: true,
     },
     checkedAction: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         const vm = this;
         vm.need_list = [];
         if (newval.length > 0) {
@@ -407,7 +307,7 @@ export default {
       deep: true,
     },
   },
-  created() {
+  created () {
     const vm = this;
     if (vm.pageTag === 2 || vm.pageTag === 3) {
       vm.getDetail();
@@ -415,7 +315,7 @@ export default {
   },
   methods: {
     // 获取详情
-    getDetail() {
+    getDetail () {
       const vm = this;
       pbulicSeePlan({
         id: vm.rowInfo.id,
@@ -449,10 +349,10 @@ export default {
         }
       });
     },
-    closeDialog() {
+    closeDialog () {
       this.$emit("close");
     },
-    saveEvent() {
+    saveEvent () {
       const vm = this;
       vm.$refs.form.validate((valid) => {
         if (valid) {
@@ -491,7 +391,7 @@ export default {
       });
     },
     // 单选切换
-    radioChangeEvent() {
+    radioChangeEvent () {
       const vm = this;
       vm.form.skus = "";
       vm.form.keywords = "";
@@ -507,12 +407,12 @@ export default {
       ]);
     },
     //多选框--全选
-    actionEventAll(val) {
+    actionEventAll (val) {
       this.form.checkedActions = val ? this.actionOptions : [];
       this.form.isIndeterminate = false;
     },
     //多选框--单选
-    actionEvent(value) {
+    actionEvent (value) {
       let checkedCount = value.length;
       this.form.checkAll = checkedCount === this.actionOptions.length;
       this.form.isIndeterminate =
@@ -527,14 +427,17 @@ export default {
     margin-right: 1px;
   }
 }
+
 .dateitem {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   left: -110px;
+
   &:before {
     font-size: 22px;
   }
+
   &.dateitem2 {
     top: 19px;
   }

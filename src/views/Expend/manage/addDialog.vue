@@ -1,8 +1,9 @@
 <template>
   <!-- 上传竞标 -->
-  <el-dialog title="新增账号" :visible.sync="show" width="35%" max-height="800px" custom-class="dialogJb"
+  <el-dialog title="账号绑定" :visible.sync="show" width="35%" max-height="800px" custom-class="dialogJb"
     :close-on-click-modal="false" @close="closeEvent(0)">
-    <el-form ref="account" :model="acForm" class="formObj dapan" :rules="rules">
+
+    <el-form ref="account" :model="acForm" class="formObj" :rules="rules">
       <el-row :gutter="20">
         <el-col :span="22" class="flexCol">
           <el-form-item label="账号类型">
@@ -32,7 +33,13 @@
       </el-col>
       <el-col v-if="user_type === '京牌代理'" :span="22">
         <el-form-item label="账号" prop="mutip">
-          <el-select v-model="acForm.mutip" filterable multiple placeholder="请选择账号" :disabled="disPulldown">
+          <el-select ref="selectref" v-model="acForm.mutip" reserve-keyword filterable multiple placeholder="请选择账号"
+            :disabled="disPulldown" :multiple-limit="50">
+            <el-option-group label="">
+              <el-option disabled value="34567">
+                <span class="el-icon-search">输入框内可关键字搜索，单次至多选择50项</span>
+              </el-option>
+            </el-option-group>
             <el-option v-for="item in options" :key="item" :label="item" :value="item">
             </el-option>
           </el-select>
@@ -40,15 +47,18 @@
       </el-col>
     </el-form>
     <div class="send"></div>
-    <span slot="footer" class="dialog-footer">
-      <a class="btnnormal btnnormal_down marginR" @click="closeEvent(0)">
-        <div class="el-icon-close btnSize">取消</div>
-      </a>
-      <el-button v-waves class="el-icon-check" type="primary" @click="saveEvent">保存</el-button>
+    <span slot="footer" class="dialog-footer ts">
+      <el-link class="link" type="primary" icon="el-icon-link" :underline="false"
+        href="https://huv8qqoobd.feishu.cn/docx/X3x0d1hABoe8OPxmQNScbYKWnhd" target="_blank">错误提示信息自查表</el-link>
+      <div>
+        <a class="btnnormal btnnormal_down marginR" @click="closeEvent(0)">
+          <div class="el-icon-close btnSize">取消</div>
+        </a>
+        <el-button v-waves class="el-icon-check" type="primary" @click="saveEvent">保存</el-button>
+      </div>
     </span>
   </el-dialog>
 </template>
-  
 <script>
 import {
   multiAccAdd1,
@@ -81,7 +91,7 @@ export default {
         mutip: null
       },
       disPulldown: true,
-      options: [],
+      options: null,
       rules: {
         username: [{
           required: true,
@@ -196,7 +206,7 @@ export default {
         primary_account: vm.acForm.username,
         password: vm.acForm.pwd
       }).then(res => {
-        vm.options = []
+        vm.options = null
         vm.disPulldown = res.data.code !== 10000
         if (res.data.code === 10000) {
           vm.options = res.data.data
@@ -237,10 +247,11 @@ export default {
 </script>
   
 <style lang="less" scoped>
-/deep/.el-form-item {
-  .el-select {
-    width: 100%;
-  }
+@import 'index';
+@import '../../DataApplication/child/index.less';
+
+.link {
+  border-bottom: 1px solid #409eff;
 }
 
 .dateitem {

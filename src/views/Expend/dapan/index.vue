@@ -11,21 +11,11 @@
             <h2>行业类目对比</h2>
             <div class="chartOuter">
               <el-row>
-                <el-col :span="12" class="w100">
-                  <el-date-picker
-                    v-model="date1"
-                    type="monthrange"
-                    align="right"
-                    unlink-panels
-                    format="yyyy-MM"
-                    value-format="yyyy-MM"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    :clearable="false"
-                    :picker-options="pickerOptions1"
-                    @change="date1Event"
-                  >
+                <el-col :span="12" class="w100 flx">
+                  <span class="lb">发标时间</span>
+                  <el-date-picker v-model="date1" type="monthrange" align="right" unlink-panels format="yyyy-MM"
+                    value-format="yyyy-MM" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                    :clearable="false" :picker-options="pickerOptions1" @change="date1Event">
                   </el-date-picker>
                 </el-col>
                 <el-col :span="12" class="fr">
@@ -42,21 +32,11 @@
             <h2>竞品项目对比</h2>
             <div class="chartOuter">
               <el-row>
-                <el-col :span="12" class="w100">
-                  <el-date-picker
-                    v-model="date2"
-                    type="monthrange"
-                    align="right"
-                    unlink-panels
-                    format="yyyy-MM"
-                    value-format="yyyy-MM"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    :clearable="false"
-                    :picker-options="pickerOptions2"
-                    @change="date2Event"
-                  >
+                <el-col :span="12" class="w100 flx">
+                  <span class="lb">发标时间</span>
+                  <el-date-picker v-model="date2" type="monthrange" align="right" unlink-panels format="yyyy-MM"
+                    value-format="yyyy-MM" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                    :clearable="false" :picker-options="pickerOptions2" @change="date2Event">
                   </el-date-picker>
                 </el-col>
                 <el-col :span="12" class="fr">
@@ -73,21 +53,11 @@
             <h2>灵狐竞标占比</h2>
             <div class="chartOuter">
               <el-row>
-                <el-col :span="12" class="w100">
-                  <el-date-picker
-                    v-model="date3"
-                    type="monthrange"
-                    align="right"
-                    format="yyyy-MM"
-                    value-format="yyyy-MM"
-                    unlink-panels
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    :picker-options="pickerOptions3"
-                    :clearable="false"
-                    @change="date3Event"
-                  >
+                <el-col :span="12" class="w100 flx">
+                  <span class="lb">发标时间</span>
+                  <el-date-picker v-model="date3" type="monthrange" align="right" format="yyyy-MM" value-format="yyyy-MM"
+                    unlink-panels range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+                    :picker-options="pickerOptions3" :clearable="false" @change="date3Event">
                   </el-date-picker>
                 </el-col>
                 <el-col :span="12" class="fr">
@@ -103,12 +73,7 @@
             </div>
           </div>
           <div v-show="activeName === '1'" class="tabs_cnt">
-            <el-alert
-              description="该列表仅展示过去100天内灵狐联合中标的项目（方便商务校准数据）"
-              type="warning"
-              show-icon
-              :closable="false"
-            >
+            <el-alert description="该列表仅展示过去100天内灵狐联合中标的项目（方便商务校准数据）" type="warning" show-icon :closable="false">
             </el-alert>
             <listPage></listPage>
           </div>
@@ -127,7 +92,7 @@ export default {
   components: {
     listPage
   },
-  data() {
+  data () {
     const vm = this;
     return {
       date1: [],
@@ -141,13 +106,13 @@ export default {
         shortcuts: [
           {
             text: "本月",
-            onClick(picker) {
+            onClick (picker) {
               picker.$emit("pick", [new Date(), new Date()]);
             },
           },
           {
             text: "最近3个月",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 2);
@@ -156,7 +121,7 @@ export default {
           },
           {
             text: "最近半年",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 5);
@@ -165,7 +130,7 @@ export default {
           },
           {
             text: "最近一年",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 11);
@@ -180,7 +145,7 @@ export default {
           if (vm.tdata1) {
             let dateRegionMax = dayjs(vm.tdata1).add(12, "month");;
             let dateRegionMin = dayjs(vm.tdata1).subtract(12, "month");
-            if (dateRegionMax.isAfter(today) ) {
+            if (dateRegionMax.isAfter(today)) {
               return time.getTime() >= today || time.getTime() < dateRegionMin;
             } else {
               return time.getTime() >= dateRegionMax || time.getTime() < dateRegionMin;
@@ -193,7 +158,7 @@ export default {
             }
           }
         },
-        onPick(time) {
+        onPick (time) {
           //当第一时间选中才设置禁用
           if (time.minDate && !time.maxDate) {
             vm.tdata1 = time.minDate;
@@ -204,13 +169,13 @@ export default {
         shortcuts: [
           {
             text: "本月",
-            onClick(picker) {
+            onClick (picker) {
               picker.$emit("pick", [new Date(), new Date()]);
             },
           },
           {
             text: "最近3个月",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 2);
@@ -219,7 +184,7 @@ export default {
           },
           {
             text: "最近半年",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 5);
@@ -228,7 +193,7 @@ export default {
           },
           {
             text: "最近一年",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 11);
@@ -243,7 +208,7 @@ export default {
           if (vm.tdata2) {
             let dateRegionMax = dayjs(vm.tdata2).add(12, "month");;
             let dateRegionMin = dayjs(vm.tdata2).subtract(12, "month");
-            if (dateRegionMax.isAfter(today) ) {
+            if (dateRegionMax.isAfter(today)) {
               return time.getTime() >= today || time.getTime() < dateRegionMin;
             } else {
               return time.getTime() >= dateRegionMax || time.getTime() < dateRegionMin;
@@ -256,7 +221,7 @@ export default {
             }
           }
         },
-        onPick(time) {
+        onPick (time) {
           //当第一时间选中才设置禁用
           if (time.minDate && !time.maxDate) {
             vm.tdata2 = time.minDate;
@@ -267,13 +232,13 @@ export default {
         shortcuts: [
           {
             text: "本月",
-            onClick(picker) {
+            onClick (picker) {
               picker.$emit("pick", [new Date(), new Date()]);
             },
           },
           {
             text: "最近3个月",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 2);
@@ -282,7 +247,7 @@ export default {
           },
           {
             text: "最近半年",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 5);
@@ -291,7 +256,7 @@ export default {
           },
           {
             text: "最近一年",
-            onClick(picker) {
+            onClick (picker) {
               const end = new Date();
               const start = new Date();
               start.setMonth(start.getMonth() - 11);
@@ -306,7 +271,7 @@ export default {
           if (vm.tdata3) {
             let dateRegionMax = dayjs(vm.tdata3).add(12, "month");;
             let dateRegionMin = dayjs(vm.tdata3).subtract(12, "month");
-            if (dateRegionMax.isAfter(today) ) {
+            if (dateRegionMax.isAfter(today)) {
               return time.getTime() >= today || time.getTime() < dateRegionMin;
             } else {
               return time.getTime() >= dateRegionMax || time.getTime() < dateRegionMin;
@@ -319,7 +284,7 @@ export default {
             }
           }
         },
-        onPick(time) {
+        onPick (time) {
           //当第一时间选中才设置禁用
           if (time.minDate && !time.maxDate) {
             vm.tdata3 = time.minDate;
@@ -343,13 +308,11 @@ export default {
               params.forEach((val, idx) => {
                 let str = "";
                 if (val.data !== 0) {
-                  str = `<div style="display:flex;justify-content: space-between"><span style="color: #606266;"><i style="display: inline-block;border-radius: 50%; width: 10px;height: 10px;margin-right: 5px;background-color: ${
-                    val.color
-                  };"></i>${
-                    val.seriesName
-                  }</span><span style="margin-left: 10px">${vm.numberToCurrencyNo(
-                    val.data
-                  )}元</span></div>`;
+                  str = `<div style="display:flex;justify-content: space-between"><span style="color: #606266;"><i style="display: inline-block;border-radius: 50%; width: 10px;height: 10px;margin-right: 5px;background-color: ${val.color
+                    };"></i>${val.seriesName
+                    }</span><span style="margin-left: 10px">${vm.numberToCurrencyNo(
+                      val.data
+                    )}元</span></div>`;
                 }
                 htmlStr += str;
               });
@@ -657,7 +620,7 @@ export default {
               borderWidth: 0.5,
               borderType: 'solid',
               padding: [2, 4],
-              formatter: function(params) {
+              formatter: function (params) {
                 return vm.numberToCurrencyNo(params.data)
               }
             },
@@ -680,7 +643,7 @@ export default {
               borderWidth: 0.5,
               borderType: 'solid',
               padding: [2, 4],
-              formatter: function(params) {
+              formatter: function (params) {
                 return vm.numberToCurrencyNo(params.data)
               }
             },
@@ -895,7 +858,7 @@ export default {
     };
   },
 
-  mounted() {
+  mounted () {
     const vm = this;
     // 本月
     let zt = dayjs().format("YYYY-MM");
@@ -913,7 +876,7 @@ export default {
     vm.getLineData(initDate);
   },
   methods: {
-    getBarData(date) {
+    getBarData (date) {
       const vm = this;
       let obj = {
         start_date: date[0],
@@ -1033,7 +996,7 @@ export default {
     //     }
     //   });
     // },
-    getMidData2(date) {
+    getMidData2 (date) {
       const vm = this;
       let obj = {
         start_date: date[0],
@@ -1094,7 +1057,7 @@ export default {
         }
       });
     },
-    getLineData(date) {
+    getLineData (date) {
       const vm = this;
       let obj = {
         start_date: date[0],
@@ -1169,28 +1132,28 @@ export default {
         }
       });
     },
-    handleBar() {
+    handleBar () {
       const vm = this;
       vm.$nextTick(() => {
         let myChart = vm.$echarts.init(document.getElementById("dapanBarBox"));
         myChart.setOption(vm.barOption, true);
       });
     },
-    handleMid() {
+    handleMid () {
       const vm = this;
       vm.$nextTick(() => {
         let myChart = vm.$echarts.init(document.getElementById("dapanMidBox"));
         myChart.setOption(vm.midOption, true);
       });
     },
-    handleLine() {
+    handleLine () {
       const vm = this;
       vm.$nextTick(() => {
         let myChart = vm.$echarts.init(document.getElementById("dapanLineBox"));
         myChart.setOption(vm.lineOption, true);
       });
     },
-    handleLineToBar() {
+    handleLineToBar () {
       const vm = this;
       vm.$nextTick(() => {
         let myChart = vm.$echarts.init(document.getElementById("dapanLineBox"));
@@ -1198,33 +1161,33 @@ export default {
       });
     },
     // 行业类目对比--日期事件
-    date1Event(date) {
+    date1Event (date) {
       this.getBarData(date);
     },
     // 行业类目对比--radio事件
-    radio1Event() {
+    radio1Event () {
       this.getBarData(this.date1);
     },
     // 竞品项目对比--日期事件
-    date2Event(date) {
+    date2Event (date) {
       this.getMidData2(date);
     },
     // 竞品项目对比--radio事件
-    radio2Event() {
+    radio2Event () {
       const vm = this;
       this.getMidData2(this.date2);
     },
     // 趋势图--日期事件
-    date3Event(date) {
+    date3Event (date) {
       this.getLineData(date);
     },
     // 趋势图--radio事件
-    radio3Event(val) {
+    radio3Event (val) {
       this.LineToBarOption.grid.left = val === "amount" ? "10%" : "4%";
       this.lineOption.grid.left = val === "amount" ? "10%" : "4%";
       this.getLineData(this.date3);
     },
-    numberToCurrencyNo(value) {
+    numberToCurrencyNo (value) {
       if (!value) return 0;
       // 获取整数部分
       const intPart = Math.trunc(value);
@@ -1248,15 +1211,28 @@ export default {
 </script>
 <style scoped lang="less">
 @import "../selfBrand/index.less";
+
+.flx {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+
+  .lb {
+    margin-right: 20px;
+  }
+}
+
 .chartOuter {
   margin: 0 0 40px 20px;
   padding: 40px 60px;
   background-color: #fff;
   box-shadow: 0px 0px 30px rgb(240, 240, 240);
 }
+
 .dapanMidBox {
   width: 100%;
   font-size: 18px;
+
   .lin {
     width: 90%;
     margin: 0 auto;
@@ -1265,26 +1241,33 @@ export default {
     .el {
       &-row {
         padding: 10px 0;
+
         &:first-child {
           background-color: #fff !important;
         }
+
         &:nth-child(even) {
           background-color: #f9f9f9;
         }
+
         &:nth-child(odd) {
           background-color: #f1f1f1;
         }
       }
+
       &-col {
+
         &.first,
         &.second {
           font-size: 20px;
           line-height: 60px;
           text-align: center;
         }
+
         &.third {
           display: flex;
           justify-content: space-around;
+
           p {
             // flex-basis: 33%;
             display: flex;
@@ -1293,6 +1276,7 @@ export default {
             align-content: center;
             font-size: 18px;
             line-height: 30px;
+
             span {
               display: block;
               width: 100%;
@@ -1304,16 +1288,19 @@ export default {
     }
   }
 }
+
 .el {
   &-row {
     margin-bottom: 20px;
   }
+
   &-col {
     &.w100 {
       div {
-        width: 100% !important;
+        width: 80% !important;
       }
     }
+
     &.fr {
       text-align: right;
     }

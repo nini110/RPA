@@ -1,31 +1,15 @@
 <template>
   <!-- 上传竞标 -->
-  <el-dialog
-    title="新增计划"
-    :visible.sync="show"
-    @close="closeDialog"
-    width="45%"
-    max-height="800px"
-    custom-class="dialogJb"
-    :close-on-click-modal="false"
-  >
+  <el-dialog title="新增计划" :visible.sync="show" @close="closeDialog" width="45%" max-height="800px" custom-class="dialogJb"
+    :close-on-click-modal="false">
     <el-form ref="form" :model="form" class="formObj" :rules="rules">
       <el-row :gutter="20">
         <el-col :span="24">
           <el-form-item label="选择竞标" prop="bidId" class="w100">
-            <el-select
-              v-model="form.bidId"
-              filterable
-              placeholder="请输入标名或者项目编号"
-              popper-class="tsselect"
-              @change="jbChangeEvent"
-            >
-              <el-option
-                v-for="item in bidOptions"
-                :key="item.value"
-                :label="`${item.pro_num} ~ ${item.pro_name}`"
-                :value="item.pro_num"
-              >
+            <el-select v-model="form.bidId" filterable placeholder="请输入标名或者项目编号" popper-class="tsselect"
+              @change="jbChangeEvent">
+              <el-option v-for="item in bidOptions" :key="item.value" :label="`${item.pro_num} ~ ${item.pro_name}`"
+                :value="item.pro_num">
               </el-option>
             </el-select>
           </el-form-item>
@@ -33,126 +17,62 @@
         <el-col :span="24">
           <el-form-item label="选择活动" prop="checkedActions">
             <div v-if="actionOptions && actionOptions.length > 0">
-              <el-checkbox
-                :indeterminate="form.isIndeterminate"
-                v-model="form.checkAll"
-                @change="actionEventAll"
-                >全选</el-checkbox
-              >
-              <el-checkbox-group
-                v-model="form.checkedActions"
-                @change="actionEvent"
-              >
-                <el-checkbox
-                  v-for="item in actionOptions"
-                  :label="item"
-                  :key="item.id"
-                >
+              <el-checkbox :indeterminate="form.isIndeterminate" v-model="form.checkAll"
+                @change="actionEventAll">全选</el-checkbox>
+              <el-checkbox-group v-model="form.checkedActions" @change="actionEvent">
+                <el-checkbox v-for="item in actionOptions" :label="item" :key="item.id">
                   {{ item.activityName }}
                 </el-checkbox>
               </el-checkbox-group>
             </div>
             <div v-else>
-              <span
-                v-if="form.bidId && actionOptions.length === 0"
-                style="color: red"
-                >当前竞标无活动，将无法创建监控计划</span
-              >
+              <span v-if="form.bidId && actionOptions.length === 0" style="color: red">当前竞标无活动，将无法创建监控计划</span>
               <span v-else>请先选择竞标</span>
             </div>
           </el-form-item>
         </el-col>
         <el-col :span="24">
           <el-form-item label="添加人员" prop="cSubcategoryNo">
-            <el-input
-              class="inline-input"
-              v-model.trim="cSubcategoryNo"
-              placeholder="请输入上传人员姓名或关键字"
-              @input="searchPeople"
-              size="medium"
-              clearable
-            ></el-input>
+            <el-input class="inline-input" v-model.trim="cSubcategoryNo" placeholder="请输入上传人员姓名或关键字" @input="searchPeople"
+              size="medium" clearable></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="24">
-          <el-form-item
-            v-if="peopleOptions.length > 0"
-            label=""
-            class="tagBox ts"
-          >
+          <el-form-item v-if="peopleOptions.length > 0" label="" class="tagBox ts">
             <el-scrollbar style="height: 100%">
-              <el-tag
-                v-for="tag in peopleOptions"
-                :disable-transitions="false"
-                :key="tag.userid"
-                type=""
-                @close="handleClose(tag)"
-                @click="addPerson(tag)"
-                >{{ tag.name }}</el-tag
-              >
+              <el-tag v-for="tag in peopleOptions" :disable-transitions="false" :key="tag.userid" type=""
+                @close="handleClose(tag)" @click="addPerson(tag)">{{ tag.name }}</el-tag>
             </el-scrollbar>
           </el-form-item>
         </el-col>
 
         <el-col :span="24">
           <el-form-item label="已选人员" prop="" class="tagBox">
-            <el-tag
-              v-for="(i, index) in peoplelist"
-              :key="index"
-              :index="index"
-              :closable="peoplelist.length > 1"
-              @close="deleteitem(index)"
-              >{{ i.name }}</el-tag
-            >
+            <el-tag v-for="(i, index) in peoplelist" :key="index" :index="index" :closable="peoplelist.length > 1"
+              @close="deleteitem(index)">{{ i.name }}</el-tag>
           </el-form-item>
         </el-col>
         <el-col :span="20">
           <el-form-item label="生成预算" prop="rangeDate" class="w100">
-            <el-date-picker
-              v-model="form.rangeDate"
-              format="yyyy-MM-dd"
-              value-format="yyyy-MM-dd"
-              type="daterange"
-              :clearable="false"
-              range-separator="至"
-              start-placeholder="开始日期"
-              end-placeholder="结束日期"
-              :picker-options="pickerOptionsStart"
-            >
+            <el-date-picker v-model="form.rangeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange"
+              :clearable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+              :picker-options="pickerOptionsStart">
             </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-button
-            type="info"
-            plain
-            @click="createForm"
-            :disabled="form.rangeDate && form.rangeDate.length === 0"
-            >生成</el-button
-          >
+          <el-button type="info" plain @click="createForm"
+            :disabled="form.rangeDate && form.rangeDate.length === 0">生成</el-button>
         </el-col>
         <el-col class="flexCol" :span="24">
           <!-- <el-scrollbar style="height: 100%"> -->
-          <el-form-item
-            v-for="(item, idx) in form.budgetJson"
-            :key="idx"
-            label=""
-            :prop="'budgetJson.' + idx + '.val'"
-            :rules="rules.budget"
-          >
-            <el-input
-              placeholder="请输入预算"
-              v-model.trim="item.val"
-              :maxlength="9"
-              clearable
-            >
+          <el-form-item v-for="(item, idx) in form.budgetJson" :key="idx" label="" :prop="'budgetJson.' + idx + '.val'"
+            :rules="rules.budget">
+            <el-input placeholder="请输入预算" v-model.trim="item.val" :maxlength="9" clearable>
               <template slot="prepend">{{ item.date }}</template>
             </el-input>
-            <span
-              v-if="form.budgetJson.length > 1"
-              class="delicon el-icon-delete"
-              @click="delBudgetEvent(item, idx)"
-            ></span>
+            <span v-if="form.budgetJson.length > 1" class="delicon el-icon-delete"
+              @click="delBudgetEvent(item, idx)"></span>
           </el-form-item>
           <!-- </el-scrollbar> -->
         </el-col>
@@ -163,13 +83,7 @@
       <a class="btnnormal btnnormal_down marginR" @click="closeDialog()">
         <div class="el-icon-close btnSize">取消</div>
       </a>
-      <el-button
-        v-waves
-        class="el-icon-check"
-        type="primary"
-        @click="uploadFile"
-        >保存</el-button
-      >
+      <el-button v-waves class="el-icon-check" type="primary" @click="uploadFile">保存</el-button>
     </span>
   </el-dialog>
 </template>
@@ -189,7 +103,7 @@ export default {
     Upload,
   },
   props: {},
-  data() {
+  data () {
     const vm = this;
     const validActions = function (rule, value, callback) {
       if (
@@ -209,7 +123,7 @@ export default {
         return;
       }
       callback();
-    };    
+    };
     return {
       pickerOptionsStart: {
         disabledDate: (time) => {
@@ -269,13 +183,13 @@ export default {
     };
   },
   computed: {
-    checkedActivity() {
+    checkedActivity () {
       return this.form.checkedActions;
     },
   },
   watch: {
     checkedActivity: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         const vm = this;
         if (newval.length === 0) {
           vm.form.activity_name = "";
@@ -302,8 +216,8 @@ export default {
       deep: true,
     },
   },
-  created() {},
-  mounted() {
+  created () { },
+  mounted () {
     //设置请求头
     this.userid = localStorage.getItem("wx_userid");
     this.username = localStorage.getItem("user_name");
@@ -317,7 +231,7 @@ export default {
   },
   methods: {
     // 查找人员
-    searchPeople() {
+    searchPeople () {
       const vm = this;
       if (vm.cSubcategoryNo == "") {
         vm.peopleOptions = [];
@@ -341,7 +255,7 @@ export default {
       }
     },
     // 查询竞标
-    searchEvent() {
+    searchEvent () {
       const vm = this;
       BiddingSearch({
         aa: "",
@@ -355,7 +269,7 @@ export default {
       });
     },
     // 生成
-    createForm() {
+    createForm () {
       const vm = this;
       if (vm.form.rangeDate && vm.form.rangeDate.length > 0) {
         let starttime = dayjs(vm.form.rangeDate[0]);
@@ -371,7 +285,7 @@ export default {
         arr.forEach((val, idx) => {
           let res = dayjs(
             dayjs(vm.form.rangeDate[0]).valueOf() +
-              (idx + 1) * 1000 * 60 * 60 * 24
+            (idx + 1) * 1000 * 60 * 60 * 24
           ).format("YYYY-MM-DD");
           vm.form.budgetJson.push({
             date: res,
@@ -380,12 +294,12 @@ export default {
         });
       }
     },
-    delBudgetEvent(item, idx) {
+    delBudgetEvent (item, idx) {
       const vm = this;
       vm.form.budgetJson.splice(idx, 1);
     },
     // 选中竞标查询活动
-    jbChangeEvent(val) {
+    jbChangeEvent (val) {
       const vm = this;
       vm.$refs.form.clearValidate('checkedActions')
       if (val) {
@@ -401,9 +315,9 @@ export default {
       }
     },
     //立即上传
-    uploadFile(data) {
+    uploadFile (data) {
       const vm = this;
-      if(vm.form.bidId && vm.actionOptions.length === 0) {
+      if (vm.form.bidId && vm.actionOptions.length === 0) {
         vm.$msg({ type: "warning", msg: '当前竞标无活动，将无法创建监控计划' });
         return
       }
@@ -452,39 +366,39 @@ export default {
       });
     },
     // 点击添加人员
-    addPerson(tag) {
+    addPerson (tag) {
       this.peoplelist.push(tag);
       this.itemid.push(tag.id);
       // 添加后删除以免二次选中
       this.handleClose(tag);
     },
     //多选栏中的删除
-    handleClose(tag) {
+    handleClose (tag) {
       let item = this.peopleOptions.indexOf(tag);
       this.peopleOptions.splice(item, 1);
     },
     //多选框--全选
-    actionEventAll(val) {
+    actionEventAll (val) {
       this.form.checkedActions = val ? this.actionOptions : [];
       this.form.isIndeterminate = false;
     },
     //多选框--单选
-    actionEvent(value) {
+    actionEvent (value) {
       let checkedCount = value.length;
       this.form.checkAll = checkedCount === this.actionOptions.length;
       this.form.isIndeterminate =
         checkedCount > 0 && checkedCount < this.actionOptions.length;
     },
     // 双击删除列表
-    deleteitem(index) {
+    deleteitem (index) {
       this.peoplelist.splice(index, 1);
     },
-    closeDialog() {
+    closeDialog () {
       this.$emit("close");
     },
   },
 };
 </script>
 <style lang="less" scoped>
-@import "../monitor/bidding.less";
+@import "@/views/BudgetAlarm/monitor/bidding.less";
 </style>

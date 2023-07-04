@@ -6,36 +6,19 @@
           <el-row>
             <el-col :span="16">
               <el-form-item>
-                <el-button
-                  v-waves
-                  type="primary"
-                  class="el-icon-plus btnnormal"
-                  @click="editFn(1)"
-                  size="medium"
-                  >新建模板
+                <el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="editFn(1)" size="medium">新建模板
                 </el-button>
               </el-form-item>
             </el-col>
             <el-col :span="6">
               <el-form-item label="模板名称">
-                <el-input
-                  v-model="searchName"
-                  placeholder="请输入模板名称"
-                  class="inp"
-                  size="medium"
-                  clearable
-                ></el-input>
+                <el-input v-model="searchName" placeholder="请输入模板名称" class="inp" size="medium" clearable></el-input>
               </el-form-item>
             </el-col>
             <el-col :span="2">
               <el-form-item>
-                <el-button
-                  v-waves
-                  type="primary"
-                  class="el-icon-search btnnormal"
-                  size="medium"
-                  style="margin-left: 10px"
-                  >查询
+                <el-button v-waves type="primary" class="el-icon-search btnnormal" size="medium"
+                  style="margin-left: 10px">查询
                 </el-button>
               </el-form-item>
             </el-col>
@@ -43,70 +26,31 @@
         </el-form>
       </div>
       <div class="tabbles pricetable" ref="tabbles">
-        <vxe-table
-          :data="tableData"
-          stripe
-          round
-          :column-config="{ resizable: true }"
-          :row-config="{ isCurrent: true, isHover: true }"
-          class="mytable-scrollbar"
-          auto-resize
-          height="auto"
-        >
+        <vxe-table :data="tableData" stripe round :column-config="{ resizable: true }"
+          :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
           >
           <template #empty>
             <img src="@/assets/images/noneData3.png" />
           </template>
-          <vxe-column
-            type="seq"
-            title="序号"
-            width="5%"
-            fixed="left"
-          ></vxe-column>
-          <vxe-column
-            v-for="(item, idx) in moduleOptions"
-            :key="idx"
-            min-width="15%"
-            :field="item.prop"
-            :title="item.label"
-            show-overflow="tooltip"
-          ></vxe-column>
+          <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+          <vxe-column v-for="(item, idx) in moduleOptions" :key="idx" min-width="15%" :field="item.prop"
+            :title="item.label" show-overflow="tooltip"></vxe-column>
           <vxe-column title="操作" fixed="right" width="10%">
             <template slot-scope="scope">
-              <div
-                v-waves
-                class="btn btn_info"
-                @click="editFn(2, scope.row)"
-                :disabled="scope.row.status ? true : false"
-              >
-                <el-tooltip
-                  class="item"
-                  effect="dark"
-                  content="编辑"
-                  placement="top"
-                >
+              <div v-waves class="btn btn_info" @click="editFn(2, scope.row)" :disabled="scope.row.status ? true : false">
+                <el-tooltip class="item" effect="light" content="编辑" placement="top">
                   <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-bianjiICON"></use>
                   </svg> -->
-                <i class="el-icon-edit"></i>
+                  <i class="el-icon-edit"></i>
                 </el-tooltip>
               </div>
-              <div
-                v-waves
-                class="btn btn_info"
-                @click="deleteFn(scope.row)"
-                :disabled="scope.row.status ? true : false"
-              >
-                <el-tooltip
-                  class="item"
-                  effect="dark"
-                  content="删除"
-                  placement="top"
-                >
+              <div v-waves class="btn btn_info" @click="deleteFn(scope.row)" :disabled="scope.row.status ? true : false">
+                <el-tooltip class="item" effect="light" content="删除" placement="top">
                   <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                     <use xlink:href="#icon-shanchu1"></use>
                   </svg> -->
-                <i class="el-icon-circle-close"></i>
+                  <i class="el-icon-circle-close"></i>
                 </el-tooltip>
               </div>
             </template>
@@ -114,35 +58,16 @@
         </vxe-table>
       </div>
       <div class="block">
-        <el-pagination
-          background
-          @size-change="handleSizeChange"
-          @current-change="handleCurrentChange"
-          :current-page="currentPage"
-          :page-sizes="[10, 20, 50, 100]"
-          :page-size="pagesize"
-          layout="total, sizes, prev, pager, next, jumper"
-          :total="total"
-        >
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="currentPage" :page-sizes="[10, 20, 50, 100]" :page-size="pagesize"
+          layout="total, sizes, prev, pager, next, jumper" :total="total">
         </el-pagination>
       </div>
       <div class="dialog">
-        <DialogRegion
-          ref="dialogForm_Region"
-          :username="username"
-          :rowInfo="rowInfo"
-          :editFlag="editFlag"
-          :showFlag="showRegionDialog"
-          @close="closeEvent"
-        ></DialogRegion>
-        <DialogAge
-          ref="dialogForm_Age"
-          :username="username"
-          :rowInfo="rowInfo"
-          :editFlag="editFlag"
-          :showFlag="showAgeDialog"
-          @close="closeEvent"
-        ></DialogAge>
+        <DialogRegion ref="dialogForm_Region" :username="username" :rowInfo="rowInfo" :editFlag="editFlag"
+          :showFlag="showRegionDialog" @close="closeEvent"></DialogRegion>
+        <DialogAge ref="dialogForm_Age" :username="username" :rowInfo="rowInfo" :editFlag="editFlag"
+          :showFlag="showAgeDialog" @close="closeEvent"></DialogAge>
       </div>
     </div>
   </div>
@@ -166,7 +91,7 @@ export default {
     },
   },
   mixins: [message],
-  data() {
+  data () {
     return {
       username: "",
       showRegionDialog: false,
@@ -183,7 +108,7 @@ export default {
   },
   watch: {
     activeTab: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         const vm = this;
         vm.getList();
       },
@@ -191,12 +116,12 @@ export default {
       deep: true,
     },
   },
-  mounted() {
+  mounted () {
     this.username = localStorage.getItem("user_name");
     this.moduleOptions = opt.moduleOptions;
   },
   methods: {
-    closeEvent(tag) {
+    closeEvent (tag) {
       const vm = this;
       if (vm.activeTab === "first") {
         // vm.$refs.dialogForm_Region.form = {
@@ -224,7 +149,7 @@ export default {
       }
     },
     // 删除事件
-    deleteFn(row) {
+    deleteFn (row) {
       const vm = this;
       vm.openMessageBox({
         type: "warning",
@@ -238,7 +163,7 @@ export default {
       });
     },
     // 编辑按钮
-    editFn(tag, row) {
+    editFn (tag, row) {
       const vm = this;
       vm.editFlag = tag;
       if (vm.activeTab === "first") {
@@ -251,7 +176,7 @@ export default {
         vm.rowInfo = row;
       }
     },
-    getList() {
+    getList () {
       const vm = this;
       let params = {
         page: vm.currentPage,
@@ -292,11 +217,11 @@ export default {
         });
       }
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pagesize = val;
       this.getList();
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.currentPage = val;
       this.getList();
     },

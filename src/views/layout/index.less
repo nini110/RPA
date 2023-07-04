@@ -85,9 +85,10 @@
 
       &-item {
         color: #f3f3f3e0;
-        // background-color: #2b303d;
-        padding: 0 65px !important;
-        font-size: 12px;
+        padding: 0 20px 0 86px !important;
+        font-size: 16px;
+        height: 55px;
+        line-height: 55px;
 
         &:focus {
           background-color: #303133ab !important;
@@ -100,6 +101,8 @@
         }
 
         &-group {
+          padding: 10px 0;
+
           &__title {
             line-height: 50px;
             padding: 0 65px !important;
@@ -118,15 +121,38 @@
       }
 
       &__title {
-        font-size: 14px;
-        font-weight: bold;
+        font-size: 18px;
+        // font-weight: bold;
         padding-left: 0 !important;
         padding: 0 30px !important;
         color: #fff;
+        height: 55px;
+        line-height: 55px;
+
+        .tticon {
+          width: 28px;
+          height: 28px;
+          padding: 8px;
+          margin-right: 6px;
+          fill: #e2e2e2;
+        }
 
         .iconfont {
-          margin-right: 10px;
-          color: #8b8c95;
+          display: flex;
+          align-items: center;
+          font-size: 18px;
+
+          &.ts {
+            &:before {
+              font-size: 14px !important;
+            }
+          }
+
+          &:before {
+            font-size: 24px;
+            margin-right: 10px;
+            color: #fff;
+          }
         }
 
         .titleicon {

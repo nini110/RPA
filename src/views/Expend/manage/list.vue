@@ -8,7 +8,7 @@
             <el-tooltip class="fixtool" effect="light" content="个人账号绑定上限数量为50个" placement="top">
               <span class="el-icon-warning-outline"></span>
             </el-tooltip>
-            <el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="editFn">新增账号
+            <el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="editFn">账号绑定
             </el-button>
           </el-form-item>
         </el-form>
@@ -28,9 +28,14 @@
               操作
             </template>
             <template slot-scope="scope">
-              <div v-waves class="btn btn_info one" @click="deleteFn(scope.row)">
-                <el-tooltip class="item" effect="dark" content="解绑" placement="top">
+              <div v-waves class="btn btn_info" @click="deleteFn(scope.row)">
+                <el-tooltip class="item" effect="light" content="解绑" placement="top">
                   <i class="iconfont icon-jiebang"></i>
+                </el-tooltip>
+              </div>
+              <div v-if="!scope.row.status" v-waves class="btn btn_info" @click="SQFn(scope.row)">
+                <el-tooltip class="item" effect="light" content="授权" placement="top">
+                  <i class="iconfont icon--_shouquanguanli"></i>
                 </el-tooltip>
               </div>
             </template>
@@ -58,12 +63,6 @@ import AddDialog from "./addDialog.vue";
 export default {
   components: {
     AddDialog,
-  },
-  props: {
-    activeTab: {
-      type: String,
-      default: null,
-    },
   },
   mixins: [message],
   data () {
@@ -93,15 +92,6 @@ export default {
       total: 0,
     };
   },
-  watch: {
-    activeTab: {
-      handler (newval, oldval) {
-
-      },
-      immediate: true,
-      deep: true,
-    },
-  },
   created () {
     this.getList()
   },
@@ -128,6 +118,19 @@ export default {
         confirmButtonFn: () => {
           vm.api_del(row.id)
         },
+      });
+    },
+    // 授权
+    SQFn (row) {
+      const vm = this
+      vm.openMessageBox({
+        type: "warning",
+        showClose: true,
+        tipTitle: `账号未授权或授权失效`,
+        tipContent: `http://tool.afocus.com.cn/jos/oauth2`,
+        auth: true,
+        dangerouslyUseHTMLString: true,
+        confirmButtonFn: () => { },
       });
     },
     // 新增

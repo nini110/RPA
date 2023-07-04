@@ -2,61 +2,29 @@
   <div class="DMP outerDiv">
     <div class="content">
       <div class="content_form ts">
-        <el-form
-          ref="form"
-          :model="form"
-          class="formObj"
-          :rules="rules"
-          :disabled="fromChart"
-        >
+        <el-form ref="form" :model="form" class="formObj" :rules="rules" :disabled="fromChart">
           <div class="formObj_ipt lable3">
-            <el-row type="flex" class="formObj_ipt_rt">
-              <el-col :span="8">
-                <el-form-item label="PIN:" prop="pin">
+            <el-row type="flex" justify="space-between" class="formObj_ipt_rt">
+              <el-col :span="7">
+                <el-form-item label="PIN:" prop="pin" class="noborder">
                   <el-select v-model="form.pin" placeholder="请选择" clearable>
-                    <el-option
-                      v-for="item in pinOptions"
-                      :key="item.label"
-                      :label="item.label"
-                      :value="item.label"
-                      clearable
-                    >
+                    <el-option v-for="item in pinOptions" :key="item.label" :label="item.label" :value="item.label"
+                      clearable>
                     </el-option>
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="8">
-                <el-form-item
-                  class="tophasBtn"
-                  label="日期:"
-                  prop="search_date"
-                >
-                  <el-date-picker
-                    class="tophasBtn_data"
-                    v-model="form.search_date"
-                    format="yyyy-MM-dd"
-                    value-format="yyyy-MM-dd"
-                    type="daterange"
-                    range-separator="至"
-                    start-placeholder="开始日期"
-                    end-placeholder="结束日期"
-                    :picker-options="pickerOptionsStart"
-                  >
+              <el-col :span="7">
+                <el-form-item class="tophasBtn noborder" label="日期:" prop="search_date">
+                  <el-date-picker class="tophasBtn_data" v-model="form.search_date" format="yyyy-MM-dd"
+                    value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期"
+                    end-placeholder="结束日期" :picker-options="pickerOptionsStart">
                   </el-date-picker>
                 </el-form-item>
               </el-col>
-              <el-col v-if="$route.name !== 'Charts'" :span="8">
-                <el-form-item
-                  v-if="$route.name !== 'Charts'"
-                  label="关键词:"
-                  prop="search_keyword"
-                >
-                  <el-input
-                    v-model="form.search_keyword"
-                    size="medium"
-                    placeholder="请输入关键词"
-                    clearable
-                  ></el-input>
+              <el-col v-if="$route.name !== 'Charts'" :span="7">
+                <el-form-item class="noborder" v-if="$route.name !== 'Charts'" label="关键词:" prop="search_keyword">
+                  <el-input v-model="form.search_keyword" size="medium" placeholder="请输入关键词" clearable></el-input>
                 </el-form-item>
               </el-col>
             </el-row>
@@ -66,118 +34,63 @@
           <a class="btnnormal_down marginR inlineButton" @click="resetEvent">
             <div class="el-icon-refresh btnSize">重置</div>
           </a>
-          <el-button
-            v-waves
-            type="primary"
-            class="el-icon-search marginL"
-            @click="searchEvent"
-            >查询
+          <el-button v-waves type="primary" class="el-icon-search marginL" @click="searchEvent">查询
           </el-button>
         </div>
       </div>
       <div ref="tableBox" class="content_tableBox hasUp4">
-        <Chart
-          v-if="$route.name === 'Charts'"
-          :getDataFlag="getDataFlag"
-          :searchVal="searchVal"
-          @close="chartReset"
-        ></Chart>
+        <Chart v-if="$route.name === 'Charts'" :getDataFlag="getDataFlag" :searchVal="searchVal" @close="chartReset">
+        </Chart>
         <div v-else class="tables">
           <!-- :height="tableHeight" -->
           <div class="tableTab" v-show="tableData">
-            <vxe-table
-              ref="table"
-              :data="tableData"
-              stripe
-              round
-              :column-config="{ resizable: true }"
-              :row-config="{ isCurrent: true, isHover: true }"
-              class="mytable-scrollbar"
-              auto-resize
-              height="auto"
+            <vxe-table ref="table" :data="tableData" stripe round :column-config="{ resizable: true }"
+              :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto"
               :sort-config="{
                 remote: true,
                 trigger: 'cell',
                 defaultSort: { field: 'age', order: 'desc' },
                 orders: ['desc', 'asc', null],
-              }"
-              @sort-change="sortChange"
-            >
+              }" @sort-change="sortChange">
               >
               <template #empty>
                 <img src="@/assets/images/search.png" />
                 <span>空空如也</span>
               </template>
-              <vxe-column
-                type="seq"
-                title="序号"
-                width="5%"
-                fixed="left"
-              ></vxe-column>
-              <vxe-column
-                field="keyword"
-                title="关键词"
-                fixed="left"
-                width="15%"
-                show-overflow="tooltip"
-              >
+              <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+              <vxe-column field="keyword" title="关键词" fixed="left" width="15%" show-overflow="tooltip">
                 <template slot-scope="scope">
-                  <span
-                    class="temInfoSpan"
-                    @click="showInfoDarwer(scope.row)"
-                    >{{ scope.row.keyword }}</span
-                  >
-                </template></vxe-column
-              >
+                  <span class="temInfoSpan" @click="showInfoDarwer(scope.row)">{{ scope.row.keyword }}</span>
+                </template></vxe-column>
               <vxe-column field="" title="操作" fixed="left" width="8%">
                 <template slot-scope="scope">
                   <div v-waves class="btn btn_info">
                     <svg class="icon svg-icon titleicon" aria-hidden="true">
                       <use xlink:href="#icon-13edit"></use>
                     </svg>
-                  </div> </template
-              ></vxe-column>
-              <vxe-column
-                v-for="(item, idx) in topMenuList"
-                :key="idx"
-                width="16%"
-                :field="item.prop"
-                :title="item.label"
-                sortable
-                :filters="[{ label: '去除值为0的元素', value: 0 }]"
-                :filter-method="filterTag"
-              >
+                  </div>
+                </template></vxe-column>
+              <vxe-column v-for="(item, idx) in topMenuList" :key="idx" width="16%" :field="item.prop" :title="item.label"
+                sortable :filters="[{ label: '去除值为0的元素', value: 0 }]" :filter-method="filterTag">
                 <template slot-scope="scope">
                   <span v-if="$route.name === 'Effect'">{{
                     scope.row[`${item.prop}`] | formatPercent
                   }}</span>
                   <span v-else>{{ scope.row[`${item.prop}`] }}</span>
-                </template></vxe-column
-              >
+                </template></vxe-column>
             </vxe-table>
           </div>
         </div>
         <!-- 分页器 -->
         <div class="block" v-if="total">
-          <el-pagination
-            background
-            @size-change="handleSizeChange"
-            @current-change="handleCurrentChange"
-            :current-page.sync="currentPage"
-            :page-size="pagesize"
-            :page-sizes="[10, 20, 50, 100]"
-            layout="total, sizes, prev, pager, next, jumper"
-            :total="total"
-          >
+          <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page.sync="currentPage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]"
+            layout="total, sizes, prev, pager, next, jumper" :total="total">
           </el-pagination>
         </div>
       </div>
     </div>
-    <Drawer
-      :showDrawer="showDrawer"
-      :openDrawerInfo="openDrawerInfo"
-      @close="closeDrawer"
-    ></Drawer>
+    <Drawer :showDrawer="showDrawer" :openDrawerInfo="openDrawerInfo" @close="closeDrawer"></Drawer>
   </div>
 </template>
 <script>
@@ -190,7 +103,7 @@ export default {
     Chart,
     Drawer,
   },
-  data() {
+  data () {
     return {
       pickerOptionsStart: {
         disabledDate: (time) => {
@@ -303,7 +216,7 @@ export default {
   },
   watch: {
     $route: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         const vm = this;
         vm.getDataFlag = false;
         vm.form = {
@@ -319,7 +232,7 @@ export default {
       deep: true,
     },
   },
-  mounted() {
+  mounted () {
     const vm = this;
     let info = vm.$route.query;
     if (vm.$route.fullPath.indexOf("roi_type") !== -1) {
@@ -338,7 +251,7 @@ export default {
   },
   methods: {
     // 抽屉详情
-    showInfoDarwer(val) {
+    showInfoDarwer (val) {
       const vm = this;
       vm.openDrawerInfo = {
         ...vm.searchVal,
@@ -346,19 +259,19 @@ export default {
       };
       vm.showDrawer = true;
     },
-    closeDrawer() {
+    closeDrawer () {
       const vm = this;
       vm.showDrawer = false;
     },
-    chartReset() {
+    chartReset () {
       this.getDataFlag = false;
     },
     // 过滤
-    filterTag({ value, row, column }) {
+    filterTag ({ value, row, column }) {
       return row[column.field] !== value;
     },
     // 排序
-    sortChange({ column, property, order, sortBy, sortList, $event }) {
+    sortChange ({ column, property, order, sortBy, sortList, $event }) {
       const vm = this;
       vm.form.sort_word = column.field;
       vm.form.sort_line = order === "desc" ? "DESC" : "ASC";
@@ -369,7 +282,7 @@ export default {
       };
       vm.getTable(vm.searchVal);
     },
-    searchEvent() {
+    searchEvent () {
       const vm = this;
       vm.$refs.form.validate((valid) => {
         if (valid) {
@@ -387,7 +300,7 @@ export default {
       });
     },
     // 获取效果列表
-    getTable(data) {
+    getTable (data) {
       const vm = this;
       vm.tableData = [];
       // 获取效果列表
@@ -408,18 +321,18 @@ export default {
         }
       });
     },
-    resetEvent() {
+    resetEvent () {
       const vm = this;
       vm.$refs.form.resetFields();
       // vm.getTable(vm.searchVal);
     },
     //分页器功能
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pagesize = val;
       this.getTable(this.searchVal);
     },
     //有接口请求 每点击一页进行一次数据请求 参数页码为动态值：
-    handleCurrentChange(page) {
+    handleCurrentChange (page) {
       this.currentPage = page;
       this.getTable(this.searchVal);
     },
@@ -429,6 +342,12 @@ export default {
 
 <style lang="less" scoped>
 @import "@/views/index";
+@import "@/views/BudgetAlarm/index.less";
+
+.formObj {
+  padding: 0 20px;
+}
+
 .el-divider {
   margin-top: 0;
 }

@@ -4,6 +4,7 @@
 // ElementUI按需引入
 import Vue from 'vue'
 import {
+  Link,
   Badge,
   Image,
   Timeline,
@@ -63,6 +64,7 @@ import {
 
 
 const components = {
+  Link,
   Badge,
   Image,
   Timeline,

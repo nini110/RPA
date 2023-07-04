@@ -1,5 +1,6 @@
 import router from './router'
 import routes from './router/routes'
+import { routesRel } from './api/api.js'
 import NProgress from 'nprogress' // progress bar
 import 'nprogress/nprogress.css' // progress bar style
 import login from './views/Login/index.vue'
@@ -14,10 +15,11 @@ NProgress.configure({
 }) // NProgress Configuration
 let getRouter; // 用来获取后台拿到的路由
 let flag = true
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   NProgress.start()
   if (!getRouter) {
-    getRouter = handleRoutes(routes); // 后台拿到路由
+    getRouter = await handleRoutes(routes); // 后台拿到路由
+    // debugger
     routerGo(to, next)
     NProgress.done()
   } else {
@@ -28,16 +30,16 @@ router.beforeEach((to, from, next) => {
       sessionStorage.setItem('toInfo', to.fullPath)
       if (localStorage.getItem('wx_code') && flag) {
         flag = false
-        getRouter = handleRoutes(routes); // 后台拿到路由
+        getRouter = await handleRoutes(routes); // 后台拿到路由
         routerGo(to, next)
         NProgress.done()
       } else if (localStorage.getItem('wx_code') && !flag) {
-        if (to.meta.hasLimit) {
+        if (to.meta.limit) {
+          next()
+        } else {
           next({
             path: '/403'
           })
-        } else {
-          next()
         }
         NProgress.done()
       } else {
@@ -49,32 +51,37 @@ router.beforeEach((to, from, next) => {
   }
 });
 // 动态加入路由元素
-function handleRoutes (menuList) {
+async function handleRoutes (menuList) {
+  const vm = this
   let target = JSON.parse(JSON.stringify(menuList))
   let ret = [];
   if (!target || target.length <= 0) {
     return
   }
-  let userid = localStorage.getItem('wx_userid')
-  let whitelist = ['1022042', '22254', '20001', '19261', '19302', '20306', '1020108', '21400', '14026', '15443', '18179', '15056', '18327', '21129', '21027', '1020076', '1022002', '1022020', '10001', '10005']
-  if (userid && whitelist.indexOf(userid) === -1) {
-    target[2].children[7].children.map((val, idx) => {
-      if (idx !== 3) {
-        val.meta.hasLimit = true
-      }
-      return val
+  let apiRes = await routesRel({ aa: 'a' })
+  // console.log(apiRes)
+  if (apiRes && apiRes.data.code === 10000) {
+    let result = apiRes.data.data
+    let tagRes = result.reduce((pre, cur) => {
+      return cur.status === '1' ? pre.concat(cur.path_name) : pre
+    }, [])
+
+    target[2].children.forEach((val, idx) => {
+      val.children.forEach((val1, idx1) => {
+        val1.meta.limit = tagRes.includes(val1.meta.title)
+      })
     })
   }
-  // 开发--临时
-  let whitelist2 = ['1020108', '19302', '21400']
-  if (userid && whitelist2.indexOf(userid) === -1) {
-    target[2].children[7].children.map((val, idx) => {
-      if (idx === 3) {
-        val.meta.hasLimit = true
-      }
-      return val
-    })
-  }
+  // // 开发--临时
+  // let whitelist2 = ['1020108', '17379', '19302', '21400']
+  // if (userid && whitelist2.indexOf(userid) === -1) {
+  //   target[2].children[7].children.map((val, idx) => {
+  //     if (idx === 3) {
+  //       val.meta.hasLimit = true
+  //     }
+  //     return val
+  //   })
+  // }
   ret = [...target]
   return ret
 }

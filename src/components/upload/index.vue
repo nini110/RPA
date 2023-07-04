@@ -1,16 +1,18 @@
 <template>
-<div class="upbox">
-  <!--   accept=".xlsx,.xls,.csv"-->
-  <el-upload drag accept=".xlsx,.csv" :auto-upload="false" :show-file-list="showFileList" :action="UploadUrl()" :on-remove="remfile" :on-preview="handlePreview" :on-change="fileChange" :on-success="handleSuccess" :on-error="handleError" :file-list="fileList" :multiple="multiple">
-    <i class="el-icon-upload"></i>
-    <div class="el-upload__text">
-      将文件拖到此处，或<em>{{ upTxt }}</em>
-    </div>
-    <div v-if="showPros" class="el-upload__tip" slot="tip">
-      {{ txt }}
-    </div>
-  </el-upload>
-</div>
+  <div class="upbox">
+    <!--   accept=".xlsx,.xls,.csv"-->
+    <el-upload drag accept=".xlsx,.csv" :auto-upload="false" :show-file-list="showFileList" :action="UploadUrl()"
+      :on-remove="remfile" :on-preview="handlePreview" :on-change="fileChange" :on-success="handleSuccess"
+      :on-error="handleError" :file-list="fileList" :multiple="multiple">
+      <i class="el-icon-upload"></i>
+      <div class="el-upload__text">
+        将文件拖到此处，或<em>{{ upTxt }}</em>
+      </div>
+      <div v-if="showPros" class="el-upload__tip" slot="tip">
+        {{ txt }}
+      </div>
+    </el-upload>
+  </div>
 </template>
 
 <script>
@@ -54,7 +56,7 @@ export default {
       type: Boolean,
     },
   },
-  data() {
+  data () {
     return {
       fileList: [],
       maxRow: 1000
@@ -62,7 +64,7 @@ export default {
   },
   watch: {
     toolType: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         const vm = this
         switch (newval) {
           case 'DMP':
@@ -91,13 +93,13 @@ export default {
       deep: true
     }
   },
-  mounted() {
+  mounted () {
     // console.log(Window.LuckyExcel)
 
   },
   methods: {
     // 文件状态改变时的钩子
-    fileChange(file, fileList) {
+    fileChange (file, fileList) {
       const vm = this;
       vm.$emit('beforeeve')
       vm.fileList = [];
@@ -170,7 +172,7 @@ export default {
               return
             }
             if (sheetInfoBox.length > 0) {
-            // if (maxIdx > vm.maxRow) {
+              // if (maxIdx > vm.maxRow) {
               vm.openMessageBox({
                 type: "warning",
                 showClose: true,
@@ -191,7 +193,6 @@ export default {
               vm.fileList.push(file.raw);
               vm.$emit("getFile", vm.fileList);
             }
-
           }
         );
       } else {
@@ -200,22 +201,22 @@ export default {
       }
     },
     // 点击文件列表文件名的时候
-    handlePreview(file) {
+    handlePreview (file) {
       const vm = this;
     },
     //文件列表移除时的钩子
-    remfile(file, fileList) {
+    remfile (file, fileList) {
       this.fileList.pop("file");
       this.$emit("getFile", this.fileList);
     },
     // 自动上传开启 -- 文件上传成功时的钩子
-    handleSuccess(res, file, fileList) {
+    handleSuccess (res, file, fileList) {
       this.$message.success("文件上传成功");
       this.fileList = [];
       this.$emit("getFile", this.fileList);
     },
     // 自动上传开启 --  文件上传失败时的钩子
-    handleError(err, file, fileList) {
+    handleError (err, file, fileList) {
       this.$message.error("文件上传失败");
     },
     UploadUrl: function () {

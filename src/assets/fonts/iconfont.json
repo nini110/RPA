@@ -6,6 +6,97 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "28340452",
+      "name": "巨量千川",
+      "font_class": "juliangqianchuan",
+      "unicode": "e6bb",
+      "unicode_decimal": 59067
+    },
+    {
+      "icon_id": "18860561",
+      "name": "数据应用",
+      "font_class": "shujuyingyong1",
+      "unicode": "e6e9",
+      "unicode_decimal": 59113
+    },
+    {
+      "icon_id": "1717959",
+      "name": "效率",
+      "font_class": "xiaolv",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "6733083",
+      "name": "效率",
+      "font_class": "xiaoshuai3",
+      "unicode": "ec18",
+      "unicode_decimal": 60440
+    },
+    {
+      "icon_id": "8263828",
+      "name": "质量",
+      "font_class": "zhiliang",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "22929798",
+      "name": "B_预警_正",
+      "font_class": "B_yujing_zheng",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "25627619",
+      "name": "公域私域全网运维",
+      "font_class": "gongyusiyuquanwangyunwei",
+      "unicode": "e8ba",
+      "unicode_decimal": 59578
+    },
+    {
+      "icon_id": "34452027",
+      "name": "驾驶舱",
+      "font_class": "jiashicang",
+      "unicode": "e712",
+      "unicode_decimal": 59154
+    },
+    {
+      "icon_id": "6049929",
+      "name": "预警",
+      "font_class": "yujing1",
+      "unicode": "e629",
+      "unicode_decimal": 58921
+    },
+    {
+      "icon_id": "22966562",
+      "name": "数坊logo-",
+      "font_class": "shufanglogo-",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "26027631",
+      "name": "提质改造",
+      "font_class": "tizhigaizao",
+      "unicode": "e7b6",
+      "unicode_decimal": 59318
+    },
+    {
+      "icon_id": "35001563",
+      "name": "chatgpt",
+      "font_class": "chatgpt",
+      "unicode": "e6bf",
+      "unicode_decimal": 59071
+    },
+    {
+      "icon_id": "14015795",
+      "name": "-_授权管理",
+      "font_class": "-_shouquanguanli",
+      "unicode": "e63b",
+      "unicode_decimal": 58939
+    },
+    {
       "icon_id": "5131593",
       "name": "账户余额",
       "font_class": "zhanghuyue",

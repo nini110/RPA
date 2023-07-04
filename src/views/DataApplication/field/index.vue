@@ -1,64 +1,70 @@
 <template>
-<!-- 竞标监控 -->
-<div class="biddingForMonitoring outerDiv">
-  <div class="content">
-    <div class="content_form">
-      <div class="upobtn">
-        <div class="lficon"><span class="iconfont icon-qushi"></span><span>行业大盘</span></div>
-        <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="upList">新增任务
-        </el-button>
+  <!-- 竞标监控 -->
+  <div class="biddingForMonitoring outerDiv">
+    <div class="content">
+      <div class="content_form">
+        <div class="upobtn">
+          <div class="lficon"><span class="iconfont icon-qushi"></span><span>行业大盘</span></div>
+          <el-button v-waves class="el-icon-circle-plus-outline" type="primary" @click="upList">新增任务
+          </el-button>
+        </div>
       </div>
-    </div>
-    <div ref="tableBox" class="content_tableBox jiankong">
-      <el-divider>列表</el-divider>
-      <div class="tables" v-if="tableData">
-        <vxe-table ref="singleTable" :data="tableData" stripe round :column-config="{ resizable: true }" :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
-          >
-          <template #empty>
-            <img src="@/assets/images/search.png" />
-            <span>空空如也</span>
-          </template>
-          <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
-          <vxe-column min-width="14%" field="task_number" title="任务编号" show-overflow="tooltip"></vxe-column>
-          <vxe-column min-width="18%" field="username" title="账号 / PIN" show-overflow="tooltip"></vxe-column>
-          <vxe-column min-width="12%" field="user_type" title="类型" show-overflow="tooltip"></vxe-column>
-          <vxe-column min-width="15%" field="log_status" title="状态" show-overflow="tooltip">
-            <template slot-scope="scope">
-              <div v-if="scope.row.log_status === '执行有误'" class="statusDiv fail">
-                {{ scope.row.log_status }}
-              </div>
-              <div v-if="scope.row.log_status === '执行中'" class="statusDiv ing">
-                {{ scope.row.log_status }}
-              </div>
-              <div v-if="scope.row.log_status === '执行完毕'" class="statusDiv suc">
-                {{ scope.row.log_status }}
-              </div>
-            </template></vxe-column>
-          <vxe-column min-width="15%" field="create_time" title="创建日期" show-overflow="tooltip"></vxe-column>
-          <!-- <vxe-column v-for="(item, idx) in tabList" :key="idx" min-width="15%" :field="item.prop" :title="item.label" show-overflow="tooltip"></vxe-column> -->
-          <vxe-column title="操作" fixed="right" width="12%">
-            <template slot-scope="scope">
-              <div v-waves class="btn btn_info" :class="{'one': scope.row.log_status!=='执行完毕'}"  @click="seeEvent(scope.row)">
-                <el-tooltip class="item" effect="dark" content="查看" placement="top">
-                  <i class="el-icon-view"></i>
-                </el-tooltip>
-              </div>
-              <div v-if="scope.row.log_status==='执行完毕'" v-waves class="btn btn_info" @click="downEvent(scope.row)">
-                <el-tooltip class="item" effect="dark" content="下载" placement="top">
-                  <i class="el-icon-download"></i>
-                </el-tooltip>
-              </div>
+      <div ref="tableBox" class="content_tableBox jiankong">
+        <el-divider>列表</el-divider>
+        <el-alert title='请注意：因受限于京东接口限制，本模块功能暂无法正常使用。具体恢复时间以本条消息下线为主。' type="error" show-icon :closable="false">
+        </el-alert>
+        <div class="tables" v-if="tableData">
+          <vxe-table ref="singleTable" :data="tableData" stripe round :column-config="{ resizable: true }"
+            :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
+            >
+            <template #empty>
+              <img src="@/assets/images/search.png" />
+              <span>空空如也</span>
             </template>
-          </vxe-column>
-        </vxe-table>
-      </div>
-      <div class="block" v-if="total">
-        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currpage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]" layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
+            <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+            <vxe-column min-width="14%" field="task_number" title="任务编号" show-overflow="tooltip"></vxe-column>
+            <vxe-column min-width="18%" field="username" title="账号 / PIN" show-overflow="tooltip"></vxe-column>
+            <vxe-column min-width="12%" field="user_type" title="类型" show-overflow="tooltip"></vxe-column>
+            <vxe-column min-width="15%" field="log_status" title="状态" show-overflow="tooltip">
+              <template slot-scope="scope">
+                <div v-if="scope.row.log_status === '执行有误'" class="statusDiv fail">
+                  {{ scope.row.log_status }}
+                </div>
+                <div v-if="scope.row.log_status === '执行中'" class="statusDiv ing">
+                  {{ scope.row.log_status }}
+                </div>
+                <div v-if="scope.row.log_status === '执行完毕'" class="statusDiv suc">
+                  {{ scope.row.log_status }}
+                </div>
+              </template></vxe-column>
+            <vxe-column min-width="15%" field="create_time" title="创建日期" show-overflow="tooltip"></vxe-column>
+            <!-- <vxe-column v-for="(item, idx) in tabList" :key="idx" min-width="15%" :field="item.prop" :title="item.label" show-overflow="tooltip"></vxe-column> -->
+            <vxe-column title="操作" fixed="right" width="12%">
+              <template slot-scope="scope">
+                <div v-waves class="btn btn_info" :class="{ 'one': scope.row.log_status !== '执行完毕' }"
+                  @click="seeEvent(scope.row)">
+                  <el-tooltip class="item" effect="light" content="查看" placement="top">
+                    <i class="el-icon-view"></i>
+                  </el-tooltip>
+                </div>
+                <div v-if="scope.row.log_status === '执行完毕'" v-waves class="btn btn_info" @click="downEvent(scope.row)">
+                  <el-tooltip class="item" effect="light" content="下载" placement="top">
+                    <i class="el-icon-download"></i>
+                  </el-tooltip>
+                </div>
+              </template>
+            </vxe-column>
+          </vxe-table>
+        </div>
+        <div class="block" v-if="total">
+          <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+            :current-page="currpage" :page-size="pagesize" :page-sizes="[10, 20, 50, 100]"
+            layout="total, sizes, prev, pager, next, jumper" :total="total"></el-pagination>
+        </div>
       </div>
     </div>
+    <fieldDia :upDialogFlag="upDialogFlag" :row="row" :fromTag="fromTag" @close="closeEvent"></fieldDia>
   </div>
-  <fieldDia :upDialogFlag="upDialogFlag" :row="row" :fromTag="fromTag" @close="closeEvent"></fieldDia>
-</div>
 </template>
 
 <script>
@@ -74,7 +80,7 @@ export default {
     fieldDia
   },
   mixins: [message],
-  data() {
+  data () {
     return {
       fromTag: 1,
       pageHaseItem: 0, // 当前页有多少条数据
@@ -92,22 +98,23 @@ export default {
       timer: null
     };
   },
-  created() {},
-  mounted() {
+  created () { },
+  mounted () {
     // 2 4 3 1 5 6 x1 x2 7 8  x3 x4 x5
     this.getlist()
   },
-  beforeDestroy() {
+  beforeDestroy () {
     const vm = this
     clearInterval(vm.timer)
     vm.timer = null
   },
   methods: {
     // 查看列表
-    getlist() {
+    getlist () {
       const vm = this
       dapanonLineList({
-        tool_type: vm.$route.meta.title,
+        // tool_type: vm.$route.meta.title,
+        tool_type: '行业大盘',
         limit: vm.pagesize,
         page: vm.currpage,
       }).then(res => {
@@ -134,13 +141,13 @@ export default {
       })
     },
     // 新增
-    upList() {
+    upList () {
       const vm = this
       vm.fromTag = 1
       vm.upDialogFlag = true
     },
     // 关闭详情弹层
-    closeEvent(tag) {
+    closeEvent (tag) {
       const vm = this;
       if (tag) {
         vm.getlist()
@@ -149,12 +156,12 @@ export default {
       vm.upDialogFlag = false
 
     },
-    seeEvent(row) {
+    seeEvent (row) {
       this.fromTag = 2
       this.upDialogFlag = true
       this.row = row
     },
-    downEvent(row) {
+    downEvent (row) {
       const vm = this
       sfToolsDown({
         log_id: row.id,
@@ -171,11 +178,11 @@ export default {
       });
     },
     //分页器功能
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pagesize = val;
       this.getlist();
     },
-    handleCurrentChange(page) {
+    handleCurrentChange (page) {
       this.currpage = page;
       this.getlist();
     },
@@ -185,7 +192,11 @@ export default {
 
 <style lang="less" scoped>
 @import "../../index";
-@import "../monitor/bidding.less";
+@import "@/views/BudgetAlarm/monitor/bidding.less";
+
+/deep/.el-select {
+  width: 100%;
+}
 
 .outer {
   width: 200px;
@@ -203,6 +214,7 @@ export default {
     margin-top: 40px;
   }
 }
+
 .bbbb {
   clear: both;
 }

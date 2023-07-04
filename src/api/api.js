@@ -4,7 +4,9 @@ let BASEPATH = '';
 let BASEPATH2 = '';
 let BASEPATH3 = '';
 let BASEPATH5 = '';
+let BASEPATH6 = '';
 if (process.env.NODE_ENV === 'production') {
+  // BASEPATH6 = '/host8101'
   BASEPATH = 'http://114.67.229.243:8001'
   BASEPATH2 = 'http://tool.afocus.com.cn'
   BASEPATH3 = 'http://114.67.229.243:8002'
@@ -12,12 +14,17 @@ if (process.env.NODE_ENV === 'production') {
   // 生产环境
 } else {
   // 开发环境
-  // BASEPATH = '/host8001'
+  BASEPATH6 = '/host8101'
   BASEPATH = 'http://114.67.229.243:8001'
   BASEPATH2 = 'http://tool.afocus.com.cn'
   BASEPATH3 = 'http://114.67.229.243:8002'
   BASEPATH5 = 'http://114.67.229.243:8101'
 }
+// 路由相关
+export const routesRel = request({
+  url: `${BASEPATH}/apps/permission/`,
+  method: 'get'
+})
 // 公告
 export const adInfo = request({
   url: `${BASEPATH}/apps/mail_list/`,

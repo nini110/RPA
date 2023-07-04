@@ -1,89 +1,91 @@
 <template>
-<!-- 出价 -->
-<div class="region strategyNormal">
-  <div class="centers">
-    <div class="PriceTops">
-      <el-form>
-        <el-row>
-          <el-col :span="10">
-            <el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="editFn(1)" size="medium">新建策略
-            </el-button>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="状态">
-              <el-select v-model="searchStatus" placeholder="请选择状态" size="medium" clearable>
-                <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
-                </el-option>
-              </el-select>
-            </el-form-item>
-          </el-col>
-          <el-col :span="6">
-            <el-form-item label="策略名称">
-              <el-input v-model="searchName" placeholder="请输入策略名称" size="medium" class="inp" clearable></el-input>
-            </el-form-item>
-          </el-col>
-          <el-col :span="2">
-            <div>
-              <el-button v-waves style="margin-left: 10px" class="el-icon-search btnnormal" type="primary" size="medium">查询
+  <!-- 出价 -->
+  <div class="region strategyNormal">
+    <div class="centers">
+      <div class="PriceTops">
+        <el-form>
+          <el-row>
+            <el-col :span="10">
+              <el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="editFn(1)" size="medium">新建策略
               </el-button>
-            </div>
-          </el-col>
-        </el-row>
-      </el-form>
-    </div>
-    <div class="tabbles pricetable" ref="tabbles">
-      <vxe-table ref="multipleTable" :data="tableData" stripeå round :column-config="{ resizable: true }" :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
-        >
-        <template #empty>
-          <img src="@/assets/images/noneData3.png" />
-        </template>
-        <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
-        <vxe-column field="count" title="状态" fixed="left" width="15%">
-          <template slot-scope="scope">
-            <div v-if="scope.row.status" class="statusDiv suc">使用中</div>
-            <div v-else class="statusDiv fail">未使用</div>
-          </template></vxe-column>
-        <vxe-column v-for="(item, idx) in tabList" :key="idx" width="18%" :field="item.prop" :title="item.label" show-overflow="tooltip"></vxe-column>
-        <vxe-column title="操作" fixed="right" width="10%">
-          <template slot="header">
-            操作
-            <el-tooltip class="item" effect="dark" content="当状态为使用中时,不可编辑和删除" placement="top">
-              <i class="el-icon-question"></i>
-            </el-tooltip>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="状态">
+                <el-select v-model="searchStatus" placeholder="请选择状态" size="medium" clearable>
+                  <el-option v-for="item in options" :key="item.value" :label="item.label" :value="item.value">
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+            <el-col :span="6">
+              <el-form-item label="策略名称">
+                <el-input v-model="searchName" placeholder="请输入策略名称" size="medium" class="inp" clearable></el-input>
+              </el-form-item>
+            </el-col>
+            <el-col :span="2">
+              <div>
+                <el-button v-waves style="margin-left: 10px" class="el-icon-search btnnormal" type="primary"
+                  size="medium">查询
+                </el-button>
+              </div>
+            </el-col>
+          </el-row>
+        </el-form>
+      </div>
+      <div class="tabbles pricetable" ref="tabbles">
+        <vxe-table ref="multipleTable" :data="tableData" stripeå round :column-config="{ resizable: true }"
+          :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">
+          >
+          <template #empty>
+            <img src="@/assets/images/noneData3.png" />
           </template>
-          <template slot-scope="scope">
-            <div v-waves class="btn btn_info" :class="{ dis: scope.row.status }" @click="editFn(2, scope.row)">
-              <el-tooltip class="item" effect="dark" content="编辑" placement="top">
-                <svg class="icon svg-icon titleicon" aria-hidden="true">
-                  <use xlink:href="#icon-bianjiICON"></use>
-                </svg>
-                <i class="el-icon-edit"></i>
+          <vxe-column type="seq" title="序号" width="5%" fixed="left"></vxe-column>
+          <vxe-column field="count" title="状态" fixed="left" width="15%">
+            <template slot-scope="scope">
+              <div v-if="scope.row.status" class="statusDiv suc">使用中</div>
+              <div v-else class="statusDiv fail">未使用</div>
+            </template></vxe-column>
+          <vxe-column v-for="(item, idx) in tabList" :key="idx" width="18%" :field="item.prop" :title="item.label"
+            show-overflow="tooltip"></vxe-column>
+          <vxe-column title="操作" fixed="right" width="10%">
+            <template slot="header">
+              操作
+              <el-tooltip class="item" effect="light" content="当状态为使用中时,不可编辑和删除" placement="top">
+                <i class="el-icon-question"></i>
               </el-tooltip>
-            </div>
-            <div v-waves class="btn btn_info" :class="{ dis: scope.row.status }" @click="deleteFn(scope.row)">
-              <el-tooltip class="item" effect="dark" content="删除" placement="top">
-                <i class="el-icon-circle-close"></i>
-                <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
-                    <use xlink:href="#icon-shanchu1"></use>
-                  </svg> -->
-              </el-tooltip>
-            </div>
-          </template>
-        </vxe-column>
-      </vxe-table>
-    </div>
-    <div class="block">
-      <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange" :current-page="currentPage" :page-sizes="[10, 20, 50, 100]" :page-size="pagesize" layout="total, sizes, prev, pager, next, jumper" :total="total">
-      </el-pagination>
-    </div>
-    <!-- 出价调整策略弹窗 -->
-    <div class="dialog">
-      <DialogPrice ref="dialogForm_Price" :username="username" :rowInfo="rowInfo" :editFlag="editFlag" :showFlag="showPriceDialog" @close="closeEvent"></DialogPrice>
-      <DialogBudge ref="dialogForm_Budge" :username="username" :rowInfo="rowInfo" :editFlag="editFlag" :showFlag="showBudgeDialog" @close="closeEvent"></DialogBudge>
-      <DialogPlan ref="dialogForm_Plan" :username="username" :rowInfo="rowInfo" :editFlag="editFlag" :showFlag="showPlanDialog" @close="closeEvent"></DialogPlan>
+            </template>
+            <template slot-scope="scope">
+              <div v-waves class="btn btn_info" :class="{ dis: scope.row.status }" @click="editFn(2, scope.row)">
+                <el-tooltip class="item" effect="light" content="编辑" placement="top">
+                  <i class="el-icon-edit"></i>
+                </el-tooltip>
+              </div>
+              <div v-waves class="btn btn_info" :class="{ dis: scope.row.status }" @click="deleteFn(scope.row)">
+                <el-tooltip class="item" effect="light" content="删除" placement="top">
+                  <i class="el-icon-circle-close"></i>
+                </el-tooltip>
+              </div>
+            </template>
+          </vxe-column>
+        </vxe-table>
+      </div>
+      <div class="block">
+        <el-pagination background @size-change="handleSizeChange" @current-change="handleCurrentChange"
+          :current-page="currentPage" :page-sizes="[10, 20, 50, 100]" :page-size="pagesize"
+          layout="total, sizes, prev, pager, next, jumper" :total="total">
+        </el-pagination>
+      </div>
+      <!-- 出价调整策略弹窗 -->
+      <div class="dialog">
+        <DialogPrice ref="dialogForm_Price" :username="username" :rowInfo="rowInfo" :editFlag="editFlag"
+          :showFlag="showPriceDialog" @close="closeEvent"></DialogPrice>
+        <DialogBudge ref="dialogForm_Budge" :username="username" :rowInfo="rowInfo" :editFlag="editFlag"
+          :showFlag="showBudgeDialog" @close="closeEvent"></DialogBudge>
+        <DialogPlan ref="dialogForm_Plan" :username="username" :rowInfo="rowInfo" :editFlag="editFlag"
+          :showFlag="showPlanDialog" @close="closeEvent"></DialogPlan>
+      </div>
     </div>
   </div>
-</div>
 </template>
 
 <script>
@@ -110,7 +112,7 @@ export default {
     },
   },
   mixins: [message],
-  data() {
+  data () {
     return {
       username: "",
       showPriceDialog: false,
@@ -119,17 +121,17 @@ export default {
       searchStatus: "",
       searchName: "",
       options: [{
-          value: "选项1",
-          label: "所有",
-        },
-        {
-          value: "选项2",
-          label: "执行中",
-        },
-        {
-          value: "选项3",
-          label: "闲置",
-        },
+        value: "选项1",
+        label: "所有",
+      },
+      {
+        value: "选项2",
+        label: "执行中",
+      },
+      {
+        value: "选项3",
+        label: "闲置",
+      },
       ],
       tableData: [],
       tabList: [],
@@ -143,7 +145,7 @@ export default {
   },
   watch: {
     activeTab: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         const vm = this;
         vm.getList();
       },
@@ -151,15 +153,15 @@ export default {
       deep: true,
     },
   },
-  created() {
+  created () {
     // this.getList();
     this.username = localStorage.getItem("user_name");
   },
-  mounted() {
+  mounted () {
     this.tabList = opt.tablist_strategy;
   },
   methods: {
-    closeEvent(tag) {
+    closeEvent (tag) {
       const vm = this;
       if (vm.activeTab === "first") {
         vm.$refs.dialogForm_Price.form = {
@@ -198,7 +200,7 @@ export default {
       }
     },
     // 删除事件
-    deleteFn(row) {
+    deleteFn (row) {
       const vm = this;
       if (row.status) {
         return false;
@@ -218,7 +220,7 @@ export default {
       });
     },
     // 编辑按钮
-    editFn(tag, row) {
+    editFn (tag, row) {
       const vm = this;
       if (row && row.status) {
         return false;
@@ -237,7 +239,7 @@ export default {
       }
     },
     // 获取列表数据
-    getList() {
+    getList () {
       const vm = this;
       let params = {
         page: vm.currentPage,
@@ -260,15 +262,15 @@ export default {
         });
       }
     },
-    handleSizeChange(val) {
+    handleSizeChange (val) {
       this.pagesize = val;
       this.getList();
     },
-    handleCurrentChange(val) {
+    handleCurrentChange (val) {
       this.currentPage = val;
       this.getList();
     },
-    handleSelectionChange(val) {
+    handleSelectionChange (val) {
       this.multipleSelection = val;
     },
   },

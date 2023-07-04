@@ -152,7 +152,7 @@ module.exports = {
         }
       },
       '/host8101': {
-        target: 'http://114.67.229.243:8101', // 8101端口
+        target: 'http://172.20.10.9:8101', // 8101端口
         changeOrigin: true,
         secure: false,
         pathRewrite: {

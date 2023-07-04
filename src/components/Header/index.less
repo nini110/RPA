@@ -10,7 +10,7 @@
   z-index: 99;
 
   &_logo {
-    width: 220px;
+    width: 260px;
     display: flex;
     text-align: center;
     align-items: center;
@@ -25,24 +25,22 @@
   }
 
   &_login {
-    width: calc(100% - 220px);
+    width: calc(100% - 260px);
     display: flex;
-    flex-direction: row-reverse;
     position: relative;
+    justify-content: space-between;
 
-    // background-color: #fff;
     &_tip {
-      position: absolute;
-      left: 113px;
-      top: 50%;
-      transform: translate(-50%, -50%);
       display: flex;
       flex-wrap: nowrap;
       align-items: center;
 
       .el-button {
-        font-size: 16px !important;
+        padding: 0;
+        margin-left: 40px;
+        font-size: 18px !important;
         background: transparent !important;
+        min-width: auto;
       }
 
       .img {
@@ -82,7 +80,7 @@
         flex-grow: 1;
         width: 220px;
         height: 100%;
-        font-size: 16px;
+        font-size: 18px;
         text-align: center;
         display: flex;
         align-items: center;

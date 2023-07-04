@@ -232,7 +232,7 @@ export default {
   
     
 <style lang="less" scoped>
-@import "../monitor/bidding.less";
+@import "@/views/BudgetAlarm/monitor/bidding.less";
 @import "../../index";
 
 .vxe-pulldown {

@@ -20,6 +20,8 @@
 }
 
 .el {
+  &-link {}
+
   &-select {
     &-group {
       margin: 10px 20px 20px 20px;
@@ -31,6 +33,10 @@
         color: #909399;
         border-bottom: 1px dashed #909399;
       }
+    }
+
+    &-dropdown {
+      padding-bottom: 20px;
     }
 
     &-dropdown__item {
@@ -61,7 +67,11 @@
         line-height: 24px;
 
         &.ts {
-          color: #fdd27e;
+          color: #606266;
+        }
+
+        &:before {
+          margin-right: 8px;
         }
       }
 
@@ -89,7 +99,7 @@
 
     &__description {
       margin-top: 0 !important;
-      color: #606266 !important;
+      // color: #606266 !important;
     }
 
     &__closebtn {
@@ -471,6 +481,11 @@
 
     &__footer {
       padding: 30px;
+
+      .dialog-footer.ts {
+        display: flex;
+        justify-content: space-between;
+      }
     }
   }
 

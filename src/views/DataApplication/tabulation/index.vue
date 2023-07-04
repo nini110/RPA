@@ -3,8 +3,8 @@
   <div class="outerDiv">
     <div class="content">
       <div class="content_form ts">
-        <el-alert :title="alertTitle" :description="description" type="warning" show-icon :closable="false">
-        </el-alert>
+        <!-- <el-alert :title="alertTitle" :description="description" type="warning" show-icon :closable="false">
+        </el-alert> -->
         <el-form ref="form" :model="form" class="formObj" :rules="rules">
           <div class="formObj_div">
             <div class="formObj_ipt">
@@ -98,7 +98,7 @@
                 <template slot-scope="scope">
                   <div v-waves class="btn btn_info" :class="{ dis: scope.row.status !== 1 }"
                     @click="downEvent(scope.row)">
-                    <el-tooltip class="item" effect="dark" content="下载" placement="top">
+                    <el-tooltip class="item" effect="light" content="下载" placement="top">
                       <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                         <use xlink:href="#icon-xiazaizhong"></use>
                       </svg> -->
@@ -107,7 +107,7 @@
                   </div>
                   <div v-waves class="btn btn_info" :class="{ dis: scope.row.status === 0 }"
                     @click="deleteEvent(scope.row)">
-                    <el-tooltip class="item" effect="dark" content="删除" placement="top">
+                    <el-tooltip class="item" effect="light" content="删除" placement="top">
                       <!-- <svg class="icon svg-icon titleicon" aria-hidden="true">
                         <use xlink:href="#icon-shanchu1"></use>
                       </svg> -->
@@ -570,14 +570,20 @@ export default {
   margin-bottom: 10px;
 }
 
-/deep/.el-alert {
-  margin-bottom: 20px;
+/deep/.el {
+  &-cascader {
+    width: 100%;
+  }
 
-  &__title {
-    display: inline-block;
-    color: #606266;
-    font-weight: normal;
-    margin-bottom: 10px !important;
+  &-alert {
+    margin-bottom: 20px;
+
+    &__title {
+      display: inline-block;
+      color: #606266;
+      font-weight: normal;
+      margin-bottom: 10px !important;
+    }
   }
 }
 </style>

@@ -100,7 +100,7 @@
               <vxe-column title="操作" fixed="right" width="18%">
                 <template slot-scope="scope">
                   <div v-waves class="btn btn_info" @click="detailEvent(scope.row)">
-                    <el-tooltip class="item" effect="dark" content="日志" placement="top">
+                    <el-tooltip class="item" effect="light" content="日志" placement="top">
                       <i class="el-icon-document"></i>
                     </el-tooltip>
                   </div>
@@ -158,13 +158,13 @@
                     </el-form-item>
                   </el-col>
                   <el-col v-if="showError" :span="colWidth.eror" class="hasAppend">
-                    <el-tooltip effect="dark" placement="bottom">
+                    <el-tooltip effect="light" placement="bottom">
                       <div slot="content">
-                        <p class="ts">🔔 该条件默认开启，填写区间为1 - 10</p>
-                        <p class="ts">✅ 开启时：</p>
+                        <p class="ts el-icon-open">开启时：</p>
                         <p>根据填写的终止条件作为规则，例如填写：5，则会在出错第5次自动终止程序</p>
-                        <p class="ts">⛔ 关闭时：</p>
+                        <p class="ts el-icon-turn-off">关闭时：</p>
                         <p>程序执行中出现错误会继续向下执行，不会终止，直到执行完毕</p>
+                        <p class="ts el-icon-bell">该条件默认开启，填写区间为1 - 10</p>
                       </div>
                       <div class="el-icon-question"></div>
                     </el-tooltip>
@@ -190,7 +190,7 @@
                     </el-form-item>
                   </el-col>
                   <el-col v-if="showCookie || formMenu === 2" :span="colWidth.cookie" class="hasAppend">
-                    <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="dark" content="Cookie获取视频教学"
+                    <el-tooltip v-if="toolType !== 'DMP'" class="item" effect="light" content="Cookie获取视频教学"
                       placement="bottom">
                       <div class="el-icon-video-play" @click="movieDownEvent(1)"></div>
                     </el-tooltip>
@@ -320,14 +320,13 @@
                   <div v-waves class="btn btn_info"
                     :class="{ 'one': !ifDown || !scope.row.res_file_path || scope.row.log_status !== '执行完毕' }"
                     @click="detailEvent(scope.row)">
-                    <el-tooltip class="item" effect="dark" content="日志" placement="top">
+                    <el-tooltip class="item" effect="light" content="日志" placement="top">
                       <i class="el-icon-document"></i>
                     </el-tooltip>
                   </div>
                   <div v-if="ifDown && scope.row.res_file_path && scope.row.log_status === '执行完毕'" v-waves
                     class="btn btn_info" @click="downEvent(scope.row)">
-                    <el-tooltip class="item" effect="dark" content="下载" placement="top">
-                      <i class="el-icon-document"></i>
+                    <el-tooltip class="item" effect="light" content="下载" placement="top">
                       <i class="el-icon-download"></i>
                     </el-tooltip>
                   </div>
@@ -396,8 +395,7 @@
         </div>
       </div>
       <span slot="footer" class="dialog-footer">
-        <el-button v-if="(logVersion && excel_path) && (toolType === '快车更新创意状态' || toolType === '京东直投')"
-          @click="logDownEvent">日志下载</el-button>
+        <el-button v-if="(logVersion && excel_path)" @click="logDownEvent">日志下载</el-button>
         <el-button type="primary" @click="showLogDialog = false">关 闭</el-button>
       </span>
     </el-dialog>
@@ -539,7 +537,7 @@ export default {
         vm.intervalDia = null;
         vm.showError = vm.formMenu === 1 && vm.toolType !== '快车更新创意状态'
         vm.showCookie =
-          vm.formMenu === 1 && vm.toolType !== 'DMP' && vm.toolType !== '快车更新创意状态';
+          vm.formMenu === 1 && vm.toolType !== 'DMP' && vm.toolType !== '购物触点' && vm.toolType !== '快车更新创意状态';
         vm.getuserlist();
         vm.$nextTick(() => {
           vm.$refs.form.resetFields();
@@ -823,7 +821,7 @@ export default {
       //分页器状态
       total: 0,
       currentPage: 1,
-      pagesize: 20, //每页的数据条数
+      pagesize: 10, //每页的数据条数
       currpage: 1, //默认开始页面
       log: "", //查看详情渲染的log
       intervalObj: [],
@@ -924,7 +922,6 @@ export default {
       this.showVarDia = false;
     },
     getFileEvent (val) {
-      this.showLoading = false
       if (val === 'wrong') return false
       this.showLoading = false
       this.fileList = val;

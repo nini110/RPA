@@ -5,8 +5,13 @@
       <div class="content_form">
         <div class="upobtn">
           <div class="lficon"><span class="iconfont icon-jingdongdaojia"></span><span>京东到家-安卓</span></div>
-          <el-button v-waves class="el-icon-refresh-right" type="primary" @click="upList">刷新
-          </el-button>
+          <div class="rtForm">
+            <el-date-picker v-model="dateRange" type="date" format="yyyy 年 MM 月 dd 日" value-format="yyyy-MM-dd"
+              :picker-options="pickerOptionsStart" @blur="dateBlur">
+            </el-date-picker>
+            <el-button v-waves class="el-icon-refresh-right" type="primary" @click="upList">查询
+            </el-button>
+          </div>
         </div>
       </div>
       <div ref="tableBox" class="content_tableBox jiankong">
@@ -41,23 +46,55 @@
 import {
   JDtoHomeList,
 } from "@/api/api.js";
+import dayjs from "dayjs";
 import message from "@/mixin/message";
 export default {
   name: "Monitior",
   mixins: [message],
   data () {
+    const vm = this
     return {
       fromTag: 1,
       pageHaseItem: 0, // 当前页有多少条数据
       username: "",
       //表格渲染数据
       tableData: [],
+      dateRange: null,
       row: null,
       //页码相关
       total: null,
       currpage: 1,
       pagesize: 10,
-      timer: null
+      timer: null,
+      dateRange: dayjs().format('YYYY-MM-DD'),
+      pickerOptionsStart: {
+        disabledDate: (time) => {
+          let today = dayjs();
+          let maxDate = dayjs().add(2, "month");
+          let minDate = dayjs().subtract(2, "month");
+          if (vm.tdata1) {
+            let dateRegionMax = dayjs(vm.tdata1).add(2, "month");;
+            let dateRegionMin = dayjs(vm.tdata1).subtract(2, "month");
+            if (dateRegionMax.isAfter(today)) {
+              return time.getTime() >= today || time.getTime() < dateRegionMin;
+            } else {
+              return time.getTime() >= dateRegionMax || time.getTime() < dateRegionMin;
+            }
+          } else {
+            if (maxDate.isAfter(today)) {
+              return time.getTime() >= today
+            } else {
+              return time.getTime() >= maxDate
+            }
+          }
+        },
+        onPick (time) {
+          //当第一时间选中才设置禁用
+          if (time.minDate && !time.maxDate) {
+            vm.tdata1 = time.minDate;
+          }
+        },
+      },
     };
   },
   created () {
@@ -69,6 +106,8 @@ export default {
       const vm = this
       let obj = {
         user_area: 'beijing',
+        start_date: vm.dateRange,
+        end_date: vm.dateRange,
         clickOrOrderDay: 15,
         clickOrOrderCaliber: 1,
         giftFlag: 0,
@@ -87,6 +126,9 @@ export default {
           });
         }
       })
+    },
+    dateBlur (val) {
+      this.tdata1 = null
     },
     // 新增
     upList () {
@@ -110,10 +152,10 @@ export default {
     
 <style lang="less" scoped>
 @import "../../index";
-@import "../monitor/bidding.less";
+@import "@/views/BudgetAlarm/monitor/bidding.less";
 
-.bbbb {
-  clear: both;
+.el-date-editor--date {
+  width: 80%;
 }
 </style>
   

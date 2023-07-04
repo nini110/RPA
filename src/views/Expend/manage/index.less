@@ -1,6 +1,6 @@
 /deep/.el-card {
   border: 2px dotted #e0e0e0;
-  background-color: #f8f8f863;
+  background-color: #fafafa;
   cursor: pointer;
   height: 100%;
 
@@ -14,17 +14,43 @@
   }
 }
 
-.el-form {
-  margin-bottom: 20px;
+.el {
+  &-form {
+    margin-bottom: 20px;
+    position: relative;
+
+  }
+
+  &-select {
+    width: 100%;
+
+    &-group {
+      li {
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        color: #b6b6b6;
+      }
+    }
+
+    &-group__title {
+      color: #909399;
+      padding: 0;
+      text-align: center;
+      border-bottom: 1px dashed #909399;
+      font-weight: bold;
+    }
+  }
 }
+
 
 /deep/.el-statistic {
   flex-basis: 35%;
-  padding-bottom: 30px;
+  padding-bottom: 10px;
 
   .head {
     font-size: 16px;
-    color: #909399;
+    color: #767c82;
     display: flex;
     justify-content: center;
     align-items: flex-end;
@@ -40,7 +66,7 @@
     line-height: 30px;
     padding: 20px;
     font-weight: bold;
-    color: #606266;
+    color: #333639;
 
     .prefix {
       display: flex;
@@ -62,6 +88,8 @@
 
 .infoBox {
   margin: 40px 0 30px 0;
+  background-color: #fafafa;
+  padding: 20px;
 
   &_stat {
     display: flex;
@@ -74,11 +102,11 @@
 
     div {
       flex-basis: 18%;
-      margin: 0 1%;
+      margin: 1%;
       font-size: 16px;
       color: #303133;
       padding: 10px 0;
-      margin-bottom: 20px;
+      // margin-bottom: 20px;
       border-bottom: 1px solid #efeeee9e;
 
       span {

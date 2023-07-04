@@ -9,7 +9,8 @@ const routes = [{
   component: () => import(/* webpackChunkName: "R_Login"*/"@/views/Login/index.vue"),
   meta: {
     layout: 'login',
-    deep: 1
+    deep: 1,
+    limit: true
   }
 },
 {
@@ -24,25 +25,38 @@ const routes = [{
       path: 'beijingMustPass',
       name: 'BeijingMustPass',
       meta: {
-        deep: 2
+        deep: 2,
+        title: '投放提效',
+        icon: "icon-xiaolv",
+        index: "1",
       },
-      component: () => import(/* webpackChunkName: "R_beijingMustPass"*/"../views/BeijingMustPass"),
+      component: () => import(/* webpackChunkName: "R_beijingMustPass"*/"@/views/BeijingMustPass"),
       children: [{
         path: 'DMP',
         name: 'DMP',
         meta: {
           title: 'DMP',
-          deep: 3,
+          index: "1-1",
           filePath: 'BeijingMustPass'
         },
         component: () => import(/* webpackChunkName: "R_DMP"*/"@/views/BeijingMustPass"),
+      },
+      {
+        path: 'GoShop',
+        name: 'GoShop',
+        meta: {
+          title: '购物触点',
+          index: "1-2",
+          filePath: 'BeijingMustPass'
+        },
+        component: () => import(/* webpackChunkName: "R_GOshop"*/"@/views/BeijingMustPass"),
       },
       {
         path: 'Booth',
         name: 'Booth',
         meta: {
           title: '京东展位',
-          deep: 3,
+          index: "1-3",
           filePath: 'BeijingMustPass'
         },
         component: () => import(/* webpackChunkName: "R_Booth"*/"@/views/BeijingMustPass"),
@@ -52,7 +66,7 @@ const routes = [{
         name: 'Direct',
         meta: {
           title: '京东直投',
-          deep: 3,
+          index: "1-4",
           filePath: 'BeijingMustPass'
         },
         component: () => import(/* webpackChunkName: "R_Direct"*/"@/views/BeijingMustPass"),
@@ -62,7 +76,7 @@ const routes = [{
         name: 'Cube',
         meta: {
           title: '京腾魔方人群',
-          deep: 3,
+          index: "1-5",
           filePath: 'BeijingMustPass'
         },
         component: () => import(/* webpackChunkName: "R_Cube"*/"@/views/BeijingMustPass"),
@@ -72,27 +86,18 @@ const routes = [{
         name: 'People',
         meta: {
           title: '京腾人群定向',
-          deep: 3,
+          index: "1-6",
           filePath: 'BeijingMustPass'
         },
         component: () => import(/* webpackChunkName: "R_People"*/"@/views/BeijingMustPass"),
       },
-      {
-        path: 'GoShop',
-        name: 'GoShop',
-        meta: {
-          title: '购物触点',
-          deep: 3,
-          filePath: 'BeijingMustPass'
-        },
-        component: () => import(/* webpackChunkName: "R_GOshop"*/"@/views/BeijingMustPass"),
-      },
+
       {
         path: 'Help',
         name: 'Help',
         meta: {
           title: '创意优化助手',
-          deep: 3,
+          index: "1-7",
           filePath: 'BeijingMustPass'
         },
         component: () => import(/* webpackChunkName: "R_Help"*/"@/views/BeijingMustPass"),
@@ -103,7 +108,10 @@ const routes = [{
       path: 'bigData',
       name: 'BigData',
       meta: {
-        deep: 2
+        deep: 2,
+        title: '数坊提效',
+        icon: "icon-shufanglogo-",
+        index: "2",
       },
       component: () => import(/* webpackChunkName: "R_bigData"*/"../views/BigData"),
       children: [{
@@ -111,37 +119,37 @@ const routes = [{
         name: 'Caculate',
         meta: {
           title: '人群计算',
-          deep: 3,
+          index: "2-1",
           filePath: 'BigData'
         },
         component: () => import(/* webpackChunkName: "R_Caculate"*/"@/views/BigData"),
-      },
-      {
-        path: 'Select',
-        name: 'Select',
-        meta: {
-          title: '人群圈选',
-          deep: 3,
-          filePath: 'BigData'
-        },
-        component: () => import(/* webpackChunkName: "R_Select"*/"@/views/BigData"),
       },
       {
         path: 'Analysis',
         name: 'Analysis',
         meta: {
           title: '洞察分析',
-          deep: 3,
+          index: "2-2",
           filePath: 'BigData'
         },
         component: () => import(/* webpackChunkName: "R_Analysis"*/"@/views/BigData"),
+      },
+      {
+        path: 'Select',
+        name: 'Select',
+        meta: {
+          title: '人群圈选',
+          index: "2-3",
+          filePath: 'BigData'
+        },
+        component: () => import(/* webpackChunkName: "R_Select"*/"@/views/BigData"),
       },
       {
         path: 'Insight',
         name: 'Insight',
         meta: {
           title: '人群透视分析',
-          deep: 3,
+          index: "2-4",
           filePath: 'BigData'
         },
         component: () => import(/* webpackChunkName: "R_Insight"*/"@/views/BigData"),
@@ -151,7 +159,7 @@ const routes = [{
         name: 'Track',
         meta: {
           title: '营销人群追踪',
-          deep: 3,
+          index: "2-5",
           filePath: 'BigData'
         },
         component: () => import(/* webpackChunkName: "R_track"*/"@/views/BigData"),
@@ -161,7 +169,7 @@ const routes = [{
         name: 'Report',
         meta: {
           title: '营销人群报告',
-          deep: 3,
+          index: "2-6",
           filePath: 'BigData'
         },
         component: () => import(/* webpackChunkName: "R_Report"*/"@/views/BigData"),
@@ -173,7 +181,10 @@ const routes = [{
       path: 'dataApplication',
       name: 'DataApplication',
       meta: {
-        deep: 2
+        deep: 2,
+        title: '数据应用',
+        icon: "icon-shujuyingyong1",
+        index: "3",
       },
       component: () => import("../views/DataApplication"),
       children: [{
@@ -181,17 +192,27 @@ const routes = [{
         name: 'Tabulation',
         meta: {
           title: '灵鲨制表',
-          deep: 3,
+          index: "3-1",
           filePath: 'DataApplication/tabulation'
         },
         component: () => import(/* webpackChunkName: "R_tabulation"*/"@/views/DataApplication/tabulation"),
       },
       {
+        path: 'snake',
+        name: 'Snake',
+        meta: {
+          title: '桑吉图数据',
+          index: "3-2",
+          filePath: 'DataApplication/snake'
+        },
+        component: () => import(/* webpackChunkName: "R_snake"*/"@/views/DataApplication/snake"),
+      },
+      {
         path: 'field',
         name: 'Field',
         meta: {
-          title: '行业大盘',
-          deep: 3,
+          title: '数据中心-行业大盘',
+          index: "3-3",
           filePath: 'DataApplication/field'
         },
         component: () => import(/* webpackChunkName: "R_field"*/"@/views/DataApplication/field"),
@@ -200,8 +221,8 @@ const routes = [{
         path: 'compete',
         name: 'Compete',
         meta: {
-          title: '竞争分析',
-          deep: 3,
+          title: '数据中心-竞争分析',
+          index: "3-4",
           filePath: 'DataApplication/compete'
         },
         component: () => import(/* webpackChunkName: "R_compete"*/"@/views/DataApplication/compete"),
@@ -211,7 +232,7 @@ const routes = [{
         name: 'JDtoHome',
         meta: {
           title: '京东到家-安卓',
-          deep: 3,
+          index: "3-5",
           filePath: 'DataApplication/JDtoHome'
         },
         component: () => import(/* webpackChunkName: "R_compete"*/"@/views/DataApplication/JDtoHome"),
@@ -221,83 +242,65 @@ const routes = [{
         name: 'JDtoHomeIOS',
         meta: {
           title: '京东到家-苹果',
-          deep: 3,
+          index: "3-6",
           filePath: 'DataApplication/JDtoHomeIOS'
         },
         component: () => import(/* webpackChunkName: "R_compete"*/"@/views/DataApplication/JDtoHomeIOS"),
       },
-      {
-        path: 'monitor',
-        name: 'Monitor',
-        meta: {
-          title: '竞标监控',
-          deep: 3,
-          filePath: 'DataApplication/monitor'
-        },
-        component: () => import(/* webpackChunkName: "R_monitor"*/"@/views/DataApplication/monitor"),
-      },
-      {
-        path: 'snake',
-        name: 'Snake',
-        meta: {
-          title: '桑吉图数据',
-          deep: 3,
-          filePath: 'DataApplication/snake'
-        },
-        component: () => import(/* webpackChunkName: "R_snake"*/"@/views/DataApplication/snake"),
-      },
-      {
-        path: 'xiaomi',
-        name: 'Xiaomi',
-        meta: {
-          title: '小米分时段报表',
-          deep: 3,
-          filePath: 'DataApplication/xiaomi'
-        },
-        component: () => import(/* webpackChunkName: "R_xiaomi"*/"@/views/DataApplication/xiaomi"),
-      }
       ]
     },
-    //视频工具  
-    // {
-    // 	path: 'videoTools',
-    // 	name: 'VideoTools',
-    // 	meta: {
-    // 		deep: 2
-    // 	},
-    // 	component: () => import("../views/VideoTools"),
-    // 	children: [{
-    // 			path: 'pictureProcessing',
-    // 			name: 'PictureProcessing',
-    // 			meta: {
-    // 				title: '图片处理'
-    // 			},
-    // 			component: () => import("@/views/VideoTools/child/PictureProcessing.vue"),
-    // 		},
-    // 		{
-    // 			path: 'cutOut',
-    // 			name: 'CutOut',
-    // 			meta: {
-    // 				title: '截取'
-    // 			},
-    // 			component: () => import("@/views/VideoTools/child/CutOut.vue"),
-    // 		},
-    // 		{
-    // 			path: 'piece',
-    // 			name: 'Piece',
-    // 			meta: {
-    // 				title: '拼合'
-    // 			},
-    // 			component: () => import("@/views/VideoTools/child/Piece.vue"),
-    // 		}
-    // 	]
-    // },
+    // 预算预警
+    {
+      path: 'budgetAlarm',
+      name: 'BudgetAlarm',
+      meta: {
+        deep: 2,
+        title: '预算预警',
+        icon: "icon-B_yujing_zheng",
+        index: "4",
+      },
+      component: () => import("@/views/BudgetAlarm"),
+      children: [
+        {
+          path: 'monitor',
+          name: 'Monitor',
+          meta: {
+            title: '竞标监控',
+            index: "4-1",
+            filePath: 'BudgetAlarm/monitor'
+          },
+          component: () => import(/* webpackChunkName: "R_monitor"*/"@/views/BudgetAlarm/monitor"),
+        }, {
+          path: 'alarm',
+          name: 'Alarm',
+          meta: {
+            title: '自有预警',
+            index: "4-2",
+            filePath: 'BudgetAlarm/alarm'
+          },
+          component: () => import(/* webpackChunkName: "R_budgetAlarm"*/"@/views/BudgetAlarm/alarm"),
+        },
+        {
+          path: 'budget',
+          name: 'Budget',
+          meta: {
+            title: '一键预算',
+            index: "4-3",
+            filePath: 'BudgetAlarm/budget'
+          },
+          component: () => import(/* webpackChunkName: "R_budget"*/"@/views/BudgetAlarm/budget"),
+        }
+      ]
+    },
     // 巨量千川
     {
       path: 'qianchuan',
       name: 'Qianchuan',
       meta: {
-        deep: 2
+        deep: 2,
+        title: '巨量千川',
+        icon: "icon-juliangqianchuan",
+        index: "5",
       },
       component: () => import("@/views/Qianchuan"),
       children: [{
@@ -305,7 +308,7 @@ const routes = [{
         name: 'Items',
         meta: {
           title: '项目',
-          deep: 3,
+          index: "5-1",
           filePath: 'Qianchuan/items'
         },
         component: () => import(/* webpackChunkName: "R_items"*/"@/views/Qianchuan/items"),
@@ -315,7 +318,7 @@ const routes = [{
         name: 'Strategy',
         meta: {
           title: '策略',
-          deep: 3,
+          index: "5-2",
           filePath: 'Qianchuan/strategy'
         },
         component: () => import(/* webpackChunkName: "R_strategy"*/"@/views/Qianchuan/strategy")
@@ -325,60 +328,21 @@ const routes = [{
         name: 'Modules',
         meta: {
           title: '模板',
-          deep: 3,
+          index: "5-3",
           filePath: 'Qianchuan/modules'
         },
         component: () => import(/* webpackChunkName: "R_modules"*/"@/views/Qianchuan/modules"),
       },
-      {
-        path: 'realTime',
-        name: 'RealTime',
-        meta: {
-          title: '实时看板',
-          deep: 3,
-          filePath: 'Qianchuan/realTime'
-        },
-        component: () => import(/* webpackChunkName: "R_realTime"*/"@/views/Qianchuan/realTime"),
-      },
         // {
-        // 	path: 'plan',
-        // 	name: 'Plan',
-        // 	meta: {
-        // 		title: 'plan'
-        // 	},
-        // 	component: () => import("@/views/Qianchuan/plan"),
-
+        //   path: 'realTime',
+        //   name: 'RealTime',
+        //   meta: {
+        //     title: '实时看板',
+        //     deep: 3,
+        //     filePath: 'Qianchuan/realTime'
+        //   },
+        //   component: () => import(/* webpackChunkName: "R_realTime"*/"@/views/Qianchuan/realTime"),
         // },
-      ]
-    },
-    // 预算预警
-    {
-      path: 'budgetAlarm',
-      name: 'BudgetAlarm',
-      meta: {
-        deep: 2
-      },
-      component: () => import("@/views/BudgetAlarm"),
-      children: [{
-        path: 'alarm',
-        name: 'Alarm',
-        meta: {
-          title: '预警',
-          deep: 3,
-          filePath: 'BudgetAlarm/alarm'
-        },
-        component: () => import(/* webpackChunkName: "R_budgetAlarm"*/"@/views/BudgetAlarm/alarm"),
-      },
-      {
-        path: 'budget',
-        name: 'Budget',
-        meta: {
-          title: '预算',
-          deep: 3,
-          filePath: 'BudgetAlarm/budget'
-        },
-        component: () => import(/* webpackChunkName: "R_budget"*/"@/views/BudgetAlarm/budget"),
-      }
       ]
     },
     // 快车提质
@@ -386,7 +350,10 @@ const routes = [{
       path: 'kuaiche',
       name: 'Kuaiche',
       meta: {
-        deep: 2
+        deep: 2,
+        title: '快车提质',
+        icon: "icon-zhiliang",
+        index: "6",
       },
       component: () => import("@/views/Kuaiche"),
       children: [{
@@ -394,7 +361,7 @@ const routes = [{
         name: 'Effect',
         meta: {
           title: '效果变化',
-          deep: 3,
+          index: "6-1",
           filePath: 'Kuaiche/effect'
         },
         component: () => import(/* webpackChunkName: "R_kuaiche"*/"@/views/Kuaiche/effect"),
@@ -403,21 +370,23 @@ const routes = [{
         path: 'charts',
         name: 'Charts',
         meta: {
-          title: '图表',
-          deep: 3,
+          title: '效果图表',
+          index: "6-2",
           filePath: 'Kuaiche/effect'
         },
         component: () => import(/* webpackChunkName: "R_charts"*/"@/views/Kuaiche/effect")
       }
       ]
     },
-
-    // 公共数据获取
+    // 公共数据
     {
       path: 'publicData',
       name: 'PublicData',
       meta: {
-        deep: 2
+        deep: 2,
+        title: '公域数据',
+        icon: "icon-gongyusiyuquanwangyunwei",
+        index: "7",
       },
       component: () => import("../views/PublicData"),
       children: [{
@@ -425,7 +394,7 @@ const routes = [{
         name: 'Bidding',
         meta: {
           title: '京东招标',
-          deep: 3,
+          index: "7-1",
           filePath: 'PublicData/bidding'
         },
         component: () => import(/* webpackChunkName: "R_publicData"*/"@/views/PublicData/bidding"),
@@ -436,30 +405,23 @@ const routes = [{
         name: 'Market',
         meta: {
           title: '京东市场监控',
-          deep: 3,
+          index: "7-2",
           filePath: 'PublicData/market'
         },
         component: () => import(/* webpackChunkName: "R_market"*/"@/views/PublicData/market"),
 
       },
-      {
-        path: 'slide',
-        name: 'slide',
-        meta: {
-          title: '京东市场监控',
-          deep: 3,
-          filePath: 'PublicData/slidePage'
-        },
-        component: () => import(/* webpackChunkName: "R_slide"*/"@/views/PublicData/slidePage"),
-
-      },
       ]
     },
+    // 驾驶舱
     {
       path: 'expend',
       name: 'Expend',
       meta: {
-        deep: 2
+        deep: 2,
+        title: '灵鲨驾驶舱',
+        icon: "icon-jiashicang",
+        index: "8",
       },
       component: () => import("@/views/Expend"),
       children: [
@@ -467,8 +429,8 @@ const routes = [{
           path: 'selfBrand',
           name: 'selfBrand',
           meta: {
-            title: '自有品牌',
-            deep: 3,
+            title: '自有看板',
+            index: "8-1",
             filePath: 'Expend/selfBrand',
           },
           component: () => import( /* webpackChunkName: "R_Expend"*/ "@/views/Expend/selfBrand"),
@@ -477,8 +439,8 @@ const routes = [{
           path: 'bidItem',
           name: 'bidItem',
           meta: {
-            title: '竞标项目',
-            deep: 3,
+            title: '竞标看板',
+            index: "8-2",
             filePath: 'Expend/bidItem',
           },
           component: () => import( /* webpackChunkName: "R_bidItem"*/ "@/views/Expend/bidItem"),
@@ -487,8 +449,8 @@ const routes = [{
           path: 'dapan',
           name: 'dapan',
           meta: {
-            title: '大盘',
-            deep: 3,
+            title: '大盘看板',
+            index: "8-3",
             filePath: 'Expend/dapan',
           },
           component: () => import( /* webpackChunkName: "R_Dapan"*/ "@/views/Expend/dapan"),
@@ -498,7 +460,7 @@ const routes = [{
           name: 'manage',
           meta: {
             title: '多账号概况管理',
-            deep: 3,
+            index: "8-4",
             filePath: 'Expend/manage'
           },
           component: () => import( /* webpackChunkName: "R_Dapan"*/ "@/views/Expend/manage"),
@@ -512,6 +474,7 @@ const routes = [{
   name: '403',
   meta: {
     deep: 1,
+    limit: true
   },
   component: () => import(/* webpackChunkName: "R_404"*/"@/views/403"),
 },
