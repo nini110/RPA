@@ -37,10 +37,6 @@ export default {
     let toinfo = sessionStorage.getItem("toInfo");
     if (!wx_code && !wx_userid) {
       if (vm.$route.query.wx_userid) {
-        localStorage.setItem("wx_code", vm.$route.query.wx_code);
-        localStorage.setItem("wx_userid", vm.$route.query.wx_userid);
-        localStorage.setItem("user_name", vm.$route.query.user_name);
-        localStorage.setItem("thumb_avatar", vm.$route.query.thumb_avatar);
         vm.$router.push({
           path: toinfo ? toinfo.slice(1) : "layout/beijingMustPass/DMP",
         });

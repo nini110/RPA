@@ -36,7 +36,8 @@ const $msg = function (options) {
 const headers = {
   'form': 'application/x-www-form-urlencoded',
   'form-data': 'multipart/form-data',
-  'json': 'application/json'
+  'json': 'application/json',
+  'ppt': 'application/vnd.ms-powerpoint'
 }
 LoadingMask.options.whiteList.push(`http://114.67.229.243:8001/apps/read_log/`);
 // LoadingMask.options.whiteList.push(`http://114.67.229.243:8001/apps/log_list/`);
@@ -46,10 +47,10 @@ service.interceptors.request.use(config => {
   if (config.method === 'get') {
     config.headers = {
       'content-type': headers['form']
-    },
-      config.params = {
-        ...config.data
-      }
+    }
+    config.params = {
+      ...config.data
+    }
   } else if (config.method === 'post') {
     if (config.responseType === 'form') {
       // 原生form表单格式
@@ -85,9 +86,13 @@ service.interceptors.request.use(config => {
       for (let i in data) {
         let item = data[i];
         if (Array.isArray(item) && item.length > 0) {
-          item.forEach((val, idx) => {
-            formData.append('file', val)
-          })
+          if (i === 'file') {
+            item.forEach((val, idx) => {
+              formData.append('file', val)
+            })
+          } else {
+            formData.append(i, JSON.stringify(item))
+          }
         } else {
           formData.append(i, item)
         }

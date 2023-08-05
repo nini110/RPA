@@ -373,7 +373,6 @@ export default {
               }
             })
           }
-          debugger
           // 保存
           // [resultObj]为提交的数据  results为excel的配置数据
           vm.$emit("close", 1, [resultObj], results);

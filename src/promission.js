@@ -16,24 +16,29 @@ NProgress.configure({
 let getRouter; // 用来获取后台拿到的路由
 let flag = true
 router.beforeEach(async (to, from, next) => {
+  if (to.query.wx_userid) {
+    localStorage.setItem("wx_code", to.query.wx_code);
+    localStorage.setItem("wx_userid", to.query.wx_userid);
+    localStorage.setItem("user_name", to.query.user_name);
+    localStorage.setItem("thumb_avatar", to.query.thumb_avatar);
+  }
   NProgress.start()
   if (!getRouter) {
     getRouter = await handleRoutes(routes); // 后台拿到路由
-    // debugger
     routerGo(to, next)
     NProgress.done()
   } else {
-    if (to.path === '/login') {
-      next()
-      NProgress.done()
+    if (to.name === 'login') {
+      if (localStorage.getItem('wx_code')) {
+        let toinfo = sessionStorage.getItem("toInfo");
+        next(toinfo ? toinfo.slice(1) : '/layout/beijingMustPass/DMP')
+      } else {
+        next()
+        NProgress.done()
+      }
     } else {
       sessionStorage.setItem('toInfo', to.fullPath)
-      if (localStorage.getItem('wx_code') && flag) {
-        flag = false
-        getRouter = await handleRoutes(routes); // 后台拿到路由
-        routerGo(to, next)
-        NProgress.done()
-      } else if (localStorage.getItem('wx_code') && !flag) {
+      if (localStorage.getItem('wx_code')) {
         if (to.meta.limit) {
           next()
         } else {

@@ -1,9 +1,12 @@
 <template>
   <div class="upbox">
-    <!--   accept=".xlsx,.xls,.csv"-->
-    <el-upload drag accept=".xlsx,.csv" :auto-upload="false" :show-file-list="showFileList" :action="UploadUrl()"
+    <el-upload v-if="btnUpload" ref="btnUpload" accept=".png,.jpg,.jpeg,.JPEG,.PNG,.JPG" :action="UploadUrl()"
+      :show-file-list="false" :auto-upload="false" :file-list="fileList" :on-change="fileChangeBtn" :multiple="multiple">
+      <el-button size="small" class="el-upload-btn plain">请添加图片</el-button>
+    </el-upload>
+    <el-upload v-else drag accept=".xlsx,.csv" :auto-upload="false" :show-file-list="showFileList" :action="UploadUrl()"
       :on-remove="remfile" :on-preview="handlePreview" :on-change="fileChange" :on-success="handleSuccess"
-      :on-error="handleError" :file-list="fileList" :multiple="multiple">
+      :on-error="handleError" :file-list="fileList" :multiple="multiple" :limit="limit">
       <i class="el-icon-upload"></i>
       <div class="el-upload__text">
         将文件拖到此处，或<em>{{ upTxt }}</em>
@@ -24,6 +27,10 @@ export default {
   name: "varifyDialog",
   mixins: [message],
   props: {
+    btnUpload: {
+      defalut: false,
+      type: Boolean
+    },
     upTxt: {
       default: "点击导入",
       type: String,
@@ -36,6 +43,10 @@ export default {
       default: false,
       type: Boolean,
     },
+    limit: {
+      default: 10,
+      type: Number,
+    },
     showPros: {
       default: false,
       type: Boolean,
@@ -46,7 +57,7 @@ export default {
     },
     sheetName: {
       type: Array,
-      default: [],
+      // default: [],
     },
     toolType: {
       type: String
@@ -84,6 +95,9 @@ export default {
           case '数坊人群圈选':
             vm.maxRow = 1000
             break
+          case '创意上传':
+            vm.maxRow = 1000
+            break
           default:
             vm.maxRow = 3000
             break
@@ -95,17 +109,58 @@ export default {
   },
   mounted () {
     // console.log(Window.LuckyExcel)
-
   },
   methods: {
     // 文件状态改变时的钩子
+    fileChangeBtn (file, fileList) {
+      const vm = this;
+      console.log('????')
+      vm.$msgClose()
+      vm.$emit('beforeeve')
+      let extension = file.name.substring(file.name.lastIndexOf(".") + 1);
+      let size = file.size / 1024 / 1024;
+      let extArr = ['JPG', 'JPEG', 'PNG']
+      if (!extArr.includes(extension.toUpperCase())) {
+        vm.$msg({
+          type: "error",
+          msg: `图片【${file.name}】添加失败，请检查图片格式`
+        });
+        vm.$emit('closeLoading')
+        return;
+      }
+      if (size > 0.5) {
+        vm.$msg({
+          type: "warning",
+          msg: `图片【${file.name}】添加失败，请检查图片大小`
+        });
+        vm.$emit('closeLoading')
+        return;
+      }
+      let url = window.URL.createObjectURL(file.raw); // 得到bolb对象路径，可当成普通的文件路径一样使用，赋值给src;
+      let imgObj = new Image();
+      imgObj.src = url
+      imgObj.onload = function () {
+        vm.fileList = [];
+        if (imgObj.width !== 350 || imgObj.height !== 350) {
+          vm.$msg({
+            type: "warning",
+            msg: `图片【${file.name}】添加失败，请检查图片尺寸`
+          });
+          vm.$emit('closeLoading')
+          return;
+        }
+        vm.fileList.push(file.raw);
+        vm.$emit("getFile", vm.fileList);
+      }
+    },
     fileChange (file, fileList) {
       const vm = this;
       vm.$emit('beforeeve')
-      vm.fileList = [];
       let extension = file.name.substring(file.name.lastIndexOf(".") + 1);
       let size = file.size / 1024 / 1024;
-      if (extension !== "xlsx" && extension !== "xls" && extension !== "csv") {
+      vm.fileList = [];
+      let extArr = ['XLSX', 'XLS', 'CSV']
+      if (!extArr.includes(extension.toUpperCase())) {
         vm.$msg({
           type: "error",
           msg: "只能上传excel文件"

@@ -2,17 +2,15 @@
   <!-- 出价 -->
   <div class="strategyNormal">
     <div class="centers">
-      <div class="PriceTops">
-        <el-form class="flexTopRow one">
-          <el-form-item style="position: relative;">
-            <el-tooltip class="fixtool" effect="light" content="个人账号绑定上限数量为50个" placement="top">
-              <span class="el-icon-warning-outline"></span>
-            </el-tooltip>
-            <el-button v-waves type="primary" class="el-icon-plus btnnormal" @click="editFn">账号绑定
-            </el-button>
-          </el-form-item>
-        </el-form>
-      </div>
+      <vxe-toolbar ref="toolbarRef">
+        <template #tools>
+          <el-tooltip class="fixtool" effect="light" content="个人账号绑定上限数量为50个" placement="top">
+            <span class="el-icon-warning-outline"></span>
+          </el-tooltip>
+          <el-button v-waves type="warning" round class="el-icon-plus btnnormal" @click="editFn">绑定账号
+          </el-button>
+        </template>
+      </vxe-toolbar>
       <div class="tabbles pricetable" ref="tabbles">
         <vxe-table ref="multipleTable" :data="tableData" stripe round :column-config="{ resizable: true }"
           :row-config="{ isCurrent: true, isHover: true }" class="mytable-scrollbar" auto-resize height="auto">

@@ -1,26 +1,26 @@
 <template>
-<div class="outerDiv">
-  <div class="content ts2">
-    <div class="outerDiv_left">
-      <Left></Left>
-      <div class="outerDiv_left_info">
-        <h3 class="el-icon-info">须知</h3>
-        <div v-for="(item, idx) in tipInfo" :key="idx" class="box">
-          <p class="box_txt">{{ item.title }}</p>
-          <template v-if="item.children">
-            <p class="box_cnt" v-for="(item1, idx1) in item.children" :key="idx1">
-              {{ item1 }}
-            </p>
-          </template>
+  <div class="outerDiv">
+    <div class="content ts2">
+      <div class="outerDiv_left">
+        <Left></Left>
+        <div class="outerDiv_left_info">
+          <h3 class="el-icon-info">须知</h3>
+          <div v-for="(item, idx) in tipInfo" :key="idx" class="box">
+            <p class="box_txt">{{ item.title }}</p>
+            <template v-if="item.children">
+              <p class="box_cnt" v-for="(item1, idx1) in item.children" :key="idx1">
+                {{ item1 }}
+              </p>
+            </template>
+          </div>
         </div>
       </div>
+      <div class="outerDiv_right">
+        <Right></Right>
+      </div>
     </div>
-    <div class="outerDiv_right">
-      <Right></Right>
-    </div>
-  </div>
 
-</div>
+  </div>
 </template>
 
 <script>
@@ -40,7 +40,7 @@ export default {
     Left,
     Right,
   },
-  data() {
+  data () {
     return {
       multipleUpTxt: "盯盘维度",
       btnTxt: "修改",
@@ -52,14 +52,14 @@ export default {
   },
   watch: {
     $route: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         this.multipleUp = newval.name === "Budget";
       },
       immediate: true,
       deep: true
     },
     multipleUp: {
-      handler(newval, oldval) {
+      handler (newval, oldval) {
         this.multipleUpTxt = newval ? "预算设置" : "盯盘维度";
         this.tipInfo = newval ?
           [
@@ -83,16 +83,16 @@ export default {
       deep: true,
     },
   },
-  created() {
+  created () {
     this.getUser();
   },
   // 离开页面的时候数据初始化
-  beforeDestroy() {
+  beforeDestroy () {
     this.resetEvent();
   },
   methods: {
     // 获取所有PIN
-    getUser() {
+    getUser () {
       const vm = this;
       let data1 = []
       let data2 = []
@@ -129,15 +129,15 @@ export default {
         }
       })
     },
-    upList() {
+    upList () {
       this.multipleUp = !this.multipleUp;
     },
-    close() {
+    close () {
       this.multipleUp = false;
       this.resetEvent();
     },
     // 重置
-    resetEvent() {
+    resetEvent () {
       const vm = this;
       vm.$store.commit("pageData/UPDATE_HASINFO", false); //无数据
       vm.$store.commit("pageData/UPDATE_BTNSTATE", {

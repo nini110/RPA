@@ -125,6 +125,7 @@
             <template slot="title">
               <span class="iconfont icon-xiangmu icon"></span> 功能介绍
             </template>
+            <div v-if="wordTitle" class="word wordTip">{{ wordTitle }}</div>
             <div class="word" v-for="(item, idx) in wordList" :key="idx"><span class="lab">{{ item.lab }}</span>{{
               item.word }}</div>
             <div v-if="wordTip" class="word wordTip el-icon-warning-outline">{{ wordTip }}</div>
@@ -148,7 +149,6 @@
               </div>
               <div class="formObj_ipt_rt">
                 <el-row :gutter="20">
-                  <div class=""></div>
                   <el-col v-if="formMenu === 1" :span="colWidth.choose">
                     <el-form-item label="类型" prop="choose" class="noborder">
                       <el-select v-model="form.choose" placeholder="请选择类型" size="large" @change="chooseEvent">
@@ -160,9 +160,9 @@
                   <el-col v-if="showError" :span="colWidth.eror" class="hasAppend">
                     <el-tooltip effect="light" placement="bottom">
                       <div slot="content">
-                        <p class="ts el-icon-open">开启时：</p>
+                        <p class="ts el-icon-open">开启时</p>
                         <p>根据填写的终止条件作为规则，例如填写：5，则会在出错第5次自动终止程序</p>
-                        <p class="ts el-icon-turn-off">关闭时：</p>
+                        <p class="ts el-icon-turn-off">关闭时</p>
                         <p>程序执行中出现错误会继续向下执行，不会终止，直到执行完毕</p>
                         <p class="ts el-icon-bell">该条件默认开启，填写区间为1 - 10</p>
                       </div>
@@ -199,7 +199,41 @@
                       </el-input>
                     </el-form-item>
                   </el-col>
-                  <el-col v-if="toolType === '快车更新创意状态'" :span="24">
+                  <el-col v-if="toolType === '创意上传'" :span="12" class="hasAppend">
+                    <el-tooltip effect="light" placement="bottom">
+                      <div slot="content">
+                        <p class="ts el-icon-document">格式要求</p>
+                        <p>格式：JPG、JPEG、PNG</p>
+                        <p>尺寸：350 * 350，单张大小不超过0.5M</p>
+                        <p>数目：至多10张</p>
+                      </div>
+                      <div class="el-icon-question"></div>
+                    </el-tooltip>
+                    <el-form-item label="图片" prop="imgItem" class="w110 noborder">
+                      <Upload btnUpload tag="img" :multiple="true" @getFile="getFileEvent2" @beforeeve="beforeeve"
+                        @closeLoading="closeLoading">
+                      </Upload>
+                    </el-form-item>
+                    <el-tooltip v-if="imgViewList.length > 0" popper-class="viewTooltip" class="viewTooltip ts"
+                      effect="light" placement="bottom">
+                      <div slot="content" class="viewbox">
+                        <div class="viewbox-item" v-for="(item, idx) in imgViewList" :key="idx">
+                          <div class="viewbox-item-num">{{ idx + 1 }}</div>
+                          <div class="viewbox-item-tp">
+                            <img :src="item.fileUrl" alt="">
+                            <div class="viewbox-mask"><span @click="deleteEvent(item)" class="el-icon-delete"></span>
+                            </div>
+                          </div>
+                          <div class="viewbox-item-txt">{{ item.fileName }}</div>
+                        </div>
+                        <el-link class="viewbox-item-reset" icon="el-icon-circle-close" type="danger"
+                          @click="resetImgFile">清空</el-link>
+                      </div>
+                      <div>预览</div>
+                    </el-tooltip>
+                    <!-- </div> -->
+                  </el-col>
+                  <el-col v-if="toolType === '快车更新创意状态'">
                     <el-form-item label="库存条件" prop="tiaojian" class="">
                       <vxe-pulldown ref="refKoujing" v-model="visible1">
                         <template #default>
@@ -315,7 +349,7 @@
                   </div>
                 </template></vxe-column>
               <vxe-column min-width="15%" field="create_time" title="日期" show-overflow="tooltip"></vxe-column>
-              <vxe-column title="操作" fixed="right" width="12%">
+              <vxe-column title="操作" fixed="right" width="18%">
                 <template slot-scope="scope">
                   <div v-waves class="btn btn_info"
                     :class="{ 'one': !ifDown || !scope.row.res_file_path || scope.row.log_status !== '执行完毕' }"
@@ -370,7 +404,10 @@
                   :title="item.title"></vxe-column>
               </vxe-table>
             </div>
-            <div class="btCnt"> {{ extraLogCnt.btcnt }} </div>
+            <!-- <div class="btCnt"> {{ extraLogCnt.btcnt }} </div> -->
+            <div class="btCnt">
+              <span v-for="(item, idx) in extraLogCnt.btcnt" :key="idx">{{ item }}</span>
+            </div>
           </template>
         </div>
         <div class="infinite_ing">
@@ -421,7 +458,8 @@ import {
   optMovie,
   dapanonLineList,
   newBudgetSubmit,
-  newBudgetDown
+  newBudgetDown,
+  directiveUpimg
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import ExcelDialog from "@/components/excelDialog/index.vue";
@@ -442,19 +480,14 @@ export default {
     wordTip: {
       type: String
     },
+    wordTitle: {
+      type: String
+    },
     wordErr: {
       type: String
     },
     colWidth: {
       type: Object,
-      // default: {
-      //   choose: 24,
-      //   eror: 24,
-      //   pin: 24,
-      //   cookie: 24,
-      //   user: 24,
-      //   shufang: 24
-      // }
     },
     picSrc: {
       type: String,
@@ -537,10 +570,13 @@ export default {
         vm.intervalDia = null;
         vm.showError = vm.formMenu === 1 && vm.toolType !== '快车更新创意状态'
         vm.showCookie =
-          vm.formMenu === 1 && vm.toolType !== 'DMP' && vm.toolType !== '购物触点' && vm.toolType !== '快车更新创意状态';
+          vm.formMenu === 1 && vm.toolType !== 'DMP' && vm.toolType !== '购物触点' && vm.toolType !== '快车更新创意状态' && vm.toolType !== '创意上传';
         vm.getuserlist();
         vm.$nextTick(() => {
           vm.$refs.form.resetFields();
+          window.luckysheet.destroy();
+          vm.showExcel = false;
+          vm.showLoading = false
           vm.fileList = [];
           vm.excelName = "";
           vm.excelData = null;
@@ -597,6 +633,13 @@ export default {
   },
   data () {
     const vm = this;
+    let chechImg = (rule, value, callback) => {
+      if (vm.imgFileList.length === 0) {
+        callback(new Error("请添加图片"));
+      } else {
+        callback();
+      }
+    };
     let chechPin = (rule, value, callback) => {
       if (!value && vm.form.choose === 1) {
         callback(new Error("请选择PIN"));
@@ -636,7 +679,6 @@ export default {
             callback();
           }
         }
-
       }
     }
     let cktjVal2 = (rule, value, callback) => {
@@ -772,7 +814,12 @@ export default {
           required: true,
           message: "请选择条件",
           trigger: ['change', "blur"]
-        }]
+        }],
+        imgItem: [{
+          required: true,
+          validator: chechImg,
+          trigger: ['change', "blur"]
+        }],
       },
       showVarDia: false,
       options: [{
@@ -788,7 +835,7 @@ export default {
         username: "",
         password: "",
         cookie: '',
-        error_num: null,
+        error_num: '',
         pin: "",
         choose: 2,
         tiaojian: '',
@@ -813,6 +860,9 @@ export default {
       tj_lf2: '<',
       visible1: false,
       fileList: [], // excel文件列表
+      imgFileList: [], // 图片列表
+      imgViewList: [], // 图片列表预览
+      imgViewListMid: [], // 图片列表预览
       loadingbut: false,
       loadingbuttext: "执行",
       tableData: [],
@@ -837,17 +887,9 @@ export default {
   },
   mounted () {
     const vm = this;
-    console.log(vm.rules)
-
     vm.getPin();
   },
   methods: {
-    debounce (fn, inital) {
-      return () => {
-        clearTimeout(vm.timeraaa)
-        vm.timeraaa = setTimeout(fn, inital)
-      }
-    },
     iptClickEvent (newval, oldval) {
       const vm = this
       if (!vm.iptTimer) {
@@ -855,7 +897,6 @@ export default {
           vm.form.error_num = newval
         }, 500)
       } else {
-        console.log('old', oldval)
         vm.form.error_num = oldval
         clearTimeout(vm.iptTimer)
         vm.iptTimer = null
@@ -913,6 +954,8 @@ export default {
       vm.excelData = null;
       vm.excelName = "";
       vm.ifErrNum = true
+      vm.imgFileList = []
+      vm.imgViewList = []
     },
     tabClick () {
       const vm = this;
@@ -927,6 +970,66 @@ export default {
       this.fileList = val;
       this.excelName = val[0].name;
       this.errorUpInfo = "";
+    },
+    getFileEvent2 (file) {
+      const vm = this
+      let fileNameArr = vm.imgFileList.map(val => {
+        return val.name.slice(0, val.name.lastIndexOf("."))
+      })
+      if (fileNameArr.includes(file[0].name.slice(0, file[0].name.lastIndexOf(".")))) {
+        vm.showLoading = false
+        vm.$msg({
+          type: "error",
+          msg: `图片【${file[0].name.slice(0, file[0].name.lastIndexOf("."))}】已存在`,
+          duration: 3000
+        });
+        return false
+      }
+      if (vm.imgFileList.length === 10) {
+        vm.showLoading = false
+        // vm.$msgClose()
+        vm.$msg({
+          type: "error",
+          msg: `图片【${file[0].name.slice(0, file[0].name.lastIndexOf("."))}】添加失败：至多上传10张图片`,
+          duration: 3000
+        });
+        return false
+      }
+
+      vm.imgViewList = []
+      vm.imgFileList = [...vm.imgFileList, ...file]
+      vm.showLoading = false
+      vm.imgFileList.forEach((val, idx) => {
+        let url = window.URL.createObjectURL(val); // 得到bolb对象路径，可当成普通的文件路径一样使用，赋值给src;
+        vm.imgViewList.push({
+          fileName: val.name,
+          fileUrl: url,
+          fileSize: val.size
+        })
+      })
+      vm.$emit('closeLoading')
+      vm.$refs.form.validateField('imgItem')
+    },
+    deleteEvent (file) {
+      const vm = this;
+      vm.imgFileList = vm.imgFileList.filter((val, idx) => {
+        return val.name !== file.fileName
+      })
+      vm.imgViewList = []
+      vm.imgFileList.forEach((val, idx) => {
+        let url = window.URL.createObjectURL(val); // 得到bolb对象路径，可当成普通的文件路径一样使用，赋值给src;
+        vm.imgViewList.push({
+          fileName: val.name,
+          fileUrl: url,
+          fileSize: val.size
+        })
+      })
+    },
+    resetImgFile () {
+      const vm = this;
+      vm.imgViewList = []
+      vm.imgFileList = []
+      vm.$refs.form.validateField('imgItem')
     },
     // 打开空白excel
     openExcel () {
@@ -945,7 +1048,7 @@ export default {
       vm.showExcel = true;
       vm.formSource = 2;
     },
-    // 弹出框
+    // 弹出框s
     popverEvent (tag) {
       const vm = this;
       vm.propVisable = false;
@@ -979,10 +1082,6 @@ export default {
         stop: vm.tj_val2 ? vm.tj_lf2 + vm.tj_val2 : '',
         tool_type: vm.toolType,
       };
-      // let sttt = encodeURIComponent(JSON.stringify(submitdata))
-      // console.log(sttt.length)
-      // let mb = (lth/(1024*1024)).toFixed(2) + 'MB'
-      // console.log(mb)
       vm.$refs.form.validate((valid) => {
         if (valid) {
           if (!vm.excelData) {
@@ -991,53 +1090,74 @@ export default {
               msg: "请先添加表格数据"
             });
             vm.disBtn = false
-          } else {
-            // 提效
-            if (vm.formMenu === 1) {
-              if (vm.toolType === 'DMP') {
-                vm.api_DMP(submitdata)
-              } else {
-                vm.api_directive(submitdata)
-              }
-            } else if (vm.formMenu === 2) {
-              if (vm.toolType === '数坊人群圈选') {
-                vm.openMessageBox({
-                  type: "warning",
-                  showClose: true,
-                  tipTitle: `当前执行程序为<b>人群圈选</b>，继续执行可能会消耗资源，请知晓!`,
-                  showCancelButton: true,
-                  confirmButtonFn: () => {
-                    vm.api_shufang(submitdata)
-                  },
-                  cancelButtonFn: () => {
-                    vm.disBtn = false
-                  }
-                });
-              } else {
-                vm.api_shufang(submitdata)
-              }
-            } else if (vm.formMenu === 3) {
-              // 一键预算
-              let mid = submitdata.config_data[0]
-              let arr = []
-              for (let i in mid) {
-                if (mid[i].length !== 0) {
-                  arr.push(i)
+            return
+          }
+          // 提效
+          if (vm.formMenu === 1) {
+            if (vm.toolType === 'DMP') {
+              vm.api_DMP(submitdata)
+            } else if (vm.toolType === '创意上传') {
+              let excelPicNameArr = vm.excelData[0].Sheet1.map(val => {
+                return val.图片名称
+              })
+              let fileNameArr = vm.imgFileList.map(val => {
+                return val.name.slice(0, val.name.lastIndexOf("."))
+              })
+              for (let i in excelPicNameArr) {
+                if (!fileNameArr.includes(excelPicNameArr[i])) {
+                  vm.disBtn = false
+                  vm.$msg({
+                    type: "error",
+                    msg: `请检查图片【${excelPicNameArr[i]}】是否已添加`
+                  });
+                  return
                 }
               }
+              vm.api_directive({
+                ...submitdata,
+                file: vm.imgFileList
+              })
+            } else {
+              vm.api_directive(submitdata)
+            }
+          } else if (vm.formMenu === 2) {
+            if (vm.toolType === '数坊人群圈选') {
               vm.openMessageBox({
                 type: "warning",
                 showClose: true,
-                tipTitle: `当前已添加预算Sheet为【${arr.join(' - ')}】，是否确认？`,
+                tipTitle: `当前执行程序为<b>人群圈选</b>，继续执行可能会消耗资源，请知晓!`,
                 showCancelButton: true,
                 confirmButtonFn: () => {
-                  vm.api_budget(submitdata)
+                  vm.api_shufang(submitdata)
                 },
                 cancelButtonFn: () => {
                   vm.disBtn = false
                 }
               });
+            } else {
+              vm.api_shufang(submitdata)
             }
+          } else if (vm.formMenu === 3) {
+            // 一键预算
+            let mid = submitdata.config_data[0]
+            let arr = []
+            for (let i in mid) {
+              if (mid[i].length !== 0) {
+                arr.push(i)
+              }
+            }
+            vm.openMessageBox({
+              type: "warning",
+              showClose: true,
+              tipTitle: `当前已添加预算Sheet为【${arr.join(' - ')}】，是否确认？`,
+              showCancelButton: true,
+              confirmButtonFn: () => {
+                vm.api_budget(submitdata)
+              },
+              cancelButtonFn: () => {
+                vm.disBtn = false
+              }
+            });
           }
         } else {
           vm.disBtn = false
@@ -1410,15 +1530,24 @@ export default {
     },
     handleLogStr (targetStr) {
       const vm = this
+      // let targetStr = "@@@程序开始$@@@单元名称|状态|失败原因$测试宙斯单元|失败|查询计划失败未找到，请检查! 错误信息: None$@@@程序结束$"
       let midTab1;
       if (targetStr.startsWith('@')) {
         midTab1 = targetStr.split('@@@').slice(1)
       } else {
         midTab1 = targetStr.split('@@@')
       }
+      if (midTab1.length === 4) {
+        // 有总结
+        midTab1 = JSON.parse(JSON.stringify(([
+          midTab1[0],
+          midTab1[1],
+          `${midTab1[2]}$${midTab1[3]}`
+        ])))
+      }
       let extraLogCnt = {
         tpcnt: midTab1[0].split('$'),
-        btcnt: midTab1[2] || ''
+        btcnt: midTab1[2] ? midTab1[2].split('$') : ''
       }
       let tableRes = []
       if (midTab1[1]) {
@@ -1507,6 +1636,9 @@ export default {
         link.click();
       });
     },
+    closeLoading () {
+      this.showLoading = false;
+    },
     //  no -关闭excel
     closeEvent (tag, val, opt) {
       const vm = this;
@@ -1530,7 +1662,7 @@ export default {
     },
     seitchEvent (val) {
       const vm = this
-      vm.form.error_num = val ? 1 : null
+      vm.form.error_num = ''
     },
     //分页器功能
     handleSizeChange (val) {

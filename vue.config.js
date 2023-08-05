@@ -136,7 +136,7 @@ module.exports = {
     // change 设置跨域代理
     proxy: {
       '/host8001': {// 拦截地址中有/8001
-        target: 'http://114.67.229.243:8001', // 8001端口
+        target: 'http://172.20.10.9:5050', // 8001端口
         changeOrigin: true,
         secure: false,
         pathRewrite: {

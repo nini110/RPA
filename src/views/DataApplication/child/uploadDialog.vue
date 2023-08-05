@@ -33,39 +33,32 @@
         </el-col>
         <el-col :span="24">
           <el-form-item label="添加人员" prop="cSubcategoryNo">
-            <el-input class="inline-input" v-model.trim="cSubcategoryNo" placeholder="请输入上传人员姓名或关键字" @input="searchPeople"
+            <div v-if="peoplelist.length > 0" class="tagBox">
+              <el-tag v-for="(item, index) in peoplelist" :key="index" :index="index" :closable="peoplelist.length > 1"
+                @close="deleteitem(item, index)">{{ item.name }}</el-tag>
+            </div>
+            <el-input class="tagBox-input" v-model.trim="cSubcategoryNo" placeholder="请输入上传人员姓名或关键字" @input="searchPeople"
               size="medium" clearable></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="24">
-          <el-form-item v-if="peopleOptions.length > 0" label="" class="tagBox ts">
-            <el-scrollbar style="height: 100%">
+            <div v-if="peopleOptions.length > 0" class="tagBox ts">
               <el-tag v-for="tag in peopleOptions" :disable-transitions="false" :key="tag.userid" type=""
-                @close="handleClose(tag)" @click="addPerson(tag)">{{ tag.name }}</el-tag>
-            </el-scrollbar>
-          </el-form-item>
-        </el-col>
-
-        <el-col :span="24">
-          <el-form-item label="已选人员" prop="" class="tagBox">
-            <el-tag v-for="(i, index) in peoplelist" :key="index" :index="index" :closable="peoplelist.length > 1"
-              @close="deleteitem(index)">{{ i.name }}</el-tag>
+                :class="{ 'dis': tag.disabled }" @close="handleClose(tag)" @click="addPerson(tag)">{{ tag.name
+                }}</el-tag>
+            </div>
           </el-form-item>
         </el-col>
         <el-col :span="20">
           <el-form-item label="生成预算" prop="rangeDate" class="w100">
             <el-date-picker v-model="form.rangeDate" format="yyyy-MM-dd" value-format="yyyy-MM-dd" type="daterange"
-              :clearable="false" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
+              :clearable="false" size="medium" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期"
               :picker-options="pickerOptionsStart">
             </el-date-picker>
           </el-form-item>
         </el-col>
         <el-col :span="4">
-          <el-button type="info" plain @click="createForm"
+          <el-button plain @click="createForm" size="medium"
             :disabled="form.rangeDate && form.rangeDate.length === 0">生成</el-button>
         </el-col>
         <el-col class="flexCol" :span="24">
-          <!-- <el-scrollbar style="height: 100%"> -->
           <el-form-item v-for="(item, idx) in form.budgetJson" :key="idx" label="" :prop="'budgetJson.' + idx + '.val'"
             :rules="rules.budget">
             <el-input placeholder="请输入预算" v-model.trim="item.val" :maxlength="9" clearable>
@@ -74,7 +67,6 @@
             <span v-if="form.budgetJson.length > 1" class="delicon el-icon-delete"
               @click="delBudgetEvent(item, idx)"></span>
           </el-form-item>
-          <!-- </el-scrollbar> -->
         </el-col>
       </el-row>
     </el-form>
@@ -178,7 +170,6 @@ export default {
       peopleOptions: [],
       cSubcategoryNo: "",
       peoplelist: [], //人员列表
-      itemid: [], //上传人员id
       itemname: [], //上传人员姓名
     };
   },
@@ -242,10 +233,10 @@ export default {
           vm.peopleOptions = [];
           let result = res.data.data;
           // 二次同字段搜索的时候去重
-          for (let i in vm.peoplelist) {
-            for (let k in result) {
-              if (vm.peoplelist[i].userid === result[k].userid) {
-                result.splice(k, 1);
+          for (let i of vm.peoplelist) {
+            for (let k of result) {
+              if (i.userid === k.userid) {
+                vm.$set(k, 'disabled', true)
                 break;
               }
             }
@@ -324,8 +315,8 @@ export default {
       vm.$refs.form.validate((valid) => {
         if (valid && vm.form.budgetJson.length > 0) {
           //上传时需要的人员id
-          vm.itemid = "";
-          vm.itemname = "";
+          let itemid;
+          let itemname;
           //上传时需要竞标name
           let jbname = "";
           for (let item of vm.bidOptions) {
@@ -334,18 +325,18 @@ export default {
               break;
             }
           }
-          for (let k = 0; k < vm.peoplelist.length; k++) {
-            vm.itemid += vm.peoplelist[k].userid + ",";
-            vm.itemname += vm.peoplelist[k].name + ",";
-          }
-          vm.itemid = vm.itemid.slice(0, vm.itemid.length - 1);
-          vm.itemname = vm.itemname.slice(0, vm.itemname.length - 1);
+          itemid = vm.peoplelist.map(val => {
+            return val.userid
+          }).join(',')
+          itemname = vm.peoplelist.map(val => {
+            return val.name
+          }).join(',')
           if (vm.form.bidId == "") {
             vm.$msg({ type: "warning", msg: "请输入标名或者项目编号" });
           } else {
             let data = {
-              user_list: vm.itemid,
-              user_name_list: vm.itemname,
+              user_list: itemid,
+              user_name_list: itemname,
               trans_name: vm.username,
               bidding_id: vm.form.bidId,
               bidding_name: jbname,
@@ -367,15 +358,21 @@ export default {
     },
     // 点击添加人员
     addPerson (tag) {
+      if (tag.disabled) {
+        return false
+      }
       this.peoplelist.push(tag);
-      this.itemid.push(tag.id);
       // 添加后删除以免二次选中
       this.handleClose(tag);
     },
     //多选栏中的删除
     handleClose (tag) {
-      let item = this.peopleOptions.indexOf(tag);
-      this.peopleOptions.splice(item, 1);
+      for (let i of this.peopleOptions) {
+        if (i.userid === tag.userid) {
+          this.$set(i, 'disabled', true)
+          return
+        }
+      }
     },
     //多选框--全选
     actionEventAll (val) {
@@ -390,8 +387,14 @@ export default {
         checkedCount > 0 && checkedCount < this.actionOptions.length;
     },
     // 双击删除列表
-    deleteitem (index) {
+    deleteitem (tag, index) {
       this.peoplelist.splice(index, 1);
+      for (let i of this.peopleOptions) {
+        if (i.userid === tag.userid) {
+          this.$set(i, 'disabled', false)
+          return
+        }
+      }
     },
     closeDialog () {
       this.$emit("close");

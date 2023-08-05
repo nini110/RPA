@@ -14,7 +14,7 @@
             <el-radio-group v-model="form.task_type" @change="radioChangeEvent">
               <el-radio border :label="1">三级类目</el-radio>
               <el-radio border :label="2">关键词</el-radio>
-              <el-radio border :label="3">SKU</el-radio>
+              <el-radio border :label="3" disabled>SKU</el-radio>
               <el-radio border :label="4">店铺</el-radio>
             </el-radio-group>
           </el-form-item>

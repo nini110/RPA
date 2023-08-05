@@ -1,22 +1,97 @@
-/deep/.el-card {
-  border: 2px dotted #e0e0e0;
-  background-color: #fafafa;
-  cursor: pointer;
-  height: 100%;
+.vxe-pulldown {
+  width: 100%;
+}
 
-  &.active {
-    border: 2px dotted #409eff;
+.titleBox {
+  width: 400px;
 
-    h3 {
-      font-size: 18px;
-      color: #303133;
+  &_group {
+    background-color: #f3f3f387;
+    padding: 20px;
+  }
+
+  &_out {
+    width: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    cursor: pointer;
+
+    &:before {
+      font-size: 24px;
+      margin-right: 10px;
+    }
+  }
+
+  &_btn {
+    margin-top: 20px;
+    display: flex;
+    text-align: center;
+    border: 1px solid #ccc;
+
+    span {
+      flex-basis: 50%;
+      padding: 10px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #409effcc;
+        color: #fff;
+      }
     }
   }
 }
 
-.el {
+/deep/.el {
+  &-col {
+    &.ts {
+      .el-form-item__content {
+        width: 100%;
+        display: flex;
+        flex-direction: row-reverse;
+      }
+
+      .el-button {
+        min-width: auto;
+        width: 100%;
+      }
+    }
+  }
+
+  &-card {
+    border: 2px dotted #e0e0e0;
+    background-color: #fafafa;
+    cursor: pointer;
+    height: 100%;
+
+    &.active {
+      border: 2px dotted #409eff;
+
+      h3 {
+        font-size: 18px;
+        color: #303133;
+      }
+    }
+  }
+
+  &-radio-group {
+    width: 100%;
+    display: flex;
+
+    label {
+      flex: 1;
+    }
+  }
+
+  &-radio-button__inner {
+    width: 100%;
+  }
+
+
+
   &-form {
-    margin-bottom: 20px;
+    // margin-bottom: 20px;
     position: relative;
 
   }
@@ -41,41 +116,57 @@
       font-weight: bold;
     }
   }
-}
 
+  &-checkbox {
+    &__label {
+      font-size: 16px;
+    }
 
-/deep/.el-statistic {
-  flex-basis: 35%;
-  padding-bottom: 10px;
+    &-group {
+      display: flex;
+      flex-wrap: wrap;
 
-  .head {
-    font-size: 16px;
-    color: #767c82;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-
-    .fixtool {
-      font-size: 20px;
-      margin-right: 10px;
+      .el-checkbox {
+        flex-basis: 48%;
+        margin: 1% !important;
+        padding-right: 0;
+      }
     }
   }
 
-  .con {
-    font-size: 20px;
-    line-height: 30px;
-    padding: 20px;
-    font-weight: bold;
-    color: #333639;
+  &-statistic {
+    flex-basis: 35%;
+    padding-bottom: 10px;
 
-    .prefix {
+    .head {
+      font-size: 16px;
+      color: #767c82;
       display: flex;
-      align-items: center;
+      justify-content: center;
+      align-items: flex-end;
+
+      .fixtool {
+        font-size: 20px;
+        margin-right: 10px;
+      }
     }
 
-    .iconfont {
-      font-size: 30px;
-      margin-right: 10px;
+    .con {
+      font-size: 20px;
+      line-height: 30px;
+      padding: 20px;
+      font-weight: bold;
+      color: #333639;
+
+      .prefix {
+        display: flex;
+        align-items: center;
+      }
+
+      .iconfont {
+        font-size: 30px;
+        margin-right: 10px;
+      }
     }
   }
 }
@@ -87,7 +178,7 @@
 }
 
 .infoBox {
-  margin: 40px 0 30px 0;
+  margin-bottom: 10px;
   background-color: #fafafa;
   padding: 20px;
 
@@ -97,7 +188,7 @@
 
   &_del {
     display: flex;
-    justify-content: space-between;
+    // justify-content: space-between;
     flex-wrap: wrap;
 
     div {

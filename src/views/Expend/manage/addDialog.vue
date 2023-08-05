@@ -50,7 +50,7 @@
     <span slot="footer" class="dialog-footer ts">
       <el-link class="link" type="primary" icon="el-icon-link" :underline="false"
         href="https://huv8qqoobd.feishu.cn/docx/X3x0d1hABoe8OPxmQNScbYKWnhd" target="_blank">错误提示信息自查表</el-link>
-      <div>
+      <div class="flex">
         <a class="btnnormal btnnormal_down marginR" @click="closeEvent(0)">
           <div class="el-icon-close btnSize">取消</div>
         </a>

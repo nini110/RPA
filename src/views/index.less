@@ -9,7 +9,7 @@
     user-select: none;
     cursor: pointer;
     font-size: 14px;
-    padding: 8.5px 20px;
+    // padding: 8.5px 20px;
     box-sizing: border-box;
     min-width: 115px;
     border-radius: 4px;
@@ -22,6 +22,9 @@
     background-color: #fff;
     color: @baseItemColor;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     &.ts {
       color: #000;
@@ -102,6 +105,7 @@
 .flexTopRow {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 
   &.one {
     flex-direction: row-reverse;
@@ -286,6 +290,13 @@
             .el-result__extra {
               font-weight: bold;
               color: #606266;
+              display: flex;
+              flex-wrap: wrap;
+              justify-content: center;
+
+              span {
+                flex-basis: 100%;
+              }
             }
           }
 
@@ -736,6 +747,6 @@
 
 }
 
-.inlineButton {
-  display: inline-block;
-}
+// .inlineButton {
+//   display: inline-block;
+// }

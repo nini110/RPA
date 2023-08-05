@@ -21,20 +21,21 @@
               </el-form-item>
               <el-form-item v-if="item.type === 'radio'" :prop="item.prop" :rules="item.rules">
                 <el-radio-group v-model="warning_type">
-                  <el-radio v-for="val in item.options" :label="val.code">{{ val.name }}</el-radio>
+                  <el-radio v-for="(val, idx) in item.options" :key="idx" :label="val.code">{{ val.name }}</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item v-if="item.type === 'radioBD'" :prop="item.prop" :rules="item.rules">
                 <el-radio-group v-model="item.model">
-                  <el-radio v-for="val in item.options" :label="val.code" :disabled="val.disabled">{{ val.name
+                  <el-radio v-for="(val, idx) in item.options" :key="idx" :label="val.code" :disabled="val.disabled">{{
+                    val.name
                   }}</el-radio>
                 </el-radio-group>
               </el-form-item>
               <el-form-item v-if="item.type === 'checkbox'" :prop="item.prop" :rules="item.rules">
                 <vxe-pulldown ref="xDown2">
                   <template #default>
-                    <vxe-input v-model="ckeckedPlanCn" :placeholder="item.placeholder" :disabled="item.disabled"
-                      @focus="focusEvent"></vxe-input>
+                    <vxe-input v-model="ckeckedPlanCn" size="mini" readonly :placeholder="item.placeholder"
+                      :disabled="item.disabled" @focus="focusEvent"></vxe-input>
                   </template>
                   <template #dropdown>
                     <div class="my-dropdown1">
@@ -48,6 +49,19 @@
                     </div>
                   </template>
                 </vxe-pulldown>
+              </el-form-item>
+              <el-form-item v-if="item.type === 'inputWX'" :prop="item.prop" :rules="item.rules">
+                <div v-if="peoplelist.length > 0" class="tagBox">
+                  <el-tag v-for="(item, index) in peoplelist" :key="index" :index="index" closable
+                    @close="deleteitem(item, index)">{{ item.name }}</el-tag>
+                </div>
+                <el-input class="tagBox-input" v-model.trim="cSubcategoryNo" placeholder="请输入人员姓名或关键字"
+                  @input="searchPeople" clearable></el-input>
+                <div v-if="peopleOptions.length > 0" class="tagBox ts">
+                  <el-tag v-for="tag in peopleOptions" :disable-transitions="false" :key="tag.userid" type=""
+                    :class="{ 'dis': tag.disabled }" @close="handleClose(tag)" @click="addPerson(tag)">{{ tag.name
+                    }}</el-tag>
+                </div>
               </el-form-item>
             </div>
             <div v-else>
@@ -67,6 +81,11 @@
                 <span v-else-if="item.prop === 'handle_type'">{{
                   item.modelCn
                 }}</span>
+                <div v-else-if="item.prop === 'qywx_id' && showpeoplelist.length > 0" class="tgBox ts2">
+                  <el-tag v-for="(item, index) in showpeoplelist" :key="index" :index="index" :closable="false">{{
+                    item.name
+                  }}</el-tag>
+                </div>
                 <span v-else>{{ item.model || "暂无数据" }}</span>
               </el-form-item>
             </div>
@@ -92,7 +111,8 @@
 <script>
 import {
   alarmSetting,
-  alarmDelete
+  alarmDelete,
+  getName
 } from "@/api/api";
 import message from "@/mixin/message";
 import {
@@ -111,6 +131,13 @@ export default {
     let validPlan = (ruel, value, callback) => {
       if (vm.warning_type === 1 && vm.ckeckedPlan.length === 0) {
         callback(new Error('请选择推广计划'))
+      } else {
+        callback()
+      }
+    }
+    let validWx = (ruel, value, callback) => {
+      if (vm.peoplelist.length === 0) {
+        callback(new Error('请添加企业微信账号'))
       } else {
         callback()
       }
@@ -237,7 +264,7 @@ export default {
           placeholder: "请输入预警次数",
           rules: {
             required: true,
-            validator: validPercent2.bind(this, "boxDataRight", this, 1, 3),
+            validator: validPercent2.bind(this, "boxDataRight", this, 1, 1),
             trigger: "blur",
           },
           disabled: false,
@@ -281,40 +308,17 @@ export default {
           },
           disabled: false,
         },
-        // {
-        //   type: "select",
-        //   model: 1,
-        //   modelCn: '',
-        //   prop: "handle_type",
-        //   icon: "iconfont icon-caozuoleixing",
-        //   label: "操作类型:",
-        //   placeholder: "请选择操作类型",
-        //   rules: {
-        //     required: true,
-        //     validator: validTrue,
-        //     trigger: "change",
-        //   },
-        //   options: [{
-        //     name: "企业微信发送通知",
-        //     code: 1,
-        //   }, {
-        //     name: "企业微信发送通知 + 22点后停投",
-        //     code: 2,
-        //   },],
-        //   disabled: false,
-        // },
-
         {
           span: 4,
-          type: "input",
+          type: "inputWX",
           model: "",
           prop: "qywx_id",
           icon: "iconfont icon-weixin",
-          label: "企业微信ID:",
-          placeholder: "请输入企业微信ID ( 以 | 分割 )",
+          label: "企业微信:",
+          placeholder: "请添加企业微信用户",
           rules: {
             required: true,
-            validator: validPercent2.bind(this, "boxDataRight", this, 1, 4),
+            validator: validWx,
             trigger: "blur",
           },
           disabled: false,
@@ -322,6 +326,10 @@ export default {
         ],
       },
       ],
+      peopleOptions: [],
+      peoplelist: [],
+      showpeoplelist: [],
+      cSubcategoryNo: '',
     };
   },
   computed: {
@@ -388,6 +396,7 @@ export default {
       if (newval && newval.code === 10000) {
         // 有详情，可以修改删除
         vm.warning_type = newval.data.warning_type;
+        vm.showpeoplelist = newval.data.qywx_id
         // 推广计划
         if (newval.data.warning_type === 1) {
           let arr = []
@@ -402,9 +411,6 @@ export default {
         }
         for (let i of vm.boxDataRight) {
           for (let j of i.children) {
-            if (j.prop === "qywx_id") {
-              j.model = newval.data.qywx_id;
-            }
             if (j.prop === "target_percentage") {
               j.model = newval.data.target_percentage * 100;
             }
@@ -421,12 +427,18 @@ export default {
       } else {
         vm.ifCancel = false
         vm.warning_type = 0
+        vm.cSubcategoryNo = ''
+        vm.peopleOptions = []
+        vm.showpeoplelist = []
+        vm.peoplelist = []
         for (let i of vm.boxDataRight) {
           for (let j of i.children) {
             if (j.prop === "handle_type") {
               j.model = 1;
               j.modelCn = '企业微信发送通知';
               break
+            } else {
+              j.model = '';
             }
           }
         }
@@ -434,10 +446,35 @@ export default {
     },
   },
   methods: {
+    // 查找人员
+    searchPeople () {
+      const vm = this;
+      if (vm.cSubcategoryNo == "") {
+        vm.peopleOptions = [];
+      } else {
+        getName({
+          search: vm.cSubcategoryNo,
+        }).then((res) => {
+          vm.peopleOptions = [];
+          let result = res.data.data;
+          // // 二次同字段搜索的时候去重
+          for (let i of vm.peoplelist) {
+            for (let k of result) {
+              if (i.userid === k.userid) {
+                vm.$set(k, 'disabled', true)
+                break;
+              }
+            }
+          }
+          vm.peopleOptions = result;
+        });
+      }
+    },
     editEvent () {
       const vm = this;
       if (vm.btnTxt === "修改") {
         vm.btnState.inputFlag = true;
+        vm.peoplelist = JSON.parse(JSON.stringify(vm.showpeoplelist))
         vm.ifCancel = true
       } else {
         if (vm.btnState.inputFlag) {
@@ -449,6 +486,8 @@ export default {
                 vm.$set(dataRight, 'campaignNames', vm.ckeckedPlanCn);
               } else if (j.prop === 'warning_type') {
                 vm.$set(dataRight, 'warning_type', vm.warning_type);
+              } else if (j.prop === 'qywx_id') {
+                vm.$set(dataRight, 'qywx_id', vm.peoplelist);
               } else {
                 vm.$set(
                   dataRight,
@@ -536,6 +575,8 @@ export default {
       const vm = this
       vm.ifCancel = false
       vm.btnState.inputFlag = false;
+      vm.cSubcategoryNo = ''
+      vm.peopleOptions = []
       let newval = vm.serchRes
       if (newval && newval.code === 10000) {
         // 有详情，可以修改删除
@@ -554,9 +595,6 @@ export default {
         }
         for (let i of vm.boxDataRight) {
           for (let j of i.children) {
-            if (j.prop === "qywx_id") {
-              j.model = newval.data.qywx_id;
-            }
             if (j.prop === "target_percentage") {
               j.model = newval.data.target_percentage * 100;
             }
@@ -583,6 +621,9 @@ export default {
     focusEvent () {
       this.$refs.xDown2[0].showPanel()
     },
+    focusEvent3 () {
+      this.$refs.xDown3[0].showPanel()
+    },
     // 重置
     resetEvent () {
       const vm = this;
@@ -597,12 +638,57 @@ export default {
       vm.$store.commit("pageData/UPDATE_SEARCHRES", null); //结果
       vm.$store.commit("pageData/UPDATE_ClRLEFT", true); // 清空左侧输入框
       vm.warning_type = 0
+      vm.cSubcategoryNo = ''
+      vm.peopleOptions = []
+    },
+    // 双击删除列表
+    deleteitem (tag, index) {
+      this.peoplelist.splice(index, 1);
+      this.$refs.form2.validateField('qywx_id')
+      for (let i of this.peopleOptions) {
+        if (i.userid === tag.userid) {
+          this.$set(i, 'disabled', false)
+          return
+        }
+      }
+    },
+    // 点击添加人员
+    addPerson (tag) {
+      if (tag.disabled) {
+        return false
+      }
+      this.peoplelist.push(tag);
+      // 添加后删除以免二次选中
+      this.handleClose(tag);
+      this.$refs.form2.validateField('qywx_id')
+    },
+    //多选栏中的删除
+    handleClose (tag) {
+      for (let i of this.peopleOptions) {
+        if (i.userid === tag.userid) {
+          this.$set(i, 'disabled', true)
+          return
+        }
+      }
     },
   },
 };
 </script>
 
 <style lang="less" scoped>
+@import '@/views/index.less';
+
+/deep/.vxe-input {
+  box-sizing: border-box;
+
+  &.is--disabled {
+    .vxe-input--inner {
+      border: none;
+      // background-color: #F5F7FA;
+    }
+  }
+}
+
 /deep/.el-descriptions-row {
   i {
     font-weight: bold;

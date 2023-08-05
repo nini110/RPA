@@ -99,7 +99,7 @@ export default {
                 prop: "user_name",
                 label: "PIN:",
                 placeholder: "请输入PIN",
-                options: JSON.parse(JSON.stringify(vm.pinList)),
+                options: JSON.parse(JSON.stringify(vm.pinList)) || [],
                 rules: {
                   required: true,
                   validator: validPercent.bind(this, "boxDataLeft", this, 0),
@@ -146,7 +146,7 @@ export default {
                 prop: "user_name",
                 label: "PIN:",
                 placeholder: "请选择PIN",
-                options: JSON.parse(JSON.stringify(vm.pinListAuthor)),
+                options: JSON.parse(JSON.stringify(vm.pinListAuthor)) || [],
                 rules: {
                   required: true,
                   validator: validPercent.bind(this, "boxDataLeft", this, 0),
@@ -190,6 +190,26 @@ export default {
         });
       },
       immediate: true,
+      deep: true,
+    },
+    pinList: {
+      handler (newval, oldval) {
+        const vm = this
+        if (newval && vm.activeName === 0) {
+          vm.boxDataLeft[0].options = JSON.parse(JSON.stringify(newval))
+        }
+      },
+      immediate: false,
+      deep: true,
+    },
+    pinListAuthor: {
+      handler (newval, oldval) {
+        const vm = this
+        if (newval && vm.activeName === 1) {
+          vm.boxDataLeft[0].options = JSON.parse(JSON.stringify(newval))
+        }
+      },
+      immediate: false,
       deep: true,
     },
     clearLeftTag (newval, oldval) {

@@ -6,6 +6,13 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "5857316",
+      "name": "创意上传",
+      "font_class": "chuangyishangchuan",
+      "unicode": "e838",
+      "unicode_decimal": 59448
+    },
+    {
       "icon_id": "28340452",
       "name": "巨量千川",
       "font_class": "juliangqianchuan",

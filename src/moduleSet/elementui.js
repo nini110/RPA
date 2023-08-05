@@ -152,6 +152,10 @@ const Elementui = (Vue, config = {}) => {
     })
     return msg
   }
+  Vue.prototype.$msgClose = function (options) {
+    const msgClose = Message.closeAll()
+    return msgClose
+  }
 }
 
 Vue.use(Elementui);

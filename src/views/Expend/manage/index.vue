@@ -5,17 +5,18 @@
         <div class="tabs">
           <el-tabs v-model="activeName">
             <el-tab-pane label="概况列表" name="0"></el-tab-pane>
+            <el-tab-pane v-if="user === '23122' || user === '19302' || user === '1023050'" label="项目管理"
+              name="2"></el-tab-pane>
             <el-tab-pane label="账号管理" name="1"></el-tab-pane>
           </el-tabs>
-          <div v-if="activeName === '0'" class="ziyou_chart">
+          <div v-if="activeName === '0'" class="tabs_cnt" style="overflow: auto;">
             <el-form>
               <el-row type="flex" justify="space-between">
                 <el-col :span="8">
                   <el-form-item class="hasnolab cnt100">
-                    <el-radio-group v-model="selectTab" @input="radioEvent">
-                      <el-radio-button v-for="(item, idx) in radioOpt" :key="idx" :label="item.code">{{
-                        item.label
-                      }}</el-radio-button>
+                    <el-radio-group v-model="selectTab" @input="radioEvent" fill="#E6A23C">
+                      <el-radio-button v-for="(item, idx) in radioOpt" :key="idx" :label="item.code">{{ item.label }}
+                      </el-radio-button>
                     </el-radio-group>
                   </el-form-item>
                 </el-col>
@@ -78,12 +79,30 @@
               </el-row>
             </el-form>
             <el-divider content-position="left">广告概况</el-divider>
+            <vxe-toolbar ref="toolbarRef">
+              <template #tools>
+                <el-tooltip effect="light" placement="bottom">
+                  <div slot="content" class="titleBox">
+                    <div class="titleBox_group">
+                      <el-checkbox-group v-model="checkedItems" @change="titleCKEvent" :min="5" :max="15">
+                        <el-checkbox v-for="item in staticTTList" border :label="item.field" :key="item.field">{{
+                          item.title
+                        }}</el-checkbox>
+                      </el-checkbox-group>
+                    </div>
+                  </div>
+                  <div class="el-icon-setting titleBox_out">设置</div>
+                </el-tooltip>
+                <el-button v-waves type="warning" round class="el-icon-download btnnormal" @click="outputItem">数据导出
+                </el-button>
+              </template>
+            </vxe-toolbar>
             <template v-if="hasinfo">
               <div class="infoBox">
                 <div class="infoBox_stat">
                   <el-statistic title="账号">
                     <template slot="prefix">
-                      <i class="iconfont icon-wodezhanghu"></i><span>{{ currentInfo.name || 暂无数据 }}</span>
+                      <i class="iconfont icon-wodezhanghu"></i><span>{{ currentInfo.name || '暂无数据' }}</span>
                     </template>
                   </el-statistic>
                   <div v-if="currentInfo.money === '暂不支持'" class="el-statistic">
@@ -125,12 +144,12 @@
                   </el-statistic>
                 </div>
                 <div class="infoBox_del">
-                  <template v-for="(it, idx) in currentInfo['resData']">
-                    <div v-if="it.type === 'money'"><span>{{ it.label }}</span> ￥ {{ it.zhi | numberToCurrencyNo }}
+                  <template v-for="(it, idx) in tableData">
+                    <div v-if="it.type === 'money'"><span>{{ it.title }}</span> ￥ {{ it.zhi | numberToCurrencyNo }}
                     </div>
-                    <div v-else-if="it.type === 'percent'"><span>{{ it.label }}</span> {{ it.zhi |
+                    <div v-else-if="it.type === 'percent'"><span>{{ it.title }}</span> {{ it.zhi |
                       numberToCurrencyNo }} %</div>
-                    <div v-else><span>{{ it.label }}</span> {{ it.zhi | numberToCurrencyNo }}</div>
+                    <div v-else><span>{{ it.title }}</span> {{ it.zhi | numberToCurrencyNo }}</div>
                   </template>
                 </div>
               </div>
@@ -157,6 +176,9 @@
           <div v-if="activeName === '1'" class="tabs_cnt">
             <listPage></listPage>
           </div>
+          <div v-if="activeName === '2'" class="tabs_cnt">
+            <itemListPage></itemListPage>
+          </div>
         </div>
       </div>
     </div>
@@ -164,13 +186,15 @@
 </template>
 <script>
 import dayjs from "dayjs";
-import { multiGailan } from "@/api/api";
+import { multiGailan, projOutputAll } from "@/api/api";
 import listPage from './list.vue'
+import itemListPage from './itemList.vue'
 import { numberToCurrencyNo } from '../../../utils/format.js'
 export default {
   name: "SeleBrand",
   components: {
-    listPage
+    listPage,
+    itemListPage
   },
   data () {
     const vm = this
@@ -228,11 +252,11 @@ export default {
         disabledDate: (time) => {
           let today = dayjs();
           let orgDate = dayjs('2021-06-01')
-          let maxDate = dayjs().add(2, "month");
-          let minDate = dayjs().subtract(2, "month");
+          let maxDate = dayjs().add(1, "month");
+          let minDate = dayjs().subtract(1, "month");
           if (vm.tdata1) {
-            let dateRegionMax = dayjs(vm.tdata1).add(2, "month");;
-            let dateRegionMin = dayjs(vm.tdata1).subtract(2, "month");
+            let dateRegionMax = dayjs(vm.tdata1).add(1, "month");;
+            let dateRegionMin = dayjs(vm.tdata1).subtract(1, "month");
             if (dateRegionMax.isAfter(today)) {
               return time.getTime() >= today || time.getTime() < dateRegionMin || time.getTime() < orgDate;
             } else {
@@ -257,6 +281,9 @@ export default {
       },
       tdata1: null,
       card: [],
+      checkedItems: [
+        'CPA', 'CPM', 'totalOrderCnt', 'indirectOrderCnt', 'totalOrderROI'
+      ],
       radioOpt: [
         {
           code: 'cardBoxHuizong',
@@ -331,13 +358,131 @@ export default {
           label: '下单订单'
         },
       ],
+      staticTTList: [
+        {
+          field: 'cost',
+          title: '花费',
+          zhi: 0
+        },
+        {
+          field: 'impressions',
+          title: '展示数',
+          zhi: 0
+        },
+        {
+          field: 'clicks',
+          title: '点击数',
+          zhi: 0
+        },
+        {
+          field: 'CTR',
+          title: '点击率',
+          zhi: 0
+        },
+        {
+          field: 'CPM',
+          title: '平均千次展示成本',
+          zhi: 0
+        },
+        {
+          field: 'CPC',
+          title: '平均点击成本',
+          zhi: 0
+        },
+        {
+          field: 'directOrderCnt',
+          title: '直接订单行',
+          zhi: 0
+        },
+        {
+          field: 'directOrderSum',
+          title: '直接订单金额',
+          zhi: 0
+        },
+        {
+          field: 'indirectOrderCnt',
+          title: '间接订单行',
+          zhi: 0
+        },
+        {
+          field: 'indirectOrderSum',
+          title: '间接订单金额',
+          zhi: 0
+        },
+        {
+          field: 'totalOrderCnt',
+          title: '总订单行',
+          zhi: 0
+        },
+        {
+          field: 'totalOrderSum',
+          title: '总订单金额',
+          zhi: 0
+        },
+        {
+          field: 'totalPresaleOrderCnt',
+          title: '预售订单行',
+          zhi: 0
+        },
+        {
+          field: 'totalPresaleOrderSum',
+          title: '预售订单金额',
+          zhi: 0
+        },
+        {
+          field: 'totalOrderCVS',
+          title: '转化率',
+          zhi: 0
+        },
+        {
+          field: 'totalOrderROI',
+          title: 'ROI',
+          zhi: 0
+        },
+        {
+          field: 'totalCartCnt',
+          title: '总购物车数',
+          zhi: 0
+        },
+        {
+          field: 'CPA',
+          title: 'CPA',
+          zhi: 0
+        },
+        {
+          field: 'newCustomersCnt',
+          title: '下单新客数',
+          zhi: 0
+        },
+        {
+          field: 'visitorCnt',
+          title: '访客数',
+          zhi: 0
+        },
+      ],
       currentInfo: {},
       currentPage: 1,
       pagesize: 10,
       total: 0,
+      tableData: [],
+      user: null,
     };
   },
   watch: {
+    checkedItems: {
+      handler (newval, oldval) {
+        const vm = this
+        if (vm.currentInfo.resData) {
+          let res = vm.currentInfo.resData.filter(val => {
+            return newval.includes(val.field)
+          })
+          vm.tableData = JSON.parse(JSON.stringify(res))
+        }
+
+      },
+      immediate: false,
+      deep: true
+    },
     activeName: {
       handler (newval, oldval) {
         if (newval === '0') {
@@ -373,11 +518,18 @@ export default {
     }
   },
   created () {
-
+    this.user = localStorage.getItem('wx_userid')
+    let storage = localStorage.getItem('tilteRuleAll')
+    if (storage) {
+      this.checkedItems = JSON.parse(storage)
+    }
   },
   methods: {
     refreshEve () {
       this.getData()
+    },
+    titleCKEvent (value) {
+      localStorage.setItem('tilteRuleAll', JSON.stringify(value))
     },
     getData () {
       const vm = this;
@@ -400,67 +552,10 @@ export default {
               resData: null
             }
             for (let j in result[i]) {
-              let children = [
-                {
-                  label: '花费',
-                  code: 'cost',
-                  zhi: 0,
-                  type: 'money'
-                },
-                {
-                  label: '展示数',
-                  code: 'impressions',
-                  zhi: 0
-                },
-                {
-                  label: '点击数',
-                  code: 'clicks',
-                  zhi: 0
-                },
-                {
-                  label: '点击率',
-                  code: 'CTR',
-                  zhi: 0,
-                  type: 'percent'
-                },
-                {
-                  label: '平均千次展示成本',
-                  code: 'CPM',
-                  zhi: 0,
-                  type: 'money'
-                },
-                {
-                  label: '平均点击成本',
-                  code: 'CPC',
-                  zhi: 0,
-                  type: 'money'
-                },
-                {
-                  label: '总订单行',
-                  code: 'totalOrderCnt',
-                  zhi: 0
-                },
-                {
-                  label: '总订单金额',
-                  code: 'totalOrderSum',
-                  zhi: 0,
-                  type: 'money'
-                },
-                {
-                  label: '转化率',
-                  code: 'totalOrderCVS',
-                  zhi: 0,
-                  type: 'percent'
-                },
-                {
-                  label: 'ROI',
-                  code: 'totalOrderROI',
-                  zhi: 0
-                },
-              ]
+              let children = JSON.parse(JSON.stringify(vm.staticTTList))
               let middle = result[i][j];
               for (let k in children) {
-                children[k].zhi = middle[children[k].code]
+                children[k].zhi = middle[children[k].field]
               }
               switch (j) {
                 case '账户汇总':
@@ -498,15 +593,37 @@ export default {
       if (vm.hasinfo)
         vm.hoverEvent(res[0] || vm.card[0])
     },
+    outputItem () {
+      const vm = this;
+      projOutputAll({
+        ...vm.form,
+        start_data: vm.form.dateRange[0],
+        end_data: vm.form.dateRange[1],
+      }).then(res => {
+        let data = res.data;
+        let url = window.URL.createObjectURL(new Blob([data]));
+        let link = document.createElement("a");
+        link.style.display = "none";
+        link.href = url;
+        link.setAttribute("download", `概况列表账号数据.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+      })
+    },
     focusEvent1 () {
       this.$refs.refKoujing.showPanel()
     },
     hoverEvent (item) {
-      this.card.map((val, idx) => {
+      const vm = this
+      vm.card.map((val, idx) => {
         val.active = item.name === val.name ? 'active' : ''
         return val
       })
-      this.currentInfo = JSON.parse(JSON.stringify(item))
+      vm.currentInfo = JSON.parse(JSON.stringify(item))
+      let res = vm.currentInfo.resData.filter(val => {
+        return vm.checkedItems.includes(val.field)
+      })
+      vm.tableData = JSON.parse(JSON.stringify(res))
     },
     dateBlur (val) {
       this.tdata1 = null
@@ -523,7 +640,7 @@ export default {
 };
 </script>
 <style scoped lang="less">
-@import 'index';
+@import 'index.less';
 @import "@/views/BudgetAlarm/monitor/bidding.less";
 
 .quexing {
@@ -535,40 +652,5 @@ export default {
   img {
     width: 300px;
   }
-}
-
-/deep/.el {
-  &-col {
-    &.ts {
-      .el-form-item__content {
-        width: 100%;
-        display: flex;
-        flex-direction: row-reverse;
-      }
-
-      .el-button {
-        min-width: auto;
-        width: 100%;
-      }
-    }
-  }
-
-  &-radio-group {
-    width: 100%;
-    display: flex;
-
-    label {
-      flex: 1;
-    }
-  }
-
-  &-radio-button__inner {
-    width: 100%;
-  }
-}
-
-
-.vxe-pulldown {
-  width: 100%;
 }
 </style>

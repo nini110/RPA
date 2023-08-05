@@ -37,7 +37,8 @@ const routes = [{
         meta: {
           title: 'DMP',
           index: "1-1",
-          filePath: 'BeijingMustPass'
+          filePath: 'BeijingMustPass',
+          limit: true
         },
         component: () => import(/* webpackChunkName: "R_DMP"*/"@/views/BeijingMustPass"),
       },
@@ -98,6 +99,16 @@ const routes = [{
         meta: {
           title: '创意优化助手',
           index: "1-7",
+          filePath: 'BeijingMustPass'
+        },
+        component: () => import(/* webpackChunkName: "R_Help"*/"@/views/BeijingMustPass"),
+      },
+      {
+        path: 'Idea',
+        name: 'Idea',
+        meta: {
+          title: '创意上传',
+          index: "1-8",
           filePath: 'BeijingMustPass'
         },
         component: () => import(/* webpackChunkName: "R_Help"*/"@/views/BeijingMustPass"),

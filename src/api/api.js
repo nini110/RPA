@@ -4,9 +4,7 @@ let BASEPATH = '';
 let BASEPATH2 = '';
 let BASEPATH3 = '';
 let BASEPATH5 = '';
-let BASEPATH6 = '';
 if (process.env.NODE_ENV === 'production') {
-  // BASEPATH6 = '/host8101'
   BASEPATH = 'http://114.67.229.243:8001'
   BASEPATH2 = 'http://tool.afocus.com.cn'
   BASEPATH3 = 'http://114.67.229.243:8002'
@@ -14,12 +12,16 @@ if (process.env.NODE_ENV === 'production') {
   // 生产环境
 } else {
   // 开发环境
-  BASEPATH6 = '/host8101'
   BASEPATH = 'http://114.67.229.243:8001'
   BASEPATH2 = 'http://tool.afocus.com.cn'
   BASEPATH3 = 'http://114.67.229.243:8002'
   BASEPATH5 = 'http://114.67.229.243:8101'
 }
+// ppt流
+export const getPDF = request({
+  url: `${BASEPATH5}/tools/get_demo_pdf`,
+  method: 'get',
+})
 // 路由相关
 export const routesRel = request({
   url: `${BASEPATH}/apps/permission/`,
@@ -121,6 +123,12 @@ export const DMPSave = request({
   method: 'post',
   responseType: 'form'
 })
+// 提效工具- 上传图片
+export const directiveUpimg = request({
+  url: `${BASEPATH}/apps/upload_file/`,
+  method: 'post',
+  responseType: 'form-data'
+})
 // 提效工具-直投-保存数据
 export const directiveList = request({
   url: `${BASEPATH}/apps/log_list/`,
@@ -130,7 +138,7 @@ export const directiveList = request({
 export const directiveSave = request({
   url: `${BASEPATH}/apps/jdzt/`,
   method: 'post',
-  responseType: 'form'
+  responseType: 'form-data'
 })
 // 提效工具-直投-实时日志
 export const directiveLog = request({
@@ -597,6 +605,53 @@ export const multiAccDown = request({
 export const multiAccDel = request({
   url: `${BASEPATH5}/report/del_account`,
   method: 'post',
+})
+// 多账号- 可添加的账号列表
+export const projAccount = request({
+  url: `${BASEPATH5}/report/get_all_bind_account`,
+  method: 'post',
+})
+// 多账号- 新增项目
+export const projAdd = request({
+  url: `${BASEPATH5}/report/add_project_account`,
+  method: 'post',
+})
+// 多账号- 删除项目
+export const projDelete = request({
+  url: `${BASEPATH5}/report/del_one_project`,
+  method: 'post',
+})
+// 多账号- 编辑项目
+export const projEdit = request({
+  url: `${BASEPATH5}/report/add_old_project_account`,
+  method: 'post',
+})
+// 多账号- 获取项目列表
+export const projList = request({
+  url: `${BASEPATH5}/report/get_project_list`,
+  method: 'post',
+})
+// 多账号- 获取项目下账号数据
+export const projToAccount = request({
+  url: `${BASEPATH5}/report/multi_project_display`,
+  method: 'post',
+})
+// 多账号- 删除项目下一个账号
+export const projActDelete = request({
+  url: `${BASEPATH5}/report/del_project_account`,
+  method: 'post',
+})
+// 多账号- 导出
+export const projOutput = request({
+  url: `${BASEPATH5}/report/download_by_project`,
+  method: 'post',
+  responseType: 'blob',
+})
+// 多账号- 导出--全部
+export const projOutputAll = request({
+  url: `${BASEPATH5}/report/download_by_account`,
+  method: 'post',
+  responseType: 'blob',
 })
 // 公域数据---------------------------------------------------------------------
 // 获取列表

@@ -14,7 +14,7 @@
                   </el-select>
                 </el-form-item>
               </el-col>
-              <el-col :span="7">
+              <el-col :span="8">
                 <el-form-item class="tophasBtn noborder" label="日期:" prop="search_date">
                   <el-date-picker class="tophasBtn_data" v-model="form.search_date" format="yyyy-MM-dd"
                     value-format="yyyy-MM-dd" type="daterange" range-separator="至" start-placeholder="开始日期"

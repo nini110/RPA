@@ -218,18 +218,19 @@
     </el-form>
     <div class="send"></div>
     <span slot="footer" class="dialog-footer">
-      <div v-if="ifStep">
-        <a v-if="fromTag === 1" class="btnnormal btnnormal_down marginR" @click="nextEvent">
-          <div class="el-icon-bottom btnSize">下一步</div>
+      <template v-if="ifStep">
+        <a v-if="fromTag === 1" class="btnnormal btnnormal_down marginR" @click="closeEvent(0)">
+          <div class="el-icon-close btnSize">取消</div>
         </a>
-      </div>
-      <div v-else>
+        <el-button v-waves class="el-icon-bottom" type="primary" @click="nextEvent">下一步</el-button>
+      </template>
+      <template v-else>
         <a v-if="fromTag === 1" class="btnnormal btnnormal_down marginR" @click="closeEvent(0)">
           <div class="el-icon-close btnSize">取消</div>
         </a>
         <el-button v-if="fromTag === 1" v-waves class="el-icon-check" type="primary" @click="saveEvent">保存</el-button>
         <el-button v-else v-waves class="el-icon-close" type="primary" @click="closeEvent(0)">关闭</el-button>
-      </div>
+      </template>
     </span>
     <div class="myplayer" :class="{ absolute: showPlaer }">
       <div class="myplayer_btn">
@@ -251,7 +252,6 @@ import {
 } from "@/api/api.js";
 import Upload from "@/components/upload";
 import dayjs from "dayjs";
-// import XEUtils from 'xe-utils'
 export default {
   name: "UpDialog",
   components: {
