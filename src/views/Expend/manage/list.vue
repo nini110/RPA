@@ -7,7 +7,7 @@
           <el-tooltip class="fixtool" effect="light" content="个人账号绑定上限数量为50个" placement="top">
             <span class="el-icon-warning-outline"></span>
           </el-tooltip>
-          <el-button v-waves type="warning" round class="el-icon-plus btnnormal" @click="editFn">绑定账号
+          <el-button v-waves type="primary" round class="el-icon-plus btnnormal" @click="editFn">绑定账号
           </el-button>
         </template>
       </vxe-toolbar>

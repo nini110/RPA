@@ -70,30 +70,34 @@
                     </el-date-picker>
                   </el-form-item>
                 </el-col>
-                <el-col :span="2" class="ts">
-                  <el-form-item>
-                    <el-button v-waves class="el-icon-refresh-right" type="primary" @click="refreshEve">刷新
-                    </el-button>
-                  </el-form-item>
-                </el-col>
               </el-row>
             </el-form>
             <el-divider content-position="left">广告概况</el-divider>
             <vxe-toolbar ref="toolbarRef">
               <template #tools>
+                <el-tooltip effect="light" content="更新数据" placement="bottom">
+                  <div class="el-icon-refresh-right titleBox_out">刷新</div>
+                </el-tooltip>
                 <el-tooltip effect="light" placement="bottom">
                   <div slot="content" class="titleBox">
                     <div class="titleBox_group">
-                      <el-checkbox-group v-model="checkedItems" @change="titleCKEvent" :min="5" :max="15">
-                        <el-checkbox v-for="item in staticTTList" border :label="item.field" :key="item.field">{{
-                          item.title
-                        }}</el-checkbox>
+                      <el-divider content-position="left">基础数据</el-divider>
+                      <el-checkbox-group v-model="checkedItemsBase" @change="titleCKEventBase">
+                        <el-checkbox v-for="item in tableListBase" border :label="item.field" :key="item.field"
+                          :disabled="item.dis">{{ item.title
+                          }}</el-checkbox>
+                      </el-checkbox-group>
+                      <el-divider content-position="left">转化数据</el-divider>
+                      <el-checkbox-group v-model="checkedItems" @change="titleCKEvent">
+                        <el-checkbox v-for="item in tableList" border :label="item.field" :key="item.field"
+                          :disabled="item.dis">{{ item.title
+                          }}</el-checkbox>
                       </el-checkbox-group>
                     </div>
                   </div>
                   <div class="el-icon-setting titleBox_out">设置</div>
                 </el-tooltip>
-                <el-button v-waves type="warning" round class="el-icon-download btnnormal" @click="outputItem">数据导出
+                <el-button v-waves type="primary" round class="el-icon-download btnnormal" @click="outputItem">数据导出
                 </el-button>
               </template>
             </vxe-toolbar>
@@ -282,8 +286,9 @@ export default {
       tdata1: null,
       card: [],
       checkedItems: [
-        'CPA', 'CPM', 'totalOrderCnt', 'indirectOrderCnt', 'totalOrderROI'
+        'CPA', 'totalOrderCnt', 'indirectOrderCnt', 'totalOrderROI'
       ],
+      checkedItemsBase: ['CPM'],
       radioOpt: [
         {
           code: 'cardBoxHuizong',
@@ -358,106 +363,110 @@ export default {
           label: '下单订单'
         },
       ],
-      staticTTList: [
-        {
-          field: 'cost',
-          title: '花费',
-          zhi: 0
-        },
+      tableListBase: [
         {
           field: 'impressions',
           title: '展示数',
-          zhi: 0
+          dis: false
         },
         {
           field: 'clicks',
           title: '点击数',
-          zhi: 0
+          dis: false
         },
         {
           field: 'CTR',
           title: '点击率',
-          zhi: 0
+          dis: false,
+          type: 'per'
+        },
+        {
+          field: 'cost',
+          title: '花费',
+          dis: false
         },
         {
           field: 'CPM',
           title: '平均千次展示成本',
-          zhi: 0
+          dis: false
         },
         {
           field: 'CPC',
           title: '平均点击成本',
-          zhi: 0
+          dis: false
         },
+      ],
+      tableList: [
         {
           field: 'directOrderCnt',
           title: '直接订单行',
-          zhi: 0
+          dis: false
         },
         {
           field: 'directOrderSum',
           title: '直接订单金额',
-          zhi: 0
+          dis: false
         },
         {
           field: 'indirectOrderCnt',
           title: '间接订单行',
-          zhi: 0
+          dis: false
         },
         {
           field: 'indirectOrderSum',
           title: '间接订单金额',
-          zhi: 0
+          dis: false
         },
         {
           field: 'totalOrderCnt',
           title: '总订单行',
-          zhi: 0
+          dis: false
         },
         {
           field: 'totalOrderSum',
           title: '总订单金额',
-          zhi: 0
+          dis: false
         },
         {
           field: 'totalPresaleOrderCnt',
           title: '预售订单行',
-          zhi: 0
+          dis: false
         },
         {
           field: 'totalPresaleOrderSum',
           title: '预售订单金额',
-          zhi: 0
+          dis: false
         },
         {
           field: 'totalOrderCVS',
           title: '转化率',
-          zhi: 0
+          dis: false,
+          type: 'per'
         },
         {
           field: 'totalOrderROI',
           title: 'ROI',
-          zhi: 0
+          dis: false
         },
         {
           field: 'totalCartCnt',
           title: '总购物车数',
-          zhi: 0
+          dis: false
         },
         {
           field: 'CPA',
           title: 'CPA',
-          zhi: 0
+          dis: false
         },
         {
           field: 'newCustomersCnt',
           title: '下单新客数',
-          zhi: 0
+          dis: false
         },
         {
           field: 'visitorCnt',
           title: '访客数',
-          zhi: 0
+          dis: false
         },
       ],
       currentInfo: {},
@@ -469,20 +478,6 @@ export default {
     };
   },
   watch: {
-    checkedItems: {
-      handler (newval, oldval) {
-        const vm = this
-        if (vm.currentInfo.resData) {
-          let res = vm.currentInfo.resData.filter(val => {
-            return newval.includes(val.field)
-          })
-          vm.tableData = JSON.parse(JSON.stringify(res))
-        }
-
-      },
-      immediate: false,
-      deep: true
-    },
     activeName: {
       handler (newval, oldval) {
         if (newval === '0') {
@@ -520,15 +515,64 @@ export default {
   created () {
     this.user = localStorage.getItem('wx_userid')
     let storage = localStorage.getItem('tilteRuleAll')
-    if (storage) {
+    let storageBase = localStorage.getItem('tilteRuleAllBase')
+    if (storage && storageBase) {
       this.checkedItems = JSON.parse(storage)
+      this.checkedItemsBase = JSON.parse(storageBase)
     }
   },
   methods: {
     refreshEve () {
       this.getData()
     },
+    changCkboxStaus () {
+      const vm = this
+      let baseLth = vm.checkedItemsBase.length
+      let Lth = vm.checkedItems.length
+      if (baseLth + Lth === 5) {
+        vm.tableListBase.map(val => {
+          val.dis = vm.checkedItemsBase.includes(val.field)
+          return val
+        })
+        vm.tableList.map(val => {
+          val.dis = vm.checkedItems.includes(val.field)
+          return val
+        })
+      } else if (baseLth + Lth === 15) {
+        vm.tableListBase.map(val => {
+          val.dis = !vm.checkedItemsBase.includes(val.field)
+          return val
+        })
+        vm.tableList.map(val => {
+          val.dis = !vm.checkedItems.includes(val.field)
+          return val
+        })
+      } else {
+        vm.tableListBase.map(val => {
+          val.dis = false
+          return val
+        })
+        vm.tableList.map(val => {
+          val.dis = false
+          return val
+        })
+      }
+      if (vm.currentInfo.resData) {
+        let hasBase = vm.currentInfo.resData.filter(val => {
+          return vm.checkedItemsBase.includes(val.field)
+        })
+        let has = vm.currentInfo.resData.filter(val => {
+          return vm.checkedItems.includes(val.field)
+        })
+        vm.tableData = hasBase.concat(has)
+      }
+    },
+    titleCKEventBase (value) {
+      this.changCkboxStaus()
+      localStorage.setItem('tilteRuleAllBase', JSON.stringify(value))
+    },
     titleCKEvent (value) {
+      this.changCkboxStaus()
       localStorage.setItem('tilteRuleAll', JSON.stringify(value))
     },
     getData () {
@@ -552,7 +596,8 @@ export default {
               resData: null
             }
             for (let j in result[i]) {
-              let children = JSON.parse(JSON.stringify(vm.staticTTList))
+              let staticTTList = vm.tableListBase.concat(vm.tableList)
+              let children = JSON.parse(JSON.stringify(staticTTList))
               let middle = result[i][j];
               for (let k in children) {
                 children[k].zhi = middle[children[k].field]
@@ -620,10 +665,13 @@ export default {
         return val
       })
       vm.currentInfo = JSON.parse(JSON.stringify(item))
-      let res = vm.currentInfo.resData.filter(val => {
+      let hasBase = vm.currentInfo.resData.filter(val => {
+        return vm.checkedItemsBase.includes(val.field)
+      })
+      let has = vm.currentInfo.resData.filter(val => {
         return vm.checkedItems.includes(val.field)
       })
-      vm.tableData = JSON.parse(JSON.stringify(res))
+      vm.tableData = JSON.parse(JSON.stringify(hasBase.concat(has)))
     },
     dateBlur (val) {
       this.tdata1 = null
@@ -641,7 +689,7 @@ export default {
 </script>
 <style scoped lang="less">
 @import 'index.less';
-@import "@/views/BudgetAlarm/monitor/bidding.less";
+// @import "@/views/BudgetAlarm/monitor/bidding.less";
 
 .quexing {
   display: flex;

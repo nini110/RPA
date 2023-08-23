@@ -3025,6 +3025,27 @@ export default {
               showGridLines: 1, //是否显示网格线
             },];
             break;
+          // ppt
+          case "PPt":
+            vm.toolType = "ppt自动优化助手";
+            vm.picSrc = '';
+            vm.ifDown = false
+            vm.sheetName = [];
+            vm.excelOptions = [{
+              name: "Sheet1", //工作表名称
+              color: "", //工作表颜色
+              index: "renqun", //工作表索引
+              status: 1, //激活状态
+              hide: 0, //是否隐藏
+              row: 1000, //行数
+              column: 15, //列数
+              defaultRowHeight: 40, //自定义行高
+              defaultColWidth: 150, //自定义列宽
+              isPivotTable: false, //是否数据透视表
+              zoomRatio: 1, // 缩放比例
+              showGridLines: 1, //是否显示网格线
+            },];
+            break;
         }
       },
       immediate: true,

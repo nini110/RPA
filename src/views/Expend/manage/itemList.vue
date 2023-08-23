@@ -63,12 +63,12 @@
                 </el-date-picker>
               </el-form-item>
             </el-col>
-            <el-col :span="2" class="ts">
+            <!-- <el-col :span="2" class="ts">
               <el-form-item>
                 <el-button v-waves class="el-icon-refresh-right" type="primary" @click="refreshEve">刷新
                 </el-button>
               </el-form-item>
-            </el-col>
+            </el-col> -->
           </el-row>
         </el-form>
       </div>
@@ -78,15 +78,23 @@
           <el-tooltip effect="light" placement="bottom">
             <div slot="content" class="titleBox">
               <div class="titleBox_group">
-                <el-checkbox-group v-model="checkedItems" @change="titleCKEvent" :min="5" :max="15">
-                  <el-checkbox v-for="item in tableList" border :label="item.field" :key="item.field">{{ item.title
-                  }}</el-checkbox>
+                <el-divider content-position="left">基础数据</el-divider>
+                <el-checkbox-group v-model="checkedItemsBase" @change="titleCKEventBase">
+                  <el-checkbox v-for="item in tableListBase" border :label="item.field" :key="item.field"
+                    :disabled="item.dis">{{ item.title
+                    }}</el-checkbox>
+                </el-checkbox-group>
+                <el-divider content-position="left">转化数据</el-divider>
+                <el-checkbox-group v-model="checkedItems" @change="titleCKEvent">
+                  <el-checkbox v-for="item in tableList" border :label="item.field" :key="item.field"
+                    :disabled="item.dis">{{ item.title
+                    }}</el-checkbox>
                 </el-checkbox-group>
               </div>
             </div>
             <div class="el-icon-setting titleBox_out">设置</div>
           </el-tooltip>
-          <el-button v-waves type="warning" round class="el-icon-plus btnnormal" @click="addProjEvent">新增项目
+          <el-button v-waves type="primary" round class="el-icon-plus btnnormal" @click="addProjEvent">新增项目
           </el-button>
         </template>
       </vxe-toolbar>
@@ -110,12 +118,14 @@
                   <vxe-column field="account" title="账户" width="25%" fixed="left"></vxe-column>
                   <vxe-column v-for="(item, idx) in childTableList" :field="item.field" :title="item.title"
                     min-width="12%">
-                    <template #default="{ row }">
-                      <span v-if="item.type === 'per'">{{ Math.abs(row[item.field]) | numberToCurrencyNo }}%</span>
+                    <!-- <template #default="{ row }">
+                      <span v-if="item.type && item.type === 'per'">{{ Math.abs(row[item.field]) | numberToCurrencyNo
+                      }}%</span>
                       <span v-else>{{
                         Math.abs(row[item.field]) | numberToCurrencyNo
                       }}</span>
-                    </template></vxe-column>
+                    </template> -->
+                  </vxe-column>
                   <vxe-column fixed="right" width="9%">
                     <template slot="header">
                     </template>
@@ -133,8 +143,8 @@
           </vxe-column>
           <vxe-column field="project_name" title="项目" width="20%" :edit-render="{}">
             <template #edit="scope">
-              <el-input v-model="scope.row.project_name" placeholder="请输入项目名" type="text"
-                @input="$refs.xTable.updateStatus(scope)" @clear="" clearable></el-input>
+              <vxe-input v-model="scope.row.project_name" maxlength="20" placeholder="请输入项目名"
+                @input="$refs.xTable.updateStatus(scope)"></vxe-input>
             </template>
           </vxe-column>
           <vxe-column :field="fileldName" title="账号(数量)" width="30%" :edit-render="{}">
@@ -142,16 +152,11 @@
               <span>{{ row.num }}</span>
             </template>
             <template #edit="scope">
-              <el-select v-model="scope.row.ckAct" reserve-keyword collapse-tags filterable multiple placeholder="请选择账号"
-                :multiple-limit="10" clearable @change="changeEvent(scope)">
-                <el-option-group label="">
-                  <el-option disabled value="34567">
-                    <span class="">输入框内可关键字搜索，单次至多选择10项</span>
-                  </el-option>
-                </el-option-group>
-                <el-option v-for="item in accoutOptions" :key="item.account" :label="item.account" :value="item.account">
-                </el-option>
-              </el-select>
+              <vxe-select v-model="scope.row.accounts" @change="changeEvent(scope)" max="10" placeholder="请选择账号" multiple
+                filterable multi-char-overflow="5">
+                <vxe-option v-for="item in accoutOptions" :key="item.account" :label="item.account" :value="item.account"
+                  :disabled="item.dis"></vxe-option>
+              </vxe-select>
             </template>
           </vxe-column>
           <vxe-column field="create_time" title="创建日期">
@@ -164,11 +169,6 @@
                 </div>
                 <div v-waves class="btn btn_info" @click="cancelItem(row)">
                   <i class="btn_info_wordi btn_info_wordi_canc">取消</i>
-                </div>
-                <div v-waves class="btn btn_info" @click="deleteItem(row)">
-                  <el-tooltip class="item" effect="light" content="删除当前项目" placement="top">
-                    <i class="el-icon-circle-close"></i>
-                  </el-tooltip>
                 </div>
               </template>
               <template v-else>
@@ -260,93 +260,116 @@ export default {
       childTableData: [],
       childTableList: [],
       // 总费用、展现、点击、点击率、CPM、CPC、直接订单行、直接订单金额、间接订单行、间接订单金额、总订单行、总订单金额、预售订单行、预售订单金额、点击转化率、ROI、总购物车数、CPA（下单成本）、下单新客数、访客数
-      tableList: [
+      tableListBase: [
         {
           field: 'impressions',
           title: '展示数',
+          dis: false
         },
         {
           field: 'clicks',
           title: '点击数',
+          dis: false
         },
         {
           field: 'CTR',
           title: '点击率',
+          dis: false,
           type: 'per'
         },
         {
           field: 'cost',
           title: '花费',
+          dis: false
         },
         {
           field: 'CPM',
           title: '平均千次展示成本',
+          dis: false
         },
         {
           field: 'CPC',
           title: '平均点击成本',
+          dis: false
         },
+      ],
+      tableList: [
         {
           field: 'directOrderCnt',
           title: '直接订单行',
+          dis: false
         },
         {
           field: 'directOrderSum',
           title: '直接订单金额',
+          dis: false
         },
         {
           field: 'indirectOrderCnt',
           title: '间接订单行',
+          dis: false
         },
         {
           field: 'indirectOrderSum',
           title: '间接订单金额',
+          dis: false
         },
         {
           field: 'totalOrderCnt',
           title: '总订单行',
+          dis: false
         },
         {
           field: 'totalOrderSum',
           title: '总订单金额',
+          dis: false
         },
         {
           field: 'totalPresaleOrderCnt',
           title: '预售订单行',
+          dis: false
         },
         {
           field: 'totalPresaleOrderSum',
           title: '预售订单金额',
+          dis: false
         },
         {
           field: 'totalOrderCVS',
           title: '转化率',
+          dis: false,
           type: 'per'
         },
         {
           field: 'totalOrderROI',
           title: 'ROI',
+          dis: false
         },
         {
           field: 'totalCartCnt',
           title: '总购物车数',
+          dis: false
         },
         {
           field: 'CPA',
           title: 'CPA',
+          dis: false
         },
         {
           field: 'newCustomersCnt',
           title: '下单新客数',
+          dis: false
         },
         {
           field: 'visitorCnt',
           title: '访客数',
+          dis: false
         },
       ],
       checkedItems: [
-        'CPA', 'CPM', 'totalOrderCnt', 'indirectOrderCnt', 'totalOrderROI'
+        'CPA', 'totalOrderCnt', 'indirectOrderCnt', 'totalOrderROI'
       ],
+      checkedItemsBase: ['CPM'],
       form: {
         clickOrOrderDay: 15, // 转化周期
         clickOrOrderCaliber: 1, // 口径
@@ -369,7 +392,7 @@ export default {
         project_name: [
           { required: true, message: '请输入项目名' },
         ],
-        ckAct: [
+        accounts: [
           { required: true, message: '请选择账号' },
           { validator: accountsValid }
         ],
@@ -528,15 +551,6 @@ export default {
     };
   },
   watch: {
-    checkedItems: {
-      handler (newval, oldval) {
-        this.childTableList = this.tableList.filter(val => {
-          return newval.includes(val.field)
-        })
-      },
-      immediate: true,
-      deep: true
-    },
     form: {
       handler (newval, oldval) {
         const vm = this;
@@ -566,9 +580,12 @@ export default {
   },
   created () {
     let storage = localStorage.getItem('tilteRule')
-    if (storage) {
+    let storageBase = localStorage.getItem('tilteRuleBase')
+    if (storage && storageBase) {
       this.checkedItems = JSON.parse(storage)
+      this.checkedItemsBase = JSON.parse(storageBase)
     }
+    this.changCkboxStaus()
   },
   mounted () {
     const vm = this
@@ -589,8 +606,21 @@ export default {
           }
         }
       }
+      let perArr = ['CTR', 'totalOrderCVS']
+      let otherArr = ['account', 'project_name', 'project_id']
       for (let i in res) {
-        vm.childTableData.push(res[i][vm.selectTab])
+        let tgt = res[i][vm.selectTab]
+        for (let i in tgt) {
+          // %
+          if (perArr.includes(i)) {
+            tgt[i] = vm.numberToCur(tgt[i]) + '%'
+          } else if (otherArr.includes(i)) {
+            tgt[i] = tgt[i]
+          } else {
+            tgt[i] = vm.numberToCur(tgt[i])
+          }
+        }
+        vm.childTableData.push(tgt)
       }
     },
     // 获取账号
@@ -598,7 +628,10 @@ export default {
       const vm = this;
       projAccount().then(res => {
         if (res.data.code === 10000) {
-          vm.accoutOptions = res.data.data
+          vm.accoutOptions = res.data.data.map((val) => {
+            val.dis = false
+            return val
+          })
         } else {
           vm.$msg({
             type: "error",
@@ -688,11 +721,83 @@ export default {
       this.getProjList()
       this.currentRow = null
     },
+    changCkboxStaus () {
+      const vm = this
+      let baseLth = vm.checkedItemsBase.length
+      let Lth = vm.checkedItems.length
+      if (baseLth + Lth === 5) {
+        vm.tableListBase.map(val => {
+          val.dis = vm.checkedItemsBase.includes(val.field)
+          return val
+        })
+        vm.tableList.map(val => {
+          val.dis = vm.checkedItems.includes(val.field)
+          return val
+        })
+      } else if (baseLth + Lth === 15) {
+        vm.tableListBase.map(val => {
+          val.dis = !vm.checkedItemsBase.includes(val.field)
+          return val
+        })
+        vm.tableList.map(val => {
+          val.dis = !vm.checkedItems.includes(val.field)
+          return val
+        })
+      } else {
+        vm.tableListBase.map(val => {
+          val.dis = false
+          return val
+        })
+        vm.tableList.map(val => {
+          val.dis = false
+          return val
+        })
+      }
+      let hasBase = vm.tableListBase.filter(val => {
+        return vm.checkedItemsBase.includes(val.field)
+      })
+      let has = vm.tableList.filter(val => {
+        return vm.checkedItems.includes(val.field)
+      })
+      vm.childTableList = hasBase.concat(has)
+      console.log(vm.childTableList)
+      console.log(vm.childTableData)
+    },
+    titleCKEventBase (value) {
+      const vm = this
+      vm.changCkboxStaus()
+      const $table = vm.$refs.xTableChild
+      vm.$nextTick(() => {
+        if ($table)
+          $table.updateFooter()
+      })
+      localStorage.setItem('tilteRuleBase', JSON.stringify(value))
+    },
     titleCKEvent (value) {
-      const $table = this.$refs.xTableChild
-      if ($table)
-        $table.updateFooter()
+      const vm = this
+      vm.changCkboxStaus()
+      const $table = vm.$refs.xTableChild
+      vm.$nextTick(() => {
+        if ($table)
+          $table.updateFooter()
+      })
       localStorage.setItem('tilteRule', JSON.stringify(value))
+    },
+    numberToCur (value) {
+      if (!value) return '0'
+      // 获取整数部分
+      const intPart = Math.trunc(value)
+      // 整数部分处理，增加,
+      const intPartFormat = intPart.toString().replace(/(\d)(?=(?:\d{3})+$)/g, '$1,')
+      // 预定义小数部分
+      let floatPart = ''
+      // 将数值截取为小数部分和整数部分
+      const valueArray = value.toString().split('.')
+      if (valueArray.length === 2) { // 有小数部分
+        floatPart = valueArray[1].toString() // 取得小数部分
+        return intPartFormat + '.' + floatPart
+      }
+      return intPartFormat + floatPart
     },
     footerMethod ({ columns, data }) {
       const vm = this
@@ -702,7 +807,13 @@ export default {
           sums.push('合计')
         } else {
           if (vm.currentExpendTT) {
-            sums.push(vm.currentExpendTT[vm.selectTab][column.field])
+            let num = vm.currentExpendTT[vm.selectTab][column.field]
+            if (typeof num === 'undefined') {
+              sums.push('')
+            } else {
+              let arr = ['CTR', 'totalOrderCVS']
+              sums.push(arr.includes(column.field) ? `${vm.numberToCur(num)}%` : vm.numberToCur(num))
+            }
           } else {
             sums.push('')
           }
@@ -717,31 +828,29 @@ export default {
       vm.fileldName = 'ckAct'
       const $table = this.$refs.xTable
       $table.clearRowExpand()
-      $table.setActiveRow(row)
-      projToAccount({
-        ...vm.form,
-        project_name: row.project_name,
-        start_data: vm.form.dateRange[0],
-        end_data: vm.form.dateRange[1],
-      }).then(async res => {
-        if (res.data.code === 10000) {
-          let result = Object.keys(res.data.data)
-          row.ckAct = result.map((val, idx) => {
-            if (val.includes('(')) {
-              let start = val.indexOf('(')
-              let end = val.indexOf(')')
-              return val.slice(start + 1, end)
-            } else {
-              return val
-            }
-          })
+      vm.accoutOptions = vm.accoutOptions.map(val => {
+        if (row.accounts.length === 1) {
+          val.dis = row.accounts.includes(val.account)
+        } else {
+          val.dis = false
         }
+        return val
       })
+      $table.setActiveRow(row)
     },
     changeEvent (scope) {
       const vm = this;
-      if (scope.row.ckAct.length === 0) {
-        scope.row.ckAct = null
+      let ckActArr = scope.row.accounts
+      vm.accoutOptions = vm.accoutOptions.map(val => {
+        if (ckActArr.length === 1) {
+          val.dis = ckActArr.includes(val.account)
+        } else {
+          val.dis = false
+        }
+        return val
+      })
+      if (scope.row.accounts.length === 0) {
+        scope.row.accounts = null
       }
       vm.$refs.xTable.updateStatus(scope)
     },
@@ -751,32 +860,30 @@ export default {
       const vm = this
       const $table = this.$refs.xTable
       const errMap = await $table.fullValidate().catch(errMap => errMap)
-      console.log(errMap)
       if (!errMap) {
         let accounts = vm.accoutOptions.filter(val => {
-          return row.ckAct.includes(val.account)
+          return row.accounts.includes(val.account)
         })
         row.loading = true
-        $table.clearActived().then(() => {
-          projEdit({
-            id: row.id,
-            project_name: row.project_name,
-            accounts,
-          }).then(res => {
-            if (res.data.code === 10000) {
-              row.loading = false
-              vm.getProjList()
-              vm.$msg({
-                msg: '修改成功'
-              });
-              vm.fileldName = 'num'
-            } else {
-              vm.$msg({
-                type: "error",
-                msg: res.data.data || res.data.msg,
-              });
-            }
-          })
+        projEdit({
+          id: row.id,
+          project_name: row.project_name,
+          accounts,
+        }).then(res => {
+          if (res.data.code === 10000) {
+            row.loading = false
+            vm.getProjList()
+            vm.$msg({
+              msg: '修改成功'
+            });
+            vm.fileldName = 'num'
+            $table.clearActived()
+          } else {
+            vm.$msg({
+              type: "error",
+              msg: res.data.data || res.data.msg,
+            });
+          }
         })
       }
     },
@@ -949,6 +1056,10 @@ export default {
   &:before {
     font-size: 20px;
   }
+}
+
+/deep/.vxe-cell--valid-msg {
+  display: none !important;
 }
 </style>
   

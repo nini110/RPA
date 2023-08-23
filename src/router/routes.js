@@ -185,6 +185,16 @@ const routes = [{
         },
         component: () => import(/* webpackChunkName: "R_Report"*/"@/views/BigData"),
       },
+      {
+        path: 'PPt',
+        name: 'PPt',
+        meta: {
+          title: 'ppt自动化助手',
+          index: "2-7",
+          filePath: 'BigData'
+        },
+        component: () => import(/* webpackChunkName: "R_Report"*/"@/views/BigData"),
+      },
       ]
     },
     // 数据应用  

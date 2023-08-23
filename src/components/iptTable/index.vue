@@ -7,8 +7,8 @@
             <el-col :span="24">
               <el-form-item label="类型" prop="choose" class="noborder">
                 <el-radio-group v-model="form.choose" @input="chooseEvent">
-                  <el-radio v-for="item in options" :key="item.value" :label="item.value" border>{{ item.label
-                  }}</el-radio>
+                  <el-radio v-for="item in options" :key="item.value" :label="item.value" border>{{ item.label }}
+                  </el-radio>
                 </el-radio-group>
               </el-form-item>
             </el-col>
@@ -119,7 +119,21 @@
     </div>
     <div v-else class="content" v-loading.fullscreen.lock="showLoading" element-loading-text="文件导入中"
       element-loading-spinner="el-icon-loading" element-loading-background="rgba(46, 46, 46, 0.8)">
-      <div class="content_form ts">
+      <div v-if="$route.name === 'PPt'" class="content_form ts">
+        <el-row class="flexrow">
+          <el-card :span="8" v-for="(item, idx) in PDFList" :key="idx" :body-style="{ padding: '0px' }">
+            <div class="img"><img :src="item.src" class="image"></div>
+            <div class="under" @click="pdfEvent">
+              <!-- <el-tooltip class="item" effect="dark" placement="bottom">
+                <div slot="content">{{ item.name }}</div>
+                <div class="under_name">{{ item.name }}</div>
+              </el-tooltip> -->
+              <div class="under_name">{{ item.name }}</div>
+            </div>
+          </el-card>
+        </el-row>
+      </div>
+      <div v-else class="content_form ts">
         <el-collapse v-if="showIntro" v-model="activeNames">
           <el-collapse-item name="1">
             <template slot="title">
@@ -351,19 +365,28 @@
               <vxe-column min-width="15%" field="create_time" title="日期" show-overflow="tooltip"></vxe-column>
               <vxe-column title="操作" fixed="right" width="18%">
                 <template slot-scope="scope">
-                  <div v-waves class="btn btn_info"
-                    :class="{ 'one': !ifDown || !scope.row.res_file_path || scope.row.log_status !== '执行完毕' }"
-                    @click="detailEvent(scope.row)">
-                    <el-tooltip class="item" effect="light" content="日志" placement="top">
-                      <i class="el-icon-document"></i>
-                    </el-tooltip>
-                  </div>
-                  <div v-if="ifDown && scope.row.res_file_path && scope.row.log_status === '执行完毕'" v-waves
-                    class="btn btn_info" @click="downEvent(scope.row)">
-                    <el-tooltip class="item" effect="light" content="下载" placement="top">
-                      <i class="el-icon-download"></i>
-                    </el-tooltip>
-                  </div>
+                  <template v-if="toolType === 'ppt自动优化助手'">
+                    <div v-waves class="btn btn_info" @click="pptEditEvent(scope.row)">
+                      <el-tooltip class="item" effect="light" content="编辑" placement="top">
+                        <i class="el-icon-edit"></i>
+                      </el-tooltip>
+                    </div>
+                  </template>
+                  <template v-else>
+                    <div v-waves class="btn btn_info"
+                      :class="{ 'one': !ifDown || !scope.row.res_file_path || scope.row.log_status !== '执行完毕' }"
+                      @click="detailEvent(scope.row)">
+                      <el-tooltip class="item" effect="light" content="日志" placement="top">
+                        <i class="el-icon-document"></i>
+                      </el-tooltip>
+                    </div>
+                    <div v-if="ifDown && scope.row.res_file_path && scope.row.log_status === '执行完毕'" v-waves
+                      class="btn btn_info" @click="downEvent(scope.row)">
+                      <el-tooltip class="item" effect="light" content="下载" placement="top">
+                        <i class="el-icon-download"></i>
+                      </el-tooltip>
+                    </div>
+                  </template>
                 </template>
               </vxe-column>
             </vxe-table>
@@ -381,6 +404,7 @@
     <!-- excel -->
     <ExcelDialog v-if="showExcel" @close="closeEvent" :excelOpt="excelOpt" :toolType="toolType" :sheetName="sheetName">
     </ExcelDialog>
+    <PdfDialog :showPdf="showPdf" @close="PddfcloseEvent"></PdfDialog>
     <el-dialog title="日志" :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="showLogDialog"
       @close="closeLogEvent" width="40%">
       <div v-if="logVersion" class="infinite ts">
@@ -462,6 +486,7 @@ import {
   directiveUpimg
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
+import PdfDialog from "@/components/pdfDialog";
 import ExcelDialog from "@/components/excelDialog/index.vue";
 import Upload from "@/components/upload";
 import message from "@/mixin/message";
@@ -472,6 +497,7 @@ export default {
     VarifyDialog,
     ExcelDialog,
     Upload,
+    PdfDialog
   },
   props: {
     wordList: {
@@ -573,18 +599,20 @@ export default {
           vm.formMenu === 1 && vm.toolType !== 'DMP' && vm.toolType !== '购物触点' && vm.toolType !== '快车更新创意状态' && vm.toolType !== '创意上传';
         vm.getuserlist();
         vm.$nextTick(() => {
-          vm.$refs.form.resetFields();
-          window.luckysheet.destroy();
-          vm.showExcel = false;
-          vm.showLoading = false
-          vm.fileList = [];
-          vm.excelName = "";
-          vm.excelData = null;
-          vm.ifErrNum = true
-          // 为了美观
-          setTimeout(() => {
-            vm.activeNames = '2'
-          }, 200);
+          if (vm.$route.name !== 'PPt') {
+            vm.$refs.form.resetFields();
+            window.luckysheet.destroy();
+            vm.showExcel = false;
+            vm.showLoading = false
+            vm.fileList = [];
+            vm.excelName = "";
+            vm.excelData = null;
+            vm.ifErrNum = true
+            // 为了美观
+            setTimeout(() => {
+              vm.activeNames = '2'
+            }, 200);
+          }
         });
       },
       immediate: true,
@@ -723,6 +751,33 @@ export default {
       }
     }
     return {
+      PDFList: [
+        {
+          src: require('../../assets/pdf1.png'),
+          name: '2023开年预览开年预览开年预览开年预览.pdf'
+        },
+        {
+          src: require('../../assets/pdf1.png'),
+          name: '2023开年预览.pdf'
+        },
+        {
+          src: require('../../assets/pdf1.png'),
+          name: '2023开年预览.pdf'
+        },
+        {
+          src: require('../../assets/pdf1.png'),
+          name: '2023开年预览.pdf'
+        },
+        {
+          src: require('../../assets/pdf1.png'),
+          name: '2023开年预览.pdf'
+        },
+        {
+          src: require('../../assets/pdf1.png'),
+          name: '2023开年预览.pdf'
+        },
+      ],
+      showPdf: false,
       activeNames: '2',
       showLoading: false,
       iptTimer: null,
@@ -1315,24 +1370,32 @@ export default {
           }
         });
       } else {
-        // 其他
-        directiveList({
-          tool_type: vm.toolType,
-          limit: vm.pagesize,
-          page: vm.currpage
-        }).then((res) => {
-          if (res.data.code === 10000) {
-            let result = res.data;
-            vm.tableData = result.data;
-            vm.total = result.count;
-            vm.relateInterval(result)
-          } else {
-            vm.$msg({
-              type: "error",
-              msg: res.data.msg
-            });
-          }
-        });
+        if (vm.toolType === 'ppt自动优化助手') {
+          vm.tableData = [
+            {
+              log_status: '执行完毕'
+            }
+          ]
+        } else {
+          // 其他
+          directiveList({
+            tool_type: vm.toolType,
+            limit: vm.pagesize,
+            page: vm.currpage
+          }).then((res) => {
+            if (res.data.code === 10000) {
+              let result = res.data;
+              vm.tableData = result.data;
+              vm.total = result.count;
+              vm.relateInterval(result)
+            } else {
+              vm.$msg({
+                type: "error",
+                msg: res.data.msg
+              });
+            }
+          });
+        }
       }
     },
     // 定时器相关
@@ -1664,7 +1727,56 @@ export default {
       const vm = this
       vm.form.error_num = ''
     },
-    //分页器功能
+    pdfEvent () {
+      this.showPdf = true
+    },
+    pptEditEvent () {
+      const vm = this;
+      vm.excelOptions[0].celldata = [{
+        r: 0,
+        c: 0,
+        v: {
+          ct: {
+            fa: "@",
+            t: "s"
+          }, // 格式类型
+          m: "测试一", // 显示值
+          v: "测试一", // 原始值
+          bl: 1,
+          tb: 2,
+          vt: 0,
+          ht: 0,
+        },
+      },
+      {
+        r: 0,
+        c: 1,
+        v: {
+          ct: {
+            fa: "@",
+            t: "s"
+          }, // 格式类型
+          m: "测试二", // 显示值
+          v: "测试二", // 原始值
+          bl: 1,
+          tb: 2,
+          vt: 0,
+          ht: 0,
+        },
+      },
+      ]
+      vm.excelOpt = JSON.parse(JSON.stringify(vm.excelOptions));
+      vm.showExcel = true;
+      vm.formSource = 1;
+    },
+    PddfcloseEvent (val) {
+      const vm = this;
+      vm.showPdf = false
+      if (val) {
+        // 获取列表
+        console.log(val)
+      }
+    },
     handleSizeChange (val) {
       this.pagesize = val;
       this.getuserlist(this.pagesize);

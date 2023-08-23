@@ -188,3 +188,47 @@
     }
   }
 }
+
+.flexrow {
+  display: flex;
+  flex-wrap: nowrap;
+
+  .el-card {
+    // width: 12%;
+    width: 160px;
+    margin-right: 4%;
+
+    .under {
+      padding: 20px 15px;
+
+      &:hover {
+        cursor: pointer;
+
+        .under_name {
+          color: #409eff;
+        }
+      }
+
+      &_name {
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+      }
+    }
+  }
+
+  .img {
+    box-sizing: border-box;
+    width: 100%;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    // margin-bottom: 15px;
+    background-color: #e4e4e4;
+
+    .image {
+      width: 50%;
+    }
+  }
+}
