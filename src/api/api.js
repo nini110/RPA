@@ -17,10 +17,24 @@ if (process.env.NODE_ENV === 'production') {
   BASEPATH3 = 'http://114.67.229.243:8002'
   BASEPATH5 = 'http://114.67.229.243:8101'
 }
-// ppt流
+// pdf列表
 export const getPDF = request({
-  url: `${BASEPATH5}/tools/get_demo_pdf`,
+  url: `${BASEPATH}/apps/big_data_tool/`,
   method: 'get',
+})
+export const savePDF = request({
+  url: `${BASEPATH}/apps/big_data_tool/`,
+  method: 'post',
+  responseType: 'form-data'
+})
+export const getPDFList = request({
+  url: `${BASEPATH}/apps/get_big_data_list/`,
+  method: 'get',
+})
+export const downPPT = request({
+  url: `${BASEPATH}/apps/get_big_data_pptx/`,
+  method: 'get',
+  responseType: 'bolb'
 })
 // 路由相关
 export const routesRel = request({

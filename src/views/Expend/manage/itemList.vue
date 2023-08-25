@@ -143,7 +143,7 @@
           </vxe-column>
           <vxe-column field="project_name" title="项目" width="20%" :edit-render="{}">
             <template #edit="scope">
-              <vxe-input v-model="scope.row.project_name" maxlength="20" placeholder="请输入项目名"
+              <vxe-input v-model="scope.row.project_name" placeholder="请输入项目名"
                 @input="$refs.xTable.updateStatus(scope)"></vxe-input>
             </template>
           </vxe-column>
@@ -245,6 +245,11 @@ export default {
   mixins: [message],
   data () {
     const vm = this
+    const nameValid = ({ cellValue, row }) => {
+      if (cellValue.length > 20) {
+        return new Error('最多输入20个字符')
+      }
+    }
     const accountsValid = ({ cellValue, row }) => {
       if (!row.ckAct || row.ckAct.length === 0) {
         return new Error('请选择账号')
@@ -391,6 +396,7 @@ export default {
       validRules: {
         project_name: [
           { required: true, message: '请输入项目名' },
+          { validator: nameValid }
         ],
         accounts: [
           { required: true, message: '请选择账号' },
@@ -906,7 +912,9 @@ export default {
         let link = document.createElement("a");
         link.style.display = "none";
         link.href = url;
-        link.setAttribute("download", `多账号概况-${row.project_name}.xlsx`);
+        let filename = res.headers['content-disposition']?.split(';')[1].split('=')[1];
+        console.log(decodeURI(filename))
+        link.setAttribute("download", decodeURI(filename));
         document.body.appendChild(link);
         link.click();
       })
@@ -965,8 +973,8 @@ export default {
       }).then(async res => {
         if (res.data.code === 10000) {
           let result = await projList({
-            page: vm.page,
-            page_size: vm.page_size
+            page: vm.currentPage,
+            page_size: vm.pagesize
           })
           if (result.data.code === 10000) {
             vm.tableData = result.data.data
@@ -1058,8 +1066,18 @@ export default {
   }
 }
 
-/deep/.vxe-cell--valid-msg {
-  display: none !important;
+/deep/.vxe-cell--valid {
+  left: 0 !important;
+  bottom: -16px !important;
+  top: auto !important;
+  transform: none !important;
+  text-align: left !important;
+
+  &-msg {
+    padding: 3px 10px !important;
+    background-color: #fff !important;
+    color: #f56c6c !important;
+  }
 }
 </style>
   

@@ -45,9 +45,15 @@ LoadingMask.options.whiteList.push(`http://114.67.229.243:8001/apps/read_log/`);
 LoadingMask.init(service) // 全局遮罩
 service.interceptors.request.use(config => {
   if (config.method === 'get') {
+    // if (config.responseType === 'ppt') {
+    //   config.headers = {
+    //     'content-type': headers['ppt']
+    //   }
+    // } else {
     config.headers = {
       'content-type': headers['form']
     }
+    // }
     config.params = {
       ...config.data
     }

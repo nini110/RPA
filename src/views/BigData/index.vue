@@ -3027,9 +3027,9 @@ export default {
             break;
           // ppt
           case "PPt":
-            vm.toolType = "ppt自动优化助手";
+            vm.toolType = "ppt自动化助手";
             vm.picSrc = '';
-            vm.ifDown = false
+            vm.ifDown = true
             vm.sheetName = [];
             vm.excelOptions = [{
               name: "Sheet1", //工作表名称

@@ -181,12 +181,14 @@ export default {
         return
       }
       if (vm.tag === "excel") {
+        debugger
         let target_sheets = [];
         let sheetArr = []
         let sheetInfoBox = []
         LuckyExcel.transformExcelToLucky(
           file.raw,
           (exportJson, luckysheetfile) => {
+            debugger
             for (let val of exportJson.sheets) {
               if (vm.sheetName.indexOf(val.name) !== -1) {
                 sheetArr.push(val.name)

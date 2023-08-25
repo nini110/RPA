@@ -650,7 +650,9 @@ export default {
         let link = document.createElement("a");
         link.style.display = "none";
         link.href = url;
-        link.setAttribute("download", `概况列表账号数据.xlsx`);
+        let filename = res.headers['content-disposition']?.split(';')[1].split('=')[1];
+        // console.log(decodeURI(filename))
+        link.setAttribute("download", decodeURI(filename));
         document.body.appendChild(link);
         link.click();
       })

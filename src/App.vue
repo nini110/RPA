@@ -17,7 +17,7 @@ export default {
   },
   created () {
     // 线上发布时created中所有都注释
-    // this.$route.query.wx_code = "C760LPJBUH2ISkJRNJtiaSCWsAzlpU7f5mMHmqYW6Fg";
+    // this.$route.query.wx_code = "3jJ6n1R-sYmkDHUtGsRvppipcgQuDJyGKRkKMf4FmyE";
     // this.$route.query.wx_userid = "23122";
     // this.$route.query.user_name = "方涛";
     // localStorage.setItem("wx_code", this.$route.query.wx_code);

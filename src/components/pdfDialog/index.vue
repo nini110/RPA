@@ -37,7 +37,11 @@ export default {
     showPdf: {
       type: Boolean,
       default: false
-    }
+    },
+    pdfInfo: {
+      type: Object,
+      default: {}
+    },
   },
   computed: {
     dialogVisible () {
@@ -54,15 +58,22 @@ export default {
       pageOptions: []
     };
   },
-  created () {
-    this.src = encodeURI(this.pdfurl)
-    // 有时PDF文件地址会出现跨域的情况,这里最好处理一下
-    // this.src = require(pdf.createLoadingTask(this.src))
+  watch: {
+    pdfInfo: {
+      handler (newval, oldval) {
+        if (newval) {
+          this.src = pdf.createLoadingTask(encodeURI(newval.pdf_path))
+        }
+      },
+      immediate: false,
+      deep: true
+    }
+  },
+  mounted () {
   },
   methods: {
     // pdf加载时
     loadPdfHandler (e) {
-      console.log(this.pageCount)
       let num = 1
       let arr = []
       while (num <= this.pageCount) {
@@ -88,8 +99,8 @@ export default {
         });
         return false
       }
-      this.ckPage = []
       this.$emit('close', this.ckPage)
+      this.ckPage = []
     },
     //有接口请求 每点击一页进行一次数据请求 参数页码为动态值：
     handleCurrentChange (page) {

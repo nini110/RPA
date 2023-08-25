@@ -122,12 +122,8 @@
       <div v-if="$route.name === 'PPt'" class="content_form ts">
         <el-row class="flexrow">
           <el-card :span="8" v-for="(item, idx) in PDFList" :key="idx" :body-style="{ padding: '0px' }">
-            <div class="img"><img :src="item.src" class="image"></div>
-            <div class="under" @click="pdfEvent">
-              <!-- <el-tooltip class="item" effect="dark" placement="bottom">
-                <div slot="content">{{ item.name }}</div>
-                <div class="under_name">{{ item.name }}</div>
-              </el-tooltip> -->
+            <div class="img"><img src="../../assets/pdf1.png" class="image"></div>
+            <div class="under" @click="pdfEvent(item)">
               <div class="under_name">{{ item.name }}</div>
             </div>
           </el-card>
@@ -365,28 +361,19 @@
               <vxe-column min-width="15%" field="create_time" title="日期" show-overflow="tooltip"></vxe-column>
               <vxe-column title="操作" fixed="right" width="18%">
                 <template slot-scope="scope">
-                  <template v-if="toolType === 'ppt自动优化助手'">
-                    <div v-waves class="btn btn_info" @click="pptEditEvent(scope.row)">
-                      <el-tooltip class="item" effect="light" content="编辑" placement="top">
-                        <i class="el-icon-edit"></i>
-                      </el-tooltip>
-                    </div>
-                  </template>
-                  <template v-else>
-                    <div v-waves class="btn btn_info"
-                      :class="{ 'one': !ifDown || !scope.row.res_file_path || scope.row.log_status !== '执行完毕' }"
-                      @click="detailEvent(scope.row)">
-                      <el-tooltip class="item" effect="light" content="日志" placement="top">
-                        <i class="el-icon-document"></i>
-                      </el-tooltip>
-                    </div>
-                    <div v-if="ifDown && scope.row.res_file_path && scope.row.log_status === '执行完毕'" v-waves
-                      class="btn btn_info" @click="downEvent(scope.row)">
-                      <el-tooltip class="item" effect="light" content="下载" placement="top">
-                        <i class="el-icon-download"></i>
-                      </el-tooltip>
-                    </div>
-                  </template>
+                  <div v-waves class="btn btn_info"
+                    :class="{ 'one': !ifDown || !scope.row.res_file_path || scope.row.log_status !== '执行完毕' }"
+                    @click="detailEvent(scope.row)">
+                    <el-tooltip class="item" effect="light" content="日志" placement="top">
+                      <i class="el-icon-document"></i>
+                    </el-tooltip>
+                  </div>
+                  <div v-if="ifDown && scope.row.res_file_path && scope.row.log_status === '执行完毕'" v-waves
+                    class="btn btn_info" @click="downEvent(scope.row)">
+                    <el-tooltip class="item" effect="light" content="下载" placement="top">
+                      <i class="el-icon-download"></i>
+                    </el-tooltip>
+                  </div>
                 </template>
               </vxe-column>
             </vxe-table>
@@ -404,7 +391,7 @@
     <!-- excel -->
     <ExcelDialog v-if="showExcel" @close="closeEvent" :excelOpt="excelOpt" :toolType="toolType" :sheetName="sheetName">
     </ExcelDialog>
-    <PdfDialog :showPdf="showPdf" @close="PddfcloseEvent"></PdfDialog>
+    <PdfDialog :showPdf="showPdf" :pdfInfo="pdfInfo" @close="PddfcloseEvent"></PdfDialog>
     <el-dialog title="日志" :close-on-click-modal="false" :close-on-press-escape="false" :visible.sync="showLogDialog"
       @close="closeLogEvent" width="40%">
       <div v-if="logVersion" class="infinite ts">
@@ -482,8 +469,10 @@ import {
   optMovie,
   dapanonLineList,
   newBudgetSubmit,
-  newBudgetDown,
-  directiveUpimg
+  getPDF,
+  savePDF,
+  getPDFList,
+  downPPT
 } from "@/api/api.js";
 import VarifyDialog from "@/components/varifyDialog";
 import PdfDialog from "@/components/pdfDialog";
@@ -586,6 +575,16 @@ export default {
     $route: {
       handler (newval, oldval) {
         const vm = this;
+        if (vm.toolType === 'ppt自动化助手') {
+          getPDF({
+            page: 1,
+            page_size: 10
+          }).then(res => {
+            if (res.data.code === 10000) {
+              vm.PDFList = res.data.data
+            }
+          })
+        }
         // 离开当前路由清空定时器
         vm.intervalObj.forEach((val, idx) => {
           clearInterval(val.intervalValue);
@@ -751,32 +750,8 @@ export default {
       }
     }
     return {
-      PDFList: [
-        {
-          src: require('../../assets/pdf1.png'),
-          name: '2023开年预览开年预览开年预览开年预览.pdf'
-        },
-        {
-          src: require('../../assets/pdf1.png'),
-          name: '2023开年预览.pdf'
-        },
-        {
-          src: require('../../assets/pdf1.png'),
-          name: '2023开年预览.pdf'
-        },
-        {
-          src: require('../../assets/pdf1.png'),
-          name: '2023开年预览.pdf'
-        },
-        {
-          src: require('../../assets/pdf1.png'),
-          name: '2023开年预览.pdf'
-        },
-        {
-          src: require('../../assets/pdf1.png'),
-          name: '2023开年预览.pdf'
-        },
-      ],
+      pdfInfo: null,
+      PDFList: [],
       showPdf: false,
       activeNames: '2',
       showLoading: false,
@@ -936,9 +911,6 @@ export default {
       disBtn: false,
       ifErrNum: true
     };
-  },
-  created () {
-
   },
   mounted () {
     const vm = this;
@@ -1348,54 +1320,43 @@ export default {
       });
     },
     //查看列表
-    getuserlist () {
+    async getuserlist () {
       const vm = this;
+      let res;
       if (vm.formMenu === 3) {
         // 预算
-        dapanonLineList({
+        res = await dapanonLineList({
           tool_type: vm.toolType,
           limit: vm.pagesize,
           page: vm.currpage
-        }).then((res) => {
-          if (res.data.code === 10000) {
-            let result = res.data;
-            vm.tableData = result.data;
-            vm.total = result.count;
-            vm.relateInterval(result)
-          } else {
-            vm.$msg({
-              type: "error",
-              msg: res.data.msg
-            });
-          }
-        });
+        })
       } else {
-        if (vm.toolType === 'ppt自动优化助手') {
-          vm.tableData = [
-            {
-              log_status: '执行完毕'
-            }
-          ]
+        if (vm.toolType === 'ppt自动化助手') {
+          res = await getPDFList({
+            page: vm.currpage,
+            page_size: vm.pagesize,
+          })
         } else {
           // 其他
-          directiveList({
+          res = await directiveList({
             tool_type: vm.toolType,
             limit: vm.pagesize,
             page: vm.currpage
-          }).then((res) => {
-            if (res.data.code === 10000) {
-              let result = res.data;
-              vm.tableData = result.data;
-              vm.total = result.count;
-              vm.relateInterval(result)
-            } else {
-              vm.$msg({
-                type: "error",
-                msg: res.data.msg
-              });
-            }
-          });
+          })
         }
+      }
+      if (res.data.code === 10000) {
+        let result = res.data;
+        vm.tableData = result.data;
+        vm.total = result.count;
+        if (vm.toolType !== 'ppt自动化助手') {
+          vm.relateInterval(result)
+        }
+      } else {
+        vm.$msg({
+          type: "error",
+          msg: res.data.msg
+        });
       }
     },
     // 定时器相关
@@ -1658,30 +1619,30 @@ export default {
       vm.intervalDia = null;
     },
     // no -下载文件
-    downEvent (row) {
+    async downEvent (row) {
       const vm = this;
       let asyn;
       if (row.tool_type === 'dmp') {
-        asyn = Promise.all([
-          sfToolsModelDown({
-            name: row.res_file_path
-          })])
+        asyn = await sfToolsModelDown({
+          name: row.res_file_path
+        })
+      } else if (row.tool_type === 'ppt自动化助手') {
+        window.open(row.res_file_path)
       } else {
-        asyn = Promise.all([
-          sfToolsDown({
-            log_id: row.id
-          })])
+        asyn = await sfToolsDown({
+          log_id: row.id
+        })
       }
-      asyn.then(res => {
-        let data = res[0].data;
-        let url = window.URL.createObjectURL(new Blob([data]));
+      if (asyn) {
+        let url = window.URL.createObjectURL(new Blob([asyn.data]));
         let link = document.createElement("a");
         link.style.display = "none";
         link.href = url;
-        link.setAttribute("download", `日志-${vm.toolType}.${vm.toolType === '数坊人群计算' ? 'xlsx' : 'zip'}`);
+        let filename = asyn.headers['content-disposition']?.split(';')[1].split('=')[1];
+        link.setAttribute("download", decodeURI(filename));
         document.body.appendChild(link);
         link.click();
-      })
+      }
     },
     //  no -下载模板
     modelEvent () {
@@ -1694,7 +1655,8 @@ export default {
         let link = document.createElement("a");
         link.style.display = "none";
         link.href = url;
-        link.setAttribute("download", `模板-${vm.toolType}${vm.toolType === 'DMP' ? '.zip' : '.xlsx'}`);
+        let filename = res.headers['content-disposition']?.split(';')[1].split('=')[1];
+        link.setAttribute("download", decodeURI(filename));
         document.body.appendChild(link);
         link.click();
       });
@@ -1727,8 +1689,9 @@ export default {
       const vm = this
       vm.form.error_num = ''
     },
-    pdfEvent () {
+    pdfEvent (pdfinfo) {
       this.showPdf = true
+      this.pdfInfo = pdfinfo
     },
     pptEditEvent () {
       const vm = this;
@@ -1769,12 +1732,28 @@ export default {
       vm.showExcel = true;
       vm.formSource = 1;
     },
-    PddfcloseEvent (val) {
+    PddfcloseEvent (page) {
       const vm = this;
-      vm.showPdf = false
-      if (val) {
+      if (page) {
         // 获取列表
-        console.log(val)
+        savePDF({
+          name: this.pdfInfo.name,
+          page_list: page
+        }).then(res => {
+          if (res.data.code === 10000) {
+            vm.pdfInfo = null
+            vm.showPdf = false
+            vm.getuserlist()
+          } else {
+            this.$msg({
+              type: "error",
+              msg: res.data.msg
+            });
+          }
+        })
+      } else {
+        vm.pdfInfo = null
+        vm.showPdf = false
       }
     },
     handleSizeChange (val) {

@@ -73,7 +73,6 @@ export default {
           vm.$set(obj, 'children', arr)
           vm.menuList.push(obj)
         })
-        console.log(vm.menuList)
       },
       immediate: true,
       deep: true,
